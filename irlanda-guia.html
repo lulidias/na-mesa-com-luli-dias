@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Na Mesa com Luli Dias — Irlanda</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-md:#4A4A4A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5;--pub:#3a5a2a}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;min-height:100vh}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:28px 24px 24px;display:flex;align-items:flex-start;justify-content:space-between}
+.brand-pre{font-size:7px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:6px}
+.brand-main{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);line-height:1.15}
+.brand-main em{font-style:italic;color:var(--gold)}
+.brand-sub{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-top:6px;font-weight:300}
+.hdr-right{text-align:right;padding-top:4px}
+.hdr-flag{font-size:24px;margin-bottom:4px}
+.hdr-count{font-size:8px;letter-spacing:2px;color:var(--ink-lt);font-weight:300}
+.stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex}
+.stat{flex:1;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+.stat-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:2px}
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filter-btn{padding:5px 14px;font-size:7px;letter-spacing:2px;text-transform:uppercase;font-weight:600;white-space:nowrap;background:transparent;color:var(--ink-lt);border:1px solid var(--border);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s}
+.filter-btn.active,.filter-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+main{padding:20px 24px 60px}
+.city-sec{margin-bottom:32px}
+.city-hdr{position:relative;overflow:hidden;padding:24px 24px 20px;margin:0 -24px 16px;background:var(--white);border-bottom:1px solid var(--border)}
+.city-ghost{position:absolute;right:-6px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(184,146,42,.055);pointer-events:none;white-space:nowrap;line-height:1;letter-spacing:-3px}
+.city-inner{position:relative;display:flex;align-items:flex-end;justify-content:space-between}
+.city-left{display:flex;flex-direction:column;gap:6px}
+.city-region-lbl{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px}
+.city-region-lbl::before{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
+.city-name{font-family:'Playfair Display',serif;font-size:38px;font-weight:400;color:var(--ink);letter-spacing:-0.5px;line-height:1}
+.city-orn{display:flex;align-items:center;gap:6px;margin-top:2px}
+.orn-line{height:1px;width:22px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+.city-count{text-align:right}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);opacity:.2;line-height:1}
+.city-count-lbl{font-size:6px;letter-spacing:3px;text-transform:uppercase;color:#aaa;margin-top:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+.card{background:var(--white);border-left:3px solid var(--gold-lt);cursor:pointer;transition:box-shadow .25s}
+.card:hover{box-shadow:0 4px 20px rgba(184,146,42,.12);position:relative;z-index:1}
+.card.pub-card{border-left-color:var(--pub)}
+.card.pub-card .card-cuisine{color:var(--pub)}
+.card-photo-wrap{overflow:hidden;height:180px;background:var(--border)}
+.card-photo{width:100%;height:180px;object-fit:cover;display:block;transition:transform .5s}
+.card:hover .card-photo{transform:scale(1.04)}
+.card-body{padding:16px 18px 14px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.card-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-price{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1px;white-space:nowrap}
+.card-cuisine{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.75;color:var(--ink-lt);font-weight:300;margin-bottom:12px;display:none}
+.card.open .card-desc{display:block}
+.card-footer{padding-top:10px;border-top:1px solid var(--border)}
+.card-contact{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.c-row{display:flex;gap:8px;align-items:flex-start}
+.c-icon{font-size:9px;color:var(--gold);min-width:14px;line-height:1.6}
+.c-text{font-size:9px;color:var(--ink-md);font-weight:400;line-height:1.5}
+.card-note{font-size:8px;font-style:italic;color:var(--ink-md);font-family:'Cormorant Garamond',serif}
+.card-toggle{text-align:right;margin-top:8px;font-size:7px;color:#aaa;letter-spacing:1px}
+.section-label{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--pub);font-weight:600;padding:16px 0 12px;border-bottom:1px solid var(--border);margin-bottom:1px;display:flex;align-items:center;gap:10px}
+.section-label::before{content:'';flex:0 0 20px;height:1px;background:var(--pub)}
+footer{background:var(--white);border-top:1px solid var(--border);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;margin-top:32px}
+.ft-brand{font-family:'Playfair Display',serif;font-size:13px;color:var(--ink)}
+.ft-brand em{font-style:italic;color:var(--gold)}
+.ft-note{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#aaa}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <p class="brand-pre">Guia Gastronômico</p>
+    <h1 class="brand-main">Na Mesa com <em>Luli Dias</em></h1>
+    <p class="brand-sub">Curadoria pessoal · Edição 2025</p>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-flag">🇮🇪</div>
+    <p class="hdr-count" id="hdr-count">Irlanda</p>
+  </div>
+</header>
+<div class="stats">
+  <div class="stat"><div class="stat-num" id="s1">—</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num" id="s2">—</div><div class="stat-lbl">Pubs</div></div>
+  <div class="stat"><div class="stat-num" id="s3">—</div><div class="stat-lbl">Cidades</div></div>
+</div>
+<div class="filters" id="filters"></div>
+<main id="main"></main>
+<footer>
+  <span class="ft-brand">Na Mesa com <em>Luli Dias</em></span>
+  <span class="ft-note">🇮🇪 Irlanda · 2025</span>
+</footer>
+<script>
+const PHOTOS = {
+  "Pub Irlandês Histórico":    "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80",
+  "Fusion Asiática":           "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Espanhola & Tapas":         "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Pizzaria":                  "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Francesa":                  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+  "Pub & Bar Irlandês":        "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80",
+};
+const FB = "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80";
+
+const DATA = {
+  "Dublin": {
+    restaurants: [
+      {n:"Big Fan Bao",     q:"Fusion Asiática",         d:"Um restaurante de fusion asiática em Dublin com bao buns, gyozas e pratos japoneses e chineses num ambiente jovem e descontraído. O endereço favorito dos dublinenses para uma refeição asiática rápida e de qualidade.", a:"Dublin, Ireland",                         p:"+353 1 000 0000", pr:"€€"},
+      {n:"La Gordita",      q:"Espanhola & Tapas",       d:"Um restaurante de tapas espanholas animado em Dublin, com patatas bravas, gambas al ajillo e tortilla num ambiente festivo que traz o espírito de Madrid ao coração da capital irlandesa. O lugar certo para um jantar descontraído com vinho e tapas.", a:"Dublin, Ireland",                         p:"+353 1 000 0000", pr:"€€"},
+      {n:"PI Temple Bar",   q:"Pizzaria",                d:"Uma das pizzarias mais populares do Temple Bar em Dublin, com pizzas artesanais de massa fina e ingredientes de qualidade num bairro que nunca para. O endereço perfeito para uma pizza antes ou depois de um pub crawl pelo Temple Bar.", a:"Temple Bar, Dublin 2, Ireland",           p:"+353 1 671 2955", pr:"€€"},
+      {n:"Pichet",          q:"Francesa",                d:"Um bistrô francês de referência em Dublin, com uma cozinha clássica — steak tartare, moules frites e crème brûlée — e uma carta de vinhos franceses cuidadosamente selecionada. O recanto parisiense mais elegante da capital irlandesa.", a:"14-15 Trinity St, Dublin 2, Ireland",     p:"+353 1 677 1060", pr:"€€€"},
+    ],
+    pubs: [
+      {n:"The Brazen Head",  q:"Pub Irlandês Histórico", d:"O pub mais antigo da Irlanda, fundado em 1198, com nove séculos de história, música tradicional ao vivo e a melhor Guinness de Dublin. As paredes foram testemunhas de conspirações, revoluções e gerações de dublinenses — uma visita absolutamente obrigatória.", a:"20 Lower Bridge St, Dublin 8, Ireland",   p:"+353 1 677 9549", pr:"€"},
+      {n:"Searsons",         q:"Pub Irlandês Histórico", d:"Um dos pubs mais queridos do bairro de Ballsbridge em Dublin, com uma Guinness impecável, ambiente de madeiras escuras e azulejos victorianos. O pub de bairro por excelência — tranquilo, acolhedor e sem pretensões.", a:"42 Upper Baggot St, Dublin 4, Ireland",   p:"+353 1 660 0330", pr:"€"},
+      {n:"The Duke",         q:"Pub Irlandês Histórico", d:"Um pub literário no coração de Dublin, associado ao famoso Dublin Literary Pub Crawl que parte daqui. Decoração victoriana, Guinness gelada e o espírito de Joyce, Beckett e Wilde pairando sobre cada conversa.", a:"9 Duke St, Dublin 2, Ireland",             p:"+353 1 679 9553", pr:"€"},
+      {n:"McDaids",          q:"Pub Irlandês Histórico", d:"Um pub histórico frequentado por Brendan Behan e Patrick Kavanagh, com uma decoração que não mudou desde os anos 50. Um dos mais autênticos e literários de Dublin, onde a conversa e a Guinness fluem com a mesma naturalidade.", a:"3 Harry St, Dublin 2, Ireland",            p:"+353 1 679 4395", pr:"€"},
+      {n:"Merchants Arch",   q:"Pub & Bar Irlandês",     d:"Um pub animado no Temple Bar de Dublin, com esplanada sobre o Ha'penny Bridge e o rio Liffey. Música ao vivo, atmosfera cosmopolita e uma localização absolutamente icónica no coração do bairro mais turístico da cidade.", a:"Temple Bar, Dublin 2, Ireland",           p:"+353 1 679 1044", pr:"€"},
+    ]
+  },
+  "Carlingford": {
+    restaurants: [],
+    pubs: [
+      {n:"P.J. O'Hare — The Anchor Bar", q:"Pub Irlandês Histórico", d:"Um pub de culto na pitoresca vila medieval de Carlingford, junto ao fiordo que separa a Irlanda da Irlanda do Norte. Com mais de um século de história, serve a melhor Guinness da costa leste e uma atmosfera de aldeia costeira irlandesa absolutamente autêntica.", a:"Tholsel St, Carlingford, Co. Louth, Ireland", p:"+353 42 937 3106", pr:"€"},
+    ]
+  }
+};
+
+function photo(q){return PHOTOS[q]||FB}
+
+function buildCard(r, isPub){
+  return `<div class="card${isPub?' pub-card':''}" onclick="toggleCard(this)">
+    <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.parentElement.style.background='#e8e0d5';this.style.display='none'"></div>
+    <div class="card-body">
+      <div class="card-top"><div class="card-name">${r.n}</div><div class="card-price">${r.pr}</div></div>
+      <div class="card-cuisine">${r.q}</div>
+      <div class="card-desc">${r.d}</div>
+      <div class="card-footer">
+        <div class="card-contact">
+          <div class="c-row"><span class="c-icon">📍</span><span class="c-text">${r.a}</span></div>
+          <div class="c-row"><span class="c-icon">📞</span><span class="c-text">${r.p}</span></div>
+        </div>
+      </div>
+      <div class="card-toggle">▼ detalhes</div>
+    </div>
+  </div>`;
+}
+
+function render(cityFilter){
+  const cities = Object.keys(DATA);
+  const f = document.getElementById('filters');
+  f.innerHTML = `<button class="filter-btn ${!cityFilter?'active':''}" onclick="render(null)">Todas</button>` +
+    cities.map(c=>`<button class="filter-btn ${cityFilter===c?'active':''}" onclick="render('${c}')">${c}</button>`).join('');
+
+  let html='', totalR=0, totalP=0, totalC=0;
+  const shown = cityFilter ? [cityFilter] : cities;
+
+  shown.forEach(city => {
+    const d = DATA[city];
+    totalC++;
+    totalR += d.restaurants.length;
+    totalP += d.pubs.length;
+
+    const restCards = d.restaurants.map(r=>buildCard(r,false)).join('');
+    const pubCards  = d.pubs.map(r=>buildCard(r,true)).join('');
+    const pubSection = d.pubs.length > 0
+      ? `<div class="section-label">🍺 Pubs históricos</div>
+         <div class="grid">${pubCards}</div>` : '';
+    const restSection = d.restaurants.length > 0
+      ? `<div class="grid">${restCards}</div>` : '';
+
+    html += `<div class="city-sec">
+      <div class="city-hdr">
+        <div class="city-ghost">${city}</div>
+        <div class="city-inner">
+          <div class="city-left">
+            <span class="city-region-lbl">Irlanda</span>
+            <h2 class="city-name">${city}</h2>
+            <div class="city-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+          </div>
+          <div class="city-count">
+            <div class="city-count-num">${d.restaurants.length + d.pubs.length}</div>
+            <div class="city-count-lbl">endereços</div>
+          </div>
+        </div>
+      </div>
+      ${restSection}
+      ${pubSection}
+    </div>`;
+  });
+
+  document.getElementById('main').innerHTML = html;
+  document.getElementById('s1').textContent = totalR;
+  document.getElementById('s2').textContent = totalP;
+  document.getElementById('s3').textContent = totalC;
+  document.getElementById('hdr-count').textContent = `${totalR + totalP} endereços · ${totalC} cidades`;
+}
+
+function toggleCard(card){
+  const open = card.classList.toggle('open');
+  const t = card.querySelector('.card-toggle');
+  if(t) t.textContent = open ? '▲ fechar' : '▼ detalhes';
+}
+
+render(null);
+</script>
+</body>
+</html>
