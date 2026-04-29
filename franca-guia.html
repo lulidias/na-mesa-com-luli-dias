@@ -3,372 +3,523 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Na Mesa com Luli Dias — França</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<title>França — Na Mesa com Luli Dias</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-md:#4A4A4A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5}
+:root{
+  --cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5;
+  --m3:#8B0000;--m3bg:#FFF0F0;
+  --m2:#E4002B;--m2bg:#FFF3F3;
+  --m1:#C0001F;--m1bg:#FFF5F5;
+  --bib:#E8700A;--bibbg:#FFF5EE;
+  --rec:#4A6FA5;--recbg:#F0F4FA;
+}
+html,body{height:100%}
 body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;min-height:100vh}
-header{background:var(--white);border-bottom:1px solid var(--border);padding:28px 24px 24px;display:flex;align-items:flex-start;justify-content:space-between}
-.brand-pre{font-size:7px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:6px}
-.brand-main{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);line-height:1.15}
-.brand-main em{font-style:italic;color:var(--gold)}
-.brand-sub{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-top:6px;font-weight:300}
-.hdr-right{text-align:right;padding-top:4px}
-.hdr-flag{font-size:24px;margin-bottom:4px}
-.hdr-count{font-size:8px;letter-spacing:2px;color:var(--ink-lt);font-weight:300}
-.stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex}
-.stat{flex:1;text-align:center;border-right:1px solid var(--border)}
+
+.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:8px}
+.back-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:500}
+.back-link:hover{color:var(--ink)}
+.nav-sep{color:var(--border)}
+.nav-current{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
+
+.country-hero{background:var(--white);border-bottom:1px solid var(--border);padding:40px 32px 32px;text-align:center;position:relative;overflow:hidden}
+.country-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(184,146,42,.04) 0%,transparent 50%,rgba(184,146,42,.04) 100%);pointer-events:none}
+.country-flag-large{font-size:72px;line-height:1;margin-bottom:16px;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,.12))}
+.country-name{font-family:'Playfair Display',serif;font-size:48px;font-weight:400;color:var(--ink);line-height:1;margin-bottom:8px}
+.country-name em{font-style:italic;color:var(--gold)}
+.country-tagline{font-size:8px;letter-spacing:6px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:20px;font-weight:300}
+.header-orn{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:20px}
+.orn-line{height:1px;width:64px;background:linear-gradient(90deg,transparent,var(--gold))}
+.orn-line.r{background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+.brand-ref{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#bbb;font-weight:300}
+.brand-ref a{color:var(--gold);text-decoration:none}
+
+.stats-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;justify-content:center;flex-wrap:wrap}
+.stat{padding:8px 24px;text-align:center;border-right:1px solid var(--border)}
 .stat:last-child{border-right:none}
-.stat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
-.stat-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:2px}
-.filters{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.filters::-webkit-scrollbar{display:none}
-.filter-btn{padding:5px 14px;font-size:7px;letter-spacing:2px;text-transform:uppercase;font-weight:600;white-space:nowrap;background:transparent;color:var(--ink-lt);border:1px solid var(--border);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s}
-.filter-btn.active,.filter-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
-main{padding:20px 24px 60px}
-.region-div{display:flex;align-items:center;gap:16px;margin:8px -24px 16px;padding:14px 24px;background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.rd-l{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
-.rd-r{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
-.rd-name{font-size:7px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);font-weight:700;white-space:nowrap}
-.city-sec{margin-bottom:32px}
-.city-hdr{position:relative;overflow:hidden;padding:24px 24px 20px;margin:0 -24px 16px;background:var(--white);border-bottom:1px solid var(--border)}
-.city-ghost{position:absolute;right:-6px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(184,146,42,.055);pointer-events:none;white-space:nowrap;line-height:1;letter-spacing:-3px}
-.city-inner{position:relative;display:flex;align-items:flex-end;justify-content:space-between}
-.city-left{display:flex;flex-direction:column;gap:6px}
-.city-region-lbl{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px}
-.city-region-lbl::before{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
-.city-name{font-family:'Playfair Display',serif;font-size:38px;font-weight:400;color:var(--ink);letter-spacing:-0.5px;line-height:1}
-.city-orn{display:flex;align-items:center;gap:6px;margin-top:2px}
-.orn-line{height:1px;width:22px;background:linear-gradient(90deg,var(--gold),transparent)}
-.orn-diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
-.city-count{text-align:right}
-.city-count-num{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);opacity:.2;line-height:1}
-.city-count-lbl{font-size:6px;letter-spacing:3px;text-transform:uppercase;color:#aaa;margin-top:2px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
-.card{background:var(--white);border-left:3px solid var(--gold-lt);cursor:pointer;transition:box-shadow .25s}
-.card:hover{box-shadow:0 4px 20px rgba(184,146,42,.12);position:relative;z-index:1}
-.card-photo-wrap{overflow:hidden;height:180px;background:var(--border)}
-.card-photo{width:100%;height:180px;object-fit:cover;display:block;transition:transform .5s}
-.card:hover .card-photo{transform:scale(1.04)}
-.card-body{padding:16px 18px 14px}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
-.card-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--ink);line-height:1.2}
-.card-price{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1px;white-space:nowrap}
-.card-cuisine{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.card-badges{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
-.badge{font-size:6px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:2px 7px;border:1px solid}
-.badge-m{color:#8B0000;border-color:rgba(139,0,0,.3);background:rgba(139,0,0,.04)}
-.badge-h{color:#2C5F7A;border-color:rgba(44,95,122,.3);background:rgba(44,95,122,.04)}
-.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.75;color:var(--ink-lt);font-weight:300;margin-bottom:12px;display:none}
-.card.open .card-desc{display:block}
-.card-footer{padding-top:10px;border-top:1px solid var(--border)}
-.card-contact{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
-.c-row{display:flex;gap:8px;align-items:flex-start}
-.c-icon{font-size:9px;color:var(--gold);min-width:14px;line-height:1.6}
-.c-text{font-size:9px;color:var(--ink-md);font-weight:400;line-height:1.5;letter-spacing:.2px}
-.card-note{font-size:8px;font-style:italic;color:var(--ink-md);font-family:'Cormorant Garamond',serif}
-.card-toggle{text-align:right;margin-top:8px;font-size:7px;color:#aaa;letter-spacing:1px}
-footer{background:var(--white);border-top:1px solid var(--border);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;margin-top:32px}
-.ft-brand{font-family:'Playfair Display',serif;font-size:13px;color:var(--ink)}
-.ft-brand em{font-style:italic;color:var(--gold)}
-.ft-note{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#aaa}
+.stat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);font-weight:600}
+.stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:2px}
+
+.michelin-legend{background:var(--white);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;justify-content:center;flex-wrap:wrap;gap:10px;align-items:center}
+.legend-title{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.legend-badge{display:inline-flex;align-items:center;gap:5px;font-size:9px;padding:4px 10px;border-radius:20px;font-weight:500;letter-spacing:.5px}
+.lm3{background:var(--m3bg);color:var(--m3)}
+.lm2{background:var(--m2bg);color:var(--m2)}
+.lm1{background:var(--m1bg);color:var(--m1)}
+.lbib{background:var(--bibbg);color:var(--bib)}
+.lrec{background:var(--recbg);color:var(--rec)}
+
+main{max-width:900px;margin:0 auto;padding:40px 20px 60px}
+
+.region-div{display:flex;align-items:center;gap:16px;margin:44px 0 8px}
+.rd-l,.rd-r{flex:1;height:1px;background:var(--border)}
+.rd-name{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500}
+
+.city-section{margin-bottom:40px}
+.city-header{display:flex;align-items:center;gap:16px;margin:20px 0 16px}
+.city-line-l,.city-line-r{flex:1;height:1px;background:var(--border);opacity:.5}
+.city-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:400;color:var(--ink);white-space:nowrap;font-style:italic}
+.city-count{font-size:8px;letter-spacing:2px;color:var(--ink-lt);text-transform:uppercase;text-align:center;margin-top:2px}
+
+.restaurants{display:flex;flex-direction:column}
+.restaurant{display:flex;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--border);gap:14px}
+.restaurant:last-child{border-bottom:none}
+.rest-photo{width:68px;height:68px;border-radius:3px;object-fit:cover;flex-shrink:0;background:#e8e0d0}
+.rest-photo-placeholder{width:68px;height:68px;border-radius:3px;flex-shrink:0;background:linear-gradient(135deg,#f0e8d8,#e0d4c4);display:flex;align-items:center;justify-content:center;font-size:26px}
+.rest-info{flex:1;min-width:0}
+.rest-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.rest-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:400;color:var(--ink);line-height:1.3}
+.rest-badges{display:flex;gap:4px;flex-wrap:wrap;flex-shrink:0}
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:8px;padding:3px 7px;border-radius:12px;font-weight:600;letter-spacing:.3px;white-space:nowrap}
+.bm3{background:var(--m3bg);color:var(--m3)}
+.bm2{background:var(--m2bg);color:var(--m2)}
+.bm1{background:var(--m1bg);color:var(--m1)}
+.bbib{background:var(--bibbg);color:var(--bib)}
+.brec{background:var(--recbg);color:var(--rec)}
+.bnext{background:#f5f5f5;color:#aaa}
+.rest-cuisine{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-top:4px;font-weight:500}
+.rest-meta{font-size:11px;color:var(--ink-lt);margin-top:4px;line-height:1.5}
+.rest-phone{font-size:10px;color:var(--ink-lt);margin-top:3px}
+.rest-note{font-size:10px;color:var(--gold);font-style:italic;margin-top:3px}
+
+footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
+footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
+footer a{color:var(--gold);text-decoration:none}
 </style>
 </head>
 <body>
-<header>
-  <div>
-    <p class="brand-pre">Guia Gastronômico</p>
-    <h1 class="brand-main">Na Mesa com <em>Luli Dias</em></h1>
-    <p class="brand-sub">Curadoria pessoal · Edição 2025</p>
-  </div>
-  <div class="hdr-right">
-    <div class="hdr-flag">🇫🇷</div>
-    <p class="hdr-count" id="hdr-count">França</p>
-  </div>
-</header>
-<div class="stats">
-  <div class="stat"><div class="stat-num" id="s1">—</div><div class="stat-lbl">Restaurantes</div></div>
-  <div class="stat"><div class="stat-num" id="s2">—</div><div class="stat-lbl">Cidades</div></div>
-  <div class="stat"><div class="stat-num" id="s3">—</div><div class="stat-lbl">★ Michelin</div></div>
-</div>
-<div class="filters" id="filters"></div>
-<main id="main"></main>
-<footer>
-  <span class="ft-brand">Na Mesa com <em>Luli Dias</em></span>
-  <span class="ft-note">🇫🇷 França · 2025</span>
-</footer>
-<script>
-const PHOTOS = {
-  "Francesa Tradicional":      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Francesa do Sudoeste":      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
-  "Bistrô Francês":            "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Alta Cozinha Francesa":     "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Brasserie Francesa":        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
-  "Frutos do Mar":             "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80",
-  "Carnes & Grelhados":        "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
-  "Japonesa":                  "https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&q=80",
-  "Italiana":                  "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Alsaciana":                 "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80",
-  "Lyonnaise":                 "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Borgonhesa":                "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
-  "Provençal":                 "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Vietnamita":                "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Beach Club":                "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80",
-  "Chinesa":                   "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Kebab & Mediterrâneo":      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-};
-const FB = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80";
 
-const DATA = [
-  {region:"Norte — Champagne & Lorraine", city:"Reims", restaurants:[
-    {n:"Le Parc Les Crayères",     q:"Alta Cozinha Francesa",  d:"Instalado numa villa do século XIX nos jardins dos Crayères, este palácio gastronómico oferece uma cozinha de dois estrelas Michelin num cenário de luxo atemporal. Uma das mesas mais prestigiadas da Champagne.",                      a:"64 Bd Henry Vasnier, 51100 Reims",           p:"+33 3 26 24 90 90", pr:"€€€€", m:2},
-    {n:"Le Jardin Les Crayères",   q:"Brasserie Francesa",     d:"O bistrô elegante do domínio Les Crayères, com esplanada nos jardins e uma cozinha de brasserie refinada. O cenário perfeito para um almoço entre vinhedos de champagne.",                                                              a:"64 Bd Henry Vasnier, 51100 Reims",           p:"+33 3 26 24 90 90", pr:"€€€"},
-    {n:"Le Crypto",                q:"Francesa Tradicional",   d:"Um restaurante clássico de Reims com cozinha francesa tradicional numa cave histórica. Ambiente intimista e carta que celebra os produtos da região com rigor e simplicidade.",                                                            a:"Pl. du Forum, 51100 Reims",                  p:"+33 3 26 47 42 54", pr:"€€€"},
-    {n:"Le Millénaire",            q:"Alta Cozinha Francesa",  d:"Uma cozinha de autor criativa e elegante no coração de Reims, com pratos que respeitam a sazonalidade e os produtores locais. Uma das mesas mais interessantes da cidade.",                                                               a:"4-6 Rue Bertin, 51100 Reims",               p:"+33 3 26 08 26 62", pr:"€€€"},
-    {n:"Brasserie le Boulingrin",  q:"Brasserie Francesa",     d:"Uma brasserie histórica de Reims, inaugurada em 1925, com interior Art Déco classificado e uma carta de clássicos franceses servidos com generosidade. Uma instituição da cidade.",                                                      a:"48 Rue de Mars, 51100 Reims",               p:"+33 3 26 40 96 22", pr:"€€"},
-  ]},
-  {region:"Norte — Alsácia", city:"Strasbourg", restaurants:[
-    {n:"Au Pont Corbeau",          q:"Alsaciana",              d:"Uma das winstubs mais autênticas de Estrasburgo, com tarte flambée, choucroute e baeckeoffe servidos numa casa com mais de quatro séculos de história. O verdadeiro sabor da Alsácia.",                                                    a:"21 Quai Saint-Nicolas, 67000 Strasbourg",   p:"+33 3 88 35 60 68", pr:"€€"},
-    {n:"Chez Yvonne",              q:"Alsaciana",              d:"Uma lenda de Estrasburgo, frequentada por presidentes e celebridades, que preserva com orgulho a cozinha alsaciana tradicional — choucroute, foie gras e tarte flambée numa sala com azulejos e madeiras centenárias.",                   a:"10 Rue du Sanglier, 67000 Strasbourg",      p:"+33 3 88 32 84 15", pr:"€€€"},
-    {n:"La Petit Alsace",          q:"Alsaciana",              d:"Uma casa acolhedora especializada em tarte flambée — a pizza alsaciana de massa fina com crème fraîche, lardons e cebola. Simples, deliciosa e genuinamente alsaciana.",                                                                  a:"Strasbourg, Alsácia",                       p:"+33 3 88 00 00 00", pr:"€",  nt:"Especialidade: Tarte Flambée"},
-  ]},
-  {region:"Norte — Lorraine", city:"Metz", restaurants:[
-    {n:"La Reserve",               q:"Alta Cozinha Francesa",  d:"Uma mesa elegante em Metz com uma cozinha contemporânea que valoriza os produtos da Lorraine. Ambiente sofisticado e serviço atento para uma experiência gastronómica de referência.",                                                      a:"Metz, Lorraine",                            p:"+33 3 87 00 00 00", pr:"€€€"},
-  ]},
-  {region:"Centro — Beaujolais & Lyon", city:"St Amour (Beaujolais)", restaurants:[
-    {n:"Lucienne fait des siennes", q:"Bistrô Francês",        d:"Um bistrô de charme no coração do Beaujolais, com uma cozinheira apaixonada que serve pratos de terroir generosos e autênticos. O ambiente familiar e os vinhos locais fazem desta uma paragem inesquecível.",                            a:"St Amour-Bellevue, 71570 Beaujolais",       p:"+33 3 85 37 10 29", pr:"€€"},
-  ]},
-  {region:"Centro — Beaujolais & Lyon", city:"Vaux-en-Beaujolais", restaurants:[
-    {n:"L'Échanson",               q:"Francesa Tradicional",   d:"No mítico Clochemerle, este restaurante serve uma cozinha de bistrô generosa e os vinhos do Beaujolais nos seus melhores exemplos. Uma paragem obrigatória numa aldeia que saiu das páginas de um livro.",                                a:"Vaux-en-Beaujolais, 69460",                 p:"+33 4 74 03 20 16", pr:"€€"},
-  ]},
-  {region:"Centro — Beaujolais & Lyon", city:"Lyon", restaurants:[
-    {n:"Paul Bocuse",              q:"Alta Cozinha Francesa",  d:"A catedral da gastronomia francesa, o restaurante do lendário Paul Bocuse em Collonges-au-Mont-d'Or mantém as suas três estrelas Michelin há mais de cinquenta anos. Uma peregrinação obrigatória para qualquer apaixonado pela cozinha.",a:"40 Rue de la Plage, 69660 Collonges-au-Mont-d'Or", p:"+33 4 72 42 90 90", pr:"€€€€", m:3},
-    {n:"Les Halles de Lyon Paul Bocuse", q:"Mercado Gastronómico", d:"O mercado coberto de Lyon dedicado ao mestre Bocuse reúne os melhores produtores e artesãos alimentares da região. Um templo do produto onde queijos, charcutaria, ostras e Lyon se encontram no seu melhor.",                      a:"102 Cours Lafayette, 69003 Lyon",           p:"+33 4 78 62 39 33", pr:"€€",  nt:"Mercado gastronómico"},
-  ]},
-  {region:"Centro — Borgonha", city:"Beaune", restaurants:[
-    {n:"Caveau des Arches",        q:"Borgonhesa",             d:"Nas caves históricas de Beaune, este restaurante é famoso pelo melhor Boeuf Bourguignon da Borgonha, preparado com receita tradicional e vinhos da região. Uma experiência de terroir autêntico.",                                        a:"10 Bd Perpreuil, 21200 Beaune",             p:"+33 3 80 22 10 37", pr:"€€€", nt:"O melhor Boeuf Bourguignon"},
-    {n:"Bistrot du Bord de L'eau", q:"Bistrô Francês",         d:"Um bistrô de beira-rio em Beaune com uma cozinha simples e honesta que celebra os produtos da Borgonha. Ambiente descontraído e carta de vinhos que destaca os produtores locais.",                                                       a:"Beaune, 21200 Borgonha",                    p:"+33 3 80 00 00 00", pr:"€€"},
-  ]},
-  {region:"Centro — Borgonha", city:"Gevrey-Chambertin", restaurants:[
-    {n:"Rôtisserie Le Chambertin", q:"Borgonhesa",             d:"Na aldeia que deu nome a um dos maiores vinhos do mundo, esta rotisserie serve carnes assadas e pratos de terroir borgonhês harmonizados com os grands crus locais. Uma experiência de lugar e de produto.",                               a:"Pl. du Monument, 21220 Gevrey-Chambertin",  p:"+33 3 80 34 33 20", pr:"€€€"},
-  ]},
-  {region:"Centro — Borgonha", city:"Vougeot", restaurants:[
-    {n:"Au Creux de Vougeot",      q:"Borgonhesa",             d:"Junto ao mítico Clos de Vougeot, este restaurante serve uma cozinha borgonhesa de raiz com escargots, jambon persillé e coq au vin acompanhados pelos vinhos da Côte de Nuits. Uma mesa de vinho e de terroir.",                         a:"Vougeot, 21640 Borgonha",                   p:"+33 3 80 62 84 17", pr:"€€€"},
-  ]},
-  {region:"Sudoeste — Bordeaux e Gironde", city:"Bordeaux", restaurants:[
-    {n:"La Tupina",                q:"Francesa do Sudoeste",   d:"Uma instituição de Bordéus desde 1968, onde o fogo da lareira é o coração da cozinha e os patos, os foie gras e as batatas fritas em gordura de pato são preparados com devoção ao Sudoeste francês. Uma das mesas mais autênticas da França.", a:"6 Rue Porte-de-la-Monnaie, 33000 Bordeaux", p:"+33 5 56 91 56 37", pr:"€€€"},
-    {n:"Le Noilles",               q:"Francesa do Sudoeste",   d:"Um bistrô bordalês de alma, com escargots, confit de canard e especialidades do Sudoeste num ambiente caloroso e sem pretensões. Um endereço fiel à tradição gastronómica de Bordéus.",                                                    a:"12 Allée de Tourny, 33000 Bordeaux",        p:"+33 5 56 81 27 72", pr:"€€"},
-    {n:"Le Pressoir d'Argent",     q:"Alta Cozinha Francesa",  d:"No Grand Hotel de Bordeaux, o chef Gordon Ramsay criou uma cozinha de duas estrelas Michelin que celebra os mariscos e os produtos aquitanos com virtuosismo técnico. Uma das experiências mais sofisticadas de Bordéus.",                  a:"2 Pl. de la Comédie, 33000 Bordeaux",       p:"+33 5 57 30 43 04", pr:"€€€€", m:2},
-    {n:"Brasserie Bordelaise",     q:"Brasserie Francesa",     d:"Uma brasserie animada no coração de Bordéus, com uma carta generosa de clássicos bordaleses e uma cave de vinhos que honra os châteaux da região. Ambiente convivial e tipicamente francês.",                                              a:"50 Rue Saint-Rémi, 33000 Bordeaux",        p:"+33 5 56 81 23 13", pr:"€€€"},
-    {n:"St James",                 q:"Alta Cozinha Francesa",  d:"Com vista panorâmica sobre Bordéus do alto de Bouliac, o St James do chef Nicolas Magie é uma estrela Michelin que combina uma arquitectura icónica de Jean Nouvel com cozinha contemporânea de exceção.",                                a:"3 Pl. Camille Hostein, 33270 Bouliac",      p:"+33 5 57 97 06 00", pr:"€€€€", m:1},
-    {n:"Le 7",                     q:"Francesa Contemporânea", d:"No sétimo andar da Cité du Vin, o Le 7 oferece uma vista deslumbrante sobre o Garona e os vinhedos enquanto serve uma cozinha contemporânea inspirada nos grandes vinhos do mundo. Uma experiência visual e gastronómica única.",             a:"134-150 Quai de Bacalan, 33300 Bordeaux",   p:"+33 5 56 16 20 20", pr:"€€€"},
-    {n:"Le 1925",                  q:"Francesa do Sudoeste",   d:"Num espaço art déco dos anos 20, o Le 1925 celebra a cozinha bordalesa com escargots, huîtres e confit de canard num ambiente de elegância retro. Uma viagem aos anos dourados de Bordéus.",                                              a:"Bordeaux, 33000",                           p:"+33 5 56 00 00 00", pr:"€€€"},
-    {n:"La Coluche",               q:"Kebab & Mediterrâneo",   d:"Um endereço casual e animado de Bordéus, com kebabs artesanais e sabores mediterrânicos num ambiente descontraído e popular. O favorito para uma refeição rápida e saborosa.",                                                             a:"Bordeaux, 33000",                           p:"+33 5 56 00 00 00", pr:"€"},
-    {n:"Le Gabriel",               q:"Alta Cozinha Francesa",  d:"No magnífico edifício do XVIII século da Place de la Bourse, o Le Gabriel é uma estrela Michelin que combina a grandiosidade arquitetónica de Bordéus com uma cozinha contemporânea precisa e elegante.",                                  a:"10 Pl. de la Bourse, 33000 Bordeaux",       p:"+33 5 56 30 00 80", pr:"€€€€", m:1},
-    {n:"Ressources",               q:"Alta Cozinha Francesa",  d:"Uma mesa intimista e criativa de Bordéus com uma estrela Michelin, onde o chef explora os produtos da Aquitânia com técnica e sensibilidade. Uma descoberta para os amantes de gastronomia de autor.",                                      a:"Bordeaux, 33000",                           p:"+33 5 56 00 00 00", pr:"€€€€", m:1},
-    {n:"Le Chapon Fin",            q:"Alta Cozinha Francesa",  d:"Uma das mesas mais históricas de Bordéus, com uma sala classificada em forma de gruta rochosa do século XIX. A cozinha clássica francesa é servida num cenário absolutamente único e memorável.",                                          a:"5 Rue Montesquieu, 33000 Bordeaux",         p:"+33 5 56 79 10 10", pr:"€€€€"},
-  ]},
-  {region:"Sudoeste — Bordeaux e Gironde", city:"Lormont", restaurants:[
-    {n:"Le Prince Noir",           q:"Alta Cozinha Francesa",  d:"Com vista sobre o Garona e os vinhedos, o Prince Noir de Vivien Durand é uma estrela Michelin que revisita a cozinha bordalesa com criatividade e produto de excelência. Uma das mesas mais excitantes da região.",                       a:"1 Rue du Prince Noir, 33310 Lormont",       p:"+33 5 56 06 12 52", pr:"€€€€", m:1},
-  ]},
-  {region:"Sudoeste — Bordeaux e Gironde", city:"Martillac", restaurants:[
-    {n:"La Grand'Vigne",           q:"Alta Cozinha Francesa",  d:"No domínio Smith Haut Lafitte, a Grand'Vigne de Nicolas Masse é uma mesa de duas estrelas Michelin onde os vinhos da propriedade e os produtos aquitanos se encontram numa cozinha de alta precisão. Uma experiência completa de vinho e mesa.", a:"Château Smith Haut Lafitte, 33650 Martillac", p:"+33 5 57 83 11 22", pr:"€€€€", m:2},
-    {n:"La Table de Lavoir",       q:"Francesa Contemporânea", d:"O restaurante mais descontraído do domínio Smith Haut Lafitte, com uma cozinha contemporânea de produtos locais num ambiente de cave e pedra. Ideal para um almoço entre vinhas.",                                                         a:"Château Smith Haut Lafitte, 33650 Martillac", p:"+33 5 57 83 11 22", pr:"€€€"},
-  ]},
-  {region:"Sudoeste — Bordeaux e Gironde", city:"Sauternes", restaurants:[
-    {n:"La Chapelle",              q:"Francesa Contemporânea", d:"Em pleno coração do Sauternes, este restaurante celebra os vinhos liquorosos da região com uma cozinha criativa que explora harmonizações surpreendentes. Uma experiência única entre os vinhedos do vinho mais famoso do mundo.",          a:"Sauternes, 33210 Gironde",                  p:"+33 5 56 76 65 65", pr:"€€€"},
-  ]},
-  {region:"Sudoeste — Bordeaux e Gironde", city:"Artigues-près-Bordeaux", restaurants:[
-    {n:"Chateau Fage — La Maison de Vignes", q:"Francesa Regional", d:"Num château familiar rodeado de vinhedos, este restaurante serve uma cozinha de terroir bordalesa com os vinhos da propriedade. Uma experiência autêntica e intimista da vida de château.",                                           a:"Artigues-près-Bordeaux, 33370 Gironde",     p:"+33 5 56 00 00 00", pr:"€€€"},
-  ]},
-  {region:"Sudoeste — Saint-Émilion", city:"Saint-Émilion", restaurants:[
-    {n:"Logis de la Cadenne",      q:"Alta Cozinha Francesa",  d:"Uma estrela Michelin instalada numa propriedade histórica de Saint-Émilion, com uma cozinha que celebra os produtos do Périgord e da Gironde com elegância e criatividade. Vista sobre os vinhedos classificados UNESCO.",                 a:"3 Rue de la Cadène, 33330 Saint-Émilion",   p:"+33 5 57 24 71 40", pr:"€€€€", m:1},
-    {n:"L'Envers du Décor",        q:"Francesa do Sudoeste",   d:"O bistrô mais animado de Saint-Émilion, com escargots, canard e vinhos de pequenos produtores da região servidos numa sala descontraída e animada. O endereço favorito dos vinicultores locais.",                                          a:"11 Rue du Clocher, 33330 Saint-Émilion",    p:"+33 5 57 74 48 31", pr:"€€€"},
-    {n:"A La Terrasse Rouge",      q:"Francesa Contemporânea", d:"O restaurante do Château La Dominique com vista sobre os vinhedos de Pétrus e Cheval Blanc, numa arquitectura de vidro e aço. Cozinha contemporânea num cenário de arte e vinho absolutamente único.",                                    a:"Lieu-dit La Dominique, 33330 Saint-Émilion",p:"+33 5 57 24 47 05", pr:"€€€"},
-    {n:"Petit Faurie de Soutard",  q:"Francesa Regional",      d:"Num château familiar com vistas sobre os vinhedos de Saint-Émilion, uma cozinha de terroir preparada com os produtos da região e harmonizada com os vinhos da propriedade. Almoços de domingo inesquecíveis.",                           a:"Saint-Émilion, 33330 Gironde",              p:"+33 5 57 74 45 59", pr:"€€€"},
-    {n:"Atelier de Candale",       q:"Francesa Contemporânea", d:"Um espaço criativo e moderno em Saint-Émilion onde a arte contemporânea e a gastronomia se encontram. Cozinha de autor com produtos locais num ambiente de galeria e vinho.",                                                             a:"Saint-Émilion, 33330 Gironde",              p:"+33 5 57 00 00 00", pr:"€€€"},
-    {n:"La Table de Pavie",        q:"Alta Cozinha Francesa",  d:"O restaurante do mítico Château Pavie, Premier Grand Cru Classé A, com duas estrelas Michelin e uma cozinha que rivaliza com a grandiosidade dos seus vinhos. Uma experiência absolutamente memorável.",                                  a:"Château Pavie, 33330 Saint-Émilion",        p:"+33 5 57 55 43 43", pr:"€€€€", m:2},
-    {n:"Les Belles Perdrix",       q:"Alta Cozinha Francesa",  d:"O restaurante do Château Troplong Mondot com uma estrela Michelin e vista panorâmica sobre Saint-Émilion. Cozinha de precisão e elegância harmonizada com os grands crus do château.",                                                    a:"Château Troplong Mondot, 33330 Saint-Émilion", p:"+33 5 57 55 37 00", pr:"€€€€", m:1},
-    {n:"Le Jardin de Soutard",     q:"Francesa Regional",      d:"O bistrô do Château Soutard com esplanada nos jardins históricos e uma cozinha descontraída de produtos locais. O lugar perfeito para um almoço tranquilo entre vinhedos classificados.",                                                  a:"Château Soutard, 33330 Saint-Émilion",      p:"+33 5 57 24 72 23", pr:"€€"},
-    {n:"Café Saigon",              q:"Vietnamita",             d:"Uma surpresa vietnamita em pleno Saint-Émilion, com pho, banh mi e rolls frescos num ambiente colorido e descontraído. O refúgio perfeito para quem procura algo diferente entre visitas aos châteaux.",                                   a:"Saint-Émilion, 33330 Gironde",              p:"+33 5 57 00 00 00", pr:"€"},
-    {n:"Le Tertre",                q:"Francesa Regional",      d:"Uma mesa intimista de Saint-Émilion com uma cozinha que valoriza os produtores locais e os vinhos da appellation. Ambiente de pedra antiga e sala aquecida por lareira no inverno.",                                                       a:"Saint-Émilion, 33330 Gironde",              p:"+33 5 57 00 00 00", pr:"€€€"},
-  ]},
-  {region:"Sudoeste — Bordeaux e Gironde", city:"Saint-Jean-de-Blaignac", restaurants:[
-    {n:"Auberge Saint Jean",       q:"Francesa Regional",      d:"Uma auberge de campo com cozinha tradicional do Bordelais, carnes e produtos locais servidos com generosidade num ambiente rústico e familiar. A paragem perfeita entre châteaux de Saint-Émilion.",                                       a:"Saint-Jean-de-Blaignac, 33420 Gironde",     p:"+33 5 57 84 11 91", pr:"€€"},
-  ]},
-  {region:"Sudoeste — Bordeaux e Gironde", city:"Brane", restaurants:[
-    {n:"Caffé Cousine",            q:"Francesa Regional",      d:"Um café-restaurante de campo no Médoc, com uma cozinha caseira e descontraída junto aos vinhedos. O ambiente rural e os vinhos locais a preços honestos fazem deste um endereço querido pelos vinicultores da região.",                    a:"Brane, Gironde",                            p:"+33 5 56 00 00 00", pr:"€€"},
-  ]},
-  {region:"Sudoeste — Médoc", city:"Saint-Julien", restaurants:[
-    {n:"Le Saint Julien",          q:"Francesa Regional",      d:"No coração do Médoc, este restaurante serve uma cozinha bordalesa clássica com agneau de Pauillac, foie gras e vinhos da região a preços acessíveis. O endereço de referência para os amantes do Médoc.",                                 a:"Saint-Julien-Beychevelle, 33250 Médoc",     p:"+33 5 56 59 63 87", pr:"€€€"},
-  ]},
-  {region:"Sudoeste — Médoc", city:"Saint-Estèphe", restaurants:[
-    {n:"Maison d'Estournel",       q:"Alta Cozinha Francesa",  d:"No domínio do mítico Château Cos d'Estournel, um restaurante de luxo com uma arquitectura orientalizante única e uma cozinha de produto que honra o Médoc com refinamento. Uma experiência entre o Oriente e os grands crus.",             a:"Château Cos d'Estournel, 33180 Saint-Estèphe", p:"+33 5 56 73 15 50", pr:"€€€€"},
-  ]},
-  {region:"Sudoeste — Médoc", city:"Pauillac", restaurants:[
-    {n:"Lavinal",                  q:"Bistrô Francês",         d:"O bistrô do Château Lynch-Bages em Pauillac, com escargots de Bourgogne, confit de canard e vinhos do Médoc a preços razoáveis num ambiente de village animado. O encontro entre tradição e vinho no coração do Médoc.",                  a:"Bages, 33250 Pauillac",                     p:"+33 5 57 75 00 09", pr:"€€€"},
-  ]},
-  {region:"Sudoeste — Pomerol", city:"Pomerol", restaurants:[
-    {n:"La Table de Catusseau",    q:"Francesa Regional",      d:"No coração de Pomerol, o plateau que produziu Pétrus e Le Pin, este restaurante serve uma cozinha de terroir com os vinhos da appellation. Uma paragem essencial na terra do Merlot mais precioso do mundo.",                             a:"Pomerol, 33500 Gironde",                    p:"+33 5 57 00 00 00", pr:"€€€"},
-  ]},
-  {region:"Sudoeste — Arcachon", city:"Arcachon", restaurants:[
-    {n:"La Corniche",              q:"Frutos do Mar",          d:"Com vista sobre a Baía de Arcachon e os seus ostricultores, La Corniche serve as melhores ostras do mundo acompanhadas de vinhos brancos de Graves numa esplanada sobre o oceano. Uma experiência de mar e de vinho inesquecível.",         a:"Pyla-sur-Mer, 33115 La Teste-de-Buch",      p:"+33 5 56 22 72 11", pr:"€€€€"},
-  ]},
-  {region:"Paris", city:"Paris", restaurants:[
-    {n:"Allard",                   q:"Bistrô Francês",         d:"Um bistrô parisiense de culto desde 1931, com canard aux olives, escargots e coq au vin servidos numa sala que não mudou desde a abertura. O Allard é Paris na sua essência mais pura e autêntica.",                                       a:"41 Rue Saint-André des Arts, 75006 Paris",  p:"+33 1 43 26 48 23", pr:"€€€"},
-    {n:"La Fontaine de Mars",      q:"Bistrô Francês",         d:"O bistrô do Sudoeste em Paris, famoso por ter recebido Barack Obama, com cassoulet, foie gras e confit de canard numa sala de azulejos e mesas de papel quadriculado. Autêntico, generoso e invariavelmente cheio.",                     a:"129 Rue Saint-Dominique, 75007 Paris",      p:"+33 1 47 05 46 44", pr:"€€€"},
-    {n:"Benoit",                   q:"Bistrô Francês",         d:"O único bistrô parisiense com estrela Michelin, propriedade de Alain Ducasse, que preserva a decoração Belle Époque e a cozinha lyonnaise tradicional com um rigor e uma elegância inigualáveis. Uma visita obrigatória.",                a:"20 Rue Saint-Martin, 75004 Paris",          p:"+33 1 42 72 25 76", pr:"€€€€", m:1},
-    {n:"Beef Bar",                 q:"Carnes & Grelhados",     d:"O templo da carne premium em Paris, com wagyu japonês, black angus americano e cortes nobres de todo o mundo grelhados com precisão. Ambiente glamoroso e clientela internacional.",                                                         a:"5 Rue du Marché Saint-Honoré, 75001 Paris", p:"+33 1 78 18 00 00", pr:"€€€€"},
-    {n:"Atelier de Joël Robuchon", q:"Alta Cozinha Francesa",  d:"O conceito revolucionário de Joël Robuchon — um balcão à volta da cozinha aberta onde se servem as mais refinadas tapas francesas com estrela Michelin. Uma experiência gastronómica única que mudou a forma de comer em Paris.",          a:"5 Rue de Montalembert, 75007 Paris",        p:"+33 1 42 22 56 56", pr:"€€€€", m:1},
-    {n:"Café de la Paix",          q:"Brasserie Francesa",     d:"Uma das grandes brasseries históricas de Paris, inaugurada em 1862, com uma sala classificada de Opéra e uma cozinha clássica que inclui o famoso soufflé e o consommé de cebola. Um monumento gastronómico junto à Ópera.",             a:"5 Pl. de l'Opéra, 75009 Paris",             p:"+33 1 40 07 36 36", pr:"€€€€"},
-    {n:"Aux Lyonnais",             q:"Lyonnaise",              d:"A bouchon lyonnaise de Alain Ducasse em Paris, com uma decoração Art Nouveau e uma cozinha que celebra Lyon — quenelles, andouillette e tablier de sapeur. Uma viagem gastronómica à capital da gastronomia francesa.",                    a:"32 Rue Saint-Marc, 75002 Paris",            p:"+33 1 42 96 65 04", pr:"€€€"},
-    {n:"Le Stresa",                q:"Italiana",               d:"Uma trattoria italiana de luxo no Faubourg Saint-Honoré, frequentada pela alta sociedade parisiense desde 1949. Pasta fresca, risotto e vitello tonnato servidos com elegância discreta e serviço impecável.",                             a:"7 Rue Chambiges, 75008 Paris",              p:"+33 1 47 23 51 62", pr:"€€€€"},
-    {n:"Gigi",                     q:"Italiana",               d:"Uma trattoria moderna e animada em Paris com pasta artesanal, pizzas napolitanas e vinhos italianos de produtor num ambiente festivo e colorido. O endereço italiano favorito dos parisienses mais jovens.",                                 a:"Paris, 75000",                              p:"+33 1 00 00 00 00", pr:"€€€"},
-    {n:"Coco",                     q:"Francesa Contemporânea", d:"Um restaurante contemporâneo na Opéra Bastille com uma cozinha criativa e produtos de sazonalidade. Ambiente moderno e luminoso com vista para a Ópera.",                                                                                   a:"Place de la Bastille, 75012 Paris",         p:"+33 1 44 75 01 01", pr:"€€€"},
-    {n:"Mimosa",                   q:"Francesa Contemporânea", d:"Um bistrô parisiense de charme com uma cozinha de mercado criativa e uma carta de vinhos naturais cuidadosamente selecionada. Ambiente intimista e serviço jovem e apaixonado.",                                                            a:"Paris, 75000",                              p:"+33 1 00 00 00 00", pr:"€€€"},
-    {n:"Bonnie",                   q:"Francesa Contemporânea", d:"Um restaurante moderno e animado em Paris com uma cozinha bistronomique que mistura influências francesas e internacionais. O endereço certo para um jantar descontraído num bairro vibrante.",                                              a:"Paris, 75000",                              p:"+33 1 00 00 00 00", pr:"€€€"},
-    {n:"Le Pavyllon",              q:"Alta Cozinha Francesa",  d:"O restaurante de Yannick Alléno no Palácio Royal Monceau com uma estrela Michelin e uma cozinha de autor que revisita os clássicos franceses com técnica e modernidade. Uma mesa para grandes ocasiões.",                                  a:"37 Av. Hoche, 75008 Paris",                 p:"+33 1 42 99 98 00", pr:"€€€€", m:1},
-    {n:"Chez André",               q:"Bistrô Francês",         d:"Um bistrô parisiense clássico nos Champs-Élysées que resistiu à turistificação graças à qualidade constante da sua cozinha tradicional. Steak tartare, sole meunière e tarte tatin — Paris sem artifícios.",                              a:"12 Rue Marbeuf, 75008 Paris",               p:"+33 1 47 20 59 57", pr:"€€€"},
-    {n:"Bistrô des Fables",        q:"Bistrô Francês",         d:"Um bistrô parisiense elegante com uma cozinha que revisita as fábulas da gastronomia francesa com criatividade e bom humor. Ambiente literário e carta que muda com as estações.",                                                          a:"Paris, 75000",                              p:"+33 1 00 00 00 00", pr:"€€€"},
-    {n:"Madame Fan",               q:"Chinesa",                d:"A mesa de cozinha cantonesa de luxo em Paris, com dim sum, pato laqueado e mariscos wok num ambiente de Shanghai dos anos 30. A melhor cozinha chinesa da capital francesa.",                                                               a:"14 Rue de Marignan, 75008 Paris",           p:"+33 1 49 52 10 10", pr:"€€€€"},
-    {n:"Brasserie La Lorraine",    q:"Brasserie Francesa",     d:"Uma grande brasserie parisiense junto à Place des Ternes, com plateaux de fruits de mer, choucroute e sole meunière servidos a qualquer hora num ambiente animado e sem pretensões. Uma clássica da cidade.",                              a:"2 Pl. des Ternes, 75008 Paris",             p:"+33 1 56 21 22 00", pr:"€€€"},
-    {n:"La Pépinière",             q:"Francesa Contemporânea", d:"Um bistrô contemporâneo parisiense com uma cozinha de mercado e vinhos naturais num ambiente descontraído e jovem. Uma das adresses mais correctas para um almoço de semana no centro de Paris.",                                          a:"Paris, 75000",                              p:"+33 1 00 00 00 00", pr:"€€"},
-    {n:"Le Grand Café",            q:"Brasserie Francesa",     d:"Uma das grandes brasseries de Paris, aberta 24 horas, com plateaux de fruits de mer e clássicos franceses num interior Belle Époque magnificamente preservado. A brasserie que nunca dorme.",                                              a:"4 Bd des Capucines, 75009 Paris",           p:"+33 1 43 12 19 00", pr:"€€€"},
-    {n:"Bofinger",                 q:"Brasserie Francesa",     d:"A mais antiga brasserie de Paris, inaugurada em 1864, com a mais bela coupole Art Nouveau da cidade e uma cozinha alsaciana e de fruits de mer de referência. Um monumento gastronómico junto à Bastille.",                               a:"5-7 Rue de la Bastille, 75004 Paris",       p:"+33 1 42 72 87 82", pr:"€€€"},
-  ]},
-  {region:"Sul — Provence", city:"Chateauneuf-du-Pape", restaurants:[
-    {n:"La Mère Germaine",         q:"Provençal",              d:"Uma mesa clássica de Châteauneuf-du-Pape com uma estrela Michelin e uma cozinha que celebra os produtos da Provence com a finesse que só os grands crus locais merecem. Vista sobre os vinhedos do papa.",                                 a:"Rue du Commandant Lemaître, 84230 Châteauneuf-du-Pape", p:"+33 4 90 83 54 37", pr:"€€€€", m:1},
-    {n:"La Verger des Papes",      q:"Provençal",              d:"Junto às ruínas do castelo dos papas, este restaurante com esplanada panorâmica serve a cozinha provençal com os vinhos das melhores caves da appellation. Vista espetacular sobre o vale do Ródano.",                                    a:"84230 Châteauneuf-du-Pape",                 p:"+33 4 90 83 50 40", pr:"€€€"},
-  ]},
-  {region:"Sul — Provence", city:"Sorgues", restaurants:[
-    {n:"La Table de Sorgues",      q:"Provençal",              d:"Um restaurante de terroir provençal com uma cozinha honesta de produtos locais e vinhos da Côtes du Rhône. Ambiente familiar e simples, fiel à tradição culinária do sul da França.",                                                      a:"Sorgues, 84700 Vaucluse",                   p:"+33 4 90 39 00 00", pr:"€€"},
-  ]},
-  {region:"Sul — Provence", city:"Nîmes", restaurants:[
-    {n:"La Table de 2",            q:"Francesa Contemporânea", d:"Um restaurante criativo e íntimo de Nîmes com uma cozinha contemporânea que valoriza os produtos do Gard e do Languedoc. Uma mesa de descoberta e de prazer num espaço moderno e acolhedor.",                                             a:"Nîmes, 30000 Gard",                         p:"+33 4 66 00 00 00", pr:"€€€"},
-  ]},
-  {region:"Sul — Languedoc", city:"Montpellier", restaurants:[
-    {n:"L'Artichaut",              q:"Francesa Contemporânea", d:"Um bistrô criativo e jovem de Montpellier com uma cozinha de mercado sazonalidade e vinhos do Languedoc de pequenos produtores. Um dos endereços mais estimulantes da cena gastronómica da cidade.",                                       a:"7 Rue Saint-Firmin, 34000 Montpellier",     p:"+33 4 67 67 29 47", pr:"€€€"},
-    {n:"La Canourgue",             q:"Francesa Contemporânea", d:"Uma brasserie moderna no coração de Montpellier com esplanada na Place de la Canourgue e uma cozinha contemporânea de produtos locais. O lugar perfeito para um almoço ao sol do Languedoc.",                                             a:"1 Pl. de la Canourgue, 34000 Montpellier",  p:"+33 4 67 60 55 00", pr:"€€€"},
-    {n:"Leclère",                  q:"Alta Cozinha Francesa",  d:"Uma estrela Michelin em Montpellier com uma cozinha de autor que sublima os produtos mediterrâneos com técnica e sensibilidade. Uma das mesas mais interessantes do sul de França.",                                                        a:"Montpellier, 34000",                        p:"+33 4 67 00 00 00", pr:"€€€€", m:1},
-    {n:"Anga — Beaulieu",          q:"Francesa Contemporânea", d:"Um restaurante contemporâneo nos arredores de Montpellier com vista sobre os vinhedos e uma cozinha criativa de produtos locais. Ambiente moderno e descontraído para descobrir o melhor do Languedoc.",                                  a:"Beaulieu, 34160 Castries",                  p:"+33 4 67 00 00 00", pr:"€€€"},
-    {n:"Halles de Lez",            q:"Mercado Gastronómico",   d:"O mercado gastronómico de Montpellier junto ao Lez, com produtores locais, restaurantes de todas as cozinhas e uma atmosfera vibrante e festiva. O melhor endereço para descobrir os sabores do Languedoc.",                               a:"234 Av. de la Justice de Castelnau, 34090 Montpellier", p:"+33 4 67 00 00 00", pr:"€", nt:"Mercado gastronómico"},
-  ]},
-  {region:"Sul — Languedoc", city:"Carcassonne", restaurants:[
-    {n:"La Demeure du Cassoulet",  q:"Francesa Regional",      d:"Na cidade medieval de Carcassonne, um restaurante dedicado ao cassoulet — o prato emblemático do Languedoc com feijão branco, confit de canard e salsichas. Uma experiência de terroir autêntico.",                                       a:"Carcassonne, 11000 Aude",                   p:"+33 4 68 25 00 00", pr:"€€"},
-  ]},
-  {region:"Sul — Languedoc", city:"Frontignan", restaurants:[
-    {n:"Poisson Rouge",            q:"Frutos do Mar",          d:"Junto ao étang de Thau, famoso pelas suas ostras e moules, o Poisson Rouge serve frutos do mar com a frescura dos viveiros locais. Uma experiência de lagoa e de mar na origem dos produtos.",                                            a:"Frontignan, 34110 Hérault",                 p:"+33 4 67 00 00 00", pr:"€€"},
-  ]},
-  {region:"Sul — Côte d'Azur", city:"Marseille", restaurants:[
-    {n:"Les Fenêtres",             q:"Provençal",              d:"Com vista panorâmica sobre o porto de Marselha, Les Fenêtres serve uma bouillabaisse de referência e uma cozinha provençal que celebra o mediterrâneo com produtos locais de excelência. Uma mesa de mar e de sol.",                      a:"Marseille, 13000 Bouches-du-Rhône",         p:"+33 4 91 00 00 00", pr:"€€€"},
-  ]},
-  {region:"Sul — Côte d'Azur", city:"Nice", restaurants:[
-    {n:"La Réserve de Nice",       q:"Alta Cozinha Francesa",  d:"Um palace histórico com uma mesa de prestígio sobre o Mediterrâneo, com uma cozinha que celebra os sabores de Nice e da Provence com elegância e refinamento. Uma das mais belas vistas do mundo.",                                       a:"60 Bd Franck Pilatte, 06300 Nice",          p:"+33 4 97 08 14 80", pr:"€€€€"},
-    {n:"Comptoir du Marché",       q:"Provençal",              d:"Um bistrô animado junto ao mercado do Cours Saleya em Nice, com socca, pissaladière e niçoise autênticos num ambiente de mercado provençal. O café da manhã e o almoço perfeitos em Nice.",                                               a:"8 Rue du Marché, 06300 Nice",               p:"+33 4 93 13 45 01", pr:"€€"},
-    {n:"Chez Davia",               q:"Provençal",              d:"Uma trattoria niçarda de culto com uma cozinha que celebra a identidade gastronómica única de Nice — entre Itália e Provence. Pasta de Nice, daube niçarde e tarte au citron numa sala de família.",                                       a:"11 Bis Rue Grimaldi, 06000 Nice",           p:"+33 4 93 85 51 10", pr:"€€€"},
-    {n:"Acqua e Farina",           q:"Italiana",               d:"A melhor pizza napolitana de Nice, com massa de fermentação longa e ingredientes importados de Itália num ambiente de trattoria autêntica. O endereço dos italianos da Costa Azul.",                                                        a:"Nice, 06000 Alpes-Maritimes",               p:"+33 4 93 00 00 00", pr:"€"},
-    {n:"Miamici",                  q:"Italiana",               d:"Uma trattoria italiana jovem e animada em Nice com pasta fresca, burrata e vinhos italianos naturais. O ambiente festivo e a qualidade dos produtos fazem deste um dos italianos favoritos da cidade.",                                    a:"Nice, 06000 Alpes-Maritimes",               p:"+33 4 93 00 00 00", pr:"€€"},
-    {n:"Le Victor Hugo",           q:"Bistrô Francês",         d:"Um bistrô clássico niçardo com uma cozinha francesa tradicional e especialidades da região — daube, ravioles de Nice e fruits de mer — servidos com generosidade e bom humor.",                                                           a:"Nice, 06000 Alpes-Maritimes",               p:"+33 4 93 00 00 00", pr:"€€"},
-    {n:"Iskender Kebab",           q:"Kebab & Mediterrâneo",   d:"O melhor kebab de Nice, com carne de vitela grelhada, pão tradicional e molho de tomate caseiro numa receita turca de referência. O favorito dos niçardos para um almoço rápido e delicioso.",                                           a:"Nice, 06000 Alpes-Maritimes",               p:"+33 4 93 00 00 00", pr:"€"},
-    {n:"Blue Beach",               q:"Beach Club",             d:"Uma praia privada e restaurante sobre o Mediterrâneo em Nice, com frutos do mar, saladas e grelhados servidos com os pés na areia. O lugar perfeito para um almoço de verão na Côte d'Azur.",                                            a:"Promenade des Anglais, 06000 Nice",         p:"+33 4 93 00 00 00", pr:"€€€"},
-    {n:"Bela Baieta",              q:"Beach Club",             d:"Uma bela praia e restaurante em Nice com uma cozinha mediterrânea levada e frutos do mar frescos. Ambiente de dolce vita e vista sobre o Mediterrâneo.",                                                                                   a:"Promenade des Anglais, 06000 Nice",         p:"+33 4 93 00 00 00", pr:"€€€"},
-    {n:"Onakaya",                  q:"Japonesa",               d:"A mesa japonesa de referência em Nice, com sushi e sashimi de peixe mediterrâneo tratados com técnica japonesa irrepreensível. Um endereço sofisticado e intimista na capital da Côte d'Azur.",                                           a:"Nice, 06000 Alpes-Maritimes",               p:"+33 4 93 00 00 00", pr:"€€€"},
-  ]},
-  {region:"Sul — Côte d'Azur", city:"Saint-Paul-de-Vence", restaurants:[
-    {n:"Le Tilleul",               q:"Provençal",              d:"Uma esplanada sob as tílias da aldeia medieval de Saint-Paul-de-Vence com uma cozinha provençal simples e de produto. O lugar mais fotogénico da Côte d'Azur para um almoço entre galerias de arte.",                                    a:"Pl. du Tilleul, 06570 Saint-Paul-de-Vence", p:"+33 4 93 32 80 36", pr:"€€€"},
-    {n:"Le Saint Paul",            q:"Alta Cozinha Francesa",  d:"Uma mesa de luxo no interior da aldeia medieval de Saint-Paul-de-Vence, com uma cozinha contemporânea que celebra os produtos da Provence. Vista sobre os ramparts e os vinhedos.",                                                       a:"86 Rue Grande, 06570 Saint-Paul-de-Vence",  p:"+33 4 93 32 65 25", pr:"€€€€"},
-  ]},
-  {region:"Sul — Côte d'Azur", city:"Saint-Tropez", restaurants:[
-    {n:"L'Opéra — Dining Club",    q:"Francesa Contemporânea", d:"O club gastronómico mais exclusivo de Saint-Tropez, com uma cozinha de autor e uma lista de vinhos excecional num ambiente de glamour e discrição. A mesa favorita da alta sociedade do sul de França.",                                   a:"Saint-Tropez, 83990 Var",                   p:"+33 4 94 97 00 00", pr:"€€€€"},
-    {n:"Club 55",                  q:"Beach Club",             d:"A lenda das praias de Saint-Tropez desde 1955, onde Brigitte Bardot e a jet-set internacional se sentaram à mesa. Peixe grelhado, saladas e rosé de Provence sobre a areia de Pampelonne.",                                               a:"43 Bd Patch, 83350 Ramatuelle",             p:"+33 4 94 55 55 55", pr:"€€€€"},
-    {n:"Au Caprice des Deux",      q:"Francesa Tradicional",   d:"Um restaurante clássico de Saint-Tropez com uma cozinha provençal generosa e autêntica, longe do glamour e perto do produto. O favorito dos locais que fogem das praias exclusivas.",                                                     a:"Saint-Tropez, 83990 Var",                   p:"+33 4 94 97 00 00", pr:"€€€"},
-    {n:"Le Girelier",              q:"Frutos do Mar",          d:"No porto de Saint-Tropez, com vista sobre os veleiros e os yachts, Le Girelier serve os melhores frutos do mar da região numa esplanada inigualável. Um clássico do porto da vila mais glamorosa do Mediterrâneo.",                       a:"Quai Jean Jaurès, 83990 Saint-Tropez",      p:"+33 4 94 97 03 87", pr:"€€€€"},
-    {n:"Le Quai",                  q:"Frutos do Mar",          d:"Também no porto de Saint-Tropez, Le Quai é uma marisqueira de referência com lagostas, camarões e oursins servidos com elegância e frescura. Vista directa para os barcos e o porto histórico.",                                         a:"Quai de l'Épi, 83990 Saint-Tropez",        p:"+33 4 94 97 04 13", pr:"€€€€"},
-    {n:"Cheval Blanc",             q:"Alta Cozinha Francesa",  d:"O restaurante do hotel mais luxuoso de Saint-Tropez com três estrelas Michelin, onde o chef Arnaud Donckele eleva os produtos do Mediterrâneo a uma expressão gastronómica de nível absoluto. Uma experiência sem igual.",               a:"Port de Saint-Tropez, 83990 Saint-Tropez",  p:"+33 4 94 55 91 00", pr:"€€€€", m:3},
-    {n:"Beef Bar",                 q:"Carnes & Grelhados",     d:"O templo da carne premium de Saint-Tropez, com wagyu e cortes nobres grelhados num ambiente glamoroso e animado. O endereço das noites de verão na capital da Côte d'Azur.",                                                             a:"Saint-Tropez, 83990 Var",                   p:"+33 4 94 97 00 00", pr:"€€€€"},
-    {n:"Le Palmiers — Beach Club", q:"Beach Club",             d:"Um beach club histórico de Saint-Tropez com palmeiras, espreguiçadeiras e uma cozinha mediterrânea descontraída. Ambiente de dolce vita e verão eterno.",                                                                                  a:"Plage de Pampelonne, 83350 Ramatuelle",     p:"+33 4 94 97 00 00", pr:"€€€"},
-    {n:"Shellona — Beach Club",    q:"Beach Club",             d:"Um beach club grego em Pampelonne com mezedes, peixes grelhados e uma atmosfera de Mykonos em Saint-Tropez. O endereço mais festivo da praia mais famosa do Mediterrâneo.",                                                               a:"Plage de Pampelonne, 83350 Ramatuelle",     p:"+33 4 94 79 84 24", pr:"€€€€"},
-    {n:"Bagatelle — Beach Club",   q:"Beach Club",             d:"O beach club mais animado de Pampelonne, com música, rosé e uma cozinha mediterrânea levada. A festa começa ao almoço e dura até ao pôr do sol sobre o Mediterrâneo.",                                                                    a:"Plage de Pampelonne, 83350 Ramatuelle",     p:"+33 4 94 79 80 00", pr:"€€€€"},
-  ]},
-  {region:"Sul — Côte d'Azur", city:"Bormes-les-Mimosas", restaurants:[
-    {n:"Le Gaou — L'Estagnol",     q:"Frutos do Mar",          d:"Numa enseada escondida de Bormes-les-Mimosas acessível apenas de barco ou a pé, L'Estagnol serve peixe grelhado e frutos do mar com os pés na água num ambiente de paraíso secreto. A mesa mais difícil de chegar e mais fácil de amar.", a:"Île du Gaou, 83230 Bormes-les-Mimosas",     p:"+33 4 94 64 81 16", pr:"€€€"},
-  ]},
+<nav class="top-nav">
+  <a href="index.html" class="back-link">← Todos os Países</a>
+  <span class="nav-sep">·</span>
+  <span class="nav-current">🇫🇷 França</span>
+</nav>
+
+<header class="country-hero">
+  <span class="country-flag-large">🇫🇷</span>
+  <div class="country-name">Fran<em>ça</em></div>
+  <div class="country-tagline">Bordeaux · Paris · Saint-Tropez · Lyon · Reims · Borgonha · Nice</div>
+  <div class="header-orn">
+    <div class="orn-line"></div>
+    <div class="orn-diamond"></div>
+    <div class="orn-line r"></div>
+  </div>
+  <div class="brand-ref">curadoria <a href="index.html">Na Mesa com Luli Dias</a></div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">104</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">★★★ Michelin</div></div>
+  <div class="stat"><div class="stat-num">4</div><div class="stat-lbl">★★ Michelin</div></div>
+  <div class="stat"><div class="stat-num">9</div><div class="stat-lbl">★ Michelin</div></div>
+</div>
+
+<div class="michelin-legend">
+  <span class="legend-title">Guia Michelin:</span>
+  <span class="legend-badge lm3">★★★ 3 Estrelas</span>
+  <span class="legend-badge lm2">★★ 2 Estrelas</span>
+  <span class="legend-badge lm1">★ 1 Estrela</span>
+  <span class="legend-badge lbib">😋 Bib Gourmand</span>
+  <span class="legend-badge lrec">📖 Recomendado</span>
+</div>
+
+<main id="main"></main>
+
+<footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Na Mesa com Luli Dias</p></footer>
+
+<script>
+const REGIONS = [
+  {
+    name: 'Bordeaux & Gironde',
+    cities: [
+      {
+        city: 'Bordeaux',
+        restaurants: [
+          {n:'La Tupina', c:'Francesa Tradicional · Pato & Carnes', a:'6 Rue Porte de la Monnaie, Bordeaux', t:'+33 5 56 91 56 37', photo:'fotos/franca/la-tupina.jpg'},
+          {n:'Le Noailles', c:'Francesa · Escargot & Pato', a:'12 Allée de Tourny, Bordeaux', t:'+33 5 56 81 94 45', photo:'fotos/franca/le-noailles.jpg'},
+          {n:'Le Pressoir d\'Argent', c:'Francesa de Autor · Gordon Ramsay', a:'2-5 Pl. de la Comédie, Bordeaux', t:'+33 5 57 30 44 44', michelin:'m2', note:'2 Estrelas Michelin · Gordon Ramsay', photo:'fotos/franca/le-pressoir-dargent.jpg'},
+          {n:'Brasserie Bordelaise', c:'Francesa Tradicional', a:'50 Rue Saint-Rémi, Bordeaux', t:'+33 5 57 87 11 91', photo:'fotos/franca/brasserie-bordelaise.jpg'},
+          {n:'St James Bouliac', c:'Francesa Criativa', a:'3 Pl. Camille Hostein, Bouliac', t:'+33 5 57 97 06 00', michelin:'m1', note:'1 Estrela Michelin', photo:'fotos/franca/st-james-bouliac.jpg'},
+          {n:'Le 7', c:'Francesa · Vista do Rio', a:'23 Quai des Chartrons, Bordeaux', t:'+33 5 56 77 50 77', photo:'fotos/franca/le-7.jpg'},
+          {n:'Le 1925', c:'Francesa · Escargot · Ostras · Pato', a:'Bordeaux', t:'', photo:'fotos/franca/'},
+          {n:'La Coluche', c:'Kebab & Sandwiches', a:'Bordeaux', t:'', photo:'fotos/franca/'},
+          {n:'Le Gabriel', c:'Francesa de Autor', a:'10 Pl. de la Bourse, Bordeaux', t:'+33 5 56 30 00 80', michelin:'m1', note:'1 Estrela Michelin', photo:'fotos/franca/le-gabriel.jpg'},
+          {n:'Ressources', c:'Francesa Contemporânea', a:'Bordeaux', t:'', michelin:'m1', note:'1 Estrela Michelin', photo:'fotos/franca/'},
+          {n:'Le Chapon Fin', c:'Francesa Clássica', a:'5 Rue Montesquieu, Bordeaux', t:'+33 5 56 79 10 10', photo:'fotos/franca/le-chapon-fin.jpg'},
+          {n:'Tentazioni', c:'Italiana', a:'Bordeaux', t:'', michelin:'m1', note:'1 Estrela Michelin', next:true, photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Lormont',
+        restaurants: [
+          {n:'Le Prince Noir', c:'Francesa Criativa', a:'1 Rue du Prince Noir, Lormont', t:'+33 5 56 06 12 52', michelin:'m1', note:'1 Estrela Michelin · Chef Vivien Durand', photo:'fotos/franca/le-prince-noir.jpg'},
+        ]
+      },
+      {
+        city: 'Martillac',
+        restaurants: [
+          {n:'La Grand\'Vigne', c:'Francesa de Autor', a:'Les Sources de Caudalie, Martillac', t:'+33 5 57 83 83 83', michelin:'m2', note:'2 Estrelas Michelin', photo:'fotos/franca/la-grand-vigne.jpg'},
+          {n:'La Table de Lavoir', c:'Francesa Brasserie', a:'Les Sources de Caudalie, Martillac', t:'+33 5 57 83 83 83', photo:'fotos/franca/la-table-de-lavoir.jpg'},
+        ]
+      },
+      {
+        city: 'Sauternes',
+        restaurants: [
+          {n:'La Chapelle', c:'Francesa', a:'Sauternes', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Artigues-près-de-Bordeaux',
+        restaurants: [
+          {n:'Château Fage — La Maison de Vignes', c:'Francesa · Vinho', a:'Artigues-près-de-Bordeaux', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Saint-Émilion',
+        restaurants: [
+          {n:'Logis de la Cadène', c:'Francesa de Autor', a:'3 Pl. du Marché au Bois, Saint-Émilion', t:'+33 5 57 24 71 40', michelin:'m1', note:'1 Estrela Michelin', photo:'fotos/franca/logis-de-la-cadene.jpg'},
+          {n:'L\'Envers du Décor', c:'Francesa Tradicional · Escargot & Pato', a:'11 Rue du Clocher, Saint-Émilion', t:'+33 5 57 74 48 31', photo:'fotos/franca/lenvers-du-decor.jpg'},
+          {n:'À La Terrasse Rouge', c:'Francesa Contemporânea', a:'Château La Dominique, Saint-Émilion', t:'+33 5 57 24 47 05', photo:'fotos/franca/a-la-terrasse-rouge.jpg'},
+          {n:'Petit Faurie de Soutard', c:'Francesa', a:'Saint-Émilion', t:'', photo:'fotos/franca/'},
+          {n:'Atelier de Candale', c:'Francesa', a:'Saint-Émilion', t:'', photo:'fotos/franca/'},
+          {n:'La Table de Pavie', c:'Francesa de Autor', a:'Château Pavie, Saint-Émilion', t:'+33 5 57 55 43 43', michelin:'m2', note:'2 Estrelas Michelin', photo:'fotos/franca/la-table-de-pavie.jpg'},
+          {n:'Les Belles Perdrix', c:'Francesa de Autor', a:'Château Troplong Mondot, Saint-Émilion', t:'+33 5 57 55 37 37', michelin:'m1', note:'1 Estrela Michelin', photo:'fotos/franca/les-belles-perdrix.jpg'},
+          {n:'Le Jardin de Soutard', c:'Francesa', a:'Saint-Émilion', t:'', photo:'fotos/franca/'},
+          {n:'Café Saigon', c:'Vietnamita', a:'Saint-Émilion', t:'', photo:'fotos/franca/'},
+          {n:'Le Tertre', c:'Francesa', a:'Saint-Émilion', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Saint-Jean-de-Blaignac',
+        restaurants: [
+          {n:'Auberge Saint Jean', c:'Francesa Regional', a:'Saint-Jean-de-Blaignac', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Brane',
+        restaurants: [
+          {n:'Caffé Cousine', c:'Francesa', a:'Brane', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Saint-Julien',
+        restaurants: [
+          {n:'Le Saint Julien', c:'Francesa · Médoc', a:'Saint-Julien-Beychevelle', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Saint-Estèphe',
+        restaurants: [
+          {n:'Maison d\'Estournel', c:'Francesa · Château Cos d\'Estournel', a:'Saint-Estèphe', t:'+33 5 56 73 15 50', photo:'fotos/franca/maison-destournel.jpg'},
+        ]
+      },
+      {
+        city: 'Pauillac',
+        restaurants: [
+          {n:'Lavinal', c:'Brasserie Francesa · Escargot & Pato', a:'Bages, Pauillac', t:'+33 5 57 75 00 09', photo:'fotos/franca/lavinal.jpg'},
+        ]
+      },
+      {
+        city: 'Pomerol',
+        restaurants: [
+          {n:'La Table de Catusseau', c:'Francesa Tradicional', a:'Pomerol', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Arcachon',
+        restaurants: [
+          {n:'La Corniche', c:'Ostras & Peixe', a:'46 Av. Louis Gaume, Pyla-sur-Mer', t:'+33 5 56 22 72 11', photo:'fotos/franca/la-corniche.jpg'},
+        ]
+      },
+    ]
+  },
+  {
+    name: 'Paris',
+    cities: [
+      {
+        city: 'Paris',
+        restaurants: [
+          {n:'Allard', c:'Francesa Bistrô · Pato', a:'41 Rue Saint-André des Arts, Paris', t:'+33 1 43 26 48 23', photo:'fotos/franca/allard.jpg'},
+          {n:'La Fontaine de Mars', c:'Francesa · Escargot & Pato', a:'129 Rue Saint-Dominique, Paris', t:'+33 1 47 05 46 44', photo:'fotos/franca/la-fontaine-de-mars.jpg'},
+          {n:'Benoît', c:'Bistrô Parisiense', a:'20 Rue Saint-Martin, Paris', t:'+33 1 42 72 25 76', michelin:'m1', note:'1 Estrela Michelin', photo:'fotos/franca/benoit.jpg'},
+          {n:'Beef Bar', c:'Carnes', a:'5 Rue Marbeuf, Paris', t:'+33 1 45 61 00 04', photo:'fotos/franca/beef-bar-paris.jpg'},
+          {n:'Atelier de Joël Robuchon', c:'Francesa de Autor', a:'5 Rue de Montalembert, Paris', t:'+33 1 42 22 56 56', michelin:'m1', note:'1 Estrela Michelin', photo:'fotos/franca/atelier-joel-robuchon.jpg'},
+          {n:'Café de la Paix', c:'Brasserie Clássica · Cebola & Sopa', a:'5 Pl. de l\'Opéra, Paris', t:'+33 1 40 07 36 36', photo:'fotos/franca/cafe-de-la-paix.jpg'},
+          {n:'Aux Lyonnais', c:'Bistrô Lionês', a:'32 Rue Saint-Marc, Paris', t:'+33 1 42 96 65 04', photo:'fotos/franca/aux-lyonnais.jpg'},
+          {n:'Le Stresa', c:'Italiana', a:'7 Rue Chambiges, Paris', t:'+33 1 47 23 51 62', photo:'fotos/franca/le-stresa.jpg'},
+          {n:'Gigi', c:'Italiana', a:'Paris', t:'', photo:'fotos/franca/'},
+          {n:'Coco', c:'Francesa', a:'Paris', t:'', photo:'fotos/franca/'},
+          {n:'Mimosa', c:'Francesa', a:'Paris', t:'', photo:'fotos/franca/'},
+          {n:'Bonnie', c:'Francesa', a:'Paris', t:'', photo:'fotos/franca/'},
+          {n:'Le Pavyllon', c:'Francesa Contemporânea', a:'756 Av. de France, Paris', t:'+33 1 58 10 37 00', michelin:'m1', note:'1 Estrela Michelin · Chef Yannick Alléno', photo:'fotos/franca/le-pavyllon.jpg'},
+          {n:'Chez Andrés', c:'Francesa', a:'Paris', t:'', photo:'fotos/franca/'},
+          {n:'Bistrô des Fables', c:'Bistrô Parisiense', a:'Paris', t:'', photo:'fotos/franca/'},
+          {n:'Madame Fan', c:'Chinesa', a:'Paris', t:'', photo:'fotos/franca/'},
+          {n:'Brasserie La Lorraine', c:'Brasserie Francesa', a:'2 Pl. des Ternes, Paris', t:'+33 1 56 21 22 00', photo:'fotos/franca/brasserie-la-lorraine.jpg'},
+          {n:'La Pépinière', c:'Francesa', a:'Paris', t:'', photo:'fotos/franca/'},
+          {n:'Le Grand Café', c:'Brasserie 24h', a:'4 Bd des Capucines, Paris', t:'+33 1 43 12 19 00', photo:'fotos/franca/le-grand-cafe.jpg'},
+          {n:'Bofinger', c:'Brasserie Alsaciana', a:'5-7 Rue de la Bastille, Paris', t:'+33 1 42 72 87 82', photo:'fotos/franca/bofinger.jpg'},
+          {n:'Lasserre', c:'Francesa Clássica', a:'17 Av. Franklin D. Roosevelt, Paris', t:'+33 1 43 59 02 13', next:true, photo:'fotos/franca/'},
+          {n:'La Lagosterie', c:'Francesa', a:'Paris', t:'', next:true, photo:'fotos/franca/'},
+          {n:'L\'Oiseau Blanc — The Peninsula', c:'Francesa · Vista da Torre Eiffel', a:'19 Av. Kléber, Paris', t:'+33 1 58 12 28 88', next:true, photo:'fotos/franca/'},
+          {n:'Ducasse sur Seine', c:'Francesa · Cruzeiro no Sena', a:'Port Debilly, Paris', t:'+33 1 58 00 22 08', next:true, photo:'fotos/franca/'},
+          {n:'Le Tram Bleu', c:'Brasserie Histórica', a:'Gare de Lyon, Paris', t:'+33 1 43 43 09 06', next:true, photo:'fotos/franca/'},
+          {n:'La Poule au Pot', c:'Francesa Clássica', a:'9 Rue Vauvilliers, Paris', t:'+33 1 42 36 32 96', next:true, photo:'fotos/franca/'},
+        ]
+      },
+    ]
+  },
+  {
+    name: 'Reims & Champagne',
+    cities: [
+      {
+        city: 'Reims',
+        restaurants: [
+          {n:'Le Parc Les Crayères', c:'Francesa de Autor', a:'64 Bd Henry Vasnier, Reims', t:'+33 3 26 24 90 90', michelin:'m2', note:'2 Estrelas Michelin', photo:'fotos/franca/le-parc-les-crayeres.jpg'},
+          {n:'Le Jardin Les Crayères', c:'Brasserie Elegante', a:'64 Bd Henry Vasnier, Reims', t:'+33 3 26 24 90 90', photo:'fotos/franca/le-jardin-les-crayeres.jpg'},
+          {n:'Le Crypto', c:'Francesa', a:'Reims', t:'', photo:'fotos/franca/'},
+          {n:'Le Millénaire', c:'Francesa Contemporânea', a:'4-6 Rue Bertin, Reims', t:'+33 3 26 08 26 62', photo:'fotos/franca/le-millenaire.jpg'},
+          {n:'Brasserie Le Boulingrin', c:'Brasserie Art Deco', a:'48 Rue de Mars, Reims', t:'+33 3 26 40 96 22', photo:'fotos/franca/brasserie-le-boulingrin.jpg'},
+        ]
+      },
+    ]
+  },
+  {
+    name: 'Metz & Alsácia',
+    cities: [
+      {
+        city: 'Metz',
+        restaurants: [
+          {n:'La Réserve', c:'Francesa', a:'Metz', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Strasbourg',
+        restaurants: [
+          {n:'Au Pont Corbeau', c:'Alsaciana', a:'21 Quai Saint-Nicolas, Strasbourg', t:'+33 3 88 35 60 68', photo:'fotos/franca/au-pont-corbeau.jpg'},
+          {n:'Chez Yvonne', c:'Alsaciana Tradicional', a:'10 Rue du Sanglier, Strasbourg', t:'+33 3 88 32 84 15', photo:'fotos/franca/chez-yvonne.jpg'},
+          {n:'La Petite Alsace — Tarte Flambée', c:'Alsaciana · Tarte Flambée', a:'Strasbourg', t:'', photo:'fotos/franca/'},
+        ]
+      },
+    ]
+  },
+  {
+    name: 'Beaujolais & Lyon',
+    cities: [
+      {
+        city: 'Saint-Amour — Beaujolais',
+        restaurants: [
+          {n:'Lucienne fait des siennes', c:'Francesa Bistrô', a:'Saint-Amour-Bellevue', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Vaux-en-Beaujolais',
+        restaurants: [
+          {n:'L\'Échanson', c:'Francesa Regional', a:'Vaux-en-Beaujolais', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Lyon',
+        restaurants: [
+          {n:'Paul Bocuse', c:'Francesa Clássica · Grande Maison', a:'40 Rue de la Plage, Collonges-au-Mont-d\'Or', t:'+33 4 72 42 90 90', michelin:'m3', note:'3 Estrelas Michelin · A Maior Mesa da França', photo:'fotos/franca/paul-bocuse.jpg'},
+          {n:'Les Halles de Lyon — Paul Bocuse', c:'Mercado Gastronômico', a:'102 Cours Lafayette, Lyon', t:'+33 4 78 62 39 33', note:'O melhor mercado gastronômico da França', photo:'fotos/franca/les-halles-de-lyon.jpg'},
+        ]
+      },
+    ]
+  },
+  {
+    name: 'Borgonha',
+    cities: [
+      {
+        city: 'Beaune',
+        restaurants: [
+          {n:'Caveau des Arches', c:'Borgonhesa · Boeuf Bourguignon', a:'10 Bd Perpreuil, Beaune', t:'+33 3 80 22 10 37', note:'O melhor Boeuf Bourguignon', photo:'fotos/franca/caveau-des-arches.jpg'},
+          {n:'Bistrot du Bord de L\'Eau', c:'Francesa Bistrô', a:'Beaune', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Gevrey-Chambertin',
+        restaurants: [
+          {n:'Rôtisserie Le Chambertin', c:'Borgonhesa', a:'Gevrey-Chambertin', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Vougeot',
+        restaurants: [
+          {n:'Au Creux de Vougeot', c:'Borgonhesa', a:'Vougeot', t:'', photo:'fotos/franca/'},
+        ]
+      },
+    ]
+  },
+  {
+    name: 'Languedoc & Provence',
+    cities: [
+      {
+        city: 'Carcassonne',
+        restaurants: [
+          {n:'La Demeure du Cassoulet', c:'Languedociana · Cassoulet', a:'Carcassonne', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Montpellier',
+        restaurants: [
+          {n:'L\'Artichaut', c:'Francesa Criativa', a:'6 Rue Petite Loge, Montpellier', t:'+33 4 67 67 02 65', photo:'fotos/franca/lartichaut.jpg'},
+          {n:'La Canourgue', c:'Francesa', a:'Montpellier', t:'', photo:'fotos/franca/'},
+          {n:'Leclère', c:'Francesa Contemporânea', a:'Montpellier', t:'', michelin:'m1', note:'1 Estrela Michelin', photo:'fotos/franca/'},
+          {n:'Anga — Beaulieu', c:'Francesa Criativa', a:'Montpellier', t:'', photo:'fotos/franca/'},
+          {n:'Halles de Lez', c:'Mercado Gastronômico', a:'Rue du Millénaire, Montpellier', t:'', note:'Mercado gastronômico', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Nîmes',
+        restaurants: [
+          {n:'La Table de 2', c:'Francesa', a:'Nîmes', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Sorgues',
+        restaurants: [
+          {n:'La Table de Sorgues', c:'Francesa', a:'Sorgues', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Châteauneuf-du-Pape',
+        restaurants: [
+          {n:'La Mère Germaine', c:'Provençal · Vinho', a:'3 Rue du Commandant Lemasson, Châteauneuf-du-Pape', t:'+33 4 90 83 54 37', michelin:'m1', note:'1 Estrela Michelin', photo:'fotos/franca/la-mere-germaine.jpg'},
+          {n:'La Verge des Papes', c:'Provençal', a:'Châteauneuf-du-Pape', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Frontignan',
+        restaurants: [
+          {n:'Poisson Rouge', c:'Peixe & Frutos do Mar', a:'Frontignan', t:'', photo:'fotos/franca/'},
+        ]
+      },
+    ]
+  },
+  {
+    name: 'Marseille & Côte d\'Azur',
+    cities: [
+      {
+        city: 'Marseille',
+        restaurants: [
+          {n:'Les Fenêtres', c:'Francesa Contemporânea', a:'Marseille', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Nice',
+        restaurants: [
+          {n:'La Réserve de Nice', c:'Francesa · Vista Mar', a:'Nice', t:'', photo:'fotos/franca/'},
+          {n:'Comptoir du Marché', c:'Francesa Bistrô', a:'8 Rue du Marché, Nice', t:'+33 4 93 13 45 01', photo:'fotos/franca/comptoir-du-marche.jpg'},
+          {n:'Chez Davia', c:'Francesa Regional', a:'11 Bis Rue Grimaldi, Nice', t:'+33 4 93 85 51 61', photo:'fotos/franca/chez-davia.jpg'},
+          {n:'Acqua & Farina', c:'Pizza Italiana', a:'Nice', t:'', photo:'fotos/franca/'},
+          {n:'Miamici', c:'Italiana', a:'Nice', t:'', photo:'fotos/franca/'},
+          {n:'Le Victor Hugo', c:'Francesa Brasserie', a:'Nice', t:'', photo:'fotos/franca/'},
+          {n:'Iskender Kebab', c:'Turca', a:'Nice', t:'', photo:'fotos/franca/'},
+          {n:'Blue Beach', c:'Praia · Mediterrânea', a:'Promenade des Anglais, Nice', t:'+33 4 93 97 90 10', note:'Beach club', photo:'fotos/franca/blue-beach.jpg'},
+          {n:'Bela Baieta', c:'Niçoise · Praia', a:'Nice', t:'', note:'Beach club', photo:'fotos/franca/'},
+          {n:'Onakaya', c:'Japonesa', a:'Nice', t:'', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Saint-Paul-de-Vence',
+        restaurants: [
+          {n:'Le Jilleut', c:'Francesa', a:'Saint-Paul-de-Vence', t:'', photo:'fotos/franca/'},
+          {n:'Le Saint Paul', c:'Francesa de Autor', a:'86 Rue Grande, Saint-Paul-de-Vence', t:'+33 4 93 32 65 25', photo:'fotos/franca/le-saint-paul.jpg'},
+        ]
+      },
+    ]
+  },
+  {
+    name: 'Saint-Tropez & Var',
+    cities: [
+      {
+        city: 'Saint-Tropez',
+        restaurants: [
+          {n:'La Vague d\'Or — Cheval Blanc', c:'Francesa de Autor · Mediterrânea', a:'Plage de la Bouillabaisse, Saint-Tropez', t:'+33 4 94 55 91 00', michelin:'m3', note:'3 Estrelas Michelin · Chef Arnaud Donckele', photo:'fotos/franca/la-vague-dor.jpg'},
+          {n:'L\'Opéra — Dining Club', c:'Francesa · Club', a:'Saint-Tropez', t:'', photo:'fotos/franca/'},
+          {n:'Club 55', c:'Francesa · Praia Histórica', a:'43 Bd Patch, Ramatuelle', t:'+33 4 94 55 55 55', note:'O beach club mais famoso de Saint-Tropez', photo:'fotos/franca/club-55.jpg'},
+          {n:'Au Caprice des Deux', c:'Francesa', a:'Saint-Tropez', t:'', photo:'fotos/franca/'},
+          {n:'Le Girelier', c:'Peixe & Mariscos', a:'Quai Jean Jaurès, Saint-Tropez', t:'+33 4 94 97 03 87', photo:'fotos/franca/le-girelier.jpg'},
+          {n:'Le Quai', c:'Peixe & Mariscos', a:'Quai Frédéric Mistral, Saint-Tropez', t:'+33 4 94 97 04 13', photo:'fotos/franca/le-quai.jpg'},
+          {n:'Beef Bar', c:'Carnes', a:'Saint-Tropez', t:'', photo:'fotos/franca/'},
+          {n:'Le Palmiers — Beach Club', c:'Mediterrânea · Praia', a:'Saint-Tropez', t:'', note:'Beach club', photo:'fotos/franca/'},
+          {n:'Shellona — Beach Club', c:'Mediterrânea · Praia', a:'Saint-Tropez', t:'', note:'Beach club', photo:'fotos/franca/'},
+          {n:'Bagatelle — Beach Club', c:'Mediterrânea · Praia', a:'Saint-Tropez', t:'', note:'Beach club', photo:'fotos/franca/'},
+        ]
+      },
+      {
+        city: 'Bormes-les-Mimosas',
+        restaurants: [
+          {n:'Le E\'stagnol', c:'Peixe & Mariscos', a:'Bormes-les-Mimosas', t:'', photo:'fotos/franca/'},
+        ]
+      },
+    ]
+  },
 ];
 
-function photo(q){
-  var slug = q.toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-  return 'https://lulidias.github.io/na-mesa-com-luli-dias/fotos/franca/' + slug + '.jpg';
+const ML = {
+  m3:'★★★ 3 Estrelas', m2:'★★ 2 Estrelas', m1:'★ 1 Estrela',
+  bib:'😋 Bib Gourmand', rec:'📖 Michelin'
+};
+
+function imgTag(r) {
+  if (!r.photo || r.photo.endsWith('/')) {
+    const e = r.c.includes('Peixe')||r.c.includes('Mariscos')||r.c.includes('Ostras') ? '🦞'
+      : r.c.includes('Carnes')||r.c.includes('Boeuf') ? '🥩'
+      : r.c.includes('Italiana') ? '🍝'
+      : r.c.includes('Japonesa') ? '🍣'
+      : r.c.includes('Praia')||r.c.includes('Beach') ? '🏖'
+      : '🍽';
+    return `<div class="rest-photo-placeholder">${e}</div>`;
+  }
+  return `<img class="rest-photo" src="${r.photo}" alt="${r.n}" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div class=\\'rest-photo-placeholder\\'>🍽</div>')">`;
 }
 
-function buildCard(r){
-  const badges=[r.m>0?`<span class="badge badge-m">★ Michelin ×${r.m}</span>`:'',r.h?`<span class="badge badge-h">Hospedagem</span>`:''].filter(Boolean).join('');
-  return `<div class="card" onclick="toggleCard(this)">
-    <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80'"></div>
-    <div class="card-body">
-      <div class="card-top"><div class="card-name">${r.n}</div><div class="card-price">${r.pr}</div></div>
-      <div class="card-cuisine">${r.q}</div>
-      ${badges?`<div class="card-badges">${badges}</div>`:''}
-      <div class="card-desc">${r.d}</div>
-      <div class="card-footer">
-        <div class="card-contact">
-          <div class="c-row"><span class="c-icon">📍</span><span class="c-text">${r.a}</span></div>
-          <div class="c-row"><span class="c-icon">📞</span><span class="c-text">${r.p}</span></div>
-        </div>
-        ${r.nt?`<div class="card-note">✦ ${r.nt}</div>`:''}
+function buildCity(city) {
+  const visible = city.restaurants.filter(r => !r.next);
+  let html = `<div class="city-section">
+    <div class="city-header">
+      <div class="city-line-l"></div>
+      <div>
+        <div class="city-name">${city.city}</div>
+        <div class="city-count">${visible.length} restaurante${visible.length!==1?'s':''}</div>
       </div>
-      <div class="card-toggle">▼ detalhes</div>
+      <div class="city-line-r"></div>
     </div>
-  </div>`;
-}
-
-function render(regionFilter){
-  const groups={};
-  DATA.forEach(e=>{if(!groups[e.region])groups[e.region]=[];groups[e.region].push(e)});
-  let html='',totalR=0,totalC=0,totalM=0;
-  const regions=Object.keys(groups);
-  // Build filters
-  const f=document.getElementById('filters');
-  f.innerHTML=`<button class="filter-btn ${!regionFilter?'active':''}" onclick="render(null)">Todas</button>`+
-    regions.map(r=>`<button class="filter-btn ${regionFilter===r?'active':''}" onclick="render('${r}')">${r.split('—')[1]||r}</button>`).join('');
-  for(const [reg,entries] of Object.entries(groups)){
-    if(regionFilter&&reg!==regionFilter)continue;
-    let cities='';
-    entries.forEach(e=>{
-      totalC++;totalR+=e.restaurants.length;e.restaurants.forEach(r=>totalM+=(r.m||0));
-      cities+=`<div class="city-sec">
-        <div class="city-hdr">
-          <div class="city-ghost">${e.city}</div>
-          <div class="city-inner">
-            <div class="city-left">
-              <span class="city-region-lbl">${reg.split('—')[1]||reg}</span>
-              <h2 class="city-name">${e.city}</h2>
-              <div class="city-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
-            </div>
-            <div class="city-count"><div class="city-count-num">${e.restaurants.length}</div><div class="city-count-lbl">restaurante${e.restaurants.length!==1?'s':''}</div></div>
+    <div class="restaurants">`;
+  city.restaurants.forEach(r => {
+    html += `<div class="restaurant">
+      ${imgTag(r)}
+      <div class="rest-info">
+        <div class="rest-top">
+          <div class="rest-name">${r.n}</div>
+          <div class="rest-badges">
+            ${r.michelin ? `<span class="badge b${r.michelin}">${ML[r.michelin]}</span>` : ''}
+            ${r.next ? `<span class="badge bnext">a experimentar</span>` : ''}
           </div>
         </div>
-        <div class="grid">${e.restaurants.map(buildCard).join('')}</div>
-      </div>`;
-    });
-    html+=`<div><div class="region-div"><div class="rd-l"></div><span class="rd-name">${reg}</span><div class="rd-r"></div></div>${cities}</div>`;
-  }
-  document.getElementById('main').innerHTML=html;
-  document.getElementById('s1').textContent=totalR;
-  document.getElementById('s2').textContent=totalC;
-  document.getElementById('s3').textContent=totalM;
-  document.getElementById('hdr-count').textContent=`${totalR} restaurantes · ${totalC} cidades`;
+        <div class="rest-cuisine">${r.c}</div>
+        ${r.a ? `<div class="rest-meta">${r.a}</div>` : ''}
+        ${r.t ? `<div class="rest-phone">${r.t}</div>` : ''}
+        ${r.note ? `<div class="rest-note">${r.note}</div>` : ''}
+      </div>
+    </div>`;
+  });
+  html += `</div></div>`;
+  return html;
 }
 
-function toggleCard(card){
-  const open=card.classList.toggle('open');
-  const t=card.querySelector('.card-toggle');
-  if(t)t.textContent=open?'▲ fechar':'▼ detalhes';
+function buildRegion(region) {
+  return `<div class="region-div"><div class="rd-l"></div><span class="rd-name">${region.name}</span><div class="rd-r"></div></div>
+    ${region.cities.map(buildCity).join('')}`;
 }
 
-render(null);
+document.getElementById('main').innerHTML = REGIONS.map(buildRegion).join('');
 </script>
 </body>
 </html>
