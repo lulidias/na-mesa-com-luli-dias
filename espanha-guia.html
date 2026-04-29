@@ -3,247 +3,280 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Na Mesa com Luli Dias — Espanha</title>
+<title>Espanha — Na Mesa com Luli Dias</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-md:#4A4A4A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5}
-body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;min-height:100vh}
-header{background:var(--white);border-bottom:1px solid var(--border);padding:28px 24px 24px;display:flex;align-items:flex-start;justify-content:space-between}
-.brand-pre{font-size:7px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:6px}
-.brand-main{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);line-height:1.15}
-.brand-main em{font-style:italic;color:var(--gold)}
-.brand-sub{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-top:6px;font-weight:300}
-.hdr-right{text-align:right;padding-top:4px}
-.hdr-flag{font-size:24px;margin-bottom:4px}
-.hdr-count{font-size:8px;letter-spacing:2px;color:var(--ink-lt);font-weight:300}
-.stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex}
-.stat{flex:1;text-align:center;border-right:1px solid var(--border)}
+:root{--cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-dk:#8B6914;--gold-bg:#FAF5EB;--border:#E8E0D5;--card-bg:#FFF;}
+html,body{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;}
+.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;gap:10px}
+.back-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:500}
+.back-link:hover{color:var(--ink)}
+.nav-sep{color:var(--border)}
+.nav-current{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:44px 48px 32px}
+.brand-line{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.brand-prefix{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--ink-lt);line-height:1.1}
+.brand-name{font-family:'Playfair Display',serif;font-size:46px;font-weight:400;line-height:1.1}
+.brand-name em{font-style:italic;color:var(--gold)}
+.brand-country{font-family:'Playfair Display',serif;font-size:30px;font-weight:400;color:var(--ink-lt);font-style:italic;margin-bottom:20px}
+.header-orn{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.orn-line{height:1px;width:48px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+.header-meta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.header-meta{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs)}
+.header-edition{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+.stats-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;flex-wrap:wrap}
+.stat{padding:0 28px;border-right:1px solid var(--border);text-align:center}
+.stat:first-child{padding-left:0}
 .stat:last-child{border-right:none}
-.stat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
-.stat-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:2px}
-.filters{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.filters::-webkit-scrollbar{display:none}
-.filter-btn{padding:5px 14px;font-size:7px;letter-spacing:2px;text-transform:uppercase;font-weight:600;white-space:nowrap;background:transparent;color:var(--ink-lt);border:1px solid var(--border);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s}
-.filter-btn.active,.filter-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
-main{padding:20px 24px 60px}
-.region-div{display:flex;align-items:center;gap:16px;margin:8px -24px 16px;padding:14px 24px;background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.rd-l{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
-.rd-r{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
-.rd-name{font-size:7px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);font-weight:700;white-space:nowrap}
-.city-sec{margin-bottom:32px}
-.city-hdr{position:relative;overflow:hidden;padding:24px 24px 20px;margin:0 -24px 16px;background:var(--white);border-bottom:1px solid var(--border)}
-.city-ghost{position:absolute;right:-6px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(184,146,42,.055);pointer-events:none;white-space:nowrap;line-height:1;letter-spacing:-3px}
-.city-inner{position:relative;display:flex;align-items:flex-end;justify-content:space-between}
-.city-left{display:flex;flex-direction:column;gap:6px}
-.city-region-lbl{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px}
-.city-region-lbl::before{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
-.city-name{font-family:'Playfair Display',serif;font-size:38px;font-weight:400;color:var(--ink);letter-spacing:-0.5px;line-height:1}
-.city-orn{display:flex;align-items:center;gap:6px;margin-top:2px}
-.orn-line{height:1px;width:22px;background:linear-gradient(90deg,var(--gold),transparent)}
-.orn-diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
-.city-count{text-align:right}
-.city-count-num{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);opacity:.2;line-height:1}
-.city-count-lbl{font-size:6px;letter-spacing:3px;text-transform:uppercase;color:#aaa;margin-top:2px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
-.card{background:var(--white);border-left:3px solid var(--gold-lt);cursor:pointer;transition:box-shadow .25s}
-.card:hover{box-shadow:0 4px 20px rgba(184,146,42,.12);position:relative;z-index:1}
-.card-photo-wrap{overflow:hidden;height:180px;background:var(--border)}
-.card-photo{width:100%;height:180px;object-fit:cover;display:block;transition:transform .5s}
-.card:hover .card-photo{transform:scale(1.04)}
-.card-body{padding:16px 18px 14px}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
-.card-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--ink);line-height:1.2}
-.card-price{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1px;white-space:nowrap}
-.card-cuisine{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.card-badges{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
-.badge{font-size:6px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:2px 7px;border:1px solid}
-.badge-m{color:#8B0000;border-color:rgba(139,0,0,.3);background:rgba(139,0,0,.04)}
-.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.75;color:var(--ink-lt);font-weight:300;margin-bottom:12px;display:none}
-.card.open .card-desc{display:block}
-.card-footer{padding-top:10px;border-top:1px solid var(--border)}
-.card-contact{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
-.c-row{display:flex;gap:8px;align-items:flex-start}
-.c-icon{font-size:9px;color:var(--gold);min-width:14px;line-height:1.6}
-.c-text{font-size:9px;color:var(--ink-md);font-weight:400;line-height:1.5;letter-spacing:.2px}
-.card-note{font-size:8px;font-style:italic;color:var(--ink-md);font-family:'Cormorant Garamond',serif}
-.card-toggle{text-align:right;margin-top:8px;font-size:7px;color:#aaa;letter-spacing:1px}
-footer{background:var(--white);border-top:1px solid var(--border);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;margin-top:32px}
-.ft-brand{font-family:'Playfair Display',serif;font-size:13px;color:var(--ink)}
-.ft-brand em{font-style:italic;color:var(--gold)}
-.ft-note{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#aaa}
+.stat-num{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);font-weight:600}
+.stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:2px}
+.michelin-legend{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.lbadge{font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
+.city-sec{margin-bottom:64px}
+.city-hdr{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:24px}
+.city-hdr-left{display:flex;flex-direction:column;gap:6px}
+.city-name{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--ink);letter-spacing:-1px;line-height:1}
+.city-count-block{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--gold);opacity:.25;line-height:1}
+.city-count-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-xs);margin-top:2px}
+.restaurants-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+.restaurant-card{background:var(--card-bg);overflow:hidden;border-left:3px solid var(--gold-lt);transition:box-shadow .3s}
+.restaurant-card:hover{box-shadow:0 4px 24px rgba(184,146,42,.12);z-index:1;position:relative}
+.card-photo-wrap{width:100%;height:300px;overflow:hidden;background:var(--border)}
+.card-photo{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.restaurant-card:hover .card-photo{transform:scale(1.04)}
+.card-photo-placeholder{width:100%;height:300px;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3}
+.card-body{padding:20px 22px 18px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
+.card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;margin-top:2px}
+.badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.card-meta-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.card-cuisine{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+.card-price{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:1px}
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink-lt);line-height:1.65;margin-bottom:12px}
+.card-contact{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.c-row{display:flex;align-items:flex-start;gap:8px}
+.c-icon{font-size:10px;color:var(--gold);min-width:16px;flex-shrink:0;margin-top:1px}
+.c-addr{font-size:10px;color:var(--ink-lt);cursor:pointer;line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-addr:hover{color:var(--gold)}
+.c-phone{font-size:10px;color:var(--ink-lt);line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-phone:hover{color:var(--gold)}
+.card-note{font-size:9px;color:var(--gold);font-style:italic;margin-top:8px}
+.map-modal{display:none;position:fixed;inset:0;z-index:1000;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.45)}
+.map-modal.open{display:flex}
+.map-sheet{background:var(--white);border-radius:16px 16px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(0,0,0,.18)}
+.map-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);margin-bottom:4px}
+.map-addr-txt{font-size:10px;color:var(--ink-lt);margin-bottom:22px;line-height:1.5}
+.map-options{display:flex;flex-direction:column;gap:10px}
+.map-btn{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);cursor:pointer;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:500;color:var(--ink);transition:background .15s}
+.map-btn:hover{background:var(--gold-bg)}
+.map-btn-icon{font-size:24px;width:32px;text-align:center;flex-shrink:0}
+.map-btn-sub{font-size:9px;color:var(--ink-xs);font-weight:400;display:block;margin-top:2px}
+.map-cancel{margin-top:16px;width:100%;padding:12px;border:none;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer}
+footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
+footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
+footer a{color:var(--gold);text-decoration:none}
 </style>
 </head>
 <body>
+<nav class="top-nav">
+  <a href="index.html" class="back-link">← Todos os Países</a>
+  <span class="nav-sep">·</span>
+  <span class="nav-current">Espanha</span>
+</nav>
 <header>
-  <div>
-    <p class="brand-pre">Guia Gastronômico</p>
-    <h1 class="brand-main">Na Mesa com <em>Luli Dias</em></h1>
-    <p class="brand-sub">Curadoria pessoal · Edição 2025</p>
+  <div class="brand-line">
+    <span class="brand-prefix">Na Mesa com</span>
+    <span class="brand-name"><em>Luli Dias</em></span>
   </div>
-  <div class="hdr-right">
-    <div class="hdr-flag">🇪🇸</div>
-    <p class="hdr-count" id="hdr-count">Espanha</p>
+  <div class="brand-country">Espanha</div>
+  <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+  <div class="header-meta-row">
+    <span class="header-meta">Madrid · Barcelona · San Sebastián · Galiza · La Rioja · Valladolid · León</span>
+    <span class="header-edition">Abril 2026</span>
   </div>
 </header>
-<div class="stats">
-  <div class="stat"><div class="stat-num" id="s1">—</div><div class="stat-lbl">Restaurantes</div></div>
-  <div class="stat"><div class="stat-num" id="s2">—</div><div class="stat-lbl">Cidades</div></div>
-  <div class="stat"><div class="stat-num" id="s3">—</div><div class="stat-lbl">★ Michelin</div></div>
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">40</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">9</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">4 ★</div><div class="stat-lbl">Michelin</div></div>
+</div>
+<div class="michelin-legend">
+  <span class="lbadge">★★★ 3 Estrelas</span>
+  <span class="lbadge">★★ 2 Estrelas</span>
+  <span class="lbadge">★ 1 Estrela</span>
+  <span class="lbadge">Bib Gourmand</span>
+  <span class="lbadge">Michelin</span>
+  <span class="lbadge">Hospedagem</span>
 </div>
 <div class="filters" id="filters"></div>
+<div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
+  <div class="map-sheet">
+    <div class="map-title" id="mapName"></div>
+    <div class="map-addr-txt" id="mapAddr"></div>
+    <div class="map-options">
+      <a class="map-btn" id="btnWaze" href="#" target="_blank"><span class="map-btn-icon">🗺</span><div><strong>Waze</strong><span class="map-btn-sub">Navegar com Waze</span></div></a>
+      <a class="map-btn" id="btnGoogle" href="#" target="_blank"><span class="map-btn-icon">📍</span><div><strong>Google Maps</strong><span class="map-btn-sub">Abrir no Google Maps</span></div></a>
+      <a class="map-btn" id="btnApple" href="#" target="_blank"><span class="map-btn-icon">🍎</span><div><strong>Apple Maps</strong><span class="map-btn-sub">Abrir no Apple Maps</span></div></a>
+    </div>
+    <button class="map-cancel" onclick="closeMap()">Cancelar</button>
+  </div>
+</div>
 <main id="main"></main>
-<footer>
-  <span class="ft-brand">Na Mesa com <em>Luli Dias</em></span>
-  <span class="ft-note">🇪🇸 Espanha · 2025</span>
-</footer>
+<footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Na Mesa com Luli Dias</p></footer>
 <script>
-const PHOTOS = {
-  "Tapas Espanholas":          "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Espanhola Tradicional":     "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Alta Cozinha Espanhola":    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Carnes & Grelhados":        "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
-  "Frutos do Mar":             "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80",
-  "Japonesa":                  "https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&q=80",
-  "Galega":                    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Basca":                     "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Catalana":                  "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Mercado Gastronómico":      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
-  "Paella & Arrozes":          "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Andaluza":                  "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-};
-const FB="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80";
+function openMap(name,addr){
+  const q=encodeURIComponent(name+' '+addr);
+  document.getElementById('mapName').textContent=name;
+  document.getElementById('mapAddr').textContent=addr;
+  document.getElementById('btnWaze').href='https://waze.com/ul?q='+q+'&navigate=yes';
+  document.getElementById('btnGoogle').href='https://www.google.com/maps/search/?api=1&query='+q;
+  document.getElementById('btnApple').href='https://maps.apple.com/?q='+q;
+  document.getElementById('mapModal').classList.add('open');
+}
+function closeMap(){document.getElementById('mapModal').classList.remove('open');}
 
-const DATA = [
-  {region:"Norte — Galiza", city:"Santiago de Compostela", restaurants:[
-    {n:"A Taberna do Bispo",   q:"Tapas Espanholas",       d:"Uma taberna animada de Santiago de Compostela com tapas galegas — pulpo a feira, empanada e pimientos de Padrón — servidas com albariño gelado num ambiente de pedra e vinho. O melhor início de noite na cidade do apóstolo.",              a:"Santiago de Compostela, 15700 A Coruña",   p:"+34 981 00 00 00", pr:"€€"},
-    {n:"A Lareira",            q:"Carnes & Grelhados",     d:"Um restaurante de carnes de referência em Santiago de Compostela, com chuletón de vaca galega e lacón con grelos grelhados ao lume de lenha. A cozinha galega mais robusta e genuína da cidade peregrina.",                                    a:"Santiago de Compostela, 15700 A Coruña",   p:"+34 981 00 00 00", pr:"€€€"},
-    {n:"Terra Nosa",           q:"Galega",                 d:"Uma cozinha galega contemporânea em Santiago de Compostela com os melhores frutos do mar das Rías Baixas e produtos da horta galega. Ambiente moderno e carta que celebra o terroir da Galiza com orgulho.",                                   a:"Santiago de Compostela, 15700 A Coruña",   p:"+34 981 00 00 00", pr:"€€€"},
-    {n:"A Noiesa",             q:"Galega",                 d:"Uma casa de comidas galega de alma popular em Santiago, com caldeirada, caldo galego e empanada como a avó fazia. O endereço dos peregrinos que chegam a Santiago e querem comer como os locais.",                                              a:"Santiago de Compostela, 15700 A Coruña",   p:"+34 981 00 00 00", pr:"€"},
+const CITIES=[
+  // ── GALIZA ──────────────────────────────────────────
+  {city:'Santiago de Compostela',region:'Galiza',entries:[
+    {n:'A Lareira',q:'Carnes Galegas',a:'Rúa do Franco 28, Santiago de Compostela',p:'+34 981 583 148',pr:2,d:'Restaurante de carnes galegas no coração da Zona Monumental de Santiago. Vaca rubia galega maturada, chuletón e entrecôte grelhados na brasa numa casa com décadas de história junto à Rua do Franco.'},
+    {n:'A Noiesa',q:'Casa de Comidas Galega',a:'Rúa de San Pedro 28, Santiago de Compostela',p:'+34 981 584 782',pr:1,d:'Casa de comidas galega autêntica com cozinha caseira, caldo galego, lacón con grelos e polbo á feira. O lado mais genuíno e acessível da gastronomia galega em Santiago.'},
+    {n:'A Taberna do Bispo',q:'Tapas Galegas',a:'Rúa do Franco 37, Santiago de Compostela',p:'+34 981 577 243',pr:1,d:'Taberna de tapas no animado ambiente da Rua do Franco, junto à Catedral. Pimientos de Padrón, tortilla, pulpo e empanada galega num espaço informal e muito animado ao fim do dia.'},
+    {n:'Terra Nosa',q:'Frutos do Mar',a:'Rúa do Vilar 22, Santiago de Compostela',p:'+34 981 569 101',pr:2,d:'Restaurante de frutos do mar galegos em Santiago com nécoras, percebes, amêijoas e centolla de qualidade excecional. A Galiza tem o melhor marisco do mundo e a Terra Nosa sabe aproveitá-lo.'},
   ]},
-  {region:"Norte — Galiza", city:"Vigo", restaurants:[
-    {n:"Mauro",                q:"Frutos do Mar",          d:"Uma marisqueira de referência em Vigo, com ostras, percebes e navajas das Rías Baixas servidos com uma frescura e uma qualidade inigualáveis. O endereço obrigatório numa das maiores cidades piscatórias da Europa.",                          a:"Vigo, 36200 Pontevedra",                   p:"+34 986 00 00 00", pr:"€€€"},
+  {city:'Vigo',region:'Galiza',entries:[
+    {n:'Mauro',q:'Frutos do Mar',a:'R. de Purificación Saavedra 8, Vigo',p:'+34 986 224 347',pr:2,d:'Restaurante de frutos do mar em Vigo, uma das maiores cidades pesqueiras da Europa. Ostras, percebes, nécoras e centolla chegam diretamente da ria de Vigo com uma frescura inigualável.'},
   ]},
-  {region:"Norte — Galiza", city:"Rías Baixas", restaurants:[
-    {n:"Porto dos Barcos",     q:"Frutos do Mar",          d:"Numa enseada das Rías Baixas, este restaurante serve os mariscos do estuário — mexilhões, amêijoas e percebes — directamente do viveiro para a mesa. Uma experiência de mar e de autenticidade galega.",                                       a:"Rías Baixas, Pontevedra",                  p:"+34 986 00 00 00", pr:"€€"},
-    {n:"Assador Paulo",        q:"Carnes & Grelhados",     d:"Um assador galego de referência nas Rías Baixas, com chuletón de vaca rubia galega assado em brasa de carvalho. As carnes da Galiza são únicas e o Paulo faz-lhes justiça.",                                                                   a:"Rías Baixas, Pontevedra",                  p:"+34 986 00 00 00", pr:"€€€"},
+  {city:'Rías Baixas',region:'Galiza',entries:[
+    {n:'Asador Paulo',q:'Carnes Galegas',a:'Rías Baixas, Galiza',p:'',pr:2,d:'Assador de carnes galegas nas Rías Baixas com chuletón de vaca rubia galega e cordeiro assado na brasa. Produto local de excelência numa região famosa pelo Albariño e pelos frutos do mar.'},
+    {n:'Porto dos Barcos',q:'Frutos do Mar',a:'Rías Baixas, Galiza',p:'',pr:2,d:'Restaurante de frutos do mar nas Rías Baixas com o melhor marisco da ria — percebes, navajas, amêijoas e centolla. A região produce alguns dos frutos do mar mais apreciados do mundo.'},
   ]},
-  {region:"Norte — País Basco", city:"San Sebastián", restaurants:[
-    {n:"Elkano",               q:"Frutos do Mar",          d:"Em Getaria, a casa natal de Juan Sebastián Elcano, o Elkano é um templo do peixe grelhado com uma estrela Michelin. O rodovalho (rodaballo) assado na parrilla com a sua própria gordura é um dos pratos mais memoráveis de Espanha.",        a:"Herrerieta Kalea 2, 20808 Getaria, Gipuzkoa", p:"+34 943 14 00 24", pr:"€€€€", m:1},
-    {n:"Arzak",                q:"Alta Cozinha Espanhola", d:"Uma das mesas mais icónicas do mundo, com três estrelas Michelin desde 1989. Juan Mari Arzak e a sua filha Elena reinventam a cozinha basca com uma criatividade e uma técnica que mudaram a gastronomia mundial. Uma peregrinação obrigatória.", a:"Av. Alcalde José Elosegi 273, 20015 San Sebastián", p:"+34 943 27 84 65", pr:"€€€€", m:3},
+
+  // ── CASTELA & LEÃO ──────────────────────────────────
+  {city:'Valladolid',region:'Castela & Leão',entries:[
+    {n:'Matamales',q:'Castellana',a:'C. de la Pasión 13, Valladolid',p:'+34 983 340 733',pr:2,d:'Restaurante de cozinha castellana em Valladolid com lechazo assado no forno de lenha, cordeiro e pratos tradicionais da Castela. Uma visita obrigatória na capital do vinho Ribera del Duero.'},
+    {n:'Restaurante Paramesa',q:'Tapas Castellanas',a:'C. de la Pasión 2, Valladolid',p:'+34 983 375 131',pr:2,d:'Restaurante de tapas e raciones em Valladolid com cozinha castellana contemporânea. Pinchos de cecina de León, morcilla e lechazo num ambiente elegante no centro histórico.'},
   ]},
-  {region:"Norte — La Rioja", city:"Haro", restaurants:[
-    {n:"Los Paraguas",         q:"Tapas Espanholas",       d:"Um bar de tapas clássico de Haro, capital da Rioja Alta, onde os pinchos e as tapas riojanas são servidos com os vinhos de reserva locais num ambiente animado e popular. O endereço favorito dos vinicultores da Rioja.",                     a:"Haro, 26200 La Rioja",                     p:"+34 941 31 00 00", pr:"€"},
-    {n:"Beethoven",            q:"Tapas Espanholas",       d:"Outro clássico de Haro para tapas e pinchos com os vinhos da Rioja. Ambiente de bar tradicional espanhol onde a conversa e o vinho fluem com a mesma facilidade.",                                                                              a:"Haro, 26200 La Rioja",                     p:"+34 941 31 11 81", pr:"€"},
+  {city:'León',region:'Castela & Leão',entries:[
+    {n:'Bodega El Capricho',q:'Carnes de Buey',a:'C. La Iglesia, Jiménez de Jamuz, León',p:'+34 987 664 924',pr:4,note:'Uma das melhores carnes do mundo',d:'Considerado por muitos o melhor restaurante de carne do mundo. José Gordón cria e engorda bueyes (bois adultos) durante anos, produzindo uma carne com marmoreado e sabor impossíveis de encontrar noutro lugar. A viagem a Jiménez de Jamuz, a poucos quilómetros de León, vale cada quilómetro.'},
   ]},
-  {region:"Norte — Castela e Leão", city:"León", restaurants:[
-    {n:"Bodega El Capricho",   q:"Carnes & Grelhados",     d:"Considerado por muitos o melhor restaurante de carne de vaca do mundo, o Bodega El Capricho de José Gordon em Jiménez de Jamuz serve bueyes (bois) com mais de 10 anos de maturação no mais extraordinário celeiro-restaurante que já existiu.", a:"Jiménez de Jamuz, 24796 León",             p:"+34 987 66 42 24", pr:"€€€€"},
+
+  // ── LA RIOJA ────────────────────────────────────────
+  {city:'Haro',region:'La Rioja',entries:[
+    {n:'Beethoven',q:'Tapas Riojanas',a:'C. Santo Tomás 3, Haro',p:'+34 941 311 181',pr:1,d:'Bar de tapas e pinchos em Haro, a capital do vinho Rioja Alta. Ambiente animado com os melhores pinchos da cidade e, claro, Rioja a copo a preços imbatíveis.'},
+    {n:'Los Paraguas',q:'Tapas Riojanas',a:'C. Lucrecia Arana 2, Haro',p:'+34 941 310 003',pr:1,d:'Bar de tapas clássico de Haro num dos melhores locais para provar pinchos riojanos a acompanhar com os grandes vinhos da Rioja Alta. Ambiente típico e preços acessíveis.'},
   ]},
-  {region:"Norte — Castela e Leão", city:"Valladolid", restaurants:[
-    {n:"Restaurante Paramesa",  q:"Tapas Espanholas",      d:"Um restaurante de tapas de referência em Valladolid, com uma carta que celebra os produtos de Castela — lechazo, morcilla e queso de Zamora — num ambiente contemporâneo. A cozinha castelhana com um toque moderno.",                         a:"Valladolid, 47001 Castilla y León",        p:"+34 983 37 00 00", pr:"€€"},
-    {n:"Matamales",             q:"Espanhola Tradicional", d:"Um restaurante clássico de Valladolid com uma cozinha castelhana de raiz — lechazo assado em forno de barro, sopa castellana e quesos de la tierra. A tradição gastronómica de Castela na sua expressão mais genuína.",                        a:"Valladolid, 47001 Castilla y León",        p:"+34 983 00 00 00", pr:"€€€"},
+
+  // ── PAÍS BASCO ──────────────────────────────────────
+  {city:'San Sebastián',region:'País Basco',entries:[
+    {n:'Arzak',q:'Basca de Autor',a:'Av. Alcalde José Elosegi 273, San Sebastián',p:'+34 943 278 465',pr:4,m:'m3',note:'3 Estrelas Michelin · Juan Mari & Elena Arzak',d:'Três Estrelas Michelin desde 1989. Juan Mari Arzak e a sua filha Elena são os pais da Nueva Cocina Vasca — o movimento que revolucionou a gastronomia espanhola. Uma das casas mais influentes da história da cozinha contemporânea mundial, numa villa basca em Donostia.'},
+    {n:'Elkano',q:'Frutos do Mar Grelhados',a:'Herrerieta 2, Getaria',p:'+34 943 140 024',pr:3,m:'m1',note:'1 Estrela Michelin',d:'Uma Estrela Michelin em Getaria, a aldeia natal de Juan Sebastián Elcano. O robalo grelhado inteiro na brasa de carvão — simplesmente, sem adornos — é considerado um dos melhores pratos do mundo. A família Arregui trabalha com o peixe mais fresco do Cantábrico há décadas.'},
   ]},
-  {region:"Centro — Madrid", city:"Madrid", restaurants:[
-    {n:"La Giralda",           q:"Andaluza",               d:"Um restaurante de cozinha andaluza em Madrid, com pescaíto frito, gazpacho e rabo de toro numa sala que evoca a Sevilha mais tradicional. O melhor da Andaluzia sem sair da capital.",                                                          a:"Madrid, 28001",                            p:"+34 91 00 00 00", pr:"€€"},
-    {n:"Los Huevos de Lucio",  q:"Tapas Espanholas",       d:"A filial jovem do mítico Casa Lucio, famoso pelos seus huevos rotos — ovos fritos com batatas e presunto — que se tornaram um símbolo da gastronomia madrilena. Uma clássica da Cava Baja.",                                                   a:"Cava Baja 30, 28005 Madrid",               p:"+34 91 365 32 52", pr:"€€"},
-    {n:"El Paraguas",          q:"Alta Cozinha Espanhola", d:"Um restaurante sofisticado de Madrid com uma cozinha contemporânea que revisita os clássicos espanhóis com técnica e elegância. Ambiente de design e carta de autor numa das ruas mais animadas da capital.",                                   a:"Jorge Juan 16, 28001 Madrid",              p:"+34 91 431 64 56", pr:"€€€€"},
-    {n:"Ten con Ten",          q:"Espanhola Tradicional",  d:"Um restaurante clássico do bairro de Salamanca em Madrid, com uma cozinha tradicional espanhola de produto numa sala elegante e frequentada pela alta sociedade madrilena. Um clássico que não decepciona.",                                    a:"Ayala 6, 28001 Madrid",                    p:"+34 91 575 40 00", pr:"€€€€"},
-    {n:"Nakama",               q:"Japonesa",               d:"Uma das mesas japonesas mais respeitadas de Madrid, com sushi e sashimi de peixe fresco num ambiente minimalista e sereno. A precisão japonesa ao serviço do produto mediterrâneo.",                                                             a:"Madrid, 28001",                            p:"+34 91 00 00 00", pr:"€€€"},
-    {n:"Mesón Txistu",         q:"Basca",                  d:"Um restaurante basco em Madrid com chuletón, bacalao al pil pil e pintxos num ambiente de taberna do País Basco. O melhor da cozinha basca — a mais reconhecida de Espanha — no coração da capital.",                                          a:"Plaza del Ángel 8, 28012 Madrid",          p:"+34 91 523 91 18", pr:"€€€"},
-    {n:"St James",             q:"Paella & Arrozes",       d:"Um restaurante em Madrid especializado em paella valenciana e arrozes mediterrâneos numa sala elegante. A paella de mariscos e o arroz negro são as especialidades da casa.",                                                                    a:"Madrid, 28001",                            p:"+34 91 00 00 00", pr:"€€€"},
-    {n:"Arzábal",              q:"Tapas Espanholas",       d:"O restaurante do Mercado de San Miguel com tapas criativas e vinhos de produtor num dos mercados mais bonitos de Madrid. O ambiente vibrante do mercado centenário com uma cozinha moderna e descontraída.",                                    a:"Mercado de San Miguel, 28005 Madrid",      p:"+34 91 542 21 91", pr:"€€", nt:"No Mercado de San Miguel"},
-    {n:"La Terraza del Casino", q:"Alta Cozinha Espanhola",d:"O restaurante de Ferran Adrià no Casino de Madrid, com uma cozinha de vanguarda que continua a surpreender num palácio do século XIX. Uma experiência histórica da gastronomia espanhola moderna.",                                             a:"Alcalá 15, 28014 Madrid",                  p:"+34 91 532 12 75", pr:"€€€€"},
-    {n:"Desde 1911",           q:"Frutos do Mar",          d:"A marisqueira de referência de Madrid com uma estrela Michelin, instalada numa casa histórica de 1911. Mariscos, percebes e peixe fresco numa sala de azulejos e madeiras que não mudou em mais de um século.",                               a:"Arlabán 3, 28014 Madrid",                  p:"+34 91 532 50 51", pr:"€€€€", m:1},
-    {n:"Chambao",              q:"Espanhola Tradicional",  d:"Um restaurante mediterrâneo descontraído em Madrid com uma cozinha de produto simples e honesta. Ambiente de terrace e carta levada perfeita para um almoço de domingo.",                                                                        a:"Madrid, 28046",                            p:"+34 91 00 00 00", pr:"€€€"},
-    {n:"Rocacho",              q:"Carnes & Grelhados",     d:"Uma das melhores carnes de Madrid, com cortes de vaca rubia galega e bueyes maturados servidos num ambiente elegante e minimalista. A parrilla como arte e o produto como religião.",                                                            a:"Padre Damián 38, 28036 Madrid",            p:"+34 91 350 65 84", pr:"€€€€"},
+
+  // ── MADRID ──────────────────────────────────────────
+  {city:'Madrid',region:'Madrid',entries:[
+    {n:'Arzábal',q:'Tapas Madrilenas',a:'Mercado de San Miguel, Pl. de San Miguel, Madrid',p:'+34 91 542 21 91',pr:2,note:'No Mercado de San Miguel',d:'Tapas criativas no icónico Mercado de San Miguel, um dos mercados cobertos mais bonitos de Madrid. Pinchos, croquetas e montaditos de alta qualidade num ambiente vibrante junto à Plaza Mayor.'},
+    {n:'Chambao',q:'Mediterrânea',a:'C. de Bretón de los Herreros 56, Madrid',p:'+34 91 442 16 66',pr:2,d:'Restaurante mediterrâneo descontraído em Madrid com cozinha de produto fresco, arrozes e peixes. Ambiente de terrace ideal para um almoço de domingo com amigos.'},
+    {n:'Desde 1911',q:'Frutos do Mar',a:'C. de Arlabán 3, Madrid',p:'+34 91 532 50 51',pr:3,m:'m1',note:'1 Estrela Michelin',d:'Uma Estrela Michelin numa marisqueira fundada em 1911 no centro de Madrid. Sala histórica de azulejos e madeiras que não mudou em mais de um século. Percebes, ostras, centolla e o melhor marisco galego servido na capital.'},
+    {n:'DiverXO',q:'Espanhola-Asiática de Autor',a:'C. del Padre Damián 23, Madrid',p:'+34 91 570 07 66',pr:4,m:'m3',note:'3 Estrelas Michelin · Chef Dabiz Muñoz',d:'Três Estrelas Michelin e considerado várias vezes o Melhor Chef do Mundo. Dabiz Muñoz cria no DiverXO uma experiência absolutamente única que mistura cozinha espanhola e asiática numa linguagem provocatória e genial. Os "porcos voadores" de plástico em cada mesa anunciam que nada aqui é convencional. Reservas com meses de antecedência.'},
+    {n:'El Paraguas',q:'Espanhola Contemporânea',a:'C. de Jorge Juan 16, Madrid',p:'+34 91 319 53 86',pr:3,d:'Restaurante elegante no Barrio de Salamanca com cozinha espanhola contemporânea de alta qualidade. Ambiente sofisticado com clientela seleta e carta que privilegia os melhores produtos ibéricos.'},
+    {n:'La Giralda',q:'Andaluza',a:'C. de Hartzenbush 12, Madrid',p:'+34 91 445 77 47',pr:2,d:'O sabor da Andaluzia em Madrid. Tapas e raciones com gazpacho, salmorejo, pescaíto frito e jamón ibérico num ambiente de azulejos que transporta para Sevilha sem sair da capital.'},
+    {n:'La Terraza del Casino',q:'Espanhola de Vanguarda',a:'C. de Alcalá 15, Madrid',p:'+34 91 532 12 75',pr:4,m:'m2',note:'2 Estrelas Michelin · Chef Paco Roncero',d:'Duas Estrelas Michelin no telhado do Casino de Madrid, um palácio do século XIX. O chef Paco Roncero, discípulo de Ferran Adrià, cria uma cozinha de vanguarda com técnica molecular e produtos ibéricos de excelência. Uma das experiências gastronómicas mais exclusivas de Madrid.'},
+    {n:'Los Huevos de Lucio',q:'Tapas Madrilenas',a:'C. de la Cava Baja 30, Madrid',p:'+34 91 366 40 28',pr:2,d:'A casa dos famosos huevos rotos — ovos estrelados sobre batatas fritas — no coração de La Latina. Uma especialidade madrilena que se tornou ícone gastronómico. Ambiente animado e filas frequentes nesta tasca histórica.'},
+    {n:'Mesón Txistu',q:'Carnes Bascas',a:'Pl. del Ángel 8, Madrid',p:'+34 91 523 91 18',pr:3,d:'O melhor da cozinha basca em Madrid. Txuletón de vaca rubia galega, bacalao al pil pil e pintxos numa sala elegante que recria o ambiente de um restaurante de San Sebastián na capital espanhola.'},
+    {n:'Nakama',q:'Japonesa',a:'C. de Zurbano 62, Madrid',p:'+34 91 395 68 38',pr:3,d:'Japonesa de referência em Madrid com sushi, sashimi e omakase de qualidade. Chef japonês com técnica apurada e produto fresco importado diretamente do Japão. Uma das melhores japonesas da Península Ibérica.'},
+    {n:'Rocacho',q:'Carnes & Frutos do Mar',a:'C. de Padilla 54, Madrid',p:'+34 91 431 85 84',pr:3,d:'Um dos melhores endereços de Madrid para carnes nobres e frutos do mar. Chuletón de vaca galega maturada, gambas de Huelva e percebes de alta qualidade num ambiente elegante no Barrio de Salamanca.'},
+    {n:'St James',q:'Paella & Arrozes',a:'C. de Serrano 213, Madrid',p:'+34 91 345 11 04',pr:3,d:'Especialista em paellas e arrozes em Madrid. Paella valenciana, arroz negro e arroz a banda preparados com a técnica e os ingredientes certos. Uma raridade numa cidade onde a paella autêntica é difícil de encontrar.'},
+    {n:'Ten con Ten',q:'Espanhola Contemporânea',a:'C. de Ayala 6, Madrid',p:'+34 91 700 33 40',pr:3,d:'Restaurante sofisticado e animado no Barrio de Salamanca com cozinha espanhola contemporânea. Ambiente cosmopolita, carta variada e clientela elegante. Um dos endereços mais frequentados pela Madrid que conta.'},
   ]},
-  {region:"Nordeste — Barcelona", city:"Barcelona", restaurants:[
-    {n:"El Nacional",          q:"Mercado Gastronómico",   d:"Um extraordinário espaço gastronómico na Passeig de Gràcia com quatro restaurantes, quatro bares e uma adega numa sala Belle Époque de 1889 restaurada. O melhor de Barcelona — frutos do mar, carnes, tapas e cocktails — sob um só tecto.",  a:"Passeig de Gràcia 24, 08007 Barcelona",    p:"+34 93 518 50 53", pr:"€€€", nt:"Mercado gastronómico"},
-    {n:"Takikarri Berri",      q:"Basca",                  d:"Um bar de pintxos basco de referência em Barcelona, com as melhores tapas do País Basco — croquetas, tortilla e bacalao — num ambiente animado do bairro gótico. O encontro entre Barcelona e San Sebastián.",                                a:"Carrer de la Diputació 169, 08011 Barcelona", p:"+34 93 453 47 59", pr:"€€"},
-    {n:"Lomo Alto",            q:"Carnes & Grelhados",     d:"O templo das carnes de vaca maiores de Barcelona, com chuletones e costillares de vacas velhas gallegas servidos numa sala de design contemporâneo. Para os amantes da carne que não comprometem na qualidade.",                               a:"Carrer d'Aragó 283, 08009 Barcelona",      p:"+34 93 802 72 83", pr:"€€€€"},
-    {n:"7 Portes",             q:"Catalana",               d:"Uma das brasseries mais históricas de Barcelona, inaugurada em 1836, com uma paella de referência e uma cozinha catalana tradicional num ambiente de madeiras e espelhos centenários. Uma instituição da cidade.",                              a:"Passeig d'Isabel II 14, 08003 Barcelona",  p:"+34 93 319 30 33", pr:"€€€"},
-    {n:"Torre d'Alta Mar",     q:"Frutos do Mar",          d:"No alto da Torre de Sant Sebastià a 75 metros de altura, com vista panorâmica sobre Barcelona e o Mediterrâneo. Frutos do mar e cozinha mediterrânea num dos restaurantes mais espetaculares da Península.",                                   a:"Passeig Joan de Borbó 88, 08003 Barcelona",p:"+34 93 221 00 07", pr:"€€€€"},
-    {n:"Asador de Aranda",     q:"Espanhola Tradicional",  d:"O assador de cordeiro castellano de referência em Barcelona, num palácio modernista de 1902. O lechazo assado em forno de barro é trazido directamente de Burgos, onde esta cadeia tem as suas origens.",                                    a:"Av. del Tibidabo 31, 08022 Barcelona",     p:"+34 93 417 01 15", pr:"€€€"},
-    {n:"Boca Chica",           q:"Cocktails & Tapas",      d:"Um bar-restaurante de design em Barcelona com tapas criativas, cocktails elaborados e ambiente lounge animado. O endereço perfeito para começar a noite barcelonesa.",                                                                           a:"Carrer de la Diputació 390, 08013 Barcelona", p:"+34 93 467 51 49", pr:"€€€"},
-    {n:"Can Majó",             q:"Frutos do Mar",          d:"Uma marisqueira de referência na Barceloneta, a beira do mar, com paella, arroz negro e frutos do mar fresquíssimos a poucos metros do Mediterrâneo. Uma experiência de mar genuína em Barcelona.",                                             a:"Carrer de l'Almirall Aixada 23, 08003 Barcelona", p:"+34 93 221 54 55", pr:"€€€"},
-    {n:"Windsor",              q:"Alta Cozinha Espanhola", d:"Uma cozinha catalana de alta gastronomia no Eixample de Barcelona, com produtos de temporada e técnica contemporânea numa sala elegante. Uma das mesas mais consistentes da alta gastronomia barcelonesa.",                                     a:"Carrer de Còrsega 286, 08008 Barcelona",   p:"+34 93 237 75 88", pr:"€€€€"},
-    {n:"Boca Grande",          q:"Frutos do Mar",          d:"Uma marisqueira glamorosa e animada no coração do Eixample de Barcelona, com ostras, lagostas e plateau de fruits de mer num ambiente de brasserie de luxo. O endereço dos jantares de celebração barceloneses.",                              a:"Carrer de la Diputació 394, 08013 Barcelona", p:"+34 93 467 51 49", pr:"€€€€"},
-    {n:"Botafumeiro",          q:"Frutos do Mar",          d:"A marisqueira mais famosa de Barcelona, com marisco galego — percebes, ostras e nécoras — trazido directamente da Galiza numa sala de azulejos e madeiras que é uma instituição da cidade desde 1975.",                                        a:"Carrer Gran de Gràcia 81, 08012 Barcelona",p:"+34 93 218 42 30", pr:"€€€€"},
+
+  // ── BARCELONA ───────────────────────────────────────
+  {city:'Barcelona',region:'Barcelona & Catalunha',entries:[
+    {n:'7 Portes',q:'Catalana Histórica',a:'Pg. d\'Isabel II 14, Barcelona',p:'+34 93 319 30 33',pr:2,note:'Desde 1836',d:'Fundado em 1836, o restaurante mais antigo de Barcelona em contínuo funcionamento. Paella, zarzuela de mariscos e fideuà numa sala histórica com colunas de ferro fundido junto ao port. Frequentado por Hemingway, Orson Welles e García Lorca.'},
+    {n:'Asador de Aranda',q:'Cordeiro Assado Castellano',a:'Av. del Tibidabo 31, Barcelona',p:'+34 93 417 01 15',pr:3,d:'O melhor cordeiro assado no forno de lenha fora de Castela, numa villa modernista no Tibidabo. Lechazo asado com a pele crocante e a carne tenra — a especialidade de Aranda de Duero transplantada para Barcelona com toda a fidelidade.'},
+    {n:'Boca Chica',q:'Coquetéis & Tapas',a:'Ptge. de la Concepció 12, Barcelona',p:'+34 93 467 51 66',pr:2,note:'Ambiente animado',d:'Bar de coquetéis e tapas no Eixample com ambiente glamouroso e animado. Uma das melhores cartas de gin-tonics e cocktails de Barcelona, com tapas criativas para acompanhar. Ideal para um aperitivo antes do jantar.'},
+    {n:'Boca Grande',q:'Mariscos & Mediterrânea',a:'Ptge. de la Concepció 12, Barcelona',p:'+34 93 467 51 49',pr:3,d:'Marisqueira elegante no Eixample com frutos do mar mediterrâneos de qualidade excecional. Ostras, gambas de Palamós, cigalas e percebes num ambiente sofisticado com clientela cosmopolita.'},
+    {n:'Botafumeiro',q:'Frutos do Mar Galegos',a:'C. Gran de Gràcia 81, Barcelona',p:'+34 93 218 42 30',pr:3,d:'A catedral dos frutos do mar galegos em Barcelona, fundada em 1975. Centolla, nécoras, percebes e marisco galego da melhor qualidade servido numa sala imponente em Gràcia. Uma das mesas mais tradicionais e respeitadas de Barcelona.'},
+    {n:'Can Majó',q:'Frutos do Mar',a:'C. de l\'Almirall Aixada 23, Barcelona',p:'+34 93 221 54 55',pr:3,d:'Marisqueira de referência no bairro da Barceloneta com vista para o mar. Arroços de marisco, suquets de peixe e frutos do mar fresquíssimos numa casa com décadas de história junto à praia de Barcelona.'},
+    {n:'El Nacional',q:'Mercado Gastronómico',a:'Pg. de Gràcia 24 Bis, Barcelona',p:'+34 93 518 50 53',pr:2,note:'4 restaurantes num só espaço',d:'Espaço gastronómico extraordinário no Passeig de Gràcia, com quatro restaurantes, quatro bares e uma adega numa sala Belle Époque de 1889 restaurada com arte. Tapas, frutos do mar, carnes e cozinha catalana sob um mesmo teto magnífico.'},
+    {n:'Lomo Alto',q:'Carnes de Raça',a:'C/ d\'Aragó 283, Barcelona',p:'+34 93 362 09 01',pr:3,d:'O templo das carnes de raça em Barcelona com a melhor vaca rubia galega, wagyu japonês e dry-aged de produtores selecionados. Câmaras de maturação visíveis na sala e uma equipa especializada em cortes nobres.'},
+    {n:'Takikarbi',q:'Basca',a:'C/ de València 169, Barcelona',p:'+34 93 453 47 59',pr:2,d:'Restaurante de cozinha basca em Barcelona com pintxos, bacalao al pil pil e txuletón. A melhor forma de experimentar a gastronomia de San Sebastián sem sair da Cidade Condal.'},
+    {n:'Torre d\'Alta Mar',q:'Mediterrânea · Vista 360°',a:'Pg. de Joan de Borbó 88, Barcelona',p:'+34 93 221 00 07',pr:4,d:'Restaurante no topo da torre de telecomunicações de Barceloneta a 75 metros de altura, com vista panorâmica de 360° sobre Barcelona e o Mediterrâneo. Cozinha mediterrânea de alto nível num dos cenários mais espetaculares de Espanha.'},
+    {n:'Windsor',q:'Catalana de Autor',a:'C/ de Còrsega 286, Barcelona',p:'+34 93 237 75 88',pr:3,d:'Restaurante clássico do Eixample com cozinha catalana de autor, frequentado pela elite barcelonesa há décadas. Cocido catalán, pato con peras e sobrassada de alta qualidade numa sala elegante e discreta.'},
   ]},
 ];
 
-function photo(q){
-  var slug = q.toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-  return 'https://lulidias.github.io/na-mesa-com-luli-dias/fotos/espanha/' + slug + '.jpg';
+const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',rec:'Michelin'};
+const BG={'Mariscos':'#e8f4f8','Frutos':'#e8f4f8','Tapas':'#f5f0e8','Carnes':'#f7ede8','Catalana':'#f5ede8','Basca':'#f0ede8','Japonesa':'#f0f0f5','Mediterrânea':'#f0f4ee','default':'#f2ede8'};
+function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
+function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function emoji(q){return q&&(q.includes('Mar')||q.includes('Frutos')||q.includes('Ostras'))?'🦞':q&&q.includes('Carne')||q&&q.includes('Assado')?'🥩':q&&q.includes('Japonesa')?'🍣':q&&q.includes('Tapas')||q&&q.includes('Pintxos')?'🍢':q&&q.includes('Mercado')?'🛒':'🍽';}
+function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
+
+const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
+document.getElementById('filters').innerHTML='<span class="filter-lbl">Região:</span>'+
+  regions.map(r=>`<button class="filter-btn${r==='Todas'?' active':''}" onclick="setRegion('${r}',this)">${r}</button>`).join('');
+
+let activeRegion='Todas';
+function setRegion(r,btn){
+  activeRegion=r;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
 }
 
-function buildCard(r){
-  const badges=[r.m>0?`<span class="badge badge-m">★ Michelin ×${r.m}</span>`:''].filter(Boolean).join('');
-  return `<div class="card" onclick="toggleCard(this)">
-    <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80'"></div>
-    <div class="card-body">
-      <div class="card-top"><div class="card-name">${r.n}</div><div class="card-price">${r.pr}</div></div>
-      <div class="card-cuisine">${r.q}</div>
-      ${badges?`<div class="card-badges">${badges}</div>`:''}
-      <div class="card-desc">${r.d}</div>
-      <div class="card-footer">
-        <div class="card-contact">
-          <div class="c-row"><span class="c-icon">📍</span><span class="c-text">${r.a}</span></div>
-          <div class="c-row"><span class="c-icon">📞</span><span class="c-text">${r.p}</span></div>
-        </div>
-        ${r.nt?`<div class="card-note">✦ ${r.nt}</div>`:''}
-      </div>
-      <div class="card-toggle">▼ detalhes</div>
-    </div>
-  </div>`;
-}
-
-function render(regionFilter){
+function render(){
+  const main=document.getElementById('main');
+  main.innerHTML='';
+  const filtered=activeRegion==='Todas'?CITIES:CITIES.filter(c=>c.region===activeRegion);
   const groups={};
-  DATA.forEach(e=>{if(!groups[e.region])groups[e.region]=[];groups[e.region].push(e)});
-  let html='',totalR=0,totalC=0,totalM=0;
-  const regions=Object.keys(groups);
-  const f=document.getElementById('filters');
-  f.innerHTML=`<button class="filter-btn ${!regionFilter?'active':''}" onclick="render(null)">Todas</button>`+
-    regions.map(r=>`<button class="filter-btn ${regionFilter===r?'active':''}" onclick="render('${r}')">${r.split('—')[1]||r}</button>`).join('');
-  for(const [reg,entries] of Object.entries(groups)){
-    if(regionFilter&&reg!==regionFilter)continue;
-    let cities='';
-    entries.forEach(e=>{
-      totalC++;totalR+=e.restaurants.length;e.restaurants.forEach(r=>totalM+=(r.m||0));
-      cities+=`<div class="city-sec">
-        <div class="city-hdr">
-          <div class="city-ghost">${e.city}</div>
-          <div class="city-inner">
-            <div class="city-left">
-              <span class="city-region-lbl">${reg.split('—')[1]||reg}</span>
-              <h2 class="city-name">${e.city}</h2>
-              <div class="city-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
-            </div>
-            <div class="city-count"><div class="city-count-num">${e.restaurants.length}</div><div class="city-count-lbl">restaurante${e.restaurants.length!==1?'s':''}</div></div>
-          </div>
-        </div>
-        <div class="grid">${e.restaurants.map(buildCard).join('')}</div>
-      </div>`;
+  filtered.forEach(c=>{if(!groups[c.region])groups[c.region]=[];groups[c.region].push(c);});
+  Object.entries(groups).forEach(([region,cities])=>{
+    const rd=document.createElement('div');
+    rd.style.cssText='display:flex;align-items:center;gap:16px;margin:44px 0 8px';
+    rd.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 16px">${region}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
+    main.appendChild(rd);
+    cities.forEach(({city,entries})=>{
+      const sec=document.createElement('div');sec.className='city-sec';
+      sec.innerHTML=`<div class="city-hdr"><div class="city-hdr-left"><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div></div></div><div class="restaurants-grid" id="g-${city.replace(/[\s']/g,'-')}"></div>`;
+      main.appendChild(sec);
+      const grid=sec.querySelector('.restaurants-grid');
+      entries.forEach(r=>{
+        const card=document.createElement('div');card.className='restaurant-card';
+        const bg=cardBg(r.q);
+        const nm=r.n.replace(/'/g,"\\'");
+        const ad=(r.a&&r.a!==city&&r.a!=='')?r.a.replace(/'/g,"\\'"):'';
+        const addrHtml=ad?`<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap('${nm}','${ad}')">${r.a}</span></div>`:'';
+        const phoneHtml=r.p?`<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:${r.p.replace(/\s/g,'')}">${r.p}</a></div>`:'';
+        const contact=(addrHtml||phoneHtml)?`<div class="card-contact">${addrHtml}${phoneHtml}</div>`:'';
+        const em=emoji(r.q);
+        const badges=(r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
+                     (r.h?'<span class="badge">Hospedagem</span>':'');
+        card.innerHTML=`
+          <div class="card-photo-wrap"><img class="card-photo" src="fotos/espanha/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\' style=\\'background:${bg}\\'>${em}</div>'"></div>
+          <div class="card-body">
+            <div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div>
+            <div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div>
+            <div class="card-desc">${r.d||''}</div>
+            ${contact}
+            ${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}
+          </div>`;
+        grid.appendChild(card);
+      });
     });
-    html+=`<div><div class="region-div"><div class="rd-l"></div><span class="rd-name">${reg}</span><div class="rd-r"></div></div>${cities}</div>`;
-  }
-  document.getElementById('main').innerHTML=html;
-  document.getElementById('s1').textContent=totalR;
-  document.getElementById('s2').textContent=totalC;
-  document.getElementById('s3').textContent=totalM;
-  document.getElementById('hdr-count').textContent=`${totalR} restaurantes · ${totalC} cidades`;
+  });
 }
-
-function toggleCard(card){
-  const open=card.classList.toggle('open');
-  const t=card.querySelector('.card-toggle');
-  if(t)t.textContent=open?'▲ fechar':'▼ detalhes';
-}
-
-render(null);
+render();
 </script>
 </body>
 </html>
