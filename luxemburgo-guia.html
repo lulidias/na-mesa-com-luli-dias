@@ -3,161 +3,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Na Mesa com Luli Dias — Luxemburgo</title>
+<title>Luxemburgo — Na Mesa com Luli Dias</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-md:#4A4A4A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5}
-body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;min-height:100vh}
-header{background:var(--white);border-bottom:1px solid var(--border);padding:28px 24px 24px;display:flex;align-items:flex-start;justify-content:space-between}
-.brand-pre{font-size:7px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:6px}
-.brand-main{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);line-height:1.15}
-.brand-main em{font-style:italic;color:var(--gold)}
-.brand-sub{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-top:6px;font-weight:300}
-.hdr-right{text-align:right;padding-top:4px}
-.hdr-flag{font-size:24px;margin-bottom:4px}
-.hdr-count{font-size:8px;letter-spacing:2px;color:var(--ink-lt);font-weight:300}
-.stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex}
-.stat{flex:1;text-align:center;border-right:1px solid var(--border)}
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-dk:#8B6914;--gold-bg:#FAF5EB;--border:#E8E0D5;--card-bg:#FFF;}
+html,body{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;}
+.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;gap:10px}
+.back-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:500}
+.back-link:hover{color:var(--ink)}
+.nav-sep{color:var(--border)}
+.nav-current{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:44px 48px 32px}
+.brand-line{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.brand-prefix{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--ink-lt);line-height:1.1}
+.brand-name{font-family:'Playfair Display',serif;font-size:46px;font-weight:400;line-height:1.1}
+.brand-name em{font-style:italic;color:var(--gold)}
+.brand-country{font-family:'Playfair Display',serif;font-size:30px;font-weight:400;color:var(--ink-lt);font-style:italic;margin-bottom:20px}
+.header-orn{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.orn-line{height:1px;width:48px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+.header-meta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.header-meta{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs)}
+.header-edition{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+.stats-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;flex-wrap:wrap}
+.stat{padding:0 28px;border-right:1px solid var(--border);text-align:center}
+.stat:first-child{padding-left:0}
 .stat:last-child{border-right:none}
-.stat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
-.stat-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:2px}
-main{padding:20px 24px 60px}
-.city-sec{margin-bottom:32px}
-.city-hdr{position:relative;overflow:hidden;padding:24px 24px 20px;margin:0 -24px 16px;background:var(--white);border-bottom:1px solid var(--border)}
-.city-ghost{position:absolute;right:-6px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(184,146,42,.055);pointer-events:none;white-space:nowrap;line-height:1;letter-spacing:-3px}
-.city-inner{position:relative;display:flex;align-items:flex-end;justify-content:space-between}
-.city-left{display:flex;flex-direction:column;gap:6px}
-.city-region-lbl{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px}
-.city-region-lbl::before{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
-.city-name{font-family:'Playfair Display',serif;font-size:38px;font-weight:400;color:var(--ink);letter-spacing:-0.5px;line-height:1}
-.city-orn{display:flex;align-items:center;gap:6px;margin-top:2px}
-.orn-line{height:1px;width:22px;background:linear-gradient(90deg,var(--gold),transparent)}
-.orn-diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
-.city-count{text-align:right}
-.city-count-num{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);opacity:.2;line-height:1}
-.city-count-lbl{font-size:6px;letter-spacing:3px;text-transform:uppercase;color:#aaa;margin-top:2px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
-.card{background:var(--white);border-left:3px solid var(--gold-lt);cursor:pointer;transition:box-shadow .25s}
-.card:hover{box-shadow:0 4px 20px rgba(184,146,42,.12);position:relative;z-index:1}
-.card-photo-wrap{overflow:hidden;height:180px;background:var(--border)}
-.card-photo{width:100%;height:180px;object-fit:cover;display:block;transition:transform .5s}
-.card:hover .card-photo{transform:scale(1.04)}
-.card-body{padding:16px 18px 14px}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
-.card-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--ink);line-height:1.2}
-.card-price{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1px;white-space:nowrap}
-.card-cuisine{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.card-badges{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
-.badge{font-size:6px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:2px 7px;border:1px solid}
-.badge-m{color:#8B0000;border-color:rgba(139,0,0,.3);background:rgba(139,0,0,.04)}
-.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.75;color:var(--ink-lt);font-weight:300;margin-bottom:12px;display:none}
-.card.open .card-desc{display:block}
-.card-footer{padding-top:10px;border-top:1px solid var(--border)}
-.card-contact{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
-.c-row{display:flex;gap:8px;align-items:flex-start}
-.c-icon{font-size:9px;color:var(--gold);min-width:14px;line-height:1.6}
-.c-text{font-size:9px;color:var(--ink-md);font-weight:400;line-height:1.5;letter-spacing:.2px}
-.card-note{font-size:8px;font-style:italic;color:var(--ink-md);font-family:'Cormorant Garamond',serif}
-.card-toggle{text-align:right;margin-top:8px;font-size:7px;color:#aaa;letter-spacing:1px}
-footer{background:var(--white);border-top:1px solid var(--border);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;margin-top:32px}
-.ft-brand{font-family:'Playfair Display',serif;font-size:13px;color:var(--ink)}
-.ft-brand em{font-style:italic;color:var(--gold)}
-.ft-note{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#aaa}
-</style>
+.stat-num{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);font-weight:600}
+.stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:2px}
+.michelin-legend{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.lbadge{font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
+.city-sec{margin-bottom:64px}
+.city-hdr{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:24px}
+.city-name{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--ink);letter-spacing:-1px;line-height:1}
+.city-count-block{text-align:right}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--gold);opacity:.25;line-height:1}
+.city-count-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-xs);margin-top:2px}
+.restaurants-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+.restaurant-card{background:var(--card-bg);overflow:hidden;border-left:3px solid var(--gold-lt);transition:box-shadow .3s}
+.restaurant-card:hover{box-shadow:0 4px 24px rgba(184,146,42,.12);z-index:1;position:relative}
+.card-photo-wrap{width:100%;height:300px;overflow:hidden;background:var(--border)}
+.card-photo{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.restaurant-card:hover .card-photo{transform:scale(1.04)}
+.card-photo-placeholder{width:100%;height:300px;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3}
+.card-body{padding:20px 22px 18px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
+.card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;margin-top:2px}
+.badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.card-meta-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.card-cuisine{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+.card-price{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:1px}
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink-lt);line-height:1.65;margin-bottom:12px}
+.card-contact{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.c-row{display:flex;align-items:flex-start;gap:8px}
+.c-icon{font-size:10px;color:var(--gold);min-width:16px;flex-shrink:0;margin-top:1px}
+.c-addr{font-size:10px;color:var(--ink-lt);cursor:pointer;line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-addr:hover{color:var(--gold)}
+.c-phone{font-size:10px;color:var(--ink-lt);line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-phone:hover{color:var(--gold)}
+.card-note{font-size:9px;color:var(--gold);font-style:italic;margin-top:8px}
+.map-modal{display:none;position:fixed;inset:0;z-index:1000;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.45)}
+.map-modal.open{display:flex}
+.map-sheet{background:var(--white);border-radius:16px 16px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(0,0,0,.18)}
+.map-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);margin-bottom:4px}
+.map-addr-txt{font-size:10px;color:var(--ink-lt);margin-bottom:22px;line-height:1.5}
+.map-options{display:flex;flex-direction:column;gap:10px}
+.map-btn{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);cursor:pointer;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:500;color:var(--ink);transition:background .15s}
+.map-btn:hover{background:var(--gold-bg)}
+.map-btn-icon{font-size:24px;width:32px;text-align:center;flex-shrink:0}
+.map-btn-sub{font-size:9px;color:var(--ink-xs);font-weight:400;display:block;margin-top:2px}
+.map-cancel{margin-top:16px;width:100%;padding:12px;border:none;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer}
+footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
+footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
+footer a{color:var(--gold);text-decoration:none}</style>
 </head>
 <body>
+<nav class="top-nav">
+  <a href="index.html" class="back-link">← Todos os Países</a>
+  <span class="nav-sep">·</span>
+  <span class="nav-current">Luxemburgo</span>
+</nav>
 <header>
-  <div>
-    <p class="brand-pre">Guia Gastronômico</p>
-    <h1 class="brand-main">Na Mesa com <em>Luli Dias</em></h1>
-    <p class="brand-sub">Curadoria pessoal · Edição 2025</p>
-  </div>
-  <div class="hdr-right">
-    <div class="hdr-flag">🇱🇺</div>
-    <p class="hdr-count" id="hdr-count">Luxemburgo</p>
-  </div>
+  <div class="brand-line"><span class="brand-prefix">Na Mesa com</span><span class="brand-name"><em>Luli Dias</em></span></div>
+  <div class="brand-country">Luxemburgo</div>
+  <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+  <div class="header-meta-row"><span class="header-meta">Luxemburgo Cidade</span><span class="header-edition">Abril 2026</span></div>
 </header>
-<div class="stats">
-  <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Restaurantes</div></div>
-  <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div>
-  <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Cozinhas</div></div>
+<div class="stats-bar"><div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Restaurantes</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div><div class="stat"><div class="stat-num">4 ★</div><div class="stat-lbl">Michelin</div></div></div>
+<div class="michelin-legend">
+  <span class="lbadge">★★★ 3 Estrelas</span><span class="lbadge">★★ 2 Estrelas</span><span class="lbadge">★ 1 Estrela</span>
+  <span class="lbadge">Bib Gourmand</span><span class="lbadge">Michelin</span><span class="lbadge">Hospedagem</span>
+</div>
+<div class="filters" id="filters"></div>
+<div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
+  <div class="map-sheet">
+    <div class="map-title" id="mapName"></div><div class="map-addr-txt" id="mapAddr"></div>
+    <div class="map-options">
+      <a class="map-btn" id="btnWaze" href="#" target="_blank"><span class="map-btn-icon">🗺</span><div><strong>Waze</strong><span class="map-btn-sub">Navegar com Waze</span></div></a>
+      <a class="map-btn" id="btnGoogle" href="#" target="_blank"><span class="map-btn-icon">📍</span><div><strong>Google Maps</strong><span class="map-btn-sub">Abrir no Google Maps</span></div></a>
+      <a class="map-btn" id="btnApple" href="#" target="_blank"><span class="map-btn-icon">🍎</span><div><strong>Apple Maps</strong><span class="map-btn-sub">Abrir no Apple Maps</span></div></a>
+    </div>
+    <button class="map-cancel" onclick="closeMap()">Cancelar</button>
+  </div>
 </div>
 <main id="main"></main>
-<footer>
-  <span class="ft-brand">Na Mesa com <em>Luli Dias</em></span>
-  <span class="ft-note">🇱🇺 Luxemburgo · 2025</span>
-</footer>
+<footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Na Mesa com Luli Dias</p></footer>
 <script>
-const PHOTOS = {
-  "Francesa Contemporânea":   "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
-  "Luxemburguesa Tradicional":"https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Francesa Clássica":        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-  "Luxemburguesa de Brasserie":"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
-  "Libanesa":                 "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
-};
-const FB = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80";
 
-const DATA = [
-  {n:"Le Sud",           q:"Francesa Contemporânea",    d:"Um restaurante contemporâneo no coração da cidade de Luxemburgo, com uma cozinha francesa moderna que celebra os produtos da região com elegância e criatividade. Uma das mesas mais sofisticadas do Grão-Ducado, com uma sala de design refinado e serviço impecável.",                a:"Luxembourg City, Luxembourg",                p:"+352 26 00 00 00", pr:"€€€€"},
-  {n:"Bick Stuff",       q:"Luxemburguesa Tradicional", d:"Um restaurante que celebra a cozinha luxemburguesa tradicional — Judd mat Gaardebounen, Gromperekichelcher e Rieslingspaschtéit — com uma abordagem contemporânea e produtos locais de qualidade. Uma paragem essencial para descobrir a identidade gastronómica do Grão-Ducado.",    a:"Luxembourg City, Luxembourg",                p:"+352 26 00 00 00", pr:"€€€"},
-  {n:"Le Bouquet Garni", q:"Francesa Clássica",         d:"Um bistrô francês clássico em Luxemburgo, com uma cozinha que celebra as grandes receitas da tradição francesa — foie gras, magret de canard e crème brûlée — num ambiente de madeiras e espelhos que evoca Paris. Uma das mesas mais fiéis ao espírito da gastronomia francesa no Grão-Ducado.", a:"Luxembourg City, Luxembourg",                p:"+352 47 13 63",    pr:"€€€"},
-  {n:"De Feierwon",      q:"Luxemburguesa de Brasserie", d:"Uma brasserie luxemburguesa de carácter instalada numa antiga estação de bombeiros reconvertida — Feierwon significa 'carro de bombeiros' em luxemburguês. Ambiente industrial e animado, com uma cozinha generosa de bistrô que mistura influências francesas, alemãs e belgas.",        a:"Rue de Hollerich, Luxembourg City",          p:"+352 26 19 81 81", pr:"€€€"},
-  {n:"Bazzar",           q:"Libanesa",                  d:"Um restaurante libanês de referência em Luxemburgo, com mezes, fattoush, hummus e carnes grelhadas servidos com o calor e a hospitalidade do Líbano num ambiente colorido e animado. O melhor da cozinha do Levante no coração da Europa.",                                            a:"Luxembourg City, Luxembourg",                p:"+352 26 00 00 00", pr:"€€"},
-];
-
-function photo(q){
-  var slug = q.toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-  return 'https://lulidias.github.io/na-mesa-com-luli-dias/fotos/luxemburgo/' + slug + '.jpg';
+function openMap(name,addr){
+  const q=encodeURIComponent(name+' '+addr);
+  document.getElementById('mapName').textContent=name;
+  document.getElementById('mapAddr').textContent=addr;
+  document.getElementById('btnWaze').href='https://waze.com/ul?q='+q+'&navigate=yes';
+  document.getElementById('btnGoogle').href='https://www.google.com/maps/search/?api=1&query='+q;
+  document.getElementById('btnApple').href='https://maps.apple.com/?q='+q;
+  document.getElementById('mapModal').classList.add('open');
 }
+function closeMap(){document.getElementById('mapModal').classList.remove('open');}
 
-function build(){
-  const cards = DATA.map(r=>`
-    <div class="card" onclick="toggleCard(this)">
-      <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80'"></div>
-      <div class="card-body">
-        <div class="card-top"><div class="card-name">${r.n}</div><div class="card-price">${r.pr}</div></div>
-        <div class="card-cuisine">${r.q}</div>
-        <div class="card-desc">${r.d}</div>
-        <div class="card-footer">
-          <div class="card-contact">
-            <div class="c-row"><span class="c-icon">📍</span><span class="c-text">${r.a}</span></div>
-            <div class="c-row"><span class="c-icon">📞</span><span class="c-text">${r.p}</span></div>
-          </div>
-        </div>
-        <div class="card-toggle">▼ detalhes</div>
-      </div>
-    </div>`).join('');
+const FOLDER='luxemburgo';
+const CITIES=[{"city": "Luxemburgo Cidade", "region": "Luxemburgo", "entries": [{"n": "Brasserie Guillaume", "q": "Francesa Brasserie", "a": "Pl. Guillaume II, Luxemburgo", "p": "+352 47 13 70", "pr": 2, "d": "Brasserie elegante na Place Guillaume II, no coração de Luxemburgo Cidade. Cozinha franco-luxemburguesa clássica numa cidade que é Património da Humanidade da UNESCO."}, {"n": "Caves Gourmandes", "q": "Luxemburguesa", "a": "Luxemburgo Cidade", "p": "", "pr": 2, "d": "Restaurante de cozinha luxemburguesa com os pratos tradicionais do Grão-Ducado — Judd mat Gaardebounen (pescoço de porco fumado com favas) e Bouneschlupp (sopa de feijão verde)."}, {"n": "Le Sud", "q": "Mediterrânea", "a": "16 Rue du Fort Bourbon, Luxemburgo", "p": "+352 49 49 50", "pr": 3, "d": "Restaurante mediterrâneo elegante em Luxemburgo com cozinha do sul de França e influências italianas. Um dos endereços mais refinados da capital do Grão-Ducado."}, {"n": "Ma Langue Sourit", "q": "Francesa de Autor", "a": "3 Rue de Schengen, Moutfort", "p": "+352 35 94 10", "pr": 4, "m": "m2", "note": "2 Estrelas Michelin", "d": "Duas Estrelas Michelin no Luxemburgo com o chef Cyril Molard. Cozinha francesa contemporânea de excelência numa villa fora da capital, considerada uma das melhores mesas do Grão-Ducado."}, {"n": "Mosconi", "q": "Italiana de Autor", "a": "13 Rue Münster, Luxemburgo", "p": "+352 54 69 94", "pr": 4, "m": "m2", "note": "2 Estrelas Michelin", "d": "Duas Estrelas Michelin com o chef Ilario Mosconi, a referência italiana de Luxemburgo. Pasta fresca artesanal, trufas e a melhor cozinha italiana de autor do Grão-Ducado numa sala elegante junto ao Alzette."}]}];
 
-  document.getElementById('main').innerHTML = `
-    <div class="city-sec">
-      <div class="city-hdr">
-        <div class="city-ghost">Luxembourg</div>
-        <div class="city-inner">
-          <div class="city-left">
-            <span class="city-region-lbl">Grão-Ducado</span>
-            <h2 class="city-name">Luxembourg City</h2>
-            <div class="city-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
-          </div>
-          <div class="city-count">
-            <div class="city-count-num">5</div>
-            <div class="city-count-lbl">restaurantes</div>
-          </div>
-        </div>
-      </div>
-      <div class="grid">${cards}</div>
-    </div>`;
+const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin'};
+function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
+function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
+
+const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
+document.getElementById('filters').innerHTML='<span class="filter-lbl">Região:</span>'+
+  regions.map(r=>`<button class="filter-btn${r==='Todas'?' active':''}" onclick="setRegion('${r}',this)">${r}</button>`).join('');
+
+let activeRegion='Todas';
+function setRegion(r,btn){
+  activeRegion=r;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');render();
 }
-
-function toggleCard(card){
-  const open = card.classList.toggle('open');
-  const t = card.querySelector('.card-toggle');
-  if(t) t.textContent = open ? '▲ fechar' : '▼ detalhes';
+function render(){
+  const main=document.getElementById('main');main.innerHTML='';
+  const filtered=activeRegion==='Todas'?CITIES:CITIES.filter(c=>c.region===activeRegion);
+  const groups={};
+  filtered.forEach(c=>{if(!groups[c.region])groups[c.region]=[];groups[c.region].push(c);});
+  Object.entries(groups).forEach(([region,cities])=>{
+    const rd=document.createElement('div');
+    rd.style.cssText='display:flex;align-items:center;gap:16px;margin:44px 0 8px';
+    rd.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 16px">${region}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
+    main.appendChild(rd);
+    cities.forEach(({city,entries,folder})=>{
+      const f=folder||FOLDER;
+      const sec=document.createElement('div');sec.className='city-sec';
+      sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div></div></div><div class="restaurants-grid"></div>`;
+      main.appendChild(sec);
+      const grid=sec.querySelector('.restaurants-grid');
+      entries.forEach(r=>{
+        const card=document.createElement('div');card.className='restaurant-card';
+        const nm=r.n.replace(/'/g,"\\'");
+        const ad=(r.a&&r.a!==city)?r.a.replace(/'/g,"\\'"):'';
+        const addrHtml=ad?`<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap('${nm}','${ad}')">${r.a}</span></div>`:'';
+        const phoneHtml=r.p?`<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:${r.p.replace(/\s/g,'')}">${r.p}</a></div>`:'';
+        const contact=(addrHtml||phoneHtml)?`<div class="card-contact">${addrHtml}${phoneHtml}</div>`:'';
+        const em=emoji(r.q||'');
+        const badges=(r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
+                     (r.h?'<span class="badge">Hospedagem</span>':'');
+        card.innerHTML=`<div class="card-photo-wrap"><img class="card-photo" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\'>${em}</div>'"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc">${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}</div>`;
+        grid.appendChild(card);
+      });
+    });
+  });
 }
+render();
 
-build();
 </script>
 </body>
 </html>
