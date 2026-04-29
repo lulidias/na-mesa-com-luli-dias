@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Na Mesa com Luli Dias — Itália</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-md:#4A4A4A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;min-height:100vh}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:28px 24px 24px;display:flex;align-items:flex-start;justify-content:space-between}
+.brand-pre{font-size:7px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:6px}
+.brand-main{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);line-height:1.15}
+.brand-main em{font-style:italic;color:var(--gold)}
+.brand-sub{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-top:6px;font-weight:300}
+.hdr-right{text-align:right;padding-top:4px}
+.hdr-flag{font-size:24px;margin-bottom:4px}
+.hdr-count{font-size:8px;letter-spacing:2px;color:var(--ink-lt);font-weight:300}
+.stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex}
+.stat{flex:1;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+.stat-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:2px}
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filter-btn{padding:5px 14px;font-size:7px;letter-spacing:2px;text-transform:uppercase;font-weight:600;white-space:nowrap;background:transparent;color:var(--ink-lt);border:1px solid var(--border);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s}
+.filter-btn.active,.filter-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+main{padding:20px 24px 60px}
+.region-div{display:flex;align-items:center;gap:16px;margin:8px -24px 16px;padding:14px 24px;background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.rd-l{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.rd-r{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.rd-name{font-size:7px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);font-weight:700;white-space:nowrap}
+.city-sec{margin-bottom:32px}
+.city-hdr{position:relative;overflow:hidden;padding:24px 24px 20px;margin:0 -24px 16px;background:var(--white);border-bottom:1px solid var(--border)}
+.city-ghost{position:absolute;right:-6px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(184,146,42,.055);pointer-events:none;white-space:nowrap;line-height:1;letter-spacing:-3px}
+.city-inner{position:relative;display:flex;align-items:flex-end;justify-content:space-between}
+.city-left{display:flex;flex-direction:column;gap:6px}
+.city-region-lbl{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px}
+.city-region-lbl::before{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
+.city-name{font-family:'Playfair Display',serif;font-size:38px;font-weight:400;color:var(--ink);letter-spacing:-0.5px;line-height:1}
+.city-orn{display:flex;align-items:center;gap:6px;margin-top:2px}
+.orn-line{height:1px;width:22px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+.city-count{text-align:right}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);opacity:.2;line-height:1}
+.city-count-lbl{font-size:6px;letter-spacing:3px;text-transform:uppercase;color:#aaa;margin-top:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+.card{background:var(--white);border-left:3px solid var(--gold-lt);cursor:pointer;transition:box-shadow .25s}
+.card:hover{box-shadow:0 4px 20px rgba(184,146,42,.12);position:relative;z-index:1}
+.card-photo-wrap{overflow:hidden;height:180px;background:var(--border)}
+.card-photo{width:100%;height:180px;object-fit:cover;display:block;transition:transform .5s}
+.card:hover .card-photo{transform:scale(1.04)}
+.card-body{padding:16px 18px 14px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.card-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-price{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1px;white-space:nowrap}
+.card-cuisine{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.card-badges{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
+.badge{font-size:6px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:2px 7px;border:1px solid}
+.badge-m{color:#8B0000;border-color:rgba(139,0,0,.3);background:rgba(139,0,0,.04)}
+.badge-h{color:#2C5F7A;border-color:rgba(44,95,122,.3);background:rgba(44,95,122,.04)}
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.75;color:var(--ink-lt);font-weight:300;margin-bottom:12px;display:none}
+.card.open .card-desc{display:block}
+.card-footer{padding-top:10px;border-top:1px solid var(--border)}
+.card-contact{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.c-row{display:flex;gap:8px;align-items:flex-start}
+.c-icon{font-size:9px;color:var(--gold);min-width:14px;line-height:1.6}
+.c-text{font-size:9px;color:var(--ink-md);font-weight:400;line-height:1.5;letter-spacing:.2px}
+.card-note{font-size:8px;font-style:italic;color:var(--ink-md);font-family:'Cormorant Garamond',serif}
+.card-toggle{text-align:right;margin-top:8px;font-size:7px;color:#aaa;letter-spacing:1px}
+footer{background:var(--white);border-top:1px solid var(--border);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;margin-top:32px}
+.ft-brand{font-family:'Playfair Display',serif;font-size:13px;color:var(--ink)}
+.ft-brand em{font-style:italic;color:var(--gold)}
+.ft-note{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#aaa}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <p class="brand-pre">Guia Gastronômico</p>
+    <h1 class="brand-main">Na Mesa com <em>Luli Dias</em></h1>
+    <p class="brand-sub">Curadoria pessoal · Edição 2025</p>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-flag">🇮🇹</div>
+    <p class="hdr-count" id="hdr-count">Itália</p>
+  </div>
+</header>
+<div class="stats">
+  <div class="stat"><div class="stat-num" id="s1">—</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num" id="s2">—</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num" id="s3">—</div><div class="stat-lbl">★ Michelin</div></div>
+</div>
+<div class="filters" id="filters"></div>
+<main id="main"></main>
+<footer>
+  <span class="ft-brand">Na Mesa com <em>Luli Dias</em></span>
+  <span class="ft-note">🇮🇹 Itália · 2025</span>
+</footer>
+<script>
+const PHOTOS = {
+  "Piemontesa de Alta Cozinha":  "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Piemontesa Tradicional":      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Enoteca Piemontesa":          "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80",
+  "Italiana de Alta Cozinha":    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Italiana Contemporânea":      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+  "Italiana Tradicional":        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Toscana":                     "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Veronesa Tradicional":        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Osteria Veronesa":            "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80",
+  "Peixe & Mariscos":            "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&q=80",
+  "Lago de Garda":               "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+  "Emiliana de Alta Cozinha":    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Milanese Clássica":           "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
+  "Beach Club & Mariscos":       "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80",
+};
+const FB="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80";
+
+const DATA = [
+  { region:"Noroeste — Piemonte", city:"Alba", restaurants:[
+    {n:"La Ciau del Tornavento", q:"Piemontesa de Alta Cozinha", d:"Num casarão histórico nas Langhe com vista sobre os vinhedos de Barolo e Barbaresco, a Ciau del Tornavento é uma estrela Michelin que celebra a trufa branca de Alba, o vitello tonnato e os grandes vinhos piemonteses com elegância e paixão. Uma das mesas mais memoráveis do Piemonte.", a:"Piazza Baracco 7, 12057 Treiso, Alba", p:"+39 0173 630 577", pr:"€€€€", m:1},
+    {n:"Enoclub",                q:"Enoteca Piemontesa",         d:"A enoteca histórica de Alba no coração das Langhe, com uma cave extraordinária de Barolo, Barbaresco e Nebbiolo e uma cozinha piemontesa clássica — tajarin al tartufo, vitello tonnato e bagna càuda. O endereço de eleição dos produtores de vinho da região.", a:"Piazza Savona 4, 12051 Alba",         p:"+39 0173 33994",  pr:"€€€"},
+    {n:"Osteria dell'Arco",      q:"Piemontesa Tradicional",     d:"Uma osteria piemontesa de alma popular em Alba, com uma cozinha de terroir que celebra as trufas, os tajarin e o vitello tonnato com uma generosidade e uma autenticidade raramente encontradas. A mesa dos vinicultores e dos caçadores de trufas.", a:"Piazza Savona 5, 12051 Alba",         p:"+39 0173 363 974", pr:"€€€"},
+    {n:"Osteria delle Aie",      q:"Piemontesa Tradicional",     d:"Uma osteria rústica nos arredores de Alba, com cozinha piemontesa de família — bagna càuda, finanziera e tajarin al ragù di salsiccia — preparada com os produtos das quintas vizinhas. Um refúgio de autenticidade nas Langhe.", a:"Loc. Aie, 12051 Alba",                p:"+39 0173 00 00 00", pr:"€€"},
+    {n:"Trattoria della Posta",  q:"Piemontesa Tradicional",     d:"Uma trattoria histórica das Langhe com décadas de tradição piemontesa, onde o brasato al Barolo, os tajarin e o bonet são preparados com as receitas de família. O ambiente rústico e a cave de vinhos locais completam uma experiência de terroir genuíno.", a:"Fraz. Annunziata 30, 12064 La Morra", p:"+39 0173 50010",   pr:"€€€"},
+    {n:"Ostü d'Jun",             q:"Piemontesa Tradicional",     d:"Um pequeno restaurante piemontês de culto nas Langhe, com uma cozinha de ingredientes locais de altíssima qualidade — trufas, funghi porcini e carnes da região. Um endereço que os conhecedores guardam com ciúme.", a:"Alba, Cuneo, Piemonte",               p:"+39 0173 00 00 00", pr:"€€€"},
+  ]},
+  { region:"Noroeste — Lombardia", city:"Lodi", restaurants:[
+    {n:"La Coldana",             q:"Italiana de Alta Cozinha",   d:"Uma estrela Michelin nos arredores de Lodi, com uma cozinha contemporânea que valoriza os produtos da pianura padana — risotto, salumi e formaggi — com técnica e criatividade. Uma surpresa gastronómica entre Milão e o Po.", a:"Via Coldana 3, 26900 Lodi",          p:"+39 0371 42 80 80", pr:"€€€€", m:1},
+  ]},
+  { region:"Noroeste — Lombardia", city:"Milão", restaurants:[
+    {n:"Savini Milano",          q:"Milanese Clássica",          d:"Uma instituição de Milão desde 1867, instalada na Galleria Vittorio Emanuele II, com uma cozinha milanese clássica — risotto alla milanese, ossobuco e cotoletta — num cenário de luxo histórico que é o salão de estar da cidade. A mesa que viu desfilar tudo o que Milão tem de mais elegante.", a:"Galleria Vittorio Emanuele II, 20121 Milano", p:"+39 02 7200 3433", pr:"€€€€"},
+  ]},
+  { region:"Noroeste — Ligúria", city:"Ospedaletti", restaurants:[
+    {n:"Restaurant Byblos",      q:"Peixe & Mariscos",           d:"Um restaurante de peixe e marisco sobre o mar em Ospedaletti, na Riviera dei Fiori, com lagosta, camarão e peixe fresco numa esplanada com vista para o Mediterrâneo. A frescura do mar ligure no prato.", a:"Ospedaletti, 18014 Imperia, Ligúria", p:"+39 0184 68 90 90", pr:"€€€€"},
+    {n:"Bagni Byblos",           q:"Beach Club & Mariscos",      d:"O beach club do Byblos em Ospedaletti, com espreguiçadeiras sobre o Mediterrâneo e uma cozinha de mariscos e grelhados servida entre mergulhos no mar. O dolce far niente da Riviera Ligure.", a:"Ospedaletti, 18014 Imperia, Ligúria", p:"+39 0184 68 90 90", pr:"€€€", nt:"Beach club"},
+  ]},
+  { region:"Nordeste — Véneto", city:"Verona", restaurants:[
+    {n:"Locanda di Castelvecchio", q:"Veronesa Tradicional",     d:"Uma locanda histórica junto ao Castelvecchio de Verona, com uma cozinha véneta clássica — risotto all'Amarone, pasta e fasso in tecia — numa sala de pedra medieval. A cozinha de Verona no seu cenário mais romântico.", a:"Corso Castelvecchio 21, 37121 Verona",p:"+39 045 803 0097", pr:"€€€"},
+    {n:"Trattoria i Masenini",   q:"Veronesa Tradicional",       d:"Uma trattoria veronesa de bairro com uma cozinha de família que celebra os sabores do Véneto — pastissada de caval, gnocchi al ragù e pandoro caseiro. Ambiente sem formalidades e sabores genuínos.", a:"Via Roma 34, 37121 Verona",          p:"+39 045 800 4549", pr:"€€"},
+    {n:"La Taverna di Via Stella",q:"Veronesa Tradicional",      d:"Uma taverna acolhedora no centro histórico de Verona, com uma carta de vinhos extraordinária do Véneto e cicchetti que percorrem o melhor da cozinha veronesa. O endereço favorito para um aperitivo com Soave ou Amarone.", a:"Via Stella 5C, 37121 Verona",        p:"+39 045 800 0277", pr:"€€€"},
+    {n:"Pescheria i Masenini",   q:"Peixe & Mariscos",           d:"A filial piscatória da família Masenini em Verona, com peixe fresco do Adriático e do Lago de Garda numa sala animada junto ao mercado. Fritto misto, baccalà alla vicentina e branzino al sale da não perder.", a:"Via Rosa 4, 37121 Verona",           p:"+39 045 800 4549", pr:"€€€"},
+    {n:"Bottega Vini",           q:"Enoteca Veronesa",           d:"A enoteca mais histórica de Verona, fundada em 1890, com mais de 2500 rótulos e uma cozinha de osteria clássica veronesa. A cave de Amarone, Soave e Valpolicella é uma das mais completas da Itália.", a:"Via Scudo di Francia 3, 37121 Verona",p:"+39 045 800 4535", pr:"€€€"},
+    {n:"La Loggia Bistro",       q:"Italiana Contemporânea",     d:"Um bistrô contemporâneo no centro histórico de Verona com esplanada numa loggia medieval. Cozinha criativa que reinterpreta os clássicos veroneses com leveza e produto de qualidade.", a:"Verona, 37121 Véneto",               p:"+39 045 00 00 00", pr:"€€€"},
+    {n:"Vecio Macello",          q:"Veronesa Tradicional",       d:"Num antigo matadouro reconvertido, uma osteria veronesa de carácter com carnes da região, pasta fresca e a melhor seleção de vinhos da Valpolicella. O ambiente industrial e a cozinha robusta fazem desta uma das experiências mais originais de Verona.", a:"Via Città di Nimes 1, 37138 Verona", p:"+39 045 520 1422", pr:"€€€"},
+  ]},
+  { region:"Nordeste — Lago de Garda", city:"Lazise", restaurants:[
+    {n:"Masi Tenuta Canova",     q:"Lago de Garda",              d:"Na propriedade histórica da Masi Agricola em Lazise, um restaurante que celebra os vinhos da casa — Amarone, Ripasso e Soave — com uma cozinha véneta de terroir preparada com os produtos da herdade. Uma experiência de vinho e gastronomia à beira do Lago de Garda.", a:"Loc. Canova, 37017 Lazise, Verona",  p:"+39 045 758 0028", pr:"€€€"},
+    {n:"Ristorante da Oreste",   q:"Lago de Garda",              d:"Um clássico do lago de Garda em Lazise, com uma cozinha lacustre que celebra o persico, o luccio e o lavarello do lago servidos com polenta e vinhos da Valpolicella. Uma mesa de território e de tradição.", a:"Piazza Vittorio Emanuele 9, 37017 Lazise", p:"+39 045 758 0050", pr:"€€€"},
+  ]},
+  { region:"Nordeste — Lago de Garda", city:"Peschiera del Garda", restaurants:[
+    {n:"Osteria dell'Orologio",  q:"Lago de Garda",              d:"Uma osteria histórica de Peschiera del Garda, dentro das muralhas venezianas da cidade, com uma cozinha lacustre e véneta de raiz — carpione, luccio in salsa e pasta fresca — num ambiente de autenticidade rara.", a:"Via Portici 1, 37019 Peschiera del Garda", p:"+39 045 755 0080", pr:"€€€"},
+  ]},
+  { region:"Centro-Norte — Emília-Romanha", city:"Modena", restaurants:[
+    {n:"Osteria Francescana",    q:"Italiana de Alta Cozinha",   d:"O restaurante de Massimo Bottura, três vezes número um do mundo segundo o World's 50 Best, é uma ode à Itália onde cada prato é uma obra de arte conceptual que reinventa a tradição emiliana. Cinco sessões de degustação que mudam a forma como se pensa a gastronomia italiana e o mundo.", a:"Via Stella 22, 41121 Modena",        p:"+39 059 210 118",  pr:"€€€€", m:3},
+  ]},
+  { region:"Centro — Toscana", city:"San Giustino Valdarno", restaurants:[
+    {n:"Osteria del Borro",      q:"Toscana",                    d:"Na magnífica herdade medieval do Borro, propriedade da família Ferragamo no Valdarno toscano, uma osteria que serve a cozinha toscana de raiz com os produtos da herdade e os vinhos do Borro. Bistecca, ribollita e cinghiale num cenário de borgo medievale incrível.", a:"Loc. Borro 1, 52020 San Giustino Valdarno", p:"+39 055 977 053", pr:"€€€"},
+  ]},
+  { region:"Centro — Toscana", city:"Firenze", restaurants:[
+    {n:"Golden View",            q:"Italiana Contemporânea",     d:"Com vista sobre o Arno e a Ponte Vecchio, o Golden View combina uma cozinha italiana contemporânea com um ambiente de design moderno e uma das vistas mais fotogénicas de Florença. O lugar perfeito para um jantar romântico à beira do rio.", a:"Via dei Bardi 58, 50125 Firenze",    p:"+39 055 214 502",  pr:"€€€"},
+    {n:"La Giostra",             q:"Italiana Tradicional",       d:"Uma trattoria florentina de culto num palácio do século XVI, com uma cozinha toscana de amor e detalhe — bistecca alla fiorentina, ribollita e pappardelle al cinghiale — servida pela família do príncipe Dimitri Kunz d'Asburgo. Uma das experiências mais encantadoras de Florença.", a:"Borgo Pinti 12r, 50121 Firenze",     p:"+39 055 241 341",  pr:"€€€"},
+  ]},
+];
+
+function photo(q){return PHOTOS[q]||FB}
+
+function buildCard(r){
+  const badges=[r.m>0?`<span class="badge badge-m">★ Michelin ×${r.m}</span>`:'',r.h?`<span class="badge badge-h">Hospedagem</span>`:''].filter(Boolean).join('');
+  return `<div class="card" onclick="toggleCard(this)">
+    <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.parentElement.style.background='#e8e0d5';this.style.display='none'"></div>
+    <div class="card-body">
+      <div class="card-top"><div class="card-name">${r.n}</div><div class="card-price">${r.pr}</div></div>
+      <div class="card-cuisine">${r.q}</div>
+      ${badges?`<div class="card-badges">${badges}</div>`:''}
+      <div class="card-desc">${r.d}</div>
+      <div class="card-footer">
+        <div class="card-contact">
+          <div class="c-row"><span class="c-icon">📍</span><span class="c-text">${r.a}</span></div>
+          <div class="c-row"><span class="c-icon">📞</span><span class="c-text">${r.p}</span></div>
+        </div>
+        ${r.nt?`<div class="card-note">✦ ${r.nt}</div>`:''}
+      </div>
+      <div class="card-toggle">▼ detalhes</div>
+    </div>
+  </div>`;
+}
+
+function render(regionFilter){
+  const groups={};
+  DATA.forEach(e=>{if(!groups[e.region])groups[e.region]=[];groups[e.region].push(e)});
+  let html='',totalR=0,totalC=0,totalM=0;
+  const regions=Object.keys(groups);
+  const f=document.getElementById('filters');
+  f.innerHTML=`<button class="filter-btn ${!regionFilter?'active':''}" onclick="render(null)">Todas</button>`+
+    regions.map(r=>`<button class="filter-btn ${regionFilter===r?'active':''}" onclick="render('${r}')">${r.split('—')[1]||r}</button>`).join('');
+  for(const [reg,entries] of Object.entries(groups)){
+    if(regionFilter&&reg!==regionFilter)continue;
+    let cities='';
+    entries.forEach(e=>{
+      totalC++;totalR+=e.restaurants.length;e.restaurants.forEach(r=>totalM+=(r.m||0));
+      cities+=`<div class="city-sec">
+        <div class="city-hdr">
+          <div class="city-ghost">${e.city}</div>
+          <div class="city-inner">
+            <div class="city-left">
+              <span class="city-region-lbl">${reg.split('—')[1]||reg}</span>
+              <h2 class="city-name">${e.city}</h2>
+              <div class="city-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+            </div>
+            <div class="city-count"><div class="city-count-num">${e.restaurants.length}</div><div class="city-count-lbl">restaurante${e.restaurants.length!==1?'s':''}</div></div>
+          </div>
+        </div>
+        <div class="grid">${e.restaurants.map(buildCard).join('')}</div>
+      </div>`;
+    });
+    html+=`<div><div class="region-div"><div class="rd-l"></div><span class="rd-name">${reg}</span><div class="rd-r"></div></div>${cities}</div>`;
+  }
+  document.getElementById('main').innerHTML=html;
+  document.getElementById('s1').textContent=totalR;
+  document.getElementById('s2').textContent=totalC;
+  document.getElementById('s3').textContent=totalM;
+  document.getElementById('hdr-count').textContent=`${totalR} restaurantes · ${totalC} cidades`;
+}
+
+function toggleCard(card){
+  const open=card.classList.toggle('open');
+  const t=card.querySelector('.card-toggle');
+  if(t)t.textContent=open?'▲ fechar':'▼ detalhes';
+}
+
+render(null);
+</script>
+</body>
+</html>
