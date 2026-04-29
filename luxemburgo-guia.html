@@ -97,10 +97,11 @@ footer a{color:var(--gold);text-decoration:none}</style>
   <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
   <div class="header-meta-row"><span class="header-meta">Luxemburgo Cidade</span><span class="header-edition">Abril 2026</span></div>
 </header>
-<div class="stats-bar"><div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Restaurantes</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div><div class="stat"><div class="stat-num">4 ★</div><div class="stat-lbl">Michelin</div></div></div>
+<div class="stats-bar"><div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Restaurantes</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div></div>
 <div class="michelin-legend">
   <span class="lbadge">★★★ 3 Estrelas</span><span class="lbadge">★★ 2 Estrelas</span><span class="lbadge">★ 1 Estrela</span>
   <span class="lbadge">Bib Gourmand</span><span class="lbadge">Michelin</span><span class="lbadge">Hospedagem</span>
+  <span class="lbadge">Beach Club</span>
 </div>
 <div class="filters" id="filters"></div>
 <div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
@@ -130,9 +131,17 @@ function openMap(name,addr){
 function closeMap(){document.getElementById('mapModal').classList.remove('open');}
 
 const FOLDER='luxemburgo';
-const CITIES=[{"city": "Luxemburgo Cidade", "region": "Luxemburgo", "entries": [{"n": "Brasserie Guillaume", "q": "Francesa Brasserie", "a": "Pl. Guillaume II, Luxemburgo", "p": "+352 47 13 70", "pr": 2, "d": "Brasserie elegante na Place Guillaume II, no coração de Luxemburgo Cidade. Cozinha franco-luxemburguesa clássica numa cidade que é Património da Humanidade da UNESCO."}, {"n": "Caves Gourmandes", "q": "Luxemburguesa", "a": "Luxemburgo Cidade", "p": "", "pr": 2, "d": "Restaurante de cozinha luxemburguesa com os pratos tradicionais do Grão-Ducado — Judd mat Gaardebounen (pescoço de porco fumado com favas) e Bouneschlupp (sopa de feijão verde)."}, {"n": "Le Sud", "q": "Mediterrânea", "a": "16 Rue du Fort Bourbon, Luxemburgo", "p": "+352 49 49 50", "pr": 3, "d": "Restaurante mediterrâneo elegante em Luxemburgo com cozinha do sul de França e influências italianas. Um dos endereços mais refinados da capital do Grão-Ducado."}, {"n": "Ma Langue Sourit", "q": "Francesa de Autor", "a": "3 Rue de Schengen, Moutfort", "p": "+352 35 94 10", "pr": 4, "m": "m2", "note": "2 Estrelas Michelin", "d": "Duas Estrelas Michelin no Luxemburgo com o chef Cyril Molard. Cozinha francesa contemporânea de excelência numa villa fora da capital, considerada uma das melhores mesas do Grão-Ducado."}, {"n": "Mosconi", "q": "Italiana de Autor", "a": "13 Rue Münster, Luxemburgo", "p": "+352 54 69 94", "pr": 4, "m": "m2", "note": "2 Estrelas Michelin", "d": "Duas Estrelas Michelin com o chef Ilario Mosconi, a referência italiana de Luxemburgo. Pasta fresca artesanal, trufas e a melhor cozinha italiana de autor do Grão-Ducado numa sala elegante junto ao Alzette."}]}];
+const CITIES=[
+  {"city":"Luxemburgo Cidade","region":"Luxemburgo","entries":[
+    {"n":"Le Sud","q":"Mediterrânea · Francesa","a":"16 Rue du Fort Bourbon, Luxemburgo","p":"+352 49 49 50","pr":3,"d":"Um dos restaurantes mais elegantes de Luxemburgo Cidade com cozinha mediterrânea e influências do sul de França. Ambiente refinado e carta de vinhos criteriosamente selecionada num dos endereços mais respeitados da capital do Grão-Ducado."},
+    {"n":"Bick Stuff","q":"Luxemburguesa · Bistrô","a":"Luxemburgo Cidade","p":"+352 26 47 82 36","pr":2,"d":"Bistrô de cozinha luxemburguesa contemporânea com pratos regionais revisitados e ambiente descontraído. Um dos favoritos dos luxemburgueses para almoços de trabalho e jantares informais no centro da cidade."},
+    {"n":"Le Bouquet Garni","q":"Francesa Clássica","a":"32 Rue de l'Eau, Luxemburgo","p":"+352 26 20 06 20","pr":3,"d":"Restaurante de cozinha francesa clássica numa das ruas históricas do centro de Luxemburgo. Foie gras, ris de veau e grandes clássicos da gastronomia francesa num ambiente de elegância discreta."},
+    {"n":"De Feierwon","q":"Luxemburguesa Tradicional","a":"Route de Thionville 48, Luxemburgo","p":"+352 26 44 23 23","pr":2,"d":"Restaurante de cozinha luxemburguesa tradicional com Judd mat Gaardebounen (pescoço de porco fumado com favas), Bouneschlupp (sopa de feijão verde) e os pratos típicos do Grão-Ducado num ambiente acolhedor e autêntico."},
+    {"n":"Bazzar","q":"Libanesa","a":"Luxemburgo Cidade","p":"+352 26 26 13 63","pr":2,"d":"O melhor restaurante de cozinha libanesa de Luxemburgo Cidade com meze variados, hummus, fattoush, quibe e churrasco de carnes. Ambiente animado e acolhedor que transporta para os sabores do Mediterrâneo Oriental no coração da Europa."}
+  ]}
+];
 
-const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin'};
+const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin',beach:'Beach Club'};
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
 function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
@@ -172,7 +181,7 @@ function render(){
         const contact=(addrHtml||phoneHtml)?`<div class="card-contact">${addrHtml}${phoneHtml}</div>`:'';
         const em=emoji(r.q||'');
         const badges=(r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
-                     (r.h?'<span class="badge">Hospedagem</span>':'');
+                     (r.h?'<span class="badge">Hospedagem</span>':'')+(r.beach?'<span class="badge">Beach Club</span>':'');
         card.innerHTML=`<div class="card-photo-wrap"><img class="card-photo" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\'>${em}</div>'"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc">${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}</div>`;
         grid.appendChild(card);
       });
