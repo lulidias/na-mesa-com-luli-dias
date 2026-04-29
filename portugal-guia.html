@@ -404,7 +404,7 @@ function render(){
         const badges=(r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge bhotel">Hospedagem</span>':'');
         card.innerHTML=`
-          <div class="card-photo-wrap"><img class="card-photo" src="fotos/portugal/${slug(r.n)}.jpg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\' style=\\'background:${bg}\\'>${em}</div>'"></div>
+          <div class="card-photo-wrap"><img class="card-photo" src="fotos/portugal/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\' style=\\'background:${bg}\\'>${em}</div>'"></div>
           <div class="card-body">
             <div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div>
             <div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div>
