@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Na Mesa com Luli Dias — Peru</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-md:#4A4A4A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;min-height:100vh}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:28px 24px 24px;display:flex;align-items:flex-start;justify-content:space-between}
+.brand-pre{font-size:7px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:6px}
+.brand-main{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);line-height:1.15}
+.brand-main em{font-style:italic;color:var(--gold)}
+.brand-sub{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-top:6px;font-weight:300}
+.hdr-right{text-align:right;padding-top:4px}
+.hdr-flag{font-size:24px;margin-bottom:4px}
+.hdr-count{font-size:8px;letter-spacing:2px;color:var(--ink-lt);font-weight:300}
+.stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex}
+.stat{flex:1;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+.stat-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:2px}
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filter-btn{padding:5px 14px;font-size:7px;letter-spacing:2px;text-transform:uppercase;font-weight:600;white-space:nowrap;background:transparent;color:var(--ink-lt);border:1px solid var(--border);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s}
+.filter-btn.active,.filter-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+main{padding:20px 24px 60px}
+.city-sec{margin-bottom:32px}
+.city-hdr{position:relative;overflow:hidden;padding:24px 24px 20px;margin:0 -24px 16px;background:var(--white);border-bottom:1px solid var(--border)}
+.city-ghost{position:absolute;right:-6px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(184,146,42,.055);pointer-events:none;white-space:nowrap;line-height:1;letter-spacing:-3px}
+.city-inner{position:relative;display:flex;align-items:flex-end;justify-content:space-between}
+.city-left{display:flex;flex-direction:column;gap:6px}
+.city-region-lbl{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px}
+.city-region-lbl::before{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
+.city-name{font-family:'Playfair Display',serif;font-size:38px;font-weight:400;color:var(--ink);letter-spacing:-0.5px;line-height:1}
+.city-orn{display:flex;align-items:center;gap:6px;margin-top:2px}
+.orn-line{height:1px;width:22px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+.city-count{text-align:right}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);opacity:.2;line-height:1}
+.city-count-lbl{font-size:6px;letter-spacing:3px;text-transform:uppercase;color:#aaa;margin-top:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+.card{background:var(--white);border-left:3px solid var(--gold-lt);cursor:pointer;transition:box-shadow .25s}
+.card:hover{box-shadow:0 4px 20px rgba(184,146,42,.12);position:relative;z-index:1}
+.card-photo-wrap{overflow:hidden;height:180px;background:var(--border)}
+.card-photo{width:100%;height:180px;object-fit:cover;display:block;transition:transform .5s}
+.card:hover .card-photo{transform:scale(1.04)}
+.card-body{padding:16px 18px 14px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.card-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-price{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1px;white-space:nowrap}
+.card-cuisine{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.card-badges{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
+.badge{font-size:6px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:2px 7px;border:1px solid}
+.badge-m{color:#8B0000;border-color:rgba(139,0,0,.3);background:rgba(139,0,0,.04)}
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.75;color:var(--ink-lt);font-weight:300;margin-bottom:12px;display:none}
+.card.open .card-desc{display:block}
+.card-footer{padding-top:10px;border-top:1px solid var(--border)}
+.card-contact{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.c-row{display:flex;gap:8px;align-items:flex-start}
+.c-icon{font-size:9px;color:var(--gold);min-width:14px;line-height:1.6}
+.c-text{font-size:9px;color:var(--ink-md);font-weight:400;line-height:1.5;letter-spacing:.2px}
+.card-note{font-size:8px;font-style:italic;color:var(--ink-md);font-family:'Cormorant Garamond',serif}
+.card-toggle{text-align:right;margin-top:8px;font-size:7px;color:#aaa;letter-spacing:1px}
+footer{background:var(--white);border-top:1px solid var(--border);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;margin-top:32px}
+.ft-brand{font-family:'Playfair Display',serif;font-size:13px;color:var(--ink)}
+.ft-brand em{font-style:italic;color:var(--gold)}
+.ft-note{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#aaa}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <p class="brand-pre">Guia Gastronômico</p>
+    <h1 class="brand-main">Na Mesa com <em>Luli Dias</em></h1>
+    <p class="brand-sub">Curadoria pessoal · Edição 2025</p>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-flag">🇵🇪</div>
+    <p class="hdr-count" id="hdr-count">Peru</p>
+  </div>
+</header>
+<div class="stats">
+  <div class="stat"><div class="stat-num" id="s1">—</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num" id="s2">—</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num" id="s3">—</div><div class="stat-lbl">Cozinhas</div></div>
+</div>
+<div class="filters" id="filters"></div>
+<main id="main"></main>
+<footer>
+  <span class="ft-brand">Na Mesa com <em>Luli Dias</em></span>
+  <span class="ft-note">🇵🇪 Peru · 2025</span>
+</footer>
+<script>
+const PHOTOS = {
+  "Peruana de Alta Cozinha":    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Peruana Andina":             "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+  "Peruana Contemporânea":      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Peruana Tradicional":        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Francesa & Internacional":   "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+  "Japonesa & Nikkei":          "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80",
+  "Criolla Limeña":             "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Carnes & Grelhados":         "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
+  "Peruana de Autor":           "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Arequipeña Tradicional":     "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Arequipeña Contemporânea":   "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+  "Frutos do Mar":              "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80",
+};
+const FB = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80";
+
+const DATA = {
+  "Cusco": [
+    {n:"Tupay",       q:"Peruana de Alta Cozinha",  d:"O restaurante de alta gastronomia do Hotel Palacio del Inka em Cusco, com uma cozinha peruana contemporânea que celebra os produtos andinos a 3400 metros de altitude — quinoa, chuño, alpaca e trutas do Titicaca. Uma das experiências gastronómicas mais sofisticadas do Peru profundo.", a:"Plazoleta Santo Domingo 259, Cusco",        p:"+51 84 231 961",  pr:"€€€€", nt:"No Hotel Palacio del Inka"},
+    {n:"Mauca",       q:"Peruana Andina",            d:"Um restaurante íntimo em Cusco com uma cozinha que reinterpreta os sabores andinos ancestrais — ceviche de altura, chupe de camarones e lomo saltado — com produto local de altitude. Uma das descobertas mais agradáveis da cena gastronómica cusquenha.", a:"Cusco, Peru",                               p:"+51 84 000 000",  pr:"€€€"},
+    {n:"Chicha",      q:"Peruana Contemporânea",     d:"O restaurante de Gastón Acurio em Cusco, que celebra a cozinha peruana das alturas com os produtos andinos mais puros — cuy, papas nativas, quinoa e choclo gigante — numa sala contemporânea com vista para os telhados de telha colonial. Uma experiência de Peru profundo.", a:"Plaza Regocijo 261, Cusco",                p:"+51 84 240 520",  pr:"€€€"},
+    {n:"Oqre",        q:"Peruana Andina",            d:"Um restaurante de cozinha andina criativa em Cusco, com uma proposta que explora os ingredientes pré-hispânicos das alturas — muña, huacatay, oca e mashua — numa abordagem contemporânea e respeitosa da tradição inca. Uma das mesas mais estimulantes da cidade imperial.", a:"Cusco, Peru",                               p:"+51 84 000 000",  pr:"€€€"},
+    {n:"Hotel Monasterio",q:"Peruana de Alta Cozinha",d:"O restaurante do lendário Hotel Monasterio de Cusco, instalado num convento do século XVII, com uma cozinha de alta gastronomia peruana num ambiente de claustros e arte colonial espanhola. Uma das experiências hoteleiras e gastronómicas mais memoráveis de toda a América do Sul.", a:"Calle Palacios 136, Plazoleta Nazarenas, Cusco", p:"+51 84 604 000",  pr:"€€€€", nt:"No histórico Hotel Monasterio"},
+  ],
+  "Machu Picchu": [
+    {n:"Indio Feliz",  q:"Francesa & Internacional", d:"O restaurante mais famoso de Aguas Calientes — a vila aos pés de Machu Picchu — com uma cozinha de inspiração francesa e produto local numa sala de madeira e pedra cheia de personalidade. Uma paragem obrigatória antes ou depois da visita às ruínas incas.", a:"Lloque Yupanqui 4, Aguas Calientes, Machu Picchu", p:"+51 84 211 090", pr:"€€€"},
+    {n:"Sumaq Hotel",  q:"Peruana de Alta Cozinha",  d:"O restaurante do luxuoso Sumaq Machu Picchu Hotel, com uma cozinha peruana contemporânea de altitude e os produtos das montanhas sagradas da Cordilheira dos Andes. Uma das experiências gastronómicas mais únicas do mundo — comer ao nível das nuvens e das ruínas incas.", a:"Av. Hermanos Ayar Mz.1 Lte.3, Aguas Calientes", p:"+51 84 211 059", pr:"€€€€", nt:"No Sumaq Machu Picchu Hotel"},
+  ],
+  "Lima": [
+    {n:"Osaka",        q:"Japonesa & Nikkei",        d:"O restaurante nikkei de referência em Lima, com uma cozinha que funde a tradição japonesa com os ingredientes e os sabores do Peru. Tiraditos, nigiris de pescado do Pacífico e causas de batata nativa num ambiente de design contemporâneo que reflecte a herança da imigração japonesa no Peru.", a:"Av. La Mar 1512, Miraflores, Lima",         p:"+51 1 222 0405",  pr:"€€€€"},
+    {n:"Isolina",      q:"Criolla Limeña",           d:"A taberna criolla de José del Castillo em Lima, com a cozinha da avó limeña na sua expressão mais pura e generosa. Arroz con leche, pepián de pava, seco de cabrito e causa rellena servidos num ambiente de bodega popular que é um hino à identidade gastronómica de Lima.", a:"Av. San Martín 101, Barranco, Lima",        p:"+51 1 247 5075",  pr:"€€€"},
+    {n:"Fiesta",       q:"Peruana de Autor",         d:"O restaurante do chef Héctor Solís em Lima, um dos mais reconhecidos da cozinha nortenha peruana, com uma cozinha que celebra os produtos e as receitas de Chiclayo e do norte do Peru com técnica e elegância. Arroz con pato, cabrito norteño e ceviche a la norteña.",  a:"Av. Reducto 1278, Miraflores, Lima",       p:"+51 1 242 9009",  pr:"€€€€"},
+    {n:"Osso",         q:"Carnes & Grelhados",       d:"A carnicería e restaurante de Renzo Garibaldi em Lima, com cortes maturados de carne peruana e internacional numa sala que combina talho e mesa. O wagyu, o dry-aged e o chuletón de vaca pampera são preparados com a devoção de quem conhece a carne como ninguém em Lima.", a:"Conquistadores 510, San Isidro, Lima",      p:"+51 1 222 0025",  pr:"€€€€"},
+    {n:"Maido",        q:"Japonesa & Nikkei",        d:"O restaurante do chef Mitsuharu 'Micha' Tsumura — várias vezes no top 5 do World's 50 Best — é a expressão mais sublime da cozinha nikkei, onde o Japão e o Peru se encontram num menu de degustação que é uma viagem pelas duas culturas. Uma experiência absolutamente única no mundo.", a:"Calle San Martín 399, Miraflores, Lima",   p:"+51 1 446 2512",  pr:"€€€€"},
+  ],
+  "Arequipa": [
+    {n:"Cirqa",        q:"Arequipeña Contemporânea", d:"Um restaurante contemporâneo em Arequipa com uma cozinha que reinterpreta a tradição arequipeña — rocoto relleno, adobo e chupe de camarones — com técnica e produto local de altitude. Uma das propostas mais interessantes da cena gastronómica da Ciudad Blanca.", a:"Arequipa, Peru",                            p:"+51 54 000 000",  pr:"€€€"},
+    {n:"Victoria Picantería Democrática", q:"Arequipeña Tradicional", d:"Uma picantería histórica de Arequipa — as tabernas populares que são a alma da gastronomia arequipeña — com a cozinha de raiz da região: rocoto, cuy chactado e chicha de guiñapo numa sala de adobe com piso de barro. A experiência mais autêntica de Arequipa.", a:"Arequipa, Peru",                            p:"+51 54 000 000",  pr:"€",  nt:"Autêntica picantería arequipeña"},
+    {n:"Claustro",     q:"Arequipeña Contemporânea", d:"O restaurante do boutique hotel Casona Inkari em Arequipa, instalado num claustro colonial de sillar branco, com uma cozinha contemporânea que celebra os produtos e os sabores da região de Arequipa. Um ambiente de rara beleza histórica para uma refeição memorável.", a:"Arequipa, Peru",                            p:"+51 54 000 000",  pr:"€€€€", nt:"No Casona Inkari Hotel"},
+    {n:"Chicha Arequipa", q:"Peruana Contemporânea", d:"A filial arequipeña do restaurante de Gastón Acurio, com uma cozinha que celebra os produtos e as tradições gastronómicas de Arequipa — rocoto, queso helado e picanterías — numa sala contemporânea. Uma proposta de Acurio especificamente dedicada aos sabores da Ciudad Blanca.", a:"Santa Catalina 210, Arequipa",             p:"+51 54 287 360",  pr:"€€€"},
+    {n:"Zig Zag",      q:"Arequipeña Contemporânea", d:"Um restaurante contemporâneo instalado numa casa colonial de sillar de Arequipa com uma cozinha de fusion que combina os produtos andinos — alpaca, trutas do Colca e chuño — com técnicas europeias. Uma das experiências mais sofisticadas da cidade.", a:"Zela 210, Arequipa",                        p:"+51 54 206 020",  pr:"€€€"},
+  ],
+  "Paracas": [
+    {n:"Ballestas",    q:"Frutos do Mar",            d:"Um restaurante de frutos do mar em Paracas, junto à Reserva Nacional onde habitam leões-marinhos, pinguins de Humboldt e flamingos. O melhor ceviche e o tiradito de corvina são preparados com o peixe mais fresco do Pacífico sul-americano numa localização de natureza inesquecível.", a:"Paracas, Ica, Peru",                        p:"+51 56 000 000",  pr:"€€€", nt:"Junto à Reserva Nacional de Paracas"},
+  ],
+};
+
+function photo(q){return PHOTOS[q]||FB}
+
+function render(cityFilter){
+  const cities = Object.keys(DATA);
+  const f = document.getElementById('filters');
+  f.innerHTML = `<button class="filter-btn ${!cityFilter?'active':''}" onclick="render(null)">Todas</button>` +
+    cities.map(c=>`<button class="filter-btn ${cityFilter===c?'active':''}" onclick="render('${c}')">${c}</button>`).join('');
+
+  let html='', totalR=0, totalC=0, cats=new Set();
+  const shown = cityFilter ? [cityFilter] : cities;
+
+  shown.forEach(city=>{
+    const restaurants = DATA[city];
+    totalC++; totalR += restaurants.length;
+    restaurants.forEach(r=>cats.add(r.q));
+
+    const cards = restaurants.map(r=>{
+      const badges=[r.m>0?`<span class="badge badge-m">★ Michelin ×${r.m}</span>`:''].filter(Boolean).join('');
+      return `<div class="card" onclick="toggleCard(this)">
+        <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.parentElement.style.background='#e8e0d5';this.style.display='none'"></div>
+        <div class="card-body">
+          <div class="card-top"><div class="card-name">${r.n}</div><div class="card-price">${r.pr}</div></div>
+          <div class="card-cuisine">${r.q}</div>
+          ${badges?`<div class="card-badges">${badges}</div>`:''}
+          <div class="card-desc">${r.d}</div>
+          <div class="card-footer">
+            <div class="card-contact">
+              <div class="c-row"><span class="c-icon">📍</span><span class="c-text">${r.a}</span></div>
+              <div class="c-row"><span class="c-icon">📞</span><span class="c-text">${r.p}</span></div>
+            </div>
+            ${r.nt?`<div class="card-note">✦ ${r.nt}</div>`:''}
+          </div>
+          <div class="card-toggle">▼ detalhes</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    html += `<div class="city-sec">
+      <div class="city-hdr">
+        <div class="city-ghost">${city}</div>
+        <div class="city-inner">
+          <div class="city-left">
+            <span class="city-region-lbl">Peru</span>
+            <h2 class="city-name">${city}</h2>
+            <div class="city-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+          </div>
+          <div class="city-count">
+            <div class="city-count-num">${restaurants.length}</div>
+            <div class="city-count-lbl">restaurante${restaurants.length!==1?'s':''}</div>
+          </div>
+        </div>
+      </div>
+      <div class="grid">${cards}</div>
+    </div>`;
+  });
+
+  document.getElementById('main').innerHTML = html;
+  document.getElementById('s1').textContent = totalR;
+  document.getElementById('s2').textContent = totalC;
+  document.getElementById('s3').textContent = cats.size;
+  document.getElementById('hdr-count').textContent = `${totalR} restaurantes · ${totalC} cidades`;
+}
+
+function toggleCard(card){
+  const open = card.classList.toggle('open');
+  const t = card.querySelector('.card-toggle');
+  if(t) t.textContent = open ? '▲ fechar' : '▼ detalhes';
+}
+
+render(null);
+</script>
+</body>
+</html>
