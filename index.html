@@ -7,12 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-md:#4A4A4A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5}
+:root{
+  --cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5;
+}
 html,body{height:100%}
 body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;min-height:100vh}
 
-/* HEADER */
-header{background:var(--white);border-bottom:1px solid var(--border);padding:36px 32px 28px;text-align:center;position:relative}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:36px 32px 28px;text-align:center}
 .brand-pre{font-size:7px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
 .brand-main{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--ink);line-height:1.15}
 .brand-main em{font-style:italic;color:var(--gold)}
@@ -22,59 +24,48 @@ header{background:var(--white);border-bottom:1px solid var(--border);padding:36p
 .orn-line.r{background:linear-gradient(90deg,var(--gold),transparent)}
 .orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
 
-/* STATS GLOBAL */
-.global-stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;justify-content:center;gap:0}
-.gstat{padding:0 28px;text-align:center;border-right:1px solid var(--border)}
+.global-stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;justify-content:center;flex-wrap:wrap;gap:0}
+.gstat{padding:10px 24px;text-align:center;border-right:1px solid var(--border)}
 .gstat:last-child{border-right:none}
-.gstat-num{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold)}
-.gstat-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:2px}
+.gstat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);font-weight:600}
+.gstat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:2px}
 
-/* INTRO */
-.intro{text-align:center;padding:36px 32px 24px;max-width:600px;margin:0 auto}
-.intro p{font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.8;color:var(--ink-lt);font-weight:300;font-style:italic}
+main{max-width:1100px;margin:0 auto;padding:40px 24px 60px}
 
-/* REGION DIVIDER */
-.region-div{display:flex;align-items:center;gap:16px;margin:8px 24px 20px;padding:14px 24px;background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.rd-l{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
-.rd-r{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
-.rd-name{font-size:7px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);font-weight:700;white-space:nowrap}
+.region-div{display:flex;align-items:center;gap:12px;margin:36px 0 20px}
+.rd-l,.rd-r{flex:1;height:1px;background:var(--border)}
+.rd-name{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500}
 
-/* GRID */
-.countries-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);margin:0 0 40px}
+.countries-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
 
-/* COUNTRY CARD */
-.country-card{background:var(--white);border-left:3px solid var(--gold-lt);text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:box-shadow .25s,border-color .25s;cursor:pointer}
-.country-card:hover{box-shadow:0 4px 24px rgba(184,146,42,.15);border-left-color:var(--gold);position:relative;z-index:1}
-.card-hero{height:160px;overflow:hidden;position:relative;background:var(--border)}
-.card-hero img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
-.country-card:hover .card-hero img{transform:scale(1.05)}
-.card-flag{position:absolute;top:12px;right:12px;font-size:28px;line-height:1;filter:drop-shadow(0 1px 3px rgba(0,0,0,.3))}
-.card-body{padding:18px 20px 16px;flex:1;display:flex;flex-direction:column;gap:6px}
-.card-country{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;color:var(--ink);line-height:1}
-.card-region{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
-.card-cities{font-size:8px;color:var(--ink-lt);font-weight:300;margin-top:2px}
-.card-footer-row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
-.card-count{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);opacity:.35;line-height:1}
-.card-count-lbl{font-size:6px;letter-spacing:2px;text-transform:uppercase;color:#bbb}
-.card-arrow{font-size:11px;color:var(--gold);letter-spacing:2px;font-weight:500}
-.card-michelin{font-size:6px;letter-spacing:1px;text-transform:uppercase;color:#8B0000;border:1px solid rgba(139,0,0,.25);padding:2px 6px;background:rgba(139,0,0,.03);font-weight:700}
+.card{display:block;text-decoration:none;color:inherit;background:var(--white);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
+.card.coming-soon{opacity:.6;pointer-events:none;cursor:default}
+.card-img{width:100%;height:160px;object-fit:cover;display:block;background:#eee}
+.card-img-placeholder{width:100%;height:160px;background:linear-gradient(135deg,#f0e8d8,#e8dcc8);display:flex;align-items:center;justify-content:center;font-size:48px}
+.card-body{padding:16px}
+.card-flag-name{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.card-flag{font-size:20px}
+.card-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:400;color:var(--ink)}
+.card-region{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:10px}
+.card-cities{font-size:10px;color:#888;margin-bottom:10px;line-height:1.5}
+.card-footer{display:flex;justify-content:space-between;align-items:flex-end;margin-top:10px}
+.card-count{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold)}
+.card-count-lbl{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-lt)}
+.card-michelin{font-size:9px;color:var(--gold);background:var(--gold-bg);padding:3px 8px;border-radius:2px;letter-spacing:1px}
+.card-arrow{font-size:9px;color:var(--gold);letter-spacing:1px}
+.coming-badge{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#aaa;background:#f5f5f5;padding:3px 8px;border-radius:2px}
 
-/* FOOTER */
-footer{background:var(--white);border-top:1px solid var(--border);padding:24px 32px;display:flex;justify-content:space-between;align-items:center}
-.ft-brand{font-family:'Playfair Display',serif;font-size:14px;color:var(--ink)}
-.ft-brand em{font-style:italic;color:var(--gold)}
-.ft-note{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
-
-/* MAIN WRAPPER */
-main{padding:0 0 20px}
+footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
+footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 </style>
 </head>
 <body>
 
 <header>
-  <p class="brand-pre">Guia Gastronômico Pessoal</p>
-  <h1 class="brand-main">Na Mesa com <em>Luli Dias</em></h1>
-  <p class="brand-sub">Curadoria pessoal · Edição 2025</p>
+  <div class="brand-pre">guia gastronômico</div>
+  <div class="brand-main">Na Mesa com <em>Luli Dias</em></div>
+  <div class="brand-sub">curadoria pessoal · experiências únicas · o melhor de cada destino</div>
   <div class="header-orn">
     <div class="orn-line"></div>
     <div class="orn-diamond"></div>
@@ -86,81 +77,75 @@ main{padding:0 0 20px}
   <div class="gstat"><div class="gstat-num">16</div><div class="gstat-lbl">Países</div></div>
   <div class="gstat"><div class="gstat-num">350+</div><div class="gstat-lbl">Restaurantes</div></div>
   <div class="gstat"><div class="gstat-num">80+</div><div class="gstat-lbl">Cidades</div></div>
-  <div class="gstat"><div class="gstat-num">30+</div><div class="gstat-lbl">★ Michelin</div></div>
-</div>
-
-<div class="intro">
-  <p>Uma vida de viagens e de mesas — os restaurantes que ficaram na memória, os sabores que contam histórias e os endereços que merecem ser partilhados.</p>
+  <div class="gstat"><div class="gstat-num">30+</div><div class="gstat-lbl">Estrelas Michelin</div></div>
 </div>
 
 <main id="main"></main>
 
-<footer>
-  <span class="ft-brand">Na Mesa com <em>Luli Dias</em></span>
-  <span class="ft-note">Curadoria pessoal · 2025</span>
-</footer>
+<footer><p>Na Mesa com Luli Dias · Curadoria Gastronômica Global</p></footer>
 
 <script>
 const REGIONS = [
   {
-    name: "Europa",
+    name: 'Europa',
     countries: [
-      { name:"Portugal",        flag:"🇵🇹", region:"Europa do Sul",    file:"index.html",            restaurants:78,  cities:25, michelin:4,  img:"fotos/portugal/cervejaria-ramiro.jpg",    cities_list:"Porto · Lisboa · Algarve · Douro · Évora" },
-      { name:"França",          flag:"🇫🇷", region:"Europa Ocidental", file:"franca-guia.html",       restaurants:90,  cities:20, michelin:15, img:"fotos/franca/paul-bocuse.jpg",           cities_list:"Paris · Bordeaux · Saint-Tropez · Lyon · Reims" },
-      { name:"Espanha",         flag:"🇪🇸", region:"Europa do Sul",    file:"espanha-guia.html",      restaurants:40,  cities:8,  michelin:5,  img:"fotos/espanha/arzak.jpg",                cities_list:"Madrid · Barcelona · San Sebastián · Galiza" },
-      { name:"Itália",          flag:"🇮🇹", region:"Europa do Sul",    file:"italia-guia.html",       restaurants:28,  cities:10, michelin:3,  img:"fotos/italia/osteria-francescana.jpg",   cities_list:"Alba · Verona · Modena · Florença · Lago de Garda" },
-      { name:"Alemanha",        flag:"🇩🇪", region:"Europa Central",   file:"alemanha-guia.html",     restaurants:13,  cities:4,  michelin:4,  img:"fotos/alemanha/phoenix.jpg",             cities_list:"Düsseldorf · Frankfurt · Köln · Würzburg" },
-      { name:"Holanda",         flag:"🇳🇱", region:"Europa do Norte",  file:"holanda-guia.html",      restaurants:8,   cities:1,  michelin:5,  img:"fotos/holanda/ciel-bleu.jpg",            cities_list:"Amsterdã" },
-      { name:"Luxemburgo",      flag:"🇱🇺", region:"Europa Central",   file:"luxemburgo-guia.html",   restaurants:5,   cities:1,  michelin:0,  img:"fotos/luxemburgo/le-sud.jpg",            cities_list:"Luxembourg City" },
-      { name:"Irlanda",         flag:"🇮🇪", region:"Europa do Norte",  file:"irlanda-guia.html",      restaurants:10,  cities:2,  michelin:0,  img:"fotos/irlanda/the-brazen-head.jpg",      cities_list:"Dublin · Carlingford" },
-      { name:"Irlanda do Norte",flag:"🇬🇧", region:"Europa do Norte",  file:"irlanda-norte-guia.html",restaurants:3,   cities:1,  michelin:0,  img:"fotos/irlanda-norte/home.jpg",           cities_list:"Belfast" },
+      { name:'Portugal', flag:'🇵🇹', region:'Sul da Europa', cities:'Lisboa · Porto · Alentejo · Algarve', restaurants:52, michelin:3, file:'portugal-guia.html', photo:'fotos/portugal/lago.jpg' },
+      { name:'França', flag:'🇫🇷', region:'Europa Ocidental', cities:'Paris · Lyon · Bordeaux · Provence', restaurants:38, michelin:8, file:'franca-guia.html', photo:'fotos/franca/' },
+      { name:'Espanha', flag:'🇪🇸', region:'Sul da Europa', cities:'Madrid · Barcelona · San Sebastián · Sevilha', restaurants:40, michelin:6, file:'espanha-guia.html', photo:'fotos/espanha/' },
+      { name:'Itália', flag:'🇮🇹', region:'Sul da Europa', cities:'Roma · Milão · Florença · Toscana', restaurants:35, michelin:5, file:'italia-guia.html', photo:'fotos/italia/' },
+      { name:'Alemanha', flag:'🇩🇪', region:'Europa Central', cities:'Berlim · Munique · Hamburgo', restaurants:18, michelin:2, file:'alemanha-guia.html', photo:'fotos/alemanha/' },
+      { name:'Holanda', flag:'🇳🇱', region:'Europa Ocidental', cities:'Amesterdão · Roterdão', restaurants:14, michelin:2, file:'holanda-guia.html', photo:'fotos/holanda/' },
+      { name:'Luxemburgo', flag:'🇱🇺', region:'Europa Central', cities:'Luxemburgo', restaurants:8, michelin:1, file:'luxemburgo-guia.html', photo:'fotos/luxemburgo/' },
+      { name:'Irlanda', flag:'🇮🇪', region:'Europa Ocidental', cities:'Dublin · Cork · Galway', restaurants:12, michelin:1, file:'irlanda-guia.html', photo:'fotos/irlanda/' },
+      { name:'Irlanda do Norte', flag:'🇬🇧', region:'Europa Ocidental', cities:'Belfast', restaurants:8, michelin:1, file:'irlanda-norte-guia.html', photo:'fotos/irlanda-norte/' },
     ]
   },
   {
-    name: "Médio Oriente & Ásia",
+    name: 'Médio Oriente & Ásia',
     countries: [
-      { name:"Turquia",         flag:"🇹🇷", region:"Médio Oriente",    file:"turquia-guia.html",      restaurants:4,   cities:1,  michelin:0,  img:"fotos/turquia/khorasani.jpg",            cities_list:"Istambul" },
-      { name:"China",           flag:"🇨🇳", region:"Ásia Oriental",    file:"china-guia.html",        restaurants:7,   cities:2,  michelin:1,  img:"fotos/china/cai-yi-xuan.jpg",            cities_list:"Pequim · Xangai" },
+      { name:'Turquia', flag:'🇹🇷', region:'Médio Oriente', cities:'Istambul · Bodrum', restaurants:20, michelin:0, file:'turquia-guia.html', photo:'fotos/turquia/' },
+      { name:'China', flag:'🇨🇳', region:'Ásia Oriental', cities:'Xangai · Pequim · Macau', restaurants:15, michelin:2, file:'china-guia.html', photo:'fotos/china/' },
     ]
   },
   {
-    name: "América do Sul",
+    name: 'América do Sul',
     countries: [
-      { name:"Brasil",          flag:"🇧🇷", region:"América do Sul",   file:"brasil-guia.html",       restaurants:0,   cities:0,  michelin:0,  img:"fotos/brasil/placeholder.jpg",           cities_list:"Em breve" },
-      { name:"Argentina",       flag:"🇦🇷", region:"América do Sul",   file:"argentina-guia.html",    restaurants:18,  cities:3,  michelin:3,  img:"fotos/argentina/cabana-las-lilas.jpg",   cities_list:"Buenos Aires · Mendoza · Puerto Iguazú" },
-      { name:"Peru",            flag:"🇵🇪", region:"América do Sul",   file:"peru-guia.html",         restaurants:18,  cities:5,  michelin:0,  img:"fotos/peru/maido.jpg",                   cities_list:"Lima · Cusco · Arequipa · Machu Picchu · Paracas" },
-      { name:"Uruguai",         flag:"🇺🇾", region:"América do Sul",   file:"uruguai-guia.html",      restaurants:9,   cities:2,  michelin:0,  img:"fotos/uruguai/parador-la-huella.jpg",    cities_list:"Montevidéu · Punta del Este" },
-      { name:"Chile",           flag:"🇨🇱", region:"América do Sul",   file:"chile-guia.html",        restaurants:14,  cities:1,  michelin:0,  img:"fotos/chile/la-mar.jpg",                 cities_list:"Santiago" },
+      { name:'Brasil', flag:'🇧🇷', region:'América do Sul', cities:'São Paulo · Rio de Janeiro', restaurants:0, michelin:0, file:'', photo:'', comingSoon:true },
+      { name:'Argentina', flag:'🇦🇷', region:'América do Sul', cities:'Buenos Aires · Mendoza · Patagônia', restaurants:22, michelin:0, file:'argentina-guia.html', photo:'fotos/argentina/' },
+      { name:'Peru', flag:'🇵🇪', region:'América do Sul', cities:'Lima · Cusco', restaurants:18, michelin:0, file:'peru-guia.html', photo:'fotos/peru/' },
+      { name:'Uruguai', flag:'🇺🇾', region:'América do Sul', cities:'Montevidéu · Punta del Este', restaurants:14, michelin:0, file:'uruguai-guia.html', photo:'fotos/uruguai/' },
+      { name:'Chile', flag:'🇨🇱', region:'América do Sul', cities:'Santiago', restaurants:14, michelin:0, file:'chile-guia.html', photo:'fotos/chile/' },
     ]
-  },
+  }
 ];
 
-const FALLBACK = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80";
-
 function buildCard(c) {
-  const isComingSoon = c.restaurants === 0;
-  return `
-  <a href="${isComingSoon ? '#' : c.file}" class="country-card" ${isComingSoon ? 'onclick="return false"' : ''} style="${isComingSoon ? 'opacity:.5;cursor:default' : ''}">
-    <div class="card-hero">
-      <img src="${c.img}" alt="${c.name}" loading="lazy" onerror="this.src='${FALLBACK}'">
-      <div class="card-flag">${c.flag}</div>
-    </div>
+  const isComingSoon = !!c.comingSoon;
+  const tag = isComingSoon ? 'div' : 'a';
+  const href = isComingSoon ? '' : `href="${c.file}"`;
+  const imgHtml = c.photo && !c.photo.endsWith('/')
+    ? `<img class="card-img" src="${c.photo}" alt="${c.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+      + `<div class="card-img-placeholder" style="display:none">${c.flag}</div>`
+    : `<div class="card-img-placeholder">${c.flag}</div>`;
+
+  return `<${tag} class="card${isComingSoon?' coming-soon':''}" ${href}>
+    ${imgHtml}
     <div class="card-body">
+      <div class="card-flag-name"><span class="card-flag">${c.flag}</span><span class="card-name">${c.name}</span></div>
       <div class="card-region">${c.region}</div>
-      <div class="card-country">${c.name}</div>
-      <div class="card-cities">${c.cities_list}</div>
-      <div class="card-footer-row">
+      <div class="card-cities">${c.cities}</div>
+      <div class="card-footer">
         <div>
           <div class="card-count">${isComingSoon ? '—' : c.restaurants}</div>
           <div class="card-count-lbl">${isComingSoon ? 'em breve' : 'restaurantes'}</div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
           ${c.michelin > 0 ? `<span class="card-michelin">★ ${c.michelin} Michelin</span>` : ''}
-          ${!isComingSoon ? `<span class="card-arrow">Ver guia →</span>` : ''}
+          ${isComingSoon ? `<span class="coming-badge">em breve</span>` : `<span class="card-arrow">Ver guia →</span>`}
         </div>
       </div>
     </div>
-  </a>`;
+  </${tag}>`;
 }
 
 function build() {
