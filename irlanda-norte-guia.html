@@ -98,12 +98,17 @@ const DATA = [
   {n:"mrDeanes",  q:"Frutos do Mar & Grelha",  d:"O restaurante do chef Michael Deane — o mais galardoado da Irlanda do Norte — com uma cozinha de frutos do mar e grelhados de produto local num ambiente descontraído e moderno. Uma experiência gastronómica de alto nível com os melhores ingredientes que o norte da Irlanda tem para oferecer.", a:"28 Howard St, Belfast BT1 6PF, UK",      p:"+44 28 9033 1134", pr:"€€€"},
 ];
 
-function photo(q){return PHOTOS[q]||FB}
+function photo(q){
+  var slug = q.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  return 'https://lulidias.github.io/na-mesa-com-luli-dias/fotos/irlanda-norte/' + slug + '.jpg';
+}
 
 function build(){
   const cards = DATA.map(r=>`
     <div class="card" onclick="toggleCard(this)">
-      <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.parentElement.style.background='#e8e0d5';this.style.display='none'"></div>
+      <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80'"></div>
       <div class="card-body">
         <div class="card-top"><div class="card-name">${r.n}</div><div class="card-price">${r.pr}</div></div>
         <div class="card-cuisine">${r.q}</div>

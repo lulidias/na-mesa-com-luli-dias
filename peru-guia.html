@@ -141,7 +141,12 @@ const DATA = {
   ],
 };
 
-function photo(q){return PHOTOS[q]||FB}
+function photo(q){
+  var slug = q.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  return 'https://lulidias.github.io/na-mesa-com-luli-dias/fotos/peru/' + slug + '.jpg';
+}
 
 function render(cityFilter){
   const cities = Object.keys(DATA);
@@ -160,7 +165,7 @@ function render(cityFilter){
     const cards = restaurants.map(r=>{
       const badges=[r.m>0?`<span class="badge badge-m">★ Michelin ×${r.m}</span>`:''].filter(Boolean).join('');
       return `<div class="card" onclick="toggleCard(this)">
-        <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.parentElement.style.background='#e8e0d5';this.style.display='none'"></div>
+        <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80'"></div>
         <div class="card-body">
           <div class="card-top"><div class="card-name">${r.n}</div><div class="card-price">${r.pr}</div></div>
           <div class="card-cuisine">${r.q}</div>

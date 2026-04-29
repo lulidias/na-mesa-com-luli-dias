@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Na Mesa com Luli Dias — Portugal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-md:#4A4A4A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5;
+}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;min-height:100vh}
+
+/* HEADER */
+header{background:var(--white);border-bottom:1px solid var(--border);padding:28px 24px 24px;display:flex;align-items:flex-start;justify-content:space-between}
+.brand-pre{font-size:7px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:6px}
+.brand-main{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);line-height:1.15}
+.brand-main em{font-style:italic;color:var(--gold)}
+.brand-sub{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-top:6px;font-weight:300}
+.hdr-right{text-align:right;padding-top:4px}
+.hdr-flag{font-size:24px;margin-bottom:4px}
+.hdr-count{font-size:8px;letter-spacing:2px;color:var(--ink-lt);font-weight:300}
+
+/* STATS */
+.stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex}
+.stat{flex:1;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+.stat-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:2px}
+
+/* FILTERS */
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filter-btn{padding:5px 14px;font-size:7px;letter-spacing:2px;text-transform:uppercase;font-weight:600;white-space:nowrap;background:transparent;color:var(--ink-lt);border:1px solid var(--border);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s}
+.filter-btn.active,.filter-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+
+/* MAIN */
+main{padding:20px 24px 60px}
+
+/* REGION */
+.region-div{display:flex;align-items:center;gap:16px;margin:8px -24px 16px;padding:14px 24px;background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.rd-l{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.rd-r{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.rd-name{font-size:7px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);font-weight:700;white-space:nowrap}
+
+/* CITY */
+.city-sec{margin-bottom:32px}
+.city-hdr{position:relative;overflow:hidden;padding:24px 24px 20px;margin:0 -24px 16px;background:var(--white);border-bottom:1px solid var(--border)}
+.city-ghost{position:absolute;right:-6px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(184,146,42,.055);pointer-events:none;white-space:nowrap;line-height:1;letter-spacing:-3px}
+.city-inner{position:relative;display:flex;align-items:flex-end;justify-content:space-between}
+.city-left{display:flex;flex-direction:column;gap:6px}
+.city-region-lbl{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px}
+.city-region-lbl::before{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
+.city-name{font-family:'Playfair Display',serif;font-size:38px;font-weight:400;color:var(--ink);letter-spacing:-0.5px;line-height:1}
+.city-orn{display:flex;align-items:center;gap:6px;margin-top:2px}
+.orn-line{height:1px;width:22px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+.city-count{text-align:right}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);opacity:.2;line-height:1}
+.city-count-lbl{font-size:6px;letter-spacing:3px;text-transform:uppercase;color:#aaa;margin-top:2px}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+
+/* CARD */
+.card{background:var(--white);border-left:3px solid var(--gold-lt);cursor:pointer;transition:box-shadow .25s}
+.card:hover{box-shadow:0 4px 20px rgba(184,146,42,.12);position:relative;z-index:1}
+.card-photo{width:100%;height:180px;object-fit:cover;display:block;transition:transform .5s}
+.card:hover .card-photo{transform:scale(1.04)}
+.card-photo-wrap{overflow:hidden;height:180px;background:var(--border)}
+.card-body{padding:16px 18px 14px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.card-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-price{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1px;white-space:nowrap}
+.card-cuisine{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.card-badges{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
+.badge{font-size:6px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:2px 7px;border:1px solid}
+.badge-m{color:#8B0000;border-color:rgba(139,0,0,.3);background:rgba(139,0,0,.04)}
+.badge-h{color:#2C5F7A;border-color:rgba(44,95,122,.3);background:rgba(44,95,122,.04)}
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.75;color:var(--ink-lt);font-weight:300;margin-bottom:12px;display:none}
+.card.open .card-desc{display:block}
+.card-footer{padding-top:10px;border-top:1px solid var(--border)}
+.card-contact{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.c-row{display:flex;gap:8px;align-items:flex-start}
+.c-icon{font-size:9px;color:var(--gold);min-width:14px;line-height:1.6}
+.c-text{font-size:9px;color:var(--ink-md);font-weight:400;line-height:1.5;letter-spacing:.2px}
+.card-note{font-size:8px;font-style:italic;color:var(--ink-md);font-family:'Cormorant Garamond',serif}
+.card-toggle{text-align:right;margin-top:8px;font-size:7px;color:#aaa;letter-spacing:1px}
+
+/* FOOTER */
+footer{background:var(--white);border-top:1px solid var(--border);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;margin-top:32px}
+.ft-brand{font-family:'Playfair Display',serif;font-size:13px;color:var(--ink)}
+.ft-brand em{font-style:italic;color:var(--gold)}
+.ft-note{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#aaa}
+
+/* HIDDEN region sections */
+.region-block{display:block}
+.region-block.hidden{display:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <p class="brand-pre">Guia Gastronômico</p>
+    <h1 class="brand-main">Na Mesa com <em>Luli Dias</em></h1>
+    <p class="brand-sub">Curadoria pessoal · Edição 2025</p>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-flag">🇵🇹</div>
+    <p class="hdr-count">78 restaurantes · 25 cidades</p>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">78</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">25</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">4</div><div class="stat-lbl">★ Michelin</div></div>
+  <div class="stat"><div class="stat-num">6</div><div class="stat-lbl">Hospedagem</div></div>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filter(null,this)">Todas</button>
+  <button class="filter-btn" onclick="filter('Norte',this)">Norte</button>
+  <button class="filter-btn" onclick="filter('Centro',this)">Centro</button>
+  <button class="filter-btn" onclick="filter('Lisboa e Arredores',this)">Lisboa</button>
+  <button class="filter-btn" onclick="filter('Alentejo',this)">Alentejo</button>
+  <button class="filter-btn" onclick="filter('Algarve',this)">Algarve</button>
+  <button class="filter-btn" onclick="filter('Ilhas',this)">Ilhas</button>
+</div>
+
+<main id="main"></main>
+
+<footer>
+  <span class="ft-brand">Na Mesa com <em>Luli Dias</em></span>
+  <span class="ft-note">🇵🇹 Portugal · 2025</span>
+</footer>
+
+<script>
+// ── FOTOS POR CULINÁRIA (Unsplash — carregam normalmente no browser) ──
+const PHOTOS = {
+  "Mariscos & Frutos do Mar":      "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80",
+  "Peixe & Mariscos":              "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&q=80",
+  "Peixe & Mariscos Premium":      "https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=600&q=80",
+  "Peixe & Fusão Japonesa":        "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80",
+  "Peixe Grelhado":                "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600&q=80",
+  "Peixe Grelhado & Mariscos":     "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80",
+  "Polvo & Frutos do Mar":         "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=600&q=80",
+  "Bacalhau Português":            "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80",
+  "Portuguesa & Peixe":            "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&q=80",
+  "Carnes & Grelhados":            "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
+  "Carnes & Vinhos":               "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=600&q=80",
+  "Leitão à Bairrada":             "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=600&q=80",
+  "Portuguesa · Cabrito & Tripas": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Bifes & Petiscos Noturnos":     "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
+  "Portuguesa Tradicional":        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Portuguesa Contemporânea":      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+  "Portuguesa Regional":           "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Portuguesa de Autor":           "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Portuguesa de Mercado":         "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Portuguesa & Internacional":    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
+  "Portuguesa · Nose to Tail":     "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Portuguesa · Alentejo":         "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=600&q=80",
+  "Portuguesa Alentejana":         "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Portuguesa Madeirense":         "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600&q=80",
+  "Alta Cozinha Internacional":    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Alta Cozinha Mediterrânica":    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Alta Cozinha & Resort":         "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
+  "Japonesa":                      "https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&q=80",
+  "Japonesa · Omakase":            "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80",
+  "Japonesa & Fusão":              "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80",
+  "Asiática de Fusão":             "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80",
+  "Coreana Contemporânea":         "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Italiana Clássica":             "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Café & Pastelaria Histórica":   "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&q=80",
+  "Vinhos & Petiscos":             "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80",
+};
+
+const FALLBACK = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80";
+
+// ── DADOS ──
+const DATA = [
+  { region:"Norte", city:"Braga", restaurants:[
+    {n:"Dona Elvira",q:"Portuguesa Tradicional",d:"Um clássico bragantino que preserva com rigor as receitas da cozinha minhota, da vitela barrosã ao rojões à moda do Minho. Ambiente familiar e acolhedor, fiel à tradição transmontana há décadas.",a:"R. do Souto 2, 4700-419 Braga",p:"+351 253 262 024",pr:"€€"},
+  ]},
+  { region:"Norte", city:"Douro", restaurants:[
+    {n:"DOC",q:"Portuguesa Contemporânea",d:"Com deck suspenso sobre o Douro, o DOC do chef Rui Paula oferece cozinha contemporânea que celebra os produtos da região com elegância. Uma das mesas mais inspiradas de toda a margem do rio.",a:"EN 222, Folgosa, 5110-204 Armamar",p:"+351 254 858 123",pr:"€€€€",nt:"Contemporânea"},
+    {n:"Castas e Pratos",q:"Portuguesa Regional",d:"À beira do Douro, celebra os sabores da região com pratos de fundo tradicional e carta de vinhos que destaca as quintas locais. Vista deslumbrante para os vinhedos.",a:"Av. Sacadura Cabral 12, 5050-276 Peso da Régua",p:"+351 254 323 290",pr:"€€€"},
+    {n:"Quinta do Ventozelo",q:"Portuguesa Contemporânea",d:"Numa propriedade histórica do Douro, conjuga cozinha contemporânea com ingredientes da herdade e vinhos de produtor próprio. Experiência completa entre vinhedos e arquitectura duriense.",a:"Quinta do Ventozelo, 5120-495 S. João da Pesqueira",p:"+351 254 730 010",pr:"€€€"},
+    {n:"Bomfim 1896",q:"Portuguesa Contemporânea",d:"O restaurante da Symington Family Estates na Quinta do Bomfim é uma homenagem contemporânea ao Douro, com harmonizações com vinhos históricos da casa e vista privilegiada para o rio.",a:"Quinta do Bomfim, 5085-215 Pinhão",p:"+351 254 730 140",pr:"€€€€",nt:"Contemporânea"},
+  ]},
+  { region:"Norte", city:"Pocinho", restaurants:[
+    {n:"Taberna da Julinha",q:"Carnes & Grelhados",d:"Taberna de culto em Pocinho, conhecida pelos grelhados de carne transmontana e pela hospitalidade genuína da dona. Um endereço de peregrinos da gastronomia duriense.",a:"R. da Estação, Pocinho, 5150-571 Vila Nova de Foz Côa",p:"+351 279 653 142",pr:"€€"},
+  ]},
+  { region:"Norte", city:"Porto", restaurants:[
+    {n:"Os Lusíadas",q:"Peixe & Mariscos",d:"Referência histórica do Porto para frutos do mar, com camarão, lagosta e peixe fresco num ambiente clássico. Frequentado por gerações de portuenses que celebram as grandes ocasiões.",a:"R. de Gondarém 95, 4150-375 Porto (Foz)",p:"+351 226 100 174",pr:"€€€"},
+    {n:"Marisqueira Matosinhos",q:"Mariscos & Frutos do Mar",d:"No coração de Matosinhos, capital portuguesa do peixe grelhado, é um templo dos carapaus, linguados e sardinhas saídos do Atlântico. Ambiente vibrante e fiel ao espírito piscatório.",a:"R. Roberto Ivens, Matosinhos, Porto",p:"+351 229 382 177",pr:"€€"},
+    {n:"O Gaveto",q:"Mariscos & Frutos do Mar",d:"Considerado um dos melhores restaurantes de peixe do Grande Porto, famoso pelos carabineiros e pelo arroz de tamboril. Cozinha honesta e de produto em pleno Matosinhos.",a:"R. Roberto Ivens 826, 4450-251 Matosinhos",p:"+351 229 382 156",pr:"€€€"},
+    {n:"Esplanada Marisqueira a Antiga",q:"Peixe Grelhado",d:"Com esplanada virada para o mar em Matosinhos, serve o melhor peixe grelhado num ambiente descontraído. Favorito dos portuenses para o almoço de domingo.",a:"Av. General Norton de Matos, Matosinhos",p:"+351 229 380 930",pr:"€€"},
+    {n:"Adega São Nicolau",q:"Portuguesa Tradicional",d:"Escondida nas entranhas da Ribeira portuense, é das adegas mais autênticas do Porto, com tripas à moda e bacalhau de excelência. O ambiente rústico e o rio à janela completam a refeição.",a:"R. de São Nicolau 1, 4050-561 Porto (Ribeira)",p:"+351 222 008 232",pr:"€€"},
+    {n:"Enoteca",q:"Carnes & Vinhos",d:"Enoteca com alma de bistrô no Porto, onde carnes nobres e sushi de qualidade partilham a carta com uma selecção vinícola invejável. Ambiente sofisticado e íntimo.",a:"R. do Bonjardim 524, 4000-124 Porto",p:"+351 222 004 079",pr:"€€€"},
+    {n:"Majestic",q:"Café & Pastelaria Histórica",d:"Inaugurado em 1921, o Café Majestic é um dos mais belos cafés do mundo, com interiores Belle Époque em talha dourada, espelhos e candelabros. Uma visita obrigatória no Porto.",a:"R. de Santa Catarina 112, 4000-442 Porto",p:"+351 222 003 887",pr:"€€"},
+    {n:"Vogue Café",q:"Vinhos & Petiscos",d:"Associado à icónica revista, é um espaço glamoroso onde queijos, charcutaria e vinhos de qualidade se conjugam num ambiente de design refinado. Ideal para um aperitivo sofisticado.",a:"R. Galeria de Paris 56, 4050-249 Porto",p:"+351 222 010 050",pr:"€€€"},
+    {n:"Cozinha do Manel",q:"Portuguesa · Cabrito & Tripas",d:"Uma tasca portuense de fundo, onde o cabrito assado e as tripas à moda do Porto são executados com mestria. O calor e a generosidade que só as casas de família entregam.",a:"R. do Heroísmo 215, 4300-259 Porto",p:"+351 225 102 239",pr:"€€"},
+    {n:"O Escondidinho",q:"Portuguesa Tradicional",d:"Fiel ao nome, esconde-se numa travessa do centro histórico, servindo bacalhau e pratos de estação com produto regional de qualidade. Uma descoberta que se guarda a sete chaves.",a:"R. de Passos Manuel 144, 4000-382 Porto",p:"+351 222 001 079",pr:"€€"},
+    {n:"Ikeda",q:"Japonesa",d:"O endereço de referência para sushi e sashimi no Porto, com um itamae que trabalha o peixe atlântico com técnica japonesa irrepreensível. Ambiente minimalista e sereno.",a:"R. do Bonfim 87, 4300-068 Porto",p:"+351 222 010 286",pr:"€€€"},
+    {n:"Oficina",q:"Portuguesa Contemporânea",d:"Com abordagem criativa, o Oficina reinventa a cozinha portuguesa com técnica e irreverência numa sala industrial cheia de personalidade. Uma das moradas mais interessantes do Porto.",a:"R. de Cedofeita 256, 4050-174 Porto",p:"+351 222 010 610",pr:"€€€",nt:"Contemporânea"},
+    {n:"Mira Mira by Ricardo Costa",q:"Portuguesa de Autor",d:"Assinado pelo chef Ricardo Costa, galardoado com estrela Michelin, oferece cozinha de autor refinada com raízes portuguesas e execução de alto nível. Vistas privilegiadas sobre o Porto.",a:"Av. da Boavista 1681, 4100-136 Porto (Foz)",p:"+351 226 195 400",pr:"€€€€"},
+    {n:"O Antônio",q:"Polvo & Frutos do Mar",d:"Famoso pelo polvo à lagareiro e pela generosidade das doses, é referência portuense para quem procura cozinha portuguesa honesta. Ambiente descontraído.",a:"R. do Bonjardim 525, 4000-123 Porto",p:"+351 222 006 476",pr:"€€"},
+    {n:"Rogério do Redondo",q:"Portuguesa Tradicional",d:"Uma das tascas mais queridas do Porto, famosa pelo bacalhau à Brás e pelo ambiente de taberna antiga que resiste ao tempo. Frequentado por clientela fiel que valoriza o sabor genuíno.",a:"Largo do Actor Dias 22, 4050-010 Porto",p:"+351 222 005 642",pr:"€"},
+  ]},
+  { region:"Norte", city:"Loureiro", restaurants:[
+    {n:"Cozinha da Terra",q:"Portuguesa Regional",d:"Numa aldeia serrana, celebra os produtos locais com saberes ancestrais, onde o fumeiro, os cogumelos e as carnes de criação ditam a carta. Uma paragem essencial para quem percorre o interior.",a:"Loureiro, 3740-309 Oliveira de Azeméis",p:"+351 256 682 472",pr:"€€"},
+  ]},
+  { region:"Centro", city:"Aveiro", restaurants:[
+    {n:"Dory",q:"Peixe & Mariscos",d:"Em Aveiro, o Dory apresenta peixe e marisco com modernidade, onde a enguia fumada e os mariscos da ria chegam em preparações criativas. Um dos melhores endereços para descobrir os sabores da ria.",a:"R. Dr. António Christo 34, 3810-035 Aveiro",p:"+351 234 383 252",pr:"€€€"},
+    {n:"Praia do Tubarão",q:"Peixe Grelhado & Mariscos",d:"Com esplanada sobre a praia fluvial, é um clássico de Aveiro para peixe grelhado e caldeirada, frequentado por famílias e apreciadores da cozinha ribeirinha.",a:"Praia de São Jacinto, Aveiro",p:"+351 234 838 508",pr:"€€"},
+  ]},
+  { region:"Centro", city:"Águeda", restaurants:[
+    {n:"O Seabra",q:"Portuguesa Tradicional",d:"Referência gastronómica em Águeda, onde a cozinha tradicional da Bairrada é executada com rigor e produto de qualidade. As cabidelas e os assados de forno são prato de honra.",a:"R. General Humberto Delgado 2, 3750-121 Águeda",p:"+351 234 601 218",pr:"€€"},
+  ]},
+  { region:"Centro", city:"Sangalhos", restaurants:[
+    {n:"Mugasa",q:"Leitão à Bairrada",d:"Em Sangalhos, no coração da Bairrada, considerado por muitos o melhor leitão da região, com pele estaladiça e carne tenra numa receita que atravessa gerações.",a:"EN 1, 3780-541 Sangalhos, Anadia",p:"+351 231 515 063",pr:"€€",nt:"O melhor leitão à Bairrada"},
+  ]},
+  { region:"Centro", city:"Mealhada", restaurants:[
+    {n:"O Rei dos Leitões",q:"Leitão à Bairrada",d:"Uma das casas mais emblemáticas da Mealhada, onde a tradição centenária se manifesta em cada posta com pele dourada e crocante. O ambiente rústico e a mesa farta completam a experiência.",a:"Av. José Pedro do Espírito Santo, 3050-338 Mealhada",p:"+351 231 200 700",pr:"€€"},
+    {n:"O Vidal",q:"Leitão à Bairrada",d:"O Vidal é outro templo do leitão na Mealhada, com receita própria e clientela fiel que percorre quilómetros para saborear o seu porco assado. Uma casa de tradição bairradina.",a:"Av. das Fermentas 39, 3050-338 Mealhada",p:"+351 231 200 200",pr:"€€"},
+  ]},
+  { region:"Centro", city:"Oliveira de Frades", restaurants:[
+    {n:"O Solar",q:"Portuguesa Tradicional",d:"Uma casa de cozinha tradicional em Oliveira de Frades, conhecida pela qualidade das suas carnes e pelos sabores genuínos do interior beirão. Um refúgio gastronómico para quem conhece.",a:"R. Principal, 3680-269 Oliveira de Frades",p:"+351 232 768 132",pr:"€€"},
+  ]},
+  { region:"Centro", city:"Santa Maria da Feira", restaurants:[
+    {n:"Lago",q:"Portuguesa Contemporânea",d:"O Lago apresenta cozinha contemporânea com raízes portuguesas, numa sala elegante que contrasta com a tradição da região. Uma proposta que surpreende pela qualidade e consistência.",a:"Av. Dr. Avelino Oliveira, 4520 Santa Maria da Feira",p:"+351 256 303 210",pr:"€€€"},
+  ]},
+  { region:"Centro", city:"Leiria", restaurants:[
+    {n:"Casinha Velha",q:"Portuguesa Tradicional",d:"A Casinha Velha em Leiria é uma casa de cozinha portuguesa clássica, onde o bacalhau, as migas e os assados de forno são preparados com saber de outros tempos.",a:"R. Prof. Portela 23, 2415-069 Leiria",p:"+351 244 849 416",pr:"€€"},
+  ]},
+  { region:"Centro", city:"Alcobaça", restaurants:[
+    {n:"Antonio Padeiro",q:"Portuguesa Tradicional",d:"Em Alcobaça, referência da cozinha monástica da região, com pratos inspirados na tradição cisterciense e nos produtos locais. Um espaço que celebra a herança cultural e gastronómica.",a:"R. Dom Maur Cocheril 8, 2460-018 Alcobaça",p:"+351 262 582 295",pr:"€€"},
+  ]},
+  { region:"Centro", city:"Óbidos", restaurants:[
+    {n:"Pousada do Castelo de Óbidos",q:"Portuguesa de Autor",d:"Instalada no interior do castelo medieval, oferece experiência gastronómica única entre muralhas e torres do séc. XII. A cozinha celebra os produtos da região Oeste com refinamento.",a:"Paço Real, 2510-999 Óbidos",p:"+351 210 407 630",pr:"€€€€",h:true},
+  ]},
+  { region:"Centro", city:"Fátima", restaurants:[
+    {n:"Tia Alice",q:"Portuguesa Tradicional",d:"Endereço histórico de Fátima, famosa pelo cabrito estufado e pelos pratos de cozinha ribatejana confecionados com receitas de família. Um restaurante de culto que atravessa gerações.",a:"R. Francisco Marto 52, 2495-402 Fátima",p:"+351 249 531 737",pr:"€€"},
+  ]},
+  { region:"Lisboa e Arredores", city:"Lisboa", restaurants:[
+    {n:"Pigmeu",q:"Portuguesa · Nose to Tail",d:"Bib Gourmand Michelin 2025. Manifesto gastronómico em torno do porco alentejano criado ao ar livre, utilizado do nariz à cauda. Cozinha sustentável e autêntica em Campo de Ourique.",a:"R. 4 de Infantaria 68, 1350-274 Lisboa (Campo de Ourique)",p:"+351 218 252 990",pr:"€€"},
+    {n:"Cervejaria Ramiro",q:"Mariscos & Frutos do Mar",d:"Instituição lisboeta desde 1956, celebrada por Anthony Bourdain. Carabineiros, lagostas e amêijoas à bulhão pato numa atmosfera animada e inconfundível na Av. Almirante Reis.",a:"Av. Almirante Reis 1-H, 1150-007 Lisboa (Intendente)",p:"+351 218 851 024",pr:"€€€"},
+    {n:"Sea Me",q:"Peixe & Fusão Japonesa",d:"No Chiado, homenagem às antigas peixarias lisboetas com influência japonesa: mais de 40 espécies de peixe e marisco frescos. Os niguiris de sardinha tornaram-se ícone da cidade.",a:"R. do Loreto 21, 1200-241 Lisboa (Chiado)",p:"+351 213 461 564",pr:"€€€"},
+    {n:"Jncquoi",q:"Portuguesa & Internacional",d:"Instalado num edifício centenário da Av. da Liberdade, um dos espaços mais glamorosos de Lisboa, com decoração extravagante assinada por Lázaro Rosa-Violán. Restaurante, deli-bar e adega.",a:"Av. da Liberdade 182-184, 1250-146 Lisboa",p:"+351 219 369 900",pr:"€€€€"},
+    {n:"Jncquoi Asia",q:"Asiática de Fusão",d:"Viagem gastronómica pelo Oriente com dim sum, sushi, tempura e curries num cenário dramático com dragão em tamanho real como peça central. Um espetáculo para os sentidos.",a:"Av. da Liberdade 144, 1250-146 Lisboa",p:"+351 213 889 660",pr:"€€€€"},
+    {n:"O Pitéu da Graça",q:"Portuguesa Tradicional",d:"Tasca de bairro na Graça com sabores lisboetas autênticos e cozinha do dia que reflete o melhor do mercado. Frequentado por locais que procuram a Lisboa de sempre.",a:"Largo da Graça 95, 1170-165 Lisboa (Graça)",p:"+351 218 870 529",pr:"€"},
+    {n:"O Magano",q:"Portuguesa Tradicional",d:"Tasca de alma lisboeta no Bairro Alto, com petiscos, pratos do dia e vinhos a copo numa atmosfera descontraída. Favorito para comer bem sem formalidades no centro histórico.",a:"R. do Século 24, 1200-433 Lisboa (Bairro Alto)",p:"+351 213 461 850",pr:"€€"},
+    {n:"Solar dos Nunes",q:"Portuguesa · Alentejo",d:"Casa de cozinha alentejana no coração de Lisboa, famosa pelo borrego, pelo porco preto e pelos vinhos do Alentejo. O ambiente rústico torna este solar num refúgio da autenticidade.",a:"R. dos Lusíadas 68, 1300-366 Lisboa (Alcântara)",p:"+351 213 641 359",pr:"€€€"},
+    {n:"Coelho da Rocha",q:"Portuguesa Tradicional",d:"Uma das tascas mais queridas de Campo de Ourique, sinónimo de cozinha portuguesa honesta com doses generosas. Bacalhau à Brás, carne à alentejana e caldeirada nunca desiludem.",a:"R. de Coelho da Rocha 104, 1350-075 Lisboa (Campo de Ourique)",p:"+351 213 900 614",pr:"€€"},
+    {n:"Rocco",q:"Italiana Clássica",d:"Uma trattoria italiana de referência em Lisboa, com massas frescas, risottos e carnes de qualidade num ambiente mediterrânico caloroso. O endereço certo para cozinha italiana genuína.",a:"R. do Século 182, 1200-437 Lisboa (Bairro Alto)",p:"+351 213 432 160",pr:"€€€"},
+    {n:"A Gina",q:"Portuguesa Tradicional",d:"Taberna lisboeta de bairro com décadas de história, onde a cozinha caseira e os sabores genuínos de Portugal se mantêm inalterados. Espaço íntimo e familiar.",a:"R. de São Domingos à Lapa 27, 1200-835 Lisboa (Estrela)",p:"+351 213 960 680",pr:"€€"},
+    {n:"Belmiro",q:"Portuguesa Contemporânea",d:"Tasca moderna no Príncipe Real que homenageia a tradição portuguesa com abordagem criativa. Carta curta e certeira, vinhos naturais e sala cheia de personalidade.",a:"R. da Escola Politécnica 28, 1250-101 Lisboa (Príncipe Real)",p:"+351 213 476 234",pr:"€€€"},
+    {n:"Mestrias Nova Tasca",q:"Portuguesa Contemporânea",d:"Tasca moderna que reinterpreta os clássicos da cozinha portuguesa com técnica e sazonalidade. Petiscos criativos, vinhos de produtor e serviço atento.",a:"Calçada de Santo André 54, 1100-498 Lisboa (Mouraria)",p:"+351 218 869 650",pr:"€€€"},
+    {n:"Marisqueira Nunes Real",q:"Mariscos & Frutos do Mar",d:"Uma das grandes marisqueiras de Lisboa, famosa pela frescura impecável dos frutos do mar e pela qualidade dos carabineiros e lavagantes. Um espaço clássico de confiança.",a:"R. Bartolomeu Dias 112, 1400-031 Lisboa (Restelo)",p:"+351 213 015 009",pr:"€€€€"},
+    {n:"A Casa do Bacalhau",q:"Bacalhau Português",d:"Um templo do bacalhau em Lisboa, com dezenas de receitas que percorrem o extenso receituário português. Uma experiência pedagógica e deliciosa para descobrir toda a sua versatilidade.",a:"R. do Grilo 54, 1900-706 Lisboa (Chelas)",p:"+351 218 620 460",pr:"€€€"},
+    {n:"Pinóquio",q:"Peixe & Mariscos",d:"Clássico da Praça dos Restauradores, serve frutos do mar e peixe fresco numa sala de cervejaria tradicional desde 1956. Um endereço de confiança na Baixa lisboeta.",a:"Praça dos Restauradores 79, 1250-187 Lisboa (Baixa)",p:"+351 213 465 106",pr:"€€€"},
+    {n:"Café de São Bento",q:"Bifes & Petiscos Noturnos",d:"Marco da vida nocturna lisboeta, famoso pelos bifes a cavalo servidos a qualquer hora da noite. Destino favorito após o teatro ou uma noite longa — instituição da madrugada.",a:"R. de São Bento 212, 1200-822 Lisboa (Estrela)",p:"+351 213 952 911",pr:"€€",nt:"Lanche antes de dormir"},
+    {n:"Taberna Albricoque",q:"Portuguesa Tradicional",d:"Taberna alentejana em Lisboa com cozinha que celebra os sabores do Alentejo com ingredientes biológicos e produção própria. Ambiente rústico e intimista em Marvila.",a:"Av. Infante Dom Henrique, Armazém B, 1900-264 Lisboa (Marvila)",p:"+351 218 620 189",pr:"€€€"},
+    {n:"Sal Grosso",q:"Portuguesa de Mercado",d:"Com cozinha assente no produto de mercado e receitas de estação, é uma referência da cozinha portuguesa honesta e sem artifícios em Lisboa. O menu muda com o melhor de cada dia.",a:"R. de Arroios 67, 1150-045 Lisboa (Arroios)",p:"+351 218 140 313",pr:"€€"},
+    {n:"O Talho de Kiko Martins",q:"Carnes & Grelhados",d:"Do chef Kiko Martins, um conceito único onde carnes nobres portuguesas e internacionais são servidas num espaço que mistura talho e restaurante. Cortes maturados e grelha de carvão.",a:"R. Carlos Testa 1-B, 1050-046 Lisboa (Campo de Ourique)",p:"+351 210 990 091",pr:"€€€€"},
+    {n:"Han Table",q:"Coreana Contemporânea",d:"Trouxe a cozinha coreana contemporânea a Lisboa com refinamento raro, onde churrasco de mesa, bibimbap e banchan de autor se apresentam num ambiente minimalista e elegante.",a:"Av. da Liberdade 78, 1269-073 Lisboa (Avenida)",p:"+351 213 464 978",pr:"€€€"},
+    {n:"SakeMico",q:"Japonesa · Omakase",d:"Um dos melhores japoneses de Lisboa, destaca-se pela qualidade do peixe fresco e pela experiência omakase conduzida com precisão e paixão. Cada refeição é uma viagem a Tóquio.",a:"R. da Escola Politécnica 35, 1250-100 Lisboa (Príncipe Real)",p:"+351 213 430 780",pr:"€€€€"},
+    {n:"Marisqueira Liberdade",q:"Mariscos & Frutos do Mar",d:"Marisqueira clássica junto à Av. da Liberdade, onde a frescura dos mariscos e a cozinha tradicional se mantêm como prioridade absoluta. Um refúgio de sabores do mar no centro.",a:"Av. da Liberdade 185, 1250-141 Lisboa (Avenida)",p:"+351 213 563 242",pr:"€€€"},
+  ]},
+  { region:"Lisboa e Arredores", city:"Cascais", restaurants:[
+    {n:"Yakuza by Olivier",q:"Japonesa & Fusão",d:"Uma das experiências japonesas mais sedutoras da linha de Cascais, com sushi de alto nível, yakitori e cocktails elaborados num espaço de design sofisticado.",a:"Av. Dom Carlos I 2, 2750-310 Cascais",p:"+351 214 647 550",pr:"€€€€"},
+    {n:"O Faroleiro",q:"Peixe & Mariscos",d:"Com vista directa para o oceano Atlântico, referência para peixe grelhado e mariscos frescos numa atmosfera descontraída. Um dos endereços mais queridos de Cascais.",a:"R. da Praia 3, 2750-458 Cascais",p:"+351 214 863 215",pr:"€€€"},
+    {n:"Porto Santa Maria",q:"Peixe & Mariscos Premium",d:"Referência da alta gastronomia de peixe na linha de Cascais, combina frescura atlântica com cave de vinhos notável. Lavagantes e carabineiros com vista para o mar.",a:"EN 247, Guincho, 2750-642 Cascais",p:"+351 214 879 450",pr:"€€€€"},
+  ]},
+  { region:"Lisboa e Arredores", city:"Setúbal", restaurants:[
+    {n:"Vela Branca",q:"Peixe & Mariscos",d:"Marisqueira de referência em Setúbal, com frutos do mar do estuário do Sado e da costa atlântica. A choquinha frita e os berbigões são especialidades da casa que os locais guardam.",a:"Praça General Luís Domingues 5, 2910-455 Setúbal",p:"+351 265 234 807",pr:"€€€"},
+    {n:"O Miguel",q:"Portuguesa Tradicional",d:"Tasca de bairro em Setúbal onde a cozinha tradicional setubalense brilha com choco frito, caldeirada de peixe e arroz de lingueirão. Fiel aos sabores do estuário.",a:"Av. Luísa Todi 148, 2900-451 Setúbal",p:"+351 265 232 617",pr:"€€"},
+    {n:"Sem Horas",q:"Portuguesa Contemporânea",d:"Uma das propostas mais interessantes de Setúbal, com cozinha contemporânea que valoriza os produtos locais do Sado e da Serra da Arrábida. Carta que muda com as estações.",a:"R. Augusto Cardoso 18, 2900-395 Setúbal",p:"+351 265 094 540",pr:"€€€"},
+    {n:"Barriga de Freira",q:"Carnes & Grelhados",d:"Conhecido pelos grelhados de carne de qualidade superior e pela generosidade das doses. Ambiente descontraído e familiar que faz jus ao espírito gastronómico de Setúbal.",a:"R. Augusto Cardoso 38, 2900-395 Setúbal",p:"+351 265 525 888",pr:"€€€"},
+  ]},
+  { region:"Alentejo", city:"Évora", restaurants:[
+    {n:"Luar de Janeiro",q:"Portuguesa Alentejana",d:"Uma das mesas mais reputadas de Évora, famosa pela cozinha alentejana de fundo com porco preto, borrego e açorda de cogumelos. O ambiente aconchegante torna cada refeição inesquecível.",a:"Trav. de Janeiro 7, 7000-563 Évora",p:"+351 266 749 116",pr:"€€€"},
+    {n:"Pipa Roza",q:"Portuguesa Alentejana",d:"Tasca acolhedora no centro de Évora com cozinha alentejana genuína, onde migas, ensopado de borrego e sopa de cação são preparados com receitas de família.",a:"R. do Cano 70, 7000-784 Évora",p:"+351 266 700 413",pr:"€€"},
+    {n:"Tasquinha do Oliveira",q:"Portuguesa Alentejana",d:"Considerada por muitos a melhor cozinha alentejana de Évora, casa de culto com lista de espera que fala por si. Carne com amêijoas, açorda de coentros e sericaia numa sala intimista.",a:"Av. Calouste Gulbenkian 7-A, 7005-079 Évora",p:"+351 266 744 841",pr:"€€€"},
+    {n:"Híbrido",q:"Portuguesa Contemporânea",d:"Traz uma proposta contemporânea a Évora, cruzando a tradição alentejana com técnicas e ingredientes modernos numa sala de design depurado. Uma proposta refrescante.",a:"Largo Luís de Camões 13, 7000-629 Évora",p:"+351 266 743 432",pr:"€€€"},
+    {n:"Convento do Espinheiro",q:"Portuguesa de Autor",d:"Num convento do século XV convertido em hotel de luxo, o restaurante oferece cozinha de autor que homenageia o Alentejo com elegância. Experiência única entre claustros e jardins históricos.",a:"Canaviais, 7005-835 Évora",p:"+351 266 788 200",pr:"€€€€",h:true},
+  ]},
+  { region:"Alentejo", city:"Estremoz", restaurants:[
+    {n:"Alecrim",q:"Portuguesa Alentejana",d:"Referência da cozinha alentejana em Estremoz, com receitas que valorizam o cabrito assado e o queijo de ovelha da região. Casa de sabor genuíno numa das vilas mais bonitas do Alentejo.",a:"R. Dr. Gomes Resende 19, 7100-505 Estremoz",p:"+351 268 323 300",pr:"€€€"},
+  ]},
+  { region:"Alentejo", city:"Monsaraz", restaurants:[
+    {n:"Sahida",q:"Portuguesa Regional",d:"Com vista para as albufeiras do Alqueva, serve cozinha alentejana de território onde o silêncio histórico se reflecte nos sabores do porco e do borrego local. Uma paragem de alma.",a:"R. de Santiago 18, 7200-175 Monsaraz",p:"+351 266 557 225",pr:"€€€"},
+  ]},
+  { region:"Alentejo", city:"Albernoa", restaurants:[
+    {n:"Herdade da Malhadinha Nova",q:"Portuguesa de Autor",d:"Numa herdade alentejana de excelência, combina ingredientes da propriedade com cozinha criativa e sofisticada. A experiência completa-se com os vinhos biológicos e biodinâmicos da herdade.",a:"Herdade da Malhadinha Nova, 7800-601 Albernoa",p:"+351 284 965 210",pr:"€€€€"},
+    {n:"Herdade dos Grous",q:"Portuguesa Regional",d:"Propriedade de enoturismo onde a gastronomia regional é servida com os vinhos da herdade num ambiente de campo autêntico. Uma imersão no Alentejo mais genuíno.",a:"Herdade dos Grous, 7800-601 Albernoa",p:"+351 284 960 000",pr:"€€€"},
+  ]},
+  { region:"Algarve", city:"Silves", restaurants:[
+    {n:"Marisqueira Rui",q:"Mariscos & Frutos do Mar",d:"Instituição algarviana para amêijoas, percebes e lingueirão com a frescura do Atlântico e a hospitalidade do interior. Endereço de culto que atrai visitantes de toda a região.",a:"R. Comendador Vilarinho 27, 8300-128 Silves",p:"+351 282 442 682",pr:"€€€"},
+  ]},
+  { region:"Algarve", city:"Algarve", restaurants:[
+    {n:"Evaristo",q:"Peixe Grelhado & Mariscos",d:"Com localização privilegiada sobre o mar, famoso pelo peixe grelhado na hora com vista para a praia. A simplicidade da cozinha algarvia combinada com uma das mais belas panorâmicas.",a:"Praia do Evaristo, 8201-864 Albufeira",p:"+351 289 591 666",pr:"€€€"},
+    {n:"Caniço",q:"Portuguesa & Peixe",d:"Sobre as rochas algarvias, oferece peixe e marisco frescos num ambiente de deck sobre o mar. Paragem incontornável na costa algarvia para um almoço com os pés quase na água.",a:"Av. Tomás Cabreira, Praia da Rocha, 8500-802 Portimão",p:"+351 282 424 303",pr:"€€€"},
+    {n:"Salgados",q:"Peixe & Mariscos",d:"Num cenário de lagoa natural, combina a paisagem única da reserva com cozinha de peixe e marisco cuidada. Natureza e gastronomia numa das zonas mais preservadas do Algarve.",a:"Lagoa dos Salgados, 8200-343 Albufeira",p:"+351 289 591 006",pr:"€€€"},
+    {n:"Vila Joya",q:"Alta Cozinha Internacional",d:"Com duas estrelas Michelin, um dos restaurantes mais prestigiados de Portugal, onde o chef Dieter Koschina eleva ingredientes algarvios a nível mundial. Uma experiência inesquecível.",a:"Estrada da Galé, 8200-416 Albufeira",p:"+351 289 591 795",pr:"€€€€",m:2,h:true},
+    {n:"Ocean",q:"Alta Cozinha Mediterrânica",d:"No Vila Vita Parc, duas estrelas Michelin sob a direcção do chef Hans Neuner, celebrando o mar e os produtos algarvios com virtuosismo técnico. Uma das mesas mais elegantes de Portugal.",a:"Vila Vita Parc, EN 125, 8400-450 Porches",p:"+351 282 310 100",pr:"€€€€",m:2},
+    {n:"Vila Vita Park",q:"Alta Cozinha & Resort",d:"O complexo Vila Vita Parc é um destino gastronómico por si só, com vários restaurantes de excelência incluindo o galardonado Ocean. Proposta culinária abrangente e de altíssimo nível.",a:"EN 125, 8400-450 Porches, Lagoa",p:"+351 282 310 100",pr:"€€€€",h:true},
+  ]},
+  { region:"Ilhas", city:"Madeira", restaurants:[
+    {n:"Chalet Vicente",q:"Portuguesa Madeirense",d:"Casa histórica do Funchal reconvertida em restaurante, serve cozinha madeirense de raiz com espada com banana, lapas grelhadas e bolo do caco feitos com amor à ilha.",a:"Calcada do Pico 2, 9050-219 Funchal, Madeira",p:"+351 291 228 344",pr:"€€€"},
+  ]},
+];
+
+// ── BUILD ──
+let currentRegion = null;
+
+function photo(r){
+  return PHOTOS[r.q] || FALLBACK;
+}
+
+function buildCard(r){
+  const badges = [
+    r.m > 0 ? `<span class="badge badge-m">★ Michelin ×${r.m}</span>` : '',
+    r.h    ? `<span class="badge badge-h">Hospedagem</span>` : '',
+  ].filter(Boolean).join('');
+
+  return `
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-photo-wrap">
+      <img class="card-photo" src="${photo(r)}" alt="${r.n}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80'">
+    </div>
+    <div class="card-body">
+      <div class="card-top">
+        <div class="card-name">${r.n}</div>
+        <div class="card-price">${r.pr}</div>
+      </div>
+      <div class="card-cuisine">${r.q}</div>
+      ${badges ? `<div class="card-badges">${badges}</div>` : ''}
+      <div class="card-desc">${r.d}</div>
+      <div class="card-footer">
+        <div class="card-contact">
+          <div class="c-row"><span class="c-icon">📍</span><span class="c-text">${r.a}</span></div>
+          <div class="c-row"><span class="c-icon">📞</span><span class="c-text">${r.p}</span></div>
+        </div>
+        ${r.nt ? `<div class="card-note">✦ ${r.nt}</div>` : ''}
+      </div>
+      <div class="card-toggle">▼ detalhes</div>
+    </div>
+  </div>`;
+}
+
+function buildCity(entry){
+  const cards = entry.restaurants.map(buildCard).join('');
+  return `
+  <div class="city-sec">
+    <div class="city-hdr">
+      <div class="city-ghost">${entry.city}</div>
+      <div class="city-inner">
+        <div class="city-left">
+          <span class="city-region-lbl">${entry.region}</span>
+          <h2 class="city-name">${entry.city}</h2>
+          <div class="city-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+        </div>
+        <div class="city-count">
+          <div class="city-count-num">${entry.restaurants.length}</div>
+          <div class="city-count-lbl">restaurante${entry.restaurants.length!==1?'s':''}</div>
+        </div>
+      </div>
+    </div>
+    <div class="grid">${cards}</div>
+  </div>`;
+}
+
+function buildRegion(regionName, entries){
+  const cities = entries.map(buildCity).join('');
+  return `
+  <div class="region-block" data-region="${regionName}">
+    <div class="region-div">
+      <div class="rd-l"></div>
+      <span class="rd-name">${regionName}</span>
+      <div class="rd-r"></div>
+    </div>
+    ${cities}
+  </div>`;
+}
+
+function render(regionFilter){
+  const main = document.getElementById('main');
+  // group by region
+  const groups = {};
+  DATA.forEach(entry => {
+    if(!groups[entry.region]) groups[entry.region] = [];
+    groups[entry.region].push(entry);
+  });
+  let html = '';
+  for(const [reg, entries] of Object.entries(groups)){
+    if(regionFilter && reg !== regionFilter) continue;
+    html += buildRegion(reg, entries);
+  }
+  main.innerHTML = html;
+}
+
+function filter(region, btn){
+  currentRegion = region;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render(region);
+}
+
+function toggleCard(card){
+  const isOpen = card.classList.contains('open');
+  card.classList.toggle('open');
+  const toggle = card.querySelector('.card-toggle');
+  if(toggle) toggle.textContent = isOpen ? '▼ detalhes' : '▲ fechar';
+}
+
+render(null);
+</script>
+</body>
+</html>
