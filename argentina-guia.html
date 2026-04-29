@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Na Mesa com Luli Dias — Argentina</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-md:#4A4A4A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;min-height:100vh}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:28px 24px 24px;display:flex;align-items:flex-start;justify-content:space-between}
+.brand-pre{font-size:7px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:6px}
+.brand-main{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);line-height:1.15}
+.brand-main em{font-style:italic;color:var(--gold)}
+.brand-sub{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-top:6px;font-weight:300}
+.hdr-right{text-align:right;padding-top:4px}
+.hdr-flag{font-size:24px;margin-bottom:4px}
+.hdr-count{font-size:8px;letter-spacing:2px;color:var(--ink-lt);font-weight:300}
+.stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex}
+.stat{flex:1;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+.stat-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:2px}
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filter-btn{padding:5px 14px;font-size:7px;letter-spacing:2px;text-transform:uppercase;font-weight:600;white-space:nowrap;background:transparent;color:var(--ink-lt);border:1px solid var(--border);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s}
+.filter-btn.active,.filter-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+main{padding:20px 24px 60px}
+.city-sec{margin-bottom:32px}
+.city-hdr{position:relative;overflow:hidden;padding:24px 24px 20px;margin:0 -24px 16px;background:var(--white);border-bottom:1px solid var(--border)}
+.city-ghost{position:absolute;right:-6px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(184,146,42,.055);pointer-events:none;white-space:nowrap;line-height:1;letter-spacing:-3px}
+.city-inner{position:relative;display:flex;align-items:flex-end;justify-content:space-between}
+.city-left{display:flex;flex-direction:column;gap:6px}
+.city-region-lbl{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px}
+.city-region-lbl::before{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
+.city-name{font-family:'Playfair Display',serif;font-size:38px;font-weight:400;color:var(--ink);letter-spacing:-0.5px;line-height:1}
+.city-orn{display:flex;align-items:center;gap:6px;margin-top:2px}
+.orn-line{height:1px;width:22px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+.city-count{text-align:right}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);opacity:.2;line-height:1}
+.city-count-lbl{font-size:6px;letter-spacing:3px;text-transform:uppercase;color:#aaa;margin-top:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+.card{background:var(--white);border-left:3px solid var(--gold-lt);cursor:pointer;transition:box-shadow .25s}
+.card:hover{box-shadow:0 4px 20px rgba(184,146,42,.12);position:relative;z-index:1}
+.card-photo-wrap{overflow:hidden;height:180px;background:var(--border)}
+.card-photo{width:100%;height:180px;object-fit:cover;display:block;transition:transform .5s}
+.card:hover .card-photo{transform:scale(1.04)}
+.card-body{padding:16px 18px 14px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.card-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-price{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1px;white-space:nowrap}
+.card-cuisine{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.card-badges{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
+.badge{font-size:6px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:2px 7px;border:1px solid}
+.badge-m{color:#8B0000;border-color:rgba(139,0,0,.3);background:rgba(139,0,0,.04)}
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.75;color:var(--ink-lt);font-weight:300;margin-bottom:12px;display:none}
+.card.open .card-desc{display:block}
+.card-footer{padding-top:10px;border-top:1px solid var(--border)}
+.card-contact{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.c-row{display:flex;gap:8px;align-items:flex-start}
+.c-icon{font-size:9px;color:var(--gold);min-width:14px;line-height:1.6}
+.c-text{font-size:9px;color:var(--ink-md);font-weight:400;line-height:1.5;letter-spacing:.2px}
+.card-note{font-size:8px;font-style:italic;color:var(--ink-md);font-family:'Cormorant Garamond',serif}
+.card-toggle{text-align:right;margin-top:8px;font-size:7px;color:#aaa;letter-spacing:1px}
+footer{background:var(--white);border-top:1px solid var(--border);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;margin-top:32px}
+.ft-brand{font-family:'Playfair Display',serif;font-size:13px;color:var(--ink)}
+.ft-brand em{font-style:italic;color:var(--gold)}
+.ft-note{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#aaa}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <p class="brand-pre">Guia Gastronômico</p>
+    <h1 class="brand-main">Na Mesa com <em>Luli Dias</em></h1>
+    <p class="brand-sub">Curadoria pessoal · Edição 2025</p>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-flag">🇦🇷</div>
+    <p class="hdr-count" id="hdr-count">Argentina</p>
+  </div>
+</header>
+<div class="stats">
+  <div class="stat"><div class="stat-num" id="s1">—</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num" id="s2">—</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num" id="s3">—</div><div class="stat-lbl">★ Michelin</div></div>
+</div>
+<div class="filters" id="filters"></div>
+<main id="main"></main>
+<footer>
+  <span class="ft-brand">Na Mesa com <em>Luli Dias</em></span>
+  <span class="ft-note">🇦🇷 Argentina · 2025</span>
+</footer>
+<script>
+const PHOTOS = {
+  "Argentina Regional":          "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Alta Cozinha Mendocina":      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+  "Enoturismo & Alta Cozinha":   "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80",
+  "Carnes & Parrilla de Bodega": "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
+  "Carnes & Italiana":           "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
+  "Carnes & Parrilla":           "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
+  "Milanesa & Porteña":          "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Japonesa & Nikkei":           "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80",
+  "Contemporânea Porteña":       "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+  "Hotel & Alta Cozinha":        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80",
+};
+const FB = "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80";
+
+const DATA = {
+  "Puerto Iguazú": [
+    {n:"El Quincho — Tio Querido", q:"Argentina Regional",    d:"O restaurante mais querido de Puerto Iguazú, com uma parrilla de madeira e barro à beira do Rio Iguazú, onde as carnes locais, o pacú grelhado e o crocodilo — especialidade regional — são servidos num ambiente de selva tropical autêntico. Uma experiência gastronómica única nas cataratas.", a:"Av. Córdoba, Puerto Iguazú, Misiones",        p:"+54 3757 420 131", pr:"€€"},
+    {n:"El Jardín",                q:"Argentina Regional",    d:"Um restaurante com jardim tropical em Puerto Iguazú, com uma cozinha de produto regional que celebra os sabores do nordeste argentino — empanadas misioneras, asado criollo e peixes do Iguazú — num ambiente de flora e fauna da selva subtropical.", a:"Puerto Iguazú, Misiones, Argentina",          p:"+54 3757 000 000", pr:"€€"},
+  ],
+  "Mendoza": [
+    {n:"Azafrán",      q:"Alta Cozinha Mendocina",      d:"Uma estrela Michelin no coração de Mendoza, com uma cozinha contemporânea que celebra os produtos de altitude da Cordilheira — cabrito, trutas da neve e legumes de horta — harmonizados com os grandes Malbecs da região. Uma das mesas mais elegantes e criativas de toda a Argentina.",                  a:"Sarmiento 765, M5500 Mendoza",               p:"+54 261 429 4200", pr:"€€€€", m:1},
+    {n:"1884 Restaurante",         q:"Enoturismo & Alta Cozinha", d:"O restaurante do lendário enólogo Francis Mallmann instalado numa bodega histórica de Mendoza, com uma cozinha de fogo e brasa que celebra os produtos andinos com a poesia e a técnica que tornaram Mallmann famoso no mundo. Uma experiência de parrilla de autor absolutamente única.", a:"Belgrano 1188, Godoy Cruz, Mendoza",          p:"+54 261 424 2698", pr:"€€€€"},
+    {n:"Assemblage — Bodegas Alta Vista", q:"Enoturismo & Alta Cozinha", d:"O restaurante da Bodegas Alta Vista no Parque General San Martín de Mendoza, com uma cozinha contemporânea que harmoniza os produtos locais com os vinhos premium da bodega. Terrace com vista para as vinhas e a Cordilheira dos Andes — um cenário de tirar o fôlego.", a:"Alzaga 3972, Las Heras, Mendoza",            p:"+54 261 481 3100", pr:"€€€"},
+    {n:"Zonda",        q:"Alta Cozinha Mendocina",      d:"Uma estrela Michelin em Mendoza com uma cozinha que captura a identidade gastronómica da Cuyo — os productos de altitude, as carnes de cabra e as frutas da Cordilheira — com uma técnica e uma criatividade que colocam Mendoza no mapa da alta gastronomia mundial.",                                    a:"Mendoza, Argentina",                         p:"+54 261 000 0000", pr:"€€€€", m:1},
+    {n:"Brindillas",   q:"Alta Cozinha Mendocina",      d:"Uma estrela Michelin no centro histórico de Mendoza, com uma cozinha de bistrô de alta gastronomia que reinterpreta os clássicos da culinária regional argentina com técnica francesa e produto local de excelência. Uma das mesas mais sofisticadas e consistentes da capital do vinho argentino.",          a:"Montevideo 399, M5500 Mendoza",              p:"+54 261 420 4322", pr:"€€€€", m:1},
+    {n:"Siete Fuegos — The Vines", q:"Carnes & Parrilla de Bodega", d:"O restaurante de Francis Mallmann na deslumbrante bodega The Vines of Mendoza em Tunuyán, no Vale do Uco a 1100 metros de altitude. Sete fogos — lareira, parrilla, chapa, caldeirão, assador, rescoldo e horno de barro — sete técnicas ancestrais de cozinha ao fogo para uma experiência inesquecível.", a:"Ruta 94, Tunuyán, Valle de Uco, Mendoza",    p:"+54 261 461 3400", pr:"€€€€", nt:"No The Vines of Mendoza — Valle de Uco"},
+    {n:"Soberana",     q:"Carnes & Italiana",           d:"Uma parrilla contemporânea de Mendoza com pasta fresca artesanal e as melhores carnes da Cordilheira num ambiente moderno e animado. A fusão da herança italiana com a tradição criolla da parrilla mendocina — dois pilares da gastronomia argentina unidos numa só mesa.",                                a:"Mendoza, Argentina",                         p:"+54 261 000 0000", pr:"€€€"},
+  ],
+  "Buenos Aires": [
+    {n:"Cabaña Las Lilas",         q:"Carnes & Parrilla",     d:"A parrilla mais famosa de Buenos Aires, no Puerto Madero, com cortes de carne da própria estância Las Lilas criada em pastagem natural. O bife de chorizo, o ojo de bife e o lomo são grelhados com a perfeição que só décadas de tradição conseguem. Uma experiência de carne absolutamente obrigatória em Buenos Aires.", a:"Av. Alicia Moreau de Justo 516, Puerto Madero, Buenos Aires", p:"+54 11 4313 1336", pr:"€€€€"},
+    {n:"Gardiner",                 q:"Carnes & Parrilla",     d:"Um restaurante de carnes premium em Buenos Aires, com cortes maturados de novilho argentino servidos numa sala elegante e intimista. Uma das propostas mais sofisticadas para carne na capital argentina, onde a qualidade do produto e a execução da grelha são tratadas com devoção.", a:"Buenos Aires, Argentina",                    p:"+54 11 000 0000", pr:"€€€€"},
+    {n:"Fervor",                   q:"Carnes & Parrilla",     d:"Uma parrilla portenha de referência com uma cozinha de produto que eleva a tradição argentina a uma expressão contemporânea e elegante. Os cortes maturados, as mollejas e o provoleta grelhado são preparados com rigor e paixão numa sala de design moderno.", a:"Posadas 1519, Recoleta, Buenos Aires",        p:"+54 11 4804 3663", pr:"€€€"},
+    {n:"República del Fuego",      q:"Carnes & Parrilla",     d:"Uma parrilla contemporânea de Buenos Aires que celebra o fogo como elemento central — brasas de quebracho, lenha de espinheiro e carvão de algarrobo para cortes de vaca criada em liberdade. Uma das experiências de parrilla mais honestas e memoráveis da cidade.", a:"Buenos Aires, Argentina",                    p:"+54 11 000 0000", pr:"€€€"},
+    {n:"Cauce",                    q:"Carnes & Parrilla",     d:"Uma parrilla de bairro em Buenos Aires com uma cozinha de produto local de altíssima qualidade e uma abordagem contemporânea à tradição argentina. Cortes nobres, vegetais de horta e vinhos naturais numa sala intimista e sem formalidades.", a:"Buenos Aires, Argentina",                    p:"+54 11 000 0000", pr:"€€€"},
+    {n:"El Preferido de Palermo",  q:"Milanesa & Porteña",    d:"Uma bodega portenha histórica de Palermo com a melhor milanesa napolitana de Buenos Aires — enorme, dourada e coberta de tomate e queijo derretido — e os clásicos de la cocina porteña num ambiente de azulejos, tonéis e madeira que não mudou em décadas. Uma das experiências mais autênticas da gastronomia de Buenos Aires.", a:"Jorge Luis Borges 2108, Palermo, Buenos Aires", p:"+54 11 4774 6585", pr:"€€", nt:"A melhor milanesa napolitana de Buenos Aires"},
+    {n:"Osaka",                    q:"Japonesa & Nikkei",     d:"O restaurante nikkei de referência em Buenos Aires, com a fusão única da cozinha japonesa com os ingredientes e as técnicas da gastronomia peruana e argentina. Tiraditos, nigiris com wagyu e pisco sours num ambiente de design contemporâneo que reflecte a herança nipónica da América do Sul.", a:"Soler 5608, Palermo, Buenos Aires",          p:"+54 11 4775 6964", pr:"€€€€"},
+    {n:"Cor-te",                   q:"Contemporânea Porteña", d:"Um restaurante contemporâneo de Buenos Aires com uma cozinha criativa que reinterpreta os produtos e as tradições gastronómicas argentinas com técnica e sensibilidade. Uma das propostas mais interessantes e estimulantes da nova cena gastronómica da capital.", a:"Buenos Aires, Argentina",                    p:"+54 11 000 0000", pr:"€€€€"},
+    {n:"Elena",                    q:"Hotel & Alta Cozinha",  d:"O restaurante de alta cozinha do icónico Four Seasons Buenos Aires, com uma cozinha contemporânea de produto argentino num cenário de luxo histórico. Uma das mesas mais elegantes e consistentes de Buenos Aires, favorita da elite portenha e dos visitantes internacionais.", a:"Four Seasons, Posadas 1086, Recoleta, Buenos Aires", p:"+54 11 4321 1200", pr:"€€€€", nt:"No Four Seasons Buenos Aires"},
+  ],
+};
+
+function photo(q){return PHOTOS[q]||FB}
+
+function render(cityFilter){
+  const cities = Object.keys(DATA);
+  const f = document.getElementById('filters');
+  f.innerHTML = `<button class="filter-btn ${!cityFilter?'active':''}" onclick="render(null)">Todas</button>` +
+    cities.map(c=>`<button class="filter-btn ${cityFilter===c?'active':''}" onclick="render('${c}')">${c}</button>`).join('');
+
+  let html='', totalR=0, totalC=0, totalM=0;
+  const shown = cityFilter ? [cityFilter] : cities;
+
+  shown.forEach(city=>{
+    const restaurants = DATA[city];
+    totalC++; totalR += restaurants.length;
+    restaurants.forEach(r=>totalM+=(r.m||0));
+
+    const cards = restaurants.map(r=>{
+      const badges = [r.m>0?`<span class="badge badge-m">★ Michelin ×${r.m}</span>`:''].filter(Boolean).join('');
+      return `<div class="card" onclick="toggleCard(this)">
+        <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.parentElement.style.background='#e8e0d5';this.style.display='none'"></div>
+        <div class="card-body">
+          <div class="card-top"><div class="card-name">${r.n}</div><div class="card-price">${r.pr}</div></div>
+          <div class="card-cuisine">${r.q}</div>
+          ${badges?`<div class="card-badges">${badges}</div>`:''}
+          <div class="card-desc">${r.d}</div>
+          <div class="card-footer">
+            <div class="card-contact">
+              <div class="c-row"><span class="c-icon">📍</span><span class="c-text">${r.a}</span></div>
+              <div class="c-row"><span class="c-icon">📞</span><span class="c-text">${r.p}</span></div>
+            </div>
+            ${r.nt?`<div class="card-note">✦ ${r.nt}</div>`:''}
+          </div>
+          <div class="card-toggle">▼ detalhes</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    html += `<div class="city-sec">
+      <div class="city-hdr">
+        <div class="city-ghost">${city}</div>
+        <div class="city-inner">
+          <div class="city-left">
+            <span class="city-region-lbl">Argentina</span>
+            <h2 class="city-name">${city}</h2>
+            <div class="city-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+          </div>
+          <div class="city-count">
+            <div class="city-count-num">${restaurants.length}</div>
+            <div class="city-count-lbl">restaurante${restaurants.length!==1?'s':''}</div>
+          </div>
+        </div>
+      </div>
+      <div class="grid">${cards}</div>
+    </div>`;
+  });
+
+  document.getElementById('main').innerHTML = html;
+  document.getElementById('s1').textContent = totalR;
+  document.getElementById('s2').textContent = totalC;
+  document.getElementById('s3').textContent = totalM;
+  document.getElementById('hdr-count').textContent = `${totalR} restaurantes · ${totalC} cidades`;
+}
+
+function toggleCard(card){
+  const open = card.classList.toggle('open');
+  const t = card.querySelector('.card-toggle');
+  if(t) t.textContent = open ? '▲ fechar' : '▼ detalhes';
+}
+
+render(null);
+</script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Na Mesa com Luli Dias — Alemanha</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-md:#4A4A4A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;min-height:100vh}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:28px 24px 24px;display:flex;align-items:flex-start;justify-content:space-between}
+.brand-pre{font-size:7px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:6px}
+.brand-main{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);line-height:1.15}
+.brand-main em{font-style:italic;color:var(--gold)}
+.brand-sub{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-top:6px;font-weight:300}
+.hdr-right{text-align:right;padding-top:4px}
+.hdr-flag{font-size:24px;margin-bottom:4px}
+.hdr-count{font-size:8px;letter-spacing:2px;color:var(--ink-lt);font-weight:300}
+.stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex}
+.stat{flex:1;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+.stat-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:2px}
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filter-btn{padding:5px 14px;font-size:7px;letter-spacing:2px;text-transform:uppercase;font-weight:600;white-space:nowrap;background:transparent;color:var(--ink-lt);border:1px solid var(--border);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s}
+.filter-btn.active,.filter-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+main{padding:20px 24px 60px}
+.region-div{display:flex;align-items:center;gap:16px;margin:8px -24px 16px;padding:14px 24px;background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.rd-l{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.rd-r{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.rd-name{font-size:7px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);font-weight:700;white-space:nowrap}
+.city-sec{margin-bottom:32px}
+.city-hdr{position:relative;overflow:hidden;padding:24px 24px 20px;margin:0 -24px 16px;background:var(--white);border-bottom:1px solid var(--border)}
+.city-ghost{position:absolute;right:-6px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(184,146,42,.055);pointer-events:none;white-space:nowrap;line-height:1;letter-spacing:-3px}
+.city-inner{position:relative;display:flex;align-items:flex-end;justify-content:space-between}
+.city-left{display:flex;flex-direction:column;gap:6px}
+.city-region-lbl{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px}
+.city-region-lbl::before{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
+.city-name{font-family:'Playfair Display',serif;font-size:38px;font-weight:400;color:var(--ink);letter-spacing:-0.5px;line-height:1}
+.city-orn{display:flex;align-items:center;gap:6px;margin-top:2px}
+.orn-line{height:1px;width:22px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+.city-count{text-align:right}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);opacity:.2;line-height:1}
+.city-count-lbl{font-size:6px;letter-spacing:3px;text-transform:uppercase;color:#aaa;margin-top:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+.card{background:var(--white);border-left:3px solid var(--gold-lt);cursor:pointer;transition:box-shadow .25s}
+.card:hover{box-shadow:0 4px 20px rgba(184,146,42,.12);position:relative;z-index:1}
+.card-photo-wrap{overflow:hidden;height:180px;background:var(--border)}
+.card-photo{width:100%;height:180px;object-fit:cover;display:block;transition:transform .5s}
+.card:hover .card-photo{transform:scale(1.04)}
+.card-body{padding:16px 18px 14px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.card-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-price{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1px;white-space:nowrap}
+.card-cuisine{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.card-badges{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
+.badge{font-size:6px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:2px 7px;border:1px solid}
+.badge-m{color:#8B0000;border-color:rgba(139,0,0,.3);background:rgba(139,0,0,.04)}
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.75;color:var(--ink-lt);font-weight:300;margin-bottom:12px;display:none}
+.card.open .card-desc{display:block}
+.card-footer{padding-top:10px;border-top:1px solid var(--border)}
+.card-contact{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.c-row{display:flex;gap:8px;align-items:flex-start}
+.c-icon{font-size:9px;color:var(--gold);min-width:14px;line-height:1.6}
+.c-text{font-size:9px;color:var(--ink-md);font-weight:400;line-height:1.5;letter-spacing:.2px}
+.card-note{font-size:8px;font-style:italic;color:var(--ink-md);font-family:'Cormorant Garamond',serif}
+.card-toggle{text-align:right;margin-top:8px;font-size:7px;color:#aaa;letter-spacing:1px}
+footer{background:var(--white);border-top:1px solid var(--border);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;margin-top:32px}
+.ft-brand{font-family:'Playfair Display',serif;font-size:13px;color:var(--ink)}
+.ft-brand em{font-style:italic;color:var(--gold)}
+.ft-note{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#aaa}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <p class="brand-pre">Guia Gastronômico</p>
+    <h1 class="brand-main">Na Mesa com <em>Luli Dias</em></h1>
+    <p class="brand-sub">Curadoria pessoal · Edição 2025</p>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-flag">🇩🇪</div>
+    <p class="hdr-count" id="hdr-count">Alemanha</p>
+  </div>
+</header>
+<div class="stats">
+  <div class="stat"><div class="stat-num" id="s1">—</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num" id="s2">—</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num" id="s3">—</div><div class="stat-lbl">★ Michelin</div></div>
+</div>
+<div class="filters" id="filters"></div>
+<main id="main"></main>
+<footer>
+  <span class="ft-brand">Na Mesa com <em>Luli Dias</em></span>
+  <span class="ft-note">🇩🇪 Alemanha · 2025</span>
+</footer>
+<script>
+const PHOTOS = {
+  "Italiana Clássica":          "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Bar & Fusion":               "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80",
+  "Pizza Contemporânea":        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Alta Cozinha Alemã":         "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+  "Japonesa":                   "https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&q=80",
+  "Alta Cozinha Contemporânea": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Bar & Steakhouse":           "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
+  "Alemã Tradicional":          "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Italiana Casual":            "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Alemã de Taberna":           "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80",
+  "Francesa de Alta Cozinha":   "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+  "Italiana de Alta Cozinha":   "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Alemã Contemporânea":        "https://images.unsplash.com/photo---1414235077428-338989a2e8c0?w=600&q=80",
+};
+const FB = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80";
+
+const DATA = [
+  { region:"Noroeste — Renânia do Norte-Vestfália", city:"Düsseldorf", restaurants:[
+    {n:"Ristorante La Luce Due", q:"Italiana Clássica",          d:"Uma trattoria italiana de referência em Düsseldorf, com pasta fresca, risottos e carnes de qualidade num ambiente elegante e acolhedor. Um dos endereços italianos favoritos da capital do estado da Renânia do Norte-Vestfália.",          a:"Düsseldorf, 40000 Nordrhein-Westfalen",        p:"+49 211 000 000",   pr:"€€€"},
+    {n:"Sansi Bar by Breuninger",q:"Bar & Fusion",               d:"O bar e restaurante do icónico department store Breuninger de Düsseldorf, com uma cozinha de fusion contemporânea e cocktails elaborados num ambiente de design sofisticado. O endereço perfeito para um almoço de moda ou um aperitivo antes das compras na Kö.",  a:"Königsallee 2, 40212 Düsseldorf",              p:"+49 211 138 990",   pr:"€€€"},
+    {n:"Rocca 800°",             q:"Pizza Contemporânea",        d:"Uma pizzaria contemporânea em Düsseldorf com fornos a 800°C que produzem a pizza napolitana perfeita — bordo alto, massa fina e ingredientes de qualidade superior. Um dos melhores endereços para pizza na capital do Reno.",              a:"Düsseldorf, 40000 Nordrhein-Westfalen",        p:"+49 211 000 000",   pr:"€€"},
+    {n:"Phoenix",                q:"Alta Cozinha Alemã",         d:"Uma estrela Michelin em Düsseldorf com uma cozinha contemporânea que valoriza os produtos regionais alemães com técnica e criatividade. Uma das mesas mais interessantes da cena gastronómica de alta cozinha de Düsseldorf.",               a:"Düsseldorf, 40000 Nordrhein-Westfalen",        p:"+49 211 000 000",   pr:"€€€€", m:1},
+    {n:"Roku",                   q:"Japonesa",                   d:"Um restaurante japonês de referência em Düsseldorf — que tem a maior comunidade japonesa da Alemanha — com sushi e sashimi de peixe fresco preparados com técnica nipónica irrepreensível. A autenticidade japonesa no coração da Europa.",  a:"Düsseldorf, 40000 Nordrhein-Westfalen",        p:"+49 211 000 000",   pr:"€€€"},
+    {n:"Zwanzig23",              q:"Alta Cozinha Contemporânea", d:"Uma estrela Michelin em Düsseldorf com uma cozinha de autor inovadora e precisa, num espaço contemporâneo e intimista. Uma das mesas mais excitantes da nova cena gastronómica da cidade.",                                                    a:"Düsseldorf, 40000 Nordrhein-Westfalen",        p:"+49 211 000 000",   pr:"€€€€", m:1},
+    {n:"Kö59",                   q:"Alta Cozinha Contemporânea", d:"Um restaurante de fine dining na icónica Königsallee de Düsseldorf, com uma cozinha contemporânea de produto e uma sala de design elegante. A mesa perfeita para os grandes jantares de negócios ou de celebração da capital do Reno.",        a:"Königsallee 59, 40215 Düsseldorf",             p:"+49 211 000 000",   pr:"€€€€"},
+    {n:"Schweine Janes",         q:"Alemã Tradicional",          d:"Um restaurante alemão de traça popular em Düsseldorf especializado em porco — Schwein — preparado de todas as formas da tradição germânica, do Schnitzel ao Eisbein. Ambiente de cervejaria animado e doses generosas à alemã.",             a:"Düsseldorf, 40000 Nordrhein-Westfalen",        p:"+49 211 000 000",   pr:"€€"},
+    {n:"Spaghetti & Stars",      q:"Italiana Casual",            d:"Uma trattoria italiana descontraída e popular em Düsseldorf, com espaguete, pizza e o ambiente festivo de uma osteria de bairro. O favorito para um jantar casual em família ou entre amigos na cidade.",                                     a:"Düsseldorf, 40000 Nordrhein-Westfalen",        p:"+49 211 000 000",   pr:"€€"},
+  ]},
+  { region:"Centro — Hesse", city:"Frankfurt", restaurants:[
+    {n:"Zum Gemalten Haus",      q:"Alemã de Taberna",           d:"Uma taberna histórica de Frankfurt-Sachsenhausen com mais de um século de tradição, servindo Ebbelwoi — a sidra de maçã típica de Frankfurt — e pratos clássicos alemães como Handkäse mit Musik e Schnitzel. Uma instituição da vida popular frankfurtiana.",    a:"Schweizer Str. 67, 60594 Frankfurt am Main",  p:"+49 69 614559",     pr:"€"},
+    {n:"Erno's Bistro",          q:"Francesa de Alta Cozinha",   d:"Um bistrô francês de estrela Michelin em Frankfurt, com uma cozinha clássica francesa — foie gras, confit de canard, escargots e homard — num ambiente intimista e elegante. Uma das mesas francesas mais aclamadas da Alemanha.",                a:"Liebigstr. 15, 60323 Frankfurt am Main",       p:"+49 69 721997",     pr:"€€€€", m:1},
+    {n:"Carmelo Greco",          q:"Italiana de Alta Cozinha",   d:"Uma estrela Michelin italiana em Frankfurt, com o chef calabrês Carmelo Greco a elevar os sabores do Sul de Itália a uma expressão gastronómica de alto nível. Pasta, peixes mediterrâneos e uma cave de vinhos italianos notável num ambiente de elegância mediterrânea.", a:"Liebigstr. 21, 60323 Frankfurt am Main",       p:"+49 69 724997",     pr:"€€€€", m:1},
+  ]},
+  { region:"Noroeste — Renânia do Norte-Vestfália", city:"Köln", restaurants:[
+    {n:"Zur Tant",               q:"Alemã Contemporânea",        d:"Um restaurante histórico de Colónia com uma cozinha renana contemporânea que reinterpreta os clássicos da região — Sauerbraten, Himmel un Ääd e Halver Hahn — com técnica e produto de qualidade. Uma das mesas mais queridas e consistentes da cidade do Dom.",    a:"Köln, 50000 Nordrhein-Westfalen",              p:"+49 221 000 000",   pr:"€€€"},
+  ]},
+  { region:"Centro — Baviera Francónia", city:"Würzburg", restaurants:[
+    {n:"Aijach Reisers",         q:"Alta Cozinha Alemã",         d:"Um restaurante de alta cozinha em Würzburg, no coração da Francónia vinícola, com uma cozinha contemporânea que celebra os produtos da região — Frankenspargel, trufa e peixes do Main — harmonizados com os vinhos Silvaner e Riesling locais. Uma das mesas mais elegantes da Baviera Francónia.",    a:"Würzburg, 97000 Bayern",                      p:"+49 931 000 000",   pr:"€€€€"},
+  ]},
+];
+
+function photo(q){return PHOTOS[q]||FB}
+
+function buildCard(r){
+  const badges=[r.m>0?`<span class="badge badge-m">★ Michelin ×${r.m}</span>`:''].filter(Boolean).join('');
+  return `<div class="card" onclick="toggleCard(this)">
+    <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.parentElement.style.background='#e8e0d5';this.style.display='none'"></div>
+    <div class="card-body">
+      <div class="card-top"><div class="card-name">${r.n}</div><div class="card-price">${r.pr}</div></div>
+      <div class="card-cuisine">${r.q}</div>
+      ${badges?`<div class="card-badges">${badges}</div>`:''}
+      <div class="card-desc">${r.d}</div>
+      <div class="card-footer">
+        <div class="card-contact">
+          <div class="c-row"><span class="c-icon">📍</span><span class="c-text">${r.a}</span></div>
+          <div class="c-row"><span class="c-icon">📞</span><span class="c-text">${r.p}</span></div>
+        </div>
+        ${r.nt?`<div class="card-note">✦ ${r.nt}</div>`:''}
+      </div>
+      <div class="card-toggle">▼ detalhes</div>
+    </div>
+  </div>`;
+}
+
+function render(regionFilter){
+  const groups={};
+  DATA.forEach(e=>{if(!groups[e.region])groups[e.region]=[];groups[e.region].push(e)});
+  let html='',totalR=0,totalC=0,totalM=0;
+  const regions=Object.keys(groups);
+  const f=document.getElementById('filters');
+  f.innerHTML=`<button class="filter-btn ${!regionFilter?'active':''}" onclick="render(null)">Todas</button>`+
+    regions.map(r=>`<button class="filter-btn ${regionFilter===r?'active':''}" onclick="render('${r}')">${r.split('—')[1]||r}</button>`).join('');
+  for(const [reg,entries] of Object.entries(groups)){
+    if(regionFilter&&reg!==regionFilter)continue;
+    let cities='';
+    entries.forEach(e=>{
+      totalC++;totalR+=e.restaurants.length;e.restaurants.forEach(r=>totalM+=(r.m||0));
+      cities+=`<div class="city-sec">
+        <div class="city-hdr">
+          <div class="city-ghost">${e.city}</div>
+          <div class="city-inner">
+            <div class="city-left">
+              <span class="city-region-lbl">${reg.split('—')[1]||reg}</span>
+              <h2 class="city-name">${e.city}</h2>
+              <div class="city-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+            </div>
+            <div class="city-count"><div class="city-count-num">${e.restaurants.length}</div><div class="city-count-lbl">restaurante${e.restaurants.length!==1?'s':''}</div></div>
+          </div>
+        </div>
+        <div class="grid">${e.restaurants.map(buildCard).join('')}</div>
+      </div>`;
+    });
+    html+=`<div><div class="region-div"><div class="rd-l"></div><span class="rd-name">${reg}</span><div class="rd-r"></div></div>${cities}</div>`;
+  }
+  document.getElementById('main').innerHTML=html;
+  document.getElementById('s1').textContent=totalR;
+  document.getElementById('s2').textContent=totalC;
+  document.getElementById('s3').textContent=totalM;
+  document.getElementById('hdr-count').textContent=`${totalR} restaurantes · ${totalC} cidades`;
+}
+
+function toggleCard(card){
+  const open=card.classList.toggle('open');
+  const t=card.querySelector('.card-toggle');
+  if(t)t.textContent=open?'▲ fechar':'▼ detalhes';
+}
+
+render(null);
+</script>
+</body>
+</html>

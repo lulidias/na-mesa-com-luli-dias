@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Na Mesa com Luli Dias — Holanda</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-md:#4A4A4A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;min-height:100vh}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:28px 24px 24px;display:flex;align-items:flex-start;justify-content:space-between}
+.brand-pre{font-size:7px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:6px}
+.brand-main{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);line-height:1.15}
+.brand-main em{font-style:italic;color:var(--gold)}
+.brand-sub{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-top:6px;font-weight:300}
+.hdr-right{text-align:right;padding-top:4px}
+.hdr-flag{font-size:24px;margin-bottom:4px}
+.hdr-count{font-size:8px;letter-spacing:2px;color:var(--ink-lt);font-weight:300}
+.stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex}
+.stat{flex:1;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+.stat-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:2px}
+main{padding:20px 24px 60px}
+.city-sec{margin-bottom:32px}
+.city-hdr{position:relative;overflow:hidden;padding:24px 24px 20px;margin:0 -24px 16px;background:var(--white);border-bottom:1px solid var(--border)}
+.city-ghost{position:absolute;right:-6px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(184,146,42,.055);pointer-events:none;white-space:nowrap;line-height:1;letter-spacing:-3px}
+.city-inner{position:relative;display:flex;align-items:flex-end;justify-content:space-between}
+.city-left{display:flex;flex-direction:column;gap:6px}
+.city-region-lbl{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px}
+.city-region-lbl::before{content:'';width:16px;height:1px;background:var(--gold);display:inline-block}
+.city-name{font-family:'Playfair Display',serif;font-size:38px;font-weight:400;color:var(--ink);letter-spacing:-0.5px;line-height:1}
+.city-orn{display:flex;align-items:center;gap:6px;margin-top:2px}
+.orn-line{height:1px;width:22px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+.city-count{text-align:right}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);opacity:.2;line-height:1}
+.city-count-lbl{font-size:6px;letter-spacing:3px;text-transform:uppercase;color:#aaa;margin-top:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+.card{background:var(--white);border-left:3px solid var(--gold-lt);cursor:pointer;transition:box-shadow .25s}
+.card:hover{box-shadow:0 4px 20px rgba(184,146,42,.12);position:relative;z-index:1}
+.card-photo-wrap{overflow:hidden;height:180px;background:var(--border)}
+.card-photo{width:100%;height:180px;object-fit:cover;display:block;transition:transform .5s}
+.card:hover .card-photo{transform:scale(1.04)}
+.card-body{padding:16px 18px 14px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.card-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-price{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:1px;white-space:nowrap}
+.card-cuisine{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+.card-badges{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
+.badge{font-size:6px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:2px 7px;border:1px solid}
+.badge-m{color:#8B0000;border-color:rgba(139,0,0,.3);background:rgba(139,0,0,.04)}
+.badge-bg{color:#4a7a54;border-color:rgba(74,122,84,.3);background:rgba(74,122,84,.04)}
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.75;color:var(--ink-lt);font-weight:300;margin-bottom:12px;display:none}
+.card.open .card-desc{display:block}
+.card-footer{padding-top:10px;border-top:1px solid var(--border)}
+.card-contact{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.c-row{display:flex;gap:8px;align-items:flex-start}
+.c-icon{font-size:9px;color:var(--gold);min-width:14px;line-height:1.6}
+.c-text{font-size:9px;color:var(--ink-md);font-weight:400;line-height:1.5;letter-spacing:.2px}
+.card-note{font-size:8px;font-style:italic;color:var(--ink-md);font-family:'Cormorant Garamond',serif}
+.card-toggle{text-align:right;margin-top:8px;font-size:7px;color:#aaa;letter-spacing:1px}
+footer{background:var(--white);border-top:1px solid var(--border);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;margin-top:32px}
+.ft-brand{font-family:'Playfair Display',serif;font-size:13px;color:var(--ink)}
+.ft-brand em{font-style:italic;color:var(--gold)}
+.ft-note{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#aaa}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <p class="brand-pre">Guia Gastronômico</p>
+    <h1 class="brand-main">Na Mesa com <em>Luli Dias</em></h1>
+    <p class="brand-sub">Curadoria pessoal · Edição 2025</p>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-flag">🇳🇱</div>
+    <p class="hdr-count" id="hdr-count">Holanda</p>
+  </div>
+</header>
+<div class="stats">
+  <div class="stat"><div class="stat-num">8</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">★ Michelin</div></div>
+</div>
+<main id="main"></main>
+<footer>
+  <span class="ft-brand">Na Mesa com <em>Luli Dias</em></span>
+  <span class="ft-note">🇳🇱 Holanda · 2025</span>
+</footer>
+<script>
+const PHOTOS = {
+  "Peixe & Mariscos":           "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80",
+  "Japonesa & Fusion Asiática": "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80",
+  "Alta Cozinha Contemporânea": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Francesa Contemporânea":     "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+  "Holandesa de Alta Cozinha":  "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Chinesa":                    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+  "Francesa & Frutos do Mar":   "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&q=80",
+};
+const FB = "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80";
+
+const DATA = [
+  {n:"The Seafood Bar",  q:"Peixe & Mariscos",           d:"Uma marisqueira de referência em Amsterdã com os melhores frutos do mar do Mar do Norte — ostras, lagostas, camarões e plateau royaux — num ambiente animado e descontraído. O endereço obrigatório para quem ama mariscos na capital holandesa.",                        a:"Spui 15, 1012 XA Amsterdam",               p:"+31 20 233 7452", pr:"€€€"},
+  {n:"Momo",             q:"Japonesa & Fusion Asiática",  d:"Um restaurante de fusion asiática sofisticado em Amsterdã, com sushi, dim sum e pratos pan-asiáticos num ambiente de design opulento. Um dos restaurantes mais glamorosos e fotogénicos da cidade, frequentado pela cena social e criativa de Amsterdã.",                    a:"Hobbemastraat 1, 1071 XZ Amsterdam",       p:"+31 20 671 7474", pr:"€€€€"},
+  {n:"Ciel Bleu",        q:"Alta Cozinha Contemporânea",  d:"Duas estrelas Michelin no 23º andar do Hotel Okura com uma vista panorâmica deslumbrante sobre Amsterdã. Uma cozinha de alta precisão contemporânea com produtos holandeses e internacionais de excelência. Uma das experiências gastronómicas mais memoráveis dos Países Baixos.", a:"Hotel Okura, Ferdinand Bolstraat 333, 1072 LH Amsterdam", p:"+31 20 678 7450", pr:"€€€€", m:2, nt:"No Hotel Okura — 23º andar"},
+  {n:"Marie",            q:"Francesa Contemporânea",      d:"O restaurante do histórico Hotel L'Europe em Amsterdã com uma estrela Michelin e uma cozinha francesa contemporânea de produto. Vista sobre o canal Amstel e uma sala clássica de hotel de luxo para uma refeição verdadeiramente memorável.",                               a:"Hotel L'Europe, Nieuwe Doelenstraat 2-14, 1012 CP Amsterdam", p:"+31 20 531 1777", pr:"€€€€", m:1, nt:"No Hotel L'Europe"},
+  {n:"Vermeer",          q:"Holandesa de Alta Cozinha",   d:"Uma estrela Michelin em Amsterdã com uma cozinha que celebra os produtos holandeses — peixe do Mar do Norte, queijos da Holanda e legumes de horta — com técnica e criatividade. Um dos restaurantes que melhor expressa a identidade gastronómica contemporânea dos Países Baixos.", a:"Amsterdam, Netherlands",                   p:"+31 20 000 0000", pr:"€€€€", m:1},
+  {n:"The Duchess",      q:"Alta Cozinha Contemporânea",  d:"Uma estrela Michelin instalada numa sala monumental de um edifício histórico de Amsterdã, com uma cozinha contemporânea de grande impacto visual e gastronómico. O restaurante mais teatral e impressionante da cena de alta cozinha da capital.",                           a:"Spuistraat 172, 1012 VT Amsterdam",        p:"+31 20 811 3600", pr:"€€€€", m:1},
+  {n:"Sea Palace",       q:"Chinesa",                     d:"O famoso restaurante chinês flutuante de Amsterdã com Bib Gourmand Michelin, instalado numa embarcação tradicional no porto da cidade. Dim sum, pato laqueado e mariscos num ambiente único — comer sobre a água no centro de Amsterdã é uma experiência absolutamente singular.", a:"Oosterdokskade 8, 1011 AE Amsterdam",       p:"+31 20 626 4777", pr:"€€",    bg:true, nt:"Bib Gourmand Michelin — restaurante flutuante"},
+  {n:"Bistro de la Mer", q:"Francesa & Frutos do Mar",    d:"Uma estrela Michelin em Amsterdã com uma cozinha de bistrô francês que celebra os frutos do mar do Atlântico e do Mar do Norte com elegância e simplicidade. Uma das mesas mais consistentes e queridas da cena gastronómica de Amsterdã.",                                  a:"Amsterdam, Netherlands",                   p:"+31 20 000 0000", pr:"€€€€", m:1},
+];
+
+function photo(q){return PHOTOS[q]||FB}
+
+function build(){
+  const cards = DATA.map(r=>{
+    const badges=[
+      r.m>0 ? `<span class="badge badge-m">★ Michelin ×${r.m}</span>` : '',
+      r.bg  ? `<span class="badge badge-bg">Bib Gourmand</span>` : '',
+    ].filter(Boolean).join('');
+    return `<div class="card" onclick="toggleCard(this)">
+      <div class="card-photo-wrap"><img class="card-photo" src="${photo(r.q)}" alt="${r.n}" loading="lazy" onerror="this.parentElement.style.background='#e8e0d5';this.style.display='none'"></div>
+      <div class="card-body">
+        <div class="card-top"><div class="card-name">${r.n}</div><div class="card-price">${r.pr}</div></div>
+        <div class="card-cuisine">${r.q}</div>
+        ${badges?`<div class="card-badges">${badges}</div>`:''}
+        <div class="card-desc">${r.d}</div>
+        <div class="card-footer">
+          <div class="card-contact">
+            <div class="c-row"><span class="c-icon">📍</span><span class="c-text">${r.a}</span></div>
+            <div class="c-row"><span class="c-icon">📞</span><span class="c-text">${r.p}</span></div>
+          </div>
+          ${r.nt?`<div class="card-note">✦ ${r.nt}</div>`:''}
+        </div>
+        <div class="card-toggle">▼ detalhes</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('main').innerHTML = `
+    <div class="city-sec">
+      <div class="city-hdr">
+        <div class="city-ghost">Amsterdam</div>
+        <div class="city-inner">
+          <div class="city-left">
+            <span class="city-region-lbl">Holanda do Norte</span>
+            <h2 class="city-name">Amsterdã</h2>
+            <div class="city-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+          </div>
+          <div class="city-count">
+            <div class="city-count-num">8</div>
+            <div class="city-count-lbl">restaurantes</div>
+          </div>
+        </div>
+      </div>
+      <div class="grid">${cards}</div>
+    </div>`;
+}
+
+function toggleCard(card){
+  const open = card.classList.toggle('open');
+  const t = card.querySelector('.card-toggle');
+  if(t) t.textContent = open ? '▲ fechar' : '▼ detalhes';
+}
+
+build();
+</script>
+</body>
+</html>
