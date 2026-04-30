@@ -38,11 +38,6 @@ header{background:var(--white);border-bottom:1px solid var(--border);padding:44p
 .header-edition{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
 
 /* REGION FILTER */
-.filters{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.filter-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
-.filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
-.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
-.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
 
 /* STATS — só restaurantes + cidades */
 .stats-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;flex-wrap:wrap}
@@ -119,6 +114,11 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
 footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 footer a{color:var(--gold);text-decoration:none}
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
 </style>
 </head>
 <body>
@@ -159,7 +159,6 @@ footer a{color:var(--gold);text-decoration:none}
   <span class="lbadge" style="background:#FFF8E8;color:#B87820;border:1px solid #E8C870">🏆 Premiado</span>
 </div>
 
-<div class="filters" id="filters"></div>
 
 <div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
   <div class="map-sheet">
@@ -180,6 +179,7 @@ footer a{color:var(--gold);text-decoration:none}
   </div>
 </div>
 
+<div class="filters" id="filters"></div>
 <main id="main"></main>
 <footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Na Mesa com Luli Dias</p></footer>
 
@@ -250,16 +250,17 @@ function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f
 function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
 
-// Build region filter buttons
-const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
-const filtersEl=document.getElementById('filters');
-filtersEl.innerHTML='<span class="filter-lbl">Região:</span>'+
-  regions.map(r=>`<button class="filter-btn${r==='Todas'?' active':''}" onclick="setRegion('${r}',this)">${r}</button>`).join('');
 
-let activeRegion='Todas';
-function setRegion(r,btn){
-  activeRegion=r;
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+// City filter
+const cityList = ['Todas', 'Curitiba', 'Florianópolis', 'Gramado & Canela'];
+const filtersEl = document.getElementById('filters');
+filtersEl.innerHTML = '<span class="filter-lbl">Cidade:</span>' +
+  cityList.map(c => `<button class="filter-btn${c==='Todas'?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
+
+let activeCity = 'Todas';
+function setCity(c, btn) {
+  activeCity = c;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   render();
 }
@@ -267,7 +268,7 @@ function setRegion(r,btn){
 function render(){
   const main=document.getElementById('main');
   main.innerHTML='';
-  const filtered=activeRegion==='Todas'?CITIES:CITIES.filter(c=>c.region===activeRegion);
+  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.city === activeCity);
 
   // Group by region
   const groups={};
