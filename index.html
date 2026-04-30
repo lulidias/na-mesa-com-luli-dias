@@ -33,6 +33,12 @@ header{background:var(--white);border-bottom:1px solid var(--border);padding:36p
 main{max-width:1100px;margin:0 auto;padding:40px 24px 60px}
 
 .region-div{display:flex;align-items:center;gap:16px;margin:44px 0 20px}
+.cont-bar{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;position:sticky;top:0;z-index:50}
+.cont-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px;white-space:nowrap}
+.cont-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.cont-btn:hover{border-color:var(--gold);color:var(--gold)}
+.cont-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+
 .rd-l,.rd-r{flex:1;height:1px;background:var(--border)}
 .rd-name{font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 8px}
 
@@ -69,11 +75,12 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
   <div style="margin-top:16px"><a href="sobre.html" style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold);padding:6px 16px">Sobre o Curador →</a></div>
 </header>
 <div class="global-stats">
-  <div class="gstat"><div class="gstat-num">28</div><div class="gstat-lbl">Países</div></div>
-  <div class="gstat"><div class="gstat-num">443</div><div class="gstat-lbl">Restaurantes</div></div>
-  <div class="gstat"><div class="gstat-num">77 ★</div><div class="gstat-lbl">Estrelas Michelin</div></div>
+  <div class="gstat"><div class="gstat-num">30</div><div class="gstat-lbl">Países</div></div>
+  <div class="gstat"><div class="gstat-num">690</div><div class="gstat-lbl">Restaurantes</div></div>
+  <div class="gstat"><div class="gstat-num">84 ★</div><div class="gstat-lbl">Estrelas Michelin</div></div>
   <div class="gstat"><div class="gstat-num">6</div><div class="gstat-lbl">Continentes</div></div>
 </div>
+<div class="cont-bar" id="contBar"></div>
 <main id="main"></main>
 <footer style="text-align:center;padding:32px;font-size:11px;color:#bbb;letter-spacing:2px;text-transform:uppercase;border-top:1px solid var(--border)">
   <a href="sobre.html" style="color:var(--gold);text-decoration:none">Sobre o Curador</a> &nbsp;·&nbsp; Na Mesa com Luli Dias
@@ -112,19 +119,20 @@ const REGIONS = [
       { name:'Taiwan', flag:'🇹🇼', region:'Ásia Oriental', cities:'Taipei · Jiufen', restaurants:5, michelin:1, file:'taiwan-guia.html', photo:'https://images.unsplash.com/photo-1470004914212-05527e49370b?w=800&h=500&fit=crop' },
       { name:'Vietnã', flag:'🇻🇳', region:'Sudeste Asiático', cities:'Hanói', restaurants:2, michelin:0, file:'vietna-guia.html', photo:'https://images.unsplash.com/photo-1528127269322-539801943592?w=800&h=500&fit=crop' },
       { name:'Hong Kong & Macau', flag:'🇭🇰', region:'Ásia Oriental', cities:'Hong Kong · Macau', restaurants:2, michelin:0, file:'hongkong-guia.html', photo:'https://images.unsplash.com/photo-1506970845246-18f21d533b20?w=800&h=500&fit=crop' },
+      { name:'Tailândia', flag:'🇹🇭', region:'Sudeste Asiático', cities:'Bangkok', restaurants:7, michelin:0, file:'tailandia-guia.html', photo:'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&h=500&fit=crop' },
     ]
   },
   {
     name: 'América do Norte',
     countries: [
       { name:'Estados Unidos', flag:'🇺🇸', region:'América do Norte', cities:'Miami · Nova Iorque', restaurants:9, michelin:1, file:'eua-guia.html', photo:'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800&h=500&fit=crop' },
-      { name:'Panamá', flag:'🇵🇦', region:'América Central', cities:'Cidade do Panamá', restaurants:2, michelin:0, file:'panama-guia.html', photo:'fotos/panama/cover.jpg' },
-      { name:'Tailândia', flag:'🇹🇭', region:'Sudeste Asiático', cities:'Bangkok', restaurants:7, michelin:0, file:'tailandia-guia.html', photo:'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&h=500&fit=crop' },
+
     ]
   },
   {
     name: 'América do Sul',
     countries: [
+      { name:'Brasil', flag:'🇧🇷', region:'América do Sul', cities:'São Paulo · Rio de Janeiro · Recife · Salvador · Florianópolis · + 14 cidades', restaurants:273, michelin:22, file:'brasil-index.html', photo:'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800&h=500&fit=crop' },
       { name:'Argentina', flag:'🇦🇷', region:'América do Sul', cities:'Buenos Aires · Mendoza', restaurants:15, michelin:3, file:'argentina-guia.html', photo:'fotos/argentina/cover.jpg' },
       { name:'Peru', flag:'🇵🇪', region:'América do Sul', cities:'Lima · Cusco', restaurants:13, michelin:6, file:'peru-guia.html', photo:'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=800&h=500&fit=crop' },
       { name:'Uruguai', flag:'🇺🇾', region:'América do Sul', cities:'Montevidéu · Punta del Este · José Ignacio', restaurants:9, michelin:0, file:'uruguai-guia.html', photo:'fotos/uruguai/cover.jpg' },
@@ -133,13 +141,28 @@ const REGIONS = [
     ]
   },
   {
-    name: 'Caribe',
+    name: 'América Central & Caribe',
     countries: [
+      { name:'Panamá', flag:'🇵🇦', region:'América Central', cities:'Cidade do Panamá', restaurants:2, michelin:0, file:'panama-guia.html', photo:'fotos/panama/cover.jpg' },
       { name:'Curaçao', flag:'🇨🇼', region:'Caribe Holandês', cities:'Jan Thiel Baai', restaurants:1, michelin:0, file:'curacao-guia.html', photo:'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&h=500&fit=crop' },
       { name:'Bonaire', flag:'🇧🇶', region:'Caribe Holandês', cities:'Kralendijk', restaurants:1, michelin:0, file:'bonaire-guia.html', photo:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=800&h=500&fit=crop' },
     ]
   }
 ];
+
+// Build continent filter bar
+const continents = ['Todos', ...REGIONS.map(r => r.name)];
+const bar = document.getElementById('contBar');
+bar.innerHTML = '<span class="cont-lbl">Continente:</span>' +
+  continents.map(c => `<button class="cont-btn${c==='Todos'?' active':''}" onclick="setContinent('${c}',this)">${c}</button>`).join('');
+
+let activeCont = 'Todos';
+function setContinent(name, btn) {
+  activeCont = name;
+  document.querySelectorAll('.cont-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  build();
+}
 
 function buildCard(c) {
   const isComingSoon = !!c.comingSoon;
@@ -172,7 +195,8 @@ function buildCard(c) {
 
 function build() {
   let html = '';
-  REGIONS.forEach(region => {
+  const filtered = activeCont === 'Todos' ? REGIONS : REGIONS.filter(r => r.name === activeCont);
+  filtered.forEach(region => {
     html += `
     <div class="region-div">
       <div class="rd-l"></div>

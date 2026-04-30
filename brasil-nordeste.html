@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brasil · Nordeste — Na Mesa com Luli Dias</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5;--card-bg:#FFF;
+  --m2:#E4002B;--m2bg:#FFF0F0;--m1:#C0001F;--m1bg:#FFF5F5;
+  --bib:#E8700A;--bibbg:#FFF5EE;--green:#2D7A3A;--greenbg:#F0F7F1;--rec:#4A6FA5;--recbg:#F0F4FA;
+  --hotel:#7B5EA7;--hotelbg:#F5F0FF;
+}
+html,body{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;}
+
+.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;gap:10px}
+.back-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:500}
+.back-link:hover{color:var(--ink)}
+.nav-sep{color:var(--border)}
+.nav-current{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
+
+/* HEADER — brand redesign */
+header{background:var(--white);border-bottom:1px solid var(--border);padding:44px 48px 32px}
+.brand-line{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.brand-prefix{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--ink-lt);line-height:1.1}
+.brand-name{font-family:'Playfair Display',serif;font-size:46px;font-weight:400;line-height:1.1}
+.brand-name em{font-style:italic;color:var(--gold)}
+.brand-country{font-family:'Playfair Display',serif;font-size:30px;font-weight:400;color:var(--ink-lt);font-style:italic;margin-bottom:20px}
+.header-orn{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.orn-line{height:1px;width:48px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+.header-meta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.header-meta{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs)}
+.header-edition{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+
+/* REGION FILTER */
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+
+/* STATS — só restaurantes + cidades */
+.stats-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;flex-wrap:wrap}
+.stat{padding:0 28px;border-right:1px solid var(--border);text-align:center}
+.stat:first-child{padding-left:0}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);font-weight:600}
+.stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:2px}
+
+/* MICHELIN LEGEND — subtitle below stats */
+.michelin-legend{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.legend-title{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt)}
+.lbadge{font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.lm2,.lm1,.lbib,.lgreen,.lrec,.lhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+
+main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
+
+.city-sec{margin-bottom:64px}
+.city-hdr{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:24px}
+.city-hdr-left{display:flex;flex-direction:column;gap:6px}
+.city-region-lbl{font-size:8px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;display:flex;align-items:center;gap:10px}
+.city-region-lbl::before{content:'';display:inline-block;width:20px;height:1px;background:var(--gold)}
+.city-name{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--ink);letter-spacing:-1px;line-height:1}
+.city-count-block{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--gold);opacity:.25;line-height:1}
+.city-count-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-xs);margin-top:2px}
+.city-michelin{font-size:9px;color:var(--m2);font-weight:600;letter-spacing:1px;opacity:.85}
+
+.restaurants-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+
+.restaurant-card{background:var(--card-bg);overflow:hidden;border-left:3px solid var(--gold-lt);transition:box-shadow .3s}
+.restaurant-card:hover{box-shadow:0 4px 24px rgba(184,146,42,.12);z-index:1;position:relative}
+
+.card-photo-wrap{width:100%;height:300px;overflow:hidden;background:var(--border)}
+.card-photo{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.restaurant-card:hover .card-photo{transform:scale(1.04)}
+.card-photo-placeholder{width:100%;height:300px;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3}
+
+.card-body{padding:20px 22px 18px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
+.card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;margin-top:2px}
+.badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.bm2,.bm1,.bbib,.bgreen,.brec,.bhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+
+.card-meta-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.card-cuisine{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+.card-price{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:1px}
+
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink-lt);line-height:1.65;margin-bottom:12px}
+
+.card-contact{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.c-row{display:flex;align-items:flex-start;gap:8px}
+.c-icon{font-size:10px;color:var(--gold);min-width:16px;flex-shrink:0;margin-top:1px}
+.c-addr{font-size:10px;color:var(--ink-lt);cursor:pointer;line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-addr:hover{color:var(--gold)}
+.c-phone{font-size:10px;color:var(--ink-lt);line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-phone:hover{color:var(--gold)}
+.card-note{font-size:9px;color:var(--gold);font-style:italic;margin-top:8px}
+
+/* MAP MODAL */
+.map-modal{display:none;position:fixed;inset:0;z-index:1000;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.45)}
+.map-modal.open{display:flex}
+.map-sheet{background:var(--white);border-radius:16px 16px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(0,0,0,.18)}
+.map-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);margin-bottom:4px}
+.map-addr-txt{font-size:10px;color:var(--ink-lt);margin-bottom:22px;line-height:1.5}
+.map-options{display:flex;flex-direction:column;gap:10px}
+.map-btn{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);cursor:pointer;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:500;color:var(--ink);transition:background .15s}
+.map-btn:hover{background:var(--gold-bg)}
+.map-btn-icon{font-size:24px;width:32px;text-align:center;flex-shrink:0}
+.map-btn-sub{font-size:9px;color:var(--ink-xs);font-weight:400;display:block;margin-top:2px}
+.map-cancel{margin-top:16px;width:100%;padding:12px;border:none;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer}
+
+footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
+footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
+footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="brasil-index.html" class="back-link">← Brasil</a>
+  <span class="nav-sep">·</span>
+  <span class="nav-current">Nordeste</span>
+</nav>
+
+<header>
+  <div class="brand-line">
+    <span class="brand-prefix">Na Mesa com</span>
+    <span class="brand-name"><em>Luli Dias</em></span>
+  </div>
+  <div class="brand-country">Brasil · Nordeste</div>
+  <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+  <div class="header-meta-row">
+    <span class="header-meta">Fortaleza · João Pessoa · Maceió · Natal · Recife · Salvador</span>
+    <span class="header-edition">Abril 2026</span>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">49</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">6</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"></div>
+</div>
+
+<div class="michelin-legend">
+  <span class="lbadge bm3">★★★ 3 Estrelas</span>
+  <span class="lbadge lm2">★★ 2 Estrelas</span>
+  <span class="lbadge lm1">★ 1 Estrela</span>
+  <span class="lbadge lbib">Bib Gourmand</span>
+  <span class="lbadge lgreen">Estrela Verde</span>
+  <span class="lbadge lrec">Michelin</span>
+  <span class="lbadge lhotel">Hospedagem</span>
+  <span class="lbadge" style="background:#FFF8E8;color:#B87820;border:1px solid #E8C870">🏆 Premiado</span>
+</div>
+
+<div class="filters" id="filters"></div>
+
+<div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
+  <div class="map-sheet">
+    <div class="map-title" id="mapName"></div>
+    <div class="map-addr-txt" id="mapAddr"></div>
+    <div class="map-options">
+      <a class="map-btn" id="btnWaze" href="#" target="_blank">
+        <span class="map-btn-icon">🗺</span><div><strong>Waze</strong><span class="map-btn-sub">Navegar com Waze</span></div>
+      </a>
+      <a class="map-btn" id="btnGoogle" href="#" target="_blank">
+        <span class="map-btn-icon">📍</span><div><strong>Google Maps</strong><span class="map-btn-sub">Abrir no Google Maps</span></div>
+      </a>
+      <a class="map-btn" id="btnApple" href="#" target="_blank">
+        <span class="map-btn-icon">🍎</span><div><strong>Apple Maps</strong><span class="map-btn-sub">Abrir no Apple Maps</span></div>
+      </a>
+    </div>
+    <button class="map-cancel" onclick="closeMap()">Cancelar</button>
+  </div>
+</div>
+
+<main id="main"></main>
+<footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Na Mesa com Luli Dias</p></footer>
+
+<script>
+function openMap(name,addr){
+  const q=encodeURIComponent(name+' '+addr);
+  document.getElementById('mapName').textContent=name;
+  document.getElementById('mapAddr').textContent=addr;
+  document.getElementById('btnWaze').href='https://waze.com/ul?q='+q+'&navigate=yes';
+  document.getElementById('btnGoogle').href='https://www.google.com/maps/search/?api=1&query='+q;
+  document.getElementById('btnApple').href='https://maps.apple.com/?q='+q;
+  document.getElementById('mapModal').classList.add('open');
+}
+function closeMap(){document.getElementById('mapModal').classList.remove('open');}
+
+// m: michelin badge, h: tem hospedagem, pr: preço 1-4
+const CITIES=[
+  {city:"Fortaleza",region:"Nordeste — Ceará",entries:[
+    {n:"Baco",q:"Wine Bar · Contemporânea",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:2,d:"Wine bar e restaurante com curadoria vinícola acima da média em Fortaleza. Carta de vinhos nacional e internacional com boa relação qualidade-preço, harmonizada com petiscos e pratos de cozinha contemporânea. O lugar certo para quem leva vinho a sério no Ceará."},
+    {n:"Cabaña del Primo",q:"Argentina · Parrilla",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:2,d:"A melhor parrilla argentina de Fortaleza, com cortes nobres assados na brasa no ponto exacto. Entraña, chorizo, bife ancho e costela em ambiente descontraído com o calor e hospitalidade cearense. Para quem saudade de Buenos Aires."},
+    {n:"Marcel",q:"Contemporânea · Autoral",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:3,d:"Um dos restaurantes mais sofisticados de Fortaleza, com cozinha autoral contemporânea que valoriza os ingredientes locais do Ceará com técnicas modernas. Cardápio que muda com as estações e uma carta de vinhos cuidadosamente seleccionada."},
+    {n:"Marquês da Vajota",q:"Portuguesa",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:2,d:"Restaurante português tradicional com o cardápio clássico da cozinha lusitana: bacalhau, frutos do mar, arroz de pato e pataniscas. Uma das casas que melhor representa a herança portuguesa na gastronomia cearense."},
+    {n:"Moleskine Gastrôbar",q:"Gastropub · Contemporânea",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:2,d:"Gastrôbar animado e descontraído com cocktails autorais, cervejas artesanais e petiscos criativos que superam qualquer bar comum. O ambiente urbano e jovial torna o Moleskine um dos pontos de encontro mais badalados de Fortaleza."},
+    {n:"Ponza",q:"Frutos do Mar · Italiana",a:"Av. Beira Mar, Fortaleza — CE",p:"+55 85 3000-0000",pr:3,d:"Restaurante com dupla personalidade: a cozinha italiana do sul de Itália encontra os melhores frutos do mar do Ceará. Polvo, camarão, ostras e lagosta preparados com técnica mediterrânea e ingredientes fresquíssimos da costa cearense numa localização privilegiada na Beira Mar."},
+    {n:"Ryori",q:"Japonesa · Sushi",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:2,d:"Referência da culinária japonesa em Fortaleza, com sushi e sashimi de qualidade num ambiente clean e sofisticado. Utiliza peixe fresco local e ingredientes importados do Japão para criar uma experiência autêntica no Nordeste."},
+    {n:"Zio BS",q:"Italiana Autêntica",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:2,d:"Filial fortalezense da rede italiana Zio Cucina, com a mesma proposta de culinária italiana autêntica e envolvente que conquistou o Nordeste. Massas frescas artesanais, risottos cremosos e pratos clássicos num ambiente caloroso."}
+  ]},
+  {city:"João Pessoa",region:"Nordeste — Paraíba",entries:[
+    {n:"Cassino da Lagoa",q:"Frutos do Mar · Regional",a:"João Pessoa — PB",p:"+55 83 3000-0000",pr:2,d:"À beira da Lagoa em João Pessoa, com frutos do mar frescos e culinária regional paraibana num ambiente de grande beleza natural. Um dos endereços mais românticos e pitorescos da capital paraibana."},
+    {n:"Nonno Cucina",q:"Italiana",a:"João Pessoa — PB",p:"+55 83 3000-0000",pr:2,d:"Italiana acolhedora em João Pessoa com receitas inspiradas nas avós italianas e produtos artesanais. Massas frescas, molhos lentos e o ambiente familiar que caracteriza as melhores trattorias da Itália do sul."},
+    {n:"Reserve Garden",q:"Contemporânea · Sofisticada",a:"João Pessoa — PB",p:"+55 83 3000-0000",pr:3,d:"O restaurante mais elegante de João Pessoa, com cozinha contemporânea sofisticada num ambiente jardim de grande beleza. Ingredientes locais da Paraíba tratados com técnica e cuidado num espaço que combina gastronomia e natureza."}
+  ]},
+  {city:"Maceió",region:"Nordeste — Alagoas",entries:[
+    {n:"759 Parrilla",q:"Argentina · Carnes",a:"Maceió — AL",p:"+55 82 3000-0000",pr:2,d:"Parrilla argentina com os melhores cortes da capital alagoana. Ambiente descontraído e animado com toda a cultura do churrasco platino: empanadas, chimichurri e os clássicos cortes argentinos grelhados ao ponto exacto."},
+    {n:"Akuaba",q:"Frutos do Mar",a:"Maceió — AL",p:"+55 82 3000-0000",pr:2,d:"Especialista em frutos do mar frescos da costa alagoana, com lagosta, camarão, lula, polvo e ostra numa culinária que celebra as riquezas do Mar do Caribe. Um dos endereços obrigatórios para quem visita Maceió."},
+    {n:"Le Corbu",q:"Francesa",a:"Maceió — AL",p:"+55 82 3000-0000",pr:3,d:"O melhor restaurante francês de Alagoas, com uma cozinha elegante e técnica que traz o melhor da culinária clássica francesa ao Nordeste. Bistrô sofisticado com carta de vinhos franceses e serviço atencioso."},
+    {n:"Maria Antonieta",q:"Italiana",a:"Maceió — AL",p:"+55 82 3000-0000",pr:2,d:"Restaurante italiano com charme europeu em plena Maceió. Massas artesanais, molhos lentos e uma selecção de vinhos italianos que transportam directamente para a Itália num ambiente intimista e elegante."},
+    {n:"Massarella",q:"Italiana",a:"Maceió — AL",p:"+55 82 3000-0000",pr:2,d:"Tradicional restaurante italiano de Maceió com foco em massas artesanais e receitas clássicas da cozinha italiana. Um dos endereços mais fiéis da culinária transalpina em Alagoas."},
+    {n:"Veni!",q:"Carnes · Parrilla",a:"Maceió — AL",p:"+55 82 3000-0000",pr:2,d:"Parrilla alagoana com cortes premium e técnica apurada num ambiente descontraído. A melhor opção para carnes grelhadas em Maceió, com atmosfera animada e carta de vinhos argentinos e chilenos."},
+    {n:"Wanchako",q:"Peruana · Nikkei",a:"Maceió — AL",p:"+55 82 3000-0000",pr:3,d:"O melhor restaurante peruano de Alagoas, com a cozinha nikkei que une Japão e Peru numa fusão sofisticada. Ceviche, tiradito, causas e os melhores piscos sours ao norte do Recife. Uma surpresa gastronómica em Maceió."}
+  ]},
+  {city:"Natal",region:"Nordeste — Rio Grande do Norte",entries:[
+    {n:"Cardume",q:"Japonesa · Sushi",a:"Natal — RN",p:"+55 84 3000-0000",pr:2,d:"O melhor restaurante japonês do Rio Grande do Norte, com sushi e sashimi de qualidade utilizando peixes frescos da costa norte-riograndense. Ambiente clean e contemporâneo com serviço atencioso e boa carta de sakês."},
+    {n:"Nau",q:"Frutos do Mar",a:"Natal — RN",p:"+55 84 3000-0000",pr:2,d:"Especialista em frutos do mar frescos da região, com lagosta, camarão e peixes da costa potiguar numa culinária que celebra as riquezas naturais do Rio Grande do Norte. Um dos endereços obrigatórios em Natal."}
+  ]},
+  {city:"Recife",region:"Nordeste — Pernambuco",entries:[
+    {n:"Adega do Futuro",q:"Wine Bar · Carnes",a:"Rua do Futuro, 634 — Graças, Recife — PE",p:"+55 81 3426-0000",pr:3,d:"Uma verdadeira adega-restaurante no bairro das Graças com carta de vinhos impecável e cortes premium. Carta extensa de rótulos internacionais harmonizados com carnes nobres e petiscos sofisticados. Um dos endereços favoritos dos amantes de vinho em Recife."},
+    {n:"Alphaiate",q:"Cervejaria · Grelhados",a:"Rua Artur Muniz, 82 — Boa Viagem, Recife — PE",p:"+55 81 9967-6-9786",pr:2,d:"Desde 1994, a primeira cervejaria especializada do Recife — uma brasserie pernambucana com cardápio eclético: petiscos, carnes, especialidades portuguesas e massas. Famosa pela carta de cervejas e de whiskys com preços acessíveis, já que o Grupo Dias é o importador. A varanda com vista para o jardim de Boa Viagem é o lugar mais disputado."},
+    {n:"Bar do Luna",q:"Brasileira Regional",a:"Rua da Hora, 348 — Espinheiro, Recife — PE",p:"+55 81 3339-0012",pr:2,d:"Desde 1988, o Seu Luna é uma instituição da cozinha pernambucana em Recife. Comida de origem que não sai de moda: buchada, galinha ao molho pardo, carne de sol com macaxeira, mungunzá e bolo de rolo. Um refúgio de autenticidade nordestina no bairro do Espinheiro."},
+    {n:"Bar do Neno",q:"Bar · Petiscos",a:"Rua das Graças, Recife — PE",p:"+55 81 3423-0000",pr:1,d:"Um dos bares mais icónicos do Recife, do mesmo grupo da Casa dos Frios e Boteco Portoferreiro. Petiscos generosos, cerveja sempre gelada e o espírito boémio genuíno de Recife num ambiente descontraído e popular. O lugar onde todos acabam a noite."},
+    {n:"Bargaço",q:"Frutos do Mar · Baiana",a:"Cais de Santa Rita, 46 — Novotel Recife Marina, Recife — PE",p:"+55 81 3139-7743",pr:3,d:"A grife de moqueca mais famosa do Brasil, nascida em Salvador em 1972 (mereceu crítica do New York Times), com 33 anos no Recife. Em 2024 mudou para o Novotel Marina, com vista deslumbrante para a marina e o recife. Moquecas fumegantes, ostras depuradas e adega com 660 garrafas, incluindo rótulo exclusivo com a Herdade dos Grous."},
+    {n:"Black Angus",q:"Carnes · Steakhouse",a:"Recife — PE",p:"+55 81 3000-0000",pr:3,d:"Churrascaria premium focada em cortes de Black Angus importados e nacionais, com o cuidado e a técnica das melhores casas de carne do país. Ambiente sofisticado para ocasiões especiais onde a qualidade da carne é a protagonista absoluta."},
+    {n:"Boteco Portoferreiro",q:"Portuguesa · Frutos do Mar",a:"Av. Rui Barbosa, 458 — Graças, Recife — PE",p:"+55 81 3423-0854",pr:2,d:"A casa mais charmosa da Avenida Rui Barbosa, herdeira do antigo Porto Ferreiro — um dos restaurantes mais requitados do Recife. Hoje com cara de boteco sofisticado mas sem perder a elegância: polvo, camarão ao champagne, arroz de pato e petiscos portugueses num ambiente animado com varanda externa."},
+    {n:"Licínio 1926",q:"Portuguesa Contemporânea",a:"Rua Francisco da Cunha, 165 — Boa Viagem, Recife — PE",p:"+55 81 3465-1088",pr:3,d:"Herança portuguesa do Recife numa casa sofisticada de Boa Viagem. O nome homenageia o ano de fundação da família, e o cardápio celebra a cozinha luso-brasileira: bacalhau em múltiplas preparações, arroz de pato, polvo e pastéis de nata. Uma das referências da alta gastronomia recifense com carta de vinhos portugueses à altura."},
+    {n:"Nez Bistro",q:"Franco-Italiana · Wine Bar",a:"Praça de Casa Forte, 314 — Casa Forte, Recife — PE",p:"+55 81 3441-0000",pr:3,d:"Restaurante requintado instalado num patrimônio histórico tombado no charmoso bairro de Casa Forte. Cozinha com forte influência francesa e italiana: carnes, peixes, massas e uma loja de vinhos integrada. O ambiente que valoriza os elementos do prédio histórico torna cada jantar numa experiência especial."},
+    {n:"Ohra Sushi",q:"Japonesa · Sushi",a:"Recife — PE",p:"+55 81 3000-0000",pr:2,d:"Casa japonesa contemporânea com foco em sushi e bento boxes, combinando técnicas tradicionais com criatividade e frescura dos ingredientes. Um dos endereços japoneses em crescimento no mercado recifense com uma clientela fiel e exigente."},
+    {n:"Pobre Juan",q:"Argentina · Parrilla",a:"Av. República do Líbano, 251 — Pina, Recife — PE",p:"+55 81 3327-0000",pr:3,d:"A filial recifense da célebre churrascaria argentina, no Shopping RioMar com ambiente sofisticado. Cortes assados na parrilla com precisão argentina: entraña, chorizo, bife de chorizo e ancho. A experiência mais próxima de Buenos Aires que você encontra em Pernambuco."},
+    {n:"Ponte Nova",q:"Contemporânea · Franco-nordestina",a:"Rua do Cupim, 172 — Graças, Recife — PE",p:"+55 81 3222-0019",pr:3,d:"O Chef Joca Pontes, formado na escola Ferrandi em Paris e com passagens por Le Pré-Catelan e Ze Kitchen Galerie, pratica aqui uma cozinha de base técnica francesa com ingredientes nordestinos. Eleito Melhor Cozinha Contemporânea pela Veja Recife várias vezes. O camarão é o prato mais célebre da casa."},
+    {n:"Quina do Futuro",q:"Japonesa · Taberna",a:"Rua Xavier Marques, 134 — Aflitos, Recife — PE",p:"+55 81 3241-9589",pr:3,d:"Fundada em 1986 pelo Chef André Saburó, é a mais icónica taberna japonesa do Nordeste. O atum é o astro absoluto do cardápio — seleccionado pessoalmente pelo chef com cortes próprios únicos como o Stinco de Atum. Um dos melhores japoneses do Brasil, escondido no bairro dos Aflitos."},
+    {n:"Restaurante Leite",q:"Europeia Clássica",a:"Praça Joaquim Nabuco, 147 — Santo Antônio, Recife — PE",p:"+55 81 9711-8365",pr:2,d:"O restaurante mais antigo do Brasil em funcionamento ininterrupto no mesmo endereço desde 1882. Uma instituição do Recife com piano ao vivo e cozinha mediterrânea clássica: bacalhau, polvo à espanhola, steak au poivre e língua ao madeira. Funciona apenas para almoço — a um passo das igrejas barrocas do Santo Antônio."},
+    {n:"Ruizito",q:"Espanhola",a:"Rua das Graças, Recife — PE",p:"+55 81 3000-0000",pr:2,d:"Restaurante espanhol descontraído e autêntico no Recife, com tapas, ibéricos e o melhor jamón serrano da cidade. Patatas bravas, gambas al ajillo e tortilla española num ambiente que transporta directamente para um bar de bairro de Madrid."},
+    {n:"Tasquinha do Tio",q:"Portuguesa",a:"Av. Boa Viagem, 560 Loja 01 Edf. Oceania — Pina, Recife — PE",p:"+55 81 9883-3000",pr:2,d:"Restaurante português do Grupo Dias, situado no edifício que serviu de cenário ao filme Aquarius. Cardápio castiço: bacalhau em diversas preparações, arroz de pato, polvo à lagareiro. A sobremesa das freiras — pavê de sorvete com biscoitos bricelet de um convento em Olinda — é imperdível."},
+    {n:"Tetsu",q:"Japonesa Contemporânea",a:"Av. Eng. Domingos Ferreira, 1097 — Boa Viagem, Recife — PE",p:"+55 81 3877-4218",pr:3,d:"Cozinha japonesa contemporânea com influências asiáticas e peruanas num ambiente intimista em Boa Viagem. O prato mais pedido é o tartar de salmão trufado com crocante de arroz. O omakase servido no balcão pelo chef é a experiência mais completa da casa."},
+    {n:"Tio Armênio",q:"Portuguesa · Internacional",a:"Shopping RioMar — Av. República do Líbano, Pina, Recife — PE",p:"+55 81 3327-0000",pr:2,d:"Um dos restaurantes mais queridos das famílias recifenses, presente nos dois principais shoppings da cidade. Cozinha portuguesa e internacional com clássicos como picadinho carioca e escalope al limone. Ideal para almoços de domingo com a família num ambiente confortável e descontraído."},
+    {n:"Voar",q:"Contemporânea · Autoral",a:"Rua Baltazar Pereira, 130 — Boa Viagem, Recife — PE",p:"+55 81 9967-3-7122",pr:3,d:"Talvez o restaurante mais bonito do Recife, com street art de qualidade nas paredes e salão moderno. O Chef Pedro Godoy pratica uma cozinha inventiva e surpreendente: arroz de pato com arroz vermelho, filé ao molho de uvas e Porto, carbonara de polvo. O menu muda constantemente — cada visita é uma nova descoberta."},
+    {n:"Zio",q:"Italiana Autêntica",a:"Shopping RioMar — Av. República do Líbano, Pina, Recife — PE",p:"+55 81 3129-0000",pr:2,d:"Culinária italiana autêntica e envolvente no coração do Shopping RioMar. Massas frescas artesanais, molhos elaborados e ambiente acolhedor que transforma o jantar num pequeno ritual italiano. Com unidades também em Fortaleza, Belém e Teresina — nasceu no Nordeste e ficou."}
+  ]},
+  {city:"Salvador",region:"Nordeste — Bahia",entries:[
+    {n:"Lafayette",q:"Contemporânea · Autoral",a:"Salvador — BA",p:"+55 71 3000-0000",pr:3,d:"Um dos restaurantes mais sofisticados de Salvador, com cozinha contemporânea autoral que faz a ponte entre a tradição baiana e as técnicas modernas. Ingredientes locais num ambiente elegante que conquistou os mais exigentes da cidade."},
+    {n:"Mistura",q:"Frutos do Mar",a:"Salvador — BA",p:"+55 71 3000-0000",pr:3,d:"Especialista em frutos do mar com os melhores espécimes da costa baiana: lagosta, camarão, caranguejo e muito mais. Preparações que respeitam a simplicidade e potencializam o sabor natural dos ingredientes frescos do Atlântico."},
+    {n:"Ori",q:"Brasileira Contemporânea",a:"Salvador — BA",p:"+55 71 3000-0000",pr:3,d:"Restaurante que explora as raízes afro-brasileiras da culinária baiana com uma abordagem contemporânea e respeitosa. Dendê, azeite de oliva, pimenta e os sabores fundadores de Salvador numa proposta sofisticada e autêntica."},
+    {n:"Origem",q:"Brasileira Autoral",a:"Salvador — BA",p:"+55 71 3000-0000",pr:4,d:"O restaurante mais badalado da Bahia e 1º lugar no ranking dos 100 Melhores Restaurantes do Brasil 2025 pela Exame Casual. Chef Fabrício Lemos celebra os ingredientes e saberes da cultura afro-brasileira e nordestina numa cozinha autoral de altíssimo nível. Uma visita obrigatória para quem vai a Salvador."},
+    {n:"Peppo",q:"Italiana",a:"Salvador — BA",p:"+55 71 3000-0000",pr:2,d:"A italiana mais querida de Salvador, com massas artesanais, risottos cremosos e um ambiente descontraído que remete às osterie do norte de Itália. Carta de vinhos italianos com boa curadoria e serviço atencioso."},
+    {n:"Preta",q:"Frutos do Mar · Baiana",a:"Ilha dos Frades, Salvador — BA",p:"+55 71 3000-0000",pr:3,d:"Restaurante na paradisíaca Ilha dos Frades com a melhor lagosta e frutos do mar frescos da Baía de Todos os Santos. Uma experiência única de chegar de barco, almoçar com os pés na areia e o sabor da culinária baiana mais autêntica. Um dos mais belos almoços possíveis na Bahia."},
+    {n:"Soho",q:"Japonesa · Sushi",a:"Salvador — BA",p:"+55 71 3000-0000",pr:2,d:"Restaurante japonês de referência em Salvador com sushi e culinária oriental de qualidade acima da média no Nordeste. Ambiente moderno e sofisticado com boa carta de sakês e cocktails asiáticos."},
+    {n:"Taberna",q:"Espanhola · Portuguesa",a:"Salvador — BA",p:"+55 71 3000-0000",pr:2,d:"Restaurante ibérico que celebra as culturas espanhola e portuguesa num ambiente rústico e acolhedor. Tapas, frutos do mar, ibéricos e uma selecção de vinhos da Península Ibérica que completam a experiência."},
+    {n:"Vidal",q:"Espanhola",a:"Salvador — BA",p:"+55 71 3000-0000",pr:2,d:"Restaurante espanhol autêntico em Salvador com tapas, paellas e uma selecção de vinhos ibéricos acima da média. Um dos poucos endereços de Espanha genuína numa cidade onde a herança portuguesa é mais presente."}
+  ]}
+];
+const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};
+const MBADGE={m3:'bm3',m2:'bm2',m1:'bm1',bib:'bbib',green:'bgreen',rec:'brec',award:'baward'};
+const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes':'#f7ede8','Italiana':'#f5f0e8','Japonesa':'#f0f0f5','Asiática':'#f0f4f0','Contemporânea':'#f2f0ee','Café':'#f7f0e0','default':'#f2ede8'};
+function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
+function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
+function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
+
+// Build region filter buttons
+const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
+const filtersEl=document.getElementById('filters');
+filtersEl.innerHTML='<span class="filter-lbl">Região:</span>'+
+  regions.map(r=>`<button class="filter-btn${r==='Todas'?' active':''}" onclick="setRegion('${r}',this)">${r}</button>`).join('');
+
+let activeRegion='Todas';
+function setRegion(r,btn){
+  activeRegion=r;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function render(){
+  const main=document.getElementById('main');
+  main.innerHTML='';
+  const filtered=activeRegion==='Todas'?CITIES:CITIES.filter(c=>c.region===activeRegion);
+
+  // Group by region
+  const groups={};
+  filtered.forEach(c=>{
+    if(!groups[c.region])groups[c.region]=[];
+    groups[c.region].push(c);
+  });
+
+  Object.entries(groups).forEach(([region,cities])=>{
+    // Region divider
+    const rd=document.createElement('div');
+    rd.style.cssText='display:flex;align-items:center;gap:16px;margin:44px 0 8px';
+    rd.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 16px">${region}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
+    main.appendChild(rd);
+
+    cities.forEach(({city,entries})=>{
+      // Count Michelin distinctions for this city
+      const michelinCount=entries.filter(r=>r.m&&(r.m==='m2'||r.m==='m1'||r.m==='bib'||r.m==='green')).length;
+      const starCount=entries.filter(r=>r.m==='m2').length*2+entries.filter(r=>r.m==='m1').length;
+      let michelinHtml='';
+      if(starCount>0) michelinHtml=`<div class="city-michelin">${'★'.repeat(Math.min(starCount,4))} Michelin</div>`;
+      else if(michelinCount>0) michelinHtml=`<div class="city-michelin" style="color:var(--bib)">Michelin</div>`;
+
+      const sec=document.createElement('div');sec.className='city-sec';
+      sec.dataset.region=city;
+      sec.innerHTML=`<div class="city-hdr">
+        <div class="city-hdr-left">
+          <div class="city-name">${city}</div>
+        </div>
+        <div class="city-count-block">
+          <div class="city-count-num">${entries.length}</div>
+          <div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div>
+        </div>
+      </div>
+      <div class="restaurants-grid" id="g-${city.replace(/\s/g,'-')}"></div>`;
+      main.appendChild(sec);
+
+      const grid=sec.querySelector('.restaurants-grid');
+      entries.forEach(r=>{
+        const card=document.createElement('div');card.className='restaurant-card';
+        const bg=cardBg(r.q);
+        const nm=r.n.replace(/'/g,"\\'");
+        const ad=(r.a&&r.a!==city&&r.a!=='')?r.a.replace(/'/g,"\\'"):'';
+        const addrHtml=ad?`<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap('${nm}','${ad}')">${r.a}</span></div>`:'';
+        const phoneHtml=r.p?`<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:${r.p.replace(/\s/g,'')}">${r.p}</a></div>`:'';
+        const contact=(addrHtml||phoneHtml)?`<div class="card-contact">${addrHtml}${phoneHtml}</div>`:'';
+        const em=emoji(r.q);
+        const badges=(r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
+                     (r.h?'<span class="badge bhotel">Hospedagem</span>':'');
+        card.innerHTML=`
+          <div class="card-photo-wrap"><img class="card-photo" src="fotos/brasil/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\' style=\\'background:${bg}\\'>${em}</div>'"></div>
+          <div class="card-body">
+            <div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div>
+            <div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div>
+            <div class="card-desc">${r.d||''}</div>
+            ${contact}
+            ${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}
+          </div>`;
+        grid.appendChild(card);
+      });
+    });
+  });
+}
+
+render();
+</script>
+<footer><p><a href="brasil-index.html">← Brasil</a> &nbsp;·&nbsp; Na Mesa com Luli Dias</p></footer>
+</body>
+</html>

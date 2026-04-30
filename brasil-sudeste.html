@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brasil · Sudeste — Na Mesa com Luli Dias</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5;--card-bg:#FFF;
+  --m2:#E4002B;--m2bg:#FFF0F0;--m1:#C0001F;--m1bg:#FFF5F5;
+  --bib:#E8700A;--bibbg:#FFF5EE;--green:#2D7A3A;--greenbg:#F0F7F1;--rec:#4A6FA5;--recbg:#F0F4FA;
+  --hotel:#7B5EA7;--hotelbg:#F5F0FF;
+}
+html,body{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;}
+
+.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;gap:10px}
+.back-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:500}
+.back-link:hover{color:var(--ink)}
+.nav-sep{color:var(--border)}
+.nav-current{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
+
+/* HEADER — brand redesign */
+header{background:var(--white);border-bottom:1px solid var(--border);padding:44px 48px 32px}
+.brand-line{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.brand-prefix{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--ink-lt);line-height:1.1}
+.brand-name{font-family:'Playfair Display',serif;font-size:46px;font-weight:400;line-height:1.1}
+.brand-name em{font-style:italic;color:var(--gold)}
+.brand-country{font-family:'Playfair Display',serif;font-size:30px;font-weight:400;color:var(--ink-lt);font-style:italic;margin-bottom:20px}
+.header-orn{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.orn-line{height:1px;width:48px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+.header-meta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.header-meta{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs)}
+.header-edition{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+
+/* REGION FILTER */
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+
+/* STATS — só restaurantes + cidades */
+.stats-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;flex-wrap:wrap}
+.stat{padding:0 28px;border-right:1px solid var(--border);text-align:center}
+.stat:first-child{padding-left:0}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);font-weight:600}
+.stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:2px}
+
+/* MICHELIN LEGEND — subtitle below stats */
+.michelin-legend{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.legend-title{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt)}
+.lbadge{font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.lm2,.lm1,.lbib,.lgreen,.lrec,.lhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+
+main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
+
+.city-sec{margin-bottom:64px}
+.city-hdr{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:24px}
+.city-hdr-left{display:flex;flex-direction:column;gap:6px}
+.city-region-lbl{font-size:8px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;display:flex;align-items:center;gap:10px}
+.city-region-lbl::before{content:'';display:inline-block;width:20px;height:1px;background:var(--gold)}
+.city-name{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--ink);letter-spacing:-1px;line-height:1}
+.city-count-block{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--gold);opacity:.25;line-height:1}
+.city-count-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-xs);margin-top:2px}
+.city-michelin{font-size:9px;color:var(--m2);font-weight:600;letter-spacing:1px;opacity:.85}
+
+.restaurants-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+
+.restaurant-card{background:var(--card-bg);overflow:hidden;border-left:3px solid var(--gold-lt);transition:box-shadow .3s}
+.restaurant-card:hover{box-shadow:0 4px 24px rgba(184,146,42,.12);z-index:1;position:relative}
+
+.card-photo-wrap{width:100%;height:300px;overflow:hidden;background:var(--border)}
+.card-photo{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.restaurant-card:hover .card-photo{transform:scale(1.04)}
+.card-photo-placeholder{width:100%;height:300px;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3}
+
+.card-body{padding:20px 22px 18px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
+.card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;margin-top:2px}
+.badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.bm2,.bm1,.bbib,.bgreen,.brec,.bhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+
+.card-meta-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.card-cuisine{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+.card-price{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:1px}
+
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink-lt);line-height:1.65;margin-bottom:12px}
+
+.card-contact{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.c-row{display:flex;align-items:flex-start;gap:8px}
+.c-icon{font-size:10px;color:var(--gold);min-width:16px;flex-shrink:0;margin-top:1px}
+.c-addr{font-size:10px;color:var(--ink-lt);cursor:pointer;line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-addr:hover{color:var(--gold)}
+.c-phone{font-size:10px;color:var(--ink-lt);line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-phone:hover{color:var(--gold)}
+.card-note{font-size:9px;color:var(--gold);font-style:italic;margin-top:8px}
+
+/* MAP MODAL */
+.map-modal{display:none;position:fixed;inset:0;z-index:1000;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.45)}
+.map-modal.open{display:flex}
+.map-sheet{background:var(--white);border-radius:16px 16px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(0,0,0,.18)}
+.map-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);margin-bottom:4px}
+.map-addr-txt{font-size:10px;color:var(--ink-lt);margin-bottom:22px;line-height:1.5}
+.map-options{display:flex;flex-direction:column;gap:10px}
+.map-btn{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);cursor:pointer;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:500;color:var(--ink);transition:background .15s}
+.map-btn:hover{background:var(--gold-bg)}
+.map-btn-icon{font-size:24px;width:32px;text-align:center;flex-shrink:0}
+.map-btn-sub{font-size:9px;color:var(--ink-xs);font-weight:400;display:block;margin-top:2px}
+.map-cancel{margin-top:16px;width:100%;padding:12px;border:none;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer}
+
+footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
+footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
+footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="brasil-index.html" class="back-link">← Brasil</a>
+  <span class="nav-sep">·</span>
+  <span class="nav-current">Sudeste</span>
+</nav>
+
+<header>
+  <div class="brand-line">
+    <span class="brand-prefix">Na Mesa com</span>
+    <span class="brand-name"><em>Luli Dias</em></span>
+  </div>
+  <div class="brand-country">Brasil · Sudeste</div>
+  <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+  <div class="header-meta-row">
+    <span class="header-meta">Belo Horizonte · Rio de Janeiro · São Paulo · + 4 cidades</span>
+    <span class="header-edition">Abril 2026</span>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">159</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">7</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">20 ★</div><div class="stat-lbl">Michelin</div></div>
+</div>
+
+<div class="michelin-legend">
+  <span class="lbadge bm3">★★★ 3 Estrelas</span>
+  <span class="lbadge lm2">★★ 2 Estrelas</span>
+  <span class="lbadge lm1">★ 1 Estrela</span>
+  <span class="lbadge lbib">Bib Gourmand</span>
+  <span class="lbadge lgreen">Estrela Verde</span>
+  <span class="lbadge lrec">Michelin</span>
+  <span class="lbadge lhotel">Hospedagem</span>
+  <span class="lbadge" style="background:#FFF8E8;color:#B87820;border:1px solid #E8C870">🏆 Premiado</span>
+</div>
+
+<div class="filters" id="filters"></div>
+
+<div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
+  <div class="map-sheet">
+    <div class="map-title" id="mapName"></div>
+    <div class="map-addr-txt" id="mapAddr"></div>
+    <div class="map-options">
+      <a class="map-btn" id="btnWaze" href="#" target="_blank">
+        <span class="map-btn-icon">🗺</span><div><strong>Waze</strong><span class="map-btn-sub">Navegar com Waze</span></div>
+      </a>
+      <a class="map-btn" id="btnGoogle" href="#" target="_blank">
+        <span class="map-btn-icon">📍</span><div><strong>Google Maps</strong><span class="map-btn-sub">Abrir no Google Maps</span></div>
+      </a>
+      <a class="map-btn" id="btnApple" href="#" target="_blank">
+        <span class="map-btn-icon">🍎</span><div><strong>Apple Maps</strong><span class="map-btn-sub">Abrir no Apple Maps</span></div>
+      </a>
+    </div>
+    <button class="map-cancel" onclick="closeMap()">Cancelar</button>
+  </div>
+</div>
+
+<main id="main"></main>
+<footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Na Mesa com Luli Dias</p></footer>
+
+<script>
+function openMap(name,addr){
+  const q=encodeURIComponent(name+' '+addr);
+  document.getElementById('mapName').textContent=name;
+  document.getElementById('mapAddr').textContent=addr;
+  document.getElementById('btnWaze').href='https://waze.com/ul?q='+q+'&navigate=yes';
+  document.getElementById('btnGoogle').href='https://www.google.com/maps/search/?api=1&query='+q;
+  document.getElementById('btnApple').href='https://maps.apple.com/?q='+q;
+  document.getElementById('mapModal').classList.add('open');
+}
+function closeMap(){document.getElementById('mapModal').classList.remove('open');}
+
+// m: michelin badge, h: tem hospedagem, pr: preço 1-4
+const CITIES=[
+  {city:"Belo Horizonte",region:"Sudeste — Minas Gerais",entries:[
+    {n:"Casa Piacere",q:"Italiana",a:"Rua Bernardo Guimarães, 577 — Funcionários, Belo Horizonte — MG",p:"+55 31 3000-0000",pr:3,d:"Ristorante italiano sofisticado no elegante bairro dos Funcionários em Belo Horizonte. Massas artesanais, risottos cremosos e uma selecção de vinhos italianos que fazem jus ao nome — Casa Piacere, a casa do prazer — num ambiente que reproduz o charme dos melhores ristoranti do norte de Itália."},
+    {n:"D'Artagnan",q:"Bistrô Franco-Contemporâneo",a:"Rua Tomás Gonzaga, 593 — Lourdes, Belo Horizonte — MG",p:"+55 31 3295-7878",pr:3,d:"Bistrô de 20 anos em Lourdes, criado pelas irmãs Marise e Denise Rache em homenagem ao pai D'Artagnan. Cozinha clássica actualizada com ingredientes orgânicos, wine bar à entrada com adega à vista e jardim interior acolhedor. Membro da Associação dos Restaurantes da Boa Lembrança."},
+    {n:"Geraldinho Conceito da Carne",q:"Carnes · Açougue Gourmet",a:"Rua Francisco Deslandes, 1038 — Anchieta, Belo Horizonte — MG",p:"+55 31 3223-6255",pr:3,d:"Eleito repetidamente Melhor Steakhouse de BH pela Veja e Encontro. Uma experiência única que combina açougue gourmet e restaurante: o próprio Geraldinho faz o carpaccio de Kobe beef na mesa. Tamboril, Wagyu e os melhores cortes do Brasil num ambiente rústico e elegante com música ao vivo."},
+    {n:"Pizzaria Olegário",q:"Pizza Napolitana",a:"Av. Olegário Maciel, 1748 — Lourdes, Belo Horizonte — MG",p:"+55 31 3337-4446",pr:2,d:"A melhor pizzaria de Belo Horizonte eleita por vários anos consecutivos, fundada em 2004. Pizzas napolitanas com blend exclusivo de farinhas, assadas no forno a lenha, com carta de vinhos e pratos à la carte. Três ambientes distintos numa casa que se tornou referência absoluta da pizza artesanal em Minas Gerais."},
+    {n:"Taste Vin",q:"Francesa · Soufflés",a:"Rua Curitiba, 2105 — Lourdes, Belo Horizonte — MG",p:"+55 31 3292-5423",pr:3,d:"O restaurante mais clássico e querido de Belo Horizonte desde há 30 anos, referência da cozinha francesa em Minas Gerais. A especialidade são os soufflés — de camarão com gruyère, espinafre com passas, e os de sobremesa — numa casa com serviço impecável e uma das melhores cartas de vinho de BH."},
+    {n:"Udon",q:"Japonesa Contemporânea",a:"Av. do Contorno, 7315 — Lourdes, Belo Horizonte — MG",p:"+55 31 3291-5050",pr:3,d:"Referência da culinária japonesa contemporânea em BH desde 2008, com o Chef Marcelo San e uma cozinha aberta onde os sushimen trabalham à vista. Foie gras brûlé, tempura de camarão ao molho de caipirinha e a robata grill são os destaques de um cardápio que vai além da tradição nipónica."},
+    {n:"Xapuri",q:"Mineira Tradicional",a:"Rua Mandacarú, 260 — Trevo/Pampulha, Belo Horizonte — MG",p:"+55 31 3496-6198",pr:2,d:"Uma das maiores instituições da culinária mineira, fundada em 1987 pela visionária Dona Nelsa Trombino na Pampulha. Ambiente rústico de fazenda à beira da Lagoa da Pampulha com fogão de lenha, música de viola e sanfona. Frango ao molho pardo, picanha, feijão tropeiro e um buffet de doces com 30 variedades. Um programa completo para almoços de domingo."}
+  ]},
+  {city:"Búzios",region:"Sudeste — Rio de Janeiro",entries:[
+    {n:"74 Restaurante",q:"Contemporânea · Romântica",a:"Búzios — RJ",p:"+55 22 3000-0000",pr:3,d:"Restaurante romântico e sofisticado em Búzios com cozinha contemporânea e uma das vistas mais bonitas da famosa cidade litorânea. Frutos do mar frescos e pratos criativos num ambiente intimista para os melhores jantares à beira do mar."},
+    {n:"Rocka",q:"Beach Club · Contemporânea",a:"Búzios — RJ",p:"+55 22 3000-0000",pr:3,d:"O beach club mais badalado de Búzios, com piscina, DJ e gastronomia de qualidade numa das praias mais bonitas da cidade. Frutos do mar, sushi e cocktails tropicais num ambiente que define o luxo descontraído de Búzios."}
+  ]},
+  {city:"Campinas",region:"Sudeste — São Paulo",entries:[
+    {n:"Bellini",q:"Italiana",a:"Campinas — SP",p:"+55 19 3000-0000",pr:2,d:"Italiana elegante em Campinas com massas artesanais e pratos clássicos da tradição italiana. Uma das referências da culinária italiana no interior do estado de São Paulo com décadas de história na cidade."},
+    {n:"Cantina Fellini",q:"Italiana · Tradicional",a:"Campinas — SP",p:"+55 19 3000-0000",pr:2,d:"Cantina italiana tradicional em Campinas com as receitas da família que atravessaram gerações. Massas caseiras, molhos lentos e o ambiente familiar das melhores cantinas italianas do interior paulista."},
+    {n:"Lume",q:"Contemporânea · Autoral",a:"Campinas — SP",p:"+55 19 3000-0000",pr:3,d:"Restaurante autoral contemporâneo em Campinas com cozinha criativa e ingredientes seleccionados. Um dos endereços mais sofisticados do interior do estado de São Paulo para a gastronomia de autor."},
+    {n:"Olivetto",q:"Italiana · Contemporânea",a:"Campinas — SP",p:"+55 19 3000-0000",pr:3,d:"Italiana contemporânea de alto nível em Campinas com técnica moderna e ingredientes de qualidade. Um dos melhores restaurantes da cidade para culinária italiana sofisticada no interior paulista."},
+    {n:"Seo Rosa",q:"Boteco · Cerveja",a:"Campinas — SP",p:"+55 19 3000-0000",pr:1,d:"O boteco mais icónico de Campinas, famoso pelas cervejas artesanais e pelos petiscos generosos. Um ponto de encontro da vida nocturna campineira onde a cerveja gelada, os pastéis e a animação são os ingredientes principais."}
+  ]},
+  {city:"Campos do Jordão",region:"Sudeste — São Paulo",entries:[
+    {n:"Confraria do Sabor",q:"Contemporânea",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:3,d:"Restaurante contemporâneo em Campos do Jordão com cozinha autoral que valoriza os ingredientes da Serra da Mantiqueira. Uma das propostas gastronómicas mais sofisticadas da cidade para jantares especiais nas montanhas paulistas."},
+    {n:"La Galia",q:"Caças · Francesa",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:3,d:"Especialista em caças em Campos do Jordão — javali, veado, perdiz e codorniz preparados com técnica francesa numa cidade serrana que é o ambiente perfeito para este tipo de cozinha. Uma experiência gastronómica única no Brasil."},
+    {n:"Libertango",q:"Argentina · Carnes",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:2,d:"Parrilla argentina em Campos do Jordão com cortes platinos e o espírito festivo do tango numa cidade que o frio alpino torna ainda mais propícia para uma boa carne com vinho tinto. Nome inspirado no famoso tango de Piazzolla."},
+    {n:"Restaurante do Hotel Botanique",q:"Alta Gastronomia · Natureza",a:"Hotel Botanique, Campos do Jordão — SP",p:"+55 12 3663-0999",pr:4,note:"Hotel Botanique — Um dos melhores hotéis da América Latina",h:true,d:"O restaurante do Hotel Botanique, um dos mais premiados da América Latina, perdido na Serra da Mantiqueira a 45 minutos de Campos do Jordão. Cozinha de alta qualidade rodeada de natureza absoluta num hotel que é um destino gastronómico em si. A viagem vale cada quilómetro."},
+    {n:"Só Queijos",q:"Queijaria · Fondue",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:2,d:"Especialista em queijos artesanais da Serra da Mantiqueira em Campos do Jordão. Fondue, tábuas de queijos e uma selecção de rótulos locais que celebram a produção queijeira de alta qualidade da região."},
+    {n:"Toribinha",q:"Fondue · Queijos",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:2,d:"A experiência de fondue mais clássica de Campos do Jordão, com queijos artesanais da Serra da Mantiqueira e o ambiente de chalé alpino que define o turismo gastronómico da cidade. Imperdível nas noites frias da montanha."},
+    {n:"Três Rios",q:"Portuguesa",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:2,d:"Casa portuguesa em Campos do Jordão com os sabores tradicionais de Portugal num ambiente de chalé de montanha. A culinária portuguesa encontra o clima alpino da Serra da Mantiqueira numa combinação irresistível."},
+    {n:"Vila Chã",q:"Portuguesa",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:2,d:"Restaurante português em Campos do Jordão com cozinha lusitana clássica que harmoniza perfeitamente com o clima frio da serra. Bacalhau, presunto e vinho do Porto num ambiente que reproduz o calor das casas de campo portuguesas."}
+  ]},
+  {city:"Litoral Paulista",region:"Sudeste — São Paulo",entries:[
+    {n:"Acqua",q:"Frutos do Mar · Litoral",a:"Camburi — SP",p:"+55 12 3865-0000",pr:2,d:"Especialista em frutos do mar frescos do litoral de São Paulo, com peixe, camarão e mariscos preparados com simplicidade e frescura. Um dos endereços favoritos para almoços à beira-mar em Camburi."},
+    {n:"Famiglia Mazoli",q:"Italiana",a:"Ilhabela — SP",p:"+55 12 3896-2266",pr:2,d:"Trattoria italiana familiar em Ilhabela que reproduz o calor das casas de família do norte de Itália. Massas artesanais e frutos do mar do Canal de São Sebastião numa das ilhas mais bonitas do Brasil."},
+    {n:"Gaudí",q:"Frutos do Mar",a:"Ilhabela — SP",p:"+55 12 3896-0000",pr:3,d:"Restaurante de frutos do mar em Ilhabela com lagosta, camarão, lula e polvo do Canal de São Sebastião preparados com técnica e frescura. Um dos melhores endereços para marisco no litoral paulista."},
+    {n:"Ilha Deck",q:"Beach Club · Contemporânea",a:"Ilhabela — SP",p:"+55 12 3896-0000",pr:2,d:"Beach deck em Ilhabela com gastronomia contemporânea e vista para o mar. Almoços descontraídos e sundowners com cocktails tropicais numa das ilhas mais privilegiadas do litoral brasileiro."},
+    {n:"Ilha Sul",q:"Contemporânea · Mar",a:"Ilhabela — SP",p:"+55 12 3896-0000",pr:2,d:"Restaurante contemporâneo no sul de Ilhabela com frutos do mar frescos e cozinha autoral que celebra a riqueza marítima da ilha. Um dos endereços mais tranquilos e aprazíveis da ilha para refeições com vista para o oceano."},
+    {n:"Manacá",q:"Contemporânea · Vista",a:"Camburi — SP",p:"+55 12 3865-1566",pr:3,d:"Um dos restaurantes mais bonitos do litoral paulista, com vista privilegiada para a baía de Camburi. Cozinha contemporânea com frutos do mar frescos e produtos locais num ambiente que combina natureza e sofisticação na Serra do Mar."},
+    {n:"Viana",q:"Portuguesa · Litoral",a:"Ilhabela — SP",p:"+55 12 3896-1089",pr:2,d:"Restaurante português em Ilhabela que combina a cozinha lusitana com os frutos do mar frescos do Canal de São Sebastião. Bacalhau, polvo e mariscos preparados à moda portuguesa numa ilha que guarda a memória da colonização lusitana."}
+  ]},
+  {city:"Rio de Janeiro",region:"Sudeste — Rio de Janeiro",entries:[
+    {n:"Aprazivel",q:"Brasileira · Vista Panorâmica",a:"Rua Aprazível, 62 — Santa Teresa, Rio de Janeiro — RJ",p:"+55 21 2508-9174",pr:3,d:"No histórico bairro de Santa Teresa, com uma das vistas mais bonitas do Rio: o Pão de Açúcar, a Baía de Guanabara e o Cristo Redentor como pano de fundo. Cozinha brasileira contemporânea com ingredientes orgânicos num ambiente de jardim suspenso sobre a cidade."},
+    {n:"Assador",q:"Carnes · Churrasco",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:2,d:"Churrascaria de qualidade no Rio de Janeiro com cortes seleccionados e técnica de assador tradicional. Ambiente descontraído para jantares informais com a melhor carne bovina e suína do Rio."},
+    {n:"Cipriani",q:"Italiana de Luxo",a:"Copacabana Palace, Av. Atlântica, 1702 — Copacabana, Rio de Janeiro — RJ",p:"+55 21 2548-7070",pr:4,m:"m1",d:"O restaurante do Copacabana Palace, um dos hotéis mais históricos da América Latina, com 1 Estrela Michelin. Cozinha italiana de luxo com vista directa para o Atlântico e a vista mais famosa do mundo: o pôr do sol sobre o mar de Copacabana. Uma experiência inesquecível."},
+    {n:"Clã BBQ",q:"Carnes · BBQ",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:2,d:"Churrascaria moderna no Rio de Janeiro com técnica de BBQ americano e cortes brasileiros premium. Ambiente descontraído e urbano para os amantes de carne grelhada que querem uma experiência diferente do rodízio tradicional."},
+    {n:"Esplanada Grill",q:"Carnes · Grelhados",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:3,d:"Grelhador clássico do Rio de Janeiro com décadas de história e os melhores cortes de carne bovina na brasa. Uma instituição carioca para os amantes de carne que procuram qualidade consistente e ambiente tradicional."},
+    {n:"Gajos D'Ouro",q:"Portuguesa",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:2,d:"Casa portuguesa de referência no Rio de Janeiro com a culinária lusitana mais autêntica da cidade. Bacalhau, frutos do mar, arroz de pato e pastel de nata num ambiente que reproduz o charme das tascas de Lisboa."},
+    {n:"Haru",q:"Japonesa · Sushi",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:3,d:"Japonesa de qualidade no Rio de Janeiro com sushi e sashimi de peixes frescos da costa carioca preparados com técnica nipónica. Um dos endereços japoneses mais consistentes do Rio para quem procura excelência sem os preços de Ipanema."},
+    {n:"Malta Beef Club",q:"Carnes · Premium",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:4,d:"O mais exclusivo clube de carnes do Rio de Janeiro, com cortes premium nacionais e importados seleccionados com rigor. Ambiente sofisticado e privado para os grandes apreciadores de carne no coração do Rio."},
+    {n:"Mee",q:"Asiática · Fusão",a:"Copacabana Palace, Rio de Janeiro — RJ",p:"+55 21 2548-7070",pr:4,d:"O restaurante asiático do lendário Copacabana Palace, com fusão criativa de culinária japonesa, chinesa e tailandesa num ambiente de palácio art déco com vista para o Atlântico. Um dos jantares mais luxuosos e memoráveis do Rio de Janeiro."},
+    {n:"Mr. Lan",q:"Chinesa",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:3,d:"A melhor cozinha chinesa do Rio de Janeiro, com dim sum, pato laqueado e os clássicos da culinária cantonesa preparados com autenticidade e produtos de qualidade. Um endereço respeitado pelos conhecedores da culinária chinesa no Brasil."},
+    {n:"Oia",q:"Grega",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:3,d:"O melhor restaurante grego do Rio de Janeiro, com nome inspirado na famosa vila de Santorini. Moussaka, souvlaki, tzatziki e os melhores vinhos gregos num ambiente que transporta directamente para as ilhas das Cícladas."},
+    {n:"Oteque",q:"Alta Cozinha Brasileira",a:"Rua Conde de Irajá, 581 — Botafogo, Rio de Janeiro — RJ",p:"+55 21 3114-6758",pr:4,m:"m2",d:"O mais premiado restaurante do Rio de Janeiro com 2 Estrelas Michelin, dirigido pelo Chef Alberto Landgraf. Cozinha brasileira de altíssimo nível com menu de degustação que explora os ingredientes mais nobres do Brasil com técnica de vanguarda. Uma das maiores experiências gastronómicas do país."},
+    {n:"Picci",q:"Italiana",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:3,d:"Italiana elegante no Rio de Janeiro com massas artesanais, trufas e ingredientes importados de Itália. Ambiente sofisticado e serviço atencioso para quem procura a autenticidade italiana numa das cidades mais bonitas do mundo."},
+    {n:"Posi",q:"Italiana · Frutos do Mar",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:3,d:"Italiana com foco em frutos do mar no Rio de Janeiro, combinando a riqueza marítima carioca com a cozinha do sul de Itália. Camarão, lagosta e polvo preparados com técnica italiana num ambiente elegante e acolhedor."},
+    {n:"Rancho Português",q:"Portuguesa",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:2,d:"Tradicional casa portuguesa no Rio de Janeiro com a cozinha lusitana que acompanhou gerações de cariocas. Bacalhau em múltiplas preparações, frutos do mar e os sabores nostálgicos de Portugal no coração do Rio."},
+    {n:"Rubaiyat",q:"Carnes · Premium",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:4,d:"A filial carioca da lendária churrascaria paulistana, com os mesmos padrões de excelência em carnes premium e serviço de alto nível. Wagyu, Black Angus e os melhores cortes brasileiros numa experiência que é referência absoluta em carnes no Brasil."},
+    {n:"Satyricon",q:"Frutos do Mar · Italiana",a:"Rua Barão da Torre, 192 — Ipanema, Rio de Janeiro — RJ",p:"+55 21 2521-0192",pr:4,d:"Uma instituição do Rio de Janeiro desde 1986, com a melhor seleção de frutos do mar da cidade preparados à italiana. Localizado em Ipanema, o Satyricon é referência absoluta em luxo marítimo carioca: ostras, lagosta, camarão e robalo da costa fluminense com técnica mediterrânea impecável."},
+    {n:"Spicy Fish",q:"Asiática · Fusão",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:3,d:"Restaurante de fusão asiática no Rio de Janeiro com influências japonesas, chinesas e tailandesas num cardápio criativo e picante. Um dos endereços mais animados e originais para culinária oriental no Rio."},
+    {n:"Térèze",q:"Francesa · Boutique",a:"Hotel Santa Teresa, Rio de Janeiro — RJ",p:"+55 21 3380-0200",pr:4,d:"O restaurante do Hotel Santa Teresa, boutique hotel de luxo no histórico bairro homónimo. Cozinha francesa contemporânea num ambiente de casarão colonial restaurado com vista para o Rio. Um dos jantares mais íntimos e sofisticados da cidade."}
+  ]},
+  {city:"São Paulo",region:"Sudeste — São Paulo",entries:[
+    {n:"348 Mario Ferraz",q:"Carnes · Contemporânea",a:"Rua Mario Ferraz, 348 — Itaim Bibi, São Paulo — SP",p:"+55 11 3167-0000",pr:3,d:"Casa de carnes contemporânea no elegante Itaim Bibi com cortes seleccionados de origem rastreável e técnica de preparo meticulosa. Ambiente sofisticado e minimalista para os conhecedores de carne que valorizam qualidade acima de tudo."},
+    {n:"A Bela Sintra",q:"Portuguesa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Restaurante português tradicional em São Paulo que celebra a culinária de Sintra e da região de Lisboa. Bacalhau à Brás, arroz de pato, pastel de nata e uma selecção de vinhos portugueses numa casa que honra a imigração lusitana em São Paulo."},
+    {n:"A Casa do Porco",q:"Brasileira · Porco",a:"Rua Araújo, 124 — República, São Paulo — SP",p:"+55 11 3258-2578",pr:3,d:"Uma das melhores experiências gastronómicas do Brasil, do Chef Jefferson Rueda. O porco inteiro aproveitado com maestria: do focinho ao rabo, em preparações criativas e deliciosas. 5º lugar no Latin America's 50 Best Restaurants. Reservas disputadas com meses de antecedência."},
+    {n:"Adega Santiago",q:"Portuguesa · Adega",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Adega e restaurante português em São Paulo com uma das maiores e melhores selecções de vinhos do Douro e do Alentejo fora de Portugal. Petiscos ibéricos, bacalhau e uma carta de vinhos que é uma visita guiada pelos melhores rótulos portugueses."},
+    {n:"Amadeus",q:"Frutos do Mar",a:"Rua Haddock Lobo, 807 — Jardins, São Paulo — SP",p:"+55 11 3061-2859",pr:3,d:"O mais tradicional restaurante de frutos do mar de São Paulo, com décadas de história nos Jardins. Ostras, camarões, mariscos e o lendário peixe ao creme de camarão num ambiente clássico frequentado pelas melhores famílias paulistanas."},
+    {n:"Balaio IMS",q:"Brasileira Autoral",a:"Av. Paulista, 2424 — Bela Vista, São Paulo — SP",p:"+55 11 2842-9120",pr:3,d:"O restaurante do Instituto Moreira Salles na Avenida Paulista, com cozinha brasileira autoral do Chef Alberto Landgraf. Ingredientes nacionais com técnica de vanguarda num espaço cultural de referência, com vista para a Paulista e o jardim de pedras de Burle Marx."},
+    {n:"Bar da Dona Onça",q:"Brasileira · Boteco",a:"Edifício Copan, Av. Ipiranga, 200 — República, São Paulo — SP",p:"+55 11 3257-2016",pr:2,d:"No icónico Edifício Copan de Oscar Niemeyer, o boteco mais elegante de São Paulo da Chef Janaina Rueda. Tutu de feijão, virado paulista, almôndegas e a cozinha brasileira da vovó com irreverência e qualidade. Um prato de comida de verdade no coração de São Paulo."},
+    {n:"Barbacoa",q:"Churrascaria · Premium",a:"Rua Dr. Renato Paes de Barros, 65 — Itaim Bibi, São Paulo — SP",p:"+55 11 3168-5522",pr:3,d:"Churrascaria de alta qualidade no Itaim Bibi com os melhores cortes de gado nacional e importado. O buffet de frios e saladas é uma atracção à parte com mais de 50 opções. Uma referência consistente na alta churrascaria paulistana."},
+    {n:"Bicol Korean Cuisine",q:"Coreana",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Restaurante coreano autêntico em São Paulo com bulgogi, bibimbap, kimchi e os sabores intensos da cozinha coreana. Um dos melhores endereços para a culinária da Coreia do Sul numa cidade com a maior comunidade coreana da América do Sul."},
+    {n:"Bistro de Paris",q:"Francesa · Clássica",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"O mais tradicional bistrô francês de São Paulo, com cozinha clássica que reproduz fielmente o espírito das brasseries parisienses. Onion soup, sole meunière, profiteroles e uma lista de vinhos franceses para os nostálgicos de Paris."},
+    {n:"Borgo Mocca",q:"Italiana · Aconchegante",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Italiano acolhedor em São Paulo com o espírito dos borgos italianos: intimidade, qualidade e o prazer de uma boa refeição. Massas frescas, molhos lentos e uma carta de vinhos italianos seleccionada com carinho."},
+    {n:"Borgomoca",q:"Café · Brasileira",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Espaço gourmet que une café de especialidade e gastronomia brasileira numa proposta descontraída e contemporânea. Um dos endereços favoritos dos paulistanos para brunch e almoços leves com produtos de qualidade."},
+    {n:"Bottega Bernacca",q:"Italiana · Boutique",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Bottega italiana com produtos seleccionados e restaurante integrado em São Paulo. O conceito une loja gourmet e mesa, com ingredientes italianos de qualidade premium e uma cozinha que valoriza o produto acima de tudo."},
+    {n:"Brasserie Victoria",q:"Árabe · Libanesa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Brasserie de culinária árabe e libanesa em São Paulo com homus, tabule, quibe e esfirras em versões sofisticadas. A herança árabe que é parte fundamental da cultura gastronómica paulistana numa casa elegante e acolhedora."},
+    {n:"Bráz",q:"Pizza Napolitana",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Pizzaria napolitana de referência em São Paulo com massa de fermentação lenta e ingredientes de qualidade. O Bráz é um dos pilares da pizza artesanal paulistana com unidades pelo estado e uma fidelidade à tradição napolitana que nunca vacilou."},
+    {n:"Carlota",q:"Brasileira Contemporânea",a:"Rua Sergipe, 753 — Higienópolis, São Paulo — SP",p:"+55 11 3661-8670",pr:3,d:"A Chef Carla Pernambuco é uma das mais importantes da gastronomia paulistana. O Carlota celebra 30 anos de cozinha brasileira contemporânea com produtos orgânicos e técnica refinada. Clássicos reinventados e uma das melhores cartas de vinho de São Paulo."},
+    {n:"Chef Rouge",q:"Francesa · Bistrô",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Bistrô francês de referência em São Paulo com a cozinha clássica gaulesa: confit de pato, entrecôte au poivre, crème brûlée e uma selecção de vinhos de Bordeaux e Borgonha. Ambiente íntimo de bistrô parisiense no coração de São Paulo."},
+    {n:"Chez Claude",q:"Francesa · Íntima",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Bistrô francês íntimo e pessoal em São Paulo onde o Chef Claude coloca a sua personalidade em cada prato. Ambiente familiar de uma casa verdadeiramente francesa com cozinha de mercado que muda com os produtos frescos do dia."},
+    {n:"Cristal",q:"Pizza",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Pizzaria clássica de São Paulo com as receitas tradicionais que definiram a pizza paulistana ao longo das décadas. Massa fina, molho de tomate caseiro e os sabores que fizeram São Paulo a capital da pizza fora de Itália."},
+    {n:"Cór Gastronomia",q:"Carnes · Autoral",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Casa de carnes com proposta autoral e criativa em São Paulo, com cortes seleccionados e preparações que vão além do tradicional churrasco. Ambiente contemporâneo e menu que surpreende os apreciadores de carnes sofisticadas."},
+    {n:"D.O.M",q:"Brasileira Alta Cozinha",a:"Rua Barão de Capanema, 549 — Jardins, São Paulo — SP",p:"+55 11 3088-0761",pr:4,m:"m2",d:"2 Estrelas Michelin — O Chef Alex Atala e o D.O.M. representam a revolução da gastronomia brasileira no mundo. Ingredientes da Amazónia e do Cerrado — formigas, tucupi, priprioca — numa cozinha de vanguarda que colocou o Brasil no mapa gastronómico mundial. Um dos restaurantes mais influentes da história da gastronomia contemporânea."},
+    {n:"Da Marino",q:"Mediterrânea · Italiana",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Restaurante mediterrâneo com alma italiana em São Paulo, onde o azeite, o alho e os produtos do mar são protagonistas. Cozinha que celebra a leveza e os sabores do Mediterrâneo com ingredientes de qualidade."},
+    {n:"Di Paolo",q:"Galeteria · Italiana",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"A melhor galeteria italiana de São Paulo, com o galeto al primo canto assado no forno a lenha como ensinaram os imigrantes italianos do Rio Grande do Sul. Uma tradição gastronómica única do Brasil num ambiente acolhedor e familiar."},
+    {n:"Dinho's",q:"Carnes · Clássica",a:"Av. Brigadeiro Faria Lima, 1755 — Jardim Paulistano, São Paulo — SP",p:"+55 11 3815-7222",pr:3,d:"Uma das casas de carnes mais tradicionais de São Paulo, com décadas de história. O Dinho's é referência para os executivos e políticos que frequentam seus salões clássicos em busca da picanha e do lombo mais consistentes da cidade."},
+    {n:"Due Cuochi",q:"Italiana · Criativa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Dois chefs, uma cozinha italiana criativa e contemporânea que surpreende. O Due Cuochi é um dos endereços mais originais para culinária italiana em São Paulo, com menu que combina respeito pela tradição e ousadia criativa."},
+    {n:"Ecculy Gastronomia",q:"Internacional Criativa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Restaurante de gastronomia internacional criativa em São Paulo que explora influências de múltiplas culturas numa proposta autoral. Um dos endereços mais originais da cena paulistana para quem procura novidades e experimentação."},
+    {n:"Ema",q:"Contemporânea Autoral",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Restaurante autoral contemporâneo em São Paulo com cozinha criativa e ingredientes seleccionados. Um dos endereços mais promissores da nova geração de chefs paulistanos que está a redefinir a gastronomia da cidade."},
+    {n:"Emiliano",q:"Internacional · Hotel",a:"Rua Oscar Freire, 384 — Jardins, São Paulo — SP",p:"+55 11 3069-4369",pr:4,d:"O restaurante do Hotel Emiliano, o hotel boutique mais elegante de São Paulo. Cozinha internacional de alta qualidade com o serviço impecável de um dos hotéis mais premiados da América Latina nos Jardins."},
+    {n:"Evvai",q:"Italiana Contemporânea",a:"Rua Joaquim Antunes, 108 — Pinheiros, São Paulo — SP",p:"+55 11 3062-1160",pr:4,m:"m3",note:"3 Estrelas Michelin · Chef Luiz Filipe Souza — 1ª da América Latina",d:"3 Estrelas Michelin — o máximo do Guia Michelin. Em 2026, ao lado do Tuju, tornou-se um dos dois primeiros restaurantes da América Latina a conquistar a mais alta distinção da gastronomia mundial. Chef Luiz Filipe Souza propõe uma cozinha autoral que combina referências brasileiras e italianas com precisão e beleza únicas."},
+    {n:"Fasano",q:"Italiana de Luxo",a:"Rua Vittorio Fasano, 88 — Cerqueira César, São Paulo — SP",p:"+55 11 3896-4077",pr:4,d:"A jóia da coroa da gastronomia paulistana e um dos restaurantes mais famosos do Brasil. O Fasano é sinónimo de luxo e excelência italiana em São Paulo desde 1958, com a família Fasano como anfitriã de eleição. Carpaccio, risoto de trufa e o ambiente art déco mais elegante de São Paulo."},
+    {n:"Fazenda Churrascada",q:"Churrascaria · Fazenda",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Churrascaria com ambiente de fazenda e carne directo do produtor, onde a rastreabilidade e a qualidade são a promessa central. Uma alternativa autêntica às grandes churrascarias urbanas de São Paulo."},
+    {n:"Figueirinha",q:"Chinesa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Restaurante chinês de referência em São Paulo com culinária cantonesa autêntica e dim sum de qualidade. Um dos poucos endereços de cozinha chinesa genuína na capital paulista, frequentado pela comunidade sino-brasileira."},
+    {n:"Gero",q:"Italiana · Fasano",a:"Rua Haddock Lobo, 1629 — Jardins, São Paulo — SP",p:"+55 11 3064-0005",pr:3,d:"O bistrô italiano da família Fasano nos Jardins, com uma proposta mais descontraída do que o restaurante principal mas com a mesma qualidade de ingredientes e serviço. O ponto de encontro preferido da sociedade paulistana para almoços e jantares do dia-a-dia."},
+    {n:"Hirá",q:"Izakaya · Sofisticada",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Izakaya sofisticada em São Paulo que eleva o conceito de bar japonês a um patamar gastronómico mais alto. Pratos elaborados, sake premium e uma atmosfera que combina a convivialidade japonesa com elegância paulistana."},
+    {n:"Hutô",q:"Japonesa · Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:4,m:"m1",d:"1 Estrela Michelin — Japonesa contemporânea de alto nível em São Paulo com cozinha criativa que respeita a filosofia nipónica mas a enriquece com perspectivas modernas. Um dos endereços Michelin mais originais da gastronomia japonesa paulistana."},
+    {n:"Hwang To Gil",q:"Coreana · Tradicional",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Restaurante coreano tradicional em São Paulo frequentado principalmente pela comunidade coreana de Bom Retiro. Cozinha caseira com receitas autênticas da Coreia que raramente chegam aos restaurantes mais ocidentalizados."},
+    {n:"ICI Bistro",q:"Francesa Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Bistrô francês contemporâneo em São Paulo que atualiza os clássicos gauleses com sensibilidade moderna. Ambiente descontraído e elegante com uma cozinha que equilibra tradição e criatividade com a leveza francesa."},
+    {n:"Il Capitale",q:"Italiana · Premium",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:4,d:"Um dos restaurantes italianos mais exclusivos de São Paulo, com ambiente de capital europeia, serviço impecável e uma cozinha italiana de alto nível. Frequentado pela élite empresarial e política paulistana para ocasiões de representação."},
+    {n:"Il Carpaccio",q:"Italiana · Clássica",a:"Rua Haddock Lobo, 1629 — Jardins, São Paulo — SP",p:"+55 11 3064-1981",pr:3,d:"Italiano clássico nos Jardins com o carpaccio mais famoso de São Paulo, que deu nome à casa. Ambiente elegante com toalhas brancas e serviço formal para quem aprecia a cozinha italiana tradicional sem concessões à moda."},
+    {n:"Izakaya Matsu",q:"Izakaya · Tradicional",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Izakaya tradicional em São Paulo frequentada pela comunidade japonesa da cidade. Ambiente autêntico, sake servido à temperatura correcta e petiscos que reproduzem fielmente a experiência de uma izakaya japonesa."},
+    {n:"Jean-Georges",q:"Francesa de Luxo",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:4,d:"A filial brasileira do lendário Chef Jean-Georges Vongerichten, um dos chefs mais estrelados do mundo. Alta cozinha francesa contemporânea com técnica e glamour internacionais num ambiente que é referência do luxo gastronómico em São Paulo."},
+    {n:"Jiquitaia",q:"Brasileira · Amazônica",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Restaurante que celebra a culinária amazónica e os ingredientes nativos do Brasil num contexto contemporâneo e sofisticado. Tucupi, jambu, açaí e outros sabores únicos da Amazónia preparados com respeito e criatividade."},
+    {n:"Jun Sakamoto",q:"Japonesa · Mestre",a:"Rua Lisboa, 55 — Pinheiros, São Paulo — SP",p:"+55 11 3088-6019",pr:4,m:"m1",d:"1 Estrela Michelin — O mestre da culinária japonesa em São Paulo e pioneiro do sushi de alta qualidade no Brasil. Jun Sakamoto transformou o modo como os brasileiros encaram o sushi e formou uma geração de chefs japoneses. Uma referência histórica e imperdível."},
+    {n:"Kaifu",q:"Asiática Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Asiática contemporânea em São Paulo com influências de múltiplos países do Oriente. Menu criativo que explora os sabores da Ásia com técnica moderna e ingredientes de qualidade numa proposta elegante e surpreendente."},
+    {n:"Kansuke",q:"Japonesa · Minimalista",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:4,d:"Japonesa minimalista e contemplativa em São Paulo onde cada gesto e cada prato são executados com precisão quase meditativa. Um dos restaurantes onde a filosofia japonesa do wabi-sabi se manifesta na gastronomia de forma mais pura."},
+    {n:"Kazuo",q:"Asiática · Fusão",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:4,m:"m1",d:"1 Estrela Michelin — Cozinha asiática de fusão de altíssimo nível em São Paulo com o Chef Kazuo que combina Japão, China e Tailândia numa proposta de grande sofisticação e criatividade. Um dos restaurantes asiáticos mais importantes do Brasil."},
+    {n:"Kenzo",q:"Japonesa · Clássica",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Japonesa clássica e elegante em São Paulo com décadas de história na cidade. O Kenzo é uma referência de consistência e qualidade para quem aprecia a culinária japonesa tradicional sem modismos."},
+    {n:"Kinoshita",q:"Japonesa · Alta Cozinha",a:"Rua Jacques Félix, 405 — Vila Nova Conceição, São Paulo — SP",p:"+55 11 3849-6940",pr:4,m:"m1",d:"1 Estrela Michelin — Chef Tsuyoshi Murakami conduz um dos restaurantes japoneses mais sofisticados do Brasil, com kaiseki e omakase de nível internacional. A fusão entre a filosofia japonesa e produtos brasileiros de altíssima qualidade que conquistou a estrela Michelin."},
+    {n:"Kitchin",q:"Japonesa Criativa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Japonesa criativa em São Paulo que combina técnicas nipónicas com influências globais. Um dos endereços mais inventivos da cena japonesa paulistana com menu que surpreende mesmo os mais familiarizados com a culinária do Japão."},
+    {n:"Komah",q:"Coreana Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Coreana contemporânea em São Paulo com uma proposta sofisticada que reinterpreta os clássicos da culinária coreana com técnica moderna. Um dos endereços mais criativos para a culinária da Coreia do Sul no Brasil."},
+    {n:"Kotori",q:"Izakaya · Yakitori",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Especialista em yakitori em São Paulo — os espetos de frango grelhados na brasa que são a alma da culinária de izakaya japonesa. Cada peça de frango preparada com técnica e atenção num ambiente animado e descontraído."},
+    {n:"Kuro",q:"Japonesa Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Japonesa contemporânea e sofisticada em São Paulo com ambiente minimalista negro e menu criativo que vai além da tradição nipónica. Um dos endereços mais elegantes para culinária japonesa de alto nível na capital paulista."},
+    {n:"Kuromoon",q:"Izakaya · Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Izakaya contemporânea em São Paulo com uma proposta moderna que reinterpreta os clássicos japoneses num ambiente nocturno e sofisticado. Cocktails com sake, ramen e petiscos criativos para os apreciadores da cultura japonesa da noite."},
+    {n:"La Piana",q:"Italiana · Siciliana",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Especializada na cozinha siciliana em São Paulo — arancini, pasta con le sarde, caponata e os sabores intensos da ilha mais mediterrânea de Itália. Uma viagem autêntica à Sicília sem sair da capital paulista."},
+    {n:"La Tambouille",q:"Franco-Italiana",a:"Av. Nove de Julho, 5925 — Jardim Europa, São Paulo — SP",p:"+55 11 3079-6276",pr:4,d:"Um dos restaurantes mais elegantes e exclusivos de São Paulo há mais de 40 anos, com cozinha que navega entre França e Itália. A cave com mais de 15.000 rótulos é uma das mais impressionantes do Brasil. Frequentado pela élite empresarial, política e cultural de São Paulo."},
+    {n:"Lassu",q:"Italiana · Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Italiana contemporânea sofisticada em São Paulo com técnica moderna e ingredientes de qualidade. Ambiente elegante e menu que combina respeito pela tradição italiana com uma perspectiva criativa e actual."},
+    {n:"Le Jazz",q:"Francesa · Animada",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Brasserie francesa animada em São Paulo com música ao vivo e o ambiente festivo das melhores casas de jazz de Paris. Comida francesa de qualidade, bons vinhos e uma energia contagiante que faz de cada visita uma pequena festa."},
+    {n:"Le Napoleon",q:"Francesa · Elegante",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Restaurante francês clássico e elegante em São Paulo com nome que evoca a grandiosidade da França napoleónica. Cozinha de haute cuisine com todo o rigor e sofisticação que a tradição culinária francesa exige."},
+    {n:"Loup",q:"Francesa Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Restaurante francês contemporâneo de alto nível em São Paulo com cozinha criativa e ingredientes de excelência. Ambiente moderno e elegante para uma das experiências francesas mais actuais da capital paulista."},
+    {n:"Magô",q:"Japonesa · Omakase",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:4,d:"Experiência omakase exclusiva em São Paulo com o chef ao leme de uma jornada gastronómica japonesa. Lugares limitados, peixe importado e uma hospitalidade japonesa que transforma o jantar num ritual de altíssimo nível."},
+    {n:"Makoto",q:"Japonesa · Sushi",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Sushi de excelência em São Paulo com técnica tradicional e ingredientes de qualidade. Uma das casas japonesas mais consistentes da cidade para quem aprecia sushi autêntico e preparado com rigor."},
+    {n:"Makoto San",q:"Japonesa · Omakase",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:4,d:"Omakase exclusivo do Chef Makoto San em São Paulo, com lugares muito limitados e uma experiência japonesa de nível internacional. Peixe importado directamente do mercado de Toyosu de Tóquio e o rigor absoluto que define os grandes chefs japoneses."},
+    {n:"Manioca",q:"Brasileira · Mandioca",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Restaurante dedicado à mandioca e seus derivados numa homenagem à raiz mais brasileira de todas. Cozinha contemporânea que reivindica a mandioca como ingrediente nobre e versátil, da entrada à sobremesa, numa proposta criativa e identitária."},
+    {n:"Maní",q:"Brasileira Contemporânea",a:"Rua Joaquim Antunes, 210 — Pinheiros, São Paulo — SP",p:"+55 11 3085-4148",pr:4,m:"m1",d:"1 Estrela Michelin — A Chef Helena Rizzo e o Maní são sinónimos de excelência gastronómica em São Paulo. Cozinha brasileira contemporânea com ingredientes nacionais tratados com técnica e sensibilidade de alto nível. Um dos restaurantes mais importantes do Brasil."},
+    {n:"Mocotó",q:"Nordestina · Boteco",a:"Av. Nossa Senhora do Loreto, 1100 — Vila Medeiros, São Paulo — SP",p:"+55 11 2951-3056",pr:2,d:"O restaurante mais democrático e premiado de São Paulo, do Chef Rodrigo Oliveira, que transformou um boteco de bairro nordestino numa referência gastronómica nacional. Mocofava, cartola, caldos e a cozinha do sertão pernambucano elevada a arte. Filas imensas que valem cada minuto de espera."},
+    {n:"Moma",q:"Italiana Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Italiana contemporânea em São Paulo com técnica moderna e ingredientes de qualidade. Ambiente sofisticado e menu criativo que reinterpreta os clássicos italianos com uma perspectiva contemporânea e paulistana."},
+    {n:"Murakami",q:"Japonesa · Tradicional",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Japonesa tradicional e consistente em São Paulo, referência para os amantes da cozinha nipónica que valorizam a autenticidade acima das tendências. Sushi, sashimi e pratos japoneses clássicos com ingredientes de qualidade."},
+    {n:"Myk",q:"Grega",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"O melhor restaurante grego de São Paulo, com moussaka, souvlaki, tzatziki e as melhores azeitonas e queijos da Grécia. Ambiente que evoca as tavernas das ilhas gregas num endereço que conquistou a comunidade helênica de São Paulo."},
+    {n:"Nakka",q:"Japonesa Moderna",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Japonesa moderna em São Paulo com técnica contemporânea e ingredientes seleccionados. Ambiente elegante e menu que equilibra respeito pela tradição nipónica com abertura para a criatividade."},
+    {n:"Nino",q:"Italiana · Trattoria",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Trattoria italiana familiar e acolhedora em São Paulo que reproduz o espírito das casas de família do norte de Itália. Massas caseiras, risottos lentos e uma atmosfera que faz sentir em casa — o melhor elogio para um italiano."},
+    {n:"Ohka",q:"Japonesa · Kaiseki",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:4,d:"Alta cozinha japonesa kaiseki em São Paulo com menu de degustação de múltiplos pratos que segue a filosofia da culinária japonesa tradicional. Um dos restaurantes japoneses mais exclusivos e sofisticados do Brasil."},
+    {n:"Osaka",q:"Nikkei · Peruano-Japonesa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Cozinha nikkei autêntica em São Paulo que celebra a fusão entre o Peru e o Japão — a mesma que conquistou o mundo a partir de Lima. Ceviche nikkei, tiradito, causas e os rolls mais criativos numa proposta que homenageia a imigração japonesa no Peru."},
+    {n:"Osso",q:"Carnes · Ossobuco",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Restaurante especializado em ossobuco e preparações com ossos e cortes menos convencionais, numa abordagem criativa que aproveita o animal inteiro. Uma das propostas mais originais na cena das carnes em São Paulo."},
+    {n:"Otóshi",q:"Izakaya",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Izakaya autêntica em São Paulo com o couvert japonês (otoshi) como entrada e uma selecção de petiscos, yakitori e pratos quentes que reproduzem a experiência completa de uma izakaya de bairro em Tóquio."},
+    {n:"Parigi",q:"Franco-Italiana",a:"Alameda Itú, 1386 — Jardins, São Paulo — SP",p:"+55 11 3061-0338",pr:3,d:"Um dos restaurantes mais históricos de São Paulo, frequentado há décadas pela alta sociedade paulistana. O Parigi cruza elegantemente França e Itália numa cozinha de grande consistência. As batatas fritas finas do Parigi são lendárias e tornaram-se um clássico absoluto da cidade."},
+    {n:"Picchi",q:"Italiana · Alta Cozinha",a:"Parque Estadual Alberto Löfgren, São Paulo — SP",p:"+55 11 5083-3232",pr:4,m:"m1",d:"1 Estrela Michelin — Chef Pier Paolo Picchi, formado em Itália, conduz um dos restaurantes italianos mais sofisticados do Brasil num parque histórico de São Paulo. Menu de degustação rigoroso e sazonal com ingredientes italianos importados e produtos brasileiros de altíssima qualidade."},
+    {n:"Ping Yang",q:"Tailandesa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"O melhor restaurante tailandês de São Paulo com curry, pad thai, tom yum e os sabores aromáticos e picantes da Tailândia. Ingredientes importados de Banguecoque e receitas autênticas que transportam directamente para o sudeste asiático."},
+    {n:"Piselli",q:"Italiana",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Italiana elegante e consistente em São Paulo com massas artesanais e pratos clássicos da tradição italiana. Um dos endereços mais fiáveis para culinária italiana na capital paulista com excelente relação qualidade-preço."},
+    {n:"Pobre Juan",q:"Argentina · Parrilla",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"A clássica parrilla argentina em São Paulo com os cortes platinos mais queridos: entraña, chorizo, bife de chorizo e costela. Ambiente descontraído e animado com o espírito argentino que fez desta casa uma referência na capital paulista."},
+    {n:"Pub Keito",q:"Japonesa · Izakaya",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Pub japonês animado em São Paulo com o espírito das izakayas de Tóquio: petiscos para partilhar, cerveja gelada, sake e uma descontracção que é o melhor antídoto ao estresse da maior cidade do hemisfério sul."},
+    {n:"Rancho Português",q:"Portuguesa · Tasca",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Tasca portuguesa autêntica em São Paulo com os pratos mais queridos da culinária lusitana. Ambiente informal e acolhedor com os sabores honestos de Portugal que conquistaram gerações de paulistanos de origem portuguesa."},
+    {n:"Ristorantino",q:"Italiana · Íntima",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Pequeno restaurante italiano íntimo e sofisticado em São Paulo, onde a qualidade supera qualquer expectativa para o tamanho do espaço. Massas frescas, ingredientes importados e uma proposta que privilegia o produto sobre o espectáculo."},
+    {n:"Rodeio",q:"Churrascaria · Clássica",a:"Rua Haddock Lobo, 1498 — Jardins, São Paulo — SP",p:"+55 11 3083-2322",pr:3,d:"Uma das churrascarias mais tradicionais de São Paulo, com décadas de história nas casas do Iguatemi e Oscar Freire. Picanha, costela e o famoso frango assado num ambiente clássico que resistiu a todas as modas gastronómicas."},
+    {n:"ROI",q:"Mediterrânea Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Restaurante mediterrâneo contemporâneo em São Paulo com uma proposta sofisticada e criativa. Ingredientes do mar e da terra preparados com técnica mediterrânea e sensibilidade moderna num ambiente elegante."},
+    {n:"Rubaiyat Faria Lima",q:"Carnes · Premium",a:"Av. Brigadeiro Faria Lima, 2954 — Jardim Paulistano, São Paulo — SP",p:"+55 11 3078-9488",pr:4,d:"A referência máxima em carnes premium de São Paulo, com décadas de história na cidade. Wagyu, Black Angus e os melhores cortes do Brasil grelhados com perfeição numa adega com mais de 5.000 rótulos. Um templo das carnes para os mais exigentes de São Paulo."},
+    {n:"Ruffinos",q:"Frutos do Mar · Italiana",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Italiana especializada em frutos do mar em São Paulo, com o melhor do Mediterrâneo e da costa brasileira preparados com técnica italiana. Polvo, camarão, ostras e peixes nobres num ambiente sofisticado e elegante."},
+    {n:"Ryo",q:"Japonesa · Omakase",a:"Rua Padre João Manuel, 1160 — Jardins, São Paulo — SP",p:"+55 11 3061-5929",pr:4,m:"m2",d:"2 Estrelas Michelin — Um dos restaurantes japoneses mais importantes do Brasil e da América Latina. O Chef Jun Sakamoto e equipa conduzem um omakase de nível mundial, com os melhores peixes chegados directamente do Japão. Uma experiência transformadora para qualquer apreciador de sushi."},
+    {n:"Saiko Sando",q:"Japonesa · Sanduba",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Especialista nos katsu sando japoneses em São Paulo — as sanduíches de costeleta empanada no pão shokupan que são furor em Tóquio. Wagyu, katsu e tonkatsu no melhor pão de forma japonês num conceito moderno e delicioso."},
+    {n:"Saint Marie Gastronomia",q:"Árabe Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Culinária árabe contemporânea em São Paulo com uma proposta sofisticada que reinterpreta os sabores do Líbano, Síria e Marrocos. Ingredientes do Médio Oriente preparados com técnica moderna num ambiente de grande elegância."},
+    {n:"Saj",q:"Árabe · Street Food",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Especialista no saj árabe em São Paulo — o pão fino assado na chapa circular quente recheado com carnes, queijos e zaatar. Uma experiência de street food árabe autêntica que remete directamente aos mercados de Beirute."},
+    {n:"Shin Zushi",q:"Japonesa · Sushi Bar",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Sushi bar de qualidade em São Paulo com chef ao balcão e uma relação directa entre cozinheiro e cliente. A experiência do sushi servido peça a peça com conversa e proximidade que é a essência dos melhores sushi bars do Japão."},
+    {n:"Sushi Vaz",q:"Japonesa · Sushi",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Sushi bar de referência em São Paulo com técnica japonesa autêntica e ingredientes seleccionados. Um dos endereços favoritos dos conhecedores de sushi em São Paulo para uma experiência genuína e sem excessos."},
+    {n:"Taberna 474",q:"Ibérica",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Taberna ibérica em São Paulo que celebra os sabores compartilhados de Portugal e Espanha num ambiente rústico e animado. Frutos do mar, ibéricos, vinhos da Península Ibérica e a hospitalidade genuína do mundo mediterrâneo."},
+    {n:"Tan Tan",q:"Izakaya · Japonesa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Izakaya animada em São Paulo com petiscos japoneses para partilhar, sake e cerveja Sapporo gelada. O espírito autêntico das izakayas de Osaka num endereço que ficou ícone da boémia japonesa paulistana."},
+    {n:"Tangará Jean-Georges",q:"Francesa · Asiática · Contemporânea",a:"Rua Deputado Laércio Corte, 1501 — Panamby, São Paulo, SP",p:"(11) 4904-4072",pr:4,m:"m1",note:"1 Estrela Michelin · Palácio Tangará",h:true,d:"1 Estrela Michelin no Palácio Tangará — um dos hotéis mais exclusivos da América Latina, instalado num oásis urbano em pleno Parque Burle Marx. Chef Filipe Macambyra assina menus que unem técnicas francesas, influências asiáticas e ingredientes brasileiros. Única casa de Jean-Georges Vongerichten na América do Sul."},
+    {n:"Tanit",q:"Espanhola · Mediterrânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Restaurante espanhol de referência em São Paulo com cozinha mediterrânea que celebra as Ilhas Baleares. Paella, fideuà, frutos do mar à espanhola e uma carta de vinhos da Espanha para os apreciadores da cozinha ibérica mais sofisticada."},
+    {n:"Taraz",q:"Sul-Americana",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Restaurante de culinária sul-americana contemporânea em São Paulo, que celebra os sabores e técnicas do Peru, Chile, Argentina e Brasil numa fusão criativa e sofisticada. Um dos endereços mais originais para descobrir a diversidade gastronómica do continente."},
+    {n:"Tasca da Esquina",q:"Portuguesa · Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"A versão paulistana da famosa Tasca da Esquina de Lisboa, com a cozinha contemporânea portuguesa do Chef Vítor Sobral. Petiscos criativos, bacalhau reinventado e vinhos portugueses numa casa que eleva a cozinha lusitana à alta gastronomia."},
+    {n:"Tasca do Zé e da Maria",q:"Portuguesa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Tasca portuguesa familiar em São Paulo onde o Zé e a Maria recebem os clientes como se fossem família. Cozinha caseira lusitana com bacalhau, caldo verde e petiscos numa atmosfera que recria o melhor de uma tasca de bairro em Lisboa."},
+    {n:"Templo da Carne",q:"Carnes · Wagyu",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:4,d:"O templo mais exclusivo das carnes em São Paulo, com wagyu japonês, Kobe beef e os cortes mais raros do mundo num ambiente verdadeiramente premium. Uma experiência para os grandes apreciadores de carne que não medem esforços pela perfeição."},
+    {n:"Tordesilhas",q:"Brasileira · Regional",a:"Rua Bela Cintra, 465 — Consolação, São Paulo — SP",p:"+55 11 3107-7444",pr:3,d:"A Chef Mara Salles celebra as regiões do Brasil nas mesas do Tordesilhas há décadas. Cozinha brasileira regional com ingredientes de todo o país — do Norte ao Sul — num ambiente elegante e acolhedor no coração de São Paulo."},
+    {n:"Tuju",q:"Brasileira · Alta Cozinha",a:"Rua Fradique Coutinho, 1406 — Pinheiros, São Paulo, SP",p:"(11) 3031-6276",pr:4,m:"m3",note:"3 Estrelas Michelin · Chef Ivan Ralston — 1ª da América Latina",d:"3 Estrelas Michelin em 2026 — Chef Ivan Ralston comanda uma cozinha brasileira contemporânea de precisão absoluta. Com menus de degustação que exploram ingredientes do Brasil com técnica incomparável, o Tuju tornou-se, ao lado do Evvai, um dos dois primeiros restaurantes da América Latina a conquistar a mais alta distinção do Guia Michelin."},
+    {n:"Tuy",q:"Espanhola · Contemporânea",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Restaurante espanhol contemporâneo em São Paulo com referências à fronteira entre Galicia e Portugal, a cidade de Tui. Cozinha galega e portuguesa num contexto sofisticado com os melhores produtos do noroeste ibérico."},
+    {n:"Tōki",q:"Izakaya · Moderna",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Izakaya moderna com nome que evoca Tóquio (Tōki-o) numa proposta contemporânea da cultura de bar japonesa. Cocktails autorais com sake e shochu, pratos criativos e o ambiente nocturno vibrante que define a nova geração das izakayas paulistanas."},
+    {n:"Varanda",q:"Carnes · Espaçoso",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Churrascaria com unidades no Mena Barreto e no Shopping JK, famosa pelo ambiente amplo e ajardinado. Cortes premium, frutos do mar e um buffet generoso num espaço que combina lazer e gastronomia para toda a família."},
+    {n:"Vecchio Torino",q:"Italiana · Piemontesa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"A mais autêntica representação da cozinha piemontesa em São Paulo, com massas artesanais, risottos com trufas e uma selecção de vinhos do norte de Itália — Barolo, Barbaresco, Amarone — à altura do nome."},
+    {n:"Veridiana",q:"Pizza",a:"Rua Veridiana, 661 — Higienópolis, São Paulo — SP",p:"+55 11 3120-7848",pr:2,d:"A pizza mais famosa de São Paulo, com fila permanente em Higienópolis. Massa fininha e crocante, ingredientes de qualidade e os sabores que conquistaram os paulistanos há décadas. A Veridiana é uma instituição que vai muito além de uma simples pizzaria."},
+    {n:"Vinheria Percussi",q:"Italiana · Vinhos",a:"Rua Cônego Eugênio Leite, 523 — Pinheiros, São Paulo — SP",p:"+55 11 3088-0099",pr:3,d:"Uma das melhores adega-restaurante de São Paulo, com culinária italiana e uma das mais completas cartas de vinhos italianos do Brasil. O ambiente íntimo nos Jardins transforma cada jantar num passeio enológico pela Itália."},
+    {n:"Yorimichi",q:"Izakaya · Íntima",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Pequena izakaya íntima em São Paulo com espaço limitado e uma experiência próxima do balcão. O nome significa paragem num caminho — uma metáfora perfeita para este endereço que convida a parar e apreciar a culinária japonesa de botequim."},
+    {n:"Yu",q:"Japonesa · Kaiseki",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:4,d:"Alta cozinha japonesa kaiseki em São Paulo com menu de degustação que segue a filosofia das quatro estações. Ingredientes sazonais com a técnica e espiritualidade que definem a grande culinária japonesa tradicional."},
+    {n:"Zena Cucina",q:"Italiana · Lombarda",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:3,d:"Italiana especializada na cozinha lombarda em São Paulo, com risottos, ossibuchi e os pratos do norte de Itália preparados com autenticidade. Uma das poucas casas que faz justiça à riqueza culinária da Lombardia fora de Milão."}
+  ]}
+];
+const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};
+const MBADGE={m3:'bm3',m2:'bm2',m1:'bm1',bib:'bbib',green:'bgreen',rec:'brec',award:'baward'};
+const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes':'#f7ede8','Italiana':'#f5f0e8','Japonesa':'#f0f0f5','Asiática':'#f0f4f0','Contemporânea':'#f2f0ee','Café':'#f7f0e0','default':'#f2ede8'};
+function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
+function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
+function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
+
+// Build region filter buttons
+const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
+const filtersEl=document.getElementById('filters');
+filtersEl.innerHTML='<span class="filter-lbl">Região:</span>'+
+  regions.map(r=>`<button class="filter-btn${r==='Todas'?' active':''}" onclick="setRegion('${r}',this)">${r}</button>`).join('');
+
+let activeRegion='Todas';
+function setRegion(r,btn){
+  activeRegion=r;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function render(){
+  const main=document.getElementById('main');
+  main.innerHTML='';
+  const filtered=activeRegion==='Todas'?CITIES:CITIES.filter(c=>c.region===activeRegion);
+
+  // Group by region
+  const groups={};
+  filtered.forEach(c=>{
+    if(!groups[c.region])groups[c.region]=[];
+    groups[c.region].push(c);
+  });
+
+  Object.entries(groups).forEach(([region,cities])=>{
+    // Region divider
+    const rd=document.createElement('div');
+    rd.style.cssText='display:flex;align-items:center;gap:16px;margin:44px 0 8px';
+    rd.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 16px">${region}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
+    main.appendChild(rd);
+
+    cities.forEach(({city,entries})=>{
+      // Count Michelin distinctions for this city
+      const michelinCount=entries.filter(r=>r.m&&(r.m==='m2'||r.m==='m1'||r.m==='bib'||r.m==='green')).length;
+      const starCount=entries.filter(r=>r.m==='m2').length*2+entries.filter(r=>r.m==='m1').length;
+      let michelinHtml='';
+      if(starCount>0) michelinHtml=`<div class="city-michelin">${'★'.repeat(Math.min(starCount,4))} Michelin</div>`;
+      else if(michelinCount>0) michelinHtml=`<div class="city-michelin" style="color:var(--bib)">Michelin</div>`;
+
+      const sec=document.createElement('div');sec.className='city-sec';
+      sec.dataset.region=city;
+      sec.innerHTML=`<div class="city-hdr">
+        <div class="city-hdr-left">
+          <div class="city-name">${city}</div>
+        </div>
+        <div class="city-count-block">
+          <div class="city-count-num">${entries.length}</div>
+          <div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div>
+        </div>
+      </div>
+      <div class="restaurants-grid" id="g-${city.replace(/\s/g,'-')}"></div>`;
+      main.appendChild(sec);
+
+      const grid=sec.querySelector('.restaurants-grid');
+      entries.forEach(r=>{
+        const card=document.createElement('div');card.className='restaurant-card';
+        const bg=cardBg(r.q);
+        const nm=r.n.replace(/'/g,"\\'");
+        const ad=(r.a&&r.a!==city&&r.a!=='')?r.a.replace(/'/g,"\\'"):'';
+        const addrHtml=ad?`<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap('${nm}','${ad}')">${r.a}</span></div>`:'';
+        const phoneHtml=r.p?`<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:${r.p.replace(/\s/g,'')}">${r.p}</a></div>`:'';
+        const contact=(addrHtml||phoneHtml)?`<div class="card-contact">${addrHtml}${phoneHtml}</div>`:'';
+        const em=emoji(r.q);
+        const badges=(r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
+                     (r.h?'<span class="badge bhotel">Hospedagem</span>':'');
+        card.innerHTML=`
+          <div class="card-photo-wrap"><img class="card-photo" src="fotos/brasil/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\' style=\\'background:${bg}\\'>${em}</div>'"></div>
+          <div class="card-body">
+            <div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div>
+            <div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div>
+            <div class="card-desc">${r.d||''}</div>
+            ${contact}
+            ${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}
+          </div>`;
+        grid.appendChild(card);
+      });
+    });
+  });
+}
+
+render();
+</script>
+<footer><p><a href="brasil-index.html">← Brasil</a> &nbsp;·&nbsp; Na Mesa com Luli Dias</p></footer>
+</body>
+</html>
