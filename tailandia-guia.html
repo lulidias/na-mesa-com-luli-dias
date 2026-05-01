@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Taiwan — Na Mesa com Luli Dias</title>
+<title>Tailândia — Na Mesa com Luli Dias</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-dk:#8B6914;--gold-bg:#FAF5EB;--border:#E8E0D5;--card-bg:#FFF;}
@@ -89,19 +89,18 @@ footer a{color:var(--gold);text-decoration:none}</style>
 <nav class="top-nav">
   <a href="index.html" class="back-link">← Todos os Países</a>
   <span class="nav-sep">·</span>
-  <span class="nav-current">Taiwan</span>
+  <span class="nav-current">Tailândia</span>
 </nav>
 <header>
   <div class="brand-line"><span class="brand-prefix">Na Mesa com</span><span class="brand-name"><em>Luli Dias</em></span></div>
-  <div class="brand-country">Taiwan</div>
+  <div class="brand-country">Tailândia</div>
   <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
-  <div class="header-meta-row"><span class="header-meta">Taipei · Jiufen</span><span class="header-edition">Abril 2026</span></div>
+  <div class="header-meta-row"><span class="header-meta">Bangkok</span><span class="header-edition">Abril 2026</span></div>
 </header>
-<div class="stats-bar"><div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Restaurantes</div></div><div class="stat"><div class="stat-num">2</div><div class="stat-lbl">Mercados</div></div><div class="stat"><div class="stat-num">2</div><div class="stat-lbl">Cidades</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Michelin</div></div></div>
+<div class="stats-bar"><div class="stat"><div class="stat-num">7</div><div class="stat-lbl">Restaurantes</div></div><div class="stat"><div class="stat-num">2</div><div class="stat-lbl">Mercados</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div></div>
 <div class="michelin-legend">
   <span class="lbadge">★★★ 3 Estrelas</span><span class="lbadge">★★ 2 Estrelas</span><span class="lbadge">★ 1 Estrela</span>
   <span class="lbadge">Bib Gourmand</span><span class="lbadge">Michelin</span><span class="lbadge">Hospedagem</span>
-  <span class="lbadge">Beach Club</span>
 </div>
 <div class="filters" id="filters"></div>
 <div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
@@ -130,13 +129,88 @@ function openMap(name,addr){
 }
 function closeMap(){document.getElementById('mapModal').classList.remove('open');}
 
-const FOLDER='taiwan';
-const CITIES=[{"city": "Taipei", "region": "Taiwan", "entries": [{"n": "Sinchao Rice Shoppe", "q": "Taiwanesa Contemporânea", "a": "2F, Breeze Xinyi, 68, Sec. 5, Zhongxiao East Rd, Xinyi District, Taipei", "p": "+886 2 2723 9976", "pr": 2, "m": "bib", "note": "Bib Gourmand Michelin", "d": "Bib Gourmand Michelin no Breeze Xinyi, junto ao Taipei 101. O nome é homófono de arroz frito novo — a especialidade da casa. Arroz frito de ovas de tainha com vieiras grelhadas, arroz frito de wagyu com trufa e frango frito crocante são os pratos de eleição. Decoração inspirada nos diners da Chinatown americana dos anos 20."}, {"n": "Ya Ge", "q": "Cantonesa de Alta Cozinha", "a": "3F, Mandarin Oriental Taipei, 158 Dunhua North Rd, Songshan District, Taipei", "p": "+886 2 2715 6788", "pr": 4, "m": "m1", "h": true, "note": "1 Estrela Michelin · 8º ano consecutivo · Mandarin Oriental", "d": "Uma Estrela Michelin pelo oitavo ano consecutivo no Mandarin Oriental Taipei. Cozinha cantonesa de grande precisão — abalone australiano com patinha de ganso, dim sum de excelência ao almoço e o menu de caranguejo peludo no outono. O Hong Kong head chef conduz um dos restaurantes mais refinados de Taiwan."}, {"n": "Hutong Yakiniku", "q": "Yakiniku · Wagyu", "a": "No. 17, Lane 161, Sec. 1, Dunhua South Rd, Da'an District, Taipei", "p": "+886 2 2776 1575", "pr": 3, "note": "Um dos 4 maiores yakiniku de Taipei", "d": "Uma das quatro grandes casas de yakiniku de Taipei, com várias sucursais na cidade. Wagyu japonês A5, língua de vaca, barriga de Ibérico e marisco fresco grelhados na mesa por um staff que cuida da cozedura para o cliente. Reserva com antecedência obrigatória."}, {"n": "Ningxia Night Market", "q": "Mercado Noturno · Street Food", "a": "Ningxia Road, Datong District, Taipei", "p": "", "pr": 1, "note": "O melhor night market de Taipei", "d": "O mercado noturno mais famoso e autêntico de Taipei, com mais de 200 bancas de street food numa rua histórica do centro da cidade. Oyster vermicelli, taro balls, scallion pancakes, pork ribs soup e os melhores snacks taiwaneses da capital — sem a multidão excessiva dos mercados mais turísticos."}]}, {"city": "Jiufen", "region": "Jiufen", "entries": [{"n": "Jiufen Old Street", "q": "Rua Histórica · Street Food", "a": "Jishan Street, Jiufen, New Taipei City", "p": "", "pr": 1, "note": "A aldeia que inspirou o Spirited Away", "d": "A rua mais fotogénica da Ásia, considerada a inspiração de Miyazaki para A Viagem de Chihiro. Lanternas vermelhas, escadarias de pedra sobre o mar, lojas de taro balls, fish balls e chá oolong em casas de chá históricas com vista para a baía de Keelung. Uma visita ao anoitecer é obrigatória em Taiwan."}]}];
+const FOLDER='tailandia';
+const CITIES=[
+  {
+    "city": "Bangkok — Restaurantes",
+    "region": "Bangkok",
+    "entries": [
+      {
+        "n": "Baan Kook Kai",
+        "q": "Tailandesa · Street Food",
+        "a": "32 Soi Chula 3, Wang Mai, Pathum Wan, Bangkok",
+        "pr": 1,
+        "note": "Banthat Thong",
+        "d": "Pequena casa de street food na badalada Banthat Thong, conhecida pelo Tom Yum Goong com mama (noodles instantâneos) e o porco crocante. Servida com a simplicidade de um tasca de bairro num dos endereços mais cultuados de Bangkok. Filas habituais à noite."
+      },
+      {
+        "n": "Luk Kai Thong",
+        "q": "Tailandesa Real",
+        "a": "6.º andar, ICONSIAM, 299 Charoen Nakhon Rd, Khlong San, Bangkok",
+        "p": "+66 2 288 0955",
+        "pr": 3,
+        "d": "Royal Thai Cuisine com mais de 35 anos de tradição. No espetacular ICONSIAM, com vista para o rio Chao Phraya. Curry de caranguejo, gambas em pasta amarela e os pratos requintados que historicamente eram servidos na corte real do Sião."
+      },
+      {
+        "n": "Gyukatsu Kyoto Katsugyu",
+        "q": "Japonesa · Gyukatsu",
+        "a": "2.º andar, Siam Center, 979 Rama I Rd, Pathum Wan, Bangkok",
+        "pr": 2,
+        "d": "Filial em Bangkok da cadeia de Kyoto especializada em gyukatsu — o bife empanado japonês. Cada cliente termina o cozimento da carne na pedra quente da mesa, no ponto desejado. Apenas 16 lugares no Siam Center, filas inevitáveis."
+      },
+      {
+        "n": "Café DIOR by Mauro Colagreco",
+        "q": "Pâtisserie · Café",
+        "a": "Dior Gold House, 1029 Ploenchit Rd, Lumphini, Pathum Wan, Bangkok",
+        "pr": 4,
+        "note": "Chef Mauro Colagreco · Reserva obrigatória",
+        "d": "Café-conceito da Maison Dior assinado pelo chef Mauro Colagreco — três Estrelas Michelin no Mirazur, em Menton. Sobremesas inspiradas na natureza e nos códigos da casa, num espaço dourado deslumbrante. Reserva obrigatória, sessão de 1h30."
+      },
+      {
+        "n": "Akara Sky Hanuman",
+        "q": "Rooftop · Cocktails Tailandeses",
+        "a": "Pisos 58-61, One City Centre, Phloen Chit Rd, Lumphini, Pathum Wan, Bangkok",
+        "pr": 3,
+        "note": "Mínimo 500฿ · Show cultural às 21h",
+        "d": "Rooftop tailandês nos pisos 58 a 61 da torre One City Centre. Estátua gigante de Hanuman com bar dentro da boca, vistas 360° da cidade, cocktails de craft tailandês e show cultural noturno. Uma das experiências mais teatrais de Bangkok."
+      }
+    ]
+  },
+  {
+    "city": "Bangkok — Mercados & Street Food",
+    "region": "Bangkok",
+    "entries": [
+      {
+        "n": "Banthat Thong Road",
+        "q": "Street Food · Multinacional",
+        "a": "Banthat Thong Rd, Wang Mai, Pathum Wan, Bangkok",
+        "pr": 1,
+        "note": "14.ª melhor rua do mundo (Time Out)",
+        "d": "A rua de comida mais quente de Bangkok dos últimos anos. Junto à Universidade Chulalongkorn, ganhou nova vida com restaurantes de noodles, ramen, BBQ coreano, dim sum e doces tailandeses. Anima-se das 18h até depois da meia-noite. Bamee Jae Aun, June Pang e Black Me O Boat Noodles entre as paragens obrigatórias."
+      },
+      {
+        "n": "Sook Siam",
+        "q": "Food Hall · Street Food",
+        "a": "Piso G, ICONSIAM, 299 Charoen Nakhon Rd, Khlong San, Bangkok",
+        "pr": 1,
+        "d": "Mercado flutuante coberto no piso térreo do ICONSIAM, recriação da cultura culinária das 77 províncias da Tailândia. Sete zonas temáticas, mais de 3000 negócios locais, todas as regiões representadas — do isan picante ao pad thai do sul. Street food sem sair do ar condicionado."
+      }
+    ]
+  }
+];
 
-const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin',beach:'Beach Club'};
-function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin'};
+function slug(n){return n.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
-function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
+function emoji(q){
+  if(!q) return '🍽';
+  if(q.includes('Café')||q.includes('Pâtisserie')) return '☕';
+  if(q.includes('Rooftop')||q.includes('Cocktails')) return '🍹';
+  if(q.includes('Food Hall')||q.includes('Mercado')||q.includes('Street Food')) return '🛒';
+  if(q.includes('Japonesa')||q.includes('Gyukatsu')||q.includes('Sushi')) return '🍣';
+  if(q.includes('Tailandesa')||q.includes('Real')) return '🍜';
+  return '🍽';
+}
 
 const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
 document.getElementById('filters').innerHTML='<span class="filter-lbl">Região:</span>'+
@@ -161,7 +235,7 @@ function render(){
     cities.forEach(({city,entries,folder})=>{
       const f=folder||FOLDER;
       const sec=document.createElement('div');sec.className='city-sec';
-      sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div></div></div><div class="restaurants-grid"></div>`;
+      sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">${city.includes('Mercado')||city.includes('Street')?'lugar'+(entries.length!==1?'es':''):'restaurante'+(entries.length!==1?'s':'')}</div></div></div><div class="restaurants-grid"></div>`;
       main.appendChild(sec);
       const grid=sec.querySelector('.restaurants-grid');
       entries.forEach(r=>{
@@ -173,7 +247,7 @@ function render(){
         const contact=(addrHtml||phoneHtml)?`<div class="card-contact">${addrHtml}${phoneHtml}</div>`:'';
         const em=emoji(r.q||'');
         const badges=(r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
-                     (r.h?'<span class="badge">Hospedagem</span>':'')+(r.beach?'<span class="badge">Beach Club</span>':'');
+                     (r.h?'<span class="badge">Hospedagem</span>':'');
         card.innerHTML=`<div class="card-photo-wrap"><img class="card-photo" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\'>${em}</div>'"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc">${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}</div>`;
         grid.appendChild(card);
       });
