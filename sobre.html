@@ -56,14 +56,14 @@ body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-seri
 .stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px}
 
 /* DISTINÇÕES */
-.distinctions-title{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.distinctions-title{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:18px;display:flex;align-items:center;gap:12px}
 .distinctions-title::after{content:'';flex:1;height:1px;background:var(--border)}
-.distinction-list{display:flex;flex-direction:column;gap:12px}
-.distinction{display:flex;align-items:flex-start;gap:16px;padding:16px 20px;background:var(--white);border:1px solid var(--border);border-left:3px solid var(--gold-lt)}
-.distinction-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);opacity:.3;line-height:1;flex-shrink:0;width:28px}
-.distinction-info{}
-.distinction-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:400;color:var(--ink);line-height:1.3}
-.distinction-country{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-xs);margin-top:3px}
+.distinction-list{list-style:none;padding:0;margin:0}
+.distinction-list li{display:flex;align-items:baseline;gap:14px;padding:10px 0;border-bottom:1px solid var(--border)}
+.distinction-list li:last-child{border-bottom:none}
+.distinction-num{font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);font-weight:500;flex-shrink:0;width:22px}
+.distinction-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:400;color:var(--ink);line-height:1.3;flex:1}
+.distinction-country{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-xs);font-family:'Montserrat',sans-serif;flex-shrink:0;text-align:right}
 
 /* QUOTE */
 .quote-section{background:var(--gold-bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:56px 48px;text-align:center;max-width:100%}
@@ -104,64 +104,53 @@ footer a{color:var(--gold);text-decoration:none}
 
       <div class="bio">
         <p>Natural de Recife, Pernambuco, Luli Dias é empresário brasileiro de terceira geração de uma família portuguesa com raízes profundas no comércio — e na boa mesa. Cresceu num ambiente em que a gastronomia faz parte do quotidiano: a família respira comida, vinho e hospitalidade desde sempre.</p>
-        <p>Após estudar na Alemanha, regressou ao Brasil em 1996 e associou-se ao seu tio, Licínio Dias Ferreira Filho, na distribuição e desenvolvimento de marcas importadas. Em 2005, aos 25 anos, mudou-se para São Paulo e integrou a Épice Wine & Spirits, empresa familiar em parceria com Nivaldo Oliveira — hoje uma das dez maiores importadoras de vinhos do Brasil, com um portfólio criteriosamente selecionado que inclui algumas das mais prestigiadas etiquetas do mundo.</p>
-        <p>Ao longo dos anos, construiu amizades com chefs de referência em vários países e tornou-se um reconhecido entusiasta do mundo do vinho, acumulando seis das mais prestigiadas distinções vínicas internacionais. É também avaliador de cabine premium de voos de longa distância da revista Aero Magazine, a maior revista de aviação da América Latina. Realiza em média oito viagens internacionais por ano, já conheceu quase 50 países e tem como maior passatempo cozinhar.</p>
+        <p>Após estudar na Alemanha, regressou ao Brasil em 1996 e associou-se ao seu tio, Licínio Dias Ferreira Filho, na distribuição e desenvolvimento de marcas importadas. Em 2005, aos 25 anos, mudou-se para São Paulo e integrou a Épice Wine &amp; Spirits, empresa familiar em parceria com Nivaldo Oliveira — hoje uma das dez maiores importadoras de vinhos do Brasil, com um portfólio criteriosamente selecionado que inclui algumas das mais prestigiadas etiquetas do mundo.</p>
+        <p>Ao longo dos anos, construiu amizades com chefs de referência em vários países e tornou-se um reconhecido entusiasta do mundo do vinho, acumulando seis das mais prestigiadas distinções vínicas internacionais. É também avaliador de cabine premium de voos de longa distância da revista Aero Magazine, a maior revista de aviação da América Latina. Realiza em média 40 viagens por ano — entre Brasil e exterior, dessas oito internacionais —, já conheceu quase 50 países e tem como maior passatempo cozinhar.</p>
+        <p><strong style="font-weight:500;color:var(--ink)">Este guia nasce de um princípio simples: independência.</strong> Luli não aceita convites de restaurantes nem refeições oferecidas. Cada conta é paga do próprio bolso — garantia de que cada recomendação reflete exclusivamente a sua opinião pessoal, sem compromissos, troca ou favores. Os restaurantes aqui listados não são todos os que visitou. São apenas aqueles que, na sua avaliação, considera realmente bons o suficiente para indicar.</p>
         <p>Este guia é o resultado natural de uma vida inteira vivida entre grandes mesas, vinhas inesquecíveis e a convicção de que uma boa refeição é sempre muito mais do que comer.</p>
       </div>
 
       <!-- STATS -->
       <div class="stats">
         <div class="stat"><div class="stat-num">50</div><div class="stat-lbl">Países Visitados</div></div>
-        <div class="stat"><div class="stat-num">350+</div><div class="stat-lbl">Restaurantes</div></div>
-        <div class="stat"><div class="stat-num">8</div><div class="stat-lbl">Viagens/Ano</div></div>
+        <div class="stat"><div class="stat-num">734</div><div class="stat-lbl">Restaurantes</div></div>
+        <div class="stat"><div class="stat-num">40</div><div class="stat-lbl">Viagens/Ano</div></div>
       </div>
 
       <!-- DISTINÇÕES -->
       <div class="distinctions-title">Distinções Vínicas</div>
-      <div class="distinction-list">
-        <div class="distinction">
-          <div class="distinction-num">1</div>
-          <div class="distinction-info">
-            <div class="distinction-name">Cavaleiro do Vinho do Porto</div>
-            <div class="distinction-country">Portugal</div>
-          </div>
-        </div>
-        <div class="distinction">
-          <div class="distinction-num">2</div>
-          <div class="distinction-info">
-            <div class="distinction-name">Commandeur de Bordeaux</div>
-            <div class="distinction-country">França · Bordeaux</div>
-          </div>
-        </div>
-        <div class="distinction">
-          <div class="distinction-num">3</div>
-          <div class="distinction-info">
-            <div class="distinction-name">Mestre da Commanderie de Bordeaux</div>
-            <div class="distinction-country">Brasil · São Paulo</div>
-          </div>
-        </div>
-        <div class="distinction">
-          <div class="distinction-num">4</div>
-          <div class="distinction-info">
-            <div class="distinction-name">Hospitaliers de Pomerol</div>
-            <div class="distinction-country">França · Pomerol</div>
-          </div>
-        </div>
-        <div class="distinction">
-          <div class="distinction-num">5</div>
-          <div class="distinction-info">
-            <div class="distinction-name">Commandeur du Bontemps</div>
-            <div class="distinction-country">França · Médoc & Sauternes</div>
-          </div>
-        </div>
-        <div class="distinction">
-          <div class="distinction-num">6</div>
-          <div class="distinction-info">
-            <div class="distinction-name">Jurade de Saint-Émilion</div>
-            <div class="distinction-country">França · Saint-Émilion</div>
-          </div>
-        </div>
-      </div>
+      <ul class="distinction-list">
+        <li>
+          <span class="distinction-num">01</span>
+          <span class="distinction-name">Cavaleiro do Vinho do Porto</span>
+          <span class="distinction-country">Portugal</span>
+        </li>
+        <li>
+          <span class="distinction-num">02</span>
+          <span class="distinction-name">Commandeur de Bordeaux</span>
+          <span class="distinction-country">França · Bordeaux</span>
+        </li>
+        <li>
+          <span class="distinction-num">03</span>
+          <span class="distinction-name">Mestre da Commanderie de Bordeaux</span>
+          <span class="distinction-country">Brasil · São Paulo</span>
+        </li>
+        <li>
+          <span class="distinction-num">04</span>
+          <span class="distinction-name">Hospitaliers de Pomerol</span>
+          <span class="distinction-country">França · Pomerol</span>
+        </li>
+        <li>
+          <span class="distinction-num">05</span>
+          <span class="distinction-name">Commandeur du Bontemps</span>
+          <span class="distinction-country">França · Médoc &amp; Sauternes</span>
+        </li>
+        <li>
+          <span class="distinction-num">06</span>
+          <span class="distinction-name">Jurade de Saint-Émilion</span>
+          <span class="distinction-country">França · Saint-Émilion</span>
+        </li>
+      </ul>
 
     </div>
   </div>
