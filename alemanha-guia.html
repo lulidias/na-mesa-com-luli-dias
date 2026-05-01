@@ -194,13 +194,8 @@ function render(){
 }
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"alemanha/im-schiffchen":{"name":"Im Schiffchen","address":"Kaiserswerther Markt 9, Düsseldorf","country":"alemanha","lat":51.3014048,"lng":6.7338438},"alemanha/nagaya":{"name":"Nagaya","address":"Klosterstr. 42, Düsseldorf","country":"alemanha","lat":51.2254599,"lng":6.7861064},"alemanha/brauerei-zum-uerige":{"name":"Brauerei Zum Uerige","address":"Berger Str. 1, Düsseldorf","country":"alemanha","lat":51.2249806,"lng":6.7721837},"alemanha/weinhaus-tante-anna":{"name":"Weinhaus Tante Anna","address":"Andreasstr. 2, Düsseldorf","country":"alemanha","lat":51.2271036,"lng":6.7736671},"alemanha/phoenix":{"name":"Phoenix","address":"Kasernenstr. 6, Düsseldorf","country":"alemanha","lat":51.2246713,"lng":6.7759602},"alemanha/adolf-wagner":{"name":"Adolf Wagner","address":"Schweizer Str. 71, Frankfurt","country":"alemanha","lat":50.1005311,"lng":8.6820009},"alemanha/lohninger":{"name":"Lohninger","address":"Schweizer Str. 1, Frankfurt","country":"alemanha","lat":50.1052877,"lng":8.6781582},"alemanha/metropol":{"name":"Metropol","address":"Weckmarkt 13-15, Frankfurt","country":"alemanha","lat":50.1101513,"lng":8.6855997},"alemanha/hanse-stube":{"name":"Hanse Stube","address":"Trankgasse 1-5, Köln","country":"alemanha","lat":50.9421706,"lng":6.9563483},"alemanha/burgerspital-weinstube":{"name":"Bürgerspital Weinstube","address":"Theaterstr. 19, Würzburg","country":"alemanha","lat":49.795385,"lng":9.9356203},"alemanha/ratskeller":{"name":"Ratskeller","address":"Langgasse 1, Würzburg","country":"alemanha","lat":49.7933721,"lng":9.9284864}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -217,9 +212,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

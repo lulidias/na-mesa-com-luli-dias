@@ -194,13 +194,8 @@ function render(){
 }
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"turquia/bal-kc-sabahattin":{"name":"Balıkçı Sabahattin","address":"Cankurtaran Mah., Istambul","country":"turquia","lat":41.0040456,"lng":28.9820351},"turquia/barbun":{"name":"Barbun","address":"Bodrum","country":"turquia","lat":37.0343987,"lng":27.430651},"turquia/baykus":{"name":"Baykus","address":"Gümbet, Bodrum","country":"turquia","lat":37.0331908,"lng":27.4049706},"turquia/gemibas":{"name":"Gemibası","address":"Bodrum","country":"turquia","lat":37.0359311,"lng":27.4230874},"turquia/kefi":{"name":"Kefi","address":"Bodrum","country":"turquia","lat":37.0343987,"lng":27.430651},"turquia/limon":{"name":"Limon","address":"Bodrum","country":"turquia","lat":37.059411,"lng":27.2362635},"turquia/oasis-beach-club":{"name":"Oasis Beach Club","address":"Bodrum","country":"turquia","lat":37.0343987,"lng":27.430651},"turquia/sak-z":{"name":"Sakız","address":"Bodrum","country":"turquia","lat":37.0343987,"lng":27.430651},"turquia/kona":{"name":"Kona","address":"Bodrum","country":"turquia","lat":37.0343987,"lng":27.430651}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -217,9 +212,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

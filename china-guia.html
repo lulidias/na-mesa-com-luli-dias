@@ -207,13 +207,8 @@ function render(){
 }
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"china/kanpai-classic":{"name":"Kanpai Classic","address":"Xangai","country":"china","lat":31.2312707,"lng":121.4700152},"china/king":{"name":"King","address":"L+ Mall, Xangai","country":"china","lat":31.233158,"lng":121.5112152},"china/polux":{"name":"Polux","address":"Xangai","country":"china","lat":31.223215,"lng":121.4706557}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -230,9 +225,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

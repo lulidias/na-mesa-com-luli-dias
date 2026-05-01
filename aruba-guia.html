@@ -204,6 +204,7 @@ function openMap(name,addr){
 function closeMap(){document.getElementById('mapModal').classList.remove('open');}
 
 // m: michelin badge, h: tem hospedagem, pr: preço 1-4
+const FOLDER='aruba';
 const CITIES=[
   {city:"Eagle Beach",region:"Aruba",entries:[
     {n:"Passions on the Beach",q:"Caribenha · Frutos do Mar · Beach Club",a:"J.E. Irausquin Boulevard 252 — Amsterdam Manor Beach Resort, Eagle Beach, Aruba",p:"+297 527-1118",pr:3,note:"🏖 Toes-in-the-Sand · Amsterdam Manor Beach Resort · Relais & Châteaux",d:"A experiência gastronómica mais romântica de Aruba — jantar com os pés na areia branca da Eagle Beach, ao som do Caribe e à luz de tochas tiki. O restaurante do Amsterdam Manor Beach Resort (Relais & Châteaux) serve cozinha caribenha contemporânea com frutos do mar frescos, menus de degustação ao pôr do sol e aquela magia única de comer à beira-mar numa das praias mais belas do mundo. Disponível para pequeno-almoço, almoço e jantar."}
@@ -301,13 +302,8 @@ function render(){
 
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -324,9 +320,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

@@ -190,6 +190,7 @@ footer a{color:var(--gold);text-decoration:none}
 <div id="map" style="display:none"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
+const FOLDER='irlanda';
 const CITIES=[
   {city:"Dublin",region:"Irlanda",entries:[
     {n:"Big Fan Bao",q:"Asiática · Fusion",a:"South Anne Street, Dublin 2",p:"+353 1 675 3708",pr:2,d:"Fusion criativa sino-japonesa no coração de Dublin — bao buns estaladiços com recheios inspirados nas cozinhas da China e do Japão."},
@@ -274,13 +275,8 @@ function render(){
 
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"irlanda/big-fan-bao":{"name":"Big Fan Bao","address":"South Anne Street, Dublin 2","country":"irlanda","lat":53.3410452,"lng":-6.25891},"irlanda/la-gordita":{"name":"La Gordita","address":"1 Bath Avenue, Dublin 4","country":"irlanda","lat":53.3375324,"lng":-6.2306815},"irlanda/mcdaids":{"name":"McDaids","address":"3 Harry Street, Dublin 2","country":"irlanda","lat":53.3412245,"lng":-6.2610034},"irlanda/merchants-arch":{"name":"Merchants Arch","address":"49 Wellington Quay, Temple Bar, Dublin 2","country":"irlanda","lat":53.3459431,"lng":-6.2628187},"irlanda/pi-temple-bar":{"name":"PI Temple Bar","address":"73-83 Dame Street, Dublin 2","country":"irlanda","lat":53.3441756,"lng":-6.2653727},"irlanda/pichet":{"name":"Pichet","address":"14-15 Trinity Street, Dublin 2","country":"irlanda","lat":53.3438588,"lng":-6.2621329},"irlanda/searsons":{"name":"Searsons","address":"42 Upper Baggot Street, Dublin 4","country":"irlanda","lat":53.3333278,"lng":-6.2429012},"irlanda/the-brazen-head":{"name":"The Brazen Head","address":"20 Lower Bridge Street, Dublin 8","country":"irlanda","lat":53.3449368,"lng":-6.2763108},"irlanda/the-duke":{"name":"The Duke","address":"9 Duke Street, Dublin 2","country":"irlanda","lat":53.3419649,"lng":-6.258728},"irlanda/p-j-o":{"name":"P.J. O","address":"Tholsel Street, Carlingford, Co. Louth","country":"irlanda","lat":54.040306,"lng":-6.1862623}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -297,9 +293,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

@@ -195,13 +195,8 @@ function render(){
 }
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"coreia/bom-pi-yang":{"name":"Bom Pi Yang","address":"Mapo-gu, Seul","country":"coreia","lat":37.566571,"lng":126.9015317},"coreia/han-ubang":{"name":"Han-ubang","address":"Gangnam-gu, Seul","country":"coreia","lat":37.5177,"lng":127.0473},"coreia/hwanggeummokjang-golden-farm":{"name":"Hwanggeummokjang — Golden Farm","address":"Seocho-gu, Seul","country":"coreia","lat":37.4835,"lng":127.0322},"coreia/ilpyeon-deungsim":{"name":"Ilpyeon Deungsim","address":"Hongik-ro 6-gil, Mapo-gu, Seul","country":"coreia","lat":37.5561301,"lng":126.9239469},"coreia/kyoyang-siksa":{"name":"Kyoyang Siksa","address":"Gangnam-gu, Seul","country":"coreia","lat":37.5177,"lng":127.0473},"coreia/samwon-garden":{"name":"Samwon Garden","address":"Gangnam, Seul","country":"coreia","lat":37.5249856,"lng":127.0324446},"coreia/wangbijip":{"name":"Wangbijip","address":"Myeongdong, Jung-gu, Seul","country":"coreia","lat":37.5608977,"lng":126.9863762},"coreia/woo-lae-oak":{"name":"Woo Lae Oak","address":"Seul","country":"coreia","lat":37.5680711,"lng":126.9987424},"coreia/food-avenue-lotte":{"name":"Food Avenue — Lotte","address":"Lotte Dept Store, 81 Namdaemun-ro, Jung-gu, Seul","country":"coreia","lat":37.5648557,"lng":126.9817065},"coreia/gwangjang-market":{"name":"Gwangjang Market","address":"Gwangjang Market, Jongno-gu, Seul","country":"coreia","lat":37.5697826,"lng":127.0006548},"coreia/myeongdong-night-market":{"name":"Myeongdong Night Market","address":"Myeongdong, Seul","country":"coreia","lat":37.5608977,"lng":126.9863762},"coreia/noryangjin-fish-market":{"name":"Noryangjin Fish Market","address":"Noryangjin, Seul","country":"coreia","lat":37.513453,"lng":126.9382027},"coreia/ilpum-hanwoo":{"name":"Ilpum Hanwoo","address":"Haeundae-gu, Busan","country":"coreia","lat":35.1629,"lng":129.1638},"coreia/haeundae-market":{"name":"Haeundae Market","address":"Haeundae, Busan","country":"coreia","lat":35.1615547,"lng":129.1624282},"coreia/dongmun-market":{"name":"Dongmun Market","address":"Jeju City","country":"coreia","lat":33.5120719,"lng":126.5264003}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -218,9 +213,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

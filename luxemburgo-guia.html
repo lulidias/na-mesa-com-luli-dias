@@ -203,13 +203,8 @@ function render(){
 }
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"luxemburgo/le-sud":{"name":"Le Sud","address":"16 Rue du Fort Bourbon, Luxemburgo","country":"luxemburgo","lat":49.6039667,"lng":6.1318292},"luxemburgo/bick-stuff":{"name":"Bick Stuff","address":"Luxemburgo Cidade","country":"luxemburgo","lat":-34.6551521,"lng":-58.5133288},"luxemburgo/le-bouquet-garni":{"name":"Le Bouquet Garni","address":"32 Rue de l","country":"luxemburgo","lat":49.611107,"lng":6.133779},"luxemburgo/de-feierwon":{"name":"De Feierwon","address":"Route de Thionville 48, Luxemburgo","country":"luxemburgo","lat":49.5931203,"lng":6.1392996},"luxemburgo/bazzar":{"name":"Bazzar","address":"Luxemburgo Cidade","country":"luxemburgo","lat":-34.6551521,"lng":-58.5133288}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -226,9 +221,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

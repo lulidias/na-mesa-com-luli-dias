@@ -194,13 +194,8 @@ function render(){
 }
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"holanda/brasserie-harkema":{"name":"Brasserie Harkema","address":"Nes 67, Amsterdã","country":"holanda","lat":52.3701184,"lng":4.8935454},"holanda/cafe-americain":{"name":"Café Americain","address":"Leidsekade 97, Amsterdã","country":"holanda","lat":52.3638288,"lng":4.8810205},"holanda/cafe-de-jaren":{"name":"Café de Jaren","address":"Nieuwe Doelenstraat 20, Amsterdã","country":"holanda","lat":52.3680595,"lng":4.8953468},"holanda/ciel-bleu":{"name":"Ciel Bleu","address":"Ferdinand Bolstraat 333, Amsterdã","country":"holanda","lat":52.3487287,"lng":4.894117},"holanda/de-kas":{"name":"De Kas","address":"Kamerlingh Onneslaan 3, Amsterdã","country":"holanda","lat":52.3522924,"lng":4.9305718},"holanda/rijks":{"name":"Rijks","address":"Museumstraat 2, Amsterdã","country":"holanda","lat":52.3595984,"lng":4.8842926},"holanda/tempo-doeloe":{"name":"Tempo Doeloe","address":"Utrechtsestraat 75, Amsterdã","country":"holanda","lat":52.3632827,"lng":4.8986443},"holanda/vinkeles":{"name":"Vinkeles","address":"Keizersgracht 384, Amsterdã","country":"holanda","lat":52.3692629,"lng":4.8834577}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -217,9 +212,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

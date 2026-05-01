@@ -194,13 +194,8 @@ function render(){
 }
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"italia/enoclub":{"name":"Enoclub","address":"Piazza Savona 4, Alba","country":"italia","lat":44.6967367,"lng":8.0338034},"italia/osteria-delle-aie":{"name":"Osteria delle Aie","address":"Treiso, Alba","country":"italia","lat":44.6810791,"lng":8.0764721},"italia/ostu-d":{"name":"Ostu d","address":"Monforte d","country":"italia","lat":39.0531482,"lng":-7.4389355},"italia/trattoria-della-posta":{"name":"Trattoria della Posta","address":"Frazione San Rocco Seno d","country":"italia","lat":44.6581752,"lng":8.0719629},"italia/savini-milano":{"name":"Savini Milano","address":"Galleria Vittorio Emanuele II, Milano","country":"italia","lat":45.465691,"lng":9.1904653},"italia/restaurant-byblos":{"name":"Restaurant Byblos","address":"Via Matteotti 3, Ospedaletti","country":"italia","lat":43.8007314,"lng":7.7206309},"italia/bagni-byblos":{"name":"Bagni Byblos","address":"Lungomare Cristoforo Colombo, Ospedaletti","country":"italia","lat":43.7970803,"lng":7.7309094},"italia/la-loggia-bistro":{"name":"La Loggia Bistro","address":"Via Leoncino 3, Verona","country":"italia","lat":45.4400103,"lng":10.9995684},"italia/la-taverna-di-via-stella":{"name":"La Taverna di Via Stella","address":"Via Stella 5C, Verona","country":"italia","lat":45.4417659,"lng":10.9989269},"italia/locanda-di-castelvecchio":{"name":"Locanda di Castelvecchio","address":"Corso Castelvecchio 21, Verona","country":"italia","lat":45.4390236,"lng":10.9874035},"italia/pescheria-i-masenini":{"name":"Pescheria I Masenini","address":"Piazza delle Erbe, Verona","country":"italia","lat":45.443059,"lng":10.9971729},"italia/trattoria-i-masenini":{"name":"Trattoria I Masenini","address":"Via Rosa 2, Verona","country":"italia","lat":45.4440118,"lng":10.9973944},"italia/vecio-macello":{"name":"Vecio Macello","address":"Via Pallone 29, Verona","country":"italia","lat":45.4365058,"lng":10.9963027},"italia/masi-tenuta-canova":{"name":"Masi Tenuta Canova","address":"Lazise, Lago di Garda","country":"italia","lat":45.4721382,"lng":10.749784},"italia/ristorante-da-oreste":{"name":"Ristorante da Oreste","address":"Lazise, Lago di Garda","country":"italia","lat":45.4721382,"lng":10.749784},"italia/osteria-francescana":{"name":"Osteria Francescana","address":"Via Stella 22, Modena","country":"italia","lat":44.6447968,"lng":10.9215627},"italia/golden-view":{"name":"Golden View","address":"Via dei Bardi 58, Firenze","country":"italia","lat":43.7675283,"lng":11.253012},"italia/la-giostra":{"name":"La Giostra","address":"Borgo Pinti 12R, Firenze","country":"italia","lat":43.7719944,"lng":11.2619946}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -217,9 +212,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

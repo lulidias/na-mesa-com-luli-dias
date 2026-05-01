@@ -220,13 +220,8 @@ function render(){
 }
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"peru/amaz":{"name":"Ámaz","address":"Av. La Paz 1079, Lima","country":"peru","lat":-12.1287093,"lng":-77.026562},"peru/astrid-y-gaston":{"name":"Astrid y Gastón","address":"Av. Paz Soldán 290, Lima","country":"peru","lat":-12.0964374,"lng":-77.0350797},"peru/central":{"name":"Central","address":"Av. Pedro de Osma 301, Barranco, Lima","country":"peru","lat":-12.1525709,"lng":-77.0225397},"peru/el-mercado":{"name":"El Mercado","address":"Hipólito Unanue 203, Lima","country":"peru","lat":-12.1113844,"lng":-77.0486571},"peru/la-mar":{"name":"La Mar","address":"Av. La Mar 770, Lima","country":"peru","lat":-12.1133902,"lng":-77.0453488},"peru/malabar":{"name":"Malabar","address":"Camino Real 101, Lima","country":"peru","lat":-12.0944489,"lng":-77.0348772},"peru/maido":{"name":"Maido","address":"Calle San Martín 399, Lima","country":"peru","lat":-12.1253878,"lng":-77.0306079},"peru/pescados-capitales":{"name":"Pescados Capitales","address":"Av. La Mar 1337, Lima","country":"peru","lat":-12.1094254,"lng":-77.0497113},"peru/tanta":{"name":"Tanta","address":"Pancho Fierro 117, Lima","country":"peru","lat":-12.0968653,"lng":-77.0351911},"peru/chicha-por-gaston-acurio":{"name":"Chicha por Gastón Acurio","address":"Plaza Regocijo 261, Cusco","country":"peru","lat":-13.5170437,"lng":-71.9801996},"peru/cicciolina":{"name":"Cicciolina","address":"Triunfo 393, Cusco","country":"peru","lat":-13.5161333,"lng":-71.9766661},"peru/map-cafe":{"name":"MAP Café","address":"Plazoleta Nazarenas 231, Cusco","country":"peru","lat":-13.5148865,"lng":-71.9775744},"peru/uchu-peruvian-steakhouse":{"name":"Uchu Peruvian Steakhouse","address":"Palacio 135, Cusco","country":"peru","lat":-13.5157923,"lng":-71.9767888}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -243,9 +238,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

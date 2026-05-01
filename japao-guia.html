@@ -195,13 +195,8 @@ function render(){
 }
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"japao/ariso-sushi":{"name":"Ariso Sushi","address":"Tokyo Station, 1-9-1 Marunouchi, Chiyoda-ku, Tóquio","country":"japao","lat":35.6828867,"lng":139.7653354},"japao/enoteca-ginza":{"name":"Enoteca Ginza","address":"6-8-7 Ginza, Chuo-ku, Tóquio","country":"japao","lat":35.6720135,"lng":139.7647202},"japao/iwasa-sushi":{"name":"Iwasa Sushi","address":"Toyosu Market, Tóquio","country":"japao","lat":35.6450521,"lng":139.7848504},"japao/shibuya-kebab":{"name":"Shibuya Kebab","address":"Shibuya, Tóquio","country":"japao","lat":35.6633709,"lng":139.6964952},"japao/sushizanmai":{"name":"Sushizanmai","address":"4-11-9 Tsukiji, Chuo-ku, Tóquio","country":"japao","lat":35.6661353,"lng":139.7707263},"japao/tsukiji-sushi-ichiban":{"name":"Tsukiji Sushi Ichiban","address":"4-9-1 Tsukiji, Chuo-ku, Tóquio","country":"japao","lat":35.6650914,"lng":139.7708281},"japao/yakiniku-nikosyo-furusato":{"name":"Yakiniku Nikosyo Furusato","address":"7-8-1 Ginza, Chuo-ku, Tóquio","country":"japao","lat":35.6720135,"lng":139.7647202},"japao/yakiniku-ushigoro":{"name":"Yakiniku Ushigoro","address":"7-9-15 Ginza, Chuo-ku, Tóquio","country":"japao","lat":35.668438,"lng":139.763386},"japao/azabudai-hills-market":{"name":"Azabudai Hills Market","address":"Azabudai Hills, Tóquio","country":"japao","lat":35.6614747,"lng":139.7408267},"japao/toyosu-market":{"name":"Toyosu Market","address":"Toyosu, Tóquio","country":"japao","lat":35.6450521,"lng":139.7848504},"japao/toyosu-senkyoku-banrai":{"name":"Toyosu Senkyoku Banrai","address":"6-5-1 Toyosu, Koto-ku, Tóquio","country":"japao","lat":35.6501423,"lng":139.7931179},"japao/tsukiji-market":{"name":"Tsukiji Market","address":"Tsukiji, Tóquio","country":"japao","lat":35.6653884,"lng":139.7704732},"japao/gyukatsu-kyoto-katsugyu":{"name":"Gyukatsu Kyoto Katsugyu","address":"Higashimuki Shopping Street, Nara-shi","country":"japao","lat":34.680319,"lng":135.8289938},"japao/uoya-sen":{"name":"Uoya Sen","address":"Pontochō, Nakagyo-ku, Kyoto","country":"japao","lat":35.0042456,"lng":135.7712126},"japao/ucchan-ya-ponto-cho":{"name":"Ucchan-ya Ponto-chō","address":"Pontochō 116, Nakagyo-ku, Kyoto","country":"japao","lat":35.0059797,"lng":135.7710884},"japao/nishiki-market":{"name":"Nishiki Market","address":"Kyoto","country":"japao","lat":35.0050244,"lng":135.7655699},"japao/gora-brewery-grill":{"name":"Gora Brewery & Grill","address":"Gora, Hakone","country":"japao","lat":35.2508461,"lng":139.0482584},"japao/kuromon-market":{"name":"Kuromon Market","address":"Kuromon, Osaka","country":"japao","lat":34.6661125,"lng":135.5069659},"japao/royal-mouriya":{"name":"Royal Mouriya","address":"2-1-17 Shimoyamatedori, Chuo-ku, Kobe","country":"japao","lat":34.6882197,"lng":135.1786029},"japao/china-town-nankinmachi":{"name":"China Town — Nankinmachi","address":"Nankinmachi, Kobe","country":"japao","lat":34.6881073,"lng":135.1883818},"japao/higashimuki-shopping-street":{"name":"Higashimuki Shopping Street","address":"Nara","country":"japao","lat":34.680319,"lng":135.8289938}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -218,9 +213,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

@@ -194,13 +194,8 @@ function render(){
 }
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"argentina/1884-francis-mallmann":{"name":"1884 — Francis Mallmann","address":"Belgrano 1188, Godoy Cruz, Mendoza","country":"argentina","lat":-32.9126043,"lng":-68.8425943},"argentina/chila":{"name":"Chila","address":"Av. Pedro de Mendoza 1160, Buenos Aires","country":"argentina","lat":-34.666103,"lng":-58.3699147},"argentina/don-julio":{"name":"Don Julio","address":"Guatemala 4699, Buenos Aires","country":"argentina","lat":-34.5862916,"lng":-58.4242774},"argentina/el-baqueano":{"name":"El Baqueano","address":"Chile 499, Buenos Aires","country":"argentina","lat":-34.6160118,"lng":-58.3730632},"argentina/el-preferido-de-palermo":{"name":"El Preferido de Palermo","address":"Jorge Luis Borges 2108, Buenos Aires","country":"argentina","lat":-34.5854427,"lng":-58.4253881},"argentina/gran-bar-danzon":{"name":"Gran Bar Danzón","address":"Libertad 1161, Buenos Aires","country":"argentina","lat":-34.5948934,"lng":-58.3843075},"argentina/happening":{"name":"Happening","address":"Av. Rafael Obligado 4999, Buenos Aires","country":"argentina","lat":-34.5438761,"lng":-58.4331609},"argentina/la-cabrera":{"name":"La Cabrera","address":"José Antonio Cabrera 5099, Buenos Aires","country":"argentina","lat":-34.589115,"lng":-58.433247},"argentina/la-mar":{"name":"La Mar","address":"Arévalo 2024, Buenos Aires","country":"argentina","lat":-34.5782689,"lng":-58.4375697},"argentina/proper":{"name":"Proper","address":"Thames 1850, Buenos Aires","country":"argentina","lat":-34.5863085,"lng":-58.4286498},"argentina/sucre":{"name":"Sucre","address":"Sucre 676, Buenos Aires","country":"argentina","lat":10.2014267,"lng":-63.8282968},"argentina/tegui":{"name":"Tegui","address":"Costa Rica 5852, Buenos Aires","country":"argentina","lat":-34.5807367,"lng":-58.4372383},"argentina/azafran":{"name":"Azafrán","address":"Sarmiento 765, Mendoza","country":"argentina","lat":-32.8887461,"lng":-68.8489577},"argentina/casa-vigil":{"name":"Casa Vigil","address":"Cochabamba 7676, Maipú","country":"argentina","lat":-17.4905937,"lng":-66.1764379},"argentina/cassis":{"name":"Cassis","address":"Av. Bustillo 11.900, Bariloche","country":"argentina","lat":-41.1286136,"lng":-71.3478356}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -217,9 +212,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

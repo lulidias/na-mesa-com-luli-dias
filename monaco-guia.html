@@ -205,6 +205,7 @@ function openMap(name,addr){
 function closeMap(){document.getElementById('mapModal').classList.remove('open');}
 
 // m: michelin badge, h: tem hospedagem, pr: preço 1-4
+const FOLDER='monaco';
 const CITIES=[
   {city:"Monte-Carlo",region:"Mónaco",entries:[
     {n:"Song Qi",q:"Chinesa · Fine Dining",a:"7 Avenue Princesse-Grace, 98000 Monaco",p:"+377 99 99 33 33",pr:4,m:"rec",note:"Guia Michelin · Único restaurante chinês gourmet do Principado",d:"O único restaurante chinês de alta gastronomia de Mónaco, criado em 2014 por Riccardo Giraudi e Alan Yau — o criador do lendário Hakkasan de Londres. Seleccionado pelo Guia Michelin, instalado em frente ao Grimaldi Forum na mais elegante avenida do Principado. Ambiente Art Déco dos anos 30 de Shanghai, desenhado pelos arquitectos Humbert & Poyet — mármore negro, veludo verde, latão e banquettes de seda. Pato de Pequim inteiro, dim sum artesanais, sopa de Pequim com frango fumado e camarões crocantes com mostarda chinesa. Eleito o 17º melhor restaurante do mundo pela Casa Vogue."}
@@ -302,13 +303,8 @@ function render(){
 
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"monaco/song-qi":{"name":"Song Qi","address":"7 Avenue Princesse-Grace, 98000 Monaco","country":"monaco","lat":43.7429445,"lng":7.4303855}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -325,9 +321,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

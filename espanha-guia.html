@@ -156,6 +156,7 @@ function openMap(name,addr){
 }
 function closeMap(){document.getElementById('mapModal').classList.remove('open');}
 
+const FOLDER='espanha';
 const CITIES=[
   // ── GALIZA ──────────────────────────────────────────
   {city:'Santiago de Compostela',region:'Galiza',entries:[
@@ -288,13 +289,8 @@ function render(){
 }
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"espanha/a-lareira":{"name":"A Lareira","address":"Rúa do Franco 28, Santiago de Compostela","country":"espanha","lat":42.8782576,"lng":-8.5454732},"espanha/a-noiesa":{"name":"A Noiesa","address":"Rúa de San Pedro 28, Santiago de Compostela","country":"espanha","lat":42.8814225,"lng":-8.5389535},"espanha/a-taberna-do-bispo":{"name":"A Taberna do Bispo","address":"Rúa do Franco 37, Santiago de Compostela","country":"espanha","lat":42.878093,"lng":-8.5453225},"espanha/terra-nosa":{"name":"Terra Nosa","address":"Rúa do Vilar 22, Santiago de Compostela","country":"espanha","lat":42.8790669,"lng":-8.5444212},"espanha/asador-paulo":{"name":"Asador Paulo","address":"Rías Baixas, Galiza","country":"espanha","lat":42.8819145,"lng":-8.5487998},"espanha/porto-dos-barcos":{"name":"Porto dos Barcos","address":"Rías Baixas, Galiza","country":"espanha","lat":42.8819145,"lng":-8.5487998},"espanha/matamales":{"name":"Matamales","address":"C. de la Pasión 13, Valladolid","country":"espanha","lat":41.6513518,"lng":-4.7299399},"espanha/restaurante-paramesa":{"name":"Restaurante Paramesa","address":"C. de la Pasión 2, Valladolid","country":"espanha","lat":41.6515673,"lng":-4.7294771},"espanha/bodega-el-capricho":{"name":"Bodega El Capricho","address":"C. La Iglesia, Jiménez de Jamuz, León","country":"espanha","lat":42.2654487,"lng":-5.928239},"espanha/beethoven":{"name":"Beethoven","address":"C. Santo Tomás 3, Haro","country":"espanha","lat":42.5775831,"lng":-2.8461202},"espanha/arzak":{"name":"Arzak","address":"Av. Alcalde José Elosegi 273, San Sebastián","country":"espanha","lat":43.3214757,"lng":-1.9492364},"espanha/elkano":{"name":"Elkano","address":"Herrerieta 2, Getaria","country":"espanha","lat":43.3029959,"lng":-2.2049858},"espanha/arzabal":{"name":"Arzábal","address":"Mercado de San Miguel, Pl. de San Miguel, Madrid","country":"espanha","lat":40.4153741,"lng":-3.7090151},"espanha/chambao":{"name":"Chambao","address":"C. de Bretón de los Herreros 56, Madrid","country":"espanha","lat":40.4392612,"lng":-3.6935701},"espanha/desde-1911":{"name":"Desde 1911","address":"C. de Arlabán 3, Madrid","country":"espanha","lat":40.41704,"lng":-3.6993792},"espanha/diverxo":{"name":"DiverXO","address":"C. del Padre Damián 23, Madrid","country":"espanha","lat":40.4577954,"lng":-3.6859491},"espanha/el-paraguas":{"name":"El Paraguas","address":"C. de Jorge Juan 16, Madrid","country":"espanha","lat":40.4237845,"lng":-3.6857694},"espanha/la-terraza-del-casino":{"name":"La Terraza del Casino","address":"C. de Alcalá 15, Madrid","country":"espanha","lat":40.4180586,"lng":-3.7004159},"espanha/los-huevos-de-lucio":{"name":"Los Huevos de Lucio","address":"C. de la Cava Baja 30, Madrid","country":"espanha","lat":40.4122758,"lng":-3.7095313},"espanha/meson-txistu":{"name":"Mesón Txistu","address":"Pl. del Ángel 8, Madrid","country":"espanha","lat":40.4143183,"lng":-3.7018737},"espanha/nakama":{"name":"Nakama","address":"C. de Zurbano 62, Madrid","country":"espanha","lat":40.4324329,"lng":-3.6933655},"espanha/rocacho":{"name":"Rocacho","address":"C. de Padilla 54, Madrid","country":"espanha","lat":40.43121,"lng":-3.6775738},"espanha/st-james":{"name":"St James","address":"C. de Serrano 213, Madrid","country":"espanha","lat":40.4279245,"lng":-3.6873778},"espanha/ten-con-ten":{"name":"Ten con Ten","address":"C. de Ayala 6, Madrid","country":"espanha","lat":40.4278553,"lng":-3.6884987},"espanha/7-portes":{"name":"7 Portes","address":"Pg. d\","country":"espanha","lat":41.3821717,"lng":2.1832472},"espanha/asador-de-aranda":{"name":"Asador de Aranda","address":"Av. del Tibidabo 31, Barcelona","country":"espanha","lat":41.4132968,"lng":2.1343348},"espanha/boca-chica":{"name":"Boca Chica","address":"Ptge. de la Concepció 12, Barcelona","country":"espanha","lat":41.3945282,"lng":2.159919},"espanha/boca-grande":{"name":"Boca Grande","address":"Ptge. de la Concepció 12, Barcelona","country":"espanha","lat":41.3945282,"lng":2.159919},"espanha/botafumeiro":{"name":"Botafumeiro","address":"C. Gran de Gràcia 81, Barcelona","country":"espanha","lat":41.4004038,"lng":2.1546391},"espanha/can-majo":{"name":"Can Majó","address":"C. de l\","country":"espanha","lat":43.6117137,"lng":3.8916455},"espanha/el-nacional":{"name":"El Nacional","address":"Pg. de Gràcia 24 Bis, Barcelona","country":"espanha","lat":41.3905227,"lng":2.1682552},"espanha/lomo-alto":{"name":"Lomo Alto","address":"C/ d\","country":"espanha","lat":40.6555099,"lng":-5.0182887},"espanha/takikarbi":{"name":"Takikarbi","address":"C/ de València 169, Barcelona","country":"espanha","lat":41.3886493,"lng":2.1574925},"espanha/torre-d":{"name":"Torre d\","address":"Pg. de Joan de Borbó 88, Barcelona","country":"espanha","lat":41.3731453,"lng":2.1879727},"espanha/windsor":{"name":"Windsor","address":"C/ de Còrsega 286, Barcelona","country":"espanha","lat":41.3945914,"lng":2.1572605}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -311,9 +307,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

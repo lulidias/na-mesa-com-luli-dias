@@ -190,6 +190,7 @@ footer a{color:var(--gold);text-decoration:none}
 <div id="map" style="display:none"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
+const FOLDER='irlanda-norte';
 const CITIES=[
   {city:"Belfast",region:"Irlanda do Norte",entries:[
     {n:"Home",q:"Irlandesa · Contemporânea",a:"22 Wellington Place, Belfast BT1 6GE",p:"+44 28 9023 4946",pr:3,d:"Um dos restaurantes mais aclamados de Belfast pelo chef Willie Jack. Cozinha irlandesa contemporânea com ingredientes locais de excelência."},
@@ -265,13 +266,8 @@ function render(){
 
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"irlanda-norte/home":{"name":"Home","address":"22 Wellington Place, Belfast BT1 6GE","country":"irlanda-norte","lat":54.5971951,"lng":-5.9324604},"irlanda-norte/james-st":{"name":"James St","address":"21 James Street South, Belfast BT2 7GA","country":"irlanda-norte","lat":54.595461,"lng":-5.9306408},"irlanda-norte/mr-deane":{"name":"Mr Deane","address":"34-40 Howard Street, Belfast BT1 6PF","country":"irlanda-norte","lat":54.5958533,"lng":-5.9333641}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -288,9 +284,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});

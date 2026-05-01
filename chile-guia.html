@@ -195,13 +195,8 @@ function render(){
 }
 render();
 
-let mapInstance=null,coordsCache=null;
-async function loadCoords(){
-  if(coordsCache)return coordsCache;
-  const r=await fetch('coords.json');
-  coordsCache=await r.json();
-  return coordsCache;
-}
+let mapInstance=null;
+const COORDS={"chile/baco":{"name":"Baco","address":"Nueva de Lyon 113, Santiago","country":"chile","lat":-33.4206449,"lng":-70.6103473},"chile/boca-nariz":{"name":"Boca Nariz","address":"José Victorino Lastarria 276, Santiago","country":"chile","lat":-33.4384452,"lng":-70.6413421},"chile/carnal":{"name":"Carnal","address":"Nueva Costanera 4107, Vitacura, Santiago","country":"chile","lat":-33.4065438,"lng":-70.5989251},"chile/d":{"name":"D","address":"Av. El Bosque Norte 0130, Las Condes, Santiago","country":"chile","lat":-33.4157666,"lng":-70.6008619},"chile/fukasawa":{"name":"Fukasawa","address":"Av. Isidora Goyenechea 3000, Las Condes, Santiago","country":"chile","lat":-33.4143437,"lng":-70.5945249},"chile/hotel-bidasoa-restaurante":{"name":"Hotel Bidasoa — Restaurante","address":"Av. Vitacura 2911, Santiago","country":"chile","lat":-33.4102775,"lng":-70.6022686},"chile/itchiban":{"name":"Itchiban","address":"Av. Isidora Goyenechea 3000, Las Condes, Santiago","country":"chile","lat":-33.4143437,"lng":-70.5945249},"chile/la-calma":{"name":"La Calma","address":"Av. Vitacura 3000, Vitacura, Santiago","country":"chile","lat":-33.3999249,"lng":-70.5909479},"chile/la-mar":{"name":"La Mar","address":"Constitución 111, Santiago","country":"chile","lat":37.5986051,"lng":-0.9727026},"chile/miraolas":{"name":"Miraolas","address":"Av. Nueva Costanera 4076, Vitacura, Santiago","country":"chile","lat":-33.3955644,"lng":-70.5977127},"chile/ox":{"name":"OX","address":"Av. Nueva Costanera 3960, Vitacura, Santiago","country":"chile","lat":-33.3977573,"lng":-70.5980966},"chile/pinpilinpausha":{"name":"Pinpilinpausha","address":"Av. Isidora Goyenechea 3456, Las Condes, Santiago","country":"chile","lat":-33.4143437,"lng":-70.5945249},"chile/donde-gilberto":{"name":"Donde Gilberto","address":"Av. Nueva Costanera 3960, Vitacura, Santiago","country":"chile","lat":-33.3977573,"lng":-70.5980966}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
@@ -218,9 +213,9 @@ function showView(mode){
     btnList.classList.add('active');btnMap.classList.remove('active');
   }
 }
-async function initMap(){
+function initMap(){
   if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
-  const coords=await loadCoords();
+  const coords=COORDS;
   mapInstance=L.map('map',{scrollWheelZoom:true});
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
   const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});
