@@ -153,7 +153,7 @@ footer a{color:var(--gold);text-decoration:none}
 </header>
 
 <div class="stats-bar">
-  <div class="stat"><div class="stat-num">180</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">183</div><div class="stat-lbl">Restaurantes</div></div>
   <div class="stat"><div class="stat-num">7</div><div class="stat-lbl">Cidades</div></div>
   <div class="stat"><div class="stat-num">20 ★</div><div class="stat-lbl">Michelin</div></div>
 </div>
@@ -408,8 +408,10 @@ const CITIES=[
   {city:"Vitória",region:"Espírito Santo",entries:[
     {"n":"Soeta","q":"Contemporânea de Autor","a":"R. Desembargador Sampaio 332, Praia do Canto, Vitória — ES","p":"+55 27 3026-4433","pr":4,"m":"rec","note":"Latin America's 50 Best Discovery · Chefs Bárbara Verzola e Pablo Pavón (El Bulli)","d":"Alta gastronomia capixaba pelos chefs Bárbara Verzola e Pablo Pavón, ambos com passagem pelo lendário El Bulli. Cozinha contemporânea de autor com produtos locais do litoral capixaba e técnica de classe internacional. Praia do Canto."},
     {"n":"Papaguth","q":"Capixaba · Frutos do Mar","a":"Av. Nossa Senhora dos Navegantes 700, Enseada do Suá, Vitória — ES","p":"+55 27 3315-1488","pr":3,"d":"Templo da cozinha capixaba pelo chef Júlio Lemos. Moqueca capixaba autêntica em panela de barro, frutos do mar do Atlântico e pratos regionais que celebram a tradição gastronómica do Espírito Santo. Praia do Suá."},
-    {"n":"Balthazar","q":"Contemporânea Refinada","a":"R. Elesbão Linhares 15, Shopping Day by Day, Praia do Canto, Vitória — ES","p":"+55 27 3325-3333","pr":3,"d":"Restaurante refinado na Praia do Canto com ambiente luxuoso e cozinha sofisticada. Antepastos elaborados, massas frescas, carnes nobres e clientela exigente. Uma das mesas mais elegantes de Vitória."}
-  ]},]iltersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
+    {"n":"Balthazar","q":"Contemporânea Refinada","a":"R. Elesbão Linhares 15, Shopping Day by Day, Praia do Canto, Vitória — ES","p":"+55 27 3325-3333","pr":3,"d":"Restaurante refinado na Praia do Canto com ambiente luxuoso e cozinha sofisticada. Antepastos elaborados, massas frescas, carnes nobres e clientela exigente. Uma das mesas mais elegantes de Vitória."},
+    {"n":"Moqueca do Geraldo","q":"Capixaba · Moqueca","a":"Manguinhos, Serra — ES","p":"+55 27 3243-1300","pr":2,"note":"Receita original há 70 anos · Desde 1957","d":"Templo da moqueca capixaba em Manguinhos com receita original que não mudou em quase sete décadas. Frente para o mar, panela de barro, peixes do dia da pesca local. Uma instituição da cozinha capixaba mantida pela família Geraldo desde 1957."},
+    {"n":"O Timoneiro","q":"Capixaba · Frutos do Mar","a":"R. Pedro Palácios 79, Prainha, Vila Velha — ES","p":"+55 27 3329-3637","pr":2,"d":"Em Vila Velha, junto ao Convento da Penha, uma das casas mais autênticas para a moqueca capixaba clássica. Camarões da costa capixaba, peixes do dia e o sabor genuíno do litoral do Espírito Santo."},
+    {"n":"Lareira Portuguesa","q":"Portuguesa","a":"Av. Saturnino de Brito 260, Vitória — ES","p":"+55 27 3325-7000","pr":2,"d":"Casa portuguesa em Vitória com cozinha tradicional e excelente carta de vinhos. Bacalhau à Brás, à Gomes de Sá, polvo à lagareiro e pasteis de nata num ambiente acolhedor que transporta a Portugal."}]},]iltersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
   cityList.map(c => `<button class="filter-btn${c==='Todas'?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
 
 let activeCity = 'Todas';
