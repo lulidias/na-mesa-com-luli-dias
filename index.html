@@ -76,9 +76,9 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 </header>
 <div class="global-stats">
   <div class="gstat"><div class="gstat-num">33</div><div class="gstat-lbl">Países</div></div>
-  <div class="gstat"><div class="gstat-num">723</div><div class="gstat-lbl">Restaurantes</div></div>
+  <div class="gstat"><div class="gstat-num">730</div><div class="gstat-lbl">Restaurantes</div></div>
   <div class="gstat"><div class="gstat-num">95 ★</div><div class="gstat-lbl">Estrelas Michelin</div></div>
-  <div class="gstat"><div class="gstat-num">6</div><div class="gstat-lbl">Continentes</div></div>
+  <div class="gstat"><div class="gstat-num">5</div><div class="gstat-lbl">Continentes</div></div>
 </div>
 <div class="cont-bar" id="contBar"></div>
 <main id="main"></main>
@@ -125,10 +125,13 @@ const REGIONS = [
     ]
   },
   {
-    name: 'América do Norte',
+    name: 'América do Norte, Central & Caribe',
     countries: [
       { name:'Estados Unidos', flag:'🇺🇸', region:'América do Norte', cities:'Miami · Nova Iorque', restaurants:9, michelin:1, file:'eua-guia.html', photo:'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800&h=500&fit=crop' },
-
+      { name:'Panamá', flag:'🇵🇦', region:'América Central', cities:'Cidade do Panamá', restaurants:2, michelin:0, file:'panama-guia.html', photo:'fotos/panama/cover.jpg' },
+      { name:'Curaçao', flag:'🇨🇼', region:'Caribe Holandês', cities:'Jan Thiel Baai', restaurants:1, michelin:0, file:'curacao-guia.html', photo:'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&h=500&fit=crop' },
+      { name:'Aruba', flag:'🇦🇼', region:'Caribe', cities:'Eagle Beach · Oranjestad', restaurants:1, michelin:0, file:'aruba-guia.html', photo:'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=500&fit=crop' },
+      { name:'Bonaire', flag:'🇧🇶', region:'Caribe Holandês', cities:'Kralendijk', restaurants:1, michelin:0, file:'bonaire-guia.html', photo:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=800&h=500&fit=crop' },
     ]
   },
   {
@@ -140,15 +143,6 @@ const REGIONS = [
       { name:'Uruguai', flag:'🇺🇾', region:'América do Sul', cities:'Montevidéu · Punta del Este · José Ignacio', restaurants:9, michelin:0, file:'uruguai-guia.html', photo:'fotos/uruguai/cover.jpg' },
       { name:'Chile', flag:'🇨🇱', region:'América do Sul', cities:'Santiago', restaurants:14, michelin:0, file:'chile-guia.html', photo:'fotos/chile/cover.jpg' },
       { name:'Colômbia', flag:'🇨🇴', region:'América do Sul', cities:'Cartagena', restaurants:2, michelin:0, file:'colombia-guia.html', photo:'fotos/colombia/cover.jpg' },
-    ]
-  },
-  {
-    name: 'América Central & Caribe',
-    countries: [
-      { name:'Panamá', flag:'🇵🇦', region:'América Central', cities:'Cidade do Panamá', restaurants:2, michelin:0, file:'panama-guia.html', photo:'fotos/panama/cover.jpg' },
-      { name:'Curaçao', flag:'🇨🇼', region:'Caribe Holandês', cities:'Jan Thiel Baai', restaurants:1, michelin:0, file:'curacao-guia.html', photo:'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&h=500&fit=crop' },
-      { name:'Aruba', flag:'🇦🇼', region:'Caribe', cities:'Eagle Beach · Oranjestad', restaurants:1, michelin:0, file:'aruba-guia.html', photo:'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=500&fit=crop' },
-      { name:'Bonaire', flag:'🇧🇶', region:'Caribe Holandês', cities:'Kralendijk', restaurants:1, michelin:0, file:'bonaire-guia.html', photo:'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=800&h=500&fit=crop' },
     ]
   }
 ];
