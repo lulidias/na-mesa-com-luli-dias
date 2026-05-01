@@ -5147,5 +5147,12 @@
     "lat": null,
     "lng": null,
     "failed": true
+  },
+  "croacia/kukuriku": {
+    "name": "Kukuriku",
+    "address": "Trg Matka Laginje 5, Kastav",
+    "country": "croacia",
+    "lat": 45.4593,
+    "lng": 14.3417
   }
 }

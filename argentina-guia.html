@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Argentina — Luli Dias · Restaurants &amp; Hotels</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-dk:#8B6914;--gold-bg:#FAF5EB;--border:#E8E0D5;--card-bg:#FFF;}
 html,body{height:100%}
@@ -36,6 +37,14 @@ header{background:var(--white);border-bottom:1px solid var(--border);padding:44p
 .filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
 .filter-btn:hover{border-color:var(--gold);color:var(--gold)}
 .filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.view-toggle{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end}
+.view-toggle-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:auto}
+.view-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 18px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.view-btn:hover{border-color:var(--gold);color:var(--gold)}
+.view-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+#map{height:70vh;width:100%;max-width:1400px;margin:24px auto;border-radius:4px;border:1px solid var(--border)}
+.leaflet-popup-content{margin:14px 18px;line-height:1.4}
+.leaflet-popup-content-wrapper{border-radius:6px}
 main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 .city-sec{margin-bottom:64px}
 .city-hdr{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:24px}
@@ -99,6 +108,11 @@ footer a{color:var(--gold);text-decoration:none}</style>
   <span class="lbadge">★★★ 3 Estrelas</span><span class="lbadge">★★ 2 Estrelas</span><span class="lbadge">★ 1 Estrela</span>
   <span class="lbadge">Bib Gourmand</span><span class="lbadge">Michelin</span><span class="lbadge">Hospedagem</span>
 </div>
+<div class="view-toggle">
+  <span class="view-toggle-lbl">Vista:</span>
+  <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
+  <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
+</div>
 <div class="filters" id="filters"></div>
 <div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
   <div class="map-sheet">
@@ -112,7 +126,9 @@ footer a{color:var(--gold);text-decoration:none}</style>
   </div>
 </div>
 <main id="main"></main>
+<div id="map" style="display:none"></div>
 <footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 
 function openMap(name,addr){
@@ -177,6 +193,59 @@ function render(){
   });
 }
 render();
+
+let mapInstance=null,coordsCache=null;
+async function loadCoords(){
+  if(coordsCache)return coordsCache;
+  const r=await fetch('coords.json');
+  coordsCache=await r.json();
+  return coordsCache;
+}
+function showView(mode){
+  const main=document.getElementById('main');
+  const map=document.getElementById('map');
+  const btnList=document.getElementById('btnList');
+  const btnMap=document.getElementById('btnMap');
+  if(mode==='map'){
+    main.style.display='none';
+    map.style.display='block';
+    btnMap.classList.add('active');btnList.classList.remove('active');
+    initMap();
+  }else{
+    main.style.display='';
+    map.style.display='none';
+    btnList.classList.add('active');btnMap.classList.remove('active');
+  }
+}
+async function initMap(){
+  if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
+  const coords=await loadCoords();
+  mapInstance=L.map('map',{scrollWheelZoom:true});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
+  const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});
+  const markers=[];
+  CITIES.forEach(city=>{
+    city.entries.forEach(r=>{
+      const key=`${FOLDER}/${slug(r.n)}`;
+      const c=coords[key];
+      if(c&&c.lat&&c.lng){
+        const m=L.marker([c.lat,c.lng],{icon:goldIcon}).addTo(mapInstance);
+        const phoneHtml=r.p?`<div style="font-size:11px;margin-top:4px"><a href="tel:${r.p.replace(/\s/g,'')}" style="color:#B8922A;text-decoration:none">${r.p}</a></div>`:'';
+        const priceStr=r.pr?'€'.repeat(r.pr):'';
+        m.bindPopup(`<div style="font-family:Montserrat,sans-serif;min-width:220px"><div style="font-family:'Playfair Display',serif;font-size:17px;color:#1A1A1A;margin-bottom:4px">${r.n}</div><div style="font-size:8px;letter-spacing:2px;color:#B8922A;text-transform:uppercase;font-weight:500;margin-bottom:6px">${r.q||''} ${priceStr?'· '+priceStr:''}</div><div style="font-size:11px;color:#5A5A5A;line-height:1.4">${r.a||''}</div>${phoneHtml}<div style="font-size:11px;margin-top:8px"><a href="javascript:void(0)" onclick="openMap('${r.n.replace(/'/g,"\\'")}','${(r.a||'').replace(/'/g,"\\'")}');document.querySelectorAll('.leaflet-popup-close-button').forEach(b=>b.click())" style="color:#B8922A;text-decoration:underline">Abrir em Maps →</a></div></div>`);
+        markers.push(m);
+      }
+    });
+  });
+  if(markers.length){
+    const group=L.featureGroup(markers);
+    mapInstance.fitBounds(group.getBounds().pad(0.15));
+  }else{
+    mapInstance.setView([0,0],2);
+  }
+  setTimeout(()=>mapInstance.invalidateSize(),100);
+}
+
 
 </script>
 </body>
