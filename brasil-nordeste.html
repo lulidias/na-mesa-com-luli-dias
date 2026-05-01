@@ -216,7 +216,7 @@ function closeMap(){document.getElementById('mapModal').classList.remove('open')
 // m: michelin badge, h: tem hospedagem, pr: preço 1-4
 const FOLDER='brasil';
 const CITIES=[
-  {city:"Fortaleza",region:"Nordeste — Ceará",entries:[
+  {city:"Fortaleza",region:"Ceará",entries:[
     {n:"Baco",q:"Wine Bar · Contemporânea",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:2,d:"Wine bar e restaurante com curadoria vinícola acima da média em Fortaleza. Carta de vinhos nacional e internacional com boa relação qualidade-preço, harmonizada com petiscos e pratos de cozinha contemporânea. O lugar certo para quem leva vinho a sério no Ceará."},
     {n:"Cabaña del Primo",q:"Argentina · Parrilla",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:2,d:"A melhor parrilla argentina de Fortaleza, com cortes nobres assados na brasa no ponto exacto. Entraña, chorizo, bife ancho e costela em ambiente descontraído com o calor e hospitalidade cearense. Para quem saudade de Buenos Aires."},
     {n:"Marcel",q:"Contemporânea · Autoral",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:3,d:"Um dos restaurantes mais sofisticados de Fortaleza, com cozinha autoral contemporânea que valoriza os ingredientes locais do Ceará com técnicas modernas. Cardápio que muda com as estações e uma carta de vinhos cuidadosamente seleccionada."},
@@ -226,12 +226,12 @@ const CITIES=[
     {n:"Ryori",q:"Japonesa · Sushi",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:2,d:"Referência da culinária japonesa em Fortaleza, com sushi e sashimi de qualidade num ambiente clean e sofisticado. Utiliza peixe fresco local e ingredientes importados do Japão para criar uma experiência autêntica no Nordeste."},
     {n:"Zio BS",q:"Italiana Autêntica",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:2,d:"Filial fortalezense da rede italiana Zio Cucina, com a mesma proposta de culinária italiana autêntica e envolvente que conquistou o Nordeste. Massas frescas artesanais, risottos cremosos e pratos clássicos num ambiente caloroso."}
   ]},
-  {city:"João Pessoa",region:"Nordeste — Paraíba",entries:[
+  {city:"João Pessoa",region:"Paraíba",entries:[
     {n:"Cassino da Lagoa",q:"Frutos do Mar · Regional",a:"João Pessoa — PB",p:"+55 83 3000-0000",pr:2,d:"À beira da Lagoa em João Pessoa, com frutos do mar frescos e culinária regional paraibana num ambiente de grande beleza natural. Um dos endereços mais românticos e pitorescos da capital paraibana."},
     {n:"Nonno Cucina",q:"Italiana",a:"João Pessoa — PB",p:"+55 83 3000-0000",pr:2,d:"Italiana acolhedora em João Pessoa com receitas inspiradas nas avós italianas e produtos artesanais. Massas frescas, molhos lentos e o ambiente familiar que caracteriza as melhores trattorias da Itália do sul."},
     {n:"Reserve Garden",q:"Contemporânea · Sofisticada",a:"João Pessoa — PB",p:"+55 83 3000-0000",pr:3,d:"O restaurante mais elegante de João Pessoa, com cozinha contemporânea sofisticada num ambiente jardim de grande beleza. Ingredientes locais da Paraíba tratados com técnica e cuidado num espaço que combina gastronomia e natureza."}
   ]},
-  {city:"Maceió",region:"Nordeste — Alagoas",entries:[
+  {city:"Maceió",region:"Alagoas",entries:[
     {n:"759 Parrilla",q:"Argentina · Carnes",a:"Maceió — AL",p:"+55 82 3000-0000",pr:2,d:"Parrilla argentina com os melhores cortes da capital alagoana. Ambiente descontraído e animado com toda a cultura do churrasco platino: empanadas, chimichurri e os clássicos cortes argentinos grelhados ao ponto exacto."},
     {n:"Akuaba",q:"Frutos do Mar",a:"Maceió — AL",p:"+55 82 3000-0000",pr:2,d:"Especialista em frutos do mar frescos da costa alagoana, com lagosta, camarão, lula, polvo e ostra numa culinária que celebra as riquezas do Mar do Caribe. Um dos endereços obrigatórios para quem visita Maceió."},
     {n:"Le Corbu",q:"Francesa",a:"Maceió — AL",p:"+55 82 3000-0000",pr:3,d:"O melhor restaurante francês de Alagoas, com uma cozinha elegante e técnica que traz o melhor da culinária clássica francesa ao Nordeste. Bistrô sofisticado com carta de vinhos franceses e serviço atencioso."},
@@ -240,11 +240,11 @@ const CITIES=[
     {n:"Veni!",q:"Carnes · Parrilla",a:"Maceió — AL",p:"+55 82 3000-0000",pr:2,d:"Parrilla alagoana com cortes premium e técnica apurada num ambiente descontraído. A melhor opção para carnes grelhadas em Maceió, com atmosfera animada e carta de vinhos argentinos e chilenos."},
     {n:"Wanchako",q:"Peruana · Nikkei",a:"Maceió — AL",p:"+55 82 3000-0000",pr:3,d:"O melhor restaurante peruano de Alagoas, com a cozinha nikkei que une Japão e Peru numa fusão sofisticada. Ceviche, tiradito, causas e os melhores piscos sours ao norte do Recife. Uma surpresa gastronómica em Maceió."}
   ]},
-  {city:"Natal",region:"Nordeste — Rio Grande do Norte",entries:[
+  {city:"Natal",region:"Rio Grande do Norte",entries:[
     {n:"Cardume",q:"Japonesa · Sushi",a:"Natal — RN",p:"+55 84 3000-0000",pr:2,d:"O melhor restaurante japonês do Rio Grande do Norte, com sushi e sashimi de qualidade utilizando peixes frescos da costa norte-riograndense. Ambiente clean e contemporâneo com serviço atencioso e boa carta de sakês."},
     {n:"Nau",q:"Frutos do Mar",a:"Natal — RN",p:"+55 84 3000-0000",pr:2,d:"Especialista em frutos do mar frescos da região, com lagosta, camarão e peixes da costa potiguar numa culinária que celebra as riquezas naturais do Rio Grande do Norte. Um dos endereços obrigatórios em Natal."}
   ]},
-  {city:"Recife",region:"Nordeste — Pernambuco",entries:[
+  {city:"Recife",region:"Pernambuco",entries:[
     {n:"Adega do Futuro",q:"Wine Bar · Carnes",a:"Rua do Futuro, 634 — Graças, Recife — PE",p:"+55 81 3426-0000",pr:3,d:"Uma verdadeira adega-restaurante no bairro das Graças com carta de vinhos impecável e cortes premium. Carta extensa de rótulos internacionais harmonizados com carnes nobres e petiscos sofisticados. Um dos endereços favoritos dos amantes de vinho em Recife."},
     {n:"Alphaiate",q:"Cervejaria · Grelhados",a:"Rua Artur Muniz, 82 — Boa Viagem, Recife — PE",p:"+55 81 9967-6-9786",pr:2,d:"Desde 1994, a primeira cervejaria especializada do Recife — uma brasserie pernambucana com cardápio eclético: petiscos, carnes, especialidades portuguesas e massas. Famosa pela carta de cervejas e de whiskys com preços acessíveis, já que o Grupo Dias é o importador. A varanda com vista para o jardim de Boa Viagem é o lugar mais disputado."},
     {n:"Bar do Luna",q:"Brasileira Regional",a:"Rua da Hora, 348 — Espinheiro, Recife — PE",p:"+55 81 3339-0012",pr:2,d:"Desde 1988, o Seu Luna é uma instituição da cozinha pernambucana em Recife. Comida de origem que não sai de moda: buchada, galinha ao molho pardo, carne de sol com macaxeira, mungunzá e bolo de rolo. Um refúgio de autenticidade nordestina no bairro do Espinheiro."},
@@ -266,7 +266,7 @@ const CITIES=[
     {n:"Voar",q:"Contemporânea · Autoral",a:"Rua Baltazar Pereira, 130 — Boa Viagem, Recife — PE",p:"+55 81 9967-3-7122",pr:3,d:"Talvez o restaurante mais bonito do Recife, com street art de qualidade nas paredes e salão moderno. O Chef Pedro Godoy pratica uma cozinha inventiva e surpreendente: arroz de pato com arroz vermelho, filé ao molho de uvas e Porto, carbonara de polvo. O menu muda constantemente — cada visita é uma nova descoberta."},
     {n:"Zio",q:"Italiana Autêntica",a:"Shopping RioMar — Av. República do Líbano, Pina, Recife — PE",p:"+55 81 3129-0000",pr:2,d:"Culinária italiana autêntica e envolvente no coração do Shopping RioMar. Massas frescas artesanais, molhos elaborados e ambiente acolhedor que transforma o jantar num pequeno ritual italiano. Com unidades também em Fortaleza, Belém e Teresina — nasceu no Nordeste e ficou."}
   ]},
-  {city:"Salvador",region:"Nordeste — Bahia",entries:[
+  {city:"Salvador",region:"Bahia",entries:[
     {n:"Lafayette",q:"Contemporânea · Autoral",a:"Salvador — BA",p:"+55 71 3000-0000",pr:3,d:"Um dos restaurantes mais sofisticados de Salvador, com cozinha contemporânea autoral que faz a ponte entre a tradição baiana e as técnicas modernas. Ingredientes locais num ambiente elegante que conquistou os mais exigentes da cidade."},
     {n:"Mistura",q:"Frutos do Mar",a:"Salvador — BA",p:"+55 71 3000-0000",pr:3,d:"Especialista em frutos do mar com os melhores espécimes da costa baiana: lagosta, camarão, caranguejo e muito mais. Preparações que respeitam a simplicidade e potencializam o sabor natural dos ingredientes frescos do Atlântico."},
     {n:"Ori",q:"Brasileira Contemporânea",a:"Salvador — BA",p:"+55 71 3000-0000",pr:3,d:"Restaurante que explora as raízes afro-brasileiras da culinária baiana com uma abordagem contemporânea e respeitosa. Dendê, azeite de oliva, pimenta e os sabores fundadores de Salvador numa proposta sofisticada e autêntica."},
@@ -290,7 +290,7 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.
 // City filter
 const cityList = ['Todas', 'Fortaleza', 'João Pessoa', 'Maceió', 'Natal', 'Recife', 'Salvador'];
 const filtersEl = document.getElementById('filters');
-filtersEl.innerHTML = '<span class="filter-lbl">Cidade:</span>' +
+filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
   cityList.map(c => `<button class="filter-btn${c==='Todas'?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
 
 let activeCity = 'Todas';
@@ -304,7 +304,7 @@ function setCity(c, btn) {
 function render(){
   const main=document.getElementById('main');
   main.innerHTML='';
-  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.city === activeCity);
+  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.region === activeCity);
 
   // Group by region
   const groups={};

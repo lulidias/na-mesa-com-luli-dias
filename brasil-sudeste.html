@@ -216,7 +216,7 @@ function closeMap(){document.getElementById('mapModal').classList.remove('open')
 // m: michelin badge, h: tem hospedagem, pr: preço 1-4
 const FOLDER='brasil';
 const CITIES=[
-  {city:"Belo Horizonte",region:"Sudeste — Minas Gerais",entries:[
+  {city:"Belo Horizonte",region:"Minas Gerais",entries:[
     {n:"Casa Piacere",q:"Italiana",a:"Rua Bernardo Guimarães, 577 — Funcionários, Belo Horizonte — MG",p:"+55 31 3000-0000",pr:3,d:"Ristorante italiano sofisticado no elegante bairro dos Funcionários em Belo Horizonte. Massas artesanais, risottos cremosos e uma selecção de vinhos italianos que fazem jus ao nome — Casa Piacere, a casa do prazer — num ambiente que reproduz o charme dos melhores ristoranti do norte de Itália."},
     {n:"D'Artagnan",q:"Bistrô Franco-Contemporâneo",a:"Rua Tomás Gonzaga, 593 — Lourdes, Belo Horizonte — MG",p:"+55 31 3295-7878",pr:3,d:"Bistrô de 20 anos em Lourdes, criado pelas irmãs Marise e Denise Rache em homenagem ao pai D'Artagnan. Cozinha clássica actualizada com ingredientes orgânicos, wine bar à entrada com adega à vista e jardim interior acolhedor. Membro da Associação dos Restaurantes da Boa Lembrança."},
     {n:"Geraldinho Conceito da Carne",q:"Carnes · Açougue Gourmet",a:"Rua Francisco Deslandes, 1038 — Anchieta, Belo Horizonte — MG",p:"+55 31 3223-6255",pr:3,d:"Eleito repetidamente Melhor Steakhouse de BH pela Veja e Encontro. Uma experiência única que combina açougue gourmet e restaurante: o próprio Geraldinho faz o carpaccio de Kobe beef na mesa. Tamboril, Wagyu e os melhores cortes do Brasil num ambiente rústico e elegante com música ao vivo."},
@@ -225,18 +225,18 @@ const CITIES=[
     {n:"Udon",q:"Japonesa Contemporânea",a:"Av. do Contorno, 7315 — Lourdes, Belo Horizonte — MG",p:"+55 31 3291-5050",pr:3,d:"Referência da culinária japonesa contemporânea em BH desde 2008, com o Chef Marcelo San e uma cozinha aberta onde os sushimen trabalham à vista. Foie gras brûlé, tempura de camarão ao molho de caipirinha e a robata grill são os destaques de um cardápio que vai além da tradição nipónica."},
     {n:"Xapuri",q:"Mineira Tradicional",a:"Rua Mandacarú, 260 — Trevo/Pampulha, Belo Horizonte — MG",p:"+55 31 3496-6198",pr:2,d:"Uma das maiores instituições da culinária mineira, fundada em 1987 pela visionária Dona Nelsa Trombino na Pampulha. Ambiente rústico de fazenda à beira da Lagoa da Pampulha com fogão de lenha, música de viola e sanfona. Frango ao molho pardo, picanha, feijão tropeiro e um buffet de doces com 30 variedades. Um programa completo para almoços de domingo."}
   ]},
-  {city:"Búzios",region:"Sudeste — Rio de Janeiro",entries:[
+  {city:"Búzios",region:"Rio de Janeiro",entries:[
     {n:"74 Restaurante",q:"Contemporânea · Romântica",a:"Búzios — RJ",p:"+55 22 3000-0000",pr:3,d:"Restaurante romântico e sofisticado em Búzios com cozinha contemporânea e uma das vistas mais bonitas da famosa cidade litorânea. Frutos do mar frescos e pratos criativos num ambiente intimista para os melhores jantares à beira do mar."},
     {n:"Rocka",q:"Beach Club · Contemporânea",a:"Búzios — RJ",p:"+55 22 3000-0000",pr:3,d:"O beach club mais badalado de Búzios, com piscina, DJ e gastronomia de qualidade numa das praias mais bonitas da cidade. Frutos do mar, sushi e cocktails tropicais num ambiente que define o luxo descontraído de Búzios."}
   ]},
-  {city:"Campinas",region:"Sudeste — São Paulo",entries:[
+  {city:"Campinas",region:"São Paulo",entries:[
     {n:"Bellini",q:"Italiana",a:"Campinas — SP",p:"+55 19 3000-0000",pr:2,d:"Italiana elegante em Campinas com massas artesanais e pratos clássicos da tradição italiana. Uma das referências da culinária italiana no interior do estado de São Paulo com décadas de história na cidade."},
     {n:"Cantina Fellini",q:"Italiana · Tradicional",a:"Campinas — SP",p:"+55 19 3000-0000",pr:2,d:"Cantina italiana tradicional em Campinas com as receitas da família que atravessaram gerações. Massas caseiras, molhos lentos e o ambiente familiar das melhores cantinas italianas do interior paulista."},
     {n:"Lume",q:"Contemporânea · Autoral",a:"Campinas — SP",p:"+55 19 3000-0000",pr:3,d:"Restaurante autoral contemporâneo em Campinas com cozinha criativa e ingredientes seleccionados. Um dos endereços mais sofisticados do interior do estado de São Paulo para a gastronomia de autor."},
     {n:"Olivetto",q:"Italiana · Contemporânea",a:"Campinas — SP",p:"+55 19 3000-0000",pr:3,d:"Italiana contemporânea de alto nível em Campinas com técnica moderna e ingredientes de qualidade. Um dos melhores restaurantes da cidade para culinária italiana sofisticada no interior paulista."},
     {n:"Seo Rosa",q:"Boteco · Cerveja",a:"Campinas — SP",p:"+55 19 3000-0000",pr:1,d:"O boteco mais icónico de Campinas, famoso pelas cervejas artesanais e pelos petiscos generosos. Um ponto de encontro da vida nocturna campineira onde a cerveja gelada, os pastéis e a animação são os ingredientes principais."},
     {"n":"Piselli Campinas","q":"Italiana","a":"Av. Iguatemi 777, 2º piso Iguatemi Campinas, Campinas — SP","p":"+55 19 3000-0000","pr":3,"note":"Filial Iguatemi Campinas","d":"Primeira filial do interior paulista da casa-mãe Piselli (São Paulo), inaugurada em 2025 no Iguatemi Campinas. Alta gastronomia italiana com a mesma curadoria da matriz — massas artesanais, antepastos sofisticados e carta de vinhos italianos. Sob o comando de Juscelino Pereira."}]},
-  {city:"Campos do Jordão",region:"Sudeste — São Paulo",entries:[
+  {city:"Campos do Jordão",region:"São Paulo",entries:[
     {n:"Confraria do Sabor",q:"Contemporânea",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:3,d:"Restaurante contemporâneo em Campos do Jordão com cozinha autoral que valoriza os ingredientes da Serra da Mantiqueira. Uma das propostas gastronómicas mais sofisticadas da cidade para jantares especiais nas montanhas paulistas."},
     {n:"La Galia",q:"Caças · Francesa",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:3,d:"Especialista em caças em Campos do Jordão — javali, veado, perdiz e codorniz preparados com técnica francesa numa cidade serrana que é o ambiente perfeito para este tipo de cozinha. Uma experiência gastronómica única no Brasil."},
     {n:"Libertango",q:"Argentina · Carnes",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:2,d:"Parrilla argentina em Campos do Jordão com cortes platinos e o espírito festivo do tango numa cidade que o frio alpino torna ainda mais propícia para uma boa carne com vinho tinto. Nome inspirado no famoso tango de Piazzolla."},
@@ -246,7 +246,7 @@ const CITIES=[
     {n:"Três Rios",q:"Portuguesa",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:2,d:"Casa portuguesa em Campos do Jordão com os sabores tradicionais de Portugal num ambiente de chalé de montanha. A culinária portuguesa encontra o clima alpino da Serra da Mantiqueira numa combinação irresistível."},
     {n:"Vila Chã",q:"Portuguesa",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:2,d:"Restaurante português em Campos do Jordão com cozinha lusitana clássica que harmoniza perfeitamente com o clima frio da serra. Bacalhau, presunto e vinho do Porto num ambiente que reproduz o calor das casas de campo portuguesas."}
   ]},
-  {city:"Litoral Paulista",region:"Sudeste — São Paulo",entries:[
+  {city:"Litoral Paulista",region:"São Paulo",entries:[
     {n:"Acqua",q:"Frutos do Mar · Litoral",a:"Camburi — SP",p:"+55 12 3865-0000",pr:2,d:"Especialista em frutos do mar frescos do litoral de São Paulo, com peixe, camarão e mariscos preparados com simplicidade e frescura. Um dos endereços favoritos para almoços à beira-mar em Camburi."},
     {n:"Famiglia Mazoli",q:"Italiana",a:"Ilhabela — SP",p:"+55 12 3896-2266",pr:2,d:"Trattoria italiana familiar em Ilhabela que reproduz o calor das casas de família do norte de Itália. Massas artesanais e frutos do mar do Canal de São Sebastião numa das ilhas mais bonitas do Brasil."},
     {n:"Gaudí",q:"Frutos do Mar",a:"Ilhabela — SP",p:"+55 12 3896-0000",pr:3,d:"Restaurante de frutos do mar em Ilhabela com lagosta, camarão, lula e polvo do Canal de São Sebastião preparados com técnica e frescura. Um dos melhores endereços para marisco no litoral paulista."},
@@ -255,7 +255,7 @@ const CITIES=[
     {n:"Manacá",q:"Contemporânea · Vista",a:"Camburi — SP",p:"+55 12 3865-1566",pr:3,d:"Um dos restaurantes mais bonitos do litoral paulista, com vista privilegiada para a baía de Camburi. Cozinha contemporânea com frutos do mar frescos e produtos locais num ambiente que combina natureza e sofisticação na Serra do Mar."},
     {n:"Viana",q:"Portuguesa · Litoral",a:"Ilhabela — SP",p:"+55 12 3896-1089",pr:2,d:"Restaurante português em Ilhabela que combina a cozinha lusitana com os frutos do mar frescos do Canal de São Sebastião. Bacalhau, polvo e mariscos preparados à moda portuguesa numa ilha que guarda a memória da colonização lusitana."}
   ]},
-  {city:"Rio de Janeiro",region:"Sudeste — Rio de Janeiro",entries:[
+  {city:"Rio de Janeiro",region:"Rio de Janeiro",entries:[
     {n:"Aprazivel",q:"Brasileira · Vista Panorâmica",a:"Rua Aprazível, 62 — Santa Teresa, Rio de Janeiro — RJ",p:"+55 21 2508-9174",pr:3,d:"No histórico bairro de Santa Teresa, com uma das vistas mais bonitas do Rio: o Pão de Açúcar, a Baía de Guanabara e o Cristo Redentor como pano de fundo. Cozinha brasileira contemporânea com ingredientes orgânicos num ambiente de jardim suspenso sobre a cidade."},
     {n:"Assador",q:"Carnes · Churrasco",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:2,d:"Churrascaria de qualidade no Rio de Janeiro com cortes seleccionados e técnica de assador tradicional. Ambiente descontraído para jantares informais com a melhor carne bovina e suína do Rio."},
     {n:"Cipriani",q:"Italiana de Luxo",a:"Copacabana Palace, Av. Atlântica, 1702 — Copacabana, Rio de Janeiro — RJ",p:"+55 21 2548-7070",pr:4,m:"m1",d:"O restaurante do Copacabana Palace, um dos hotéis mais históricos da América Latina, com 1 Estrela Michelin. Cozinha italiana de luxo com vista directa para o Atlântico e a vista mais famosa do mundo: o pôr do sol sobre o mar de Copacabana. Uma experiência inesquecível."},
@@ -276,7 +276,7 @@ const CITIES=[
     {n:"Spicy Fish",q:"Asiática · Fusão",a:"Rio de Janeiro — RJ",p:"+55 21 3000-0000",pr:3,d:"Restaurante de fusão asiática no Rio de Janeiro com influências japonesas, chinesas e tailandesas num cardápio criativo e picante. Um dos endereços mais animados e originais para culinária oriental no Rio."},
     {n:"Térèze",q:"Francesa · Boutique",a:"Hotel Santa Teresa, Rio de Janeiro — RJ",p:"+55 21 3380-0200",pr:4,d:"O restaurante do Hotel Santa Teresa, boutique hotel de luxo no histórico bairro homónimo. Cozinha francesa contemporânea num ambiente de casarão colonial restaurado com vista para o Rio. Um dos jantares mais íntimos e sofisticados da cidade."}
   ]},
-  {city:"São Paulo",region:"Sudeste — São Paulo",entries:[
+  {city:"São Paulo",region:"São Paulo",entries:[
     {n:"348 Mario Ferraz",q:"Carnes · Contemporânea",a:"Rua Mario Ferraz, 348 — Itaim Bibi, São Paulo — SP",p:"+55 11 3167-0000",pr:3,d:"Casa de carnes contemporânea no elegante Itaim Bibi com cortes seleccionados de origem rastreável e técnica de preparo meticulosa. Ambiente sofisticado e minimalista para os conhecedores de carne que valorizam qualidade acima de tudo."},
     {n:"A Bela Sintra",q:"Portuguesa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Restaurante português tradicional em São Paulo que celebra a culinária de Sintra e da região de Lisboa. Bacalhau à Brás, arroz de pato, pastel de nata e uma selecção de vinhos portugueses numa casa que honra a imigração lusitana em São Paulo."},
     {n:"A Casa do Porco",q:"Brasileira · Porco",a:"Rua Araújo, 124 — República, São Paulo — SP",p:"+55 11 3258-2578",pr:3,d:"Uma das melhores experiências gastronómicas do Brasil, do Chef Jefferson Rueda. O porco inteiro aproveitado com maestria: do focinho ao rabo, em preparações criativas e deliciosas. 5º lugar no Latin America's 50 Best Restaurants. Reservas disputadas com meses de antecedência."},
@@ -418,7 +418,7 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.
 // City filter
 const cityList = ['Todas', 'Belo Horizonte', 'Búzios', 'Campinas', 'Campos do Jordão', 'Litoral Paulista', 'Rio de Janeiro', 'São Paulo'];
 const filtersEl = document.getElementById('filters');
-filtersEl.innerHTML = '<span class="filter-lbl">Cidade:</span>' +
+filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
   cityList.map(c => `<button class="filter-btn${c==='Todas'?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
 
 let activeCity = 'Todas';
@@ -432,7 +432,7 @@ function setCity(c, btn) {
 function render(){
   const main=document.getElementById('main');
   main.innerHTML='';
-  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.city === activeCity);
+  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.region === activeCity);
 
   // Group by region
   const groups={};

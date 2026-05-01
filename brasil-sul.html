@@ -216,7 +216,7 @@ function closeMap(){document.getElementById('mapModal').classList.remove('open')
 // m: michelin badge, h: tem hospedagem, pr: preço 1-4
 const FOLDER='brasil';
 const CITIES=[
-  {city:"Curitiba",region:"Sul — Paraná",entries:[
+  {city:"Curitiba",region:"Paraná",entries:[
     {n:"Bar do Alemão",q:"Alemã · Cervejaria",a:"Curitiba — PR",p:"+55 41 3000-0000",pr:2,d:"A herança germânica de Curitiba num ambiente autêntico de cervejaria alemã. Joelho de porco, chucrute, schnitzel e as melhores cervejas artesanais alemãs e paranaenses. Uma visita obrigatória para entender a imigração europeia que formou a capital paranaense."},
     {n:"Barolo",q:"Italiana · Vinhos",a:"Curitiba — PR",p:"+55 41 3000-0000",pr:3,d:"Restaurante italiano com nome inspirado no grande vinho piemontês e uma missão clara: fazer justiça ao nome com cozinha italiana de excelência e uma carta de vinhos italianos excepcionais. Um dos endereços mais sofisticados de Curitiba para amantes da Itália."},
     {n:"Ernesto",q:"Italiana · Autoral",a:"Curitiba — PR",p:"+55 41 3000-0000",pr:3,d:"O Ernesto é considerado o melhor restaurante italiano de Curitiba, com cozinha italiana autoral que usa produtos locais do Paraná com técnica transalpina. Ambiente elegante e carta de vinhos italianos de excelência numa das capitais gastronómicas do Sul do Brasil."},
@@ -230,7 +230,7 @@ const CITIES=[
     {n:"Mercearia Avenida Shopping Barigui",q:"Portuguesa · Contemporânea",a:"Shopping Barigui, Curitiba — PR",p:"+55 41 3000-0000",pr:2,d:"Filial no Shopping Barigui da conceituada Mercearia Avenida, mantendo o conceito de mercearia gourmet portuguesa com restaurante integrado. Produtos lusitanos de qualidade e cozinha portuguesa num ambiente shopping mais acessível."},
     {n:"Mercearia do Português",q:"Portuguesa",a:"Curitiba — PR",p:"+55 41 3000-0000",pr:2,d:"Mercearia e restaurante português em Curitiba com produtos importados de Portugal e cozinha lusitana tradicional. Bacalhau, petiscos, pastéis de nata e a hospitalidade portuguesa num endereço charmoso da capital paranaense."}
   ]},
-  {city:"Florianópolis",region:"Sul — Santa Catarina",entries:[
+  {city:"Florianópolis",region:"Santa Catarina",entries:[
     {n:"300 Cosmo Beach Club",q:"Japonesa · Beach Club",a:"Florianópolis — SC",p:"+55 48 3000-0000",pr:3,d:"Beach club com culinária japonesa premium em Florianópolis — uma combinação única de sushi de excelência, DJ e piscina à beira-mar. Um dos endereços mais sofisticados da ilha para quem quer unir gastronomia japonesa e cultura de praia."},
     {n:"Ammo Beach",q:"Beach Club",a:"Florianópolis — SC",p:"+55 48 3000-0000",pr:2,d:"Um dos beach clubs mais badalados de Florianópolis, com gastronomia de qualidade, camas na areia, DJ e piscinas numa proposta premium que eleva o conceito de praia no Sul do Brasil."},
     {n:"Aqua Plage",q:"Beach Club · Mediterrânea",a:"Florianópolis — SC",p:"+55 48 3000-0000",pr:3,d:"Beach club premium em Florianópolis com cozinha mediterrânea e ambiente luxuoso à beira do oceano. Um dos endereços mais elegantes da ilha para almoços e sundowners com vista para o mar de Santa Catarina."},
@@ -249,7 +249,7 @@ const CITIES=[
     {n:"Piedoro",q:"Pizza",a:"Florianópolis — SC",p:"+55 48 3000-0000",pr:2,d:"Pizzaria artesanal em Florianópolis com pizzas de massa fermentada lentamente e ingredientes de qualidade. Uma das referências da pizza na ilha de Santa Catarina com forno a lenha e sabores que respeitam a tradição italiana."},
     {n:"Rosso",q:"Frutos do Mar · Italiana",a:"Florianópolis — SC",p:"+55 48 3000-0000",pr:3,d:"O melhor restaurante de frutos do mar de Florianópolis, que une a riqueza marítima catarinense com a técnica da cozinha italiana. Ostra, marisco, polvo, lula e os melhores peixes da costa de Santa Catarina num ambiente elegante e sofisticado."}
   ]},
-  {city:"Gramado & Canela",region:"Sul — Rio Grande do Sul",entries:[
+  {city:"Gramado & Canela",region:"Rio Grande do Sul",entries:[
     {n:"1835",q:"Carnes",a:"Canela — RS",p:"+55 54 3000-0000",pr:3,d:"Restaurante especialista em carnes premium em Canela, com cortes nobres e técnica de grelhados que fazem jus ao ambiente rústico da Serra Gaúcha. O nome evoca a fundação da região e a tradição pecuarista do Rio Grande do Sul."},
     {n:"Abbiamo Fatto",q:"Pizza · Italiana",a:"Canela — RS",p:"+55 54 3000-0000",pr:2,d:"Pizzaria italiana artesanal em Canela com massa de fermentação lenta, ingredientes frescos e forno a lenha. Uma das melhores pizzas da Serra Gaúcha num ambiente descontraído que captura o espírito italiano."},
     {n:"Belle du Valais",q:"Fondue · Suíça",a:"Gramado — RS",p:"+55 54 3000-0000",pr:2,d:"O mais clássico fondue de Gramado, numa atmosfera montanhosa que reproduz perfeitamente os chalés suíços. Fondue de queijo, fondue bourguignon e chocolate quente para as noites frias da Serra Gaúcha. Uma experiência imperdível no inverno."},
@@ -273,7 +273,7 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.
 // City filter
 const cityList = ['Todas', 'Curitiba', 'Florianópolis', 'Gramado & Canela'];
 const filtersEl = document.getElementById('filters');
-filtersEl.innerHTML = '<span class="filter-lbl">Cidade:</span>' +
+filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
   cityList.map(c => `<button class="filter-btn${c==='Todas'?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
 
 let activeCity = 'Todas';
@@ -287,7 +287,7 @@ function setCity(c, btn) {
 function render(){
   const main=document.getElementById('main');
   main.innerHTML='';
-  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.city === activeCity);
+  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.region === activeCity);
 
   // Group by region
   const groups={};

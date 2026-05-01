@@ -216,7 +216,7 @@ function closeMap(){document.getElementById('mapModal').classList.remove('open')
 // m: michelin badge, h: tem hospedagem, pr: preço 1-4
 const FOLDER='brasil';
 const CITIES=[
-  {city:"Brasília",region:"Centro-Oeste — Distrito Federal",entries:[
+  {city:"Brasília",region:"Distrito Federal",entries:[
     {n:"Aroma",q:"Contemporânea · Internacional",a:"Brasília — DF",p:"+55 61 3000-0000",pr:3,d:"Restaurante contemporâneo com influências internacionais num ambiente sofisticado em Brasília. Cardápio criativo com produtos de alta qualidade e carta de vinhos bem curada para jantares especiais na capital federal."},
     {n:"Bloco C",q:"Brasileira · Informal",a:"Brasília — DF",p:"+55 61 3000-0000",pr:2,d:"Restaurante com identidade brasiliense que celebra a cultura e os sabores do Planalto Central num ambiente descontraído e moderno. Cozinha brasileira contemporânea com ingredientes do Cerrado e uma atmosfera jovial que captura o espírito de Brasília."},
     {n:"Don Francisco",q:"Contemporânea · Autoral",a:"Brasília — DF",p:"+55 61 3000-0000",pr:3,d:"Restaurante autoral em Brasília com cozinha contemporânea que valoriza os produtos locais do Cerrado e do Brasil Central. Um dos endereços mais criativos da capital federal com menu em constante evolução."},
@@ -230,7 +230,7 @@ const CITIES=[
     {n:"Taypá",q:"Peruana",a:"Brasília — DF",p:"+55 61 3000-0000",pr:3,d:"O melhor peruano de Brasília com ceviche, tiradito, causa e pisco sour de qualidade. Culinária peruana contemporânea com os sabores intensos do Pacífico num ambiente moderno e sofisticado da capital federal."},
     {n:"Tratoria da Rosário",q:"Italiana · Massas",a:"Brasília — DF",p:"+55 61 3000-0000",pr:2,d:"Trattoria italiana acolhedora em Brasília com foco em massas artesanais e receitas da tradição italiana. O ambiente familiar e descontraído, aliado à qualidade consistente, torna-a uma das mais queridas da capital."}
   ]},
-  {city:"Cuiabá",region:"Centro-Oeste — Mato Grosso",entries:[
+  {city:"Cuiabá",region:"Mato Grosso",entries:[
     {n:"Aragon",q:"Portuguesa · Espanhola",a:"Cuiabá — MT",p:"+55 65 3000-0000",pr:2,d:"Restaurante ibérico em Cuiabá com influências portuguesas e espanholas num cardápio que combina frutos do mar, carnes e petiscos ibéricos. Carta de vinhos da Península Ibérica e ambiente acolhedor no coração do Pantanal."},
     {n:"Azuri",q:"Japonesa · Sushi",a:"Cuiabá — MT",p:"+55 65 3000-0000",pr:2,d:"O melhor sushi de Cuiabá, com culinária japonesa de qualidade que surpreende no coração do Brasil. Peixes frescos chegados diariamente e técnica apurada num ambiente sofisticado para os padrões da capital mato-grossense."},
     {n:"Canto Restaurante",q:"Contemporânea · Regional",a:"Cuiabá — MT",p:"+55 65 3000-0000",pr:2,d:"Restaurante contemporâneo em Cuiabá que valoriza os ingredientes e sabores do Pantanal e do Cerrado numa proposta autoral. Um dos endereços mais criativos da capital mato-grossense para descobrir a gastronomia do Mato Grosso."},
@@ -238,7 +238,7 @@ const CITIES=[
     {n:"Lelis",q:"Peixes · Regional",a:"Cuiabá — MT",p:"+55 65 3000-0000",pr:2,d:"Restaurante especialista em peixes do Pantanal e do Rio Cuiabá, com pintado na telha, caldo de piranha e outras especialidades da culinária fluvial mato-grossense. Uma experiência gastronómica única que só existe aqui."},
     {n:"Okado Peixaria",q:"Peixes · Regional",a:"Cuiabá — MT",p:"+55 65 3000-0000",pr:2,d:"A melhor peixaria de Cuiabá, com os peixes frescos do Pantanal e dos rios mato-grossenses: pintado, dourado, pacu e piraputanga num cardápio que celebra a riqueza fluvial do estado. Uma visita obrigatória para entender a culinária mato-grossense."}
   ]},
-  {city:"Goiânia",region:"Centro-Oeste — Goiás",entries:[
+  {city:"Goiânia",region:"Goiás",entries:[
     {n:"1929 Trattoria",q:"Italiana",a:"Goiânia — GO",p:"+55 62 3000-0000",pr:2,d:"Trattoria italiana com charme vintage inspirada nos clássicos ristoranti italianos dos anos 20. Massas artesanais, risottos e um ambiente nostálgico e acolhedor que conquista pela autenticidade e pela qualidade consistente."},
     {n:"Black Sushi",q:"Japonesa · Sushi",a:"Goiânia — GO",p:"+55 62 3000-0000",pr:2,d:"Restaurante japonês de Goiânia com sushi contemporâneo e criativo. Rolls elaborados, combinados especiais e uma proposta que vai além do tradicional, tornando-se referência da culinária oriental na capital goiana."},
     {n:"Ciao Ciao Cucina",q:"Italiana",a:"Goiânia — GO",p:"+55 62 3000-0000",pr:2,d:"Italiana descontraída e animada em Goiânia com massas frescas, pizzas napoletanas e uma atmosfera que captura o espírito das trattorie italianas de bairro. Boa relação qualidade-preço e ambiente para todas as ocasiões."},
@@ -262,7 +262,7 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.
 // City filter
 const cityList = ['Todas', 'Brasília', 'Cuiabá', 'Goiânia'];
 const filtersEl = document.getElementById('filters');
-filtersEl.innerHTML = '<span class="filter-lbl">Cidade:</span>' +
+filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
   cityList.map(c => `<button class="filter-btn${c==='Todas'?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
 
 let activeCity = 'Todas';
@@ -276,7 +276,7 @@ function setCity(c, btn) {
 function render(){
   const main=document.getElementById('main');
   main.innerHTML='';
-  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.city === activeCity);
+  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.region === activeCity);
 
   // Group by region
   const groups={};
