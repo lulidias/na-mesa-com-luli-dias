@@ -1709,10 +1709,10 @@
   },
   "brasil/tan-tan": {
     "name": "Tan Tan",
-    "address": "São Paulo — SP",
+    "address": "R. Fradique Coutinho 153, Pinheiros, São Paulo — SP",
     "country": "brasil",
-    "lat": -23.554226,
-    "lng": -46.6607781
+    "lat": -23.561,
+    "lng": -46.6906
   },
   "brasil/tangara-jean-georges": {
     "name": "Tangará Jean-Georges",
