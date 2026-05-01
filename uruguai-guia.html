@@ -42,6 +42,11 @@ header{background:var(--white);border-bottom:1px solid var(--border);padding:44p
 .view-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 18px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
 .view-btn:hover{border-color:var(--gold);color:var(--gold)}
 .view-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.cuisine-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.cuisine-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.cuisine-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;padding:5px 12px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.cuisine-btn:hover{border-color:var(--gold);color:var(--gold)}
+.cuisine-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
 #map{height:70vh;width:100%;max-width:1400px;margin:24px auto;border-radius:4px;border:1px solid var(--border)}
 .leaflet-popup-content{margin:14px 18px;line-height:1.4}
 .leaflet-popup-content-wrapper{border-radius:6px}
@@ -117,6 +122,7 @@ footer a{color:var(--gold);text-decoration:none}</style>
   <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
 </div>
 <div class="filters" id="filters"></div>
+<div class="cuisine-bar" id="cuisineBar"></div>
 <div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
   <div class="map-sheet">
     <div class="map-title" id="mapName"></div><div class="map-addr-txt" id="mapAddr"></div>
@@ -193,7 +199,7 @@ function render(){
       sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div></div></div><div class="restaurants-grid"></div>`;
       main.appendChild(sec);
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{
+      entries.forEach(r=>{if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const nm=r.n.replace(/'/g,"\\'");
         const ad=(r.a&&r.a!==city)?r.a.replace(/'/g,"\\'"):'';
@@ -209,6 +215,65 @@ function render(){
     });
   });
 }
+
+function normCuisine(q){
+  if(!q)return null;
+  const s=q.toLowerCase();
+  if(/itali/.test(s))return 'Italiana';
+  if(/japon|sushi|omakase|nikkei|gyukatsu|izakaya/.test(s))return 'Japonesa';
+  if(/coreana|korean/.test(s))return 'Coreana';
+  if(/chinesa|chines|dim sum|cantonesa/.test(s))return 'Chinesa';
+  if(/tailand|thai/.test(s))return 'Tailandesa';
+  if(/indian|indiana/.test(s))return 'Indiana';
+  if(/vietnam/.test(s))return 'Vietnamita';
+  if(/asia|asiática|fusion asiática/.test(s))return 'Asiática';
+  if(/francesa|bistr|brasserie|cr[eê]perie|provença/.test(s))return 'Francesa';
+  if(/portuguesa|portugues|alentejana|bairrada|leit[ãa]o/.test(s))return 'Portuguesa';
+  if(/espanhola|espanhol|basca|catalã|catala|tapas|paella|pintxo/.test(s))return 'Espanhola';
+  if(/alemã|alema|alemão|cervejaria.*alemã|francônica/.test(s))return 'Alemã';
+  if(/holandesa/.test(s))return 'Holandesa';
+  if(/dinamarquesa|dinamarq|nova nórdica|nordic/.test(s))return 'Nórdica';
+  if(/grega/.test(s))return 'Grega';
+  if(/turca/.test(s))return 'Turca';
+  if(/libanesa|árabe|lebanese|arab/.test(s))return 'Libanesa';
+  if(/marroquina/.test(s))return 'Marroquina';
+  if(/argentina|argentino|parrilla/.test(s))return 'Argentina';
+  if(/peruana|nikkei|cebicheria|cevicheria|arequipeñ|andina/.test(s))return 'Peruana';
+  if(/uruguaia|uruguai/.test(s))return 'Uruguaia';
+  if(/mexicana|mexican/.test(s))return 'Mexicana';
+  if(/brasileira|brasilian|brasil|carioca|paulista|açoriana|baiana|nordestin|mineira/.test(s))return 'Brasileira';
+  if(/peixe|marisco|frutos do mar|seafood|polvo|bacalhau|cevichería/.test(s))return 'Frutos do Mar';
+  if(/carnes|carne|steak|churrasco|grelhado|bife|cortes nobres|wagyu/.test(s))return 'Carnes';
+  if(/pizza|pizzeria/.test(s))return 'Pizzeria';
+  if(/vinho|wine bar|enoteca|enot/.test(s))return 'Vinhos';
+  if(/café|cafe|pâtisserie|patisserie|confeit/.test(s))return 'Café & Pâtisserie';
+  if(/rooftop|cocktail|coquetel/.test(s))return 'Rooftop & Bar';
+  if(/mercado|food hall|street food|tasca|petisco|taverna|tasc|taska/.test(s))return 'Tasca & Street Food';
+  if(/contempor|autor|moderna|criativ|alta cozinha|de alta/.test(s))return 'Contemporânea';
+  if(/tradicion|caseira|cozinha caseira/.test(s))return 'Tradicional';
+  if(/mediterrân|mediterrane/.test(s))return 'Mediterrânea';
+  if(/internaciona|fusion|fusão/.test(s))return 'Internacional';
+  if(/beach club|praia/.test(s))return 'Beach Club';
+  if(/hotel|pousada|hospedagem/.test(s))return 'Hotel';
+  return q.split(/[·\-,]/)[0].trim();
+}
+function buildCuisineBar(){
+  const set=new Set();
+  CITIES.forEach(c=>c.entries.forEach(r=>{const n=normCuisine(r.q);if(n)set.add(n);}));
+  const cuisines=['Todas',...[...set].sort((a,b)=>a.localeCompare(b,'pt'))];
+  const bar=document.getElementById('cuisineBar');
+  if(!bar)return;
+  bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+}
+let activeCuisine='Todas';
+function setCuisine(c,btn){
+  activeCuisine=c;
+  document.querySelectorAll('.cuisine-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+buildCuisineBar();
 render();
 
 let mapInstance=null;
