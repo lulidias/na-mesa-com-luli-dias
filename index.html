@@ -80,10 +80,11 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 .leaflet-tooltip.custom-tooltip:before{display:none}
 .leaflet-popup-content{margin:14px 18px;line-height:1.4}
 .leaflet-popup-content-wrapper{border-radius:6px}
-.nearme-cta{position:fixed;bottom:24px;right:24px;z-index:90;background:var(--ink);color:var(--white);border:none;border-radius:50px;padding:14px 22px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:500;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.2);display:flex;align-items:center;gap:8px;transition:transform .2s,background .2s}
+.nearme-cta{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));right:24px;z-index:1100;background:var(--ink);color:var(--white);border:none;border-radius:50px;padding:14px 22px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:500;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);display:flex;align-items:center;gap:8px;transition:transform .2s,background .2s}
 .nearme-cta:hover{transform:translateY(-2px);background:var(--gold)}
 .nearme-cta-icon{width:14px;height:14px;border:2px solid currentColor;border-radius:50%;position:relative}
 .nearme-cta-icon::after{content:'';position:absolute;top:50%;left:50%;width:4px;height:4px;background:currentColor;border-radius:50%;transform:translate(-50%,-50%)}
+@media(max-width:640px){.nearme-cta{bottom:calc(80px + env(safe-area-inset-bottom,0px));right:16px;padding:12px 18px;font-size:10px;letter-spacing:2px}}
 </style>
 </head>
 <body>
