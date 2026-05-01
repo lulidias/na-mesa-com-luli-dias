@@ -4233,8 +4233,8 @@
     "name": "Coelho da Rocha",
     "address": "R. do Coelho da Rocha 104, Lisboa",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 38.71815,
+    "lng": -9.16444,
     "failed": true
   },
   "portugal/han-table": {
@@ -4269,8 +4269,8 @@
     "name": "Marisqueira Nunes Real",
     "address": "R. do Conde de Sabugosa 8, Lisboa",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 38.73977,
+    "lng": -9.14931,
     "failed": true
   },
   "portugal/mestrias-nova-tasca": {
@@ -4396,8 +4396,8 @@
     "name": "Híbrido",
     "address": "R. do Cicioso 6, Évora",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 38.57374,
+    "lng": -7.90975,
     "failed": true
   },
   "portugal/luar-de-janeiro": {
@@ -4439,16 +4439,16 @@
     "name": "Caniço",
     "address": "R. Actor Eudoro de Sousa, Alvor",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 37.13036,
+    "lng": -8.59629,
     "failed": true
   },
   "portugal/evaristo": {
     "name": "Evaristo",
     "address": "Praia de Evaristo, Albufeira",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 37.09185,
+    "lng": -8.28282,
     "failed": true
   },
   "portugal/ocean": {
@@ -4483,8 +4483,8 @@
     "name": "Tia Alice",
     "address": "R. Dr. Cónego Manuel Formigão 2, Fátima",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 39.6319,
+    "lng": -8.67309,
     "failed": true
   },
   "portugal/antonio-padeiro": {
@@ -4498,8 +4498,8 @@
     "name": "O Rei dos Leitões",
     "address": "Av. Dr. Armando Bacelar 76, Mealhada",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 40.36805,
+    "lng": -8.44378,
     "failed": true
   },
   "portugal/o-vidal": {
@@ -4520,8 +4520,8 @@
     "name": "Mugasa",
     "address": "R. Nacional 1, Sangalhos, Anadia",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 40.46583,
+    "lng": -8.45748,
     "failed": true
   },
   "portugal/o-seabra": {
@@ -4556,16 +4556,16 @@
     "name": "Dory",
     "address": "R. José Estevão 182, Costa Nova do Prado, Aveiro",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 40.62455,
+    "lng": -8.74999,
     "failed": true
   },
   "portugal/praia-do-tubarao": {
     "name": "Praia do Tubarão",
     "address": "Av. José Estevão, Costa Nova do Prado, Aveiro",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 40.62426,
+    "lng": -8.74986,
     "failed": true
   },
   "portugal/barriga-de-freira": {
@@ -4600,8 +4600,8 @@
     "name": "Pousada do Castelo de Óbidos",
     "address": "Paço Real, Óbidos",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 39.36262,
+    "lng": -9.15739,
     "failed": true
   },
   "portugal/dona-elvira": {
@@ -4629,8 +4629,8 @@
     "name": "DOC",
     "address": "Estrada Nacional 222, Folgosa, Armamar",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 41.16472,
+    "lng": -7.57471,
     "failed": true
   },
   "portugal/quinta-do-crasto": {
@@ -4665,8 +4665,8 @@
     "name": "Cozinha do Manel",
     "address": "Trav. Nova de São Domingos 15, Porto",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 41.14362,
+    "lng": -8.61316,
     "failed": true
   },
   "portugal/enoteca": {
@@ -4757,16 +4757,16 @@
     "name": "Vogue Café",
     "address": "R. Galeria de Paris 55, Porto",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 41.1464,
+    "lng": -8.61332,
     "failed": true
   },
   "portugal/cozinha-da-terra": {
     "name": "Cozinha da Terra",
     "address": "R. da Portela 2, Loureiro, Oliveira de Azeméis",
     "country": "portugal",
-    "lat": null,
-    "lng": null,
+    "lat": 40.83358,
+    "lng": -8.47694,
     "failed": true
   },
   "portugal/chalet-vicente": {
