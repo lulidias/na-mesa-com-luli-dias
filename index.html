@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Luli Dias — Restaurants &amp; Hotels</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -62,27 +63,26 @@ main{max-width:1100px;margin:0 auto;padding:40px 24px 60px}
 
 footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
 footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
-.nearme-modal{display:none;position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;background:rgba(0,0,0,.5);padding:20px}
+.nearme-modal{display:none;position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;background:rgba(0,0,0,.5);padding:0}
 .nearme-modal.open{display:flex}
-.nearme-sheet{background:var(--white);border-radius:8px;padding:32px 24px;width:100%;max-width:540px;max-height:85vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.18);position:relative}
-.nearme-close{position:absolute;top:12px;right:12px;background:none;border:none;font-size:28px;cursor:pointer;color:var(--ink-lt);width:36px;height:36px;line-height:1}
+.nearme-sheet{background:var(--white);border-radius:8px;width:100%;max-width:1100px;height:90vh;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.18);position:relative;overflow:hidden}
+.nearme-header{padding:20px 24px 14px;border-bottom:1px solid var(--border);text-align:center;flex-shrink:0}
+.nearme-close{position:absolute;top:12px;right:12px;background:none;border:none;font-size:28px;cursor:pointer;color:var(--ink-lt);width:36px;height:36px;line-height:1;z-index:5}
 .nearme-close:hover{color:var(--ink)}
-.nearme-title{font-family:'Playfair Display',serif;font-size:26px;color:var(--ink);text-align:center;margin-bottom:6px;font-weight:400}
-.nearme-sub{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);text-align:center;margin-bottom:20px}
-.nearme-orn{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:24px}
-.nearme-orn-line{height:1px;width:32px;background:var(--gold)}
-.nearme-orn-d{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
-.nearme-list{list-style:none;padding:0;margin:0}
-.nearme-item{display:flex;align-items:center;gap:14px;padding:14px 8px;border-bottom:1px solid var(--border);text-decoration:none;color:inherit;transition:background .15s}
-.nearme-item:hover{background:var(--gold-bg)}
-.nearme-rank{font-family:'Playfair Display',serif;color:var(--gold);font-size:18px;width:24px;text-align:center;opacity:.5;flex-shrink:0}
-.nearme-info{flex:1;min-width:0}
-.nearme-name{font-family:'Playfair Display',serif;font-size:15px;color:var(--ink);line-height:1.2}
-.nearme-meta{font-size:10px;color:var(--ink-lt);margin-top:2px;letter-spacing:.5px;line-height:1.4;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
-.nearme-distance{font-family:'Playfair Display',serif;color:var(--gold);font-size:14px;font-weight:500;flex-shrink:0;margin-left:8px}
-.nearme-loading,.nearme-error{text-align:center;padding:40px 20px;color:var(--ink-lt);font-size:13px}
+.nearme-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--ink);font-weight:400}
+.nearme-sub{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px}
+#nearmeMap{flex:1;min-height:0}
+.nearme-loading,.nearme-error{text-align:center;padding:40px 20px;color:var(--ink-lt);font-size:13px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .nearme-spinner{display:inline-block;width:24px;height:24px;border:2px solid var(--gold);border-radius:50%;border-top-color:transparent;animation:spin 1s linear infinite;margin-bottom:16px}
 @keyframes spin{to{transform:rotate(360deg)}}
+.leaflet-tooltip.custom-tooltip{background:#fff;border:1px solid #E8E0D5;border-radius:6px;padding:8px 12px;box-shadow:0 4px 12px rgba(0,0,0,.08);font-family:'Montserrat',sans-serif}
+.leaflet-tooltip.custom-tooltip:before{display:none}
+.leaflet-popup-content{margin:14px 18px;line-height:1.4}
+.leaflet-popup-content-wrapper{border-radius:6px}
+.nearme-cta{position:fixed;bottom:24px;right:24px;z-index:90;background:var(--ink);color:var(--white);border:none;border-radius:50px;padding:14px 22px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:500;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.2);display:flex;align-items:center;gap:8px;transition:transform .2s,background .2s}
+.nearme-cta:hover{transform:translateY(-2px);background:var(--gold)}
+.nearme-cta-icon{width:14px;height:14px;border:2px solid currentColor;border-radius:50%;position:relative}
+.nearme-cta-icon::after{content:'';position:absolute;top:50%;left:50%;width:4px;height:4px;background:currentColor;border-radius:50%;transform:translate(-50%,-50%)}
 </style>
 </head>
 <body>
@@ -90,10 +90,7 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
   <div class="brand-name">LULI DIAS</div>
   <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line r"></div></div>
   <div class="brand-tagline">RESTAURANTS &amp; HOTELS</div>
-  <div style="margin-top:24px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-    <button onclick="openNearMe()" style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gold);padding:6px 16px;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:500">Perto de Mim</button>
-    <a href="sobre.html" style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold);padding:6px 16px">Sobre o Curador →</a>
-  </div>
+  <div style="margin-top:24px"><a href="sobre.html" style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold);padding:6px 16px">Sobre o Curador →</a></div>
 </header>
 <div class="global-stats">
   <div class="gstat"><div class="gstat-num">34</div><div class="gstat-lbl">Países</div></div>
@@ -106,15 +103,18 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 <footer style="text-align:center;padding:32px;font-size:11px;color:#bbb;letter-spacing:2px;text-transform:uppercase;border-top:1px solid var(--border)">
   <a href="sobre.html" style="color:var(--gold);text-decoration:none">Sobre o Curador</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels
 </footer>
+<button class="nearme-cta" onclick="openNearMe()" aria-label="Restaurantes perto de mim"><span class="nearme-cta-icon"></span> Perto de Mim</button>
 <div class="nearme-modal" id="nearmeModal" onclick="if(event.target===this)closeNearMe()">
   <div class="nearme-sheet">
     <button class="nearme-close" onclick="closeNearMe()" aria-label="Fechar">&times;</button>
-    <div class="nearme-title">Perto de Ti</div>
-    <div class="nearme-sub">Os restaurantes mais próximos</div>
-    <div class="nearme-orn"><div class="nearme-orn-line"></div><div class="nearme-orn-d"></div><div class="nearme-orn-line"></div></div>
+    <div class="nearme-header">
+      <div class="nearme-title">Perto de Ti</div>
+      <div class="nearme-sub">Os restaurantes mais próximos</div>
+    </div>
     <div id="nearmeContent" class="nearme-loading"><div class="nearme-spinner"></div><div>A obter localização...</div></div>
   </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 const REGIONS = [
   {
@@ -246,6 +246,7 @@ const COUNTRY_NAMES={portugal:'Portugal',franca:'França',espanha:'Espanha',ital
 function countryFile(c){return c==='brasil'?'brasil-index.html':c+'-guia.html';}
 function countryName(c){return COUNTRY_NAMES[c]||c;}
 function haversine(la1,lo1,la2,lo2){const R=6371,p1=la1*Math.PI/180,p2=la2*Math.PI/180,dp=(la2-la1)*Math.PI/180,dl=(lo2-lo1)*Math.PI/180;const a=Math.sin(dp/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;return 2*R*Math.asin(Math.sqrt(a));}
+let nearmeMap=null;
 function openNearMe(){
   document.getElementById('nearmeModal').classList.add('open');
   const el=document.getElementById('nearmeContent');
@@ -261,22 +262,35 @@ function openNearMe(){
 function closeNearMe(){document.getElementById('nearmeModal').classList.remove('open');}
 function showNearMeError(msg){const el=document.getElementById('nearmeContent');el.className='nearme-error';el.innerHTML=msg;}
 function showNearMe(myLat,myLng){
-  const sorted=Object.entries(COORDS_ALL)
-    .map(([k,r])=>({...r,key:k,dist:haversine(myLat,myLng,r.lat,r.lng)}))
-    .sort((a,b)=>a.dist-b.dist)
-    .slice(0,15);
   const el=document.getElementById('nearmeContent');
   el.className='';
-  el.innerHTML='<ul class="nearme-list">'+sorted.map((r,i)=>
-    `<li><a class="nearme-item" href="${countryFile(r.c)}">
-      <div class="nearme-rank">${i+1}</div>
-      <div class="nearme-info">
-        <div class="nearme-name">${r.n}</div>
-        <div class="nearme-meta">${countryName(r.c)} · ${r.a}</div>
-      </div>
-      <div class="nearme-distance">${r.dist<1?Math.round(r.dist*1000)+' m':r.dist.toFixed(1)+' km'}</div>
-    </a></li>`
-  ).join('')+'</ul>';
+  el.innerHTML='<div id="nearmeMap"></div>';
+  if(nearmeMap){nearmeMap.remove();nearmeMap=null;}
+  const nearest=Object.entries(COORDS_ALL)
+    .map(([k,r])=>({...r,key:k,dist:haversine(myLat,myLng,r.lat,r.lng)}))
+    .sort((a,b)=>a.dist-b.dist)
+    .slice(0,20);
+  setTimeout(()=>{
+    nearmeMap=L.map('nearmeMap',{scrollWheelZoom:true});
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(nearmeMap);
+    const myIcon=L.divIcon({className:'me-marker',html:'<div style="background:#1A1A1A;width:16px;height:16px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px #1A1A1A"></div>',iconSize:[22,22],iconAnchor:[11,11]});
+    const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});
+    const meMarker=L.marker([myLat,myLng],{icon:myIcon}).addTo(nearmeMap);
+    meMarker.bindTooltip('Estás aqui',{direction:'top',offset:[0,-8],permanent:false,className:'custom-tooltip'});
+    const markers=[meMarker];
+    nearest.forEach(r=>{
+      const m=L.marker([r.lat,r.lng],{icon:goldIcon}).addTo(nearmeMap);
+      const distStr=r.dist<1?Math.round(r.dist*1000)+' m':r.dist.toFixed(1)+' km';
+      const cName=countryName(r.c);
+      const cFile=countryFile(r.c);
+      m.bindTooltip(`<div style="font-family:'Playfair Display',serif;font-size:13px;color:#1A1A1A;font-weight:500">${r.n}</div><div style="font-size:8px;letter-spacing:1.5px;color:#B8922A;text-transform:uppercase;margin-top:2px">${cName} · ${distStr}</div>`,{direction:'top',offset:[0,-8],opacity:0.95,className:'custom-tooltip'});
+      m.bindPopup(`<div style="font-family:Montserrat,sans-serif;min-width:240px"><div style="font-family:'Playfair Display',serif;font-size:17px;color:#1A1A1A;margin-bottom:4px">${r.n}</div><div style="font-size:8px;letter-spacing:2px;color:#B8922A;text-transform:uppercase;font-weight:500;margin-bottom:6px">${cName} · ${distStr}</div><div style="font-size:11px;color:#5A5A5A;line-height:1.4;margin-bottom:10px">${r.a}</div><div style="display:flex;gap:8px;font-size:11px"><a href="${cFile}" style="color:#B8922A;text-decoration:underline">Ver guia</a><span style="color:#ccc">·</span><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.n+' '+r.a)}" target="_blank" style="color:#B8922A;text-decoration:underline">Abrir em Maps →</a></div></div>`);
+      markers.push(m);
+    });
+    const group=L.featureGroup(markers);
+    nearmeMap.fitBounds(group.getBounds().pad(0.15));
+    setTimeout(()=>nearmeMap.invalidateSize(),100);
+  },50);
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNearMe();});
 </script>
