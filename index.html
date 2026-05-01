@@ -71,8 +71,9 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 .nearme-close:hover{color:var(--ink)}
 .nearme-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--ink);font-weight:400}
 .nearme-sub{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px}
-#nearmeMap{flex:1;min-height:0}
-.nearme-loading,.nearme-error{text-align:center;padding:40px 20px;color:var(--ink-lt);font-size:13px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#nearmeContent{flex:1;min-height:0;display:flex;flex-direction:column}
+#nearmeMap{flex:1;min-height:0;width:100%}
+.nearme-loading,.nearme-error{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;color:var(--ink-lt);font-size:13px}
 .nearme-spinner{display:inline-block;width:24px;height:24px;border:2px solid var(--gold);border-radius:50%;border-top-color:transparent;animation:spin 1s linear infinite;margin-bottom:16px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .leaflet-tooltip.custom-tooltip{background:#fff;border:1px solid #E8E0D5;border-radius:6px;padding:8px 12px;box-shadow:0 4px 12px rgba(0,0,0,.08);font-family:'Montserrat',sans-serif}
