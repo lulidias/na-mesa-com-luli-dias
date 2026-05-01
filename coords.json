@@ -2659,7 +2659,7 @@
   },
   "espanha/7-portes": {
     "name": "7 Portes",
-    "address": "Pg. d\\",
+    "address": "Pg. d",
     "country": "espanha",
     "lat": 41.3821717,
     "lng": 2.1832472
@@ -2694,7 +2694,7 @@
   },
   "espanha/can-majo": {
     "name": "Can Majó",
-    "address": "C. de l\\",
+    "address": "C. de l",
     "country": "espanha",
     "lat": 43.6117137,
     "lng": 3.8916455
@@ -2708,7 +2708,7 @@
   },
   "espanha/lomo-alto": {
     "name": "Lomo Alto",
-    "address": "C/ d\\",
+    "address": "C/ d",
     "country": "espanha",
     "lat": 40.6555099,
     "lng": -5.0182887
@@ -2721,7 +2721,7 @@
     "lng": 2.1574925
   },
   "espanha/torre-d": {
-    "name": "Torre d\\",
+    "name": "Torre d",
     "address": "Pg. de Joan de Borbó 88, Barcelona",
     "country": "espanha",
     "lat": 41.3731453,
@@ -2816,7 +2816,7 @@
     "failed": true
   },
   "franca/le-pressoir-d": {
-    "name": "Le Pressoir d\\",
+    "name": "Le Pressoir d",
     "address": "2-5 Pl. de la Comédie, Bordeaux",
     "country": "franca",
     "lat": 44.8425693,
@@ -2879,7 +2879,7 @@
     "lng": -0.5298255
   },
   "franca/la-grand": {
-    "name": "La Grand\\",
+    "name": "La Grand",
     "address": "Les Sources de Caudalie, Martillac",
     "country": "franca",
     "lat": null,
@@ -2916,7 +2916,7 @@
     "lng": -0.1559423
   },
   "franca/l": {
-    "name": "L\\",
+    "name": "L",
     "address": "Saint-Tropez",
     "country": "franca",
     "lat": 43.2710909,
@@ -3000,7 +3000,7 @@
     "lng": -0.7403316
   },
   "franca/maison-d": {
-    "name": "Maison d\\",
+    "name": "Maison d",
     "address": "Saint-Estèphe",
     "country": "franca",
     "lat": 45.6024603,
@@ -3127,7 +3127,7 @@
   },
   "franca/cafe-de-la-paix": {
     "name": "Café de la Paix",
-    "address": "5 Pl. de l\\",
+    "address": "5 Pl. de l",
     "country": "franca",
     "lat": 39.4713266,
     "lng": -0.3769613
@@ -3238,7 +3238,7 @@
     "lng": 4.8392646
   },
   "franca/bistrot-du-bord-de-l": {
-    "name": "Bistrot du Bord de L\\",
+    "name": "Bistrot du Bord de L",
     "address": "Beaune",
     "country": "franca",
     "lat": 47.0239064,
@@ -3267,7 +3267,7 @@
   },
   "franca/paul-bocuse": {
     "name": "Paul Bocuse",
-    "address": "40 Rue de la Plage, Collonges-au-Mont-d\\",
+    "address": "40 Rue de la Plage, Collonges-au-Mont-d",
     "country": "franca",
     "lat": 45.8157583,
     "lng": 4.8473966
@@ -3442,7 +3442,7 @@
     "lng": 7.1218483
   },
   "franca/la-vague-d": {
-    "name": "La Vague d\\",
+    "name": "La Vague d",
     "address": "Plage de la Bouillabaisse, Saint-Tropez",
     "country": "franca",
     "lat": 43.2662294,
@@ -3498,7 +3498,7 @@
     "lng": 6.6405225
   },
   "franca/le-e": {
-    "name": "Le E\\",
+    "name": "Le E",
     "address": "Bormes-les-Mimosas",
     "country": "franca",
     "lat": 43.1521915,
