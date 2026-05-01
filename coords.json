@@ -5154,5 +5154,12 @@
     "country": "croacia",
     "lat": 45.4593,
     "lng": 14.3417
+  },
+  "peru/cirqa": {
+    "name": "Cirqa",
+    "address": "Calle Sucre 104, Arequipa",
+    "country": "peru",
+    "lat": -16.3978,
+    "lng": -71.5365
   }
 }
