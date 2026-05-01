@@ -153,7 +153,7 @@ footer a{color:var(--gold);text-decoration:none}
 </header>
 
 <div class="stats-bar">
-  <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">2</div><div class="stat-lbl">Restaurantes</div></div>
   <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div>
   <div class="stat"></div>
 </div>
@@ -216,6 +216,7 @@ function closeMap(){document.getElementById('mapModal').classList.remove('open')
 const FOLDER='monaco';
 const CITIES=[
   {city:"Monte-Carlo",region:"Mónaco",entries:[
+    {n:"Café de Paris",q:"Brasserie · Clássica",a:"Place du Casino, 98000 Monte-Carlo",p:"+377 98 06 76 23",pr:3,note:"Instituição desde 1868 · Berço da Crêpe Suzette",d:"O café mais icónico do Principado, inaugurado em 1868 em frente ao Casino de Monte-Carlo e ao Hôtel de Paris. É aqui que, em 1895, Henri Charpentier inventou acidentalmente a Crêpe Suzette para o Príncipe de Gales — futuro Eduardo VII. Brasserie clássica francesa com bouillabaisse, plateau de fruits de mer, steak tartare, soufflés e a célebre Crêpe Suzette flambada à mesa. O terraço da Place du Casino é o melhor lugar do mundo para observar Ferraris, Bentleys e Rolls-Royces, com a fachada Belle Époque do Casino como cenário. Ponto de paragem obrigatório de quem visita Mónaco."},
     {n:"Song Qi",q:"Chinesa · Fine Dining",a:"7 Avenue Princesse-Grace, 98000 Monaco",p:"+377 99 99 33 33",pr:4,m:"rec",note:"Guia Michelin · Único restaurante chinês gourmet do Principado",d:"O único restaurante chinês de alta gastronomia de Mónaco, criado em 2014 por Riccardo Giraudi e Alan Yau — o criador do lendário Hakkasan de Londres. Seleccionado pelo Guia Michelin, instalado em frente ao Grimaldi Forum na mais elegante avenida do Principado. Ambiente Art Déco dos anos 30 de Shanghai, desenhado pelos arquitectos Humbert & Poyet — mármore negro, veludo verde, latão e banquettes de seda. Pato de Pequim inteiro, dim sum artesanais, sopa de Pequim com frango fumado e camarões crocantes com mostarda chinesa. Eleito o 17º melhor restaurante do mundo pela Casa Vogue."}
   ]}
 ];
@@ -371,7 +372,7 @@ buildCuisineBar();
 render();
 
 let mapInstance=null;
-const COORDS={"monaco/song-qi":{"name":"Song Qi","address":"7 Avenue Princesse-Grace, 98000 Monaco","country":"monaco","lat":43.7429445,"lng":7.4303855}};
+const COORDS={"monaco/cafe-de-paris":{"name":"Café de Paris","address":"Place du Casino, 98000 Monte-Carlo","country":"monaco","lat":43.7396,"lng":7.4283},"monaco/song-qi":{"name":"Song Qi","address":"7 Avenue Princesse-Grace, 98000 Monaco","country":"monaco","lat":43.7429445,"lng":7.4303855}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
