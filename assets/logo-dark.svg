@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" width="600" height="200" role="img" aria-label="Luli Dias Restaurants and Hotels">
+  <title>Luli Dias — Restaurants &amp; Hotels (versão escura)</title>
+  <rect x="0" y="0" width="600" height="200" fill="#1A1A1A"/>
+  <text x="300" y="100" text-anchor="middle" font-family="Didot, 'Bodoni 72', 'Playfair Display', Georgia, serif" font-size="58" fill="#D4AE5C" letter-spacing="20" font-weight="400">LULI DIAS</text>
+  <line x1="220" y1="125" x2="288" y2="125" stroke="#D4AE5C" stroke-width="0.6"/>
+  <rect x="295" y="121" width="6" height="6" fill="#D4AE5C" transform="rotate(45 298 124)"/>
+  <line x1="312" y1="125" x2="380" y2="125" stroke="#D4AE5C" stroke-width="0.6"/>
+  <text x="300" y="158" text-anchor="middle" font-family="Didot, 'Playfair Display', Georgia, serif" font-size="13" fill="#D4AE5C" letter-spacing="8" font-weight="400">RESTAURANTS &amp; HOTELS</text>
+</svg>

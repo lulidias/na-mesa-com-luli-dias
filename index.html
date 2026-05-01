@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Na Mesa com Luli Dias — Guia Gastronômico</title>
+<title>Luli Dias — Restaurants &amp; Hotels</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -14,12 +14,10 @@
 html,body{height:100%}
 body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;min-height:100vh}
 
-header{background:var(--white);border-bottom:1px solid var(--border);padding:36px 32px 28px;text-align:center}
-.brand-pre{font-size:7px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
-.brand-main{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--ink);line-height:1.15}
-.brand-main em{font-style:italic;color:var(--gold)}
-.brand-sub{font-size:7px;letter-spacing:5px;text-transform:uppercase;color:#bbb;margin-top:10px;font-weight:300}
-.header-orn{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:48px 32px 36px;text-align:center}
+.brand-name{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:54px;font-weight:400;color:var(--ink);line-height:1;letter-spacing:18px;padding-left:18px}
+.brand-tagline{font-family:Didot,'Playfair Display',Georgia,serif;font-size:11px;font-weight:400;color:var(--ink);letter-spacing:8px;padding-left:8px;margin-top:6px}
+.header-orn{display:flex;align-items:center;justify-content:center;gap:12px;margin:20px 0 14px}
 .orn-line{height:1px;width:48px;background:linear-gradient(90deg,transparent,var(--gold))}
 .orn-line.r{background:linear-gradient(90deg,var(--gold),transparent)}
 .orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
@@ -68,11 +66,10 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 </head>
 <body>
 <header>
-  <div class="brand-pre">Guia Gastronômico Pessoal</div>
-  <div class="brand-main">Na Mesa com <em>Luli Dias</em></div>
+  <div class="brand-name">LULI DIAS</div>
   <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line r"></div></div>
-  <div class="brand-sub">Restaurantes · Vinhos · Experiências</div>
-  <div style="margin-top:16px"><a href="sobre.html" style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold);padding:6px 16px">Sobre o Curador →</a></div>
+  <div class="brand-tagline">RESTAURANTS &amp; HOTELS</div>
+  <div style="margin-top:24px"><a href="sobre.html" style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold);padding:6px 16px">Sobre o Curador →</a></div>
 </header>
 <div class="global-stats">
   <div class="gstat"><div class="gstat-num">33</div><div class="gstat-lbl">Países</div></div>
@@ -83,7 +80,7 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 <div class="cont-bar" id="contBar"></div>
 <main id="main"></main>
 <footer style="text-align:center;padding:32px;font-size:11px;color:#bbb;letter-spacing:2px;text-transform:uppercase;border-top:1px solid var(--border)">
-  <a href="sobre.html" style="color:var(--gold);text-decoration:none">Sobre o Curador</a> &nbsp;·&nbsp; Na Mesa com Luli Dias
+  <a href="sobre.html" style="color:var(--gold);text-decoration:none">Sobre o Curador</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels
 </footer>
 <script>
 const REGIONS = [
