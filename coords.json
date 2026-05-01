@@ -2586,13 +2586,6 @@
     "lat": 40.41704,
     "lng": -3.6993792
   },
-  "espanha/diverxo": {
-    "name": "DiverXO",
-    "address": "C. del Padre Damián 23, Madrid",
-    "country": "espanha",
-    "lat": 40.4577954,
-    "lng": -3.6859491
-  },
   "espanha/el-paraguas": {
     "name": "El Paraguas",
     "address": "C. de Jorge Juan 16, Madrid",
@@ -2657,13 +2650,6 @@
     "lat": 40.4278553,
     "lng": -3.6884987
   },
-  "espanha/7-portes": {
-    "name": "7 Portes",
-    "address": "Pg. d",
-    "country": "espanha",
-    "lat": 41.3821717,
-    "lng": 2.1832472
-  },
   "espanha/asador-de-aranda": {
     "name": "Asador de Aranda",
     "address": "Av. del Tibidabo 31, Barcelona",
@@ -2692,40 +2678,12 @@
     "lat": 41.4004038,
     "lng": 2.1546391
   },
-  "espanha/can-majo": {
-    "name": "Can Majó",
-    "address": "C. de l",
-    "country": "espanha",
-    "lat": 43.6117137,
-    "lng": 3.8916455
-  },
   "espanha/el-nacional": {
     "name": "El Nacional",
     "address": "Pg. de Gràcia 24 Bis, Barcelona",
     "country": "espanha",
     "lat": 41.3905227,
     "lng": 2.1682552
-  },
-  "espanha/lomo-alto": {
-    "name": "Lomo Alto",
-    "address": "C/ d",
-    "country": "espanha",
-    "lat": 40.6555099,
-    "lng": -5.0182887
-  },
-  "espanha/takikarbi": {
-    "name": "Takikarbi",
-    "address": "C/ de València 169, Barcelona",
-    "country": "espanha",
-    "lat": 41.3886493,
-    "lng": 2.1574925
-  },
-  "espanha/torre-d": {
-    "name": "Torre d",
-    "address": "Pg. de Joan de Borbó 88, Barcelona",
-    "country": "espanha",
-    "lat": 41.3731453,
-    "lng": 2.1879727
   },
   "espanha/windsor": {
     "name": "Windsor",
@@ -5161,5 +5119,40 @@
     "country": "peru",
     "lat": -16.3978,
     "lng": -71.5365
+  },
+  "espanha/7-portes": {
+    "name": "7 Portes",
+    "address": "Passeig d'Isabel II 14, Barcelona",
+    "country": "espanha",
+    "lat": 41.38234,
+    "lng": 2.18324
+  },
+  "espanha/can-majo": {
+    "name": "Can Majó",
+    "address": "Carrer de l'Almirall Aixada 23, Barcelona",
+    "country": "espanha",
+    "lat": 41.37815,
+    "lng": 2.18936
+  },
+  "espanha/lomo-alto": {
+    "name": "Lomo Alto",
+    "address": "Carrer d'Aragó 285, Barcelona",
+    "country": "espanha",
+    "lat": 41.39459,
+    "lng": 2.16701
+  },
+  "espanha/torre-d-alta-mar": {
+    "name": "Torre d'Alta Mar",
+    "address": "Pg. de Joan de Borbó 88, Barcelona",
+    "country": "espanha",
+    "lat": 41.37815,
+    "lng": 2.19022
+  },
+  "espanha/taktika-berri": {
+    "name": "Taktika Berri",
+    "address": "Carrer de València 169, Barcelona",
+    "country": "espanha",
+    "lat": 41.38865,
+    "lng": 2.15749
   }
 }
