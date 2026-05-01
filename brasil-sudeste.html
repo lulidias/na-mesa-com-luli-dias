@@ -153,7 +153,7 @@ footer a{color:var(--gold);text-decoration:none}
 </header>
 
 <div class="stats-bar">
-  <div class="stat"><div class="stat-num">177</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">180</div><div class="stat-lbl">Restaurantes</div></div>
   <div class="stat"><div class="stat-num">7</div><div class="stat-lbl">Cidades</div></div>
   <div class="stat"><div class="stat-num">20 ★</div><div class="stat-lbl">Michelin</div></div>
 </div>
@@ -404,21 +404,12 @@ const CITIES=[
     {"n":"Bistrot de Paris","q":"Francesa Bistrô","a":"Villa San Pietro, Rua Augusta 2542, Jardins, São Paulo — SP","p":"+55 11 3063-1675","pr":2,"m":"rec","note":"Selection Michelin · Chef Alain Poletto","d":"Bistrô parisiense autêntico escondido na Villa San Pietro pelo chef Alain Poletto. Receitas clássicas francesas — escargots, steak frites, soupe à l'oignon — em ambiente romântico e acolhedor. Carta de vinhos franceses cuidadosa."},
     {"n":"Goya Zushi","q":"Japonesa Omakase","a":"Alameda Franca 1151, Jardins, São Paulo — SP","p":"+55 11 95867-2233","pr":3,"m":"rec","note":"Selection Michelin · Omakase · Chef Uilian Goya","d":"Aberto em 2022 pelo chef Uilian Goya, omakase de 10 a 15 cursos para apenas dez clientes por sessão. Sushis, sashimis maturados, usuzukuri, temaki e pratos quentes. Decoração com cerâmicas, bonecos manga e grafiti — homenagem à tradição imigrante da família."},
     {"n":"Nelita","q":"Italiana Contemporânea","a":"Rua Ferreira de Araújo 330, Pinheiros, São Paulo — SP","p":"+55 11 3814-3334","pr":3,"m":"rec","note":"Selection Michelin · 50 Best LatAm #12 · Chef Tássia Magalhães","d":"Da chef Tássia Magalhães com cozinha 100% feminina, em Pinheiros. Massa é a estrela — agnolotti de cabra com limão confit e alho preto, pappardelle com polvo, guanciale e espinafre. Menu degustação de 5 ou 11 pratos. Top 12 no Latin America's 50 Best 2025."},
-    {"n":"Rancho Português 53","q":"Portuguesa","a":"Rod. Castelo Branco Km 53, Araçariguama — SP","p":"+55 11 4136-1381","pr":2,"d":"Casa portuguesa autêntica e emporium na Castelo Branco — ponto de paragem obrigatória de quem viaja entre SP e o interior. Bolinhos de bacalhau, alheira, leitão à Bairrada, bacalhau com broa, e os famosos pastéis de nata. Aberto das 6h às 23h."}]}
-];
-const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};
-const MBADGE={m3:'bm3',m2:'bm2',m1:'bm1',bib:'bbib',green:'bgreen',rec:'brec',award:'baward'};
-const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes':'#f7ede8','Italiana':'#f5f0e8','Japonesa':'#f0f0f5','Asiática':'#f0f4f0','Contemporânea':'#f2f0ee','Café':'#f7f0e0','default':'#f2ede8'};
-function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
-function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
-function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
-function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
-
-
-// City filter
-const cityList = ['Todas', 'Belo Horizonte', 'Búzios', 'Campinas', 'Campos do Jordão', 'Litoral Paulista', 'Rio de Janeiro', 'São Paulo'];
-const filtersEl = document.getElementById('filters');
-filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
+    {"n":"Rancho Português 53","q":"Portuguesa","a":"Rod. Castelo Branco Km 53, Araçariguama — SP","p":"+55 11 4136-1381","pr":2,"d":"Casa portuguesa autêntica e emporium na Castelo Branco — ponto de paragem obrigatória de quem viaja entre SP e o interior. Bolinhos de bacalhau, alheira, leitão à Bairrada, bacalhau com broa, e os famosos pastéis de nata. Aberto das 6h às 23h."}]},
+  {city:"Vitória",region:"Espírito Santo",entries:[
+    {"n":"Soeta","q":"Contemporânea de Autor","a":"R. Desembargador Sampaio 332, Praia do Canto, Vitória — ES","p":"+55 27 3026-4433","pr":4,"m":"rec","note":"Latin America's 50 Best Discovery · Chefs Bárbara Verzola e Pablo Pavón (El Bulli)","d":"Alta gastronomia capixaba pelos chefs Bárbara Verzola e Pablo Pavón, ambos com passagem pelo lendário El Bulli. Cozinha contemporânea de autor com produtos locais do litoral capixaba e técnica de classe internacional. Praia do Canto."},
+    {"n":"Papaguth","q":"Capixaba · Frutos do Mar","a":"Av. Nossa Senhora dos Navegantes 700, Enseada do Suá, Vitória — ES","p":"+55 27 3315-1488","pr":3,"d":"Templo da cozinha capixaba pelo chef Júlio Lemos. Moqueca capixaba autêntica em panela de barro, frutos do mar do Atlântico e pratos regionais que celebram a tradição gastronómica do Espírito Santo. Praia do Suá."},
+    {"n":"Balthazar","q":"Contemporânea Refinada","a":"R. Elesbão Linhares 15, Shopping Day by Day, Praia do Canto, Vitória — ES","p":"+55 27 3325-3333","pr":3,"d":"Restaurante refinado na Praia do Canto com ambiente luxuoso e cozinha sofisticada. Antepastos elaborados, massas frescas, carnes nobres e clientela exigente. Uma das mesas mais elegantes de Vitória."}
+  ]},]iltersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
   cityList.map(c => `<button class="filter-btn${c==='Todas'?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
 
 let activeCity = 'Todas';
