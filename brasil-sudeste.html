@@ -472,6 +472,14 @@ const CITIES=[
     {"n":"Lareira Portuguesa","q":"Portuguesa","a":"Av. Saturnino de Brito 260, Vitória — ES","p":"+55 27 3325-7000","pr":2,"d":"Casa portuguesa em Vitória com cozinha tradicional e excelente carta de vinhos. Bacalhau à Brás, à Gomes de Sá, polvo à lagareiro e pasteis de nata num ambiente acolhedor que transporta a Portugal."}]}
 ];
 
+const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};
+const MBADGE={m3:'bm3',m2:'bm2',m1:'bm1',bib:'bbib',green:'bgreen',rec:'brec',award:'baward'};
+const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes':'#f7ede8','Italiana':'#f5f0e8','Japonesa':'#f0f0f5','Asiática':'#f0f4f0','Contemporânea':'#f2f0ee','Café':'#f7f0e0','default':'#f2ede8'};
+function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
+function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
+function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
+
 const cityList = ['Todas', ...new Set(CITIES.map(c => c.region))];
 const filtersEl = document.getElementById('filters');
 filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
