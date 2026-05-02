@@ -261,7 +261,7 @@ function setRegion(r,btn){
 
 // Try multiple photo extensions before falling back to placeholder
 function tryPhoto(img, slug, isHotel, bg, em){
-  const exts = ['.jpg', '.jpeg', '.JPG', '.JPEG', '.png', '.PNG'];
+  const exts = ['.jpg', '.jpeg', '.JPG', '.JPEG', '.png', '.PNG', '.heic', '.HEIC'];
   const folder = isHotel ? 'fotos/hoteis/' : 'fotos/' + FOLDER + '/';
   let attempt = parseInt(img.dataset.attempt || '0', 10);
   attempt++;
