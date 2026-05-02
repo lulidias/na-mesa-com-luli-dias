@@ -516,7 +516,7 @@ function render(){
           dots+='</div>';
           photoHtml=`<div class="card-gallery">${imgs}</div>${dots}<button class="card-nav prev" onclick="navGal(this,-1)" aria-label="Anterior">‹</button><button class="card-nav next" onclick="navGal(this,1)" aria-label="Próxima">›</button>`;
         }else{
-          photoHtml=`<img class="card-photo" src="fotos/portugal/${sl}.jpeg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\' style=\\'background:${bg}\\'>${em}</div>'">`;
+          photoHtml=`<img class="card-photo" src="fotos/portugal/${sl}.jpeg" alt="${r.n}" loading="lazy" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'${bg}','${em}')">`;
         }
         card.innerHTML=`
           <div class="card-photo-wrap">${photoHtml}</div>
