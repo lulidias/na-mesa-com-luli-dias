@@ -190,11 +190,20 @@ const REGIONS = [
   }
 ];
 
-// Build continent filter bar
-const continents = ['Todos', ...REGIONS.map(r => r.name)];
+// Build continent filter bar (dinâmico — reage ao idxType)
 const bar = document.getElementById('contBar');
-bar.innerHTML = '<span class="cont-lbl">Continente:</span>' +
-  continents.map(c => `<button class="cont-btn${c==='Todos'?' active':''}" onclick="setContinent('${c}',this)">${c}</button>`).join('');
+function rebuildContinentBar(){
+  let visibleRegions = REGIONS;
+  if (idxType === 'h') visibleRegions = REGIONS.filter(r => r.countries.some(c => c.hotels > 0));
+  else if (idxType === 'r') visibleRegions = REGIONS.filter(r => r.countries.some(c => c.restaurants > 0));
+  const continents = ['Todos', ...visibleRegions.map(r => r.name)];
+  // Se o continente activo deixou de existir, voltar a 'Todos'
+  if (typeof activeCont !== 'undefined' && activeCont !== 'Todos' && !visibleRegions.find(r => r.name === activeCont)) {
+    activeCont = 'Todos';
+  }
+  bar.innerHTML = '<span class="cont-lbl">Continente:</span>' +
+    continents.map(c => `<button class="cont-btn${c===activeCont?' active':''}" onclick="setContinent('${c}',this)">${c}</button>`).join('');
+}
 
 
 let idxType='all';
@@ -202,10 +211,12 @@ function setIdxType(t,btn){
   idxType=t;
   document.querySelectorAll('.type-btn-idx').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  rebuildContinentBar();
   build();
 }
 
 let activeCont = 'Todos';
+rebuildContinentBar();
 function setContinent(name, btn) {
   activeCont = name;
   document.querySelectorAll('.cont-btn').forEach(b => b.classList.remove('active'));
@@ -247,9 +258,11 @@ function buildCard(c) {
 function build() {
   let html = '';
   const baseFiltered = activeCont === 'Todos' ? REGIONS : REGIONS.filter(r => r.name === activeCont);
-  // When type=hotels, only show regions/countries that have hotels
+  // Filtrar países sem entradas do tipo escolhido + esconder regiões vazias
   const filtered = idxType === 'h' 
     ? baseFiltered.map(r => ({...r, countries: r.countries.filter(c => c.hotels>0)})).filter(r => r.countries.length > 0)
+    : idxType === 'r'
+    ? baseFiltered.map(r => ({...r, countries: r.countries.filter(c => c.restaurants>0)})).filter(r => r.countries.length > 0)
     : baseFiltered;
   filtered.forEach(region => {
     html += `
