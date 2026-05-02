@@ -104,6 +104,9 @@ footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-
 .bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
 .curator-badge{display:inline-flex;align-items:center;gap:3px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:var(--gold-bg);padding:3px 8px;border-radius:10px;font-weight:600;border:1px solid var(--gold-lt)}
 .curator-badge.shared{background:linear-gradient(90deg,var(--gold-bg) 0%,#FBE6BD 100%);color:#7d5500}
+.bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
 </style>
 </head>
 <body>
@@ -165,6 +168,7 @@ const FOLDER='dubai';
 const CITIES=[{"city": "Dubai", "region": "Dubai", "entries": [{"n": "Al Nafoorah", "q": "Libanesa de Luxo", "a": "Jumeirah Al Qasr Hotel, Dubai", "p": "+971 4 432 3232", "pr": 3, "h": true, "d": "O melhor restaurante de cozinha libanesa de Dubai, instalado no magnífico Jumeirah Al Qasr Hotel. Meze libaneses de excelência — hummus, fattoush, kibbeh — com vista para as torres de Madinat Jumeirah. Uma viagem ao Líbano no coração do Golfo."}, {"n": "Pierchic", "q": "Italiana · Frutos do Mar", "a": "Al Qasr Hotel, Jumeirah, Dubai", "p": "+971 4 432 3232", "pr": 4, "h": true, "d": "Restaurante italiano construído sobre um cais privado no Mar Arábico, com vista para o Burj Al Arab. Frutos do mar mediterrâneos e cozinha italiana de luxo num dos cenários mais espetaculares de Dubai."}, {"t":"h", "n":"Jumeirah Al Qasr", "q":"Resort · Palácio Árabe 5★", "a":"Madinat Jumeirah, Al Sufouh Road, Dubai", "p":"+971 4 366 8888", "pr":4, "s":5, "d":"Resort cinco-estrelas no complexo Madinat Jumeirah, inspirado em palácios árabes summer palaces. 294 quartos e suítes, 4 piscinas exteriores, spa Talise, vista para o icónico Burj Al Arab. Acesso aos 40+ restaurantes do Madinat Jumeirah, praia privada com 2km, abras (barcos venezianos) através dos canais do resort. Membro Leading Hotels of the World."}]}];
 
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin',beach:'Beach Club'};
+const KEYS={1:'🗝 1 Chave',2:'🗝🗝 2 Chaves',3:'🗝🗝🗝 3 Chaves'};
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
 function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}

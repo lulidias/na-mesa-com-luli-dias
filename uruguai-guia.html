@@ -104,6 +104,9 @@ footer a{color:var(--gold);text-decoration:none}.curator-badge{display:inline-fl
 .type-btn:hover{border-color:var(--gold);color:var(--gold)}
 .type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
 .bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
+.bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
 </style>
 </head>
 <body>
@@ -183,6 +186,7 @@ const CITIES=[
 ];
 
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin',beach:'Beach Club'};
+const KEYS={1:'🗝 1 Chave',2:'🗝🗝 2 Chaves',3:'🗝🗝🗝 3 Chaves'};
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
 function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}

@@ -141,6 +141,9 @@ footer a{color:var(--gold);text-decoration:none}
 .bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
 .curator-badge{display:inline-flex;align-items:center;gap:3px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:var(--gold-bg);padding:3px 8px;border-radius:10px;font-weight:600;border:1px solid var(--gold-lt)}
 .curator-badge.shared{background:linear-gradient(90deg,var(--gold-bg) 0%,#FBE6BD 100%);color:#7d5500}
+.bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
 </style>
 </head>
 <body>
@@ -295,6 +298,7 @@ const CITIES=[
   ]}
 ];
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};
+const KEYS={1:'🗝 1 Chave',2:'🗝🗝 2 Chaves',3:'🗝🗝🗝 3 Chaves'};
 const MBADGE={m3:'bm3',m2:'bm2',m1:'bm1',bib:'bbib',green:'bgreen',rec:'brec',award:'baward'};
 const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes':'#f7ede8','Italiana':'#f5f0e8','Japonesa':'#f0f0f5','Asiática':'#f0f4f0','Contemporânea':'#f2f0ee','Café':'#f7f0e0','default':'#f2ede8'};
 function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
