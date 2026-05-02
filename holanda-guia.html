@@ -96,7 +96,13 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 .map-cancel{margin-top:16px;width:100%;padding:12px;border:none;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer}
 footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
 footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
-footer a{color:var(--gold);text-decoration:none}</style>
+footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
+</style>
 </head>
 <body>
 <nav class="top-nav">
@@ -119,6 +125,12 @@ footer a{color:var(--gold);text-decoration:none}</style>
   <span class="view-toggle-lbl">Vista:</span>
   <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
+</div>
+<div class="type-bar">
+  <span class="type-lbl">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
 </div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
@@ -151,12 +163,12 @@ function openMap(name,addr){
 function closeMap(){document.getElementById('mapModal').classList.remove('open');}
 
 const FOLDER='holanda';
-const CITIES=[{"city": "Amsterdã", "region": "Holanda", "entries": [{"n": "Brasserie Harkema", "q": "Francesa Brasserie", "a": "Nes 67, Amsterdã", "p": "+31 20 428 2222", "pr": 2, "d": "Brasserie francesa elegante numa galeria histórica do centro de Amsterdã. Ambiente Art Déco com steak frites, moules marinières e escargots. Uma das brasseries mais animadas da cidade."}, {"n": "Café Americain", "q": "Grand Café Histórico", "a": "Leidsekade 97, Amsterdã", "p": "+31 20 556 3010", "pr": 2, "d": "Inaugurado em 1902, o café mais histórico de Amsterdã no American Hotel. Décor Art Nouveau impecável, café, brunch e jantar num espaço que foi ponto de encontro de artistas e intelectuais holandeses durante um século."}, {"n": "Café de Jaren", "q": "Grand Café", "a": "Nieuwe Doelenstraat 20, Amsterdã", "p": "+31 20 625 5771", "pr": 2, "d": "Grand café junto ao rio Amstel com uma das melhores esplanadas de Amsterdã. Cozinha holandesa contemporânea, brunch aos fins de semana e ambiente descontraído e cosmopolita."}, {"n": "Ciel Bleu", "q": "Francesa de Autor · Vista Panorâmica", "a": "Ferdinand Bolstraat 333, Amsterdã", "p": "+31 20 678 7450", "pr": 4, "m": "m2", "note": "2 Estrelas Michelin · Vista panorâmica", "h": true, "d": "Duas Estrelas Michelin no 23º andar do Hotel Okura com vista panorâmica sobre Amsterdã. Cozinha francesa contemporânea de excelência num dos restaurantes com melhor vista da Holanda."}, {"n": "De Kas", "q": "Farm-to-Table", "a": "Kamerlingh Onneslaan 3, Amsterdã", "p": "+31 20 462 4562", "pr": 3, "m": "m1", "note": "1 Estrela Michelin · Horta própria", "d": "Uma Estrela Michelin numa estufa histórica de 1926 com horta própria. O chef colhe os legumes da horta de manhã e constrói o menu à tarde. Farm-to-table na sua expressão mais pura — um dos conceitos gastronómicos mais originais da Europa."}, {"n": "Rijks", "q": "Holandesa Contemporânea", "a": "Museumstraat 2, Amsterdã", "p": "+31 20 674 7555", "pr": 3, "m": "m1", "note": "1 Estrela Michelin · No Rijksmuseum", "d": "Uma Estrela Michelin dentro do Rijksmuseum, o maior museu de arte da Holanda. Cozinha holandesa contemporânea que celebra os produtos locais — arenque, mariscos do Mar do Norte e legumes holandeses — com técnica e elegância."}, {"n": "Tempo Doeloe", "q": "Indonésia", "a": "Utrechtsestraat 75, Amsterdã", "p": "+31 20 625 6718", "pr": 2, "d": "A melhor rijsttafel de Amsterdã — o banquete indonésio tradicional com dezenas de pratos. A ligação histórica entre a Holanda e a Indonésia criou uma das tradições gastronómicas mais únicas da Europa."}, {"n": "Vinkeles", "q": "Francesa Contemporânea", "a": "Keizersgracht 384, Amsterdã", "p": "+31 20 530 2010", "pr": 4, "m": "m1", "note": "1 Estrela Michelin", "h": true, "d": "Uma Estrela Michelin no Hotel Dylan, numa padaria do século XVIII perfeitamente restaurada. Cozinha francesa contemporânea de alto nível num dos canais mais românticos de Amsterdã."}]}];
+const CITIES=[{"city": "Amsterdã", "region": "Holanda", "entries": [{"n": "Brasserie Harkema", "q": "Francesa Brasserie", "a": "Nes 67, Amsterdã", "p": "+31 20 428 2222", "pr": 2, "d": "Brasserie francesa elegante numa galeria histórica do centro de Amsterdã. Ambiente Art Déco com steak frites, moules marinières e escargots. Uma das brasseries mais animadas da cidade."}, {"n": "Café Americain", "q": "Grand Café Histórico", "a": "Leidsekade 97, Amsterdã", "p": "+31 20 556 3010", "pr": 2, "d": "Inaugurado em 1902, o café mais histórico de Amsterdã no American Hotel. Décor Art Nouveau impecável, café, brunch e jantar num espaço que foi ponto de encontro de artistas e intelectuais holandeses durante um século."}, {"n": "Café de Jaren", "q": "Grand Café", "a": "Nieuwe Doelenstraat 20, Amsterdã", "p": "+31 20 625 5771", "pr": 2, "d": "Grand café junto ao rio Amstel com uma das melhores esplanadas de Amsterdã. Cozinha holandesa contemporânea, brunch aos fins de semana e ambiente descontraído e cosmopolita."}, {"n": "Ciel Bleu", "q": "Francesa de Autor · Vista Panorâmica", "a": "Ferdinand Bolstraat 333, Amsterdã", "p": "+31 20 678 7450", "pr": 4, "m": "m2", "note": "2 Estrelas Michelin · Vista panorâmica", "h": true, "d": "Duas Estrelas Michelin no 23º andar do Hotel Okura com vista panorâmica sobre Amsterdã. Cozinha francesa contemporânea de excelência num dos restaurantes com melhor vista da Holanda."}, {"n": "De Kas", "q": "Farm-to-Table", "a": "Kamerlingh Onneslaan 3, Amsterdã", "p": "+31 20 462 4562", "pr": 3, "m": "m1", "note": "1 Estrela Michelin · Horta própria", "d": "Uma Estrela Michelin numa estufa histórica de 1926 com horta própria. O chef colhe os legumes da horta de manhã e constrói o menu à tarde. Farm-to-table na sua expressão mais pura — um dos conceitos gastronómicos mais originais da Europa."}, {"n": "Rijks", "q": "Holandesa Contemporânea", "a": "Museumstraat 2, Amsterdã", "p": "+31 20 674 7555", "pr": 3, "m": "m1", "note": "1 Estrela Michelin · No Rijksmuseum", "d": "Uma Estrela Michelin dentro do Rijksmuseum, o maior museu de arte da Holanda. Cozinha holandesa contemporânea que celebra os produtos locais — arenque, mariscos do Mar do Norte e legumes holandeses — com técnica e elegância."}, {"n": "Tempo Doeloe", "q": "Indonésia", "a": "Utrechtsestraat 75, Amsterdã", "p": "+31 20 625 6718", "pr": 2, "d": "A melhor rijsttafel de Amsterdã — o banquete indonésio tradicional com dezenas de pratos. A ligação histórica entre a Holanda e a Indonésia criou uma das tradições gastronómicas mais únicas da Europa."}, {"n": "Vinkeles", "q": "Francesa Contemporânea", "a": "Keizersgracht 384, Amsterdã", "p": "+31 20 530 2010", "pr": 4, "m": "m1", "note": "1 Estrela Michelin", "h": true, "d": "Uma Estrela Michelin no Hotel Dylan, numa padaria do século XVIII perfeitamente restaurada. Cozinha francesa contemporânea de alto nível num dos canais mais românticos de Amsterdã."}, {"t":"h","n":"NH Collection Amsterdam Barbizon Palace","q":"Hotel · Histórico 5★","a":"Prins Hendrikkade 59-72, 1012 AD Amsterdã","p":"+31 20 556 4564","pr":3,"s":5,"d":"Hotel cinco-estrelas histórico instalado em 17 casas dos séculos XV-XVII unidas, em frente à Estação Central de Amsterdã. 270 quartos, restaurante Vermeer (1 Estrela Michelin, cozinha holandesa contemporânea), Hudson Brasserie, capela do séc. XIV preservada como salão de eventos. Spa, ginásio, e localização perfeita junto a Damrak."}]}];
 
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin'};
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
-function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
+function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
 
 const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
 document.getElementById('filters').innerHTML='<span class="filter-lbl">Região:</span>'+
@@ -184,7 +196,7 @@ function render(){
       sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div></div></div><div class="restaurants-grid"></div>`;
       main.appendChild(sec);
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const nm=r.n.replace(/'/g,"\\'");
         const ad=(r.a&&r.a!==city)?r.a.replace(/'/g,"\\'"):'';
@@ -250,6 +262,27 @@ function buildCuisineBar(){
   if(!bar)return;
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
+
+let activeType='all';
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('type');
+  if (t === 'r' || t === 'h') {
+    activeType = t;
+    setTimeout(() => {
+      document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+      const btn = document.getElementById('type' + (t==='r'?'R':'H'));
+      if (btn) btn.classList.add('active');
+    }, 0);
+  }
+})();
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
 let activeCuisine='Todas';
 function setCuisine(c,btn){
   activeCuisine=c;
@@ -262,7 +295,7 @@ buildCuisineBar();
 render();
 
 let mapInstance=null;
-const COORDS={"holanda/brasserie-harkema":{"name":"Brasserie Harkema","address":"Nes 67, Amsterdã","country":"holanda","lat":52.3701184,"lng":4.8935454},"holanda/cafe-americain":{"name":"Café Americain","address":"Leidsekade 97, Amsterdã","country":"holanda","lat":52.3638288,"lng":4.8810205},"holanda/cafe-de-jaren":{"name":"Café de Jaren","address":"Nieuwe Doelenstraat 20, Amsterdã","country":"holanda","lat":52.3680595,"lng":4.8953468},"holanda/ciel-bleu":{"name":"Ciel Bleu","address":"Ferdinand Bolstraat 333, Amsterdã","country":"holanda","lat":52.3487287,"lng":4.894117},"holanda/de-kas":{"name":"De Kas","address":"Kamerlingh Onneslaan 3, Amsterdã","country":"holanda","lat":52.3522924,"lng":4.9305718},"holanda/rijks":{"name":"Rijks","address":"Museumstraat 2, Amsterdã","country":"holanda","lat":52.3595984,"lng":4.8842926},"holanda/tempo-doeloe":{"name":"Tempo Doeloe","address":"Utrechtsestraat 75, Amsterdã","country":"holanda","lat":52.3632827,"lng":4.8986443},"holanda/vinkeles":{"name":"Vinkeles","address":"Keizersgracht 384, Amsterdã","country":"holanda","lat":52.3692629,"lng":4.8834577}};
+const COORDS={"holanda/nh-collection-amsterdam-barbizon-palace":{"name":"NH Collection Amsterdam Barbizon Palace","address":"Prins Hendrikkade 59-72, 1012 AD Amsterdã","country":"holanda","lat":52.3776,"lng":4.9007},"holanda/brasserie-harkema":{"name":"Brasserie Harkema","address":"Nes 67, Amsterdã","country":"holanda","lat":52.3701184,"lng":4.8935454},"holanda/cafe-americain":{"name":"Café Americain","address":"Leidsekade 97, Amsterdã","country":"holanda","lat":52.3638288,"lng":4.8810205},"holanda/cafe-de-jaren":{"name":"Café de Jaren","address":"Nieuwe Doelenstraat 20, Amsterdã","country":"holanda","lat":52.3680595,"lng":4.8953468},"holanda/ciel-bleu":{"name":"Ciel Bleu","address":"Ferdinand Bolstraat 333, Amsterdã","country":"holanda","lat":52.3487287,"lng":4.894117},"holanda/de-kas":{"name":"De Kas","address":"Kamerlingh Onneslaan 3, Amsterdã","country":"holanda","lat":52.3522924,"lng":4.9305718},"holanda/rijks":{"name":"Rijks","address":"Museumstraat 2, Amsterdã","country":"holanda","lat":52.3595984,"lng":4.8842926},"holanda/tempo-doeloe":{"name":"Tempo Doeloe","address":"Utrechtsestraat 75, Amsterdã","country":"holanda","lat":52.3632827,"lng":4.8986443},"holanda/vinkeles":{"name":"Vinkeles","address":"Keizersgracht 384, Amsterdã","country":"holanda","lat":52.3692629,"lng":4.8834577}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LULI DIAS · Restaurants & Hotels — Guia Curado</title>
+<meta name="description" content="Guia gastronómico e hoteleiro pessoal de Luli Dias. 810 restaurantes e 79 hotéis curados em 34 países, com independência editorial garantida.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5}
+html,body{min-height:100%;background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;line-height:1.6}
+
+.container{max-width:1200px;margin:0 auto;padding:0 32px}
+@media(max-width:600px){.container{padding:0 20px}}
+
+/* Navigation */
+.nav{position:sticky;top:0;background:rgba(247,243,238,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:50;padding:14px 0}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:13px;letter-spacing:6px;color:var(--ink);font-weight:400}
+.nav-links{display:flex;gap:24px;align-items:center;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500}
+.nav-links a{color:var(--ink-lt);text-decoration:none}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:var(--ink);color:var(--white);padding:10px 22px;border-radius:24px;letter-spacing:2px}
+.nav-cta:hover{background:var(--gold)}
+@media(max-width:600px){.nav-links a:not(.nav-cta){display:none}}
+
+/* Hero */
+.hero{padding:90px 0 80px;text-align:center}
+.hero-mast{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:18px;letter-spacing:10px;color:var(--ink-lt);font-weight:400;margin-bottom:18px}
+.hero-orn{display:inline-flex;align-items:center;gap:14px;margin-bottom:32px}
+.orn-line{height:1px;width:64px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.orn-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg)}
+.hero-title{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:68px;font-weight:400;line-height:1.05;color:var(--ink);margin-bottom:22px;letter-spacing:-1px}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--ink-lt);max-width:680px;margin:0 auto 42px;line-height:1.5}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;padding:15px 36px;border-radius:30px;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:500;text-decoration:none;transition:all .25s;cursor:pointer;border:none;font-family:'Montserrat',sans-serif}
+.btn-primary{background:var(--ink);color:var(--white)}
+.btn-primary:hover{background:var(--gold);transform:translateY(-2px);box-shadow:0 8px 24px rgba(184,146,42,.25)}
+.btn-secondary{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn-secondary:hover{background:var(--ink);color:var(--white)}
+
+@media(max-width:600px){
+  .hero{padding:60px 0 50px}
+  .hero-title{font-size:44px}
+  .hero-sub{font-size:18px}
+  .hero-mast{font-size:14px;letter-spacing:6px}
+}
+
+/* Stats */
+.stats-bar{background:var(--gold-bg);border-block:1px solid var(--border);padding:38px 0}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+.stat-num{font-family:'Playfair Display',serif;font-size:42px;font-weight:500;color:var(--gold);line-height:1}
+.stat-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:8px;font-weight:500}
+@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr);gap:30px}.stat-num{font-size:32px}}
+
+/* Sections */
+.section{padding:90px 0}
+.section-label{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:18px;font-weight:500}
+.section-title{font-family:Didot,'Playfair Display',Georgia,serif;font-size:42px;font-weight:400;text-align:center;margin-bottom:48px;letter-spacing:-.5px}
+.section-title em{font-style:italic;color:var(--gold)}
+@media(max-width:600px){.section{padding:60px 0}.section-title{font-size:32px}}
+
+/* About */
+.about{background:var(--white);border-block:1px solid var(--border)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-photo{width:100%;height:480px;object-fit:cover;border-radius:4px;filter:grayscale(20%)}
+.about-text p{font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.7;color:var(--ink-lt);margin-bottom:18px}
+.about-text p strong{font-weight:500;color:var(--ink)}
+.about-distinctions{margin-top:28px;padding-top:24px;border-top:1px solid var(--border)}
+.about-distinctions li{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);padding:6px 0;list-style:none}
+.about-distinctions li::before{content:'✦';color:var(--gold);margin-right:10px}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:40px}.about-photo{height:360px}}
+
+/* Featured */
+.featured-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.fcard{background:var(--white);border-radius:6px;overflow:hidden;border-left:3px solid var(--gold-lt);transition:transform .3s,box-shadow .3s}
+.fcard:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(26,26,26,.1)}
+.fcard-photo{width:100%;height:220px;object-fit:cover;display:block;background:var(--gold-bg)}
+.fcard-body{padding:22px}
+.fcard-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;margin-bottom:4px}
+.fcard-meta{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.fcard-desc{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--ink-lt);font-style:italic;line-height:1.5}
+@media(max-width:900px){.featured-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto}}
+
+/* Why */
+.why{background:var(--ink);color:var(--white);text-align:center;padding:80px 0}
+.why-title{font-family:Didot,'Playfair Display',Georgia,serif;font-size:38px;font-weight:400;margin-bottom:14px}
+.why-title em{color:var(--gold-lt);font-style:italic}
+.why-sub{font-family:'Cormorant Garamond',serif;font-size:20px;color:#bbb;max-width:680px;margin:0 auto 50px;font-style:italic}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;text-align:left;max-width:980px;margin:0 auto}
+.why-item-num{font-family:Didot,Georgia,serif;font-size:36px;color:var(--gold-lt);font-weight:500;margin-bottom:8px}
+.why-item-title{font-family:'Playfair Display',serif;font-size:18px;margin-bottom:8px;font-weight:500}
+.why-item-text{font-size:13px;color:#999;line-height:1.6}
+@media(max-width:900px){.why-grid{grid-template-columns:1fr}}
+
+/* Pricing teaser */
+.pricing-teaser{padding:90px 0;text-align:center}
+.pricing-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:48px auto 0}
+.pcard{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:36px 28px;transition:all .3s}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.07)}
+.pcard.featured{border-color:var(--gold);background:linear-gradient(180deg,var(--gold-bg) 0%,var(--white) 60%);position:relative}
+.pcard.featured::before{content:'★ FUNDADORES · 100 VAGAS';position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--white);font-size:9px;letter-spacing:2.5px;padding:6px 14px;border-radius:14px;font-weight:600}
+.pcard-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;margin-bottom:14px}
+.pcard-price{font-family:'Playfair Display',serif;font-size:48px;font-weight:500;color:var(--ink);margin-bottom:6px}
+.pcard-price small{font-size:14px;color:var(--ink-lt);font-weight:400}
+.pcard-pricing-period{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:24px}
+.pcard-features{text-align:left;margin:24px 0;padding-top:24px;border-top:1px solid var(--border)}
+.pcard-features li{padding:6px 0;list-style:none;font-size:13px;color:var(--ink-lt)}
+.pcard-features li::before{content:'✓';color:var(--gold);margin-right:10px;font-weight:600}
+@media(max-width:900px){.pricing-cards{grid-template-columns:1fr}}
+
+/* Footer */
+footer{background:var(--ink);color:#999;padding:60px 0 30px;text-align:center;font-size:11px;letter-spacing:2px;text-transform:uppercase}
+footer a{color:var(--gold-lt);text-decoration:none;margin:0 10px}
+.footer-orn{margin:0 auto 24px;display:inline-flex;align-items:center;gap:14px}
+.footer-orn .orn-line{background:linear-gradient(90deg,transparent,var(--gold-lt),transparent)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <div class="nav-brand">LULI DIAS</div>
+    <div class="nav-links">
+      <a href="sobre.html">Sobre</a>
+      <a href="portugal-guia.html">Preview Portugal</a>
+      <a href="subscrever.html" class="btn nav-cta">Subscrever</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-mast">LULI DIAS</div>
+    <div class="hero-orn">
+      <div class="orn-line"></div>
+      <div class="orn-diamond"></div>
+      <div class="orn-line"></div>
+    </div>
+    <h1 class="hero-title">Restaurants &<br><em>Hotels</em></h1>
+    <p class="hero-sub">Um guia gastronómico e hoteleiro curado pessoalmente em 34 países. Sem convites pagos, sem refeições oferecidas — apenas casas que merecem entrar nesta lista.</p>
+    <div class="hero-ctas">
+      <a href="subscrever.html" class="btn btn-primary">Subscrever — $50/ano</a>
+      <a href="portugal-guia.html" class="btn btn-secondary">Ver Portugal grátis</a>
+    </div>
+  </div>
+</section>
+
+<section class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div><div class="stat-num">34</div><div class="stat-lbl">Países</div></div>
+      <div><div class="stat-num">810</div><div class="stat-lbl">Restaurantes</div></div>
+      <div><div class="stat-num">79</div><div class="stat-lbl">Hotéis</div></div>
+      <div><div class="stat-num">85 ★</div><div class="stat-lbl">Estrelas Michelin</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section about">
+  <div class="container">
+    <div class="about-grid">
+      <img class="about-photo" src="assets/profile/luli-dias.jpg" alt="Luli Dias" onerror="this.style.display='none'">
+      <div class="about-text">
+        <div class="section-label" style="text-align:left">SOBRE O CURADOR</div>
+        <h2 class="section-title" style="text-align:left;margin-bottom:24px">Uma vida entre vinhos e <em>mesas</em></h2>
+        <p>Luli Dias é empresário brasileiro de terceira geração de uma família portuguesa. Cresceu num ambiente onde gastronomia, vinho e hospitalidade fazem parte do quotidiano.</p>
+        <p>Hoje é sócio da <strong>Épice Wine & Spirits</strong>, uma das dez maiores importadoras de vinhos do Brasil. Fluente em <strong>cinco idiomas</strong>, realiza em média <strong>40 viagens por ano</strong> e já visitou quase 50 países.</p>
+        <ul class="about-distinctions">
+          <li>Cavaleiro do Vinho do Porto · 2022</li>
+          <li>Comandeur Saint-Émilion · 2023</li>
+          <li>Comandeur Pomerol · 2024</li>
+          <li>Bontemps Médoc & Graves · 2024</li>
+          <li>Mestre da Commanderie de Bordeaux · 2025</li>
+          <li>Commandeur de Bordeaux · 2026</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-label">DESTAQUES DO GUIA</div>
+    <h2 class="section-title">Algumas das <em>casas</em></h2>
+    <div class="featured-grid">
+      <div class="fcard">
+        <img class="fcard-photo" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&h=500&fit=crop" alt="Belmond Copacabana Palace">
+        <div class="fcard-body">
+          <div class="fcard-name">Belmond Copacabana Palace</div>
+          <div class="fcard-meta">RIO DE JANEIRO · 5★ LENDÁRIO</div>
+          <div class="fcard-desc">"O hotel mais lendário do Brasil, inaugurado em 1923. Frente para a praia mais icónica do Rio, com Cipriani, Mee e a piscina mais fotografada da cidade."</div>
+        </div>
+      </div>
+      <div class="fcard">
+        <img class="fcard-photo" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=500&fit=crop" alt="Picchi São Paulo">
+        <div class="fcard-body">
+          <div class="fcard-name">Picchi</div>
+          <div class="fcard-meta">SÃO PAULO · ★ MICHELIN</div>
+          <div class="fcard-desc">"Chef Pier Paolo Picchi conduz um dos restaurantes italianos mais sofisticados do Brasil num parque histórico. Menu rigoroso e sazonal."</div>
+        </div>
+      </div>
+      <div class="fcard">
+        <img class="fcard-photo" src="https://images.unsplash.com/photo-1582126892906-5ba111fadbf6?w=800&h=500&fit=crop" alt="The Yeatman Porto">
+        <div class="fcard-body">
+          <div class="fcard-name">The Yeatman Hotel</div>
+          <div class="fcard-meta">PORTO · ★★ MICHELIN</div>
+          <div class="fcard-desc">"Hotel-vinícola em Vila Nova de Gaia com vista panorâmica sobre o Porto. Restaurante 2 Estrelas Michelin, Chef Ricardo Costa."</div>
+        </div>
+      </div>
+      <div class="fcard">
+        <img class="fcard-photo" src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=800&h=500&fit=crop" alt="Plaza Athénée Paris">
+        <div class="fcard-body">
+          <div class="fcard-name">Plaza Athénée</div>
+          <div class="fcard-meta">PARIS · 5★ LENDÁRIO</div>
+          <div class="fcard-desc">"Fachada icónica de gerânios vermelhos virada para a Tour Eiffel. Templo do glamour parisiense desde 1913. Alain Ducasse au Plaza com 3 estrelas Michelin."</div>
+        </div>
+      </div>
+      <div class="fcard">
+        <img class="fcard-photo" src="https://images.unsplash.com/photo-1551918120-9739cb430c6d?w=800&h=500&fit=crop" alt="Six Senses Douro">
+        <div class="fcard-body">
+          <div class="fcard-name">Six Senses Douro Valley</div>
+          <div class="fcard-meta">DOURO · 5★ ULTRA-LUXO</div>
+          <div class="fcard-desc">"Quinta do séc. XIX no Douro Vinhateiro. 60 quartos em meio às vinhas, Wine Library com 1.500 referências, piscina infinita."</div>
+        </div>
+      </div>
+      <div class="fcard">
+        <img class="fcard-photo" src="https://images.unsplash.com/photo-1576675784201-0e142b423952?w=800&h=500&fit=crop" alt="D.O.M São Paulo">
+        <div class="fcard-body">
+          <div class="fcard-name">D.O.M</div>
+          <div class="fcard-meta">SÃO PAULO · ★★ MICHELIN</div>
+          <div class="fcard-desc">"Chef Alex Atala. Ingredientes da Amazónia e do Cerrado numa cozinha de vanguarda que colocou o Brasil no mapa gastronómico mundial."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why">
+  <div class="container">
+    <div class="section-label" style="color:var(--gold-lt)">POR QUE ESTE GUIA</div>
+    <h2 class="why-title">Independência <em>editorial</em>.</h2>
+    <p class="why-sub">Não há aqui jornalismo, nem conteúdo patrocinado. Apenas mesas e quartos que merecem o teu tempo e o teu dinheiro.</p>
+    <div class="why-grid">
+      <div>
+        <div class="why-item-num">01</div>
+        <div class="why-item-title">Sem convites pagos</div>
+        <div class="why-item-text">Cada conta é paga do meu próprio bolso. Garantia de que cada recomendação é genuína.</div>
+      </div>
+      <div>
+        <div class="why-item-num">02</div>
+        <div class="why-item-title">Curadoria rigorosa</div>
+        <div class="why-item-text">Os 810 restaurantes e 79 hotéis listados não são todos os que visitei. São apenas os que considero realmente bons o suficiente.</div>
+      </div>
+      <div>
+        <div class="why-item-num">03</div>
+        <div class="why-item-title">Atualização contínua</div>
+        <div class="why-item-text">40 viagens por ano. O guia cresce com a vida. Subscritores recebem todas as novas adições automaticamente.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-teaser">
+  <div class="container">
+    <div class="section-label">SUBSCRIÇÕES</div>
+    <h2 class="section-title">Acesso ao <em>guia</em></h2>
+    <p class="hero-sub" style="font-size:18px;margin-bottom:8px">Começa grátis com Portugal. Quando estiveres pronto para ver os 33 países restantes, escolhe o plano.</p>
+    <div class="pricing-cards">
+      <div class="pcard">
+        <div class="pcard-name">Free</div>
+        <div class="pcard-price">$0<small>/sempre</small></div>
+        <div class="pcard-pricing-period">Apenas Portugal</div>
+        <ul class="pcard-features">
+          <li>82 restaurantes em Portugal</li>
+          <li>22 hotéis em Portugal</li>
+          <li>Mapa interactivo</li>
+          <li>Filtros por cidade e cuisine</li>
+        </ul>
+        <a href="portugal-guia.html" class="btn btn-secondary" style="display:block;text-align:center">Explorar Portugal</a>
+      </div>
+      <div class="pcard">
+        <div class="pcard-name">Anual</div>
+        <div class="pcard-price">$50<small>/ano</small></div>
+        <div class="pcard-pricing-period">Renovação anual</div>
+        <ul class="pcard-features">
+          <li>Os 34 países do guia</li>
+          <li>810 restaurantes · 79 hotéis</li>
+          <li>Near Me — perto de ti</li>
+          <li>Atualizações contínuas</li>
+          <li>Acesso ao app PWA</li>
+        </ul>
+        <a href="subscrever.html" class="btn btn-primary" style="display:block;text-align:center">Subscrever</a>
+      </div>
+      <div class="pcard featured">
+        <div class="pcard-name">Lifetime</div>
+        <div class="pcard-price">$199<small>/uma vez</small></div>
+        <div class="pcard-pricing-period">Pagamento único</div>
+        <ul class="pcard-features">
+          <li>Tudo do plano Anual</li>
+          <li><strong>Para sempre</strong> · sem renovação</li>
+          <li>Edição Fundadores</li>
+          <li>Acesso vitalício a novidades</li>
+          <li>Limitado a 100 utilizadores</li>
+        </ul>
+        <a href="subscrever.html" class="btn btn-primary" style="display:block;text-align:center;background:var(--gold)">Garantir vaga</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-orn">
+      <div class="orn-line"></div>
+      <div class="orn-diamond"></div>
+      <div class="orn-line"></div>
+    </div>
+    <div style="margin-bottom:14px;font-family:Didot,'Playfair Display',Georgia,serif;font-size:14px;letter-spacing:8px;color:var(--gold-lt)">LULI DIAS</div>
+    <div>
+      <a href="sobre.html">Sobre</a> ·
+      <a href="portugal-guia.html">Preview</a> ·
+      <a href="subscrever.html">Subscrever</a>
+    </div>
+    <div style="margin-top:24px;font-size:9px;color:#666">© 2026 Luli Dias · Restaurants & Hotels · Todos os direitos reservados</div>
+  </div>
+</footer>
+
+</body>
+</html>
