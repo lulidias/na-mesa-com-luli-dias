@@ -185,6 +185,11 @@ function render(){
   const groups={};
   filtered.forEach(c=>{if(!groups[c.region])groups[c.region]=[];groups[c.region].push(c);});
   Object.entries(groups).forEach(([region,cities])=>{
+    // Skip region without visible entries
+    const _passes=r=>!(activeType==='r'&&r.t==='h')&&!(activeType==='h'&&r.t!=='h')&&!(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine);
+    const _regionHas=cities.some(c=>c.entries.some(_passes));
+    if(!_regionHas)return;
+
     const rd=document.createElement('div');
     rd.style.cssText='display:flex;align-items:center;gap:16px;margin:44px 0 8px';
     rd.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 16px">${region}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;

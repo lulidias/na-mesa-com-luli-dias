@@ -440,6 +440,11 @@ function render(){
   });
 
   Object.entries(groups).forEach(([region,cities])=>{
+    // Skip region without visible entries
+    const _passes=r=>!(activeType==='r'&&r.t==='h')&&!(activeType==='h'&&r.t!=='h')&&!(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine);
+    const _regionHas=cities.some(c=>c.entries.some(_passes));
+    if(!_regionHas)return;
+
     // Region divider
     const rd=document.createElement('div');
     rd.style.cssText='display:flex;align-items:center;gap:16px;margin:44px 0 8px';
@@ -447,6 +452,10 @@ function render(){
     main.appendChild(rd);
 
     cities.forEach(({city,entries})=>{
+      const _visible=entries.filter(_passes);
+      if(_visible.length===0)return;
+      const _lbl=activeType==='h'?'hotel':activeType==='r'?'restaurante':'estabelecimento';
+
       // Count Michelin distinctions for this city
       const michelinCount=entries.filter(r=>r.m&&(r.m==='m2'||r.m==='m1'||r.m==='bib'||r.m==='green')).length;
       const starCount=entries.filter(r=>r.m==='m2').length*2+entries.filter(r=>r.m==='m1').length;
@@ -461,8 +470,8 @@ function render(){
           <div class="city-name">${city}</div>
         </div>
         <div class="city-count-block">
-          <div class="city-count-num">${entries.length}</div>
-          <div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div>
+          <div class="city-count-num">${_visible.length}</div>
+          <div class="city-count-lbl">${_lbl}${_visible.length!==1?'s':''}</div>
         </div>
       </div>
       <div class="restaurants-grid" id="g-${city.replace(/\s/g,'-')}"></div>`;
