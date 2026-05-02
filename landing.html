@@ -65,13 +65,14 @@ html,body{min-height:100%;background:var(--cream);color:var(--ink);font-family:'
 /* About */
 .about{background:var(--white);border-block:1px solid var(--border)}
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.about-photo{width:100%;height:480px;object-fit:cover;border-radius:4px;filter:grayscale(20%)}
+.about-photo-wrap{width:100%;background:var(--gold-bg);border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:20px}
+.about-photo{width:100%;height:auto;max-height:560px;object-fit:contain;display:block;border-radius:4px}
 .about-text p{font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.7;color:var(--ink-lt);margin-bottom:18px}
 .about-text p strong{font-weight:500;color:var(--ink)}
 .about-distinctions{margin-top:28px;padding-top:24px;border-top:1px solid var(--border)}
 .about-distinctions li{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);padding:6px 0;list-style:none}
 .about-distinctions li::before{content:'✦';color:var(--gold);margin-right:10px}
-@media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:40px}.about-photo{height:360px}}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:40px}.about-photo{max-height:480px}}
 
 /* Featured */
 .featured-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
@@ -162,7 +163,9 @@ footer a{color:var(--gold-lt);text-decoration:none;margin:0 10px}
 <section class="section about">
   <div class="container">
     <div class="about-grid">
-      <img class="about-photo" src="assets/profile/luli-dias.jpg" alt="Luli Dias" onerror="this.style.display='none'">
+      <div class="about-photo-wrap">
+        <img class="about-photo" src="assets/profile/luli-dias.jpg" alt="Luli Dias" onerror="this.parentElement.style.display='none'">
+      </div>
       <div class="about-text">
         <div class="section-label" style="text-align:left">SOBRE O CURADOR</div>
         <h2 class="section-title" style="text-align:left;margin-bottom:24px">Uma vida entre vinhos e <em>mesas</em></h2>
