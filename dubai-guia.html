@@ -96,7 +96,13 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 .map-cancel{margin-top:16px;width:100%;padding:12px;border:none;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer}
 footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
 footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
-footer a{color:var(--gold);text-decoration:none}</style>
+footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
+</style>
 </head>
 <body>
 <nav class="top-nav">
@@ -116,6 +122,12 @@ footer a{color:var(--gold);text-decoration:none}</style>
   <span class="view-toggle-lbl">Vista:</span>
   <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
+</div>
+<div class="type-bar">
+  <span class="type-lbl">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
 </div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
@@ -148,12 +160,12 @@ function openMap(name,addr){
 function closeMap(){document.getElementById('mapModal').classList.remove('open');}
 
 const FOLDER='dubai';
-const CITIES=[{"city": "Dubai", "region": "Dubai", "entries": [{"n": "Al Nafoorah", "q": "Libanesa de Luxo", "a": "Jumeirah Al Qasr Hotel, Dubai", "p": "+971 4 432 3232", "pr": 3, "h": true, "d": "O melhor restaurante de cozinha libanesa de Dubai, instalado no magnífico Jumeirah Al Qasr Hotel. Meze libaneses de excelência — hummus, fattoush, kibbeh — com vista para as torres de Madinat Jumeirah. Uma viagem ao Líbano no coração do Golfo."}, {"n": "Pierchic", "q": "Italiana · Frutos do Mar", "a": "Al Qasr Hotel, Jumeirah, Dubai", "p": "+971 4 432 3232", "pr": 4, "h": true, "d": "Restaurante italiano construído sobre um cais privado no Mar Arábico, com vista para o Burj Al Arab. Frutos do mar mediterrâneos e cozinha italiana de luxo num dos cenários mais espetaculares de Dubai."}]}];
+const CITIES=[{"city": "Dubai", "region": "Dubai", "entries": [{"n": "Al Nafoorah", "q": "Libanesa de Luxo", "a": "Jumeirah Al Qasr Hotel, Dubai", "p": "+971 4 432 3232", "pr": 3, "h": true, "d": "O melhor restaurante de cozinha libanesa de Dubai, instalado no magnífico Jumeirah Al Qasr Hotel. Meze libaneses de excelência — hummus, fattoush, kibbeh — com vista para as torres de Madinat Jumeirah. Uma viagem ao Líbano no coração do Golfo."}, {"n": "Pierchic", "q": "Italiana · Frutos do Mar", "a": "Al Qasr Hotel, Jumeirah, Dubai", "p": "+971 4 432 3232", "pr": 4, "h": true, "d": "Restaurante italiano construído sobre um cais privado no Mar Arábico, com vista para o Burj Al Arab. Frutos do mar mediterrâneos e cozinha italiana de luxo num dos cenários mais espetaculares de Dubai."}, {"t":"h", "n":"Jumeirah Al Qasr", "q":"Resort · Palácio Árabe 5★", "a":"Madinat Jumeirah, Al Sufouh Road, Dubai", "p":"+971 4 366 8888", "pr":4, "s":5, "d":"Resort cinco-estrelas no complexo Madinat Jumeirah, inspirado em palácios árabes summer palaces. 294 quartos e suítes, 4 piscinas exteriores, spa Talise, vista para o icónico Burj Al Arab. Acesso aos 40+ restaurantes do Madinat Jumeirah, praia privada com 2km, abras (barcos venezianos) através dos canais do resort. Membro Leading Hotels of the World."}]}];
 
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin',beach:'Beach Club'};
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
-function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
+function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
 
 const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
 document.getElementById('filters').innerHTML='<span class="filter-lbl">Região:</span>'+
@@ -181,7 +193,7 @@ function render(){
       sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div></div></div><div class="restaurants-grid"></div>`;
       main.appendChild(sec);
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const nm=r.n.replace(/'/g,"\\'");
         const ad=(r.a&&r.a!==city)?r.a.replace(/'/g,"\\'"):'';
@@ -247,6 +259,27 @@ function buildCuisineBar(){
   if(!bar)return;
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
+
+let activeType='all';
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('type');
+  if (t === 'r' || t === 'h') {
+    activeType = t;
+    setTimeout(() => {
+      document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+      const btn = document.getElementById('type' + (t==='r'?'R':'H'));
+      if (btn) btn.classList.add('active');
+    }, 0);
+  }
+})();
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
 let activeCuisine='Todas';
 function setCuisine(c,btn){
   activeCuisine=c;
@@ -259,7 +292,7 @@ buildCuisineBar();
 render();
 
 let mapInstance=null;
-const COORDS={"dubai/al-nafoorah":{"name":"Al Nafoorah","address":"Jumeirah Al Qasr Hotel, Dubai","country":"dubai","lat":25.131031,"lng":55.1838897}};
+const COORDS={"dubai/jumeirah-al-qasr":{"name": "Jumeirah Al Qasr", "address": "Madinat Jumeirah, Al Sufouh Road, Dubai", "country": "dubai", "lat": 25.1322, "lng": 55.1849},"dubai/al-nafoorah":{"name":"Al Nafoorah","address":"Jumeirah Al Qasr Hotel, Dubai","country":"dubai","lat":25.131031,"lng":55.1838897}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');

@@ -132,6 +132,12 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
 footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 footer a{color:var(--gold);text-decoration:none}
+.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -155,6 +161,7 @@ footer a{color:var(--gold);text-decoration:none}
 <div class="stats-bar">
   <div class="stat"><div class="stat-num">10</div><div class="stat-lbl">Restaurantes</div></div>
   <div class="stat"><div class="stat-num">2</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">4</div><div class="stat-lbl">Hotéis</div></div>
   <div class="stat"></div>
 </div>
 
@@ -171,6 +178,12 @@ footer a{color:var(--gold);text-decoration:none}
   <span class="view-toggle-lbl">Vista:</span>
   <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
+</div>
+<div class="type-bar">
+  <span class="type-lbl">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
 </div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
@@ -210,9 +223,18 @@ const CITIES=[
     {n:"Searsons",q:"Pub Histórico",a:"42 Upper Baggot Street, Dublin 4",p:"+353 1 660 2307",pr:1,d:"Pub vitoriano de referência em Baggot Street, com interiores originais do século XIX. Um dos pubs mais bonitos e autênticos de Dublin."},
     {n:"The Brazen Head",q:"Pub Histórico",a:"20 Lower Bridge Street, Dublin 8",p:"+353 1 677 9549",pr:1,d:"O pub mais antigo da Irlanda, fundado em 1198. Às margens do Liffey, música tradicional todas as noites."},
     {n:"The Duke",q:"Pub Histórico · Literário",a:"9 Duke Street, Dublin 2",p:"+353 1 679 9553",pr:1,d:"Pub literário ponto de partida do Dublin Literary Pub Crawl. Frequentado pelos fantasmas de Joyce, Beckett e Wilde."}
+  ,
+    {t:"h",n:"The Dylan Hotel",q:"Hotel · Boutique 5★",a:"Eastmoreland Place, Ballsbridge, Dublin 4",p:"+353 1 660 3000",pr:4,s:5,d:"Hotel boutique cinco-estrelas em Ballsbridge, Dublin, num edifício vitoriano restaurado. 72 quartos com decoração contemporânea de luxo. Restaurante Tavern, bar, jardim de coquetéis. Localização privilegiada perto da embaixada americana e da animação de Ballsbridge. Um dos hotéis boutique mais elegantes de Dublin."},
+    {t:"h",n:"The Davenport Hotel",q:"Hotel · Histórico 4★",a:"Merrion Square Lower, Dublin 2",p:"+353 1 607 3500",pr:3,s:4,d:"Hotel histórico quatro-estrelas instalado num edifício vitoriano em Merrion Square, no coração de Dublin. 113 quartos elegantes, restaurante Lanyards, e localização privilegiada a poucos minutos a pé de Trinity College, Grafton Street e Temple Bar. Atmosfera clássica georgiana."}
   ]},
   {city:"Carlingford",region:"Irlanda",entries:[
     {n:"P.J. O'Hare",q:"Pub Histórico · Frutos do Mar",a:"Tholsel Street, Carlingford, Co. Louth",p:"+353 42 937 3106",pr:2,d:"O pub mais famoso da vila medieval de Carlingford, famosa pelas ostras do Lough Carlingford. Ostras frescas e Guinness com vista para o castelo normando."}
+  ]},
+  {city:"Cong",region:"Cong",entries:[
+    {t:"h",n:"Ashford Castle",q:"Castelo · Lendário 5★",a:"Ashford Castle, Cong, Co. Mayo",p:"+353 94 954 6003",pr:4,s:5,d:"Castelo do séc. XIII transformado em hotel de luxo, em 350 acres de jardins à beira do Lough Corrib. 83 quartos e suítes em estilo barroco autêntico. Restaurante George V (cozinha gastronómica), Cullen's at the Cottage, Drawing Room para chá da tarde. Falconaria, equestre, golfe, spa. Membro Red Carnation Hotels e Forbes Travel Guide 5★. Frequentado por reis e celebridades — Pierce Brosnan casou-se aqui."}
+  ]},
+  {city:"Straffan",region:"Straffan",entries:[
+    {t:"h",n:"The K Club",q:"Resort · Golfe & Country 5★",a:"Straffan, Co. Kildare",p:"+353 1 601 7200",pr:4,s:5,d:"Resort cinco-estrelas em 550 acres no rio Liffey, Co. Kildare. Casa solarenga do séc. XIX com 134 quartos e suítes. Dois campos de golfe Arnold Palmer (sede da Ryder Cup 2006), spa K, sete restaurantes. Membro Leading Hotels of the World. O endereço de eleição para golfistas e fim-de-semana de luxo na Irlanda."}
   ]}
 ];
 
@@ -221,7 +243,7 @@ const MBADGE={m2:'bm2',m1:'bm1',bib:'bbib',green:'bgreen',rec:'brec',award:'bawa
 const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes':'#f7ede8','Italiana':'#f5f0e8','Japonesa':'#f0f0f5','default':'#f2ede8'};
 function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
-function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe'))?'\uD83E\uDD9E':q&&q.includes('Carne')?'\uD83E\uDD69':q&&q.includes('Japon')?'\uD83C\uDF63':q&&q.includes('Portuguesa')?'\uD83D\uDC1F':'\uD83C\uDF7D';}
+function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe'))?'\uD83E\uDD9E':q&&q.includes('Carne')?'\uD83E\uDD69':q&&q.includes('Japon')?'\uD83C\uDF63':q&&q.includes('Portuguesa')?'\uD83D\uDC1F':'\uD83C\uDF7D';}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'R$'.repeat(pr)+'<span style="color:var(--border)">'+'R$'.repeat(4-pr)+'</span></span>';}
 
 var cityNames = ['Todas', 'Dublin', 'Carlingford'];
@@ -325,12 +347,33 @@ function normCuisine(q){
 }
 function buildCuisineBar(){
   const set=new Set();
-  CITIES.forEach(c=>c.entries.forEach(r=>{if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;const n=normCuisine(r.q);if(n)set.add(n);}));
+  CITIES.forEach(c=>c.entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;const n=normCuisine(r.q);if(n)set.add(n);}));
   const cuisines=['Todas',...[...set].sort((a,b)=>a.localeCompare(b,'pt'))];
   const bar=document.getElementById('cuisineBar');
   if(!bar)return;
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
+
+let activeType='all';
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('type');
+  if (t === 'r' || t === 'h') {
+    activeType = t;
+    setTimeout(() => {
+      document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+      const btn = document.getElementById('type' + (t==='r'?'R':'H'));
+      if (btn) btn.classList.add('active');
+    }, 0);
+  }
+})();
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
 let activeCuisine='Todas';
 function setCuisine(c,btn){
   activeCuisine=c;
@@ -343,7 +386,7 @@ buildCuisineBar();
 render();
 
 let mapInstance=null;
-const COORDS={"irlanda/big-fan-bao":{"name":"Big Fan Bao","address":"South Anne Street, Dublin 2","country":"irlanda","lat":53.3410452,"lng":-6.25891},"irlanda/la-gordita":{"name":"La Gordita","address":"1 Bath Avenue, Dublin 4","country":"irlanda","lat":53.3375324,"lng":-6.2306815},"irlanda/mcdaids":{"name":"McDaids","address":"3 Harry Street, Dublin 2","country":"irlanda","lat":53.3412245,"lng":-6.2610034},"irlanda/merchants-arch":{"name":"Merchants Arch","address":"49 Wellington Quay, Temple Bar, Dublin 2","country":"irlanda","lat":53.3459431,"lng":-6.2628187},"irlanda/pi-temple-bar":{"name":"PI Temple Bar","address":"73-83 Dame Street, Dublin 2","country":"irlanda","lat":53.3441756,"lng":-6.2653727},"irlanda/pichet":{"name":"Pichet","address":"14-15 Trinity Street, Dublin 2","country":"irlanda","lat":53.3438588,"lng":-6.2621329},"irlanda/searsons":{"name":"Searsons","address":"42 Upper Baggot Street, Dublin 4","country":"irlanda","lat":53.3333278,"lng":-6.2429012},"irlanda/the-brazen-head":{"name":"The Brazen Head","address":"20 Lower Bridge Street, Dublin 8","country":"irlanda","lat":53.3449368,"lng":-6.2763108},"irlanda/the-duke":{"name":"The Duke","address":"9 Duke Street, Dublin 2","country":"irlanda","lat":53.3419649,"lng":-6.258728},"irlanda/p-j-o":{"name":"P.J. O","address":"Tholsel Street, Carlingford, Co. Louth","country":"irlanda","lat":54.040306,"lng":-6.1862623}};
+const COORDS={"irlanda/ashford-castle":{"name": "Ashford Castle", "address": "Ashford Castle, Cong, Co. Mayo", "country": "irlanda", "lat": 53.5258, "lng": -9.2769},"irlanda/the-k-club":{"name": "The K Club", "address": "Straffan, Co. Kildare", "country": "irlanda", "lat": 53.3169, "lng": -6.6122},"irlanda/the-dylan-hotel":{"name": "The Dylan Hotel", "address": "Eastmoreland Place, Ballsbridge, Dublin 4", "country": "irlanda", "lat": 53.3293, "lng": -6.2387},"irlanda/the-davenport-hotel":{"name": "The Davenport Hotel", "address": "Merrion Square Lower, Dublin 2", "country": "irlanda", "lat": 53.3389, "lng": -6.2496},"irlanda/big-fan-bao":{"name":"Big Fan Bao","address":"South Anne Street, Dublin 2","country":"irlanda","lat":53.3410452,"lng":-6.25891},"irlanda/la-gordita":{"name":"La Gordita","address":"1 Bath Avenue, Dublin 4","country":"irlanda","lat":53.3375324,"lng":-6.2306815},"irlanda/mcdaids":{"name":"McDaids","address":"3 Harry Street, Dublin 2","country":"irlanda","lat":53.3412245,"lng":-6.2610034},"irlanda/merchants-arch":{"name":"Merchants Arch","address":"49 Wellington Quay, Temple Bar, Dublin 2","country":"irlanda","lat":53.3459431,"lng":-6.2628187},"irlanda/pi-temple-bar":{"name":"PI Temple Bar","address":"73-83 Dame Street, Dublin 2","country":"irlanda","lat":53.3441756,"lng":-6.2653727},"irlanda/pichet":{"name":"Pichet","address":"14-15 Trinity Street, Dublin 2","country":"irlanda","lat":53.3438588,"lng":-6.2621329},"irlanda/searsons":{"name":"Searsons","address":"42 Upper Baggot Street, Dublin 4","country":"irlanda","lat":53.3333278,"lng":-6.2429012},"irlanda/the-brazen-head":{"name":"The Brazen Head","address":"20 Lower Bridge Street, Dublin 8","country":"irlanda","lat":53.3449368,"lng":-6.2763108},"irlanda/the-duke":{"name":"The Duke","address":"9 Duke Street, Dublin 2","country":"irlanda","lat":53.3419649,"lng":-6.258728},"irlanda/p-j-o":{"name":"P.J. O","address":"Tholsel Street, Carlingford, Co. Louth","country":"irlanda","lat":54.040306,"lng":-6.1862623}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');

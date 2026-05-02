@@ -132,6 +132,12 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
 footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 footer a{color:var(--gold);text-decoration:none}
+.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -155,6 +161,7 @@ footer a{color:var(--gold);text-decoration:none}
 <div class="stats-bar">
   <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Restaurantes</div></div>
   <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Hotéis</div></div>
   <div class="stat"><div class="stat-num">1 ★</div><div class="stat-lbl">Michelin</div></div>
 </div>
 
@@ -171,6 +178,12 @@ footer a{color:var(--gold);text-decoration:none}
   <span class="view-toggle-lbl">Vista:</span>
   <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
+</div>
+<div class="type-bar">
+  <span class="type-lbl">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
 </div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
@@ -216,6 +229,8 @@ const FOLDER='liechtenstein';
 const CITIES=[
   {city:"Vaduz",region:"Liechtenstein",entries:[
     {n:"Marée",q:"Clássica · Mediterrânea",a:"Mareestrasse 29 — Park Hotel Sonnenhof, Vaduz, 9490, Liechtenstein",p:"+423 239 02 02",pr:3,m:"m1",note:"1 Estrela Michelin · Chef Hubertus Real · Park Hotel Sonnenhof · Relais & Châteaux",h:true,d:"1 Estrela Michelin no Park Hotel Sonnenhof — Relais & Châteaux — com vista privilegiada sobre o Castelo de Vaduz e as montanhas dos Alpes. O Chef Hubertus Real cria pratos de elegância clássica e inspiração mediterrânea com ingredientes de primeiríssima qualidade. A célebre asa de raia em manteiga castanha com alcaparras e o raviolini de vitela e espinafres são pratos de culto. Adega com selecção extraordinária de vinhos de Liechtenstein, Borgonha e Bordéus. A esplanada \"Adlernest\" (Ninho da Águia) oferece uma das vistas mais deslumbrantes da Europa Central."}
+  ,
+    {t:"h",n:"Park Hotel Sonnenhof",q:"Hotel · Boutique Alpino 5★",a:"Mareestrasse 29, 9490 Vaduz",p:"+423 239 02 02",pr:4,s:5,d:"Hotel boutique cinco-estrelas em Vaduz com vista panorâmica para o Castelo de Vaduz e os Alpes do Liechtenstein. 29 quartos elegantes em arquitectura alpina contemporânea, restaurante Marée (cozinha de autor), spa, piscina exterior aquecida. Membro Relais & Châteaux. O único cinco-estrelas do principado."}
   ]}
 ];
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};
@@ -223,7 +238,7 @@ const MBADGE={m3:'bm3',m2:'bm2',m1:'bm1',bib:'bbib',green:'bgreen',rec:'brec',aw
 const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes':'#f7ede8','Italiana':'#f5f0e8','Japonesa':'#f0f0f5','Asiática':'#f0f4f0','Contemporânea':'#f2f0ee','Café':'#f7f0e0','default':'#f2ede8'};
 function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
-function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
+function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
 
 // Build region filter buttons
@@ -282,7 +297,7 @@ function render(){
       main.appendChild(sec);
 
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const bg=cardBg(r.q);
         const nm=r.n.replace(/'/g,"\\'");
@@ -290,7 +305,7 @@ function render(){
         const addrHtml=ad?`<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap('${nm}','${ad}')">${r.a}</span></div>`:'';
         const phoneHtml=r.p?`<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:${r.p.replace(/\s/g,'')}">${r.p}</a></div>`:'';
         const contact=(addrHtml||phoneHtml)?`<div class="card-contact">${addrHtml}${phoneHtml}</div>`:'';
-        const em=emoji(r.q);
+        const em=emoji(r.q,r.t);
         const badges=(r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge bhotel">Hospedagem</span>':'');
         card.innerHTML=`
@@ -358,6 +373,27 @@ function buildCuisineBar(){
   if(!bar)return;
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
+
+let activeType='all';
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('type');
+  if (t === 'r' || t === 'h') {
+    activeType = t;
+    setTimeout(() => {
+      document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+      const btn = document.getElementById('type' + (t==='r'?'R':'H'));
+      if (btn) btn.classList.add('active');
+    }, 0);
+  }
+})();
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
 let activeCuisine='Todas';
 function setCuisine(c,btn){
   activeCuisine=c;
@@ -370,7 +406,7 @@ buildCuisineBar();
 render();
 
 let mapInstance=null;
-const COORDS={};
+const COORDS={"liechtenstein/park-hotel-sonnenhof":{"name": "Park Hotel Sonnenhof", "address": "Mareestrasse 29, 9490 Vaduz", "country": "liechtenstein", "lat": 47.1389, "lng": 9.5232},};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
