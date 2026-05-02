@@ -138,6 +138,7 @@ footer a{color:var(--gold);text-decoration:none}
 .type-btn:hover{border-color:var(--gold);color:var(--gold)}
 .type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
 .hotel-stars{color:var(--gold);font-size:11px;letter-spacing:1px}
+.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -532,8 +533,9 @@ function render(){
         const addrHtml=ad?`<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap('${nm}','${ad}')">${r.a}</span></div>`:'';
         const phoneHtml=r.p?`<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:${r.p.replace(/\s/g,'')}">${r.p}</a></div>`:'';
         const contact=(addrHtml||phoneHtml)?`<div class="card-contact">${addrHtml}${phoneHtml}</div>`:'';
-        const em=emoji(r.q);
-        const badges=(r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
+        const em=emoji(r.q,r.t);
+        const badges=(r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
+                     (r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge bhotel">Hospedagem</span>':'');
         card.innerHTML=`
           <div class="card-photo-wrap"><img class="card-photo" src="fotos/brasil/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\' style=\\'background:${bg}\\'>${em}</div>'"></div>

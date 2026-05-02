@@ -138,6 +138,7 @@ footer a{color:var(--gold);text-decoration:none}
 .type-btn:hover{border-color:var(--gold);color:var(--gold)}
 .type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
 .hotel-stars{color:var(--gold);font-size:11px;letter-spacing:1px}
+.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -296,7 +297,7 @@ const MBADGE={m3:'bm3',m2:'bm2',m1:'bm1',bib:'bbib',green:'bgreen',rec:'brec',aw
 const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes':'#f7ede8','Italiana':'#f5f0e8','Japonesa':'#f0f0f5','Asiática':'#f0f4f0','Contemporânea':'#f2f0ee','Café':'#f7f0e0','default':'#f2ede8'};
 function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
-function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
+function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
 
 
@@ -364,8 +365,9 @@ function render(){
         const addrHtml=ad?`<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap('${nm}','${ad}')">${r.a}</span></div>`:'';
         const phoneHtml=r.p?`<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:${r.p.replace(/\s/g,'')}">${r.p}</a></div>`:'';
         const contact=(addrHtml||phoneHtml)?`<div class="card-contact">${addrHtml}${phoneHtml}</div>`:'';
-        const em=emoji(r.q);
-        const badges=(r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
+        const em=emoji(r.q,r.t);
+        const badges=(r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
+                     (r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge bhotel">Hospedagem</span>':'');
         card.innerHTML=`
           <div class="card-photo-wrap"><img class="card-photo" src="fotos/brasil/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\' style=\\'background:${bg}\\'>${em}</div>'"></div>
