@@ -496,14 +496,22 @@ function rebuildFilters(){
   const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h');
   const visibleCities = CITIES.filter(c => c.entries.some(_passes));
   const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.region))];
+  // Support both activeCity and activeRegion (different files use different names)
+  const useRegion = typeof activeRegion !== 'undefined';
+  const setterName = useRegion ? 'setRegion' : 'setCity';
+  const currentVal = useRegion ? activeRegion : (typeof activeCity !== 'undefined' ? activeCity : 'Todas');
   // If active filter no longer exists, reset to Todas
-  if (activeCity !== 'Todas' && !newCityList.includes(activeCity)) activeCity = 'Todas';
+  if (currentVal !== 'Todas' && !newCityList.includes(currentVal)) {
+    if (useRegion) activeRegion = 'Todas';
+    else if (typeof activeCity !== 'undefined') activeCity = 'Todas';
+  }
+  const newCurrent = useRegion ? activeRegion : (typeof activeCity !== 'undefined' ? activeCity : 'Todas');
   const filtersEl = document.getElementById('filters');
   if (filtersEl) {
     const lbl = filtersEl.querySelector('.filter-lbl');
     const lblText = lbl ? lbl.outerHTML : '<span class="filter-lbl">Estado:</span>';
     filtersEl.innerHTML = lblText + newCityList.map(c => 
-      `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`
+      `<button class="filter-btn${c===newCurrent?' active':''}" onclick="${setterName}('${c.replace(/'/g,"\'")}',this)">${c}</button>`
     ).join('');
   }
 }
