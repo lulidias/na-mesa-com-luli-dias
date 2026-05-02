@@ -132,6 +132,12 @@ footer a{color:var(--gold);text-decoration:none}
 .leaflet-popup-content-wrapper{border-radius:6px}
 .leaflet-tooltip.custom-tooltip{background:#fff;border:1px solid #E8E0D5;border-radius:6px;padding:8px 12px;box-shadow:0 4px 12px rgba(0,0,0,.08);font-family:'Montserrat',sans-serif}
 .leaflet-tooltip.custom-tooltip:before{display:none}
+.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.hotel-stars{color:var(--gold);font-size:11px;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -155,6 +161,7 @@ footer a{color:var(--gold);text-decoration:none}
 <div class="stats-bar">
   <div class="stat"><div class="stat-num">211</div><div class="stat-lbl">Restaurantes</div></div>
   <div class="stat"><div class="stat-num">8</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">13</div><div class="stat-lbl">Hotéis</div></div>
   <div class="stat"><div class="stat-num">20 ★</div><div class="stat-lbl">Michelin</div></div>
 </div>
 
@@ -193,6 +200,12 @@ footer a{color:var(--gold);text-decoration:none}
   <span class="view-toggle-lbl">Vista:</span>
   <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
+</div>
+<div class="type-bar">
+  <span class="type-lbl">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
 </div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
@@ -254,6 +267,8 @@ const CITIES=[
     {n:"Ilha Sul",q:"Contemporânea · Mar",a:"Ilhabela — SP",p:"+55 12 3896-0000",pr:2,d:"Restaurante contemporâneo no sul de Ilhabela com frutos do mar frescos e cozinha autoral que celebra a riqueza marítima da ilha. Um dos endereços mais tranquilos e aprazíveis da ilha para refeições com vista para o oceano."},
     {n:"Manacá",q:"Contemporânea · Vista",a:"Camburi — SP",p:"+55 12 3865-1566",pr:3,d:"Um dos restaurantes mais bonitos do litoral paulista, com vista privilegiada para a baía de Camburi. Cozinha contemporânea com frutos do mar frescos e produtos locais num ambiente que combina natureza e sofisticação na Serra do Mar."},
     {n:"Viana",q:"Portuguesa · Litoral",a:"Ilhabela — SP",p:"+55 12 3896-1089",pr:2,d:"Restaurante português em Ilhabela que combina a cozinha lusitana com os frutos do mar frescos do Canal de São Sebastião. Bacalhau, polvo e mariscos preparados à moda portuguesa numa ilha que guarda a memória da colonização lusitana."}
+  ,
+    {t:"h",n:"DPNY Beach Hotel & Spa",q:"Hotel · Beach 5★",a:"R. Antônio Coelho, 921 — Praia do Curral, Ilhabela — SP",p:"+55 12 3894-9999",pr:4,s:5,d:"O hotel mais icónico de Ilhabela, na Praia do Curral. 70 suítes temáticas, beach club com vista para o canal de São Sebastião, spa, restaurantes e a animação que faz dele o hotspot do verão paulista. Um dos endereços mais glamourosos do litoral norte de São Paulo."}
   ]},
   {city:"Rio de Janeiro",region:"Rio de Janeiro",entries:[
     {n:"Aprazivel",q:"Brasileira · Vista Panorâmica",a:"Rua Aprazível, 62 — Santa Teresa, Rio de Janeiro — RJ",p:"+55 21 2508-9174",pr:3,d:"No histórico bairro de Santa Teresa, com uma das vistas mais bonitas do Rio: o Pão de Açúcar, a Baía de Guanabara e o Cristo Redentor como pano de fundo. Cozinha brasileira contemporânea com ingredientes orgânicos num ambiente de jardim suspenso sobre a cidade."},
@@ -282,7 +297,14 @@ const CITIES=[
     {"n":"Aprazível","q":"Brasileira · Vista","a":"Rua Aprazível 62, Santa Teresa, Rio de Janeiro — RJ","p":"+55 21 2508-9174","pr":3,"m":"rec","note":"Selection Michelin · Vista panorâmica do Rio","d":"No alto de Santa Teresa, com uma das vistas mais espetaculares do Rio (Baía de Guanabara, Pão de Açúcar e Cristo Redentor) sob a copa das árvores. Cozinha brasileira contemporânea com ingredientes nacionais — paçoca de pintado, costela com fubá. Atmosfera de jardim tropical."},
     {"n":"Mr. Lam","q":"Chinesa Contemporânea","a":"R. Maria Angélica 21, Lagoa, Rio de Janeiro — RJ","p":"+55 21 2286-6661","pr":3,"m":"rec","note":"Selection Michelin · Chef Mr. Lam","d":"Cozinha chinesa contemporânea em Lagoa com o chef Mr. Lam que trabalhou no lendário Mr. Chow de Nova Iorque. Peking duck preparado à mesa, dim sum, sopas e molhos sofisticados. Ambiente elegante com terraço para a Lagoa."},
     {"n":"Pici Trattoria","q":"Italiana · Trattoria","a":"R. Conde de Irajá 132, Botafogo, Rio de Janeiro — RJ","p":"+55 21 99632-3232","pr":2,"m":"bib","note":"Bib Gourmand · Massas frescas","d":"Trattoria italiana de bairro em Botafogo com massas frescas feitas em casa, antepastos generosos e ambiente intimista. Pici (massa toscana cilíndrica), ravioli de abóbora, ossobuco. Uma das melhores relações qualidade-preço da cidade."},
-    {"n":"Babbo Osteria","q":"Italiana","a":"Av. Gen. San Martin 889, Leblon, Rio de Janeiro — RJ","p":"+55 21 2540-0009","pr":2,"m":"rec","note":"Selection Michelin","d":"Osteria italiana em Leblon com cozinha tradicional do norte da Itália. Pasta fresca, antepastos sazonais, vitello tonnato e tiramisù caseiro num ambiente descontraído e familiar."}]},
+    {"n":"Babbo Osteria","q":"Italiana","a":"Av. Gen. San Martin 889, Leblon, Rio de Janeiro — RJ","p":"+55 21 2540-0009","pr":2,"m":"rec","note":"Selection Michelin","d":"Osteria italiana em Leblon com cozinha tradicional do norte da Itália. Pasta fresca, antepastos sazonais, vitello tonnato e tiramisù caseiro num ambiente descontraído e familiar."},
+    {t:"h",n:"Hotel Fasano Rio",q:"Hotel · Design 5★",a:"Av. Vieira Souto, 80 — Ipanema, Rio de Janeiro — RJ",p:"+55 21 3202-4000",pr:4,s:5,d:"Hotel-ícone na Av. Vieira Souto, em Ipanema, com decoração de Philippe Starck. Frente para a praia mais sofisticada do Rio. Rooftop com piscina e bar com a melhor vista da cidade. Restaurante Fasano Al Mare, design assinatura e o serviço impecável que define o grupo Fasano."},
+    {t:"h",n:"Emiliano Rio",q:"Hotel · Luxo 5★",a:"Av. Atlântica, 3804 — Copacabana, Rio de Janeiro — RJ",p:"+55 21 3503-7000",pr:4,s:5,d:"Hotel de luxo na Av. Atlântica, em Copacabana, com vista para o icónico calçadão. 90 quartos espaçosos, piscina infinita no rooftop, spa premium e localização inigualável. Um dos hotéis de luxo mais aclamados do Rio."},
+    {t:"h",n:"Hotel Santa Teresa MGallery",q:"Hotel · Boutique 5★",a:"R. Almte. Alexandrino, 660 — Santa Teresa, Rio de Janeiro — RJ",p:"+55 21 3380-0200",pr:4,s:5,d:"Antiga fazenda de café do século XIX transformada em hotel boutique no bohemio bairro de Santa Teresa. Vista panorâmica para a Baía de Guanabara, restaurante Térèze, piscina, spa e o charme de uma das colinas mais artísticas do Rio. MGallery Collection."},
+    {t:"h",n:"Grand Hyatt Rio de Janeiro",q:"Hotel · Resort Urbano 5★",a:"Av. Lúcio Costa, 9600 — Barra da Tijuca, Rio de Janeiro — RJ",p:"+55 21 3795-1234",pr:4,s:5,d:"Hotel-resort na Barra da Tijuca, com 436 quartos frente para a praia. Cinco restaurantes, spa, piscinas, ginásio premium e uma das melhores localizações da Barra. Padrão Hyatt internacional num dos resorts urbanos mais completos do Rio."},
+    {t:"h",n:"Hilton Copacabana",q:"Hotel · Beira-mar 5★",a:"Av. Atlântica, 1020 — Leme, Rio de Janeiro — RJ",p:"+55 21 3501-8000",pr:3,s:5,d:"Hotel Hilton com vista privilegiada para o Forte do Leme e Copacabana. 545 quartos, piscina rooftop com vista 360°, dois restaurantes e a tradição da rede Hilton no extremo mais tranquilo da Copacabana."},
+    {t:"h",n:"Hilton Barra Rio de Janeiro",q:"Hotel · Resort 5★",a:"Av. Embaixador Abelardo Bueno, 1430 — Barra da Tijuca, Rio de Janeiro — RJ",p:"+55 21 3489-8000",pr:3,s:5,d:"Hotel Hilton da Barra da Tijuca, próximo ao Riocentro e ao Parque Olímpico. 298 quartos modernos, piscina, ginásio e centro de convenções. Padrão internacional num dos polos de negócios e entretenimento do Rio."}
+  ]},
   {city:"São Paulo",region:"São Paulo",entries:[
     {n:"348 Mario Ferraz",q:"Carnes · Contemporânea",a:"Rua Mario Ferraz, 348 — Itaim Bibi, São Paulo — SP",p:"+55 11 3167-0000",pr:3,d:"Casa de carnes contemporânea no elegante Itaim Bibi com cortes seleccionados de origem rastreável e técnica de preparo meticulosa. Ambiente sofisticado e minimalista para os conhecedores de carne que valorizam qualidade acima de tudo."},
     {n:"A Bela Sintra",q:"Portuguesa",a:"São Paulo — SP",p:"+55 11 3000-0000",pr:2,d:"Restaurante português tradicional em São Paulo que celebra a culinária de Sintra e da região de Lisboa. Bacalhau à Brás, arroz de pato, pastel de nata e uma selecção de vinhos portugueses numa casa que honra a imigração lusitana em São Paulo."},
@@ -430,7 +452,14 @@ const CITIES=[
     {"n":"Lavva","q":"Coreana","a":"São Paulo — SP","p":"+55 11 3000-0000","pr":2,"d":"Cozinha coreana contemporânea em São Paulo com bibimbap, bulgogi, kimchi e KBBQ na mesa. Ambiente moderno."},
     {"n":"Arábia","q":"Árabe · Libanesa","a":"São Paulo — SP","p":"+55 11 3061-2203","pr":2,"d":"Tradicional libanês em São Paulo desde 1987 — Av. Oscar Freire. Mezzes generosos, kibes, esfihas, cordeiro assado e o tradicional café árabe. Família mantém a casa há gerações."},
     {"n":"Leggera","q":"Pizzaria · Napolitana","a":"São Paulo — SP","p":"+55 11 3862-2581","pr":2,"d":"Pizzaria napolitana em São Paulo do chef André Guidon. Massa de longa fermentação, ingredientes italianos importados e forno a lenha a 480°C — uma das melhores napolitanas do Brasil."},
-    {"n":"Miado","q":"Criativa · Tasting Menu","a":"São Paulo — SP","p":"+55 11 3000-0000","pr":4,"d":"Restaurante de cozinha criativa em SP com menu de degustação experimental. Pratos artísticos com ingredientes brasileiros e técnicas avançadas."}]},
+    {"n":"Miado","q":"Criativa · Tasting Menu","a":"São Paulo — SP","p":"+55 11 3000-0000","pr":4,"d":"Restaurante de cozinha criativa em SP com menu de degustação experimental. Pratos artísticos com ingredientes brasileiros e técnicas avançadas."},
+    {t:"h",n:"Palácio Tangará",q:"Hotel · Resort Urbano 5★",a:"R. Deputado Laércio Corte, 1501 — Panamby, São Paulo — SP",p:"+55 11 4904-4040",pr:4,s:5,d:"Hotel da Oetker Collection no Parque Burle Marx, em Panamby. Verdadeiro resort urbano em meio à mata atlântica. Restaurante Tangará Jean-Georges (1 Estrela Michelin), spa Sisley, piscina, jardins desenhados por Burle Marx. Um dos endereços mais exclusivos do Brasil."},
+    {t:"h",n:"Rosewood São Paulo",q:"Hotel · Ultra-luxo 5★",a:"R. Itapeva, 435 — Cidade Matarazzo, Bela Vista, São Paulo — SP",p:"+55 11 3956-5500",pr:4,s:5,d:"Hotel Rosewood inaugurado no complexo Cidade Matarazzo. Arquitectura de Jean Nouvel e design de Philippe Starck. Restaurante Le Jardin, Blaise (Chef Felipe Rodrigues), Taraz, Rabieh. Ateliê de arte, spa, piscinas. O hotel mais ambicioso e premiado do Brasil — Rosewood Brand pelo seu padrão internacional ultra-luxo."},
+    {t:"h",n:"Hotel Fasano São Paulo",q:"Hotel · Boutique 5★",a:"R. Vittorio Fasano, 88 — Cerqueira César, São Paulo — SP",p:"+55 11 3896-4000",pr:4,s:5,d:"O hotel-bandeira do grupo Fasano nos Jardins, projectado por Isay Weinfeld e Marcio Kogan. 60 quartos com a elegância clássica do grupo, restaurante Fasano (referência da cozinha italiana em São Paulo), Baretto-Londra, e o serviço Fasano que define o luxo na cidade."},
+    {t:"h",n:"Fasano Boa Vista",q:"Resort · Campo & Golfe 5★",a:"Boa Vista — Porto Feliz — SP",p:"+55 15 3505-7600",pr:4,s:5,d:"Resort de luxo em Porto Feliz, a 90 minutos de São Paulo. 66 quartos em meio a 600 hectares de mata atlântica. Campo de golfe Greg Norman, equestre, spa, três piscinas, restaurante Fasano. Um Relais & Châteaux. O destino de escape preferido pela elite paulistana."},
+    {t:"h",n:"Emiliano São Paulo",q:"Hotel · Boutique 5★",a:"R. Oscar Freire, 384 — Jardins, São Paulo — SP",p:"+55 11 3068-4393",pr:4,s:5,d:"Hotel boutique na rua mais sofisticada de São Paulo, a Oscar Freire. 57 quartos amplos, restaurante Emiliano (referência da gastronomia paulistana), spa, ginásio premium e o serviço impecável que define a marca Emiliano. Localização inigualável para shopping e gastronomia."},
+    {t:"h",n:"Hotel Unique",q:"Hotel · Design Icónico 5★",a:"Av. Brigadeiro Luís Antônio, 4700 — Jardim Paulista, São Paulo — SP",p:"+55 11 3055-4710",pr:4,s:5,d:"Hotel-icone arquitectónico de Ruy Ohtake na forma de uma fatia de melancia invertida — uma das construções mais reconhecíveis do horizonte paulistano. 95 quartos contemporâneos, restaurante Skye (no rooftop com piscina vermelha vista 360° de São Paulo), bar e o glamour que faz deste o hotel mais fotografado do Brasil."}
+  ]},
   {city:"Vitória",region:"Espírito Santo",entries:[
     {"n":"Soeta","q":"Contemporânea de Autor","a":"R. Desembargador Sampaio 332, Praia do Canto, Vitória — ES","p":"+55 27 3026-4433","pr":4,"m":"rec","note":"Latin America's 50 Best Discovery · Chefs Bárbara Verzola e Pablo Pavón (El Bulli)","d":"Alta gastronomia capixaba pelos chefs Bárbara Verzola e Pablo Pavón, ambos com passagem pelo lendário El Bulli. Cozinha contemporânea de autor com produtos locais do litoral capixaba e técnica de classe internacional. Praia do Canto."},
     {"n":"Papaguth","q":"Capixaba · Frutos do Mar","a":"Av. Nossa Senhora dos Navegantes 700, Enseada do Suá, Vitória — ES","p":"+55 27 3315-1488","pr":3,"d":"Templo da cozinha capixaba pelo chef Júlio Lemos. Moqueca capixaba autêntica em panela de barro, frutos do mar do Atlântico e pratos regionais que celebram a tradição gastronómica do Espírito Santo. Praia do Suá."},
@@ -495,7 +524,7 @@ function render(){
       main.appendChild(sec);
 
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const bg=cardBg(r.q);
         const nm=r.n.replace(/'/g,"\\'");
@@ -571,6 +600,15 @@ function buildCuisineBar(){
   if(!bar)return;
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
+
+let activeType='all';
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
 let activeCuisine='Todas';
 function setCuisine(c,btn){
   activeCuisine=c;

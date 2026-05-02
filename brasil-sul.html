@@ -132,6 +132,12 @@ footer a{color:var(--gold);text-decoration:none}
 .leaflet-popup-content-wrapper{border-radius:6px}
 .leaflet-tooltip.custom-tooltip{background:#fff;border:1px solid #E8E0D5;border-radius:6px;padding:8px 12px;box-shadow:0 4px 12px rgba(0,0,0,.08);font-family:'Montserrat',sans-serif}
 .leaflet-tooltip.custom-tooltip:before{display:none}
+.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.hotel-stars{color:var(--gold);font-size:11px;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -154,7 +160,8 @@ footer a{color:var(--gold);text-decoration:none}
 
 <div class="stats-bar">
   <div class="stat"><div class="stat-num">45</div><div class="stat-lbl">Restaurantes</div></div>
-  <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Hotéis</div></div>
   <div class="stat"></div>
 </div>
 
@@ -194,6 +201,12 @@ footer a{color:var(--gold);text-decoration:none}
   <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
 </div>
+<div class="type-bar">
+  <span class="type-lbl">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
+</div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
 <main id="main"></main>
@@ -230,7 +243,9 @@ const CITIES=[
     {n:"Mercearia Avenida Shopping Barigui",q:"Portuguesa · Contemporânea",a:"Shopping Barigui, Curitiba — PR",p:"+55 41 3000-0000",pr:2,d:"Filial no Shopping Barigui da conceituada Mercearia Avenida, mantendo o conceito de mercearia gourmet portuguesa com restaurante integrado. Produtos lusitanos de qualidade e cozinha portuguesa num ambiente shopping mais acessível."},
     {n:"Mercearia do Português",q:"Portuguesa",a:"Curitiba — PR",p:"+55 41 3000-0000",pr:2,d:"Mercearia e restaurante português em Curitiba com produtos importados de Portugal e cozinha lusitana tradicional. Bacalhau, petiscos, pastéis de nata e a hospitalidade portuguesa num endereço charmoso da capital paranaense."},
     {"n":"Campania","q":"Italiana · Napolitana","a":"Curitiba — PR","p":"+55 41 3000-0000","pr":2,"d":"Trattoria napolitana em Curitiba com massas frescas e pizzas em forno a lenha. Receitas autênticas da Campania — pasta alla genovese, parmigiana, sfogliatelle."},
-    {"n":"Nomade","q":"Contemporânea","a":"Curitiba — PR","p":"+55 41 3000-0000","pr":3,"d":"Restaurante contemporâneo em Curitiba com cozinha autoral que mistura técnicas internacionais com ingredientes brasileiros. Carta de vinhos cuidada e ambiente moderno e descontraído."}]},
+    {"n":"Nomade","q":"Contemporânea","a":"Curitiba — PR","p":"+55 41 3000-0000","pr":3,"d":"Restaurante contemporâneo em Curitiba com cozinha autoral que mistura técnicas internacionais com ingredientes brasileiros. Carta de vinhos cuidada e ambiente moderno e descontraído."},
+    {t:"h",n:"Hotel Nomaa",q:"Hotel · Design 5★",a:"R. Gutemberg, 168 — Batel, Curitiba — PR",p:"+55 41 3017-1700",pr:4,s:5,d:"Hotel boutique de design no Batel, eleito repetidamente um dos melhores hotéis do Brasil. 30 quartos com peças de design contemporâneo, rooftop com piscina aquecida e vista para a cidade, restaurante Babel e a reputação de hospitalidade premium que define a hotelaria curitibana de alto padrão."}
+  ]},
   {city:"Florianópolis",region:"Santa Catarina",entries:[
     {n:"300 Cosmo Beach Club",q:"Japonesa · Beach Club",a:"Florianópolis — SC",p:"+55 48 3000-0000",pr:3,d:"Beach club com culinária japonesa premium em Florianópolis — uma combinação única de sushi de excelência, DJ e piscina à beira-mar. Um dos endereços mais sofisticados da ilha para quem quer unir gastronomia japonesa e cultura de praia."},
     {n:"Ammo Beach",q:"Beach Club",a:"Florianópolis — SC",p:"+55 48 3000-0000",pr:2,d:"Um dos beach clubs mais badalados de Florianópolis, com gastronomia de qualidade, camas na areia, DJ e piscinas numa proposta premium que eleva o conceito de praia no Sul do Brasil."},
@@ -253,7 +268,9 @@ const CITIES=[
     {"n":"Rancho Açoriano","q":"Açoriana","a":"Florianópolis — SC","p":"+55 48 3000-0000","pr":2,"d":"Cozinha açoriana em Florianópolis — homenagem aos colonizadores açorianos da ilha. Pratos típicos das ilhas dos Açores adaptados à tradição catarinense."},
     {"n":"Olivia Cucina","q":"Italiana","a":"Florianópolis — SC","p":"+55 48 3000-0000","pr":2,"d":"Trattoria italiana em Florianópolis com massas frescas e atmosfera mediterrânea. Ambiente intimista e cozinha de família."},
     {"n":"Emporio Bocaiuva","q":"Brasileira Contemporânea","a":"Florianópolis — SC","p":"+55 48 3000-0000","pr":2,"d":"Empório-restaurante em Florianópolis com produtos selecionados, charcutaria, queijos e cozinha contemporânea. Ideal para almoços rápidos e jantares descontraídos."},
-    {"n":"Osli Restaurante","q":"Contemporânea","a":"Florianópolis — SC","p":"+55 48 3000-0000","pr":2,"d":"Restaurante contemporâneo em Florianópolis com cozinha autoral e ingredientes locais. Uma das casas que representam a nova gastronomia da ilha."}]},
+    {"n":"Osli Restaurante","q":"Contemporânea","a":"Florianópolis — SC","p":"+55 48 3000-0000","pr":2,"d":"Restaurante contemporâneo em Florianópolis com cozinha autoral e ingredientes locais. Uma das casas que representam a nova gastronomia da ilha."},
+    {t:"h",n:"Ponta dos Ganchos Resort",q:"Resort · Ultra-luxo 5★",a:"Rua Eupídio Alves do Nascimento, 104 — Governador Celso Ramos — SC",p:"+55 48 3953-7000",pr:4,s:5,d:"Resort cinco-estrelas em Governador Celso Ramos, perto de Florianópolis. 25 bangalôs privativos sobre uma península no Atlântico, hidromassagem com vista, spa, restaurante premiado e o serviço all-inclusive de luxo que faz dele um dos resorts mais exclusivos da América do Sul. Membro Relais & Châteaux."}
+  ]},
   {city:"Gramado & Canela",region:"Rio Grande do Sul",entries:[
     {n:"1835",q:"Carnes",a:"Canela — RS",p:"+55 54 3000-0000",pr:3,d:"Restaurante especialista em carnes premium em Canela, com cortes nobres e técnica de grelhados que fazem jus ao ambiente rústico da Serra Gaúcha. O nome evoca a fundação da região e a tradição pecuarista do Rio Grande do Sul."},
     {n:"Abbiamo Fatto",q:"Pizza · Italiana",a:"Canela — RS",p:"+55 54 3000-0000",pr:2,d:"Pizzaria italiana artesanal em Canela com massa de fermentação lenta, ingredientes frescos e forno a lenha. Uma das melhores pizzas da Serra Gaúcha num ambiente descontraído que captura o espírito italiano."},
@@ -264,6 +281,14 @@ const CITIES=[
     {n:"Nonno Mio",q:"Galeteria · Italiana",a:"Gramado — RS",p:"+55 54 3000-0000",pr:2,d:"A melhor galeteria de Gramado, com galeto al primo canto assado no forno a lenha como fazem as nonnas italianas da Serra Gaúcha. Uma tradição gastronómica única do Rio Grande do Sul que se mantém viva em Gramado."},
     {n:"Vatel",q:"Francesa",a:"Gramado — RS",p:"+55 54 3000-0000",pr:3,d:"Restaurante francês de referência em Gramado, com cozinha clássica gaulesa que honra a tradição culinária de França. Ambiente elegante de chalé europeu com carta de vinhos franceses para os mais exigentes da Serra Gaúcha."},
     {n:"Velha Laje",q:"Vinhos · Enoturismo",a:"Canela — RS",p:"+55 54 3000-0000",pr:2,d:"Adega boutique em Canela com produção artesanal de vinhos da Serra Gaúcha. Visitas guiadas pelas vinhas, degustações e uma experiência de enoturismo autêntica numa das regiões mais pitorescas do Sul do Brasil."}
+  ,
+    {t:"h",n:"Saint Andrews Hotel",q:"Hotel · Boutique Serra 5★",a:"Bairro Vale do Bosque, Gramado — RS",p:"+55 54 3295-7000",pr:4,s:5,d:"Hotel boutique cinco-estrelas em Gramado, inspirado nos castelos escoceses. 40 suítes amplas com lareira, spa de luxo, restaurantes premiados e jardins dignos de cartão postal. Membro Relais & Châteaux. O endereço mais romântico e sofisticado da Serra Gaúcha."}
+  ]},
+  {city:"Balneário Camboriú",region:"Santa Catarina",entries:[
+    {t:"h",n:"LK Design Hotel",q:"Hotel · Design 5★",a:"Av. Atlântica, 5500 — Balneário Camboriú — SC",p:"+55 47 3367-2266",pr:3,s:5,d:"Hotel boutique de design na Av. Atlântica, com vista para a Praia Central. Decoração contemporânea, rooftop, restaurante e localização privilegiada no centro de Balneário Camboriú. Uma das melhores opções para quem visita a \"Dubai brasileira\"."}
+  ]},
+  {city:"Porto Alegre",region:"Rio Grande do Sul",entries:[
+    {t:"h",n:"Hilton Porto Alegre",q:"Hotel · Centro 5★",a:"Av. Borges de Medeiros, 354 — Centro Histórico, Porto Alegre — RS",p:"+55 51 3084-6000",pr:3,s:5,d:"Hotel Hilton no Centro Histórico de Porto Alegre, próximo ao Mercado Público e à Praça da Alfândega. 297 quartos, spa, restaurante e o conforto da rede Hilton para estadia de negócios ou turismo cultural na capital gaúcha."}
   ]}
 ];
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};
@@ -331,7 +356,7 @@ function render(){
       main.appendChild(sec);
 
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const bg=cardBg(r.q);
         const nm=r.n.replace(/'/g,"\\'");
@@ -407,6 +432,15 @@ function buildCuisineBar(){
   if(!bar)return;
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
+
+let activeType='all';
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
 let activeCuisine='Todas';
 function setCuisine(c,btn){
   activeCuisine=c;
@@ -450,10 +484,14 @@ function initMap(){
   {city:"Maringá",region:"Paraná",entries:[{"n":"Daasu","q":"Contemporânea","a":"Maringá — PR","p":"+55 44 3000-0000","pr":2,"d":"Restaurante contemporâneo em Maringá com cozinha de autor e ingredientes regionais. Uma das referências da nova cena gastronómica do norte do Paraná."},{"n":"Habanero","q":"Mexicana","a":"Maringá — PR","p":"+55 44 3000-0000","pr":2,"d":"Cozinha mexicana em Maringá. Tacos, guacamole, carnitas e tequilas premium num ambiente alegre e colorido."},{"n":"Oca Restobar","q":"Brasileira Contemporânea","a":"Maringá — PR","p":"+55 44 3000-0000","pr":2,"d":"Restaurante e bar contemporâneo em Maringá com cozinha brasileira moderna, drinks autorais e ambiente animado."},{"n":"Dominique Restaurante","q":"Francesa","a":"Maringá — PR","p":"+55 44 3000-0000","pr":3,"d":"Restaurante francês em Maringá com cozinha clássica e produtos importados. Uma das mesas mais sofisticadas do norte do Paraná."},{"n":"Monte Líbano","q":"Libanesa","a":"Maringá — PR","p":"+55 44 3000-0000","pr":2,"d":"Tradicional libanês em Maringá com kibes, esfihas, kaftas e mezzes autênticos. Casa familiar há décadas na cidade."}]},
   {city:"Londrina",region:"Paraná",entries:[{"n":"La Gondola","q":"Italiana","a":"Londrina — PR","p":"+55 43 3000-0000","pr":2,"d":"Italiana clássica em Londrina com receitas tradicionais e massas artesanais. Uma referência da culinária italiana no norte do Paraná há décadas."}]},
   {city:"Foz do Iguaçu",region:"Paraná",entries:[{"n":"Tia Santa","q":"Brasileira Caseira","a":"Foz do Iguaçu — PR","p":"+55 45 3000-0000","pr":1,"d":"Cozinha caseira brasileira em Foz do Iguaçu com pratos generosos e o sabor das comidas de avó. Ponto de paragem dos viajantes que vão às Cataratas."}]},
-  {city:"Porto Alegre",region:"Rio Grande do Sul",entries:[{"n":"20/9","q":"Contemporânea","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"d":"Restaurante contemporâneo em Porto Alegre com cozinha de autor e produtos da região sul. Um dos endereços mais sofisticados da capital gaúcha."},{"n":"Atelier de Massas","q":"Italiana · Massas","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":2,"d":"Casa de massas frescas em Porto Alegre com receitas italianas tradicionais e atmosfera de trattoria familiar. Massa feita à vista, molhos elaborados, antepastos generosos."},{"n":"Xavier","q":"Contemporânea","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"d":"Restaurante contemporâneo em Porto Alegre com cozinha autoral e ingredientes selecionados. Uma das referências da nova gastronomia gaúcha."},{"n":"Bateau Ivre","q":"Francesa · Bistrô","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"d":"Bistrô francês em Porto Alegre com receitas clássicas — boeuf bourguignon, magret de canard, soupe à l'oignon. Carta de vinhos franceses e ambiente romântico parisiense."},{"n":"Churrascaria Barranco","q":"Carnes · Churrasco Gaúcho","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"d":"Tradicional churrascaria gaúcha em Porto Alegre com cortes nobres no espeto e fogo de chão. Picanha, costela, fraldinha e o autêntico churrasco do sul brasileiro."},{"n":"Pobre Juan POA","q":"Carnes","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"m":"rec","d":"Filial gaúcha do Pobre Juan, mantendo o padrão de carnes premium da rede. Cortes argentinos e brasileiros maturados, parrilla e carta de vinhos sul-americanos."},{"n":"Komka","q":"Japonesa","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"d":"Japonesa de referência em Porto Alegre com sushi, sashimi, omakase e produtos importados. Uma das melhores experiências japonesas do sul do Brasil."},{"n":"Peppo Cucina","q":"Italiana","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":2,"d":"Cucina italiana em Porto Alegre com massas frescas e atmosfera familiar. Uma das tratorias mais queridas da capital gaúcha."},{"n":"Galeto di Paolo","q":"Italiana · Galeto","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":2,"d":"Famoso galeto à passarinho da rede Di Paolo, originária da serra gaúcha. Galeto, polenta, frango passarinho e massas num ambiente típico das casas italianas do sul."},{"n":"Takedo","q":"Japonesa","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":2,"d":"Japonesa em Porto Alegre com sushi e sashimi de qualidade. Ambiente moderno e produto fresco do sul brasileiro."},{"n":"Koh Pee Pee","q":"Tailandesa","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":2,"d":"Cozinha tailandesa em Porto Alegre com pad thai, curries, tom yum e tom kha. Uma das poucas opções autênticas de tailandesa no sul do Brasil."},{"n":"Hashi","q":"Japonesa","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"d":"Japonesa premium em Porto Alegre com sushi tradicional, sashimi e omakase. Ambiente sofisticado e produtos importados do Japão."}]},
+  {city:"Porto Alegre",region:"Rio Grande do Sul",entries:[{"n":"20/9","q":"Contemporânea","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"d":"Restaurante contemporâneo em Porto Alegre com cozinha de autor e produtos da região sul. Um dos endereços mais sofisticados da capital gaúcha."},{"n":"Atelier de Massas","q":"Italiana · Massas","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":2,"d":"Casa de massas frescas em Porto Alegre com receitas italianas tradicionais e atmosfera de trattoria familiar. Massa feita à vista, molhos elaborados, antepastos generosos."},{"n":"Xavier","q":"Contemporânea","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"d":"Restaurante contemporâneo em Porto Alegre com cozinha autoral e ingredientes selecionados. Uma das referências da nova gastronomia gaúcha."},{"n":"Bateau Ivre","q":"Francesa · Bistrô","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"d":"Bistrô francês em Porto Alegre com receitas clássicas — boeuf bourguignon, magret de canard, soupe à l'oignon. Carta de vinhos franceses e ambiente romântico parisiense."},{"n":"Churrascaria Barranco","q":"Carnes · Churrasco Gaúcho","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"d":"Tradicional churrascaria gaúcha em Porto Alegre com cortes nobres no espeto e fogo de chão. Picanha, costela, fraldinha e o autêntico churrasco do sul brasileiro."},{"n":"Pobre Juan POA","q":"Carnes","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"m":"rec","d":"Filial gaúcha do Pobre Juan, mantendo o padrão de carnes premium da rede. Cortes argentinos e brasileiros maturados, parrilla e carta de vinhos sul-americanos."},{"n":"Komka","q":"Japonesa","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"d":"Japonesa de referência em Porto Alegre com sushi, sashimi, omakase e produtos importados. Uma das melhores experiências japonesas do sul do Brasil."},{"n":"Peppo Cucina","q":"Italiana","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":2,"d":"Cucina italiana em Porto Alegre com massas frescas e atmosfera familiar. Uma das tratorias mais queridas da capital gaúcha."},{"n":"Galeto di Paolo","q":"Italiana · Galeto","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":2,"d":"Famoso galeto à passarinho da rede Di Paolo, originária da serra gaúcha. Galeto, polenta, frango passarinho e massas num ambiente típico das casas italianas do sul."},{"n":"Takedo","q":"Japonesa","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":2,"d":"Japonesa em Porto Alegre com sushi e sashimi de qualidade. Ambiente moderno e produto fresco do sul brasileiro."},{"n":"Koh Pee Pee","q":"Tailandesa","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":2,"d":"Cozinha tailandesa em Porto Alegre com pad thai, curries, tom yum e tom kha. Uma das poucas opções autênticas de tailandesa no sul do Brasil."},{"n":"Hashi","q":"Japonesa","a":"Porto Alegre — RS","p":"+55 51 3000-0000","pr":3,"d":"Japonesa premium em Porto Alegre com sushi tradicional, sashimi e omakase. Ambiente sofisticado e produtos importados do Japão."},
+    {t:"h",n:"Hilton Porto Alegre",q:"Hotel · Centro 5★",a:"Av. Borges de Medeiros, 354 — Centro Histórico, Porto Alegre — RS",p:"+55 51 3084-6000",pr:3,s:5,d:"Hotel Hilton no Centro Histórico de Porto Alegre, próximo ao Mercado Público e à Praça da Alfândega. 297 quartos, spa, restaurante e o conforto da rede Hilton para estadia de negócios ou turismo cultural na capital gaúcha."}
+  ]},
   {city:"Caxias do Sul",region:"Rio Grande do Sul",entries:[{"n":"Di Paolo Caxias","q":"Italiana · Galeto","a":"Caxias do Sul — RS","p":"+55 54 3000-0000","pr":2,"d":"A casa-mãe da rede Galeto Di Paolo na serra gaúcha. Galeto à passarinho com polenta, massa e queijo no melhor estilo das colónias italianas do sul. Tradição familiar há décadas."}]},
   {city:"Bento Gonçalves",region:"Rio Grande do Sul",entries:[{"n":"Di Paolo Bento","q":"Italiana · Galeto","a":"Bento Gonçalves — RS","p":"+55 54 3000-0000","pr":2,"d":"Filial em Bento Gonçalves da tradicional rede Galeto Di Paolo. Galeto, massas frescas e polenta no coração da região vitivinícola da serra gaúcha."}]},
-  {city:"Balneário Camboriú",region:"Santa Catarina",entries:[{"n":"Le Poulet Rouge","q":"Francesa","a":"Balneário Camboriú — SC","p":"+55 47 3000-0000","pr":3,"d":"Bistrô francês em Balneário Camboriú com receitas clássicas e ambiente romântico. Pato, escargots e sobremesas tradicionais."},{"n":"Dudu Restaurante","q":"Contemporânea","a":"Balneário Camboriú — SC","p":"+55 47 3000-0000","pr":3,"d":"Restaurante contemporâneo em Balneário Camboriú com cozinha autoral. Frutos do mar, carnes e cocktails autorais."}]},
+  {city:"Balneário Camboriú",region:"Santa Catarina",entries:[{"n":"Le Poulet Rouge","q":"Francesa","a":"Balneário Camboriú — SC","p":"+55 47 3000-0000","pr":3,"d":"Bistrô francês em Balneário Camboriú com receitas clássicas e ambiente romântico. Pato, escargots e sobremesas tradicionais."},{"n":"Dudu Restaurante","q":"Contemporânea","a":"Balneário Camboriú — SC","p":"+55 47 3000-0000","pr":3,"d":"Restaurante contemporâneo em Balneário Camboriú com cozinha autoral. Frutos do mar, carnes e cocktails autorais."},
+    {t:"h",n:"LK Design Hotel",q:"Hotel · Design 5★",a:"Av. Atlântica, 5500 — Balneário Camboriú — SC",p:"+55 47 3367-2266",pr:3,s:5,d:"Hotel boutique de design na Av. Atlântica, com vista para a Praia Central. Decoração contemporânea, rooftop, restaurante e localização privilegiada no centro de Balneário Camboriú. Uma das melhores opções para quem visita a \"Dubai brasileira\"."}
+  ]},
   {city:"Blumenau",region:"Santa Catarina",entries:[{"n":"Magnani","q":"Italiana","a":"Blumenau — SC","p":"+55 47 3000-0000","pr":2,"d":"Restaurante italiano em Blumenau com massas frescas e atmosfera de cantina familiar. Tradição na cidade há décadas."}]},
   {city:"Serra do Rio do Rastro",region:"Santa Catarina",entries:[{"n":"Restaurante do Hotel da Serra do Rio do Rastro","q":"Brasileira · Vista","a":"Serra do Rio do Rastro — SC","p":"+55 49 3000-0000","pr":3,"h":true,"d":"Restaurante do hotel suspenso em uma das estradas mais cênicas do mundo — a Serra do Rio do Rastro. Vista deslumbrante das curvas e ambiente único nas alturas. Cozinha brasileira clássica."}]}
 ];

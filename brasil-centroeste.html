@@ -132,6 +132,12 @@ footer a{color:var(--gold);text-decoration:none}
 .leaflet-popup-content-wrapper{border-radius:6px}
 .leaflet-tooltip.custom-tooltip{background:#fff;border:1px solid #E8E0D5;border-radius:6px;padding:8px 12px;box-shadow:0 4px 12px rgba(0,0,0,.08);font-family:'Montserrat',sans-serif}
 .leaflet-tooltip.custom-tooltip:before{display:none}
+.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.hotel-stars{color:var(--gold);font-size:11px;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -155,6 +161,7 @@ footer a{color:var(--gold);text-decoration:none}
 <div class="stats-bar">
   <div class="stat"><div class="stat-num">27</div><div class="stat-lbl">Restaurantes</div></div>
   <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Hotéis</div></div>
   <div class="stat"></div>
 </div>
 
@@ -194,6 +201,12 @@ footer a{color:var(--gold);text-decoration:none}
   <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
 </div>
+<div class="type-bar">
+  <span class="type-lbl">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
+</div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
 <main id="main"></main>
@@ -229,6 +242,8 @@ const CITIES=[
     {n:"Piselli",q:"Italiana",a:"Brasília — DF",p:"+55 61 3000-0000",pr:2,d:"Italiana elegante em Brasília com massas artesanais e pratos clássicos da cozinha italiana. Ambiente sofisticado e serviço atencioso que tornam o Piselli uma referência consistente para jantares especiais na capital federal."},
     {n:"Taypá",q:"Peruana",a:"Brasília — DF",p:"+55 61 3000-0000",pr:3,d:"O melhor peruano de Brasília com ceviche, tiradito, causa e pisco sour de qualidade. Culinária peruana contemporânea com os sabores intensos do Pacífico num ambiente moderno e sofisticado da capital federal."},
     {n:"Tratoria da Rosário",q:"Italiana · Massas",a:"Brasília — DF",p:"+55 61 3000-0000",pr:2,d:"Trattoria italiana acolhedora em Brasília com foco em massas artesanais e receitas da tradição italiana. O ambiente familiar e descontraído, aliado à qualidade consistente, torna-a uma das mais queridas da capital."}
+  ,
+    {t:"h",n:"B Hotel Brasília",q:"Hotel · Design 5★",a:"SHN Quadra 5 Bloco J — Asa Norte, Brasília — DF",p:"+55 61 3217-4000",pr:3,s:5,d:"Hotel boutique de design na Asa Norte, eleito um dos melhores hotéis de Brasília. Arquitectura contemporânea, 200 quartos modernos, piscina rooftop com vista para o cerrado, restaurante Donna e localização estratégica no plano piloto. O endereço sofisticado da capital federal."}
   ]},
   {city:"Cuiabá",region:"Mato Grosso",entries:[
     {n:"Aragon",q:"Portuguesa · Espanhola",a:"Cuiabá — MT",p:"+55 65 3000-0000",pr:2,d:"Restaurante ibérico em Cuiabá com influências portuguesas e espanholas num cardápio que combina frutos do mar, carnes e petiscos ibéricos. Carta de vinhos da Península Ibérica e ambiente acolhedor no coração do Pantanal."},
@@ -315,7 +330,7 @@ function render(){
       main.appendChild(sec);
 
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const bg=cardBg(r.q);
         const nm=r.n.replace(/'/g,"\\'");
@@ -391,6 +406,15 @@ function buildCuisineBar(){
   if(!bar)return;
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
+
+let activeType='all';
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
 let activeCuisine='Todas';
 function setCuisine(c,btn){
   activeCuisine=c;

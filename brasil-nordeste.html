@@ -132,6 +132,12 @@ footer a{color:var(--gold);text-decoration:none}
 .leaflet-popup-content-wrapper{border-radius:6px}
 .leaflet-tooltip.custom-tooltip{background:#fff;border:1px solid #E8E0D5;border-radius:6px;padding:8px 12px;box-shadow:0 4px 12px rgba(0,0,0,.08);font-family:'Montserrat',sans-serif}
 .leaflet-tooltip.custom-tooltip:before{display:none}
+.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.hotel-stars{color:var(--gold);font-size:11px;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -154,7 +160,8 @@ footer a{color:var(--gold);text-decoration:none}
 
 <div class="stats-bar">
   <div class="stat"><div class="stat-num">63</div><div class="stat-lbl">Restaurantes</div></div>
-  <div class="stat"><div class="stat-num">6</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">7</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">7</div><div class="stat-lbl">Hotéis</div></div>
   <div class="stat"></div>
 </div>
 
@@ -194,6 +201,12 @@ footer a{color:var(--gold);text-decoration:none}
   <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
 </div>
+<div class="type-bar">
+  <span class="type-lbl">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
+</div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
 <main id="main"></main>
@@ -225,11 +238,15 @@ const CITIES=[
     {n:"Ponza",q:"Frutos do Mar · Italiana",a:"Av. Beira Mar, Fortaleza — CE",p:"+55 85 3000-0000",pr:3,d:"Restaurante com dupla personalidade: a cozinha italiana do sul de Itália encontra os melhores frutos do mar do Ceará. Polvo, camarão, ostras e lagosta preparados com técnica mediterrânea e ingredientes fresquíssimos da costa cearense numa localização privilegiada na Beira Mar."},
     {n:"Ryori",q:"Japonesa · Sushi",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:2,d:"Referência da culinária japonesa em Fortaleza, com sushi e sashimi de qualidade num ambiente clean e sofisticado. Utiliza peixe fresco local e ingredientes importados do Japão para criar uma experiência autêntica no Nordeste."},
     {n:"Zio BS",q:"Italiana Autêntica",a:"Fortaleza — CE",p:"+55 85 3000-0000",pr:2,d:"Filial fortalezense da rede italiana Zio Cucina, com a mesma proposta de culinária italiana autêntica e envolvente que conquistou o Nordeste. Massas frescas artesanais, risottos cremosos e pratos clássicos num ambiente caloroso."}
+  ,
+    {t:"h",n:"Gran Marquise Hotel",q:"Hotel · Beira-mar 5★",a:"Av. Beira Mar, 3980 — Mucuripe, Fortaleza — CE",p:"+55 85 4006-5000",pr:3,s:5,d:"Hotel cinco-estrelas tradicional na Av. Beira Mar com vista para o Atlântico. 230 quartos, três restaurantes, piscinas, spa e uma das melhores localizações de Fortaleza para acesso a praias e à animação nocturna da capital cearense."}
   ]},
   {city:"João Pessoa",region:"Paraíba",entries:[
     {n:"Cassino da Lagoa",q:"Frutos do Mar · Regional",a:"João Pessoa — PB",p:"+55 83 3000-0000",pr:2,d:"À beira da Lagoa em João Pessoa, com frutos do mar frescos e culinária regional paraibana num ambiente de grande beleza natural. Um dos endereços mais românticos e pitorescos da capital paraibana."},
     {n:"Nonno Cucina",q:"Italiana",a:"João Pessoa — PB",p:"+55 83 3000-0000",pr:2,d:"Italiana acolhedora em João Pessoa com receitas inspiradas nas avós italianas e produtos artesanais. Massas frescas, molhos lentos e o ambiente familiar que caracteriza as melhores trattorias da Itália do sul."},
     {n:"Reserve Garden",q:"Contemporânea · Sofisticada",a:"João Pessoa — PB",p:"+55 83 3000-0000",pr:3,d:"O restaurante mais elegante de João Pessoa, com cozinha contemporânea sofisticada num ambiente jardim de grande beleza. Ingredientes locais da Paraíba tratados com técnica e cuidado num espaço que combina gastronomia e natureza."}
+  ,
+    {t:"h",n:"LS Hotel",q:"Hotel · Boutique 5★",a:"Av. Almirante Tamandaré, 600 — Tambaú, João Pessoa — PB",p:"+55 83 3247-6000",pr:3,s:5,d:"Hotel boutique sofisticado em Tambaú, frente para o Atlântico. Design contemporâneo, restaurante panorâmico, rooftop com piscina e vista para a praia mais animada de João Pessoa. Uma das melhores opções de luxo da Paraíba."}
   ]},
   {city:"Maceió",region:"Alagoas",entries:[
     {n:"759 Parrilla",q:"Argentina · Carnes",a:"Maceió — AL",p:"+55 82 3000-0000",pr:2,d:"Parrilla argentina com os melhores cortes da capital alagoana. Ambiente descontraído e animado com toda a cultura do churrasco platino: empanadas, chimichurri e os clássicos cortes argentinos grelhados ao ponto exacto."},
@@ -243,6 +260,8 @@ const CITIES=[
   {city:"Natal",region:"Rio Grande do Norte",entries:[
     {n:"Cardume",q:"Japonesa · Sushi",a:"Natal — RN",p:"+55 84 3000-0000",pr:2,d:"O melhor restaurante japonês do Rio Grande do Norte, com sushi e sashimi de qualidade utilizando peixes frescos da costa norte-riograndense. Ambiente clean e contemporâneo com serviço atencioso e boa carta de sakês."},
     {n:"Nau",q:"Frutos do Mar",a:"Natal — RN",p:"+55 84 3000-0000",pr:2,d:"Especialista em frutos do mar frescos da região, com lagosta, camarão e peixes da costa potiguar numa culinária que celebra as riquezas naturais do Rio Grande do Norte. Um dos endereços obrigatórios em Natal."}
+  ,
+    {t:"h",n:"Serhs Natal Grand Hotel",q:"Resort · Beira-mar 5★",a:"Av. Sen. Dinarte Mariz, 8101 — Via Costeira, Natal — RN",p:"+55 84 4005-2000",pr:3,s:5,d:"Resort cinco-estrelas de grande porte na Via Costeira de Natal, frente para o Atlântico. 244 quartos, três restaurantes, piscinas, spa, ginásio e o all-inclusive de luxo da rede Serhs. Uma das melhores opções de resort do Rio Grande do Norte com vista permanente para o mar."}
   ]},
   {city:"Recife",region:"Pernambuco",entries:[
     {n:"Adega do Futuro",q:"Wine Bar · Carnes",a:"Rua do Futuro, 634 — Graças, Recife — PE",p:"+55 81 3426-0000",pr:3,d:"Uma verdadeira adega-restaurante no bairro das Graças com carta de vinhos impecável e cortes premium. Carta extensa de rótulos internacionais harmonizados com carnes nobres e petiscos sofisticados. Um dos endereços favoritos dos amantes de vinho em Recife."},
@@ -272,7 +291,9 @@ const CITIES=[
     {"n":"Toscana Trattoria","q":"Italiana · Toscana","a":"Recife — PE","p":"+55 81 3000-0000","pr":2,"d":"Trattoria italiana especializada na cozinha toscana em Recife. Massas frescas, ribollita, bistecca alla fiorentina e vinhos do Chianti num ambiente típico das tratorias italianas."},
     {"n":"Chiwake","q":"Peruana","a":"Recife — PE","p":"+55 81 3000-0000","pr":2,"d":"Cozinha peruana em Recife com ceviches, tiraditos, lomo saltado e pisco sour. Uma das poucas opções de gastronomia peruana de qualidade no Nordeste."},
     {"n":"Chicama","q":"Peruana · Cebicheria","a":"Recife — PE","p":"+55 81 3000-0000","pr":2,"d":"Cebicheria peruana em Recife com produto fresco do litoral pernambucano e técnica peruana clássica. Ceviches variados, causas, anticuchos e pisco em ambiente moderno."},
-    {"n":"Dona Fernanda — Casa dos Frios","q":"Charcutaria & Vinhos","a":"Recife — PE","p":"+55 81 3000-0000","pr":2,"d":"Casa de frios e charcutaria em Recife com seleção criteriosa de embutidos, queijos e vinhos. Ideal para tábuas e harmonização com taças bem servidas."}]},
+    {"n":"Dona Fernanda — Casa dos Frios","q":"Charcutaria & Vinhos","a":"Recife — PE","p":"+55 81 3000-0000","pr":2,"d":"Casa de frios e charcutaria em Recife com seleção criteriosa de embutidos, queijos e vinhos. Ideal para tábuas e harmonização com taças bem servidas."},
+    {t:"h",n:"Novotel Recife Marina",q:"Hotel · Beira-mar 4★",a:"Av. Boa Viagem, 5277 — Boa Viagem, Recife — PE",p:"+55 81 3206-8333",pr:2,s:4,d:"Hotel da rede Accor na Av. Boa Viagem, com vista para o mar. 313 quartos modernos, piscina, restaurante e localização privilegiada para acesso aos restaurantes e praias de Boa Viagem. Boa relação qualidade-preço para estadia em Recife."}
+  ]},
   {city:"Salvador",region:"Bahia",entries:[
     {n:"Lafayette",q:"Contemporânea · Autoral",a:"Salvador — BA",p:"+55 71 3000-0000",pr:3,d:"Um dos restaurantes mais sofisticados de Salvador, com cozinha contemporânea autoral que faz a ponte entre a tradição baiana e as técnicas modernas. Ingredientes locais num ambiente elegante que conquistou os mais exigentes da cidade."},
     {n:"Mistura",q:"Frutos do Mar",a:"Salvador — BA",p:"+55 71 3000-0000",pr:3,d:"Especialista em frutos do mar com os melhores espécimes da costa baiana: lagosta, camarão, caranguejo e muito mais. Preparações que respeitam a simplicidade e potencializam o sabor natural dos ingredientes frescos do Atlântico."},
@@ -288,7 +309,13 @@ const CITIES=[
     {"n":"Gero","q":"Italiana","a":"Salvador — BA","p":"+55 71 3000-0000","pr":3,"d":"Filial baiana do icónico Gero (grupo Fasano). Cozinha italiana de alto nível com produtos importados, massas frescas e o serviço impecável da casa. Um clássico da gastronomia internacional em Salvador."},
     {"n":"Iemanjá","q":"Baiana Tradicional","a":"Salvador — BA","p":"+55 71 3000-0000","pr":2,"d":"Templo da moqueca baiana tradicional em Salvador. Panela de barro fumegante, pirão, farofa e o sabor genuíno da cozinha das baianas com receitas afro-brasileiras passadas de mão em mão."},
     {"n":"Casa Vidal","q":"Espanhola","a":"Salvador — BA","p":"+55 71 3000-0000","pr":3,"d":"Cozinha espanhola elegante em Salvador. Tapas, paellas, pulpo a la gallega e jamón ibérico em ambiente que evoca os melhores restaurantes de Madrid e San Sebastián."},
-    {"n":"Chez Bernard","q":"Francesa","a":"Salvador — BA","p":"+55 71 3000-0000","pr":3,"d":"Bistrô francês clássico em Salvador. Receitas tradicionais — escargots, soupe à l'oignon, magret de canard — em ambiente íntimo de bistrô parisiense."}]}
+    {"n":"Chez Bernard","q":"Francesa","a":"Salvador — BA","p":"+55 71 3000-0000","pr":3,"d":"Bistrô francês clássico em Salvador. Receitas tradicionais — escargots, soupe à l'oignon, magret de canard — em ambiente íntimo de bistrô parisiense."},
+    {t:"h",n:"Fasano Salvador",q:"Hotel · Boutique 5★",a:"Praça Castro Alves, 5 — Centro Histórico, Salvador — BA",p:"+55 71 3204-9000",pr:4,s:5,d:"Hotel boutique do grupo Fasano em Salvador, instalado num icónico edifício histórico do Centro Histórico de Salvador. Combina a elegância clássica do grupo com a alma baiana — vista para o Pelourinho e Baía de Todos os Santos. Quartos refinados, restaurante Fasano e spa. O endereço mais sofisticado da capital baiana."},
+    {t:"h",n:"Fera Palace Hotel",q:"Hotel · Histórico 5★",a:"Praça da Inglaterra, 4 — Comércio, Salvador — BA",p:"+55 71 3036-1900",pr:4,s:5,d:"Edifício art déco de 1934 magistralmente restaurado no Centro Histórico de Salvador. 81 quartos, restaurante Omnívoro, rooftop com piscina e vista panorâmica para a Baía de Todos os Santos. Um dos hotéis boutique mais elegantes do Brasil, fruto de um ambicioso projecto de revitalização patrimonial."}
+  ]},
+  {city:"Porto de Galinhas",region:"Pernambuco",entries:[
+    {t:"h",n:"Nannai Resort & Spa",q:"Resort · Praia 5★",a:"Rod. PE-09, Km 3 — Muro Alto, Ipojuca (Porto de Galinhas) — PE",p:"+55 81 3552-0100",pr:4,s:5,d:"Resort de bangalôs com piscina privativa em Muro Alto, perto de Porto de Galinhas. Considerado um dos melhores resorts do Brasil — só recebe hóspedes maiores de 13 anos. Praia exclusiva, três restaurantes, spa, sport complex. O endereço de luxo do Nordeste para casais."}
+  ]}
 ];
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};
 const MBADGE={m3:'bm3',m2:'bm2',m1:'bm1',bib:'bbib',green:'bgreen',rec:'brec',award:'baward'};
@@ -355,7 +382,7 @@ function render(){
       main.appendChild(sec);
 
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const bg=cardBg(r.q);
         const nm=r.n.replace(/'/g,"\\'");
@@ -431,6 +458,15 @@ function buildCuisineBar(){
   if(!bar)return;
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
+
+let activeType='all';
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
 let activeCuisine='Todas';
 function setCuisine(c,btn){
   activeCuisine=c;
@@ -471,7 +507,9 @@ function initMap(){
     city.entries.forEach(r=>{
       const key=`${FOLDER}/${slug(r.n)}`;
       const c=coords[key,
-  {city:"Porto de Galinhas",region:"Pernambuco",entries:[{"n":"Beijupira","q":"Frutos do Mar Contemporânea","a":"Porto de Galinhas — PE","p":"+55 81 3552-2354","pr":3,"d":"Restaurante referência de Porto de Galinhas com cozinha contemporânea de frutos do mar do litoral pernambucano. Beijupira (peixe local) preparado em diferentes técnicas, polvo grelhado e pratos criativos num ambiente tropical sofisticado."}]},
+  {city:"Porto de Galinhas",region:"Pernambuco",entries:[{"n":"Beijupira","q":"Frutos do Mar Contemporânea","a":"Porto de Galinhas — PE","p":"+55 81 3552-2354","pr":3,"d":"Restaurante referência de Porto de Galinhas com cozinha contemporânea de frutos do mar do litoral pernambucano. Beijupira (peixe local) preparado em diferentes técnicas, polvo grelhado e pratos criativos num ambiente tropical sofisticado."},
+    {t:"h",n:"Nannai Resort & Spa",q:"Resort · Praia 5★",a:"Rod. PE-09, Km 3 — Muro Alto, Ipojuca (Porto de Galinhas) — PE",p:"+55 81 3552-0100",pr:4,s:5,d:"Resort de bangalôs com piscina privativa em Muro Alto, perto de Porto de Galinhas. Considerado um dos melhores resorts do Brasil — só recebe hóspedes maiores de 13 anos. Praia exclusiva, três restaurantes, spa, sport complex. O endereço de luxo do Nordeste para casais."}
+  ]},
   {city:"Gravatá",region:"Pernambuco",entries:[{"n":"Restaurante Mania Caseira","q":"Brasileira Caseira","a":"Gravatá — PE","p":"+55 81 3000-0000","pr":1,"d":"Restaurante de cozinha caseira mineira/pernambucana em Gravatá. Pratos generosos, comida feita no fogão a lenha e o sabor das casas familiares do agreste."},{"n":"Taverna Suissa","q":"Suíça","a":"Gravatá — PE","p":"+55 81 3000-0000","pr":2,"d":"Taverna suíça em Gravatá — única no Nordeste. Fondues de queijo e chocolate, raclette, rösti e cervejas trapistas num chalé alpino no agreste pernambucano."},{"n":"Buchadinha do Gordo","q":"Nordestina","a":"Gravatá — PE","p":"+55 81 3000-0000","pr":1,"d":"Buchada de bode, sarapatel, carne de sol e os clássicos da cozinha nordestina em ambiente despretensioso. Uma referência da gastronomia popular do agreste."}]},
   {city:"Olinda",region:"Pernambuco",entries:[{"n":"Oficina do Sabor","q":"Pernambucana Contemporânea","a":"Olinda — PE","p":"+55 81 3429-3331","pr":3,"d":"O restaurante mais celebrado de Olinda, do chef César Santos. Cozinha pernambucana contemporânea com produtos da região — caruru de camarão, jerimum recheado, peixe na folha de bananeira — numa casa centenária do centro histórico colonial."}]}
 ];

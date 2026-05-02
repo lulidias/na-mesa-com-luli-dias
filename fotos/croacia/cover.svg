@@ -1,0 +1,126 @@
+<svg viewBox="0 0 1200 750" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyHR" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F7F1E5"/>
+      <stop offset="55%" stop-color="#FAF8F5"/>
+      <stop offset="100%" stop-color="#E8DCC0"/>
+    </linearGradient>
+    <linearGradient id="seaHR" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C9A96E" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#1F1B16" stop-opacity="0.62"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1200" height="510" fill="url(#skyHR)"/>
+
+  <!-- Sun (low warm light) -->
+  <circle cx="950" cy="220" r="55" fill="#C9A96E" opacity="0.65"/>
+  <circle cx="950" cy="220" r="95" fill="#C9A96E" opacity="0.12"/>
+
+  <!-- Distant hills (Istria mainland) -->
+  <path d="M0,440 Q200,420 400,432 T800,428 T1200,438 L1200,510 L0,510 Z" fill="#1F1B16" opacity="0.18"/>
+
+  <!-- Old town silhouette of Rovinj rising from sea -->
+  <g transform="translate(380,300)" fill="#1F1B16">
+    <!-- Hilltop base of peninsula -->
+    <path d="M0,210 Q40,205 90,200 L150,180 L220,170 L290,178 L370,170 L440,180 L490,200 L530,210 L530,220 L0,220 Z" opacity="0.92"/>
+
+    <!-- Stacked old-town houses (left to right, climbing) -->
+    <g opacity="0.88">
+      <!-- Lower row -->
+      <rect x="50" y="170" width="35" height="40"/>
+      <rect x="90" y="160" width="38" height="50"/>
+      <rect x="135" y="155" width="32" height="55"/>
+      <rect x="172" y="150" width="40" height="60"/>
+      <rect x="218" y="142" width="34" height="68"/>
+      <rect x="258" y="138" width="38" height="72"/>
+      <rect x="302" y="142" width="32" height="68"/>
+      <rect x="340" y="148" width="36" height="62"/>
+      <rect x="382" y="155" width="34" height="55"/>
+      <rect x="422" y="160" width="38" height="50"/>
+      <rect x="466" y="170" width="34" height="40"/>
+
+      <!-- Mid row higher -->
+      <rect x="142" y="118" width="30" height="40"/>
+      <rect x="178" y="108" width="32" height="50"/>
+      <rect x="216" y="100" width="36" height="58"/>
+      <rect x="258" y="95" width="32" height="65"/>
+      <rect x="296" y="100" width="34" height="60"/>
+      <rect x="336" y="110" width="30" height="50"/>
+      <rect x="370" y="118" width="34" height="42"/>
+
+      <!-- Upper row -->
+      <rect x="220" y="70" width="30" height="40"/>
+      <rect x="256" y="62" width="34" height="48"/>
+      <rect x="296" y="68" width="30" height="42"/>
+    </g>
+
+    <!-- Pitched roofs (subtle triangles on top of houses) -->
+    <g opacity="0.75">
+      <path d="M50,170 L67,162 L85,170 Z"/>
+      <path d="M90,160 L109,150 L128,160 Z"/>
+      <path d="M172,150 L192,140 L212,150 Z"/>
+      <path d="M218,142 L235,130 L252,142 Z"/>
+      <path d="M258,138 L277,124 L296,138 Z"/>
+      <path d="M302,142 L318,130 L334,142 Z"/>
+      <path d="M340,148 L358,136 L376,148 Z"/>
+      <path d="M382,155 L399,144 L416,155 Z"/>
+      <path d="M422,160 L441,148 L460,160 Z"/>
+    </g>
+
+    <!-- Saint Euphemia Church (Sveta Eufemija) - tall belltower in center -->
+    <!-- Wider church base -->
+    <rect x="232" y="58" width="60" height="50" opacity="0.95"/>
+    <!-- Church gable roof -->
+    <path d="M232,58 L262,28 L292,58 Z" opacity="0.95"/>
+    <!-- Bell tower (tall, iconic Venetian style) -->
+    <rect x="252" y="-95" width="20" height="155" opacity="0.95"/>
+    <!-- Tower top: belfry openings (small lighter rectangles) -->
+    <rect x="256" y="-72" width="12" height="20" fill="#FAF8F5" opacity="0.45"/>
+    <rect x="256" y="-42" width="12" height="20" fill="#FAF8F5" opacity="0.4"/>
+    <!-- Pyramid roof -->
+    <path d="M252,-95 L262,-122 L272,-95 Z"/>
+    <!-- Tiny cross at top -->
+    <line x1="262" y1="-122" x2="262" y2="-138" stroke="#1F1B16" stroke-width="1.5"/>
+    <line x1="256" y1="-130" x2="268" y2="-130" stroke="#1F1B16" stroke-width="1.5"/>
+    <!-- Statue silhouette (Saint Euphemia weathervane) -->
+    <circle cx="262" cy="-141" r="2" fill="#1F1B16"/>
+  </g>
+
+  <!-- Sea -->
+  <rect y="510" width="1200" height="240" fill="url(#seaHR)"/>
+
+  <!-- Reflection of old town in sea -->
+  <g transform="translate(380,510)" opacity="0.22" fill="#1F1B16">
+    <rect x="50" y="0" width="35" height="22"/>
+    <rect x="90" y="0" width="38" height="30"/>
+    <rect x="172" y="0" width="40" height="38"/>
+    <rect x="258" y="0" width="38" height="44"/>
+    <rect x="302" y="0" width="32" height="40"/>
+    <rect x="382" y="0" width="34" height="32"/>
+    <rect x="422" y="0" width="38" height="28"/>
+    <!-- Bell tower reflection -->
+    <rect x="252" y="0" width="20" height="80"/>
+  </g>
+
+  <!-- Wave lines -->
+  <path d="M0,560 Q200,550 400,560 T800,560 T1200,560" fill="none" stroke="#FAF8F5" stroke-width="1.5" opacity="0.42"/>
+  <path d="M0,610 Q300,600 600,610 T1200,610" fill="none" stroke="#FAF8F5" stroke-width="1.4" opacity="0.32"/>
+  <path d="M0,660 Q200,650 400,660 T800,660 T1200,660" fill="none" stroke="#FAF8F5" stroke-width="1.3" opacity="0.25"/>
+  <path d="M0,705 Q250,695 500,705 T1000,705 T1200,705" fill="none" stroke="#FAF8F5" stroke-width="1.2" opacity="0.2"/>
+
+  <!-- Small fishing boat -->
+  <g transform="translate(220,580)" fill="#1F1B16">
+    <path d="M-22,0 L22,0 L18,8 L-18,8 Z"/>
+    <line x1="0" y1="-2" x2="0" y2="-22" stroke="#1F1B16" stroke-width="1.5"/>
+    <path d="M0,-22 L0,-4 L14,-4 Z" fill="#FAF8F5" stroke="#1F1B16" stroke-width="1.2"/>
+  </g>
+
+  <!-- Decorative ornament -->
+  <g transform="translate(600,90)" opacity="0.5">
+    <line x1="-40" y1="0" x2="-8" y2="0" stroke="#C9A96E" stroke-width="1.2"/>
+    <rect x="-3" y="-3" width="6" height="6" transform="rotate(45)" fill="#C9A96E"/>
+    <line x1="8" y1="0" x2="40" y2="0" stroke="#C9A96E" stroke-width="1.2"/>
+  </g>
+</svg>
