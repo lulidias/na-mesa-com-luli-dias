@@ -183,5 +183,20 @@ footer a{color:var(--gold);text-decoration:none}
 </main>
 
 <footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
+
+<script>
+// Propaga ?type= do index para os cards regionais
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('type');
+  if (t === 'r' || t === 'h') {
+    document.querySelectorAll('a.country-card').forEach(a => {
+      const url = new URL(a.href);
+      url.searchParams.set('type', t);
+      a.href = url.toString();
+    });
+  }
+})();
+</script>
 </body>
 </html>

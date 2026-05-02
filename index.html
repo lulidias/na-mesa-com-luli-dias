@@ -216,7 +216,8 @@ function setContinent(name, btn) {
 function buildCard(c) {
   const isComingSoon = !!c.comingSoon;
   const tag = isComingSoon ? 'div' : 'a';
-  const href = isComingSoon ? '' : `href="${c.file}"`;
+  const typeParam = idxType !== 'all' ? `?type=${idxType}` : '';
+  const href = isComingSoon ? '' : `href="${c.file}${typeParam}"`;
   const imgHtml = c.photo && !c.photo.endsWith('/')
     ? `<img class="card-img" src="${c.photo}" alt="${c.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
       + `<div class="card-img-placeholder" style="display:none">${c.flag}</div>`

@@ -282,6 +282,19 @@ function buildCuisineBar(){
 }
 
 let activeType='all';
+// Aplica filtro inicial vindo de ?type= na URL (vindo do index)
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('type');
+  if (t === 'r' || t === 'h') {
+    activeType = t;
+    setTimeout(() => {
+      document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+      const btn = document.getElementById('type' + (t==='r'?'R':'H'));
+      if (btn) btn.classList.add('active');
+    }, 0);
+  }
+})();
 function setType(t,btn){
   activeType=t;
   document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
