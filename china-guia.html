@@ -301,6 +301,24 @@ function buildCuisineBar(){
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
 
+
+// Rebuild filter buttons based on active type (Restaurantes/Hotéis/Todos)
+function rebuildFilters(){
+  const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h');
+  const visibleCities = CITIES.filter(c => c.entries.some(_passes));
+  const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.region))];
+  // If active filter no longer exists, reset to Todas
+  if (activeCity !== 'Todas' && !newCityList.includes(activeCity)) activeCity = 'Todas';
+  const filtersEl = document.getElementById('filters');
+  if (filtersEl) {
+    const lbl = filtersEl.querySelector('.filter-lbl');
+    const lblText = lbl ? lbl.outerHTML : '<span class="filter-lbl">Estado:</span>';
+    filtersEl.innerHTML = lblText + newCityList.map(c => 
+      `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`
+    ).join('');
+  }
+}
+
 let activeType='all';
 // Aplica filtro inicial vindo de ?type= na URL (vindo do index)
 (function(){
@@ -312,6 +330,8 @@ let activeType='all';
       document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
       const btn = document.getElementById('type' + (t==='r'?'R':'H'));
       if (btn) btn.classList.add('active');
+      rebuildFilters();
+      render();
     }, 0);
   }
 })();
@@ -319,6 +339,7 @@ function setType(t,btn){
   activeType=t;
   document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  rebuildFilters();
   render();
 }
 
