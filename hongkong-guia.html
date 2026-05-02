@@ -190,11 +190,18 @@ function render(){
   const groups={};
   filtered.forEach(c=>{if(!groups[c.region])groups[c.region]=[];groups[c.region].push(c);});
   Object.entries(groups).forEach(([region,cities])=>{
+    const _passesR=r=>!(activeType==="r"&&r.t==="h")&&!(activeType==="h"&&r.t!=="h");
+    if(!cities.some(c=>c.entries.some(_passesR)))return;
+    
     const rd=document.createElement('div');
     rd.style.cssText='display:flex;align-items:center;gap:16px;margin:44px 0 8px';
     rd.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 16px">${region}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
     main.appendChild(rd);
     cities.forEach(({city,entries,folder})=>{
+      const _passes=r=>!(activeType==="r"&&r.t==="h")&&!(activeType==="h"&&r.t!=="h");
+      const _visible=entries.filter(_passes);
+      if(_visible.length===0)return;
+      
       const f=folder||FOLDER;
       const sec=document.createElement('div');sec.className='city-sec';
       sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div></div></div><div class="restaurants-grid"></div>`;
@@ -265,6 +272,29 @@ function buildCuisineBar(){
   const bar=document.getElementById('cuisineBar');
   if(!bar)return;
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+}
+
+// Rebuild filter buttons based on active type
+function rebuildFilters(){
+  const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h');
+  const visibleCities = CITIES.filter(c => c.entries.some(_passes));
+  const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.region))];
+  const useRegion = typeof activeRegion !== 'undefined';
+  const setterName = useRegion ? 'setRegion' : 'setCity';
+  const currentVal = useRegion ? activeRegion : (typeof activeCity !== 'undefined' ? activeCity : 'Todas');
+  if (currentVal !== 'Todas' && !newCityList.includes(currentVal)) {
+    if (useRegion) activeRegion = 'Todas';
+    else if (typeof activeCity !== 'undefined') activeCity = 'Todas';
+  }
+  const newCurrent = useRegion ? activeRegion : (typeof activeCity !== 'undefined' ? activeCity : 'Todas');
+  const filtersEl = document.getElementById('filters');
+  if (filtersEl) {
+    const lbl = filtersEl.querySelector('.filter-lbl');
+    const lblText = lbl ? lbl.outerHTML : '<span class="filter-lbl">Estado:</span>';
+    filtersEl.innerHTML = lblText + newCityList.map(c => 
+      `<button class="filter-btn${c===newCurrent?' active':''}" onclick="${setterName}('${c.replace(/'/g,"\\'")}',this)">${c}</button>`
+    ).join('');
+  }
 }
 
 let activeType='all';

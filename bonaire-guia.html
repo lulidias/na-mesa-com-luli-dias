@@ -98,6 +98,12 @@ footer{text-align:center;padding:32px;border-top:1px solid var(--border);backgro
 footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 footer a{color:var(--gold);text-decoration:none}.curator-badge{display:inline-flex;align-items:center;gap:3px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:var(--gold-bg);padding:3px 8px;border-radius:10px;font-weight:600;border:1px solid var(--gold-lt)}
 .curator-badge.shared{background:linear-gradient(90deg,var(--gold-bg) 0%,#FBE6BD 100%);color:#7d5500}
+.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -122,6 +128,12 @@ footer a{color:var(--gold);text-decoration:none}.curator-badge{display:inline-fl
   <span class="view-toggle-lbl">Vista:</span>
   <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
+</div>
+<div class="type-bar">
+  <span class="type-lbl">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
 </div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
@@ -159,7 +171,7 @@ const CITIES=[{"city": "Kralendijk", "region": "Bonaire", "entries": [{"n": "Oce
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin',beach:'Beach Club'};
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
-function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
+function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
 
 const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
 document.getElementById('filters').innerHTML='<span class="filter-lbl">Região:</span>'+
@@ -177,11 +189,18 @@ function render(){
   const groups={};
   filtered.forEach(c=>{if(!groups[c.region])groups[c.region]=[];groups[c.region].push(c);});
   Object.entries(groups).forEach(([region,cities])=>{
+    const _passesR=r=>!(activeType==="r"&&r.t==="h")&&!(activeType==="h"&&r.t!=="h");
+    if(!cities.some(c=>c.entries.some(_passesR)))return;
+    
     const rd=document.createElement('div');
     rd.style.cssText='display:flex;align-items:center;gap:16px;margin:44px 0 8px';
     rd.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 16px">${region}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
     main.appendChild(rd);
     cities.forEach(({city,entries,folder})=>{
+      const _passes=r=>!(activeType==="r"&&r.t==="h")&&!(activeType==="h"&&r.t!=="h");
+      const _visible=entries.filter(_passes);
+      if(_visible.length===0)return;
+      
       const f=folder||FOLDER;
       const sec=document.createElement('div');sec.className='city-sec';
       sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div></div></div><div class="restaurants-grid"></div>`;
@@ -253,6 +272,53 @@ function buildCuisineBar(){
   if(!bar)return;
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
+
+// Rebuild filter buttons based on active type
+function rebuildFilters(){
+  const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h');
+  const visibleCities = CITIES.filter(c => c.entries.some(_passes));
+  const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.region))];
+  const useRegion = typeof activeRegion !== 'undefined';
+  const setterName = useRegion ? 'setRegion' : 'setCity';
+  const currentVal = useRegion ? activeRegion : (typeof activeCity !== 'undefined' ? activeCity : 'Todas');
+  if (currentVal !== 'Todas' && !newCityList.includes(currentVal)) {
+    if (useRegion) activeRegion = 'Todas';
+    else if (typeof activeCity !== 'undefined') activeCity = 'Todas';
+  }
+  const newCurrent = useRegion ? activeRegion : (typeof activeCity !== 'undefined' ? activeCity : 'Todas');
+  const filtersEl = document.getElementById('filters');
+  if (filtersEl) {
+    const lbl = filtersEl.querySelector('.filter-lbl');
+    const lblText = lbl ? lbl.outerHTML : '<span class="filter-lbl">Estado:</span>';
+    filtersEl.innerHTML = lblText + newCityList.map(c => 
+      `<button class="filter-btn${c===newCurrent?' active':''}" onclick="${setterName}('${c.replace(/'/g,"\\'")}',this)">${c}</button>`
+    ).join('');
+  }
+}
+
+let activeType='all';
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('type');
+  if (t === 'r' || t === 'h') {
+    activeType = t;
+    setTimeout(() => {
+      document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+      const btn = document.getElementById('type' + (t==='r'?'R':'H'));
+      if (btn) btn.classList.add('active');
+      if (typeof rebuildFilters === 'function') rebuildFilters();
+      render();
+    }, 0);
+  }
+})();
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if (typeof rebuildFilters === 'function') rebuildFilters();
+  render();
+}
+
 let activeCuisine='Todas';
 function setCuisine(c,btn){
   activeCuisine=c;
