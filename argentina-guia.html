@@ -184,6 +184,21 @@ function setRegion(r,btn){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');render();
 }
+
+// Try multiple photo extensions before falling back to placeholder
+function tryPhoto(img, slug, isHotel, bg, em){
+  const exts = ['.jpg', '.jpeg', '.JPG', '.JPEG', '.png', '.PNG'];
+  const folder = isHotel ? 'fotos/hoteis/' : 'fotos/' + FOLDER + '/';
+  let attempt = parseInt(img.dataset.attempt || '0', 10);
+  attempt++;
+  if (attempt < exts.length) {
+    img.dataset.attempt = attempt;
+    img.src = folder + slug + exts[attempt];
+  } else {
+    img.parentElement.innerHTML = '<div class="card-photo-placeholder" style="background:' + bg + '">' + em + '</div>';
+  }
+}
+
 function render(){
   const main=document.getElementById('main');main.innerHTML='';
   const filtered=activeRegion==='Todas'?CITIES:CITIES.filter(c=>c.region===activeRegion);
