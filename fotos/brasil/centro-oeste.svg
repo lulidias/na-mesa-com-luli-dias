@@ -1,0 +1,90 @@
+<svg viewBox="0 0 1200 750" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyCO" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F7F1E5"/>
+      <stop offset="60%" stop-color="#FAF8F5"/>
+      <stop offset="100%" stop-color="#E8DCC0"/>
+    </linearGradient>
+    <linearGradient id="cerrado" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8DCC0"/>
+      <stop offset="100%" stop-color="#C9A96E" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1200" height="600" fill="url(#skyCO)"/>
+
+  <!-- Sun -->
+  <circle cx="950" cy="200" r="55" fill="#C9A96E" opacity="0.7"/>
+
+  <!-- Cerrado (ground) -->
+  <rect y="600" width="1200" height="150" fill="url(#cerrado)"/>
+
+  <!-- Distant horizon mountains -->
+  <path d="M0,560 Q100,540 200,555 T400,555 T600,560 T800,558 T1000,562 T1200,555 L1200,600 L0,600 Z" fill="#1F1B16" opacity="0.15"/>
+
+  <!-- Catedral de Brasília (Niemeyer) - 16 hyperboloid columns -->
+  <g transform="translate(450,600)" stroke="#1F1B16" fill="none" stroke-linecap="round">
+    <!-- Reflecting pool base -->
+    <ellipse cx="150" cy="2" rx="170" ry="14" fill="#1F1B16" opacity="0.85"/>
+    <!-- Curved hyperboloid columns -->
+    <g stroke-width="3.5">
+      <path d="M22,0 Q150,-235 278,0"/>
+      <path d="M40,0 Q150,-225 260,0"/>
+      <path d="M60,0 Q150,-215 240,0"/>
+      <path d="M80,0 Q150,-205 220,0"/>
+      <path d="M102,0 Q150,-190 198,0"/>
+      <path d="M125,0 Q150,-175 175,0"/>
+    </g>
+    <!-- Top crown ring -->
+    <ellipse cx="150" cy="-200" rx="55" ry="6" fill="#1F1B16"/>
+    <!-- Crown spike -->
+    <line x1="150" y1="-205" x2="150" y2="-235" stroke-width="2"/>
+    <!-- Reflection -->
+    <g opacity="0.2" transform="scale(1,-0.4) translate(0,-30)">
+      <path d="M22,0 Q150,-235 278,0" stroke-width="3"/>
+      <path d="M60,0 Q150,-215 240,0" stroke-width="3"/>
+      <path d="M102,0 Q150,-190 198,0" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- Congresso Nacional - distant -->
+  <g transform="translate(820,540)" fill="#1F1B16">
+    <!-- Reflecting base -->
+    <rect x="-30" y="56" width="270" height="6" opacity="0.9"/>
+    <!-- Twin towers -->
+    <rect x="100" y="-110" width="22" height="170"/>
+    <rect x="128" y="-110" width="22" height="170"/>
+    <!-- Connecting bridge -->
+    <rect x="100" y="-65" width="50" height="6"/>
+    <!-- Inverted dome (Senate) -->
+    <path d="M10,30 Q55,80 100,30 L100,18 Q55,-32 10,18 Z"/>
+    <!-- Bowl dome (Chamber) -->
+    <path d="M150,52 Q195,12 240,52 L240,58 L150,58 Z"/>
+    <!-- Subtle reflection -->
+    <g opacity="0.2" transform="scale(1,-0.3) translate(0,-200)">
+      <rect x="100" y="-110" width="22" height="170"/>
+      <rect x="128" y="-110" width="22" height="170"/>
+    </g>
+  </g>
+
+  <!-- Eixo Monumental (line of perspective) -->
+  <line x1="0" y1="600" x2="1200" y2="600" stroke="#1F1B16" stroke-width="0.8" opacity="0.3"/>
+  <line x1="600" y1="600" x2="600" y2="650" stroke="#C9A96E" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- Cerrado vegetation hints -->
+  <g fill="#1F1B16" opacity="0.4">
+    <circle cx="80" cy="640" r="4"/>
+    <circle cx="100" cy="635" r="3"/>
+    <circle cx="200" cy="650" r="3"/>
+    <circle cx="1100" cy="640" r="3"/>
+    <circle cx="1130" cy="648" r="4"/>
+  </g>
+
+  <!-- Decorative ornament -->
+  <g transform="translate(600,90)" opacity="0.5">
+    <line x1="-40" y1="0" x2="-8" y2="0" stroke="#C9A96E" stroke-width="1.2"/>
+    <rect x="-3" y="-3" width="6" height="6" transform="rotate(45)" fill="#C9A96E"/>
+    <line x1="8" y1="0" x2="40" y2="0" stroke="#C9A96E" stroke-width="1.2"/>
+  </g>
+</svg>
