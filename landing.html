@@ -117,6 +117,16 @@ footer{background:var(--ink);color:#999;padding:60px 0 30px;text-align:center;fo
 footer a{color:var(--gold-lt);text-decoration:none;margin:0 10px}
 .footer-orn{margin:0 auto 24px;display:inline-flex;align-items:center;gap:14px}
 .footer-orn .orn-line{background:linear-gradient(90deg,transparent,var(--gold-lt),transparent)}
+.coverage{background:var(--white);border-block:1px solid var(--border)}
+.cov-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0 48px;max-width:1000px;margin:0 auto}
+.cov-row{display:grid;grid-template-columns:36px 160px 1fr;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--border);font-size:14px}
+.cov-flag{font-size:22px;line-height:1}
+.cov-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:400;color:var(--ink)}
+.cov-counts{font-size:12px;color:var(--ink-lt);letter-spacing:.5px}
+.cov-r{color:var(--ink-lt);font-weight:500}
+.cov-h{color:var(--gold);font-weight:600}
+.cov-m{color:var(--gold);font-weight:600}
+@media(max-width:760px){.cov-grid{grid-template-columns:1fr;gap:0}}
 </style>
 </head>
 <body>
@@ -237,6 +247,261 @@ footer a{color:var(--gold-lt);text-decoration:none;margin:0 10px}
           <div class="fcard-desc">"Chef Alex Atala. Ingredientes da Amazónia e do Cerrado numa cozinha de vanguarda que colocou o Brasil no mapa gastronómico mundial."</div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Coverage by country — transparência total -->
+<section class="section coverage" id="cobertura">
+  <div class="container">
+    <div class="section-label">COBERTURA POR PAÍS</div>
+    <h2 class="section-title">Profundidade por <em>destino</em></h2>
+    <p style="text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:var(--ink-lt);max-width:760px;margin:0 auto 48px;line-height:1.6">
+      O guia cobre 34 países com diferentes níveis de profundidade. Cidades como Lisboa, São Paulo, Paris e Rio têm dezenas de endereços. Outros países servem para registar uma experiência específica — uma única estadia, um restaurante particular — que vale a pena recomendar.
+    </p>
+    <div class="cov-grid">
+      <div class="cov-row">
+        <div class="cov-flag">🇧🇷</div>
+        <div class="cov-name">Brasil</div>
+        <div class="cov-counts">
+          <span class="cov-r">346 rest.</span> · <span class="cov-h">30 hot.</span> · <span class="cov-m">20★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇫🇷</div>
+        <div class="cov-name">França</div>
+        <div class="cov-counts">
+          <span class="cov-r">105 rest.</span> · <span class="cov-h">10 hot.</span> · <span class="cov-m">24★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇵🇹</div>
+        <div class="cov-name">Portugal</div>
+        <div class="cov-counts">
+          <span class="cov-r">82 rest.</span> · <span class="cov-h">22 hot.</span> · <span class="cov-m">4★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇪🇸</div>
+        <div class="cov-name">Espanha</div>
+        <div class="cov-counts">
+          <span class="cov-r">37 rest.</span> · <span class="cov-h">1 hot.</span> · <span class="cov-m">7★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇯🇵</div>
+        <div class="cov-name">Japão</div>
+        <div class="cov-counts">
+          <span class="cov-r">32 rest.</span> · <span class="cov-h">2 hot.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇮🇹</div>
+        <div class="cov-name">Itália</div>
+        <div class="cov-counts">
+          <span class="cov-r">24 rest.</span> · <span class="cov-m">6★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇰🇷</div>
+        <div class="cov-name">Coreia do Sul</div>
+        <div class="cov-counts">
+          <span class="cov-r">20 rest.</span> · <span class="cov-h">4 hot.</span> · <span class="cov-m">1★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇹🇷</div>
+        <div class="cov-name">Turquia</div>
+        <div class="cov-counts">
+          <span class="cov-r">20 rest.</span> · <span class="cov-h">2 hot.</span> · <span class="cov-m">2★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇵🇪</div>
+        <div class="cov-name">Peru</div>
+        <div class="cov-counts">
+          <span class="cov-r">16 rest.</span> · <span class="cov-h">4 hot.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇦🇷</div>
+        <div class="cov-name">Argentina</div>
+        <div class="cov-counts">
+          <span class="cov-r">15 rest.</span> · <span class="cov-h">2 hot.</span> · <span class="cov-m">3★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇮🇪</div>
+        <div class="cov-name">Irlanda</div>
+        <div class="cov-counts">
+          <span class="cov-r">10 rest.</span> · <span class="cov-h">4 hot.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇨🇱</div>
+        <div class="cov-name">Chile</div>
+        <div class="cov-counts">
+          <span class="cov-r">14 rest.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇩🇪</div>
+        <div class="cov-name">Alemanha</div>
+        <div class="cov-counts">
+          <span class="cov-r">11 rest.</span> · <span class="cov-h">2 hot.</span> · <span class="cov-m">7★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇳🇱</div>
+        <div class="cov-name">Holanda</div>
+        <div class="cov-counts">
+          <span class="cov-r">8 rest.</span> · <span class="cov-h">1 hot.</span> · <span class="cov-m">5★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇨🇳</div>
+        <div class="cov-name">China</div>
+        <div class="cov-counts">
+          <span class="cov-r">7 rest.</span> · <span class="cov-h">2 hot.</span> · <span class="cov-m">1★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇺🇸</div>
+        <div class="cov-name">Estados Unidos</div>
+        <div class="cov-counts">
+          <span class="cov-r">9 rest.</span> · <span class="cov-m">1★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇺🇾</div>
+        <div class="cov-name">Uruguai</div>
+        <div class="cov-counts">
+          <span class="cov-r">9 rest.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇹🇭</div>
+        <div class="cov-name">Tailândia</div>
+        <div class="cov-counts">
+          <span class="cov-r">7 rest.</span> · <span class="cov-h">1 hot.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇹🇼</div>
+        <div class="cov-name">Taiwan</div>
+        <div class="cov-counts">
+          <span class="cov-r">5 rest.</span> · <span class="cov-h">1 hot.</span> · <span class="cov-m">1★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇱🇺</div>
+        <div class="cov-name">Luxemburgo</div>
+        <div class="cov-counts">
+          <span class="cov-r">5 rest.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇬🇧</div>
+        <div class="cov-name">Reino Unido</div>
+        <div class="cov-counts">
+          <span class="cov-r">4 rest.</span> · <span class="cov-h">1 hot.</span> · <span class="cov-m">1★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇩🇰</div>
+        <div class="cov-name">Dinamarca</div>
+        <div class="cov-counts">
+          <span class="cov-r">4 rest.</span> · <span class="cov-h">1 hot.</span> · <span class="cov-m">1★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇬🇧</div>
+        <div class="cov-name">Irlanda do Norte</div>
+        <div class="cov-counts">
+          <span class="cov-r">3 rest.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇦🇪</div>
+        <div class="cov-name">Dubai</div>
+        <div class="cov-counts">
+          <span class="cov-r">2 rest.</span> · <span class="cov-h">1 hot.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇻🇳</div>
+        <div class="cov-name">Vietnã</div>
+        <div class="cov-counts">
+          <span class="cov-r">2 rest.</span> · <span class="cov-h">1 hot.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇭🇰</div>
+        <div class="cov-name">Hong Kong & Macau</div>
+        <div class="cov-counts">
+          <span class="cov-r">2 rest.</span> · <span class="cov-h">1 hot.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇱🇮</div>
+        <div class="cov-name">Liechtenstein</div>
+        <div class="cov-counts">
+          <span class="cov-r">1 rest.</span> · <span class="cov-h">1 hot.</span> · <span class="cov-m">1★</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇲🇨</div>
+        <div class="cov-name">Mónaco</div>
+        <div class="cov-counts">
+          <span class="cov-r">2 rest.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇵🇦</div>
+        <div class="cov-name">Panamá</div>
+        <div class="cov-counts">
+          <span class="cov-r">2 rest.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇨🇴</div>
+        <div class="cov-name">Colômbia</div>
+        <div class="cov-counts">
+          <span class="cov-r">2 rest.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇭🇷</div>
+        <div class="cov-name">Croácia</div>
+        <div class="cov-counts">
+          <span class="cov-r">1 rest.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇨🇼</div>
+        <div class="cov-name">Curaçao</div>
+        <div class="cov-counts">
+          <span class="cov-r">1 rest.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇦🇼</div>
+        <div class="cov-name">Aruba</div>
+        <div class="cov-counts">
+          <span class="cov-r">1 rest.</span>
+        </div>
+      </div>
+      <div class="cov-row">
+        <div class="cov-flag">🇧🇶</div>
+        <div class="cov-name">Bonaire</div>
+        <div class="cov-counts">
+          <span class="cov-r">1 rest.</span>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--ink-lt)">
+      Cada destino é actualizado conforme novas viagens e descobertas. O guia cresce em profundidade ao longo do tempo.
     </div>
   </div>
 </section>
