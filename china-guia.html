@@ -229,6 +229,9 @@ function render(){
     rd.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 16px">${region}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
     main.appendChild(rd);
     cities.forEach(({city,entries,folder})=>{
+      const _visible=entries.filter(_passes);
+      if(_visible.length===0)return;
+      
       const f=folder||FOLDER;
       const sec=document.createElement('div');sec.className='city-sec';
       sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div></div></div><div class="restaurants-grid"></div>`;
