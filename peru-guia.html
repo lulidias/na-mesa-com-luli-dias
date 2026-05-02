@@ -96,7 +96,13 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 .map-cancel{margin-top:16px;width:100%;padding:12px;border:none;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer}
 footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
 footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
-footer a{color:var(--gold);text-decoration:none}</style>
+footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
+</style>
 </head>
 <body>
 <nav class="top-nav">
@@ -110,7 +116,8 @@ footer a{color:var(--gold);text-decoration:none}</style>
   <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
   <div class="header-meta-row"><span class="header-meta">Lima · Cusco · Machu Picchu · Arequipa · Paracas</span><span class="header-edition">Abril 2026</span></div>
 </header>
-<div class="stats-bar"><div class="stat"><div class="stat-num">16</div><div class="stat-lbl">Restaurantes</div></div><div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Cidades</div></div></div>
+<div class="stats-bar"><div class="stat"><div class="stat-num">16</div><div class="stat-lbl">Restaurantes</div></div><div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">Hotéis</div></div></div>
 <div class="michelin-legend">
   <span class="lbadge">★★★ 3 Estrelas</span><span class="lbadge">★★ 2 Estrelas</span><span class="lbadge">★ 1 Estrela</span>
   <span class="lbadge">Bib Gourmand</span><span class="lbadge">Michelin</span><span class="lbadge">Hospedagem</span>
@@ -119,6 +126,12 @@ footer a{color:var(--gold);text-decoration:none}</style>
   <span class="view-toggle-lbl">Vista:</span>
   <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
+</div>
+<div class="type-bar">
+  <span class="type-lbl">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
 </div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
@@ -158,12 +171,16 @@ const CITIES=[
     {"n": "Isolina", "q": "Taberna Criolla", "a": "Av. San Martín 101, Barranco, Lima", "pr": 2, "note": "Latin America's 50 Best", "d": "Taberna criolla resgatada pelo chef José del Castillo numa casa antiga de Barranco. Cozinha popular limenha com generosidade e identidade — cau cau, sangrecita, lengua estofada — receitas que estavam a desaparecer da memória da cidade."},
     {"n": "Fiesta", "q": "Norte Peruano · Chiclayo", "a": "Av. Reducto 1276, Miraflores, Lima", "pr": 3, "note": "Latin America's 50 Best", "d": "Cozinha de Chiclayo na sua expressão mais elevada, pelas mãos do chef Héctor Solís. Arroz com pato à chiclayana, tortilla de raya e cabrito do norte servidos em Miraflores. Reservas obrigatórias."},
     {"n": "Osso", "q": "Carnes · Charcutaria", "a": "Tahiti 175, La Molina, Lima", "pr": 4, "d": "Talho-restaurante do chef Renzo Garibaldi, formado em Gascogne. Carnes maturadas até três meses, charcutaria caseira e cortes nobres preparados ao fogo. Por muitos considerado o melhor bife da América do Sul. Também tem filial em San Isidro."}
+  ,
+    {t:"h",n:"Country Club Lima Hotel",q:"Hotel · Histórico 5★",a:"Calle Los Eucaliptos 590, San Isidro, Lima",p:"+51 1 611-9000",pr:4,s:5,d:"Hotel cinco-estrelas histórico inaugurado em 1927 em San Isidro, o bairro mais elegante de Lima. 81 quartos e suítes em arquitectura colonial peruana, mobiliário de época, obras de arte do Museu Pedro de Osma. Restaurante Perroquet (cozinha peruana e internacional), English Bar, piscina, spa, jardins. Membro Leading Hotels of the World."}
   ]},
   {"city": "Cusco", "region": "Andes", "entries": [
     {"n": "Tupay", "q": "Peruana de Autor", "a": "Belmond Hotel Monasterio, Calle Palacios 136, Cusco", "p": "+51 84 604 000", "pr": 4, "note": "Belmond Hotel Monasterio · Noites de ópera", "d": "Restaurante fine dining no Belmond Hotel Monasterio, no antigo refeitório dos monges. Chef Jorge Baqua trabalha cozinha peruana com toques internacionais, harmonização com vinhos sul-americanos e noites de ópera às terças, quintas e sábados. Uma das experiências mais singulares de Cusco."},
     {"n": "Mauka", "q": "Andina Contemporânea", "a": "Belmond Palacio Nazarenas, Plaza Nazarenas 144, Cusco", "p": "+51 84 582 222", "pr": 4, "note": "Chef Pía León · Latin America's 50 Best", "d": "O primeiro restaurante de Cusco da chef Pía León — sócia e mulher de Virgilio Martínez (Central, Lima). Cozinha andina contemporânea com ingredientes nativos, no lindíssimo Belmond Palacio Nazarenas, junto à Plaza de Armas."},
     {"n": "Chicha por Gastón Acurio", "q": "Peruana Andina", "a": "Plaza Regocijo 261, Cusco", "p": "+51 84 240 520", "pr": 2, "d": "O restaurante de Gastón Acurio em Cusco, dedicado à cozinha andina peruana. Lomo saltado, ají de gallina, cuy e os pratos andinos servidos com produtos dos Andes. Na Plaza Regocijo, a poucos passos da Plaza de Armas."},
     {"n": "Oqre", "q": "Peruana Regional", "a": "Belmond Hotel Monasterio, Plazoleta Nazarenas 337, Cusco", "p": "+51 84 604 000", "pr": 3, "d": "Conceito mais casual e regional do Belmond Hotel Monasterio. Chef Jorge Muñoz cria pratos que percorrem as diferentes regiões do Peru — costa, serra e selva — num pátio histórico do antigo mosteiro. Ambiente íntimo e foco no produto local."}
+  ,
+    {t:"h",n:"Belmond Hotel Monasterio",q:"Hotel · Mosteiro Histórico 5★",a:"Calle Palacios 136, Plazoleta Nazarenas, Cusco 08002",p:"+51 84 604-000",pr:4,s:5,d:"Antigo Mosteiro de São Antônio Abad (1592) transformado em hotel cinco-estrelas no centro histórico de Cusco, junto à Plaza de Armas. 122 quartos com tectos altos e janelas para os claustros, capela barroca original, sistema de oxigénio nos quartos (Cusco a 3.400m). Restaurante Tupay (cozinha peruana com música andina), El Tupay (gastronómico). Membro Belmond."}
   ]},
   {"city": "Machu Picchu", "region": "Andes", "entries": [
     {"n": "Indio Feliz", "q": "Bistrot Franco-Peruano", "a": "Calle Lloque Yupanqui M-12, Aguas Calientes", "p": "+51 84 211 090", "pr": 2, "d": "Bistrot franco-peruano em Aguas Calientes, fundado em 1980 pelo francês Patrick que se apaixonou pela alegria dos locais. Em dois pisos com salas decoradas peça a peça, serve filete de alpaca em maracujá, truta no gengibre e os clássicos do bistrô francês adaptados aos Andes."}
@@ -174,6 +191,8 @@ const CITIES=[
     {"n": "Claustro", "q": "Italiana-Peruana", "a": "Calle Santa Catalina 309, Arequipa", "p": "+51 973 615 221", "pr": 3, "note": "Mosteiro de Santa Catalina", "d": "Trattoria com mais de 20 anos no emblemático Mosteiro de Santa Catalina — um dos sítios mais bonitos de Arequipa. Cozinha ítalo-peruana com massas frescas, ceviches e rocoto relleno num claustro histórico. Romântico e único."},
     {"n": "Chicha por Gastón Acurio", "q": "Peruana Arequipeña", "a": "Calle Santa Catalina 210, Casona Santa Catalina, Arequipa", "p": "+51 973 605 969", "pr": 2, "d": "A versão arequipeña do conceito de Gastón Acurio — celebra a picantería local com técnica contemporânea. Rocoto relleno, adobo arequipeño e chupe de camarones na Casona Santa Catalina, a um passo do Mosteiro."},
     {"n": "Zig Zag", "q": "Andina-Alpina", "a": "Calle Zela 210-212, Cercado, Arequipa", "p": "+51 54 206 020", "pr": 3, "note": "Carnes em pedra vulcânica", "d": "Cozinha andino-alpina criada pelo chef suíço Michel Hediger — alpaca, avestruz, novilho e cordeiro grelhados em pedra vulcânica. Especialidade que cruza os Andes com os Alpes — quinoa risoto, carnes selvagens e técnicas suíças. Na rua Zela, no centro histórico."}
+  ,
+    {t:"h",n:"Cirqa Hotel",q:"Hotel · Boutique Histórico 5★",a:"Calle La Merced 108, Cercado, Arequipa",p:"+51 54 720-202",pr:4,s:5,d:"Hotel boutique cinco-estrelas instalado num convento do séc. XVI no Centro Histórico de Arequipa (Património UNESCO). 11 suítes únicas, cada uma com peças de design contemporâneo em diálogo com paredes de sillar branco original. Restaurante de cozinha peruana contemporânea, terraço com vista para o vulcão Misti, spa. Um dos hotéis boutique mais sofisticados da América do Sul."}
   ]},
   {"city": "Paracas", "region": "Costa", "entries": [
     {"n": "Puerto Ballestas", "q": "Marinha & Criolla", "a": "Av. Paracas, Paracas, Ica", "pr": 2, "d": "Aberto em 2023, rapidamente se tornou referência em Paracas. Cozinha marinha e criolla com ceviches e tiraditos do Pacífico, chicharrón de pescado, calamares fritos e polvo grelhado. Ambiente descontraído de praia."}
@@ -183,7 +202,7 @@ const CITIES=[
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin'};
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
-function emoji(q){return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
+function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
 
 const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
 document.getElementById('filters').innerHTML='<span class="filter-lbl">Região:</span>'+
@@ -211,7 +230,7 @@ function render(){
       sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div></div></div><div class="restaurants-grid"></div>`;
       main.appendChild(sec);
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const nm=r.n.replace(/'/g,"\\'");
         const ad=(r.a&&r.a!==city)?r.a.replace(/'/g,"\\'"):'';
@@ -277,6 +296,15 @@ function buildCuisineBar(){
   if(!bar)return;
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
+
+let activeType='all';
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
 let activeCuisine='Todas';
 function setCuisine(c,btn){
   activeCuisine=c;
@@ -289,7 +317,7 @@ buildCuisineBar();
 render();
 
 let mapInstance=null;
-const COORDS={"peru/amaz":{"name":"Ámaz","address":"Av. La Paz 1079, Lima","country":"peru","lat":-12.1287093,"lng":-77.026562},"peru/astrid-y-gaston":{"name":"Astrid y Gastón","address":"Av. Paz Soldán 290, Lima","country":"peru","lat":-12.0964374,"lng":-77.0350797},"peru/central":{"name":"Central","address":"Av. Pedro de Osma 301, Barranco, Lima","country":"peru","lat":-12.1525709,"lng":-77.0225397},"peru/el-mercado":{"name":"El Mercado","address":"Hipólito Unanue 203, Lima","country":"peru","lat":-12.1113844,"lng":-77.0486571},"peru/la-mar":{"name":"La Mar","address":"Av. La Mar 770, Lima","country":"peru","lat":-12.1133902,"lng":-77.0453488},"peru/malabar":{"name":"Malabar","address":"Camino Real 101, Lima","country":"peru","lat":-12.0944489,"lng":-77.0348772},"peru/maido":{"name":"Maido","address":"Calle San Martín 399, Lima","country":"peru","lat":-12.1253878,"lng":-77.0306079},"peru/pescados-capitales":{"name":"Pescados Capitales","address":"Av. La Mar 1337, Lima","country":"peru","lat":-12.1094254,"lng":-77.0497113},"peru/tanta":{"name":"Tanta","address":"Pancho Fierro 117, Lima","country":"peru","lat":-12.0968653,"lng":-77.0351911},"peru/chicha-por-gaston-acurio":{"name":"Chicha por Gastón Acurio","address":"Plaza Regocijo 261, Cusco","country":"peru","lat":-13.5170437,"lng":-71.9801996},"peru/cicciolina":{"name":"Cicciolina","address":"Triunfo 393, Cusco","country":"peru","lat":-13.5161333,"lng":-71.9766661},"peru/map-cafe":{"name":"MAP Café","address":"Plazoleta Nazarenas 231, Cusco","country":"peru","lat":-13.5148865,"lng":-71.9775744},"peru/uchu-peruvian-steakhouse":{"name":"Uchu Peruvian Steakhouse","address":"Palacio 135, Cusco","country":"peru","lat":-13.5157923,"lng":-71.9767888},"peru/cirqa":{"name":"Cirqa","address":"Calle Sucre 104, Arequipa","country":"peru","lat":-16.3978,"lng":-71.5365}};
+const COORDS={"peru/country-club-lima-hotel":{"name": "Country Club Lima Hotel", "address": "Calle Los Eucaliptos 590, San Isidro, Lima", "country": "peru", "lat": -12.1004, "lng": -77.0376},"peru/cirqa-hotel":{"name": "Cirqa Hotel", "address": "Calle La Merced 108, Cercado, Arequipa", "country": "peru", "lat": -16.3993, "lng": -71.535},"peru/belmond-hotel-monasterio":{"name": "Belmond Hotel Monasterio", "address": "Calle Palacios 136, Plazoleta Nazarenas, Cusco 08002", "country": "peru", "lat": -13.5167, "lng": -71.9789},"peru/amaz":{"name":"Ámaz","address":"Av. La Paz 1079, Lima","country":"peru","lat":-12.1287093,"lng":-77.026562},"peru/astrid-y-gaston":{"name":"Astrid y Gastón","address":"Av. Paz Soldán 290, Lima","country":"peru","lat":-12.0964374,"lng":-77.0350797},"peru/central":{"name":"Central","address":"Av. Pedro de Osma 301, Barranco, Lima","country":"peru","lat":-12.1525709,"lng":-77.0225397},"peru/el-mercado":{"name":"El Mercado","address":"Hipólito Unanue 203, Lima","country":"peru","lat":-12.1113844,"lng":-77.0486571},"peru/la-mar":{"name":"La Mar","address":"Av. La Mar 770, Lima","country":"peru","lat":-12.1133902,"lng":-77.0453488},"peru/malabar":{"name":"Malabar","address":"Camino Real 101, Lima","country":"peru","lat":-12.0944489,"lng":-77.0348772},"peru/maido":{"name":"Maido","address":"Calle San Martín 399, Lima","country":"peru","lat":-12.1253878,"lng":-77.0306079},"peru/pescados-capitales":{"name":"Pescados Capitales","address":"Av. La Mar 1337, Lima","country":"peru","lat":-12.1094254,"lng":-77.0497113},"peru/tanta":{"name":"Tanta","address":"Pancho Fierro 117, Lima","country":"peru","lat":-12.0968653,"lng":-77.0351911},"peru/chicha-por-gaston-acurio":{"name":"Chicha por Gastón Acurio","address":"Plaza Regocijo 261, Cusco","country":"peru","lat":-13.5170437,"lng":-71.9801996},"peru/cicciolina":{"name":"Cicciolina","address":"Triunfo 393, Cusco","country":"peru","lat":-13.5161333,"lng":-71.9766661},"peru/map-cafe":{"name":"MAP Café","address":"Plazoleta Nazarenas 231, Cusco","country":"peru","lat":-13.5148865,"lng":-71.9775744},"peru/uchu-peruvian-steakhouse":{"name":"Uchu Peruvian Steakhouse","address":"Palacio 135, Cusco","country":"peru","lat":-13.5157923,"lng":-71.9767888},"peru/cirqa":{"name":"Cirqa","address":"Calle Sucre 104, Arequipa","country":"peru","lat":-16.3978,"lng":-71.5365}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');

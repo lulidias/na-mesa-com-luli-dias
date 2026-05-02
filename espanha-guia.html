@@ -99,6 +99,12 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
 footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 footer a{color:var(--gold);text-decoration:none}
+.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -119,6 +125,7 @@ footer a{color:var(--gold);text-decoration:none}
 <div class="stats-bar">
   <div class="stat"><div class="stat-num">37</div><div class="stat-lbl">Restaurantes</div></div>
   <div class="stat"><div class="stat-num">9</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Hotéis</div></div>
   <div class="stat"><div class="stat-num">10</div><div class="stat-lbl">Michelin</div></div>
 </div>
 <div class="michelin-legend">
@@ -133,6 +140,12 @@ footer a{color:var(--gold);text-decoration:none}
   <span class="view-toggle-lbl">Vista:</span>
   <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
+</div>
+<div class="type-bar">
+  <span class="type-lbl">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
 </div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
@@ -172,6 +185,8 @@ const CITIES=[
     {n:'A Noiesa',q:'Casa de Comidas Galega',a:'Rúa de San Pedro 28, Santiago de Compostela',p:'+34 981 584 782',pr:1,d:'Casa de comidas galega autêntica com cozinha caseira, caldo galego, lacón con grelos e polbo á feira. O lado mais genuíno e acessível da gastronomia galega em Santiago.'},
     {n:'A Taberna do Bispo',q:'Tapas Galegas',a:'Rúa do Franco 37, Santiago de Compostela',p:'+34 981 577 243',pr:1,d:'Taberna de tapas no animado ambiente da Rua do Franco, junto à Catedral. Pimientos de Padrón, tortilla, pulpo e empanada galega num espaço informal e muito animado ao fim do dia.'},
     {n:'Terra Nosa',q:'Frutos do Mar',a:'Rúa do Vilar 22, Santiago de Compostela',p:'+34 981 569 101',pr:2,d:'Restaurante de frutos do mar galegos em Santiago com nécoras, percebes, amêijoas e centolla de qualidade excecional. A Galiza tem o melhor marisco do mundo e a Terra Nosa sabe aproveitá-lo.'},
+  ,
+    {t:"h",n:"Eurostars Gran Hotel La Toja",q:"Hotel · Convento Histórico 5★",a:"R. Oblatas, 7, 15703 Santiago de Compostela",p:"+34 981 552 444",pr:3,s:5,d:"Hotel cinco-estrelas instalado no antigo Convento Carmelita do séc. XVIII, no coração de Santiago de Compostela. 74 quartos elegantes com vista para os jardins, restaurante de cozinha galega, spa, piscina interior. Localização privilegiada a poucos minutos a pé da Catedral de Santiago de Compostela e do Parador."}
   ]},
   {city:'Vigo',region:'Galiza',entries:[
     {n:'Mauro',q:'Frutos do Mar',a:'R. de Purificación Saavedra 8, Vigo',p:'+34 986 224 347',pr:2,d:'Restaurante de frutos do mar em Vigo, uma das maiores cidades pesqueiras da Europa. Ostras, percebes, nécoras e centolla chegam diretamente da ria de Vigo com uma frescura inigualável.'},
@@ -238,7 +253,7 @@ const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bi
 const BG={'Mariscos':'#e8f4f8','Frutos':'#e8f4f8','Tapas':'#f5f0e8','Carnes':'#f7ede8','Catalana':'#f5ede8','Basca':'#f0ede8','Japonesa':'#f0f0f5','Mediterrânea':'#f0f4ee','default':'#f2ede8'};
 function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
-function emoji(q){return q&&(q.includes('Mar')||q.includes('Frutos')||q.includes('Ostras'))?'🦞':q&&q.includes('Carne')||q&&q.includes('Assado')?'🥩':q&&q.includes('Japonesa')?'🍣':q&&q.includes('Tapas')||q&&q.includes('Pintxos')?'🍢':q&&q.includes('Mercado')?'🛒':'🍽';}
+function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Frutos')||q.includes('Ostras'))?'🦞':q&&q.includes('Carne')||q&&q.includes('Assado')?'🥩':q&&q.includes('Japonesa')?'🍣':q&&q.includes('Tapas')||q&&q.includes('Pintxos')?'🍢':q&&q.includes('Mercado')?'🛒':'🍽';}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
 
 const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
@@ -269,7 +284,7 @@ function render(){
       sec.innerHTML=`<div class="city-hdr"><div class="city-hdr-left"><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">restaurante${entries.length!==1?'s':''}</div></div></div><div class="restaurants-grid" id="g-${city.replace(/[\s']/g,'-')}"></div>`;
       main.appendChild(sec);
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const bg=cardBg(r.q);
         const nm=r.n.replace(/'/g,"\\'");
@@ -277,7 +292,7 @@ function render(){
         const addrHtml=ad?`<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap('${nm}','${ad}')">${r.a}</span></div>`:'';
         const phoneHtml=r.p?`<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:${r.p.replace(/\s/g,'')}">${r.p}</a></div>`:'';
         const contact=(addrHtml||phoneHtml)?`<div class="card-contact">${addrHtml}${phoneHtml}</div>`:'';
-        const em=emoji(r.q);
+        const em=emoji(r.q,r.t);
         const badges=(r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge">Hospedagem</span>':'');
         card.innerHTML=`
@@ -344,6 +359,15 @@ function buildCuisineBar(){
   if(!bar)return;
   bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
+
+let activeType='all';
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
 let activeCuisine='Todas';
 function setCuisine(c,btn){
   activeCuisine=c;
@@ -356,7 +380,7 @@ buildCuisineBar();
 render();
 
 let mapInstance=null;
-const COORDS={"espanha/a-lareira":{"name":"A Lareira","address":"Rúa do Franco 28, Santiago de Compostela","country":"espanha","lat":42.8782576,"lng":-8.5454732},"espanha/a-noiesa":{"name":"A Noiesa","address":"Rúa de San Pedro 28, Santiago de Compostela","country":"espanha","lat":42.8814225,"lng":-8.5389535},"espanha/a-taberna-do-bispo":{"name":"A Taberna do Bispo","address":"Rúa do Franco 37, Santiago de Compostela","country":"espanha","lat":42.878093,"lng":-8.5453225},"espanha/terra-nosa":{"name":"Terra Nosa","address":"Rúa do Vilar 22, Santiago de Compostela","country":"espanha","lat":42.8790669,"lng":-8.5444212},"espanha/asador-paulo":{"name":"Asador Paulo","address":"Rías Baixas, Galiza","country":"espanha","lat":42.8819145,"lng":-8.5487998},"espanha/porto-dos-barcos":{"name":"Porto dos Barcos","address":"Rías Baixas, Galiza","country":"espanha","lat":42.8819145,"lng":-8.5487998},"espanha/matamales":{"name":"Matamales","address":"C. de la Pasión 13, Valladolid","country":"espanha","lat":41.6513518,"lng":-4.7299399},"espanha/restaurante-paramesa":{"name":"Restaurante Paramesa","address":"C. de la Pasión 2, Valladolid","country":"espanha","lat":41.6515673,"lng":-4.7294771},"espanha/bodega-el-capricho":{"name":"Bodega El Capricho","address":"C. La Iglesia, Jiménez de Jamuz, León","country":"espanha","lat":42.2654487,"lng":-5.928239},"espanha/beethoven":{"name":"Beethoven","address":"C. Santo Tomás 3, Haro","country":"espanha","lat":42.5775831,"lng":-2.8461202},"espanha/arzak":{"name":"Arzak","address":"Av. Alcalde José Elosegi 273, San Sebastián","country":"espanha","lat":43.3214757,"lng":-1.9492364},"espanha/elkano":{"name":"Elkano","address":"Herrerieta 2, Getaria","country":"espanha","lat":43.3029959,"lng":-2.2049858},"espanha/arzabal":{"name":"Arzábal","address":"Mercado de San Miguel, Pl. de San Miguel, Madrid","country":"espanha","lat":40.4153741,"lng":-3.7090151},"espanha/chambao":{"name":"Chambao","address":"C. de Bretón de los Herreros 56, Madrid","country":"espanha","lat":40.4392612,"lng":-3.6935701},"espanha/desde-1911":{"name":"Desde 1911","address":"C. de Arlabán 3, Madrid","country":"espanha","lat":40.41704,"lng":-3.6993792},"espanha/el-paraguas":{"name":"El Paraguas","address":"C. de Jorge Juan 16, Madrid","country":"espanha","lat":40.4237845,"lng":-3.6857694},"espanha/la-terraza-del-casino":{"name":"La Terraza del Casino","address":"C. de Alcalá 15, Madrid","country":"espanha","lat":40.4180586,"lng":-3.7004159},"espanha/los-huevos-de-lucio":{"name":"Los Huevos de Lucio","address":"C. de la Cava Baja 30, Madrid","country":"espanha","lat":40.4122758,"lng":-3.7095313},"espanha/meson-txistu":{"name":"Mesón Txistu","address":"Pl. del Ángel 8, Madrid","country":"espanha","lat":40.4143183,"lng":-3.7018737},"espanha/nakama":{"name":"Nakama","address":"C. de Zurbano 62, Madrid","country":"espanha","lat":40.4324329,"lng":-3.6933655},"espanha/rocacho":{"name":"Rocacho","address":"C. de Padilla 54, Madrid","country":"espanha","lat":40.43121,"lng":-3.6775738},"espanha/st-james":{"name":"St James","address":"C. de Serrano 213, Madrid","country":"espanha","lat":40.4279245,"lng":-3.6873778},"espanha/ten-con-ten":{"name":"Ten con Ten","address":"C. de Ayala 6, Madrid","country":"espanha","lat":40.4278553,"lng":-3.6884987},"espanha/asador-de-aranda":{"name":"Asador de Aranda","address":"Av. del Tibidabo 31, Barcelona","country":"espanha","lat":41.4132968,"lng":2.1343348},"espanha/boca-chica":{"name":"Boca Chica","address":"Ptge. de la Concepció 12, Barcelona","country":"espanha","lat":41.3945282,"lng":2.159919},"espanha/boca-grande":{"name":"Boca Grande","address":"Ptge. de la Concepció 12, Barcelona","country":"espanha","lat":41.3945282,"lng":2.159919},"espanha/botafumeiro":{"name":"Botafumeiro","address":"C. Gran de Gràcia 81, Barcelona","country":"espanha","lat":41.4004038,"lng":2.1546391},"espanha/el-nacional":{"name":"El Nacional","address":"Pg. de Gràcia 24 Bis, Barcelona","country":"espanha","lat":41.3905227,"lng":2.1682552},"espanha/windsor":{"name":"Windsor","address":"C/ de Còrsega 286, Barcelona","country":"espanha","lat":41.3945914,"lng":2.1572605},"espanha/7-portes":{"name":"7 Portes","address":"Passeig d'Isabel II 14, Barcelona","country":"espanha","lat":41.38234,"lng":2.18324},"espanha/can-majo":{"name":"Can Majó","address":"Carrer de l'Almirall Aixada 23, Barcelona","country":"espanha","lat":41.37815,"lng":2.18936},"espanha/lomo-alto":{"name":"Lomo Alto","address":"Carrer d'Aragó 285, Barcelona","country":"espanha","lat":41.39459,"lng":2.16701},"espanha/torre-d-alta-mar":{"name":"Torre d'Alta Mar","address":"Pg. de Joan de Borbó 88, Barcelona","country":"espanha","lat":41.37815,"lng":2.19022},"espanha/taktika-berri":{"name":"Taktika Berri","address":"Carrer de València 169, Barcelona","country":"espanha","lat":41.38865,"lng":2.15749}};
+const COORDS={"espanha/eurostars-gran-hotel-la-toja":{"name": "Eurostars Gran Hotel La Toja", "address": "R. Oblatas, 7, 15703 Santiago de Compostela", "country": "espanha", "lat": 42.8772, "lng": -8.5453},"espanha/a-lareira":{"name":"A Lareira","address":"Rúa do Franco 28, Santiago de Compostela","country":"espanha","lat":42.8782576,"lng":-8.5454732},"espanha/a-noiesa":{"name":"A Noiesa","address":"Rúa de San Pedro 28, Santiago de Compostela","country":"espanha","lat":42.8814225,"lng":-8.5389535},"espanha/a-taberna-do-bispo":{"name":"A Taberna do Bispo","address":"Rúa do Franco 37, Santiago de Compostela","country":"espanha","lat":42.878093,"lng":-8.5453225},"espanha/terra-nosa":{"name":"Terra Nosa","address":"Rúa do Vilar 22, Santiago de Compostela","country":"espanha","lat":42.8790669,"lng":-8.5444212},"espanha/asador-paulo":{"name":"Asador Paulo","address":"Rías Baixas, Galiza","country":"espanha","lat":42.8819145,"lng":-8.5487998},"espanha/porto-dos-barcos":{"name":"Porto dos Barcos","address":"Rías Baixas, Galiza","country":"espanha","lat":42.8819145,"lng":-8.5487998},"espanha/matamales":{"name":"Matamales","address":"C. de la Pasión 13, Valladolid","country":"espanha","lat":41.6513518,"lng":-4.7299399},"espanha/restaurante-paramesa":{"name":"Restaurante Paramesa","address":"C. de la Pasión 2, Valladolid","country":"espanha","lat":41.6515673,"lng":-4.7294771},"espanha/bodega-el-capricho":{"name":"Bodega El Capricho","address":"C. La Iglesia, Jiménez de Jamuz, León","country":"espanha","lat":42.2654487,"lng":-5.928239},"espanha/beethoven":{"name":"Beethoven","address":"C. Santo Tomás 3, Haro","country":"espanha","lat":42.5775831,"lng":-2.8461202},"espanha/arzak":{"name":"Arzak","address":"Av. Alcalde José Elosegi 273, San Sebastián","country":"espanha","lat":43.3214757,"lng":-1.9492364},"espanha/elkano":{"name":"Elkano","address":"Herrerieta 2, Getaria","country":"espanha","lat":43.3029959,"lng":-2.2049858},"espanha/arzabal":{"name":"Arzábal","address":"Mercado de San Miguel, Pl. de San Miguel, Madrid","country":"espanha","lat":40.4153741,"lng":-3.7090151},"espanha/chambao":{"name":"Chambao","address":"C. de Bretón de los Herreros 56, Madrid","country":"espanha","lat":40.4392612,"lng":-3.6935701},"espanha/desde-1911":{"name":"Desde 1911","address":"C. de Arlabán 3, Madrid","country":"espanha","lat":40.41704,"lng":-3.6993792},"espanha/el-paraguas":{"name":"El Paraguas","address":"C. de Jorge Juan 16, Madrid","country":"espanha","lat":40.4237845,"lng":-3.6857694},"espanha/la-terraza-del-casino":{"name":"La Terraza del Casino","address":"C. de Alcalá 15, Madrid","country":"espanha","lat":40.4180586,"lng":-3.7004159},"espanha/los-huevos-de-lucio":{"name":"Los Huevos de Lucio","address":"C. de la Cava Baja 30, Madrid","country":"espanha","lat":40.4122758,"lng":-3.7095313},"espanha/meson-txistu":{"name":"Mesón Txistu","address":"Pl. del Ángel 8, Madrid","country":"espanha","lat":40.4143183,"lng":-3.7018737},"espanha/nakama":{"name":"Nakama","address":"C. de Zurbano 62, Madrid","country":"espanha","lat":40.4324329,"lng":-3.6933655},"espanha/rocacho":{"name":"Rocacho","address":"C. de Padilla 54, Madrid","country":"espanha","lat":40.43121,"lng":-3.6775738},"espanha/st-james":{"name":"St James","address":"C. de Serrano 213, Madrid","country":"espanha","lat":40.4279245,"lng":-3.6873778},"espanha/ten-con-ten":{"name":"Ten con Ten","address":"C. de Ayala 6, Madrid","country":"espanha","lat":40.4278553,"lng":-3.6884987},"espanha/asador-de-aranda":{"name":"Asador de Aranda","address":"Av. del Tibidabo 31, Barcelona","country":"espanha","lat":41.4132968,"lng":2.1343348},"espanha/boca-chica":{"name":"Boca Chica","address":"Ptge. de la Concepció 12, Barcelona","country":"espanha","lat":41.3945282,"lng":2.159919},"espanha/boca-grande":{"name":"Boca Grande","address":"Ptge. de la Concepció 12, Barcelona","country":"espanha","lat":41.3945282,"lng":2.159919},"espanha/botafumeiro":{"name":"Botafumeiro","address":"C. Gran de Gràcia 81, Barcelona","country":"espanha","lat":41.4004038,"lng":2.1546391},"espanha/el-nacional":{"name":"El Nacional","address":"Pg. de Gràcia 24 Bis, Barcelona","country":"espanha","lat":41.3905227,"lng":2.1682552},"espanha/windsor":{"name":"Windsor","address":"C/ de Còrsega 286, Barcelona","country":"espanha","lat":41.3945914,"lng":2.1572605},"espanha/7-portes":{"name":"7 Portes","address":"Passeig d'Isabel II 14, Barcelona","country":"espanha","lat":41.38234,"lng":2.18324},"espanha/can-majo":{"name":"Can Majó","address":"Carrer de l'Almirall Aixada 23, Barcelona","country":"espanha","lat":41.37815,"lng":2.18936},"espanha/lomo-alto":{"name":"Lomo Alto","address":"Carrer d'Aragó 285, Barcelona","country":"espanha","lat":41.39459,"lng":2.16701},"espanha/torre-d-alta-mar":{"name":"Torre d'Alta Mar","address":"Pg. de Joan de Borbó 88, Barcelona","country":"espanha","lat":41.37815,"lng":2.19022},"espanha/taktika-berri":{"name":"Taktika Berri","address":"Carrer de València 169, Barcelona","country":"espanha","lat":41.38865,"lng":2.15749}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');

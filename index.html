@@ -101,7 +101,7 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 <div class="global-stats">
   <div class="gstat"><div class="gstat-num">34</div><div class="gstat-lbl">Países</div></div>
   <div class="gstat"><div class="gstat-num">810</div><div class="gstat-lbl">Restaurantes</div></div>
-  <div class="gstat"><div class="gstat-num">67</div><div class="gstat-lbl">Hotéis</div></div>
+  <div class="gstat"><div class="gstat-num">78</div><div class="gstat-lbl">Hotéis</div></div>
   <div class="gstat"><div class="gstat-num">85 ★</div><div class="gstat-lbl">Estrelas Michelin</div></div>
   <div class="gstat"><div class="gstat-num">5</div><div class="gstat-lbl">Continentes</div></div>
 </div>
@@ -133,10 +133,10 @@ const REGIONS = [
     name: 'Europa',
     countries: [
       { name:'Portugal', flag:'🇵🇹', region:'Sul da Europa', cities:'Lisboa · Porto · Alentejo · Algarve', restaurants:82, michelin:4, hotels:22, file:'portugal-guia.html', photo:'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&h=500&fit=crop' },
-      { name:'França', flag:'🇫🇷', region:'Europa Ocidental', cities:'Paris · Lyon · Bordeaux · Provence · Côte d\'Azur', restaurants:105, michelin:24, hotels:8, file:'franca-guia.html', photo:'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800&h=500&fit=crop' },
-      { name:'Espanha', flag:'🇪🇸', region:'Sul da Europa', cities:'Madrid · Barcelona · Santiago de Compostela · San Sebastián · Vigo · Valladolid · Haro · León', restaurants:37, michelin:7, hotels:0, file:'espanha-guia.html', photo:'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=800&h=500&fit=crop' },
+      { name:'França', flag:'🇫🇷', region:'Europa Ocidental', cities:'Paris · Lyon · Bordeaux · Provence · Côte d\'Azur', restaurants:105, michelin:24, hotels:9, file:'franca-guia.html', photo:'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800&h=500&fit=crop' },
+      { name:'Espanha', flag:'🇪🇸', region:'Sul da Europa', cities:'Madrid · Barcelona · Santiago de Compostela · San Sebastián · Vigo · Valladolid · Haro · León', restaurants:37, michelin:7, hotels:1, file:'espanha-guia.html', photo:'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=800&h=500&fit=crop' },
       { name:'Itália', flag:'🇮🇹', region:'Sul da Europa', cities:'Alba · Verona · Milão · Florença · Modena', restaurants:24, michelin:6, hotels:0, file:'italia-guia.html', photo:'https://images.unsplash.com/photo-1529260830199-42c24126f198?w=800&h=500&fit=crop' },
-      { name:'Alemanha', flag:'🇩🇪', region:'Europa Central', cities:'Munique · Berlim · Hamburgo · Frankfurt', restaurants:11, michelin:7, hotels:0, file:'alemanha-guia.html', photo:'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&h=500&fit=crop' },
+      { name:'Alemanha', flag:'🇩🇪', region:'Europa Central', cities:'Munique · Berlim · Hamburgo · Frankfurt', restaurants:11, michelin:7, hotels:2, file:'alemanha-guia.html', photo:'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&h=500&fit=crop' },
       { name:'Holanda', flag:'🇳🇱', region:'Europa Ocidental', cities:'Amesterdão', restaurants:8, michelin:5, hotels:0, file:'holanda-guia.html', photo:'https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?w=800&h=500&fit=crop' },
       { name:'Liechtenstein', flag:'🇱🇮', region:'Europa Central', cities:'Vaduz', restaurants:1, michelin:1, hotels:0, file:'liechtenstein-guia.html', photo:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=500&fit=crop' },
       { name:'Mónaco', flag:'🇲🇨', region:'Europa do Sul', cities:'Monte-Carlo', restaurants:2, michelin:0, hotels:0, file:'monaco-guia.html', photo:'https://images.unsplash.com/photo-1538332576228-eb5b4c4de6f5?w=800&h=500&fit=crop' },
@@ -144,14 +144,14 @@ const REGIONS = [
       { name:'Irlanda', flag:'🇮🇪', region:'Europa Ocidental', cities:'Dublin · Cork · Galway', restaurants:10, michelin:0, hotels:0, file:'irlanda-guia.html', photo:'https://images.unsplash.com/photo-1590089415225-401ed6f9db8e?w=800&h=500&fit=crop' },
       { name:'Irlanda do Norte', flag:'🇬🇧', region:'Europa Ocidental', cities:'Belfast', restaurants:3, michelin:0, hotels:0, file:'irlanda-norte-guia.html', photo:'fotos/irlanda-norte/cover.jpg' },
       { name:'Reino Unido', flag:'🇬🇧', region:'Europa Ocidental', cities:'Londres · Edimburgo', restaurants:4, michelin:1, hotels:1, file:'londres-guia.html', photo:'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=500&fit=crop' },
-      { name:'Dinamarca', flag:'🇩🇰', region:'Europa do Norte', cities:'Copenhague', restaurants:4, michelin:1, hotels:0, file:'copenhague-guia.html', photo:'https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&h=500&fit=crop' },
+      { name:'Dinamarca', flag:'🇩🇰', region:'Europa do Norte', cities:'Copenhague', restaurants:4, michelin:1, hotels:1, file:'copenhague-guia.html', photo:'https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&h=500&fit=crop' },
       { name:'Croácia', flag:'🇭🇷', region:'Europa do Sudeste', cities:'Kastav · Istria', restaurants:1, michelin:0, hotels:0, file:'croacia-guia.html', photo:'https://images.unsplash.com/photo-1559606303-f0c0e3a1683f?w=1200&h=750&fit=crop&q=85' },
     ]
   },
   {
     name: 'Oriente Médio & África',
     countries: [
-      { name:'Turquia', flag:'🇹🇷', region:'Oriente Médio', cities:'Istambul', restaurants:20, michelin:2, hotels:0, file:'turquia-guia.html', photo:'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&h=500&fit=crop' },
+      { name:'Turquia', flag:'🇹🇷', region:'Oriente Médio', cities:'Istambul', restaurants:20, michelin:2, hotels:1, file:'turquia-guia.html', photo:'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&h=500&fit=crop' },
       { name:'Dubai', flag:'🇦🇪', region:'Oriente Médio', cities:'Dubai', restaurants:2, michelin:0, hotels:0, file:'dubai-guia.html', photo:'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=500&fit=crop' },
     ]
   },
@@ -181,8 +181,8 @@ const REGIONS = [
     name: 'América do Sul',
     countries: [
       { name:'Brasil', flag:'🇧🇷', region:'América do Sul', cities:'São Paulo · Rio de Janeiro · Recife · Salvador · Curitiba · + 28 cidades', restaurants:346, michelin:20, hotels:27, file:'brasil-index.html', photo:'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800&h=500&fit=crop' },
-      { name:'Argentina', flag:'🇦🇷', region:'América do Sul', cities:'Buenos Aires · Mendoza', restaurants:15, michelin:3, hotels:0, file:'argentina-guia.html', photo:'fotos/argentina/cover.jpg' },
-      { name:'Peru', flag:'🇵🇪', region:'América do Sul', cities:'Lima · Cusco · Machu Picchu · Arequipa · Paracas', restaurants:16, michelin:0, hotels:0, file:'peru-guia.html', photo:'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=800&h=500&fit=crop' },
+      { name:'Argentina', flag:'🇦🇷', region:'América do Sul', cities:'Buenos Aires · Mendoza', restaurants:15, michelin:3, hotels:2, file:'argentina-guia.html', photo:'fotos/argentina/cover.jpg' },
+      { name:'Peru', flag:'🇵🇪', region:'América do Sul', cities:'Lima · Cusco · Machu Picchu · Arequipa · Paracas', restaurants:16, michelin:0, hotels:3, file:'peru-guia.html', photo:'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=800&h=500&fit=crop' },
       { name:'Uruguai', flag:'🇺🇾', region:'América do Sul', cities:'Montevidéu · Punta del Este · José Ignacio', restaurants:9, michelin:0, hotels:0, file:'uruguai-guia.html', photo:'fotos/uruguai/cover.jpg' },
       { name:'Chile', flag:'🇨🇱', region:'América do Sul', cities:'Santiago', restaurants:14, michelin:0, hotels:0, file:'chile-guia.html', photo:'fotos/chile/cover.jpg' },
       { name:'Colômbia', flag:'🇨🇴', region:'América do Sul', cities:'Cartagena', restaurants:2, michelin:0, hotels:0, file:'colombia-guia.html', photo:'fotos/colombia/cover.jpg' },
