@@ -106,6 +106,11 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
   <div class="gstat"><div class="gstat-num">85 ★</div><div class="gstat-lbl">Estrelas Michelin</div></div>
   <div class="gstat"><div class="gstat-num">93 🗝</div><div class="gstat-lbl">Chaves Michelin</div></div>
 </div>
+<div class="type-bar-idx">
+  <button class="type-btn-idx active" id="idxAll" onclick="setIdxType('all',this)">✦ Todos</button>
+  <button class="type-btn-idx" id="idxR" onclick="setIdxType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn-idx" id="idxH" onclick="setIdxType('h',this)">🛏 Hotéis</button>
+</div>
 <div class="cont-bar" id="contBar"></div>
 <main id="main"></main>
 <footer style="text-align:center;padding:32px;font-size:11px;color:#bbb;letter-spacing:2px;text-transform:uppercase;border-top:1px solid var(--border)">
