@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Subscrever — LULI DIAS · Restaurants & Hotels</title>
+<meta name="description" content="Subscreve o guia gastronómico e hoteleiro de Luli Dias. Acesso aos 34 países, 810 restaurantes e 80 hotéis curados pessoalmente.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5}
+html,body{min-height:100%;background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;line-height:1.6}
+.container{max-width:1100px;margin:0 auto;padding:0 32px}
+@media(max-width:600px){.container{padding:0 20px}}
+
+/* Nav */
+.nav{position:sticky;top:0;background:rgba(247,243,238,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:50;padding:14px 0}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:13px;letter-spacing:6px;color:var(--ink);font-weight:400}
+.nav-brand a{color:inherit;text-decoration:none}
+.nav-links{display:flex;gap:24px;align-items:center;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500}
+.nav-links a{color:var(--ink-lt);text-decoration:none}
+.nav-links a:hover{color:var(--gold)}
+
+/* Hero */
+.hero{padding:80px 0 50px;text-align:center}
+.hero-mini{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:18px;font-weight:500}
+.hero-title{font-family:Didot,'Playfair Display',Georgia,serif;font-size:56px;font-weight:400;line-height:1.1;color:var(--ink);margin-bottom:18px;letter-spacing:-1px}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:21px;color:var(--ink-lt);max-width:680px;margin:0 auto;line-height:1.5}
+@media(max-width:600px){.hero-title{font-size:38px}.hero-sub{font-size:18px}}
+
+/* Pricing */
+.pricing{padding:50px 0 80px}
+.pricing-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:900px){.pricing-cards{grid-template-columns:1fr;max-width:480px;margin:0 auto}}
+
+.pcard{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:38px 30px;display:flex;flex-direction:column;position:relative;transition:all .3s}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.07)}
+.pcard.featured{border:2px solid var(--gold);background:linear-gradient(180deg,var(--gold-bg) 0%,var(--white) 50%);box-shadow:0 12px 30px rgba(184,146,42,.12)}
+.pcard.featured::before{content:'★ FUNDADORES · 100 VAGAS';position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--white);font-size:9px;letter-spacing:2.5px;padding:7px 16px;border-radius:14px;font-weight:600;white-space:nowrap}
+.pcard-name{font-family:'Playfair Display',serif;font-size:24px;font-weight:400;margin-bottom:6px}
+.pcard-tagline{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:24px}
+.pcard-price{font-family:'Playfair Display',serif;font-size:54px;font-weight:500;color:var(--ink);line-height:1;margin-bottom:6px}
+.pcard-price small{font-size:14px;color:var(--ink-lt);font-weight:400;letter-spacing:1px;margin-left:4px}
+.pcard-price-sub{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-xs);margin-bottom:30px}
+.pcard-features{list-style:none;text-align:left;margin-bottom:30px;flex:1}
+.pcard-features li{padding:9px 0;font-size:13.5px;color:var(--ink-lt);border-bottom:1px solid var(--border)}
+.pcard-features li:last-child{border-bottom:none}
+.pcard-features li::before{content:'✓ ';color:var(--gold);font-weight:700;margin-right:8px}
+.pcard-features li.locked::before{content:'✗ ';color:#ccc;font-weight:400}
+.pcard-features li.locked{color:#aaa}
+.pcard-cta{display:block;text-align:center;padding:14px;border-radius:30px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;text-decoration:none;transition:all .25s;cursor:pointer;border:none;font-family:'Montserrat',sans-serif}
+.pcard-cta-secondary{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.pcard-cta-secondary:hover{background:var(--ink);color:var(--white)}
+.pcard-cta-primary{background:var(--ink);color:var(--white)}
+.pcard-cta-primary:hover{background:var(--gold)}
+.pcard-cta-gold{background:var(--gold);color:var(--white)}
+.pcard-cta-gold:hover{background:var(--ink)}
+.savings{display:inline-block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:var(--gold-bg);padding:3px 8px;border-radius:10px;margin-top:6px;font-weight:600}
+
+/* Email signup */
+.signup{background:var(--ink);color:var(--white);padding:80px 0;text-align:center}
+.signup h2{font-family:Didot,Georgia,serif;font-size:38px;font-weight:400;margin-bottom:14px;line-height:1.15}
+.signup h2 em{color:var(--gold-lt);font-style:italic}
+.signup p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:#bbb;margin-bottom:36px;max-width:640px;margin-left:auto;margin-right:auto}
+.email-form{display:flex;gap:12px;justify-content:center;max-width:520px;margin:0 auto;flex-wrap:wrap}
+.email-input{flex:1;min-width:240px;padding:15px 22px;border:1px solid #444;background:#222;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;letter-spacing:1px;border-radius:30px}
+.email-input::placeholder{color:#777}
+.email-input:focus{outline:none;border-color:var(--gold)}
+.email-btn{padding:15px 30px;background:var(--gold);color:var(--white);border:none;border-radius:30px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;cursor:pointer}
+.email-btn:hover{background:var(--white);color:var(--ink)}
+.signup-success{background:#1a3a1a;border:1px solid #2a5a2a;border-radius:10px;padding:20px;color:#7ec97e;display:none;max-width:520px;margin:24px auto 0;font-size:14px}
+
+/* FAQ */
+.faq{padding:80px 0}
+.faq-title{font-family:Didot,'Playfair Display',Georgia,serif;font-size:36px;font-weight:400;text-align:center;margin-bottom:50px;letter-spacing:-.5px}
+.faq-title em{font-style:italic;color:var(--gold)}
+.faq-grid{max-width:780px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border);padding:20px 0}
+.faq-q{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;margin-bottom:8px;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:space-between}
+.faq-q::after{content:'+';color:var(--gold);font-size:24px;font-weight:300}
+.faq-item.open .faq-q::after{content:'−'}
+.faq-a{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--ink-lt);font-style:italic;line-height:1.6;display:none;padding-top:8px}
+.faq-item.open .faq-a{display:block}
+
+/* Stats */
+.stats-row{background:var(--gold-bg);border-block:1px solid var(--border);padding:30px 0}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+.stats-grid .stat-num{font-family:'Playfair Display',serif;font-size:32px;font-weight:500;color:var(--gold);line-height:1}
+.stats-grid .stat-lbl{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-lt);margin-top:6px}
+@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr);gap:24px}}
+
+/* Footer */
+footer{background:var(--ink);color:#999;padding:50px 0 30px;text-align:center;font-size:11px;letter-spacing:2px;text-transform:uppercase}
+footer a{color:var(--gold-lt);text-decoration:none;margin:0 10px}
+.footer-orn{margin:0 auto 24px;display:inline-flex;align-items:center;gap:14px}
+.orn-line{height:1px;width:54px;background:linear-gradient(90deg,transparent,var(--gold-lt),transparent)}
+.orn-diamond{width:5px;height:5px;background:var(--gold-lt);transform:rotate(45deg)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <div class="nav-brand"><a href="landing.html">LULI DIAS</a></div>
+    <div class="nav-links">
+      <a href="landing.html">Sobre</a>
+      <a href="portugal-guia.html">Preview</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-mini">SUBSCREVER</div>
+    <h1 class="hero-title">Acesso ao <em>guia</em> completo</h1>
+    <p class="hero-sub">Começa pelo que está aberto: Portugal grátis, sempre. Quando estiveres pronto para os 33 países restantes, escolhe o plano.</p>
+  </div>
+</section>
+
+<section class="stats-row">
+  <div class="container">
+    <div class="stats-grid">
+      <div><div class="stat-num">34</div><div class="stat-lbl">Países</div></div>
+      <div><div class="stat-num">810</div><div class="stat-lbl">Restaurantes</div></div>
+      <div><div class="stat-num">80</div><div class="stat-lbl">Hotéis</div></div>
+      <div><div class="stat-num">85 ★</div><div class="stat-lbl">Estrelas Michelin</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing">
+  <div class="container">
+    <div class="pricing-cards">
+
+      <!-- FREE -->
+      <div class="pcard">
+        <div class="pcard-name">Free</div>
+        <div class="pcard-tagline">Começa por aqui</div>
+        <div class="pcard-price">$0<small>/sempre</small></div>
+        <div class="pcard-price-sub">Apenas Portugal · sem cartão</div>
+        <ul class="pcard-features">
+          <li>Portugal completo (82 restaurantes)</li>
+          <li>22 hotéis em Portugal</li>
+          <li>Mapa interativo</li>
+          <li>Filtros por cidade e cuisine</li>
+          <li class="locked">Outros 33 países</li>
+          <li class="locked">Near Me global</li>
+          <li class="locked">Atualizações semanais</li>
+        </ul>
+        <a href="portugal-guia.html" class="pcard-cta pcard-cta-secondary">Explorar Portugal grátis</a>
+      </div>
+
+      <!-- ANNUAL -->
+      <div class="pcard">
+        <div class="pcard-name">Anual</div>
+        <div class="pcard-tagline">Renovação automática</div>
+        <div class="pcard-price">$50<small>/ano</small></div>
+        <div class="pcard-price-sub">~$4.20/mês · cancela quando quiseres</div>
+        <ul class="pcard-features">
+          <li>Os <strong>34 países</strong> do guia</li>
+          <li><strong>810 restaurantes</strong> &nbsp; <strong>80 hotéis</strong></li>
+          <li><strong>Near Me</strong> — perto de ti, em qualquer cidade</li>
+          <li>Atualizações semanais com novos endereços</li>
+          <li>Acesso ao app PWA (iPhone, Android, desktop)</li>
+          <li>Suporte directo do Luli</li>
+        </ul>
+        <a href="#email-signup" class="pcard-cta pcard-cta-primary">Subscrever — $50/ano</a>
+      </div>
+
+      <!-- LIFETIME -->
+      <div class="pcard featured">
+        <div class="pcard-name">Lifetime</div>
+        <div class="pcard-tagline">Edição Fundadores</div>
+        <div class="pcard-price">$199<small>/uma vez</small></div>
+        <div class="pcard-price-sub">Acesso vitalício · pagamento único <span class="savings">Poupa $300+ em 8 anos</span></div>
+        <ul class="pcard-features">
+          <li>Tudo do plano <strong>Anual</strong></li>
+          <li><strong>Para sempre</strong> — sem renovação</li>
+          <li>Acesso vitalício a <strong>todas as novas adições</strong></li>
+          <li>Edição Fundadores — limitada a 100</li>
+          <li>Reconhecimento na página Sobre o Curador</li>
+          <li>Convite para encontros exclusivos com o Luli</li>
+        </ul>
+        <a href="#email-signup" class="pcard-cta pcard-cta-gold">Garantir vaga · $199</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="signup" id="email-signup">
+  <div class="container">
+    <h2>Lista de <em>early access</em></h2>
+    <p>Os primeiros utilizadores recebem um cupão de 30 dias gratuitos antes do lançamento oficial. Deixa o teu email — avisamos pessoalmente quando o site abrir.</p>
+    <form class="email-form" onsubmit="signup(event)">
+      <input type="email" class="email-input" id="emailInput" placeholder="O teu melhor email" required>
+      <button type="submit" class="email-btn">Quero ser avisado →</button>
+    </form>
+    <div class="signup-success" id="signupSuccess">
+      ✓ Email registado. Vais receber em breve um email do Luli com mais detalhes.
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="container">
+    <h2 class="faq-title">Perguntas <em>frequentes</em></h2>
+    <div class="faq-grid">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Como funciona o pagamento?</div>
+        <div class="faq-a">Aceitamos cartões de crédito (Visa, Mastercard, Amex). O pagamento é processado pelo Paddle, que trata de toda a tributação internacional. Subscrições anuais renovam automaticamente — pode cancelar a qualquer momento.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Posso experimentar antes de pagar?</div>
+        <div class="faq-a">Sim. O plano Free dá-te acesso permanente ao guia de Portugal — restaurantes e hotéis. É a melhor forma de perceberes o estilo do guia antes de subscrever. Para os outros 33 países, é necessário plano pago.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Quem é o Luli Dias?</div>
+        <div class="faq-a">Empresário brasileiro, sócio da Épice Wine & Spirits — uma das maiores importadoras de vinhos do Brasil. Cavaleiro do Vinho do Porto, Comandeur de Saint-Émilion, Pomerol e Bordeaux. Faz 40 viagens por ano e fala 5 idiomas. Esta é a sua lista pessoal.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">As recomendações são pagas?</div>
+        <div class="faq-a">Não. Cada conta no guia é paga do bolso do Luli. Não aceita convites, refeições oferecidas ou pagamentos para incluir restaurantes na lista. É a única forma de garantir que cada recomendação reflecte uma opinião genuína.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Como funciona o Lifetime?</div>
+        <div class="faq-a">Pagas $199 uma só vez e tens acesso vitalício ao guia, incluindo todas as actualizações futuras. É uma edição limitada a 100 utilizadores como reconhecimento aos primeiros apoiantes. Quando os 100 lugares acabarem, deixa de estar disponível.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Posso cancelar a subscrição anual?</div>
+        <div class="faq-a">Sim, a qualquer momento. Se cancelares, mantens o acesso até ao fim do período pago. Não há fidelização nem multas.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Funciona no iPhone? Tenho de instalar?</div>
+        <div class="faq-a">É um web app (PWA) — funciona no Safari, Chrome e qualquer browser moderno. Podes adicionar à home screen do iPhone para usar como app nativo. Não é necessário instalar pela App Store.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">O que está incluído nas atualizações?</div>
+        <div class="faq-a">Novos restaurantes e hotéis, novos países, fotos próprias do Luli das suas viagens, e correcções de informação (mudanças de morada, novos chefes, fechos, etc.). Subscritores recebem todas as novas adições automaticamente.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-orn">
+      <div class="orn-line"></div>
+      <div class="orn-diamond"></div>
+      <div class="orn-line"></div>
+    </div>
+    <div style="margin-bottom:14px;font-family:Didot,'Playfair Display',Georgia,serif;font-size:14px;letter-spacing:8px;color:var(--gold-lt)">LULI DIAS</div>
+    <div>
+      <a href="landing.html">Início</a> ·
+      <a href="sobre.html">Sobre</a> ·
+      <a href="portugal-guia.html">Preview</a>
+    </div>
+    <div style="margin-top:24px;font-size:9px;color:#666">© 2026 Luli Dias · Restaurants & Hotels · Todos os direitos reservados</div>
+  </div>
+</footer>
+
+<script>
+function signup(e){
+  e.preventDefault();
+  const email = document.getElementById('emailInput').value;
+  // Save to localStorage as MVP — depois ligamos a Mailchimp/ConvertKit
+  const list = JSON.parse(localStorage.getItem('lulidias-waitlist') || '[]');
+  if (!list.includes(email)) list.push(email);
+  localStorage.setItem('lulidias-waitlist', JSON.stringify(list));
+  document.getElementById('signupSuccess').style.display = 'block';
+  document.getElementById('emailInput').value = '';
+  // TODO: integrar com Mailchimp/ConvertKit para realmente enviar email
+}
+</script>
+</body>
+</html>
