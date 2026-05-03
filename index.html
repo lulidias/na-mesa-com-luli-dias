@@ -54,15 +54,16 @@ main{max-width:1100px;margin:0 auto;padding:40px 24px 60px}
 .card-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:400;color:var(--ink)}
 .card-region{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:10px}
 .card-cities{font-size:10px;color:#888;margin-bottom:10px;line-height:1.5}
-.card-footer{display:flex;justify-content:space-between;align-items:flex-end;margin-top:10px}
+.card-footer{display:flex;flex-direction:column;gap:14px;margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
+.card-footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.card-footer-badges{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .card-count{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold)}
 .card-count-lbl{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-lt)}
 .card-michelin{font-size:9px;color:var(--gold);background:var(--gold-bg);padding:3px 8px;border-radius:2px;letter-spacing:1px;white-space:nowrap}
 .card-keys{font-size:9px;color:#b86d1a;background:#fdf3e8;padding:3px 8px;border-radius:2px;letter-spacing:1px;white-space:nowrap}
-.card-stats{display:flex;gap:22px;align-items:flex-end}
+.card-stats{display:flex;gap:32px;align-items:flex-end}
 .card-stat-block{display:flex;flex-direction:column}
-.card-badges-col{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
-.card-arrow{font-size:9px;color:var(--gold);letter-spacing:1px}
+.card-arrow{font-size:9px;color:var(--gold);letter-spacing:1px;white-space:nowrap}
 .coming-badge{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#aaa;background:#f5f5f5;padding:3px 8px;border-radius:2px}
 
 footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
@@ -246,32 +247,42 @@ function buildCard(c) {
       <div class="card-region">${c.region}</div>
       <div class="card-cities">${c.cities}</div>
       <div class="card-footer">
-        <div class="card-stats">
-          ${isComingSoon ? `
-            <div class="card-stat-block">
-              <div class="card-count">—</div>
-              <div class="card-count-lbl">em breve</div>
+        <div class="card-footer-row">
+          <div class="card-stats">
+            ${isComingSoon ? `
+              <div class="card-stat-block">
+                <div class="card-count">—</div>
+                <div class="card-count-lbl">em breve</div>
+              </div>
+            ` : `
+              ${(idxType==='all' || idxType==='r') && c.restaurants>0 ? `
+                <div class="card-stat-block">
+                  <div class="card-count">${c.restaurants}</div>
+                  <div class="card-count-lbl">${c.restaurants===1?'restaurante':'restaurantes'}</div>
+                </div>
+              ` : ''}
+              ${(idxType==='all' || idxType==='h') && c.hotels>0 ? `
+                <div class="card-stat-block">
+                  <div class="card-count">${c.hotels}</div>
+                  <div class="card-count-lbl">${c.hotels===1?'hotel':'hotéis'}</div>
+                </div>
+              ` : ''}
+            `}
+          </div>
+        </div>
+        ${!isComingSoon && (c.michelin > 0 || c.keys > 0) ? `
+          <div class="card-footer-row">
+            <div class="card-footer-badges">
+              ${(idxType==='all' || idxType==='r') && c.michelin > 0 ? `<span class="card-michelin">★ ${c.michelin} Michelin</span>` : ''}
+              ${(idxType==='all' || idxType==='h') && c.keys > 0 ? `<span class="card-keys">🗝 ${c.keys} Chaves</span>` : ''}
             </div>
-          ` : `
-            ${(idxType==='all' || idxType==='r') && c.restaurants>0 ? `
-              <div class="card-stat-block">
-                <div class="card-count">${c.restaurants}</div>
-                <div class="card-count-lbl">${c.restaurants===1?'restaurante':'restaurantes'}</div>
-              </div>
-            ` : ''}
-            ${(idxType==='all' || idxType==='h') && c.hotels>0 ? `
-              <div class="card-stat-block">
-                <div class="card-count">${c.hotels}</div>
-                <div class="card-count-lbl">${c.hotels===1?'hotel':'hotéis'}</div>
-              </div>
-            ` : ''}
-          `}
-        </div>
-        <div class="card-badges-col">
-          ${!isComingSoon && (idxType==='all' || idxType==='r') && c.michelin > 0 ? `<span class="card-michelin">★ ${c.michelin} Michelin</span>` : ''}
-          ${!isComingSoon && (idxType==='all' || idxType==='h') && c.keys > 0 ? `<span class="card-keys">🗝 ${c.keys} Chaves</span>` : ''}
-          ${isComingSoon ? `<span class="coming-badge">em breve</span>` : `<span class="card-arrow">Ver guia →</span>`}
-        </div>
+            <span class="card-arrow">Ver guia →</span>
+          </div>
+        ` : `
+          <div class="card-footer-row" style="justify-content:flex-end">
+            ${isComingSoon ? `<span class="coming-badge">em breve</span>` : `<span class="card-arrow">Ver guia →</span>`}
+          </div>
+        `}
       </div>
     </div>
   </${tag}>`;
