@@ -164,8 +164,10 @@ footer a{color:var(--gold);text-decoration:none}
 </header>
 
 <div class="stats-bar">
-  <div class="stat"><div class="stat-num">2</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">Restaurantes</div></div>
   <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div>
+  <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Hotel</div></div>
+  <div class="stat"><div class="stat-num">2 ★</div><div class="stat-lbl">Michelin</div></div>
   <div class="stat"></div>
 </div>
 
@@ -234,7 +236,9 @@ const FOLDER='monaco';
 const CITIES=[
   {city:"Monte-Carlo",region:"Mónaco",entries:[
     {n:"Café de Paris",q:"Brasserie · Clássica",a:"Place du Casino, 98000 Monte-Carlo",p:"+377 98 06 76 23",pr:3,note:"Instituição desde 1868 · Berço da Crêpe Suzette",d:"O café mais icónico do Principado, inaugurado em 1868 em frente ao Casino de Monte-Carlo e ao Hôtel de Paris. É aqui que, em 1895, Henri Charpentier inventou acidentalmente a Crêpe Suzette para o Príncipe de Gales — futuro Eduardo VII. Brasserie clássica francesa com bouillabaisse, plateau de fruits de mer, steak tartare, soufflés e a célebre Crêpe Suzette flambada à mesa. O terraço da Place du Casino é o melhor lugar do mundo para observar Ferraris, Bentleys e Rolls-Royces, com a fachada Belle Époque do Casino como cenário. Ponto de paragem obrigatório de quem visita Mónaco."},
-    {n:"Song Qi",q:"Chinesa · Fine Dining",a:"7 Avenue Princesse-Grace, 98000 Monaco",p:"+377 99 99 33 33",pr:4,m:"rec",note:"Guia Michelin · Único restaurante chinês gourmet do Principado",d:"O único restaurante chinês de alta gastronomia de Mónaco, criado em 2014 por Riccardo Giraudi e Alan Yau — o criador do lendário Hakkasan de Londres. Seleccionado pelo Guia Michelin, instalado em frente ao Grimaldi Forum na mais elegante avenida do Principado. Ambiente Art Déco dos anos 30 de Shanghai, desenhado pelos arquitectos Humbert & Poyet — mármore negro, veludo verde, latão e banquettes de seda. Pato de Pequim inteiro, dim sum artesanais, sopa de Pequim com frango fumado e camarões crocantes com mostarda chinesa. Eleito o 17º melhor restaurante do mundo pela Casa Vogue."}
+    {n:"Song Qi",q:"Chinesa · Fine Dining",a:"7 Avenue Princesse-Grace, 98000 Monaco",p:"+377 99 99 33 33",pr:4,m:"rec",note:"Guia Michelin · Único restaurante chinês gourmet do Principado",d:"O único restaurante chinês de alta gastronomia de Mónaco, criado em 2014 por Riccardo Giraudi e Alan Yau — o criador do lendário Hakkasan de Londres. Seleccionado pelo Guia Michelin, instalado em frente ao Grimaldi Forum na mais elegante avenida do Principado. Ambiente Art Déco dos anos 30 de Shanghai, desenhado pelos arquitectos Humbert & Poyet — mármore negro, veludo verde, latão e banquettes de seda. Pato de Pequim inteiro, dim sum artesanais, sopa de Pequim com frango fumado e camarões crocantes com mostarda chinesa. Eleito o 17º melhor restaurante do mundo pela Casa Vogue."},
+    {n:"Blue Bay",q:"Caribenha-Mediterrânea de Autor · Vista Baía",a:"Monte-Carlo Bay Hotel, 40 Avenue Princesse-Grace, 98000 Monaco",p:"+377 98 06 03 60",pr:4,m:"m2",note:"2 Estrelas Michelin · Chef Marcel Ravin · Terraço panorâmico",d:"Duas Estrelas Michelin no Monte-Carlo Bay Hotel & Resort, em terraço panorâmico sobre a baía de Mónaco. O chef martiniquense Marcel Ravin assina uma cozinha autoral única — fusão entre as raízes caribenhas (cassava, cacau, frutos tropicais), a tradição mediterrânea e a técnica francesa. Pratos como a 'Tartelette de Cabrais' e o pombo de Bresse com chocolate negro são lendários. Em 2010 era 1★ Michelin — onde a Luli celebrou a sua lua de mel."},
+    {t:"h",n:"Monte-Carlo Bay Hotel & Resort",q:"Hotel · Beira-mar 5★",a:"40 Avenue Princesse-Grace, 98000 Monaco",p:"+377 98 06 02 00",pr:4,k:1,s:5,d:"Resort cinco-estrelas em 4 hectares à beira da baía de Mónaco, no extremo da península Larvotto. 334 quartos e suítes em arquitectura mediterrânea horizontal de 8 andares, lagoa de areia branca privada (única em Mónaco), spa Cinq Mondes, casino interno, três piscinas. Sete restaurantes incluindo o Blue Bay (★★ Michelin do chef Marcel Ravin), Las Brisas à beira da lagoa e Le Reef no rooftop. Membro Société des Bains de Mer. Aberto em 2005, foi o primeiro resort à beira-mar do Principado e tornou-se referência para luas de mel e estadias prolongadas."}
   ]}
 ];
 const ML={m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};
@@ -446,7 +450,7 @@ buildCuisineBar();
 render();
 
 let mapInstance=null;
-const COORDS={"monaco/cafe-de-paris":{"name":"Café de Paris","address":"Place du Casino, 98000 Monte-Carlo","country":"monaco","lat":43.7396,"lng":7.4283},"monaco/song-qi":{"name":"Song Qi","address":"7 Avenue Princesse-Grace, 98000 Monaco","country":"monaco","lat":43.7429445,"lng":7.4303855}};
+const COORDS={"monaco/cafe-de-paris":{"name":"Café de Paris","address":"Place du Casino, 98000 Monte-Carlo","country":"monaco","lat":43.7396,"lng":7.4283},"monaco/song-qi":{"name":"Song Qi","address":"7 Avenue Princesse-Grace, 98000 Monaco","country":"monaco","lat":43.7429445,"lng":7.4303855},"monaco/blue-bay":{"name":"Blue Bay","address":"Monte-Carlo Bay Hotel, 40 Avenue Princesse-Grace, 98000 Monaco","country":"monaco","lat":43.7497,"lng":7.4361},"monaco/monte-carlo-bay-hotel-resort":{"name":"Monte-Carlo Bay Hotel & Resort","address":"40 Avenue Princesse-Grace, 98000 Monaco","country":"monaco","lat":43.7497,"lng":7.4361}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
