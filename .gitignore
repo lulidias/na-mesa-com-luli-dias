@@ -5,3 +5,11 @@ franca-gps.json
 photo_matches_franca*.json
 franca-rest-info.json
 franca-review.html
+
+# Originais não-otimizados (use os .jpeg gerados pelo converter-fotos.command)
+*.DNG
+*.dng
+*.HEIC
+*.heic
+*.HEIF
+*.heif
