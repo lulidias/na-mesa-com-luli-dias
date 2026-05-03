@@ -178,7 +178,7 @@ const CITIES=[{"city": "Seul — Restaurantes", "region": "Seul", "entries": [{"
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin',beach:'Beach Club'};
 const KEYS={1:'🗝 1 Chave',2:'🗝🗝 2 Chaves',3:'🗝🗝🗝 3 Chaves'};
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
-function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
+function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.repeat(pr)+'<span style="color:var(--border)">'+'$'.repeat(4-pr)+'</span></span>';}
 function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
 
 const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];

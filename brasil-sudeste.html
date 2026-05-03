@@ -489,7 +489,7 @@ const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes'
 function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
-function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
+function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.repeat(pr)+'<span style="color:var(--border)">'+'$'.repeat(4-pr)+'</span></span>';}
 
 const cityList = ['Todas', ...new Set(CITIES.map(c => c.region))];
 const filtersEl = document.getElementById('filters');

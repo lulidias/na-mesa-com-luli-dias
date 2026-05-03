@@ -259,7 +259,7 @@ const BG={'Mariscos':'#e8f4f8','Frutos':'#e8f4f8','Tapas':'#f5f0e8','Carnes':'#f
 function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Frutos')||q.includes('Ostras'))?'🦞':q&&q.includes('Carne')||q&&q.includes('Assado')?'🥩':q&&q.includes('Japonesa')?'🍣':q&&q.includes('Tapas')||q&&q.includes('Pintxos')?'🍢':q&&q.includes('Mercado')?'🛒':'🍽';}
-function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
+function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.repeat(pr)+'<span style="color:var(--border)">'+'$'.repeat(4-pr)+'</span></span>';}
 
 const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
 document.getElementById('filters').innerHTML='<span class="filter-lbl">Região:</span>'+

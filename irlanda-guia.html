@@ -255,7 +255,7 @@ const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes'
 function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe'))?'\uD83E\uDD9E':q&&q.includes('Carne')?'\uD83E\uDD69':q&&q.includes('Japon')?'\uD83C\uDF63':q&&q.includes('Portuguesa')?'\uD83D\uDC1F':'\uD83C\uDF7D';}
-function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
+function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.repeat(pr)+'<span style="color:var(--border)">'+'$'.repeat(4-pr)+'</span></span>';}
 
 var cityNames = ['Todas', 'Dublin', 'Carlingford'];
 var filterEl = document.getElementById('filters');
