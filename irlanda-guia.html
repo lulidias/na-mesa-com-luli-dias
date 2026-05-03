@@ -158,14 +158,14 @@ footer a{color:var(--gold);text-decoration:none}
   <div class="brand-country">Irlanda</div>
   <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
   <div class="header-meta-row">
-    <span class="header-meta">Dublin · Carlingford</span>
+    <span class="header-meta">Dublin · Carlingford · Cong · Straffan · Liscannor</span>
     <span class="header-edition">Abril 2026</span>
   </div>
 </header>
 
 <div class="stats-bar">
-  <div class="stat"><div class="stat-num">10</div><div class="stat-lbl">Restaurantes</div></div>
-  <div class="stat"><div class="stat-num">2</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">13</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Cidades</div></div>
   <div class="stat"><div class="stat-num">4</div><div class="stat-lbl">Hotéis</div></div>
   <div class="stat"></div>
 </div>
@@ -236,10 +236,15 @@ const CITIES=[
     {n:"P.J. O'Hare",q:"Pub Histórico · Frutos do Mar",a:"Tholsel Street, Carlingford, Co. Louth",p:"+353 42 937 3106",pr:2,d:"O pub mais famoso da vila medieval de Carlingford, famosa pelas ostras do Lough Carlingford. Ostras frescas e Guinness com vista para o castelo normando."}
   ]},
   {city:"Cong",region:"Cong",entries:[
+    {n:"George V Dining Room",q:"Britânica-Irlandesa de Autor · Fine Dining",a:"Ashford Castle, Cong, Co. Mayo",p:"+353 94 954 6003",pr:4,note:"Restaurante do Ashford Castle · Chef Liam Finnegan",d:"Restaurante de gala do Ashford Castle, construído pela família Guinness em 1905 para receber o futuro Rei George V. Painéis de carvalho rico, candelabros de cristal Waterford, mesas com louça da casa real. O chef executivo Liam Finnegan assina menus que celebram o produto local — borrego de Connemara, vieiras de Galway Bay, carne maturada e a famosa caça da estação. Dress code obrigatório."},
     {t:"h",n:"Ashford Castle",q:"Castelo · Lendário 5★",a:"Ashford Castle, Cong, Co. Mayo",p:"+353 94 954 6003",pr:4,k:2,s:5,d:"Castelo do séc. XIII transformado em hotel de luxo, em 350 acres de jardins à beira do Lough Corrib. 83 quartos e suítes em estilo barroco autêntico. Restaurante George V (cozinha gastronómica), Cullen's at the Cottage, Drawing Room para chá da tarde. Falconaria, equestre, golfe, spa. Membro Red Carnation Hotels e Forbes Travel Guide 5★. Frequentado por reis e celebridades — Pierce Brosnan casou-se aqui."}
   ]},
   {city:"Straffan",region:"Straffan",entries:[
+    {n:"The Barton Restaurant",q:"Europeia Contemporânea · Fine Dining",a:"The K Club, Straffan, Co. Kildare",p:"+353 1 601 7200",pr:4,note:"Restaurante de gala do The K Club · Antigo 1★ Michelin",d:"Sala de jantar de gala do The K Club, num pavilhão à beira do rio Liffey. Cozinha europeia contemporânea com produto irlandês de eleição — vieiras de Cromane, borrego do Wicklow, vegetais das hortas da propriedade. Foi galardoado com 1 Estrela Michelin em 1993 e 1994 sob o chef Michel Flamme. Hoje continua a ser um dos endereços mais elegantes da Irlanda, com adega de classe mundial."},
     {t:"h",n:"The K Club",q:"Resort · Golfe & Country 5★",a:"Straffan, Co. Kildare",p:"+353 1 601 7200",pr:4,k:1,s:5,d:"Resort cinco-estrelas em 550 acres no rio Liffey, Co. Kildare. Casa solarenga do séc. XIX com 134 quartos e suítes. Dois campos de golfe Arnold Palmer (sede da Ryder Cup 2006), spa K, sete restaurantes. Membro Leading Hotels of the World. O endereço de eleição para golfistas e fim-de-semana de luxo na Irlanda."}
+  ]},
+  {city:"Liscannor",region:"Irlanda",entries:[
+    {n:"Vaughan's Anchor Inn",q:"Frutos do Mar · Pub-Restaurante",a:"Main Street, Liscannor, V95 FN5R, Co. Clare",p:"+353 65 708 1548",pr:2,d:"Pub-restaurante de família, terceira geração dos Vaughan, na vila piscatória de Liscannor (junto às Cliffs of Moher). Tanque de peixes vivos à entrada, paredes cheias de memorabilia náutica e um menu obcecado pelo produto do Atlântico — ostras locais, lagosta de Liscannor, peixe-monge, e o lendário soufflé de pera ao calvados (na foto de capa). Um dos melhores endereços do oeste irlandês."}
   ]}
 ];
 
@@ -250,7 +255,7 @@ const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes'
 function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe'))?'\uD83E\uDD9E':q&&q.includes('Carne')?'\uD83E\uDD69':q&&q.includes('Japon')?'\uD83C\uDF63':q&&q.includes('Portuguesa')?'\uD83D\uDC1F':'\uD83C\uDF7D';}
-function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'R$'.repeat(pr)+'<span style="color:var(--border)">'+'R$'.repeat(4-pr)+'</span></span>';}
+function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
 
 var cityNames = ['Todas', 'Dublin', 'Carlingford'];
 var filterEl = document.getElementById('filters');
@@ -277,37 +282,64 @@ function render(){
   filtered.forEach(function(cityObj){
     var city = cityObj.city;
     var entries = cityObj.entries;
-    var starCount = entries.filter(function(r){return r.m==='m2';}).length*2 + entries.filter(function(r){return r.m==='m1';}).length;
-    var michelinCount = entries.filter(function(r){return r.m&&['m2','m1','bib','green','rec'].indexOf(r.m)>=0;}).length;
+    // FILTRO por activeType + cuisine
+    var visibleEntries = entries.filter(function(r){
+      if(activeType==='r'&&r.t==='h')return false;
+      if(activeType==='h'&&r.t!=='h')return false;
+      if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return false;
+      return true;
+    });
+    if(visibleEntries.length===0)return;
+
+    var starCount = visibleEntries.filter(function(r){return r.m==='m2';}).length*2 + visibleEntries.filter(function(r){return r.m==='m1';}).length;
+    var michelinCount = visibleEntries.filter(function(r){return r.m&&['m2','m1','bib','green','rec'].indexOf(r.m)>=0;}).length;
     var michelinHtml = '';
     if(starCount>0) michelinHtml = '<div class="city-michelin">'+('★'.repeat(Math.min(starCount,5)))+' Michelin</div>';
     else if(michelinCount>0) michelinHtml = '<div class="city-michelin" style="color:var(--rec)">Guia Michelin</div>';
 
+    var lblWord = activeType==='h' ? 'hotel' : activeType==='r' ? 'restaurante' : 'estabelecimento';
     var sec = document.createElement('div');
     sec.className = 'city-sec';
-    sec.innerHTML = '<div class="city-hdr"><div class="city-hdr-left"><div class="city-name">'+city+'</div>'+michelinHtml+'</div><div class="city-count-block"><div class="city-count-num">'+entries.length+'</div><div class="city-count-lbl">restaurante'+(entries.length!==1?'s':'')+'</div></div></div><div class="restaurants-grid" id="g-'+city.replace(/\s/g,'-')+'"></div>';
+    sec.innerHTML = '<div class="city-hdr"><div class="city-hdr-left"><div class="city-name">'+city+'</div>'+michelinHtml+'</div><div class="city-count-block"><div class="city-count-num">'+visibleEntries.length+'</div><div class="city-count-lbl">'+lblWord+(visibleEntries.length!==1?'s':'')+'</div></div></div><div class="restaurants-grid" id="g-'+city.replace(/\s/g,'-')+'"></div>';
     main.appendChild(sec);
 
     var grid = sec.querySelector('.restaurants-grid');
-    entries.forEach(function(r){
+    visibleEntries.forEach(function(r){
       var card = document.createElement('div');
       card.className = 'restaurant-card';
       var bg = cardBg(r.q);
-      var em = emoji(r.q);
-      var badges = (r.m ? '<span class="badge '+MBADGE[r.m]+'">'+ML[r.m]+'</span>' : '') +
+      var em = emoji(r.q, r.t);
+      var badges = (r.t==='h'&&r.k ? '<span class="badge bkeys'+r.k+'">'+KEYS[r.k]+'</span>' : '') +
+                   (r.t==='h'&&r.s ? '<span class="badge bstars">'+'★'.repeat(r.s)+'</span>' : '') +
+                   (r.m ? '<span class="badge '+MBADGE[r.m]+'">'+ML[r.m]+'</span>' : '') +
                    (r.h ? '<span class="badge bhotel">Hospedagem</span>' : '');
-      var addrHtml = r.a ? '<div class="c-row"><span class="c-icon">\uD83D\uDCCD</span><span class="c-addr" onclick="openMap(\'' + (r.n||'').replace(/'/g,"\\'") + '\',\'' + (r.a||'').replace(/'/g,"\\'") + '\')">'+r.a+'</span></div>' : '';
+      var addrHtml = r.a ? '<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap(\'' + (r.n||'').replace(/'/g,"\\'") + '\',\'' + (r.a||'').replace(/'/g,"\\'") + '\')">'+r.a+'</span></div>' : '';
       var tel = r.p ? r.p.replace(/[\s()]/g,'').replace(/-/g,'') : '';
-      var phoneHtml = r.p ? '<div class="c-row"><span class="c-icon">\uD83D\uDCDE</span><a class="c-phone" href="tel:'+tel+'">'+r.p+'</a></div>' : '';
+      var phoneHtml = r.p ? '<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:'+tel+'">'+r.p+'</a></div>' : '';
       var contact = (addrHtml||phoneHtml) ? '<div class="card-contact">'+addrHtml+phoneHtml+'</div>' : '';
       var noteHtml = r.note ? '<div class="card-note">✦ '+r.note+'</div>' : '';
-      var imgHtml = '<img class="card-photo" src="fotos/irlanda/'+slug(r.n)+'.jpeg" alt="'+r.n+'" loading="lazy">';
+      var folder = r.t==='h' ? 'fotos/hoteis/' : 'fotos/irlanda/';
+      var imgHtml = '<img class="card-photo" src="'+folder+slug(r.n)+'.jpeg" alt="'+r.n+'" loading="lazy" onerror="tryPhoto(this,\''+slug(r.n)+'\','+(r.t==='h')+',\''+bg+'\',\''+em+'\')">';
       card.innerHTML = '<div class="card-photo-wrap">'+imgHtml+'</div><div class="card-body"><div class="card-top"><div class="card-name">'+r.n+'</div><div class="card-badges">'+badges+'</div></div><div class="card-meta-row"><div class="card-cuisine">'+(r.q||'')+'</div>'+priceTag(r.pr)+'</div><div class="card-desc">'+(r.d||'')+'</div>'+contact+noteHtml+'</div>';
-      card.querySelector('img').onerror = function(){ this.parentElement.innerHTML = '<div class="card-photo-placeholder" style="background:'+bg+'">'+em+'</div>'; };
       grid.appendChild(card);
     });
   });
 }
+
+// Try multiple photo extensions before falling back to placeholder
+function tryPhoto(img, slug, isHotel, bg, em){
+  var exts = ['.jpg', '.jpeg', '.JPG', '.JPEG', '.png', '.PNG', '.heic', '.HEIC'];
+  var folder = isHotel ? 'fotos/hoteis/' : 'fotos/irlanda/';
+  var attempt = parseInt(img.dataset.attempt || '0', 10);
+  attempt++;
+  if (attempt < exts.length) {
+    img.dataset.attempt = attempt;
+    img.src = folder + slug + exts[attempt];
+  } else {
+    img.parentElement.innerHTML = '<div class="card-photo-placeholder" style="background:' + bg + '">' + em + '</div>';
+  }
+}
+
 
 
 function normCuisine(q){
@@ -415,7 +447,7 @@ buildCuisineBar();
 render();
 
 let mapInstance=null;
-const COORDS={"irlanda/ashford-castle":{"name": "Ashford Castle", "address": "Ashford Castle, Cong, Co. Mayo", "country": "irlanda", "lat": 53.5258, "lng": -9.2769},"irlanda/the-k-club":{"name": "The K Club", "address": "Straffan, Co. Kildare", "country": "irlanda", "lat": 53.3169, "lng": -6.6122},"irlanda/the-dylan-hotel":{"name": "The Dylan Hotel", "address": "Eastmoreland Place, Ballsbridge, Dublin 4", "country": "irlanda", "lat": 53.3293, "lng": -6.2387},"irlanda/the-davenport-hotel":{"name": "The Davenport Hotel", "address": "Merrion Square Lower, Dublin 2", "country": "irlanda", "lat": 53.3389, "lng": -6.2496},"irlanda/big-fan-bao":{"name":"Big Fan Bao","address":"South Anne Street, Dublin 2","country":"irlanda","lat":53.3410452,"lng":-6.25891},"irlanda/la-gordita":{"name":"La Gordita","address":"1 Bath Avenue, Dublin 4","country":"irlanda","lat":53.3375324,"lng":-6.2306815},"irlanda/mcdaids":{"name":"McDaids","address":"3 Harry Street, Dublin 2","country":"irlanda","lat":53.3412245,"lng":-6.2610034},"irlanda/merchants-arch":{"name":"Merchants Arch","address":"49 Wellington Quay, Temple Bar, Dublin 2","country":"irlanda","lat":53.3459431,"lng":-6.2628187},"irlanda/pi-temple-bar":{"name":"PI Temple Bar","address":"73-83 Dame Street, Dublin 2","country":"irlanda","lat":53.3441756,"lng":-6.2653727},"irlanda/pichet":{"name":"Pichet","address":"14-15 Trinity Street, Dublin 2","country":"irlanda","lat":53.3438588,"lng":-6.2621329},"irlanda/searsons":{"name":"Searsons","address":"42 Upper Baggot Street, Dublin 4","country":"irlanda","lat":53.3333278,"lng":-6.2429012},"irlanda/the-brazen-head":{"name":"The Brazen Head","address":"20 Lower Bridge Street, Dublin 8","country":"irlanda","lat":53.3449368,"lng":-6.2763108},"irlanda/the-duke":{"name":"The Duke","address":"9 Duke Street, Dublin 2","country":"irlanda","lat":53.3419649,"lng":-6.258728},"irlanda/p-j-o":{"name":"P.J. O","address":"Tholsel Street, Carlingford, Co. Louth","country":"irlanda","lat":54.040306,"lng":-6.1862623}};
+const COORDS={"irlanda/ashford-castle":{"name": "Ashford Castle", "address": "Ashford Castle, Cong, Co. Mayo", "country": "irlanda", "lat": 53.5258, "lng": -9.2769},"irlanda/the-k-club":{"name": "The K Club", "address": "Straffan, Co. Kildare", "country": "irlanda", "lat": 53.3169, "lng": -6.6122},"irlanda/george-v-dining-room":{"name":"George V Dining Room","address":"Ashford Castle, Cong, Co. Mayo","country":"irlanda","lat":53.5258,"lng":-9.2769},"irlanda/the-barton-restaurant":{"name":"The Barton Restaurant","address":"The K Club, Straffan, Co. Kildare","country":"irlanda","lat":53.3169,"lng":-6.6122},"irlanda/vaughan-s-anchor-inn":{"name":"Vaughan's Anchor Inn","address":"Main Street, Liscannor, V95 FN5R, Co. Clare","country":"irlanda","lat":52.9395,"lng":-9.3899},"irlanda/the-dylan-hotel":{"name": "The Dylan Hotel", "address": "Eastmoreland Place, Ballsbridge, Dublin 4", "country": "irlanda", "lat": 53.3293, "lng": -6.2387},"irlanda/the-davenport-hotel":{"name": "The Davenport Hotel", "address": "Merrion Square Lower, Dublin 2", "country": "irlanda", "lat": 53.3389, "lng": -6.2496},"irlanda/big-fan-bao":{"name":"Big Fan Bao","address":"South Anne Street, Dublin 2","country":"irlanda","lat":53.3410452,"lng":-6.25891},"irlanda/la-gordita":{"name":"La Gordita","address":"1 Bath Avenue, Dublin 4","country":"irlanda","lat":53.3375324,"lng":-6.2306815},"irlanda/mcdaids":{"name":"McDaids","address":"3 Harry Street, Dublin 2","country":"irlanda","lat":53.3412245,"lng":-6.2610034},"irlanda/merchants-arch":{"name":"Merchants Arch","address":"49 Wellington Quay, Temple Bar, Dublin 2","country":"irlanda","lat":53.3459431,"lng":-6.2628187},"irlanda/pi-temple-bar":{"name":"PI Temple Bar","address":"73-83 Dame Street, Dublin 2","country":"irlanda","lat":53.3441756,"lng":-6.2653727},"irlanda/pichet":{"name":"Pichet","address":"14-15 Trinity Street, Dublin 2","country":"irlanda","lat":53.3438588,"lng":-6.2621329},"irlanda/searsons":{"name":"Searsons","address":"42 Upper Baggot Street, Dublin 4","country":"irlanda","lat":53.3333278,"lng":-6.2429012},"irlanda/the-brazen-head":{"name":"The Brazen Head","address":"20 Lower Bridge Street, Dublin 8","country":"irlanda","lat":53.3449368,"lng":-6.2763108},"irlanda/the-duke":{"name":"The Duke","address":"9 Duke Street, Dublin 2","country":"irlanda","lat":53.3419649,"lng":-6.258728},"irlanda/p-j-o":{"name":"P.J. O","address":"Tholsel Street, Carlingford, Co. Louth","country":"irlanda","lat":54.040306,"lng":-6.1862623}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
