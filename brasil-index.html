@@ -80,6 +80,19 @@ footer a{color:var(--gold);text-decoration:none}
   main{padding:32px 16px 60px}
   .regions-grid{grid-template-columns:1fr}
 }
+
+.gallery-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:20px}
+.gallery-modal.open{display:flex}
+.gallery-img{max-width:95vw;max-height:90vh;object-fit:contain;border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+.gallery-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s}
+.gallery-close:hover{background:rgba(255,255,255,.3)}
+.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:52px;height:52px;border-radius:50%;font-size:24px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s}
+.gallery-arrow:hover{background:rgba(255,255,255,.3)}
+.gallery-arrow.prev{left:24px}
+.gallery-arrow.next{right:24px}
+.gallery-counter{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:#fff;font-size:13px;letter-spacing:2px;background:rgba(0,0,0,.5);padding:8px 16px;border-radius:20px;backdrop-filter:blur(8px)}
+.card-photo-wrap{position:relative;cursor:pointer}
+.photo-count-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.65);color:#fff;font-size:10px;letter-spacing:1px;padding:5px 10px;border-radius:14px;font-weight:600;backdrop-filter:blur(8px);display:flex;align-items:center;gap:4px}
 </style>
 </head>
 <body>
@@ -198,5 +211,13 @@ footer a{color:var(--gold);text-decoration:none}
   }
 })();
 </script>
+
+<div class="gallery-modal" id="galleryModal" onclick="if(event.target===this)closeGallery()">
+  <button class="gallery-close" onclick="closeGallery()" aria-label="Fechar">&times;</button>
+  <button class="gallery-arrow prev" onclick="galleryPrev()" aria-label="Anterior">‹</button>
+  <img class="gallery-img" id="galleryImg" alt="">
+  <button class="gallery-arrow next" onclick="galleryNext()" aria-label="Próxima">›</button>
+  <div class="gallery-counter" id="galleryCounter">1 / 1</div>
+</div>
 </body>
 </html>
