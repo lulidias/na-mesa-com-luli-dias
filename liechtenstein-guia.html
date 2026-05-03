@@ -247,6 +247,20 @@ function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f
 function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'€'.repeat(pr)+'<span style="color:var(--border)">'+'€'.repeat(4-pr)+'</span></span>';}
 
+// Try multiple photo extensions before falling back to placeholder
+function tryPhoto(img, slug, isHotel, bg, em){
+  const exts = ['.jpg', '.jpeg', '.JPG', '.JPEG', '.png', '.PNG', '.heic', '.HEIC'];
+  const folder = isHotel ? 'fotos/hoteis/' : 'fotos/' + FOLDER + '/';
+  let attempt = parseInt(img.dataset.attempt || '0', 10);
+  attempt++;
+  if (attempt < exts.length) {
+    img.dataset.attempt = attempt;
+    img.src = folder + slug + exts[attempt];
+  } else {
+    img.parentElement.innerHTML = '<div class="card-photo-placeholder" style="background:' + bg + '">' + em + '</div>';
+  }
+}
+
 // Build region filter buttons
 const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
 const filtersEl=document.getElementById('filters');
@@ -324,7 +338,7 @@ function render(){
                      (r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge bhotel">Hospedagem</span>':'');
         card.innerHTML=`
-          <div class="card-photo-wrap"><img class="card-photo" src="fotos/liechtenstein/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\' style=\\'background:${bg}\\'>${em}</div>'"></div>
+          <div class="card-photo-wrap"><img class="card-photo" src="${r.t==='h'?'fotos/hoteis/'+slug(r.n)+'.jpeg':'fotos/liechtenstein/'+slug(r.n)+'.jpeg'}" alt="${r.n}" loading="lazy" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'${bg}','${em}')"></div>
           <div class="card-body">
             <div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div>
             <div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div>
