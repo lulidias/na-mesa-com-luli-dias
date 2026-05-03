@@ -626,6 +626,65 @@ function initMap(){
 </script>
 <footer><p><a href="brasil-index.html">← Brasil</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
 
+<script>
+// === LIGHTBOX (fotos múltiplas: slug.jpeg, slug-2.jpeg, slug-3.jpeg...) ===
+let _galleryImages = [];
+let _galleryIdx = 0;
+
+async function openGallery(slug, folder) {
+  const exts = ['.jpeg','.jpg','.JPG','.JPEG','.png','.PNG'];
+  _galleryImages = [];
+  for (let i = 1; i <= 10; i++) {
+    const suffix = i === 1 ? '' : '-' + i;
+    let found = false;
+    for (const ext of exts) {
+      const url = `fotos/${folder}/${slug}${suffix}${ext}`;
+      const exists = await new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+      });
+      if (exists) {
+        _galleryImages.push(url);
+        found = true;
+        break;
+      }
+    }
+    if (!found && i > 1) break;
+    if (!found && i === 1) return;
+  }
+  if (_galleryImages.length === 0) return;
+  _galleryIdx = 0;
+  showGalleryImage();
+  document.getElementById('galleryModal').classList.add('open');
+}
+function showGalleryImage() {
+  document.getElementById('galleryImg').src = _galleryImages[_galleryIdx];
+  document.getElementById('galleryCounter').textContent = `${_galleryIdx+1} / ${_galleryImages.length}`;
+}
+function galleryNext() { _galleryIdx = (_galleryIdx + 1) % _galleryImages.length; showGalleryImage(); }
+function galleryPrev() { _galleryIdx = (_galleryIdx - 1 + _galleryImages.length) % _galleryImages.length; showGalleryImage(); }
+function closeGallery() { document.getElementById('galleryModal').classList.remove('open'); }
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('galleryModal')?.classList.contains('open')) return;
+  if (e.key === 'Escape') closeGallery();
+  else if (e.key === 'ArrowRight') galleryNext();
+  else if (e.key === 'ArrowLeft') galleryPrev();
+});
+// Auto-bind: clicar em qualquer card-photo abre lightbox
+document.addEventListener('click', function(e) {
+  const img = e.target.closest('.card-photo');
+  if (!img) return;
+  const src = img.getAttribute('src') || '';
+  const m = src.match(/fotos\/([^/]+)\/(.+?)(?:-\d+)?\.[a-zA-Z]+$/);
+  if (m) {
+    e.preventDefault();
+    e.stopPropagation();
+    openGallery(m[2], m[1]);
+  }
+});
+</script>
 <div class="gallery-modal" id="galleryModal" onclick="if(event.target===this)closeGallery()">
   <button class="gallery-close" onclick="closeGallery()" aria-label="Fechar">&times;</button>
   <button class="gallery-arrow prev" onclick="galleryPrev()" aria-label="Anterior">‹</button>
