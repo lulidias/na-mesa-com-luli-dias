@@ -120,6 +120,18 @@ footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-
 .gallery-counter{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:#fff;font-size:13px;letter-spacing:2px;background:rgba(0,0,0,.5);padding:8px 16px;border-radius:20px;backdrop-filter:blur(8px)}
 .card-photo-wrap{position:relative;cursor:pointer}
 .photo-count-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.65);color:#fff;font-size:10px;letter-spacing:1px;padding:5px 10px;border-radius:14px;font-weight:600;backdrop-filter:blur(8px);display:flex;align-items:center;gap:4px}
+
+.card-photo-wrap{position:relative;cursor:pointer}
+.photo-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);color:#1A1A1A;border:none;width:32px;height:32px;border-radius:50%;font-size:18px;font-weight:600;cursor:pointer;opacity:0;transition:opacity .25s,background .15s;backdrop-filter:blur(4px);box-shadow:0 2px 8px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+.card-photo-wrap:hover .photo-nav{opacity:1}
+.photo-nav:hover{background:#fff}
+.photo-nav.prev{left:8px}
+.photo-nav.next{right:8px}
+.photo-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2;opacity:0;transition:opacity .25s}
+.card-photo-wrap:hover .photo-dots{opacity:1}
+.photo-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.photo-dot.active{background:#fff;width:18px;border-radius:3px}
+.photo-count-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;letter-spacing:1px;padding:4px 8px;border-radius:12px;font-weight:600;backdrop-filter:blur(4px);z-index:2;display:flex;align-items:center;gap:3px}
 </style>
 </head>
 <body>
@@ -426,6 +438,92 @@ function initMap(){
 </script>
 
 <script>
+
+// === Setas in-line + indicador "tem mais fotos" ===
+async function _setupGallery(wrap) {
+  if (wrap.dataset.galleryReady) return;
+  wrap.dataset.galleryReady = '1';
+  const img = wrap.querySelector('.card-photo');
+  if (!img) return;
+  const src = img.getAttribute('src') || '';
+  const m = src.match(/fotos\/([^/]+)\/(.+?)(?:-\d+)?\.[a-zA-Z]+$/);
+  if (!m) return;
+  const folder = m[1], slug = m[2];
+  const exts = ['.jpeg','.jpg','.JPG','.JPEG','.png','.PNG'];
+  const urls = [src];
+  for (let i = 2; i <= 10; i++) {
+    let found = null;
+    for (const ext of exts) {
+      const url = `fotos/${folder}/${slug}-${i}${ext}`;
+      const exists = await new Promise(r => {
+        const im = new Image();
+        im.onload = () => r(true);
+        im.onerror = () => r(false);
+        im.src = url;
+      });
+      if (exists) { found = url; break; }
+    }
+    if (!found) break;
+    urls.push(found);
+  }
+  if (urls.length < 2) return;
+  // Setup
+  let idx = 0;
+  wrap.dataset.urls = JSON.stringify(urls);
+  wrap.dataset.idx = '0';
+  // Badge
+  const badge = document.createElement('div');
+  badge.className = 'photo-count-badge';
+  badge.innerHTML = `📷 ${urls.length}`;
+  wrap.appendChild(badge);
+  // Prev arrow
+  const prev = document.createElement('button');
+  prev.className = 'photo-nav prev';
+  prev.innerHTML = '‹';
+  prev.setAttribute('aria-label','Foto anterior');
+  prev.onclick = (e) => { e.stopPropagation(); idx = (idx - 1 + urls.length) % urls.length; img.src = urls[idx]; updateDots(); };
+  wrap.appendChild(prev);
+  // Next arrow
+  const next = document.createElement('button');
+  next.className = 'photo-nav next';
+  next.innerHTML = '›';
+  next.setAttribute('aria-label','Próxima foto');
+  next.onclick = (e) => { e.stopPropagation(); idx = (idx + 1) % urls.length; img.src = urls[idx]; updateDots(); };
+  wrap.appendChild(next);
+  // Dots
+  const dots = document.createElement('div');
+  dots.className = 'photo-dots';
+  for (let i = 0; i < urls.length; i++) {
+    const d = document.createElement('span');
+    d.className = 'photo-dot' + (i === 0 ? ' active' : '');
+    dots.appendChild(d);
+  }
+  wrap.appendChild(dots);
+  function updateDots() {
+    dots.querySelectorAll('.photo-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === idx);
+    });
+  }
+}
+
+// Observer: quando renderiza cards, configura galeria
+function _scanGalleries() {
+  document.querySelectorAll('.card-photo-wrap').forEach(_setupGallery);
+}
+// Rodar após render
+const _origScan = setInterval(() => {
+  if (document.querySelector('.card-photo')) {
+    _scanGalleries();
+  }
+}, 800);
+// MutationObserver para novos cards (após filtros)
+const _galleryObserver = new MutationObserver(() => _scanGalleries());
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(_scanGalleries, 500);
+  const main = document.getElementById('main');
+  if (main) _galleryObserver.observe(main, { childList: true, subtree: true });
+});
+
 // === LIGHTBOX (fotos múltiplas: slug.jpeg, slug-2.jpeg, slug-3.jpeg...) ===
 let _galleryImages = [];
 let _galleryIdx = 0;
