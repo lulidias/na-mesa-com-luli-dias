@@ -1,7 +1,8 @@
 #!/bin/bash
-# Converte todos os DNG/HEIC/HEIF/PNG das pastas fotos/peru, fotos/liechtenstein,
-# fotos/hoteis para JPEG, redimensiona pra 1600px máx e remove EXIF.
+# Converte todos os DNG/HEIC/HEIF/PNG de TODAS as pastas dentro de fotos/
+# para JPEG, redimensiona pra 1600px máx e remove EXIF.
 # Também força o iCloud a baixar os arquivos antes de processar.
+# Detecta JPEGs vazios (0 bytes) e re-converte automaticamente.
 #
 # USO: duplo-click no Finder
 
@@ -22,7 +23,13 @@ done
 sleep 4
 
 echo ""
-echo "2. A converter ficheiros..."
+echo "2. A apagar JPEGs vazios (0 bytes) para forçar re-conversão..."
+empty_count=$(find fotos/ -type f -name "*.jpeg" -size 0 | wc -l | tr -d ' ')
+find fotos/ -type f -name "*.jpeg" -size 0 -delete 2>/dev/null
+echo "   $empty_count JPEGs vazios apagados."
+
+echo ""
+echo "3. A converter ficheiros..."
 echo ""
 
 ok=0
@@ -35,8 +42,12 @@ convert_file() {
   local base="${src%.*}"
   local dst="${base}.jpeg"
 
-  # Se já existe .jpeg ou .jpg, pular
-  if [ -f "${base}.jpeg" ] || [ -f "${base}.jpg" ]; then
+  # Se já existe .jpeg (não-vazio) ou .jpg, pular
+  if [ -f "${base}.jpeg" ] && [ -s "${base}.jpeg" ]; then
+    skip=$((skip+1))
+    return
+  fi
+  if [ -f "${base}.jpg" ] && [ -s "${base}.jpg" ]; then
     skip=$((skip+1))
     return
   fi
@@ -49,19 +60,19 @@ convert_file() {
     else
       fail=$((fail+1))
       echo "  ✗ $(basename "$src") — saída vazia"
+      [ -f "$dst" ] && rm -f "$dst"
     fi
   else
     fail=$((fail+1))
     echo "  ✗ $(basename "$src") — falhou"
+    [ -f "$dst" ] && rm -f "$dst"
   fi
 }
 
-# Converter em todas as pastas relevantes
-for pattern in \
-  "fotos/peru/*.DNG" "fotos/peru/*.HEIC" "fotos/peru/*.heic" \
-  "fotos/liechtenstein/*.DNG" "fotos/liechtenstein/*.HEIC" "fotos/liechtenstein/*.heic" \
-  "fotos/hoteis/*.DNG" "fotos/hoteis/*.HEIC" "fotos/hoteis/*.heic"; do
-  for f in $pattern; do
+# Converter em TODAS as subpastas de fotos/ (detecção automática)
+for pasta in fotos/*/; do
+  [ -d "$pasta" ] || continue
+  for f in "$pasta"*.DNG "$pasta"*.HEIC "$pasta"*.heic "$pasta"*.HEIF "$pasta"*.heif "$pasta"*.dng; do
     [ -f "$f" ] || continue
     convert_file "$f"
   done
