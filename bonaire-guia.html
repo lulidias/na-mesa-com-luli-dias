@@ -241,7 +241,9 @@ function render(){
         const ad=(r.a&&r.a!==city)?r.a.replace(/'/g,"\\'"):'';
         const addrHtml=ad?`<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap('${nm}','${ad}')">${r.a}</span></div>`:'';
         const phoneHtml=r.p?`<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:${r.p.replace(/\s/g,'')}">${r.p}</a></div>`:'';
-        const contact=(addrHtml||phoneHtml)?`<div class="card-contact">${addrHtml}${phoneHtml}</div>`:'';
+        const webHtml=r.w?`<div class=\"c-row\"><span class=\"c-icon\">🌐</span><a class=\"c-phone\" href=\"${r.w.startsWith('http')?r.w:'https://'+r.w}\" target=\"_blank\" rel=\"noopener\">${r.w.replace(/^https?:\/\//,'').replace(/\/$/,'')}</a></div>`:'';
+        const igHtml=r.ig?`<div class=\"c-row\"><span class=\"c-icon\">📷</span><a class=\"c-phone\" href=\"https://instagram.com/${r.ig.replace('@','')}\" target=\"_blank\" rel=\"noopener\">@${r.ig.replace('@','')}</a></div>`:'';
+        const contact=(addrHtml||phoneHtml||webHtml||igHtml)?`<div class=\"card-contact\">${addrHtml}${phoneHtml}${webHtml}${igHtml}</div>`:'';
         const em=emoji(r.q||'');
         const badges=(r.t==='h'&&r.k?`<span class="badge bkeys${r.k}">${KEYS[r.k]}</span>`:'')+
                      (r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
