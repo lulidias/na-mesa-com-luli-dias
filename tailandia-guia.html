@@ -146,7 +146,7 @@ footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-
   <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
   <div class="header-meta-row"><span class="header-meta">Bangkok</span><span class="header-edition">Abril 2026</span></div>
 </header>
-<div class="stats-bar"><div class="stat"><div class="stat-num">9</div><div class="stat-lbl">Restaurantes</div></div><div class="stat"><div class="stat-num">2</div><div class="stat-lbl">Mercados</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div></div>
+<div class="stats-bar"><div class="stat"><div class="stat-num">8</div><div class="stat-lbl">Restaurantes</div></div><div class="stat"><div class="stat-num">2</div><div class="stat-lbl">Mercados</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div></div>
 <div class="michelin-legend">
   <span class="lbadge">★★★ 3 Estrelas</span><span class="lbadge">★★ 2 Estrelas</span><span class="lbadge">★ 1 Estrela</span>
   <span class="lbadge">Bib Gourmand</span><span class="lbadge">Michelin</span><span class="lbadge">Hospedagem</span>
@@ -237,7 +237,6 @@ const CITIES=[
         "note": "Mínimo 500฿ · Show cultural às 21h",
         "d": "Rooftop tailandês nos pisos 58 a 61 da torre One City Centre. Estátua gigante de Hanuman com bar dentro da boca, vistas 360° da cidade, cocktails de craft tailandês e show cultural noturno. Uma das experiências mais teatrais de Bangkok."
       },
-      {"n":"Thipsamai","q":"Pad Thai · Lendário","a":"313-315 Maha Chai Road, Samran Rat, Phra Nakhon, Bangkok 10200","p":"+66 2 226-6666","pr":2,"note":"Bib Gourmand candidato · Padthai mais famoso de Bangkok desde 1966","d":"O templo do Pad Thai em Bangkok, fundado em 1966 pela família Chongchitnan. Os noodles sen chan são secos ao sol em Chantaburi e fritados em wok aberto à frente do cliente, com o lendário óleo de cabeça de camarão da casa. O 'Superb Padthai' vem embrulhado em ovo crepe com lagostins frescos. Filas que dão a volta ao quarteirão, mas vale cada minuto — uma das mesas mais icónicas da gastronomia de rua tailandesa."},
     {"n":"Pool Terrace Café and Bar","q":"Asiática Light · Beira-piscina","a":"13/3 South Sathorn Road, Sathorn, Bangkok 10120","p":"+66 2 344-8888","pr":3,"note":"The Sukhothai Bangkok · Aberto 6h-20h","d":"Café-bar à beira da piscina lendária do Sukhothai Bangkok, num dos jardins urbanos mais bonitos da Ásia. Menu light com bowls saudáveis, smoothies funcionais, salads e clássicos asiáticos numa atmosfera tropical de paz absoluta. Toalhas frias, água gelada infinita e o som das fontes de lótus. Um refúgio do caos de Bangkok — quase como sair do tempo."},
     {"t":"h","n":"The Sukhothai Bangkok","q":"Hotel · Resort Urbano 5★","a":"13/3 South Sathorn Road, Sathorn, Bangkok 10120","p":"+66 2 344-8888","pr":4,"k":1,"s":5,"d":"Resort urbano cinco-estrelas em 6 acres de jardins na quietude de Sathorn — um oásis em Bangkok. Arquitectura inspirada na antiga capital tailandesa de Sukhothai (séc. XIII), com pavilhões de tijolo, lagos de lótus e estátuas de Buda. 210 quartos espaçosos. Celadon (tailandesa), La Scala (italiana), The Lobby (chá da tarde) e Zuma. Membro Leading Hotels of the World."}
     ]
@@ -461,7 +460,7 @@ buildCuisineBar();
 render();
 
 let mapInstance=null;
-const COORDS={"tailandia/sukhothai-bangkok":{"name":"The Sukhothai Bangkok","address":"13/3 South Sathorn Road, Sathorn, Bangkok 10120","country":"tailandia","lat":13.724,"lng":100.538},"tailandia/the-sukhothai-bangkok":{"name": "The Sukhothai Bangkok", "address": "13/3 South Sathorn Road, Sathorn, Bangkok 10120", "country": "tailandia", "lat": 13.724, "lng": 100.538},"tailandia/banthat-thong-road":{"name":"Banthat Thong Road","address":"Banthat Thong Rd, Wang Mai, Pathum Wan, Bangkok","country":"tailandia","lat":13.739848,"lng":100.5224398},"tailandia/thipsamai":{"name":"Thipsamai","address":"313-315 Maha Chai Road, Bangkok","country":"tailandia","lat":13.7547,"lng":100.5040},"tailandia/pool-terrace-cafe-and-bar":{"name":"Pool Terrace Café and Bar","address":"13/3 South Sathorn Road, Bangkok","country":"tailandia","lat":13.7240,"lng":100.5380}};
+const COORDS={"tailandia/sukhothai-bangkok":{"name":"The Sukhothai Bangkok","address":"13/3 South Sathorn Road, Sathorn, Bangkok 10120","country":"tailandia","lat":13.724,"lng":100.538},"tailandia/the-sukhothai-bangkok":{"name": "The Sukhothai Bangkok", "address": "13/3 South Sathorn Road, Sathorn, Bangkok 10120", "country": "tailandia", "lat": 13.724, "lng": 100.538},"tailandia/banthat-thong-road":{"name":"Banthat Thong Road","address":"Banthat Thong Rd, Wang Mai, Pathum Wan, Bangkok","country":"tailandia","lat":13.739848,"lng":100.5224398},"tailandia/pool-terrace-cafe-and-bar":{"name":"Pool Terrace Café and Bar","address":"13/3 South Sathorn Road, Bangkok","country":"tailandia","lat":13.7240,"lng":100.5380}};
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
