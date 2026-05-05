@@ -1,3 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portugal — Luli Dias · Restaurants &amp; Hotels</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5;--card-bg:#FFF;
+  --m2:#E4002B;--m2bg:#FFF0F0;--m1:#C0001F;--m1bg:#FFF5F5;
+  --bib:#E8700A;--bibbg:#FFF5EE;--green:#2D7A3A;--greenbg:#F0F7F1;--rec:#4A6FA5;--recbg:#F0F4FA;
+  --hotel:#7B5EA7;--hotelbg:#F5F0FF;
+}
+html,body{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;}
+
+.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;gap:10px}
+.back-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;background:var(--gold-bg);border:1px solid var(--gold-lt);padding:8px 14px;border-radius:24px;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.back-link:hover{background:var(--gold);color:var(--white);border-color:var(--gold);transform:translateX(-2px)}
+.nav-sep{color:var(--border)}
+.nav-current{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
+
+/* HEADER — brand redesign */
+header{background:var(--white);border-bottom:1px solid var(--border);padding:44px 48px 32px}
+.brand-mast{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:13px;letter-spacing:7px;padding-left:7px;color:var(--ink-lt);font-weight:400;margin-bottom:14px}
+.brand-country{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:48px;font-weight:400;color:var(--ink);font-style:italic;margin-bottom:18px}
+.header-orn{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.orn-line{height:1px;width:48px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+.header-meta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.header-meta{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs)}
+.header-edition{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+
+/* REGION FILTER */
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.view-toggle{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end}
+.view-toggle-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:auto}
+.view-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 18px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.view-btn:hover{border-color:var(--gold);color:var(--gold)}
+.view-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.cuisine-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.cuisine-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.cuisine-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;padding:5px 12px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.cuisine-btn:hover{border-color:var(--gold);color:var(--gold)}
+.cuisine-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+#map{height:70vh;width:100%;max-width:1400px;margin:24px auto;border-radius:4px;border:1px solid var(--border)}
+.leaflet-popup-content{margin:14px 18px;line-height:1.4}
+.leaflet-popup-content-wrapper{border-radius:6px}
+.leaflet-tooltip.custom-tooltip{background:#fff;border:1px solid #E8E0D5;border-radius:6px;padding:8px 12px;box-shadow:0 4px 12px rgba(0,0,0,.08);font-family:'Montserrat',sans-serif}
+.leaflet-tooltip.custom-tooltip:before{display:none}
+
+/* STATS — só restaurantes + cidades */
+.stats-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;flex-wrap:wrap}
+.stat{padding:0 28px;border-right:1px solid var(--border);text-align:center}
+.stat:first-child{padding-left:0}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);font-weight:600}
+.stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:2px}
+
+/* MICHELIN LEGEND — subtitle below stats */
+.michelin-legend{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.legend-title{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt)}
+.lbadge{font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.lm2,.lm1,.lbib,.lgreen,.lrec,.lhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+
+main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
+
+.city-sec{margin-bottom:64px}
+.city-hdr{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:24px}
+.city-hdr-left{display:flex;flex-direction:column;gap:6px}
+.city-region-lbl{font-size:8px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;display:flex;align-items:center;gap:10px}
+.city-region-lbl::before{content:'';display:inline-block;width:20px;height:1px;background:var(--gold)}
+.city-name{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--ink);letter-spacing:-1px;line-height:1}
+.city-count-block{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--gold);opacity:.25;line-height:1}
+.city-count-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-xs);margin-top:2px}
+.city-michelin{font-size:9px;color:var(--m2);font-weight:600;letter-spacing:1px;opacity:.85}
+
+.restaurants-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+
+.restaurant-card{background:var(--card-bg);overflow:hidden;border-left:3px solid var(--gold-lt);transition:box-shadow .3s}
+.restaurant-card:hover{box-shadow:0 4px 24px rgba(184,146,42,.12);z-index:1;position:relative}
+
+.card-photo-wrap{width:100%;height:300px;overflow:hidden;background:var(--border);position:relative}
+.card-gallery{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none}
+.card-gallery::-webkit-scrollbar{display:none}
+.card-gallery img{flex:0 0 100%;scroll-snap-align:start;object-fit:cover;height:100%;width:100%;display:block;transition:transform .5s ease}
+.restaurant-card:hover .card-gallery img{transform:scale(1.04)}
+.card-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;padding:5px 8px;background:rgba(0,0,0,.4);border-radius:20px;pointer-events:none;z-index:2}
+.card-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5);transition:background .25s,transform .25s}
+.card-dots span.active{background:#fff;transform:scale(1.3)}
+.card-nav{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;background:rgba(255,255,255,.92);border:none;border-radius:50%;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:#1A1A1A;opacity:0;transition:opacity .2s;z-index:2}
+.restaurant-card:hover .card-nav{display:flex;opacity:1}
+.card-nav.prev{left:8px}
+.card-nav.next{right:8px}
+.card-nav:hover{background:#fff}
+.card-photo{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.restaurant-card:hover .card-photo{transform:scale(1.04)}
+.card-photo-placeholder{width:100%;height:300px;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3}
+
+.card-body{padding:20px 22px 18px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
+.card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;margin-top:2px}
+.badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.bm2,.bm1,.bbib,.bgreen,.brec,.bhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+
+.card-meta-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.card-cuisine{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+.card-price{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:1px}
+
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink-lt);line-height:1.65;margin-bottom:12px}
+
+.card-contact{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.c-row{display:flex;align-items:flex-start;gap:8px}
+.c-icon{font-size:10px;color:var(--gold);min-width:16px;flex-shrink:0;margin-top:1px}
+.c-addr{font-size:10px;color:var(--ink-lt);cursor:pointer;line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-addr:hover{color:var(--gold)}
+.c-phone{font-size:10px;color:var(--ink-lt);line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-phone:hover{color:var(--gold)}
+.card-note{font-size:9px;color:var(--gold);font-style:italic;margin-top:8px}
+
+/* MAP MODAL */
+.map-modal{display:none;position:fixed;inset:0;z-index:1000;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.45)}
+.map-modal.open{display:flex}
+.map-sheet{background:var(--white);border-radius:16px 16px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(0,0,0,.18)}
+.map-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);margin-bottom:4px}
+.map-addr-txt{font-size:10px;color:var(--ink-lt);margin-bottom:22px;line-height:1.5}
+.map-options{display:flex;flex-direction:column;gap:10px}
+.map-btn{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);cursor:pointer;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:500;color:var(--ink);transition:background .15s}
+.map-btn:hover{background:var(--gold-bg)}
+.map-btn-icon{font-size:24px;width:32px;text-align:center;flex-shrink:0}
+.map-btn-sub{font-size:9px;color:var(--ink-xs);font-weight:400;display:block;margin-top:2px}
+.map-cancel{margin-top:16px;width:100%;padding:12px;border:none;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer}
+
+footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
+footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
+footer a{color:var(--gold);text-decoration:none}
+.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
+.curator-badge{display:inline-flex;align-items:center;gap:3px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:var(--gold-bg);padding:3px 8px;border-radius:10px;font-weight:600;border:1px solid var(--gold-lt)}
+.curator-badge.shared{background:linear-gradient(90deg,var(--gold-bg) 0%,#FBE6BD 100%);color:#7d5500}
+.bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
+
+.gallery-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:20px}
+.gallery-modal.open{display:flex}
+.gallery-img{max-width:95vw;max-height:90vh;object-fit:contain;border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+.gallery-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s}
+.gallery-close:hover{background:rgba(255,255,255,.3)}
+.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:52px;height:52px;border-radius:50%;font-size:24px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s}
+.gallery-arrow:hover{background:rgba(255,255,255,.3)}
+.gallery-arrow.prev{left:24px}
+.gallery-arrow.next{right:24px}
+.gallery-counter{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:#fff;font-size:13px;letter-spacing:2px;background:rgba(0,0,0,.5);padding:8px 16px;border-radius:20px;backdrop-filter:blur(8px)}
+.card-photo-wrap{position:relative;cursor:pointer}
+.photo-count-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.65);color:#fff;font-size:10px;letter-spacing:1px;padding:5px 10px;border-radius:14px;font-weight:600;backdrop-filter:blur(8px);display:flex;align-items:center;gap:4px}
+
+.card-photo-wrap{position:relative;cursor:pointer}
+.photo-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);color:#1A1A1A;border:none;width:32px;height:32px;border-radius:50%;font-size:18px;font-weight:600;cursor:pointer;opacity:0;transition:opacity .25s,background .15s;backdrop-filter:blur(4px);box-shadow:0 2px 8px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+.card-photo-wrap:hover .photo-nav{opacity:1}
+.photo-nav:hover{background:#fff}
+.photo-nav.prev{left:8px}
+.photo-nav.next{right:8px}
+.photo-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2;opacity:0;transition:opacity .25s}
+.card-photo-wrap:hover .photo-dots{opacity:1}
+.photo-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.photo-dot.active{background:#fff;width:18px;border-radius:3px}
+.photo-count-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;letter-spacing:1px;padding:4px 8px;border-radius:12px;font-weight:600;backdrop-filter:blur(4px);z-index:2;display:flex;align-items:center;gap:3px}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="back-link">← Todos os Países</a>
+  <span class="nav-sep">·</span>
+  <span class="nav-current">Portugal</span>
+</nav>
+
+<header>
+  <div class="brand-mast">LULI DIAS  ·  RESTAURANTS &amp; HOTELS</div>
+  <div class="brand-country">Portugal</div>
+  <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+  <div class="header-meta-row">
+    <span class="header-meta">Lisboa · Porto · Alentejo · Algarve · Douro · Madeira</span>
+    <span class="header-edition">Abril 2026</span>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">82</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">25</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">23</div><div class="stat-lbl">Hotéis</div></div>
+  <div class="stat"><div class="stat-num">4 ★</div><div class="stat-lbl">Michelin</div></div>
+</div>
+
+<div class="michelin-legend">
+  <span class="lbadge lm2">★★ 2 Estrelas</span>
+  <span class="lbadge lm1">★ 1 Estrela</span>
+  <span class="lbadge lbib">Bib Gourmand</span>
+  <span class="lbadge lgreen">Estrela Verde</span>
+  <span class="lbadge lrec">Michelin</span>
+  <span class="lbadge lhotel">Hospedagem</span>
+</div>
+
+<div class="view-toggle">
+  <span class="view-toggle-lbl">Vista:</span>
+  <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
+  <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
+</div>
+<div class="type-bar">
+  <span class="type-lbl">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
+</div>
+<div class="filters" id="filters"></div>
+<div class="cuisine-bar" id="cuisineBar"></div>
+
+<div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
+  <div class="map-sheet">
+    <div class="map-title" id="mapName"></div>
+    <div class="map-addr-txt" id="mapAddr"></div>
+    <div class="map-options">
+      <a class="map-btn" id="btnWaze" href="#" target="_blank">
+        <span class="map-btn-icon">🗺</span><div><strong>Waze</strong><span class="map-btn-sub">Navegar com Waze</span></div>
+      </a>
+      <a class="map-btn" id="btnGoogle" href="#" target="_blank">
+        <span class="map-btn-icon">📍</span><div><strong>Google Maps</strong><span class="map-btn-sub">Abrir no Google Maps</span></div>
+      </a>
+      <a class="map-btn" id="btnApple" href="#" target="_blank">
+        <span class="map-btn-icon">🍎</span><div><strong>Apple Maps</strong><span class="map-btn-sub">Abrir no Apple Maps</span></div>
+      </a>
+    </div>
+    <button class="map-cancel" onclick="closeMap()">Cancelar</button>
+  </div>
+</div>
+
+<main id="main"></main>
+<div id="map" style="display:none"></div>
+<footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+function openMap(name,addr){
+  const q=encodeURIComponent(name+' '+addr);
+  document.getElementById('mapName').textContent=name;
+  document.getElementById('mapAddr').textContent=addr;
+  document.getElementById('btnWaze').href='https://waze.com/ul?q='+q+'&navigate=yes';
+  document.getElementById('btnGoogle').href='https://www.google.com/maps/search/?api=1&query='+q;
+  document.getElementById('btnApple').href='https://maps.apple.com/?q='+q;
+  document.getElementById('mapModal').classList.add('open');
+}
+function closeMap(){document.getElementById('mapModal').classList.remove('open');}
+
+// m: michelin badge, h: tem hospedagem, pr: preço 1-4
+const FOLDER='portugal';
+const PHOTOS={"o-gaveto":6,"marisqueira-matosinhos":4,"o-talho-de-kiko-martins":3,"pigmeu":3,"jncquoi-avenida":2,"pinoquio":1,"pedro-dos-leitoes":1,"quinta-do-crasto":1};
 const CITIES=[
   {city:'Lisboa',region:'Extremadura',entries:[
     {n:'A Casa do Bacalhau',q:'Bacalhau',a:'R. do Grilo 54, Lisboa',p:'+351 21 882 0890',pr:2,d:'Fundado para celebrar o bacalhau em todas as suas formas, apresenta mais de cem receitas do "fiel amigo". Destaque para o bacalhau à Brás, à lagareiro e à minhota, numa zona que se tornou o novo polo criativo de Lisboa.'},
@@ -24,6 +295,7 @@ const CITIES=[
     {n:'Sea Me',q:'Peixe & Mariscos',a:'R. do Loreto 21, Lisboa',p:'+351 21 346 1564',pr:2,d:'Peixaria moderna no coração do Chiado com produto ultra-fresco e carta criativa que mistura influências asiáticas com a tradição atlântica. Sashimi de peixe português e ceviches.'},
     {n:'Solar dos Nunes',q:'Portuguesa Tradicional',a:'R. dos Lusíadas 68, Lisboa',p:'+351 21 364 7359',pr:2,m:'rec',d:'Recomendado pelo Guia Michelin. Templo da cozinha alentejana em Lisboa, gerido pela família Nunes há décadas. Bacalhau à alentejana, carne de porco com amêijoas e caçadores são pontos altos.'},
     {n:'Taberna Albricoque',q:'Portuguesa',a:'R. do Grilo 98, Lisboa',p:'+351 21 882 0890',pr:2,d:'Taberna moderna na zona criativa de Marvila. Cozinha portuguesa de produto, carta de vinhos naturais e ambiente descontraído. Uma das casas mais interessantes da nova cena gastronómica de Lisboa.'},
+  ,
     {t:"h",n:"Epic Sana Lisboa",q:"Hotel · Design 5★",a:"Av. Eng. Duarte Pacheco, 15, 1070-100 Lisboa",p:"+351 21 159 7300",pr:3,s:5,d:"Hotel design cinco-estrelas no Marquês de Pombal, com 311 quartos contemporâneos. Spa Sayanna, piscina rooftop com vista panorâmica de Lisboa, restaurante Seen by Olivier (Av. Olivier da Costa) e Switch Music & Lounge. Localização privilegiada para negócios e shopping na Av. da Liberdade."},
     {t:"h",n:"Myriad by SANA Hotels",q:"Hotel · Vista Tejo 5★",a:"Cais das Naus, Lote 2.21.01, 1990-173 Lisboa",p:"+351 21 110 7600",pr:4,s:5,d:"Hotel cinco-estrelas no Parque das Nações com vista directa para o rio Tejo e a Ponte Vasco da Gama. 186 quartos com janelas panorâmicas. Restaurante River Lounge (cozinha contemporânea), spa, piscina interior. Arquitectura contemporânea integrada com a Torre Vasco da Gama."},
     {t:"h",n:"Pestana Palace Lisboa",q:"Hotel · Palacete Histórico 5★",a:"R. Jau, 54, 1300-314 Lisboa",p:"+351 21 361 5600",pr:4,k:2,s:5,d:"Antigo Palácio Vale-Flor (séc. XIX), monumento nacional restaurado com salões originais, jardins luxuriantes de 6 hectares e azulejaria portuguesa em Alcântara. 194 quartos espalhados entre o palácio e dois pavilhões modernos. Restaurante Valle Flor (cozinha portuguesa), spa, piscinas. Membro Leading Hotels of the World."},
@@ -37,11 +309,13 @@ const CITIES=[
     {n:'O Faroleiro',q:'Peixe & Mariscos',a:'R. da Aldeia 3, Cascais',p:'+351 21 483 0273',pr:2,d:'Clássico de Cascais com décadas de história. Produto fresco do dia, linguado, robalo e marisco servidos com a simplicidade da cozinha de praia e vista para o mar.'},
     {n:'Porto Santa Maria',q:'Peixe & Mariscos',a:'Estrada do Guincho, Cascais',p:'+351 21 487 0240',pr:3,d:'Na estrada do Guincho, com vista para o Atlântico. Robalo, linguado e mariscos com a qualidade de quem trabalha com os melhores fornecedores da costa de Cascais.'},
     {n:'Yakuza by Olivier',q:'Japonesa Fusion',a:'Fortaleza do Guincho, Cascais',p:'+351 21 487 0491',pr:3,d:'O chef Olivier Azan instalou a sua japonesa fusion na deslumbrante Fortaleza do Guincho. Sushi, sashimi e pratos de influência asiática num cenário único com vista panorâmica para o Atlântico.'},
+  ,
     {t:"h",n:"Sheraton Cascais Resort",q:"Hotel · Resort Praia 5★",a:"Estrada da Malveira da Serra, 2750-834 Cascais",p:"+351 21 487 7000",pr:4,s:5,d:"Resort cinco-estrelas em Cascais com vista para o Atlântico e proximidade ao Guincho. 152 quartos elegantes em pavilhões e villas. Restaurante Kitchen, spa, três piscinas exteriores, ginásio, kids club. Localização privilegiada no Parque Natural Sintra-Cascais."}
   ]},
   {city:'Albernoa · Alentejo',region:'Alentejo',entries:[
     {n:'Herdade da Malhadinha Nova',q:'Alentejana Contemporânea',a:'Herdade da Malhadinha Nova, Albernoa, Beja',p:'+351 284 965 210',pr:3,m:'green',h:true,note:'🌿 Estrela Verde Michelin',d:'Estrela Verde Michelin pela sustentabilidade exemplar. O chef Joachim Koerper assina cozinha alentejana contemporânea com produtos da própria herdade. Vista sobre as vinhas do Baixo Alentejo. Com alojamento de charme.'},
     {n:'Herdade dos Grous',q:'Alentejana',a:'Herdade dos Grous, Albernoa, Beja',p:'+351 284 960 000',pr:3,h:true,d:'Herdade vitivinícola de prestígio com restaurante que celebra os sabores do Alentejo. Pratos com produtos da própria herdade harmonizados com os vinhos da casa. Com alojamento rural de excelência.'},
+  ,
     {t:"h",n:"Herdade da Malhadinha Nova",q:"Resort · Vinícola 5★",a:"Herdade da Malhadinha Nova, Albernoa, 7800-601 Beja",p:"+351 284 965 432",pr:4,k:1,s:5,d:"Country house de luxo numa herdade vinícola de 450 hectares no coração do Alentejo. 25 quartos exclusivos, suítes e villas com vinhas. Restaurante (1 Estrela Michelin, Chef Joachim Koerper), provas de vinho da casa, spa, equestrian, piscina. Membro Relais & Châteaux. O endereço definitivo de enoturismo de luxo em Portugal."},
     {t:"h",n:"Herdade dos Grous",q:"Resort · Vinícola 4★",a:"Herdade dos Grous, Albernoa, 7800-601 Beja",p:"+351 284 960 000",pr:3,s:4,d:"Herdade de 700 hectares com vinhas, olivais e gado em Albernoa. 24 suítes e villas em estilo alentejano contemporâneo. Restaurante de cozinha alentejana de produto, provas dos vinhos da casa (Herdade dos Grous reservas), passeios pela herdade, piscina. Um dos melhores wine resorts do Alentejo."}
   ]},
@@ -50,6 +324,7 @@ const CITIES=[
     {n:'Luar de Janeiro',q:'Portuguesa',a:'Trav. de Janeiro 2, Évora',p:'+351 266 706 105',pr:1,d:'Um dos restaurantes mais queridos de Évora com pratos alentejanos genuínos — açorda, carne de porco à alentejana e migas — servidos com generosidade. Ambiente acolhedor e preços honestos.'},
     {n:'Pipa Roza',q:'Portuguesa',a:'R. da República 1, Évora',p:'+351 266 745 190',pr:1,d:'Restaurante de cozinha portuguesa tradicional em Évora, com pratos do dia caseiros e ambiente informal no centro histórico da cidade.'},
     {n:'Tasquinha do Oliveira',q:'Portuguesa Tradicional',a:'R. Cândido dos Reis 45, Évora',p:'+351 266 744 841',pr:1,d:'Uma das melhores tascas de Évora, gerida com paixão pela família Oliveira. Cozinha alentejana caseira: migas, sopa de cação, ensopado de borrego e pratos do dia que variam com a estação.'},
+  ,
     {t:"h",n:"Convento do Espinheiro",q:"Hotel · Convento Histórico 5★",a:"Quinta do Espinheiro, Canaviais, 7000-208 Évora",p:"+351 266 788 200",pr:4,k:1,s:5,d:"Antigo convento dominicano do séc. XV transformado em hotel cinco-estrelas, a 8km de Évora. 92 quartos divididos entre as celas restauradas e ala moderna. Restaurante Divinus (cozinha alentejana contemporânea), spa Espinheiro, igreja do convento original, claustro, jardins. Marriott Autograph Collection."},
     {t:"h",n:"M'AR De AR Aqueduto Hotel",q:"Hotel · Histórico 5★",a:"R. Cândido dos Reis, 72, 7000-582 Évora",p:"+351 266 740 700",pr:3,k:1,s:5,d:"Hotel histórico cinco-estrelas no coração de Évora, junto ao Aqueduto da Água da Prata e a poucos metros do Templo Romano. Edifício antigo restaurado com 64 quartos contemporâneos. Restaurante Degust'AR, spa, piscina exterior nos jardins, vista para o aqueduto. Localização privilegiada para descobrir a Évora histórica."}
   ]},
@@ -65,6 +340,7 @@ const CITIES=[
     {n:'Ocean',q:'Europeia Criativa',a:'Vila Vita Parc, Porches',p:'+351 282 310 100',pr:4,m:'m2',h:true,note:'2 Estrelas Michelin · Chef Hans Neuner',d:'Duas Estrelas Michelin no interior do luxuoso Vila Vita Parc. O chef austríaco Hans Neuner cria menus de degustação inspirados no mar e nos produtos algarvios. Uma das experiências gastronómicas mais memoráveis de Portugal.'},
     {n:'Salgados',q:'Peixe & Mariscos',a:'Praia dos Salgados, Albufeira',p:'+351 289 560 300',pr:2,d:'Entre Albufeira e Armação de Pêra, produto fresco do dia num ambiente descontraído de praia algarvia. Cataplana de marisco, percebes e peixe na brasa.'},
     {n:'Vila Joya',q:'Europeia de Autor',a:'Estrada da Galé, Albufeira',p:'+351 289 591 795',pr:4,m:'m2',h:true,note:'2 Estrelas Michelin · Chef Dieter Koschina',d:'O restaurante português com duas Estrelas Michelin há mais anos. O chef austríaco Dieter Koschina, na cozinha desde 1991, criou alta cozinha europeia numa villa exclusiva com jardins voltados para o Atlântico.'},
+  ,
     {t:"h",n:"Vila Vita Parc Resort & Spa",q:"Resort · Ultra-luxo 5★",a:"Rua Anneliese Pohl, Alporchinhos, 8400-450 Porches",p:"+351 282 310 100",pr:4,k:2,s:5,d:"O resort mais aclamado do Algarve, em Porches. 22 hectares à beira-mar com 12 villas privativas e 174 quartos. Quatro restaurantes — Ocean (2 Estrelas Michelin, Chef Hans Neuner), Aladin Grill, Adega and Beach Restaurant. Spa Sisley, vinha própria, três piscinas. Membro Leading Hotels of the World."},
     {t:"h",n:"Vila Joya",q:"Resort · Boutique 5★",a:"Estrada da Galé, 8200-416 Guia, Albufeira",p:"+351 289 591 795",pr:4,k:2,s:5,d:"Boutique resort cinco-estrelas em frente à Praia da Galé, em Albufeira. 28 quartos exclusivos com vista mar. Restaurante Vila Joya (2 Estrelas Michelin, Chef Dieter Koschina) — o restaurante mais premiado de Portugal há décadas. Spa, jardim botânico, atmosfera íntima. Membro Relais & Châteaux."}
   ]},
@@ -76,6 +352,7 @@ const CITIES=[
   ]},
   {city:'Alcobaça',region:'Centro',entries:[
     {n:'António Padeiro',q:'Portuguesa',a:'R. de Alcobaça 1, Alcobaça',p:'+351 262 598 160',pr:1,d:'Restaurante de cozinha portuguesa regional em Alcobaça, próximo do imponente Mosteiro Cisterciense. Especialidade em pão artesanal e pratos da tradição conventual da região.'},
+  ,
     {t:"h",n:"Hotel Monte Belo Alcobaça",q:"Hotel · Boutique 4★",a:"Vale d'Areia, Alcobaça",p:"+351 262 588 230",pr:2,s:4,d:"Hotel boutique em Alcobaça, próximo ao Mosteiro de Alcobaça (Património UNESCO). Quartos confortáveis, restaurante de cozinha portuguesa tradicional, piscina e jardins. Boa relação qualidade-preço para visitar a região do Mosteiro, Batalha, Nazaré e Óbidos."}
   ]},
   {city:'Mealhada',region:'Centro',entries:[
@@ -101,6 +378,7 @@ const CITIES=[
   {city:'Aveiro',region:'Centro',entries:[
     {n:'Dory',q:'Peixe & Mariscos',a:'R. José Estevão 182, Costa Nova do Prado, Aveiro',p:'+351 234 369 490',pr:2,d:'Na pitoresca Costa Nova, com as suas casas às riscas, serve peixe e marisco da ria de Aveiro. Enguias fritas, linguado grelhado e robalo com produto local de excelência.'},
     {n:'Praia do Tubarão',q:'Peixe & Mariscos',a:'Av. José Estevão, Costa Nova do Prado, Aveiro',p:'+351 234 369 130',pr:2,d:'Clássico da Costa Nova para peixe grelhado e marisco da ria de Aveiro num ambiente descontraído de praia.'},
+  ,
     {t:"h",n:"Montebelo Vista Alegre Ílhavo",q:"Hotel · Histórico 5★",a:"R. da Fábrica, 4, 3830-292 Vista Alegre, Ílhavo",p:"+351 234 320 600",pr:3,s:5,d:"Hotel cinco-estrelas instalado no Palácio Vista Alegre (séc. XIX), no histórico complexo da Fábrica de Porcelanas Vista Alegre — perto de Aveiro. 82 quartos elegantes, restaurante Mont'es (cozinha portuguesa), spa, piscina interior. Capela do Senhor da Boa Morte, museu da porcelana e jardins históricos no complexo."}
   ]},
   {city:'Setúbal',region:'Extremadura',entries:[
@@ -121,6 +399,7 @@ const CITIES=[
     {n:'DOC',q:'Portuguesa Contemporânea',a:'Estrada Nacional 222, Folgosa, Armamar',p:'+351 254 858 123',pr:3,m:'rec',note:'Chef Rui Paula',d:'Recomendado pelo Guia Michelin. O chef Rui Paula criou nesta sala de vidro suspensa sobre o Douro um dos restaurantes com melhor vista de Portugal. Cozinha portuguesa contemporânea com produtos durienses de excelência.'},
     {n:'Quinta do Crasto',q:'Portuguesa · Enoturismo',a:'Gouvinhas, Sabrosa',p:'+351 254 920 020',pr:3,h:true,d:'Na margem direita do Douro entre a Régua e o Pinhão, propriedade da família Roquette há mais de um século. Almoço harmonizado com os vinhos da quinta, seguido de visita guiada. Uma das experiências de enoturismo mais completas do Douro.'},
     {n:'Quinta do Ventozelo',q:'Portuguesa',a:'Ervedosa do Douro, São João da Pesqueira',p:'+351 254 881 300',pr:2,d:'Restaurante integrado numa das quintas históricas mais bem preservadas do Douro. Cozinha regional com produtos da quinta e harmonização com os vinhos do Douro. Destino de enoturismo de grande qualidade.'},
+  ,
     {t:"h",n:"Six Senses Douro Valley",q:"Resort · Vinícola Ultra-luxo 5★",a:"Quinta do Vale Abraão, 5100-758 Samodães, Lamego",p:"+351 254 660 600",pr:4,k:2,s:5,d:"Resort wellness cinco-estrelas instalado numa quinta do séc. XIX no Douro Vinhateiro — Património da UNESCO. 60 quartos e suítes em meio às vinhas, com vista para o rio Douro. Restaurante Vale de Abraão (cozinha portuguesa contemporânea), Wine Library com 1.500 referências, spa Six Senses, piscina infinita com vista. Membro Six Senses."}
   ]},
   {city:'Pocinho',region:'Douro',entries:[
@@ -142,6 +421,7 @@ const CITIES=[
     {n:'Os Lusíadas',q:'Peixe & Mariscos',a:'R. de Sá da Bandeira 171, Porto',p:'+351 222 003 803',pr:2,d:'Referência no Porto para marisco e peixe fresco com preço justo e ambiente descontraído no centro da cidade. Sapateira, percebes, lingueirão e gambas de qualidade.'},
     {n:'Rogério do Redondo',q:'Portuguesa',a:'R. do Redondo 14, Porto',p:'+351 222 054 730',pr:1,d:'Tasca portuense com ambiente típico e cozinha portuguesa caseira. Pratos do dia generosos, bacalhau e tripas servidos sem cerimónia a uma clientela fiel de décadas.'},
     {n:'Vogue Café',q:'Vinhos & Queijos',a:'R. Galeria de Paris 55, Porto',p:'+351 222 010 736',pr:2,d:'Na animada Rua Galeria de Paris, no bairro das artes do Porto. Vinhos portugueses a copo com queijos e enchidos de produção artesanal num ambiente descontraído e sofisticado.'},
+  ,
     {t:"h",n:"InterContinental Porto - Palácio das Cardosas",q:"Hotel · Histórico 5★",a:"Praça da Liberdade, 25, 4000-322 Porto",p:"+351 220 035 600",pr:4,s:5,d:"Antigo Palácio dos Cardosos do séc. XVIII na Praça da Liberdade, monumento nacional restaurado. 105 quartos elegantes, restaurante Astoria (cozinha portuguesa contemporânea), bar Cardosas e localização privilegiada no coração do Porto, junto à Avenida dos Aliados."},
     {t:"h",n:"The Yeatman Hotel",q:"Hotel · Vinícola 5★",a:"R. do Choupelo, 88, 4400-088 Vila Nova de Gaia",p:"+351 220 133 100",pr:4,k:2,s:5,d:"Hotel-vinícola cinco-estrelas em Vila Nova de Gaia com vista panorâmica sobre o Porto e o rio Douro. 109 quartos, cada decorado por uma quinta vinícola portuguesa. Restaurante The Yeatman (2 Estrelas Michelin, Chef Ricardo Costa), Dick's Bar, spa Caudalie Vinothérapie. A maior carta de vinhos portugueses do mundo. Membro Relais & Châteaux."},
     {t:"h",n:"Pestana Vintage Porto",q:"Hotel · Histórico Ribeira 5★",a:"Praça da Ribeira, 1, 4050-513 Porto",p:"+351 223 402 300",pr:3,k:1,s:5,d:"Hotel cinco-estrelas instalado em 16 edifícios históricos restaurados na Praça da Ribeira, à beira do rio Douro — Património da UNESCO. 109 quartos com vista para o rio. Restaurante Rib Beef & Wine (Chef Vasco Coelho Santos), terraços, vista directa para a Ponte D. Luís I."},
