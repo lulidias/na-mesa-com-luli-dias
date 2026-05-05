@@ -337,7 +337,7 @@ function render(){
       
       const f=folder||FOLDER;
       const sec=document.createElement('div');sec.className='city-sec';
-      sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block"><div class="city-count-num">${entries.length}</div><div class="city-count-lbl">${city.includes('Mercado')||city.includes('Street')?'lugar'+(entries.length!==1?'es':''):'restaurante'+(entries.length!==1?'s':'')}</div></div></div><div class="restaurants-grid"></div>`;
+      sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div>${(()=>{const r=entries.filter(e=>e.t!=='h').length,h=entries.filter(e=>e.t==='h').length;const isMarket=city.includes('Mercado')||city.includes('Street');const restLbl=isMarket?'lugar'+(r!==1?'es':''):'restaurante'+(r!==1?'s':'');const parts=[];if(r>0)parts.push(`<div class="city-count-block"><div class="city-count-num">${r}</div><div class="city-count-lbl">${restLbl}</div></div>`);if(h>0)parts.push(`<div class="city-count-block"><div class="city-count-num">${h}</div><div class="city-count-lbl">${h!==1?'hotéis':'hotel'}</div></div>`);return `<div style="display:flex;gap:24px;align-items:flex-end">${parts.join('')}</div>`;})()}</div><div class="restaurants-grid"></div>`;
       main.appendChild(sec);
       const grid=sec.querySelector('.restaurants-grid');
       entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
