@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · Luli Dias</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-dk:#8B6914;--gold-bg:#FAF5EB;--border:#E8E0D5;
+  --bronze:#A85020;--bronze-dk:#7A3F1B;--bronze-lt:#C97C4A;--bronze-bg:#FFF7EE;
+  --green:#2E7D5C;--red:#B84A4A;
+}
+html,body{height:100%;font-family:'Montserrat',sans-serif}
+body{background:var(--cream);color:var(--ink);min-height:100vh}
+
+/* ============ LOGIN ============ */
+#login-overlay{position:fixed;inset:0;background:var(--cream);z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;padding:24px}
+#login-overlay.show{display:flex}
+.login-logo{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:48px;font-style:italic;color:var(--ink);margin-bottom:8px}
+.login-sub{font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);margin-bottom:48px}
+.login-prompt{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink-lt);margin-bottom:24px;font-style:italic}
+.login-buttons{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.login-btn{padding:18px 36px;border:1px solid var(--gold-lt);background:var(--white);font-family:'Montserrat',sans-serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;font-weight:600;border-radius:30px;cursor:pointer;transition:all .2s;color:var(--ink)}
+.login-btn:hover{background:var(--gold-bg);border-color:var(--gold);transform:translateY(-2px)}
+.login-btn.tito{border-color:var(--bronze-lt)}
+.login-btn.tito:hover{background:var(--bronze-bg);border-color:var(--bronze)}
+
+/* ============ HEADER ============ */
+header{background:var(--white);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:100}
+.brand{display:flex;align-items:baseline;gap:14px}
+.brand-name{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:22px;color:var(--ink);font-style:italic}
+.brand-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:600}
+.user-chip{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;padding:6px 14px;border-radius:18px}
+.user-chip.luli{color:var(--gold-dk);background:var(--gold-bg);border:1px solid var(--gold-lt)}
+.user-chip.tito{color:var(--bronze-dk);background:var(--bronze-bg);border:1px solid var(--bronze-lt)}
+.user-chip-avatar{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#fff}
+.user-chip.luli .user-chip-avatar{background:var(--gold)}
+.user-chip.tito .user-chip-avatar{background:var(--bronze)}
+.logout-btn{font-size:10px;color:var(--ink-xs);text-decoration:none;padding:6px 12px;cursor:pointer;background:none;border:none}
+.logout-btn:hover{color:var(--gold)}
+.back-link{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600}
+.back-link:hover{text-decoration:underline}
+
+/* ============ MAIN LAYOUT ============ */
+main{max-width:980px;margin:0 auto;padding:32px}
+
+/* ============ TABS ============ */
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:32px}
+.tab{padding:14px 28px;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:600;color:var(--ink-lt);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;background:none;border-left:none;border-right:none;border-top:none;font-family:inherit}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab:hover{color:var(--gold)}
+
+/* ============ FORM ============ */
+.section{display:none}
+.section.active{display:block}
+
+.form-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:32px;margin-bottom:24px}
+.form-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--ink);margin-bottom:6px}
+.form-sub{font-size:12px;color:var(--ink-lt);margin-bottom:24px;font-family:'Cormorant Garamond',serif;font-style:italic}
+
+.field{margin-bottom:18px}
+.field label{display:block;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);font-weight:600;margin-bottom:8px}
+.field label .required{color:var(--red)}
+.field label .auto-tag{font-size:8px;color:var(--gold);font-weight:500;margin-left:8px;text-transform:none;letter-spacing:1px}
+.field input,.field textarea,.field select{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;color:var(--ink);background:var(--cream);transition:border .2s}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--gold);background:var(--white)}
+.field textarea{resize:vertical;min-height:80px;font-family:'Cormorant Garamond',serif;font-size:15px;line-height:1.5}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field-row.three{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:640px){.field-row,.field-row.three{grid-template-columns:1fr}}
+
+/* ============ TOGGLE BUTTONS ============ */
+.toggle-group{display:flex;gap:8px;flex-wrap:wrap}
+.toggle-btn{padding:11px 20px;border:1px solid var(--border);background:var(--white);border-radius:24px;font-family:inherit;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:500;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.toggle-btn:hover{border-color:var(--gold);color:var(--gold)}
+.toggle-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.toggle-btn.bronze.active{background:var(--bronze);border-color:var(--bronze)}
+.toggle-btn.shared.active{background:linear-gradient(90deg,var(--gold) 0%,var(--bronze) 100%);border-color:var(--bronze)}
+
+/* ============ AUTO-COMPLETE BUTTON ============ */
+.magic-btn{display:flex;align-items:center;gap:10px;padding:14px 20px;background:linear-gradient(135deg,#FAF5EB 0%,#F7E8C9 100%);border:1px solid var(--gold-lt);border-radius:10px;cursor:pointer;width:100%;font-family:inherit;color:var(--gold-dk);font-weight:600;font-size:13px;transition:all .25s;margin-bottom:18px}
+.magic-btn:hover:not(:disabled){background:linear-gradient(135deg,#F7E8C9 0%,#F0DCA8 100%);transform:translateY(-1px);box-shadow:0 4px 12px rgba(184,146,42,.2)}
+.magic-btn:disabled{opacity:.5;cursor:not-allowed}
+.magic-btn .ic{font-size:20px}
+.magic-btn .lbl{flex:1;text-align:left}
+.magic-btn .sub{font-size:10px;color:var(--ink-lt);font-weight:400;margin-top:2px;text-transform:none;letter-spacing:0}
+.magic-btn.loading{background:var(--gold-bg);cursor:wait}
+.magic-spin{display:inline-block;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============ DROP ZONE ============ */
+.drop-zone{border:2px dashed var(--border);border-radius:12px;padding:32px;text-align:center;background:var(--cream);transition:all .25s;cursor:pointer}
+.drop-zone:hover,.drop-zone.dragover{border-color:var(--gold);background:var(--gold-bg)}
+.drop-zone-icon{font-size:36px;margin-bottom:12px;opacity:.5}
+.drop-zone-text{font-size:12px;color:var(--ink-lt);letter-spacing:1px}
+.drop-zone-sub{font-size:10px;color:var(--ink-xs);margin-top:6px}
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:16px}
+.preview-item{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;background:var(--border)}
+.preview-item img{width:100%;height:100%;object-fit:cover}
+.preview-remove{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.7);color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:14px;line-height:1}
+.preview-remove:hover{background:var(--red)}
+.preview-name{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));color:#fff;font-size:9px;padding:14px 8px 6px;letter-spacing:.5px}
+
+/* ============ ACTION BUTTONS ============ */
+.actions{display:flex;gap:12px;margin-top:24px;justify-content:flex-end;align-items:center;flex-wrap:wrap}
+.btn{padding:14px 28px;border-radius:30px;font-family:inherit;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.btn-secondary{background:var(--white);color:var(--ink-lt);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.btn-primary{background:var(--gold);color:var(--white)}
+.btn-primary:hover{background:var(--gold-dk);transform:translateY(-1px);box-shadow:0 6px 16px rgba(184,146,42,.3)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-bronze{background:var(--bronze);color:var(--white)}
+.btn-bronze:hover{background:var(--bronze-dk)}
+.btn-danger{background:var(--red);color:var(--white)}
+
+/* ============ SEARCH ============ */
+.search-wrap{position:relative;margin-bottom:24px}
+.search-input{width:100%;padding:14px 18px 14px 44px;border:1px solid var(--border);border-radius:30px;font-family:inherit;font-size:14px;background:var(--white);transition:all .2s}
+.search-input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-bg)}
+.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--ink-xs)}
+.search-results{margin-top:18px}
+.result-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--white);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:all .2s}
+.result-item:hover{border-color:var(--gold);background:var(--gold-bg)}
+.result-flag{font-size:22px}
+.result-info{flex:1;min-width:0}
+.result-name{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);margin-bottom:2px}
+.result-meta{font-size:10px;color:var(--ink-lt);letter-spacing:1px}
+.result-curator{font-size:8px;font-weight:700;padding:4px 10px;border-radius:11px}
+.result-curator.luli{color:var(--gold-dk);background:var(--gold-bg);border:1px solid var(--gold-lt)}
+.result-curator.tito{color:var(--bronze-dk);background:var(--bronze-bg);border:1px solid var(--bronze-lt)}
+.result-curator.shared{color:#7d5500;background:linear-gradient(90deg,var(--gold-bg) 0%,var(--bronze-bg) 100%);border:1px solid var(--bronze-lt)}
+
+/* ============ STATUS / TOAST ============ */
+.status-bar{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:14px 24px;border-radius:28px;font-size:12px;letter-spacing:1px;display:none;align-items:center;gap:12px;z-index:1000;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.status-bar.show{display:flex}
+.status-bar.success{background:var(--green)}
+.status-bar.error{background:var(--red)}
+
+/* ============ BUNDLE / EXPORT ============ */
+.bundle-area{display:none;margin-top:24px}
+.bundle-area.show{display:block}
+.bundle-header{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);margin-bottom:12px}
+.bundle-instructions{background:var(--gold-bg);border-left:3px solid var(--gold);padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:16px;font-size:13px;line-height:1.6;color:var(--ink-lt)}
+.bundle-code{background:#1E1E1E;color:#E0E0E0;padding:18px;border-radius:8px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:1.5;overflow-x:auto;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow-y:auto}
+.bundle-btn{margin-top:10px}
+
+/* ============ INFO CARD ============ */
+.info-card{background:linear-gradient(135deg,#FAF5EB 0%,#FFFDF7 100%);border:1px solid var(--gold-lt);border-radius:12px;padding:18px;margin-bottom:24px;display:flex;align-items:flex-start;gap:14px}
+.info-icon{font-size:22px;flex-shrink:0}
+.info-text{flex:1;font-size:13px;line-height:1.5;color:var(--ink-lt);font-family:'Cormorant Garamond',serif;font-style:italic}
+.info-text strong{color:var(--gold-dk);font-weight:600;font-style:normal}
+
+/* Section heading */
+.sect-h{display:flex;align-items:center;gap:14px;margin:32px 0 14px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);font-weight:600}
+.sect-h::before,.sect-h::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Loading spinner */
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--gold-bg);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN OVERLAY ============ -->
+<div id="login-overlay">
+  <div class="login-logo">Luli Dias</div>
+  <div class="login-sub">Admin · Curador</div>
+  <div class="login-prompt">Quem está a entrar?</div>
+  <div class="login-buttons">
+    <button class="login-btn" onclick="login('luli')">✦ Sou a Luli</button>
+    <button class="login-btn tito" onclick="login('tito')">✦ Sou o Tito</button>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="brand">
+    <span class="brand-name">Luli Dias</span>
+    <span class="brand-tag">Admin · Curador</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <a href="../index.html" class="back-link">← Site</a>
+    <div id="user-display" class="user-chip"></div>
+    <button class="logout-btn" onclick="logout()">sair</button>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ TABS ============ -->
+<div class="tabs">
+  <button class="tab active" data-tab="new" onclick="switchTab('new')">＋ Novo</button>
+  <button class="tab" data-tab="edit" onclick="switchTab('edit')">✎ Editar Existente</button>
+  <button class="tab" data-tab="settings" onclick="switchTab('settings')">⚙ Configurações</button>
+</div>
+
+<!-- ============ NEW ENTRY ============ -->
+<section id="sect-new" class="section active">
+  <div class="info-card">
+    <div class="info-icon">✨</div>
+    <div class="info-text">
+      Adiciona um novo restaurante ou hotel ao guia. Preenche <strong>Nome + Cidade</strong> e clica <strong>Buscar info automaticamente</strong> — o resto é preenchido para ti. Tudo continua editável antes de publicar.
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div class="form-title">Novo Estabelecimento</div>
+    <div class="form-sub">O que está a entrar para o guia?</div>
+
+    <!-- Tipo -->
+    <div class="field">
+      <label>Tipo <span class="required">*</span></label>
+      <div class="toggle-group" id="type-group">
+        <button class="toggle-btn active" data-type="r" onclick="selectType('r')">🍽 Restaurante</button>
+        <button class="toggle-btn" data-type="h" onclick="selectType('h')">🛏 Hotel</button>
+      </div>
+    </div>
+
+    <!-- Curador -->
+    <div class="field">
+      <label>Curador <span class="auto-tag">auto-detectado pelo login, podes mudar</span></label>
+      <div class="toggle-group" id="curator-group">
+        <button class="toggle-btn active" data-curator="luli" onclick="selectCurator('luli')">Luli</button>
+        <button class="toggle-btn bronze" data-curator="tito" onclick="selectCurator('tito')">Tito</button>
+        <button class="toggle-btn shared" data-curator="shared" onclick="selectCurator('shared')">Luli &amp; Tito</button>
+      </div>
+    </div>
+
+    <!-- Nome + Cidade -->
+    <div class="field-row">
+      <div class="field">
+        <label>Nome do estabelecimento <span class="required">*</span></label>
+        <input type="text" id="f-name" placeholder="Ex: Garcia, Parador La Huella, Sofitel Santa Clara">
+      </div>
+      <div class="field">
+        <label>Cidade <span class="required">*</span></label>
+        <input type="text" id="f-city" placeholder="Ex: Carrasco, Punta del Este, Cartagena">
+      </div>
+    </div>
+
+    <!-- País -->
+    <div class="field">
+      <label>País <span class="required">*</span></label>
+      <select id="f-country">
+        <option value="">— escolhe o país —</option>
+      </select>
+    </div>
+
+    <!-- Auto-buscar info -->
+    <button class="magic-btn" id="enrich-btn" onclick="enrichEntry()">
+      <span class="ic">🪄</span>
+      <span class="lbl">
+        Buscar info automaticamente
+        <div class="sub">Endereço · Telefone · Web · Instagram · Michelin · GPS · Descrição</div>
+      </span>
+    </button>
+
+    <div class="sect-h">Detalhes — preenchidos automaticamente</div>
+
+    <div class="field">
+      <label>Cozinha / Categoria</label>
+      <input type="text" id="f-q" placeholder="Ex: Parrilla Uruguaia · Hotel 5★ Luxury Collection">
+    </div>
+
+    <div class="field">
+      <label>Endereço completo</label>
+      <input type="text" id="f-a" placeholder="Rua, número, bairro, cidade">
+    </div>
+
+    <div class="field-row three">
+      <div class="field">
+        <label>Telefone</label>
+        <input type="text" id="f-p" placeholder="+598 ...">
+      </div>
+      <div class="field">
+        <label>Website</label>
+        <input type="text" id="f-w" placeholder="exemplo.com">
+      </div>
+      <div class="field">
+        <label>Instagram</label>
+        <input type="text" id="f-ig" placeholder="@handle">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Email</label>
+        <input type="text" id="f-e" placeholder="reservas@...">
+      </div>
+      <div class="field">
+        <label>Faixa de preço</label>
+        <select id="f-pr">
+          <option value="">—</option>
+          <option value="1">$ Económico</option>
+          <option value="2">$$ Médio</option>
+          <option value="3">$$$ Caro</option>
+          <option value="4">$$$$ Luxo</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Distinção Michelin</label>
+        <select id="f-m">
+          <option value="">— nenhuma —</option>
+          <option value="m1">★ 1 Estrela</option>
+          <option value="m2">★★ 2 Estrelas</option>
+          <option value="m3">★★★ 3 Estrelas</option>
+          <option value="bib">Bib Gourmand</option>
+          <option value="green">Estrela Verde</option>
+          <option value="rec">Michelin Selected</option>
+        </select>
+      </div>
+      <div class="field" id="hotel-fields" style="display:none">
+        <label>Estrelas (hotel)</label>
+        <select id="f-s">
+          <option value="">—</option>
+          <option value="3">★★★</option>
+          <option value="4">★★★★</option>
+          <option value="5">★★★★★</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-row" id="hotel-keys-row" style="display:none">
+      <div class="field">
+        <label>Chaves Michelin (hotel)</label>
+        <select id="f-k">
+          <option value="">—</option>
+          <option value="1">🗝 1 Chave</option>
+          <option value="2">🗝🗝 2 Chaves</option>
+          <option value="3">🗝🗝🗝 3 Chaves</option>
+        </select>
+      </div>
+      <div class="field"></div>
+    </div>
+
+    <div class="field">
+      <label>Nota de destaque (opcional)</label>
+      <input type="text" id="f-note" placeholder="Ex: 1 Estrela Michelin · Latin America's 50 Best 2025 · Beach Club">
+    </div>
+
+    <div class="field">
+      <label>Descrição</label>
+      <textarea id="f-d" placeholder="2-4 frases sobre o estabelecimento..."></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Latitude</label>
+        <input type="text" id="f-lat" placeholder="-34.8894">
+      </div>
+      <div class="field">
+        <label>Longitude</label>
+        <input type="text" id="f-lng" placeholder="-56.0572">
+      </div>
+    </div>
+
+    <!-- FOTOS -->
+    <div class="sect-h">Fotos</div>
+    <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+      <div class="drop-zone-icon">📷</div>
+      <div class="drop-zone-text">Arrasta fotos aqui ou clica para escolher</div>
+      <div class="drop-zone-sub">Suporta JPEG, HEIC, PNG · primeiras 5-8 fotos</div>
+    </div>
+    <input type="file" id="file-input" accept="image/*,.heic,.HEIC" multiple style="display:none" onchange="handleFiles(event.target.files)">
+    <div class="preview-grid" id="preview-grid"></div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="resetForm()">Limpar</button>
+      <button class="btn btn-primary" id="publish-btn" onclick="publishEntry()">Publicar →</button>
+    </div>
+  </div>
+
+  <!-- BUNDLE OUTPUT (fallback sem backend) -->
+  <div class="bundle-area" id="bundle-area">
+    <div class="form-card">
+      <div class="bundle-header">📦 Pacote pronto para publicar</div>
+      <div class="bundle-instructions">
+        <strong>Backend ainda não configurado.</strong> Copia o JSON abaixo e envia para a Luli no chat com o Claude:
+      </div>
+      <pre class="bundle-code" id="bundle-code"></pre>
+      <button class="btn btn-primary bundle-btn" onclick="copyBundle()">📋 Copiar JSON</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDIT EXISTING ============ -->
+<section id="sect-edit" class="section">
+  <div class="info-card">
+    <div class="info-icon">🔍</div>
+    <div class="info-text">
+      Procura um restaurante ou hotel existente para <strong>editar</strong> — actualizar dados, mudar fotos, ou marcar que tu também foste lá (badge passa a <strong>Luli &amp; Tito</strong>).
+    </div>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="search-input" placeholder="Procura por nome, cidade, país..." oninput="searchEntries()">
+  </div>
+
+  <div class="search-results" id="search-results">
+    <div style="text-align:center;padding:48px 0;color:var(--ink-xs);font-size:13px;font-family:'Cormorant Garamond',serif;font-style:italic">A carregar guias...</div>
+  </div>
+</section>
+
+<!-- ============ SETTINGS ============ -->
+<section id="sect-settings" class="section">
+  <div class="form-card">
+    <div class="form-title">Configurações</div>
+    <div class="form-sub">Backend + integrações</div>
+
+    <div class="field">
+      <label>URL do Worker (Cloudflare)</label>
+      <input type="text" id="worker-url" placeholder="https://luli-admin.YOUR-USER.workers.dev">
+      <div style="font-size:10px;color:var(--ink-xs);margin-top:6px">Endpoint do Cloudflare Worker que processa o submit. Ver SETUP.md.</div>
+    </div>
+
+    <div class="field">
+      <label>Chave de acesso (compartilhada)</label>
+      <input type="password" id="worker-key" placeholder="••••••••">
+      <div style="font-size:10px;color:var(--ink-xs);margin-top:6px">A mesma chave configurada no Worker como secret <code>ADMIN_KEY</code>.</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="saveSettings()">Guardar</button>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div class="form-title" style="font-size:16px">Estado da migração</div>
+    <div id="migration-status" style="font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.6;color:var(--ink-lt)">A verificar...</div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ STATUS BAR ============ -->
+<div class="status-bar" id="status-bar"></div>
+
+<script>
+// ===================== STATE =====================
+const STATE = {
+  user: null,             // 'luli' | 'tito'
+  type: 'r',              // 'r' | 'h'
+  curator: 'luli',        // 'luli' | 'tito' | 'shared'
+  files: [],              // Array of File objects
+  allEntries: [],         // Index of all entries from all guides
+  allCountries: [],       // List of country files
+  workerUrl: '',
+  workerKey: '',
+};
+
+// ===================== AUTH =====================
+function login(user) {
+  STATE.user = user;
+  STATE.curator = user;
+  localStorage.setItem('admin_user', user);
+  document.getElementById('login-overlay').classList.remove('show');
+  updateUserChip();
+  selectCurator(user);
+}
+
+function logout() {
+  localStorage.removeItem('admin_user');
+  STATE.user = null;
+  document.getElementById('login-overlay').classList.add('show');
+}
+
+function updateUserChip() {
+  const chip = document.getElementById('user-display');
+  chip.className = 'user-chip ' + STATE.user;
+  chip.innerHTML = `<span class="user-chip-avatar">${STATE.user.charAt(0).toUpperCase()}</span> ${STATE.user.charAt(0).toUpperCase() + STATE.user.slice(1)}`;
+}
+
+// ===================== TABS =====================
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sect-' + tab).classList.add('active');
+  if (tab === 'edit') searchEntries();
+  if (tab === 'settings') updateMigrationStatus();
+}
+
+// ===================== TYPE / CURATOR =====================
+function selectType(t) {
+  STATE.type = t;
+  document.querySelectorAll('#type-group .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.type === t));
+  document.getElementById('hotel-fields').style.display = t === 'h' ? '' : 'none';
+  document.getElementById('hotel-keys-row').style.display = t === 'h' ? '' : 'none';
+}
+
+function selectCurator(c) {
+  STATE.curator = c;
+  document.querySelectorAll('#curator-group .toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.curator === c));
+}
+
+// ===================== FILE HANDLING =====================
+const dropZone = document.getElementById('drop-zone');
+['dragover','dragenter'].forEach(e => dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.add('dragover'); }));
+['dragleave','drop'].forEach(e => dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.remove('dragover'); }));
+dropZone.addEventListener('drop', ev => handleFiles(ev.dataTransfer.files));
+
+function handleFiles(files) {
+  for (const f of files) {
+    if (f.type.startsWith('image/') || /\.heic$/i.test(f.name)) {
+      STATE.files.push(f);
+    }
+  }
+  renderPreviews();
+}
+
+function renderPreviews() {
+  const grid = document.getElementById('preview-grid');
+  grid.innerHTML = '';
+  STATE.files.forEach((f, i) => {
+    const div = document.createElement('div');
+    div.className = 'preview-item';
+    const url = URL.createObjectURL(f);
+    div.innerHTML = `<img src="${url}" alt=""><button class="preview-remove" onclick="removeFile(${i})">×</button><div class="preview-name">foto ${i+1}</div>`;
+    grid.appendChild(div);
+  });
+}
+
+function removeFile(i) {
+  STATE.files.splice(i, 1);
+  renderPreviews();
+}
+
+// ===================== SLUG =====================
+function slugify(name) {
+  return name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
+// ===================== ENRICHMENT =====================
+async function enrichEntry() {
+  const name = document.getElementById('f-name').value.trim();
+  const city = document.getElementById('f-city').value.trim();
+  const country = document.getElementById('f-country').value;
+
+  if (!name || !city) {
+    showStatus('error', 'Preenche Nome + Cidade primeiro');
+    return;
+  }
+
+  const btn = document.getElementById('enrich-btn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+  const lbl = btn.querySelector('.lbl');
+  const orig = lbl.innerHTML;
+  lbl.innerHTML = '<span class="magic-spin">🪄</span> A buscar...';
+
+  try {
+    if (!STATE.workerUrl) {
+      showStatus('error', 'Backend não configurado. Vai a Configurações.');
+      throw new Error('no worker');
+    }
+    const res = await fetch(STATE.workerUrl + '/enrich', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','X-Admin-Key':STATE.workerKey},
+      body: JSON.stringify({ name, city, country, type: STATE.type })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    fillFormFromEnrichment(data);
+    showStatus('success', '✨ Dados preenchidos!');
+  } catch (err) {
+    if (err.message !== 'no worker') {
+      showStatus('error', 'Erro a buscar: ' + err.message);
+    }
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    lbl.innerHTML = orig;
+  }
+}
+
+function fillFormFromEnrichment(d) {
+  if (d.q) document.getElementById('f-q').value = d.q;
+  if (d.a) document.getElementById('f-a').value = d.a;
+  if (d.p) document.getElementById('f-p').value = d.p;
+  if (d.w) document.getElementById('f-w').value = d.w;
+  if (d.ig) document.getElementById('f-ig').value = d.ig;
+  if (d.e) document.getElementById('f-e').value = d.e;
+  if (d.pr) document.getElementById('f-pr').value = d.pr;
+  if (d.m) document.getElementById('f-m').value = d.m;
+  if (d.s) document.getElementById('f-s').value = d.s;
+  if (d.k) document.getElementById('f-k').value = d.k;
+  if (d.note) document.getElementById('f-note').value = d.note;
+  if (d.d) document.getElementById('f-d').value = d.d;
+  if (d.lat) document.getElementById('f-lat').value = d.lat;
+  if (d.lng) document.getElementById('f-lng').value = d.lng;
+}
+
+// ===================== BUILD ENTRY JSON =====================
+function buildEntry() {
+  const e = {};
+  if (STATE.type === 'h') e.t = 'h';
+  e.n = document.getElementById('f-name').value.trim();
+  e.c = STATE.curator;
+  const fields = [
+    ['q','f-q'],['a','f-a'],['p','f-p'],['w','f-w'],['ig','f-ig'],['e','f-e'],
+    ['note','f-note'],['d','f-d']
+  ];
+  fields.forEach(([k,id]) => { const v = document.getElementById(id).value.trim(); if(v) e[k] = v; });
+  const pr = document.getElementById('f-pr').value; if (pr) e.pr = parseInt(pr);
+  const m = document.getElementById('f-m').value; if (m) e.m = m;
+  if (STATE.type === 'h') {
+    const s = document.getElementById('f-s').value; if (s) e.s = parseInt(s);
+    const k = document.getElementById('f-k').value; if (k) e.k = parseInt(k);
+  }
+  return e;
+}
+
+// ===================== PUBLISH =====================
+async function publishEntry() {
+  const name = document.getElementById('f-name').value.trim();
+  const city = document.getElementById('f-city').value.trim();
+  const country = document.getElementById('f-country').value;
+  if (!name || !city || !country) {
+    showStatus('error', 'Preenche Nome + Cidade + País');
+    return;
+  }
+  const entry = buildEntry();
+  const slug = slugify(name);
+
+  if (STATE.workerUrl && STATE.workerKey) {
+    // Modo automático: enviar tudo pro Worker
+    await publishViaWorker(country, city, entry, slug);
+  } else {
+    // Modo fallback: gerar bundle visual
+    showBundle(country, city, entry, slug);
+  }
+}
+
+async function publishViaWorker(country, city, entry, slug) {
+  const btn = document.getElementById('publish-btn');
+  btn.disabled = true;
+  btn.textContent = 'A publicar...';
+  try {
+    // Converter ficheiros para base64
+    const photos = [];
+    for (let i = 0; i < STATE.files.length; i++) {
+      const f = STATE.files[i];
+      const ext = f.name.split('.').pop().toLowerCase();
+      const filename = i === 0 ? `${slug}.${ext}` : `${slug}-${i+1}.${ext}`;
+      const b64 = await fileToBase64(f);
+      photos.push({ filename, base64: b64 });
+    }
+    const res = await fetch(STATE.workerUrl + '/publish', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','X-Admin-Key':STATE.workerKey},
+      body: JSON.stringify({ country, city, entry, photos })
+    });
+    if (!res.ok) {
+      const t = await res.text();
+      throw new Error('HTTP ' + res.status + ': ' + t);
+    }
+    const data = await res.json();
+    showStatus('success', '✅ Publicado! Site atualiza em 1-2 min.');
+    resetForm();
+    loadAllGuides(); // Refresh search index
+  } catch (err) {
+    showStatus('error', '❌ ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Publicar →';
+  }
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function showBundle(country, city, entry, slug) {
+  const bundle = {
+    country, city, slug,
+    entry,
+    photos: STATE.files.map((f, i) => ({
+      original: f.name,
+      target: i === 0 ? `${slug}.jpeg` : `${slug}-${i+1}.jpeg`,
+      size: f.size
+    })),
+    timestamp: new Date().toISOString()
+  };
+  document.getElementById('bundle-code').textContent = JSON.stringify(bundle, null, 2);
+  document.getElementById('bundle-area').classList.add('show');
+  document.getElementById('bundle-area').scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyBundle() {
+  const txt = document.getElementById('bundle-code').textContent;
+  navigator.clipboard.writeText(txt).then(() => showStatus('success', '📋 Copiado!'));
+}
+
+function resetForm() {
+  ['f-name','f-city','f-country','f-q','f-a','f-p','f-w','f-ig','f-e','f-note','f-d','f-lat','f-lng'].forEach(id => document.getElementById(id).value = '');
+  ['f-pr','f-m','f-s','f-k'].forEach(id => document.getElementById(id).value = '');
+  STATE.files = [];
+  renderPreviews();
+  document.getElementById('bundle-area').classList.remove('show');
+}
+
+// ===================== SEARCH ACROSS ALL GUIDES =====================
+const COUNTRY_FILES = {
+  'alemanha':'Alemanha 🇩🇪','argentina':'Argentina 🇦🇷','aruba':'Aruba 🇦🇼','austria':'Áustria 🇦🇹','bonaire':'Bonaire 🇧🇶',
+  'chile':'Chile 🇨🇱','china':'China 🇨🇳','colombia':'Colômbia 🇨🇴','copenhague':'Dinamarca 🇩🇰','coreia':'Coreia do Sul 🇰🇷',
+  'croacia':'Croácia 🇭🇷','curacao':'Curaçao 🇨🇼','dubai':'Dubai 🇦🇪','espanha':'Espanha 🇪🇸','eua':'EUA 🇺🇸',
+  'franca':'França 🇫🇷','holanda':'Holanda 🇳🇱','hongkong':'Hong Kong 🇭🇰','irlanda':'Irlanda 🇮🇪','irlanda-norte':'Irlanda do Norte 🇬🇧',
+  'italia':'Itália 🇮🇹','japao':'Japão 🇯🇵','liechtenstein':'Liechtenstein 🇱🇮','londres':'Reino Unido 🇬🇧','luxemburgo':'Luxemburgo 🇱🇺',
+  'monaco':'Mónaco 🇲🇨','panama':'Panamá 🇵🇦','peru':'Peru 🇵🇪','portugal':'Portugal 🇵🇹','tailandia':'Tailândia 🇹🇭',
+  'taiwan':'Taiwan 🇹🇼','turquia':'Turquia 🇹🇷','uruguai':'Uruguai 🇺🇾','vietna':'Vietnã 🇻🇳',
+  'brasil-centroeste':'Brasil Centro-Oeste 🇧🇷','brasil-nordeste':'Brasil Nordeste 🇧🇷','brasil-sudeste':'Brasil Sudeste 🇧🇷','brasil-sul':'Brasil Sul 🇧🇷'
+};
+
+async function loadAllGuides() {
+  STATE.allEntries = [];
+  // Popular dropdown de países
+  const sel = document.getElementById('f-country');
+  sel.innerHTML = '<option value="">— escolhe o país —</option>';
+  Object.entries(COUNTRY_FILES).forEach(([key, label]) => {
+    sel.innerHTML += `<option value="${key}">${label}</option>`;
+  });
+
+  // Carregar entries de cada guia
+  const promises = Object.keys(COUNTRY_FILES).map(async key => {
+    const file = key.startsWith('brasil-') ? `${key}.html` : `${key}-guia.html`;
+    try {
+      const res = await fetch('../' + file);
+      if (!res.ok) return;
+      const html = await res.text();
+      // Extrair CITIES JSON
+      const m = html.match(/const\s+CITIES\s*=\s*(\[.+?\])\s*;/s);
+      if (!m) return;
+      // Tentar parse — primeiro como JSON estrito
+      let cities;
+      try { cities = JSON.parse(m[1]); }
+      catch(e) {
+        // Tentar normalizar (unquoted keys)
+        try {
+          const fixed = m[1].replace(/([{,])\s*([a-zA-Z_]\w*)\s*:/g, '$1"$2":');
+          cities = JSON.parse(fixed);
+        } catch(e2) { return; }
+      }
+      cities.forEach(city => {
+        (city.entries || []).forEach(e => {
+          STATE.allEntries.push({
+            country: key,
+            countryLabel: COUNTRY_FILES[key],
+            city: city.city,
+            region: city.region,
+            ...e
+          });
+        });
+      });
+    } catch(e) {}
+  });
+  await Promise.all(promises);
+  console.log(`Loaded ${STATE.allEntries.length} entries`);
+}
+
+function searchEntries() {
+  const q = document.getElementById('search-input').value.toLowerCase().trim();
+  const results = document.getElementById('search-results');
+
+  if (STATE.allEntries.length === 0) {
+    results.innerHTML = `<div style="text-align:center;padding:32px;color:var(--ink-xs);font-size:13px">A carregar guias... <span class="spinner"></span></div>`;
+    return;
+  }
+
+  let filtered = q ? STATE.allEntries.filter(e =>
+    (e.n||'').toLowerCase().includes(q) ||
+    (e.city||'').toLowerCase().includes(q) ||
+    (e.countryLabel||'').toLowerCase().includes(q) ||
+    (e.a||'').toLowerCase().includes(q)
+  ) : STATE.allEntries.slice(0, 50);
+
+  if (filtered.length === 0) {
+    results.innerHTML = `<div style="text-align:center;padding:32px;color:var(--ink-xs);font-size:13px;font-family:'Cormorant Garamond',serif;font-style:italic">Nenhum resultado para "${q}"</div>`;
+    return;
+  }
+
+  results.innerHTML = filtered.slice(0, 50).map(e => {
+    const flag = (e.countryLabel || '').match(/[\u{1F1E6}-\u{1F1FF}]{2}/u);
+    const c = e.c || 'luli';
+    const cLabel = c === 'shared' ? 'Luli & Tito' : (c === 'tito' ? 'Tito' : 'Luli');
+    return `<div class="result-item" onclick="loadForEdit('${e.country}','${(e.n||'').replace(/'/g,"\\'")}','${(e.city||'').replace(/'/g,"\\'")}')">
+      <div class="result-flag">${flag ? flag[0] : '📍'}</div>
+      <div class="result-info">
+        <div class="result-name">${e.n || ''}${e.t==='h'?' 🛏':''}</div>
+        <div class="result-meta">${e.city || ''} · ${(e.countryLabel || '').replace(/[\u{1F1E6}-\u{1F1FF}]{2}/gu, '').trim()} · ${e.q || ''}</div>
+      </div>
+      <div class="result-curator ${c}">${cLabel}</div>
+    </div>`;
+  }).join('');
+  if (filtered.length > 50) {
+    results.innerHTML += `<div style="text-align:center;padding:16px;color:var(--ink-xs);font-size:11px">+${filtered.length - 50} resultados — refina a busca</div>`;
+  }
+}
+
+function loadForEdit(country, name, city) {
+  const e = STATE.allEntries.find(x => x.country === country && x.n === name && x.city === city);
+  if (!e) return;
+
+  switchTab('new');
+  document.getElementById('f-name').value = e.n || '';
+  document.getElementById('f-city').value = e.city || '';
+  document.getElementById('f-country').value = e.country || '';
+  document.getElementById('f-q').value = e.q || '';
+  document.getElementById('f-a').value = e.a || '';
+  document.getElementById('f-p').value = e.p || '';
+  document.getElementById('f-w').value = e.w || '';
+  document.getElementById('f-ig').value = e.ig || '';
+  document.getElementById('f-e').value = e.e || '';
+  document.getElementById('f-pr').value = e.pr || '';
+  document.getElementById('f-m').value = e.m || '';
+  document.getElementById('f-s').value = e.s || '';
+  document.getElementById('f-k').value = e.k || '';
+  document.getElementById('f-note').value = e.note || '';
+  document.getElementById('f-d').value = e.d || '';
+  selectType(e.t === 'h' ? 'h' : 'r');
+  selectCurator(e.c || 'luli');
+  showStatus('success', `📝 A editar: ${e.n}`);
+}
+
+// ===================== STATUS / TOAST =====================
+function showStatus(type, msg) {
+  const bar = document.getElementById('status-bar');
+  bar.className = 'status-bar show ' + type;
+  bar.textContent = msg;
+  setTimeout(() => bar.classList.remove('show'), 3500);
+}
+
+// ===================== SETTINGS =====================
+function saveSettings() {
+  STATE.workerUrl = document.getElementById('worker-url').value.trim().replace(/\/$/, '');
+  STATE.workerKey = document.getElementById('worker-key').value.trim();
+  localStorage.setItem('worker_url', STATE.workerUrl);
+  localStorage.setItem('worker_key', STATE.workerKey);
+  showStatus('success', '✅ Configurações guardadas');
+}
+
+function loadSettings() {
+  STATE.workerUrl = localStorage.getItem('worker_url') || '';
+  STATE.workerKey = localStorage.getItem('worker_key') || '';
+  document.getElementById('worker-url').value = STATE.workerUrl;
+  document.getElementById('worker-key').value = STATE.workerKey;
+}
+
+function updateMigrationStatus() {
+  const total = STATE.allEntries.length;
+  const luli = STATE.allEntries.filter(e => e.c === 'luli' || !e.c).length;
+  const tito = STATE.allEntries.filter(e => e.c === 'tito').length;
+  const shared = STATE.allEntries.filter(e => e.c === 'shared').length;
+  document.getElementById('migration-status').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:12px">
+      <div style="text-align:center;padding:16px;background:var(--gold-bg);border-radius:8px"><div style="font-size:28px;font-weight:700;color:var(--gold-dk)">${total}</div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px">Total</div></div>
+      <div style="text-align:center;padding:16px;background:var(--gold-bg);border-radius:8px;border:1px solid var(--gold-lt)"><div style="font-size:28px;font-weight:700;color:var(--gold-dk)">${luli}</div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px">Luli</div></div>
+      <div style="text-align:center;padding:16px;background:var(--bronze-bg);border-radius:8px;border:1px solid var(--bronze-lt)"><div style="font-size:28px;font-weight:700;color:var(--bronze-dk)">${tito}</div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px">Tito</div></div>
+      <div style="text-align:center;padding:16px;background:linear-gradient(135deg,var(--gold-bg),var(--bronze-bg));border-radius:8px;border:1px solid var(--bronze-lt)"><div style="font-size:28px;font-weight:700;color:#7d5500">${shared}</div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px">L+T</div></div>
+    </div>
+  `;
+}
+
+// ===================== INIT =====================
+async function init() {
+  // Verificar login
+  const params = new URLSearchParams(window.location.search);
+  const userParam = params.get('user');
+  const stored = localStorage.getItem('admin_user');
+  if (userParam === 'luli' || userParam === 'tito') {
+    login(userParam);
+  } else if (stored === 'luli' || stored === 'tito') {
+    login(stored);
+  } else {
+    document.getElementById('login-overlay').classList.add('show');
+    return;
+  }
+
+  loadSettings();
+  await loadAllGuides();
+  searchEntries();
+}
+
+init();
+</script>
+</body>
+</html>
