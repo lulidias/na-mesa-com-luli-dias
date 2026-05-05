@@ -111,8 +111,10 @@ footer a{color:var(--gold);text-decoration:none}
 .type-btn:hover{border-color:var(--gold);color:var(--gold)}
 .type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
 .bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
-.curator-badge{display:inline-flex;align-items:center;gap:3px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:var(--gold-bg);padding:3px 8px;border-radius:10px;font-weight:600;border:1px solid var(--gold-lt)}
-.curator-badge.shared{background:linear-gradient(90deg,var(--gold-bg) 0%,#FBE6BD 100%);color:#7d5500}
+.curator-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:11px;font-weight:700;position:absolute;top:10px;left:10px;z-index:3;backdrop-filter:blur(6px);box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.curator-badge.luli{color:#8B6914;background:rgba(255,253,247,.95);border:1px solid #D4AE5C}
+.curator-badge.tito{color:#7A3F1B;background:rgba(255,247,238,.95);border:1px solid #C97C4A}
+.curator-badge.shared{color:#7d5500;background:linear-gradient(90deg,rgba(255,253,247,.95) 0%,rgba(255,235,210,.95) 100%);border:1px solid #C97C4A}
 .bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 .bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 .bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
@@ -228,8 +230,7 @@ const CITIES=[
     {n:'Le Gabriel',q:'Francesa de Autor',a:'10 Pl. de la Bourse, Bordeaux',p:'+33 5 56 30 00 80',pr:3,m:'m2',note:'1 Estrela Michelin',d:'Uma Estrela Michelin com vista privilegiada para aPlace de la Bourse e o Miroir d\'Eau. Cozinha francesa criativa com os produtos da região num dos endereços mais icónicos de Bordeaux.'},
     {n:'Ressources',q:'Francesa Contemporânea',a:'Bordeaux',p:'',pr:3,m:'m1',note:'1 Estrela Michelin',d:'Uma Estrela Michelin em Bordeaux com cozinha francesa contemporânea e criativa, focada nos produtos sazonais da Aquitânia.'},
     {n:'Le Chapon Fin',q:'Francesa Clássica',a:'5 Rue Montesquieu, Bordeaux',p:'+33 5 56 79 10 10',pr:3,m:'rec',d:'Fundado em 1825, é um dos restaurantes históricos mais emblemáticos de França. Décor Belle Époque com a famosa sala em forma de gruta rochosa. Uma visita ao Le Chapon Fin é uma viagem no tempo.'},
-  ,
-    {t:"h",n:"InterContinental Bordeaux Le Grand Hôtel",q:"Hotel · Histórico 5★",a:"2-5 Place de la Comédie, 33000 Bordeaux",p:"+33 5 57 30 44 44",pr:4,k:1,s:5,d:"Hotel monumental do séc. XVIII em frente ao Grand Théâtre de Bordeaux, na Place de la Comédie. 130 quartos com decoração assinada por Jacques Garcia. Restaurante Le Pressoir d'Argent (2 Estrelas Michelin, Chef Gordon Ramsay), spa Guerlain, rooftop com vista para a Garonne. O hotel mais prestigiado de Bordeaux."}
+    {t:"h",n:"InterContinental Bordeaux Le Grand Hôtel",c:"luli",q:"Hotel · Histórico 5★",a:"2-5 Place de la Comédie, 33000 Bordeaux",p:"+33 5 57 30 44 44",pr:4,k:1,s:5,d:"Hotel monumental do séc. XVIII em frente ao Grand Théâtre de Bordeaux, na Place de la Comédie. 130 quartos com decoração assinada por Jacques Garcia. Restaurante Le Pressoir d'Argent (2 Estrelas Michelin, Chef Gordon Ramsay), spa Guerlain, rooftop com vista para a Garonne. O hotel mais prestigiado de Bordeaux."}
   ]},
   {city:'Lormont',region:'Bordeaux & Gironde',entries:[
     {n:'Le Prince Noir',q:'Francesa Criativa',a:'1 Rue du Prince Noir, Lormont',p:'+33 5 56 06 12 52',pr:3,m:'m1',note:'1 Estrela Michelin · Chef Vivien Durand',d:'Uma Estrela Michelin numa villa medieval do século XIV com vista para o rio Garonne. O chef Vivien Durand cria uma cozinha francesa criativa e técnica, com produtos de excelência da região bordalesa.'},
@@ -255,8 +256,7 @@ const CITIES=[
     {n:'Le Jardin de Soutard',q:'Francesa',a:'Saint-Émilion',p:'',pr:2,d:'Restaurante num jardim de château em Saint-Émilion com cozinha regional bordalesa e ambiente tranquilo.'},
     {n:'Café Saigon',q:'Vietnamita',a:'Saint-Émilion',p:'',pr:1,d:'Uma surpresa em plena Saint-Émilion: cozinha vietnamita autêntica com pho, banh mi e pratos frescos, num endereço informal que contrasta com os grandes châteaux da região.'},
     {n:'Le Tertre',q:'Francesa Regional',a:'Saint-Émilion',p:'',pr:2,d:'Restaurante com cozinha regional bordalesa em Saint-Émilion, com os clássicos do sudoeste e carta de vinhos local.'},
-  ,
-    {t:"h",n:"Château Bellefont-Belcier",q:"Hotel · Château Vinícola 5★",a:"Saint-Laurent-des-Combes, 33330 Saint-Émilion",p:"+33 5 57 24 72 16",pr:4,s:5,d:"Château Grand Cru Classé de Saint-Émilion com hospedagem boutique de luxo. Suítes elegantes em meio às vinhas, jantares privados com harmonização de vinhos da própria casa, prova de barricas no chai. Uma experiência exclusiva e íntima no coração de Saint-Émilion para apreciadores de vinhos da margem direita."}
+    {t:"h",n:"Château Bellefont-Belcier",c:"luli",q:"Hotel · Château Vinícola 5★",a:"Saint-Laurent-des-Combes, 33330 Saint-Émilion",p:"+33 5 57 24 72 16",pr:4,s:5,d:"Château Grand Cru Classé de Saint-Émilion com hospedagem boutique de luxo. Suítes elegantes em meio às vinhas, jantares privados com harmonização de vinhos da própria casa, prova de barricas no chai. Uma experiência exclusiva e íntima no coração de Saint-Émilion para apreciadores de vinhos da margem direita."}
   ]},
   {city:'Saint-Jean-de-Blaignac',region:'Bordeaux & Gironde',entries:[
     {n:'Auberge Saint Jean',q:'Francesa Regional',a:'Saint-Jean-de-Blaignac',p:'',pr:2,d:'Auberge de charme em Saint-Jean-de-Blaignac com cozinha regional do Entre-Deux-Mers, entre Dordogne e Garonne.'},
@@ -272,8 +272,7 @@ const CITIES=[
   ]},
   {city:'Pauillac',region:'Bordeaux & Gironde',entries:[
     {n:'Lavinal',q:'Brasserie · Escargot & Pato',a:'Bages, Pauillac',p:'+33 5 57 75 00 09',pr:2,m:'bib',d:'Brasserie do Village de Bages, um conjunto de casas históricas restaurado por Jean-Michel Cazes de Lynch-Bages. Cozinha sudoeste descontraída com escargots, magret e a melhor garrafeira de Pauillac.'},
-  ,
-    {t:"h",n:"Château Cordeillan-Bages",q:"Hotel · Château Vinícola 5★",a:"Route des Châteaux, 33250 Pauillac",p:"+33 5 56 59 24 24",pr:4,k:1,s:5,d:"Château do séc. XVII transformado em hotel boutique de luxo no coração do Médoc, propriedade da família Cazes (proprietários do Château Lynch-Bages). 28 quartos elegantes, restaurante gastronómico, piscina e localização privilegiada entre os Grands Crus Classés. Membro Relais & Châteaux. O endereço de eleição para visitas vinícolas em Pauillac."}
+    {t:"h",n:"Château Cordeillan-Bages",c:"luli",q:"Hotel · Château Vinícola 5★",a:"Route des Châteaux, 33250 Pauillac",p:"+33 5 56 59 24 24",pr:4,k:1,s:5,d:"Château do séc. XVII transformado em hotel boutique de luxo no coração do Médoc, propriedade da família Cazes (proprietários do Château Lynch-Bages). 28 quartos elegantes, restaurante gastronómico, piscina e localização privilegiada entre os Grands Crus Classés. Membro Relais & Châteaux. O endereço de eleição para visitas vinícolas em Pauillac."}
   ]},
   {city:'Pomerol',region:'Bordeaux & Gironde',entries:[
     {n:'La Table de Catusseau',q:'Francesa Regional',a:'Pomerol',p:'',pr:2,d:'Restaurante em Pomerol, a appellation do mítico Pétrus, com cozinha regional e harmonização com os vinhos de Pomerol e Saint-Émilion.'},
@@ -289,8 +288,7 @@ const CITIES=[
     {n:'Le Crypto',q:'Francesa',a:'Reims',p:'',pr:2,d:'Restaurante no centro de Reims com cozinha francesa contemporânea, numa cidade que respira Champagne e história.'},
     {n:'Le Millénaire',q:'Francesa Contemporânea',a:'4-6 Rue Bertin, Reims',p:'+33 3 26 08 26 62',pr:3,d:'Restaurante elegante no centro de Reims com cozinha francesa criativa e uma das melhores cartas de Champagne da cidade. Ambiente refinado a dois passos da Catedral.'},
     {n:'Brasserie Le Boulingrin',q:'Brasserie Art Déco',a:'48 Rue de Mars, Reims',p:'+33 3 26 40 96 22',pr:2,d:'Inaugurada em 1925, a mais emblemática brasserie de Reims. Décor Art Déco perfeitamente preservado, ostras, choucroute e fruits de mer servidos com Champagne. Uma instituição da cidade.'},
-  ,
-    {t:"h",n:"Domaine Les Crayères",q:"Hotel · Château 5★",a:"64 Boulevard Henry Vasnier, 51100 Reims",p:"+33 3 26 24 90 00",pr:4,k:2,s:5,d:"Château em parque arborizado de 7 hectares no coração de Reims, capital de Champagne. Membro Relais & Châteaux. Restaurante Le Parc (2 Estrelas Michelin), Brasserie Le Jardin, e adega com mais de 350 referências de Champagne. O endereço de eleição para os apreciadores de Champagne em viagens à região vinícola."}
+    {t:"h",n:"Domaine Les Crayères",c:"luli",q:"Hotel · Château 5★",a:"64 Boulevard Henry Vasnier, 51100 Reims",p:"+33 3 26 24 90 00",pr:4,k:2,s:5,d:"Château em parque arborizado de 7 hectares no coração de Reims, capital de Champagne. Membro Relais & Châteaux. Restaurante Le Parc (2 Estrelas Michelin), Brasserie Le Jardin, e adega com mais de 350 referências de Champagne. O endereço de eleição para os apreciadores de Champagne em viagens à região vinícola."}
   ]},
   {city:'Metz',region:'Champagne & Alsácia',entries:[
     {n:'La Réserve',q:'Francesa',a:'Metz',p:'',pr:2,d:'Restaurante em Metz com cozinha francesa regional, numa das cidades com mais museus per capita de França e famosa pela sua Catedral gótica.'},
@@ -324,18 +322,16 @@ const CITIES=[
     {n:'La Pépinière',q:'Francesa',a:'Paris',p:'',pr:2,d:'Restaurante francês contemporâneo em Paris com cozinha de produto e ambiente descontraído.'},
     {n:'Le Grand Café',q:'Brasserie 24h',a:'4 Bd des Capucines, Paris',p:'+33 1 43 12 19 00',pr:2,d:'A brasserie parisienne que nunca fecha — aberta 24 horas por dia, 365 dias por ano. Fruits de mer, steak-frites e croque-monsieur a qualquer hora junto aos Grands Boulevards.'},
     {n:'Bofinger',q:'Brasserie Alsaciana',a:'5-7 Rue de la Bastille, Paris',p:'+33 1 42 72 87 82',pr:2,d:'A mais antiga brasserie de Paris, fundada em 1864. Décor Belle Époque com cúpula de vidro Art Nouveau, choucroute, fruits de mer e foie gras. Um monumento gastronómico junto à Place de la Bastille.'},
-  ,
-    {t:"h",n:"Hôtel Plaza Athénée",q:"Hotel · Lendário 5★",a:"25 Avenue Montaigne, 75008 Paris",p:"+33 1 53 67 66 65",pr:4,k:3,s:5,d:"O hotel mais glamouroso da Avenue Montaigne, com a fachada coberta de gerânios vermelhos virada para a Tour Eiffel. Membro da Dorchester Collection. Quatro restaurantes — Alain Ducasse au Plaza Athénée (3 Estrelas Michelin), Le Relais Plaza, La Galerie e Bar Plaza Athénée. Templo da alta-costura, da gastronomia e do luxo parisiense desde 1913."},
-    {t:"h",n:"InterContinental Paris Le Grand",q:"Hotel · Histórico 5★",a:"2 Rue Scribe, 75009 Paris",p:"+33 1 40 07 32 32",pr:4,s:5,d:"Hotel histórico inaugurado em 1862 ao lado da Ópera Garnier, na Place de l'Opéra. 470 quartos com vista para o Café de la Paix (criado pelo mesmo arquitecto da Ópera). Brasserie Café de la Paix, spa, salão de baile com tectos pintados. Um dos endereços mais icónicos de Paris."},
-    {t:"h",n:"Sofitel Paris Arc de Triomphe",q:"Hotel · Boutique 5★",a:"14 Rue Beaujon, 75008 Paris",p:"+33 1 53 89 50 50",pr:4,s:5,d:"Hotel boutique cinco-estrelas a poucos metros do Arco do Triunfo, escondido numa rua tranquila atrás dos Champs-Élysées. 135 quartos elegantes em estilo haussmaniano contemporâneo. Restaurante Akasha, bar de coquetéis e localização privilegiada para shopping na Avenue des Champs-Élysées."}
+    {t:"h",n:"Hôtel Plaza Athénée",c:"luli",q:"Hotel · Lendário 5★",a:"25 Avenue Montaigne, 75008 Paris",p:"+33 1 53 67 66 65",pr:4,k:3,s:5,d:"O hotel mais glamouroso da Avenue Montaigne, com a fachada coberta de gerânios vermelhos virada para a Tour Eiffel. Membro da Dorchester Collection. Quatro restaurantes — Alain Ducasse au Plaza Athénée (3 Estrelas Michelin), Le Relais Plaza, La Galerie e Bar Plaza Athénée. Templo da alta-costura, da gastronomia e do luxo parisiense desde 1913."},
+    {t:"h",n:"InterContinental Paris Le Grand",c:"luli",q:"Hotel · Histórico 5★",a:"2 Rue Scribe, 75009 Paris",p:"+33 1 40 07 32 32",pr:4,s:5,d:"Hotel histórico inaugurado em 1862 ao lado da Ópera Garnier, na Place de l'Opéra. 470 quartos com vista para o Café de la Paix (criado pelo mesmo arquitecto da Ópera). Brasserie Café de la Paix, spa, salão de baile com tectos pintados. Um dos endereços mais icónicos de Paris."},
+    {t:"h",n:"Sofitel Paris Arc de Triomphe",c:"luli",q:"Hotel · Boutique 5★",a:"14 Rue Beaujon, 75008 Paris",p:"+33 1 53 89 50 50",pr:4,s:5,d:"Hotel boutique cinco-estrelas a poucos metros do Arco do Triunfo, escondido numa rua tranquila atrás dos Champs-Élysées. 135 quartos elegantes em estilo haussmaniano contemporâneo. Restaurante Akasha, bar de coquetéis e localização privilegiada para shopping na Avenue des Champs-Élysées."}
   ]},
 
   // ── BORGONHA ────────────────────────────────────────
   {city:'Beaune',region:'Borgonha',entries:[
     {n:'Caveau des Arches',q:'Borgonhesa · Boeuf Bourguignon',a:'10 Bd Perpreuil, Beaune',p:'+33 3 80 22 10 37',pr:2,note:'O melhor Boeuf Bourguignon',d:'Numa adega do século XII em Beaune, serve o melhor boeuf bourguignon da Borgonha. Pratos cozinhados lentamente com os vinhos de Borgonha e ambiente histórico nas caves de pedra.'},
     {n:'Bistrot du Bord de L\'Eau',q:'Francesa Bistrô',a:'Beaune',p:'',pr:2,d:'Bistrô de charme em Beaune com cozinha borgonhesa descontraída e vista para o canal. Boa carta de borgonhas a preços razoáveis.'},
-  ,
-    {t:"h",n:"Hostellerie Le Cèdre",q:"Hotel · Borgonha 5★",a:"12 Boulevard du Maréchal Foch, 21200 Beaune",p:"+33 3 80 24 01 01",pr:4,k:1,s:5,d:"Hotel cinco-estrelas no coração de Beaune, capital da Borgonha vinícola. 40 quartos elegantes num edifício do séc. XIX. Restaurante Clos du Cèdre (cozinha de autor com produtos da região), bar Patrick e a maior carta de vinhos da Borgonha entre os hotéis da cidade. Membro Small Luxury Hotels of the World. Localização perfeita para visitas vinícolas em Côte de Beaune."}
+    {t:"h",n:"Hostellerie Le Cèdre",c:"luli",q:"Hotel · Borgonha 5★",a:"12 Boulevard du Maréchal Foch, 21200 Beaune",p:"+33 3 80 24 01 01",pr:4,k:1,s:5,d:"Hotel cinco-estrelas no coração de Beaune, capital da Borgonha vinícola. 40 quartos elegantes num edifício do séc. XIX. Restaurante Clos du Cèdre (cozinha de autor com produtos da região), bar Patrick e a maior carta de vinhos da Borgonha entre os hotéis da cidade. Membro Small Luxury Hotels of the World. Localização perfeita para visitas vinícolas em Côte de Beaune."}
   ]},
   {city:'Gevrey-Chambertin',region:'Borgonha',entries:[
     {n:'Rôtisserie Le Chambertin',q:'Borgonhesa',a:'Gevrey-Chambertin',p:'',pr:2,d:'Rôtisserie clássica em Gevrey-Chambertin, na Côte de Nuits, com cozinha borgonhesa à base de carnes assadas e os grands crus da aldeia.'},
@@ -359,8 +355,7 @@ const CITIES=[
   // ── LANGUEDOC & PROVENCE ────────────────────────────
   {city:'Carcassonne',region:'Languedoc & Provence',entries:[
     {n:'La Demeure du Cassoulet',q:'Languedociana · Cassoulet',a:'Carcassonne',p:'',pr:2,d:'O melhor endereço de Carcassonne para o cassoulet — o prato emblema do Languedoc, com feijão branco, confit de canard e salsichas de Toulouse. Dentro da Cité medieval.'},
-  ,
-    {t:"h",n:"Hôtel de la Cité Carcassonne",q:"Hotel · Castelo Medieval 5★",a:"Place Auguste-Pierre Pont, 11000 Carcassonne",p:"+33 4 68 71 98 71",pr:4,k:1,s:5,d:"Hotel cinco-estrelas dentro da Cité Médiévale de Carcassonne — Património UNESCO. 61 quartos em ambiente neogótico autêntico nas muralhas. Restaurante La Barbacane (1 Estrela Michelin, Chef Jérôme Ryon), bar Jardin, spa Gemology, piscina. Membro MGallery Sofitel. Vista para a basílica e jardins do castelo."}
+    {t:"h",n:"Hôtel de la Cité Carcassonne",c:"luli",q:"Hotel · Castelo Medieval 5★",a:"Place Auguste-Pierre Pont, 11000 Carcassonne",p:"+33 4 68 71 98 71",pr:4,k:1,s:5,d:"Hotel cinco-estrelas dentro da Cité Médiévale de Carcassonne — Património UNESCO. 61 quartos em ambiente neogótico autêntico nas muralhas. Restaurante La Barbacane (1 Estrela Michelin, Chef Jérôme Ryon), bar Jardin, spa Gemology, piscina. Membro MGallery Sofitel. Vista para a basílica e jardins do castelo."}
   ]},
   {city:'Montpellier',region:'Languedoc & Provence',entries:[
     {n:'L\'Artichaut',q:'Francesa Criativa',a:'6 Rue Petite Loge, Montpellier',p:'+33 4 67 67 02 65',pr:2,d:'Restaurante criativo no centro histórico de Montpellier com cozinha francesa de produto e influências mediterrâneas. Um dos endereços mais interessantes da cidade.'},
@@ -416,8 +411,7 @@ const CITIES=[
     {n:'Le Palmiers — Beach Club',q:'Mediterrânea · Beach Club',a:'Saint-Tropez',p:'',pr:3,note:'Beach club',d:'Beach club elegante em Ramatuelle, perto de Saint-Tropez, com restaurante mediterrâneo e ambiente de luxo descontraído.'},
     {n:'Shellona — Beach Club',q:'Mediterrânea · Beach Club',a:'Saint-Tropez',p:'',pr:3,note:'Beach club',d:'Beach club sofisticado perto de Saint-Tropez com cozinha mediterrânea e ambiente de luxo tropical junto ao Mediterrâneo.'},
     {n:'Bagatelle — Beach Club',q:'Mediterrânea · Beach Club',a:'Saint-Tropez',p:'',pr:3,note:'Beach club',d:'A extensão do famoso Bagatelle de Paris em Saint-Tropez, com restaurante mediterrâneo, música e ambiente festivo de luxo.'},
-  ,
-    {t:"h",n:"Hôtel Byblos",q:"Hotel · Lendário 5★",a:"27 Avenue Paul Signac, 83990 Saint-Tropez",p:"+33 4 94 56 68 00",pr:4,k:2,s:5,d:"O hotel mais lendário da Côte d'Azur, inaugurado em 1967 e desde sempre o ícone do glamour de Saint-Tropez. Aldeia provençal com 91 quartos coloridos pintados à mão, piscina, spa Sisley, restaurante Arcadia (Chef Nicola Canuti) e a icónica discoteca Les Caves du Roy. Membro Leading Hotels of the World. Frequentado pelas estrelas desde Brigitte Bardot até hoje."}
+    {t:"h",n:"Hôtel Byblos",c:"luli",q:"Hotel · Lendário 5★",a:"27 Avenue Paul Signac, 83990 Saint-Tropez",p:"+33 4 94 56 68 00",pr:4,k:2,s:5,d:"O hotel mais lendário da Côte d'Azur, inaugurado em 1967 e desde sempre o ícone do glamour de Saint-Tropez. Aldeia provençal com 91 quartos coloridos pintados à mão, piscina, spa Sisley, restaurante Arcadia (Chef Nicola Canuti) e a icónica discoteca Les Caves du Roy. Membro Leading Hotels of the World. Frequentado pelas estrelas desde Brigitte Bardot até hoje."}
   ]},
   {city:'Bormes-les-Mimosas',region:'Saint-Tropez & Var',entries:[
     {n:'Le E\'stagnol',q:'Peixe & Mariscos',a:'Bormes-les-Mimosas',p:'',pr:2,d:'Restaurante de peixe e mariscos em Bormes-les-Mimosas, uma das aldeias mais floridas de França, perto de Le Lavandou e Hyères.'},
@@ -502,7 +496,7 @@ function render(){
                      (r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge">Hospedagem</span>':'');
         card.innerHTML=`
-          <div class="card-photo-wrap"><img class="card-photo" src="${'fotos/franca/'+slug(r.n)+'.jpeg'}" alt="${r.n}" loading="lazy" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'${bg}','${em}')"></div>
+          <div class="card-photo-wrap">${r.c?`<div class="curator-badge ${r.c}">${r.c==="shared"?"L+T":(r.c==="tito"?"T":"L")}</div>`:""}<img class="card-photo" src="${'fotos/franca/'+slug(r.n)+'.jpeg'}" alt="${r.n}" loading="lazy" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'${bg}','${em}')"></div>
           <div class="card-body">
             <div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div>
             <div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div>

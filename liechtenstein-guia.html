@@ -138,8 +138,10 @@ footer a{color:var(--gold);text-decoration:none}
 .type-btn:hover{border-color:var(--gold);color:var(--gold)}
 .type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
 .bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
-.curator-badge{display:inline-flex;align-items:center;gap:3px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:var(--gold-bg);padding:3px 8px;border-radius:10px;font-weight:600;border:1px solid var(--gold-lt)}
-.curator-badge.shared{background:linear-gradient(90deg,var(--gold-bg) 0%,#FBE6BD 100%);color:#7d5500}
+.curator-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:11px;font-weight:700;position:absolute;top:10px;left:10px;z-index:3;backdrop-filter:blur(6px);box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.curator-badge.luli{color:#8B6914;background:rgba(255,253,247,.95);border:1px solid #D4AE5C}
+.curator-badge.tito{color:#7A3F1B;background:rgba(255,247,238,.95);border:1px solid #C97C4A}
+.curator-badge.shared{color:#7d5500;background:linear-gradient(90deg,rgba(255,253,247,.95) 0%,rgba(255,235,210,.95) 100%);border:1px solid #C97C4A}
 .bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 .bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 .bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
@@ -258,9 +260,9 @@ function closeMap(){document.getElementById('mapModal').classList.remove('open')
 const FOLDER='liechtenstein';
 const CITIES=[
   {city:"Vaduz",region:"Liechtenstein",entries:[
-    {n:"Marée",q:"Clássica · Mediterrânea",a:"Mareestrasse 29 — Park Hotel Sonnenhof, Vaduz, 9490, Liechtenstein",p:"+423 239 02 02",pr:3,m:"m1",w:"sonnenhof.li/en/restaurant-maree",ig:"parkhotel_sonnenhof",note:"1 Estrela Michelin · Chef Hubertus Real · Park Hotel Sonnenhof · Relais & Châteaux",h:true,d:"1 Estrela Michelin no Park Hotel Sonnenhof — Relais & Châteaux — com vista privilegiada sobre o Castelo de Vaduz e as montanhas dos Alpes. O Chef Hubertus Real cria pratos de elegância clássica e inspiração mediterrânea com ingredientes de primeiríssima qualidade. A célebre asa de raia em manteiga castanha com alcaparras e o raviolini de vitela e espinafres são pratos de culto. Adega com selecção extraordinária de vinhos de Liechtenstein, Borgonha e Bordéus. A esplanada \"Adlernest\" (Ninho da Águia) oferece uma das vistas mais deslumbrantes da Europa Central."}
+    {n:"Marée",c:"luli",q:"Clássica · Mediterrânea",a:"Mareestrasse 29 — Park Hotel Sonnenhof, Vaduz, 9490, Liechtenstein",p:"+423 239 02 02",pr:3,m:"m1",w:"sonnenhof.li/en/restaurant-maree",ig:"parkhotel_sonnenhof",note:"1 Estrela Michelin · Chef Hubertus Real · Park Hotel Sonnenhof · Relais & Châteaux",h:true,d:"1 Estrela Michelin no Park Hotel Sonnenhof — Relais & Châteaux — com vista privilegiada sobre o Castelo de Vaduz e as montanhas dos Alpes. O Chef Hubertus Real cria pratos de elegância clássica e inspiração mediterrânea com ingredientes de primeiríssima qualidade. A célebre asa de raia em manteiga castanha com alcaparras e o raviolini de vitela e espinafres são pratos de culto. Adega com selecção extraordinária de vinhos de Liechtenstein, Borgonha e Bordéus. A esplanada \"Adlernest\" (Ninho da Águia) oferece uma das vistas mais deslumbrantes da Europa Central."}
   ,
-    {t:"h",n:"Park Hotel Sonnenhof",q:"Hotel · Boutique Alpino 4★ Superior",a:"Mareestrasse 29, 9490 Vaduz",p:"+423 239 02 02",pr:4,k:2,s:4,w:"sonnenhof.li",ig:"parkhotel_sonnenhof",d:"Hotel boutique 4★ Superior em Vaduz com vista panorâmica para o Castelo de Vaduz e os Alpes do Liechtenstein. 29 quartos elegantes em arquitectura alpina contemporânea, restaurante Marée (1 Estrela Michelin), spa, piscina exterior aquecida. Membro Relais & Châteaux — referência absoluta de hospitalidade no principado."}
+    {t:"h",n:"Park Hotel Sonnenhof",c:"luli",q:"Hotel · Boutique Alpino 4★ Superior",a:"Mareestrasse 29, 9490 Vaduz",p:"+423 239 02 02",pr:4,k:2,s:4,w:"sonnenhof.li",ig:"parkhotel_sonnenhof",d:"Hotel boutique 4★ Superior em Vaduz com vista panorâmica para o Castelo de Vaduz e os Alpes do Liechtenstein. 29 quartos elegantes em arquitectura alpina contemporânea, restaurante Marée (1 Estrela Michelin), spa, piscina exterior aquecida. Membro Relais & Châteaux — referência absoluta de hospitalidade no principado."}
   ]}
 ];
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};
@@ -362,7 +364,7 @@ function render(){
                      (r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge bhotel">Hospedagem</span>':'');
         card.innerHTML=`
-          <div class="card-photo-wrap"><img class="card-photo" src="${'fotos/liechtenstein/'+slug(r.n)+'.jpeg'}" alt="${r.n}" loading="lazy" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'${bg}','${em}')"></div>
+          <div class="card-photo-wrap">${r.c?`<div class="curator-badge ${r.c}">${r.c==="shared"?"L+T":(r.c==="tito"?"T":"L")}</div>`:""}<img class="card-photo" src="${'fotos/liechtenstein/'+slug(r.n)+'.jpeg'}" alt="${r.n}" loading="lazy" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'${bg}','${em}')"></div>
           <div class="card-body">
             <div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div>
             <div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div>
