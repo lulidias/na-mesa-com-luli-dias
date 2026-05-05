@@ -456,13 +456,17 @@ const STATE = {
 };
 
 // ===================== AUTH =====================
-function login(user) {
+async function login(user) {
   STATE.user = user;
   STATE.curator = user;
   localStorage.setItem('admin_user', user);
   document.getElementById('login-overlay').classList.remove('show');
   updateUserChip();
   selectCurator(user);
+  // Carregar guias e configurações após login
+  loadSettings();
+  await loadAllGuides();
+  searchEntries();
 }
 
 function logout() {
