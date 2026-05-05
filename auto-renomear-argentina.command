@@ -93,7 +93,7 @@ print(f"    {len(fotos)} fotos sem slug encontradas.")
 
 # Para cada foto, achar restaurante mais próximo
 matches = {}  # slug -> [list of fotos]
-RAIO_MAX = 200  # metros
+RAIO_MAX = 500  # metros (raio gerado generoso para capturar fotos próximas, não exatas)
 
 for foto in fotos:
     gps = get_gps_mdls(foto)
