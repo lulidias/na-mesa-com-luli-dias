@@ -1,264 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brasil · Sudeste — Luli Dias · Restaurants &amp; Hotels</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;
-  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5;--card-bg:#FFF;
-  --m2:#E4002B;--m2bg:#FFF0F0;--m1:#C0001F;--m1bg:#FFF5F5;
-  --bib:#E8700A;--bibbg:#FFF5EE;--green:#2D7A3A;--greenbg:#F0F7F1;--rec:#4A6FA5;--recbg:#F0F4FA;
-  --hotel:#7B5EA7;--hotelbg:#F5F0FF;
-}
-html,body{height:100%}
-body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;}
-
-.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;gap:10px}
-.back-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;background:var(--gold-bg);border:1px solid var(--gold-lt);padding:8px 14px;border-radius:24px;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
-.back-link:hover{background:var(--gold);color:var(--white);border-color:var(--gold);transform:translateX(-2px)}
-.nav-sep{color:var(--border)}
-.nav-current{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
-
-/* HEADER — brand redesign */
-header{background:var(--white);border-bottom:1px solid var(--border);padding:44px 48px 32px}
-.brand-mast{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:13px;letter-spacing:7px;padding-left:7px;color:var(--ink-lt);font-weight:400;margin-bottom:14px}
-.brand-country{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:48px;font-weight:400;color:var(--ink);font-style:italic;margin-bottom:18px}
-.header-orn{display:flex;align-items:center;gap:12px;margin-bottom:20px}
-.orn-line{height:1px;width:48px;background:linear-gradient(90deg,var(--gold),transparent)}
-.orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
-.header-meta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.header-meta{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs)}
-.header-edition{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
-
-/* REGION FILTER */
-
-/* STATS — só restaurantes + cidades */
-.stats-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;flex-wrap:wrap}
-.stat{padding:0 28px;border-right:1px solid var(--border);text-align:center}
-.stat:first-child{padding-left:0}
-.stat:last-child{border-right:none}
-.stat-num{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);font-weight:600}
-.stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:2px}
-
-/* MICHELIN LEGEND — subtitle below stats */
-.michelin-legend{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.legend-title{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt)}
-.lbadge{font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
-.lm2,.lm1,.lbib,.lgreen,.lrec,.lhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
-
-main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
-
-.city-sec{margin-bottom:64px}
-.city-hdr{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:24px}
-.city-hdr-left{display:flex;flex-direction:column;gap:6px}
-.city-region-lbl{font-size:8px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;display:flex;align-items:center;gap:10px}
-.city-region-lbl::before{content:'';display:inline-block;width:20px;height:1px;background:var(--gold)}
-.city-name{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--ink);letter-spacing:-1px;line-height:1}
-.city-count-block{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-.city-count-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--gold);opacity:.25;line-height:1}
-.city-count-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-xs);margin-top:2px}
-.city-michelin{font-size:9px;color:var(--m2);font-weight:600;letter-spacing:1px;opacity:.85}
-
-.restaurants-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
-
-.restaurant-card{background:var(--card-bg);overflow:hidden;border-left:3px solid var(--gold-lt);transition:box-shadow .3s}
-.restaurant-card:hover{box-shadow:0 4px 24px rgba(184,146,42,.12);z-index:1;position:relative}
-
-.card-photo-wrap{width:100%;height:300px;overflow:hidden;background:var(--border)}
-.card-photo{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
-.restaurant-card:hover .card-photo{transform:scale(1.04)}
-.card-photo-placeholder{width:100%;height:300px;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3}
-
-.card-body{padding:20px 22px 18px}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
-.card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
-.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;margin-top:2px}
-.badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
-.bm2,.bm1,.bbib,.bgreen,.brec,.bhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
-
-.card-meta-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.card-cuisine{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
-.card-price{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:1px}
-
-.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink-lt);line-height:1.65;margin-bottom:12px}
-
-.card-contact{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
-.c-row{display:flex;align-items:flex-start;gap:8px}
-.c-icon{font-size:10px;color:var(--gold);min-width:16px;flex-shrink:0;margin-top:1px}
-.c-addr{font-size:10px;color:var(--ink-lt);cursor:pointer;line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
-.c-addr:hover{color:var(--gold)}
-.c-phone{font-size:10px;color:var(--ink-lt);line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
-.c-phone:hover{color:var(--gold)}
-.card-note{font-size:9px;color:var(--gold);font-style:italic;margin-top:8px}
-
-/* MAP MODAL */
-.map-modal{display:none;position:fixed;inset:0;z-index:1000;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.45)}
-.map-modal.open{display:flex}
-.map-sheet{background:var(--white);border-radius:16px 16px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(0,0,0,.18)}
-.map-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);margin-bottom:4px}
-.map-addr-txt{font-size:10px;color:var(--ink-lt);margin-bottom:22px;line-height:1.5}
-.map-options{display:flex;flex-direction:column;gap:10px}
-.map-btn{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);cursor:pointer;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:500;color:var(--ink);transition:background .15s}
-.map-btn:hover{background:var(--gold-bg)}
-.map-btn-icon{font-size:24px;width:32px;text-align:center;flex-shrink:0}
-.map-btn-sub{font-size:9px;color:var(--ink-xs);font-weight:400;display:block;margin-top:2px}
-.map-cancel{margin-top:16px;width:100%;padding:12px;border:none;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer}
-
-footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
-footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
-footer a{color:var(--gold);text-decoration:none}
-.filters{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.filter-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
-.filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
-.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
-.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
-.view-toggle{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end}
-.view-toggle-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:auto}
-.view-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 18px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
-.view-btn:hover{border-color:var(--gold);color:var(--gold)}
-.view-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
-.cuisine-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.cuisine-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
-.cuisine-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;padding:5px 12px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
-.cuisine-btn:hover{border-color:var(--gold);color:var(--gold)}
-.cuisine-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
-#map{height:70vh;width:100%;max-width:1400px;margin:24px auto;border-radius:4px;border:1px solid var(--border)}
-.leaflet-popup-content{margin:14px 18px;line-height:1.4}
-.leaflet-popup-content-wrapper{border-radius:6px}
-.leaflet-tooltip.custom-tooltip{background:#fff;border:1px solid #E8E0D5;border-radius:6px;padding:8px 12px;box-shadow:0 4px 12px rgba(0,0,0,.08);font-family:'Montserrat',sans-serif}
-.leaflet-tooltip.custom-tooltip:before{display:none}
-.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
-.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
-.type-btn:hover{border-color:var(--gold);color:var(--gold)}
-.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
-.hotel-stars{color:var(--gold);font-size:11px;letter-spacing:1px}
-.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
-.curator-badge{display:inline-flex;align-items:center;gap:3px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:var(--gold-bg);padding:3px 8px;border-radius:10px;font-weight:600;border:1px solid var(--gold-lt)}
-.curator-badge.shared{background:linear-gradient(90deg,var(--gold-bg) 0%,#FBE6BD 100%);color:#7d5500}
-.bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
-.bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
-.bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
-
-.gallery-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:20px}
-.gallery-modal.open{display:flex}
-.gallery-img{max-width:95vw;max-height:90vh;object-fit:contain;border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,.5)}
-.gallery-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s}
-.gallery-close:hover{background:rgba(255,255,255,.3)}
-.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:52px;height:52px;border-radius:50%;font-size:24px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s}
-.gallery-arrow:hover{background:rgba(255,255,255,.3)}
-.gallery-arrow.prev{left:24px}
-.gallery-arrow.next{right:24px}
-.gallery-counter{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:#fff;font-size:13px;letter-spacing:2px;background:rgba(0,0,0,.5);padding:8px 16px;border-radius:20px;backdrop-filter:blur(8px)}
-.card-photo-wrap{position:relative;cursor:pointer}
-.photo-count-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.65);color:#fff;font-size:10px;letter-spacing:1px;padding:5px 10px;border-radius:14px;font-weight:600;backdrop-filter:blur(8px);display:flex;align-items:center;gap:4px}
-
-.card-photo-wrap{position:relative;cursor:pointer}
-.photo-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);color:#1A1A1A;border:none;width:32px;height:32px;border-radius:50%;font-size:18px;font-weight:600;cursor:pointer;opacity:0;transition:opacity .25s,background .15s;backdrop-filter:blur(4px);box-shadow:0 2px 8px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
-.card-photo-wrap:hover .photo-nav{opacity:1}
-.photo-nav:hover{background:#fff}
-.photo-nav.prev{left:8px}
-.photo-nav.next{right:8px}
-.photo-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2;opacity:0;transition:opacity .25s}
-.card-photo-wrap:hover .photo-dots{opacity:1}
-.photo-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:0 1px 3px rgba(0,0,0,.4)}
-.photo-dot.active{background:#fff;width:18px;border-radius:3px}
-.photo-count-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;letter-spacing:1px;padding:4px 8px;border-radius:12px;font-weight:600;backdrop-filter:blur(4px);z-index:2;display:flex;align-items:center;gap:3px}
-</style>
-</head>
-<body>
-
-<nav class="top-nav">
-  <a href="brasil-index.html" class="back-link">← Brasil</a>
-  <span class="nav-sep">·</span>
-  <span class="nav-current">Sudeste</span>
-</nav>
-
-<header>
-  <div class="brand-mast">LULI DIAS  ·  RESTAURANTS &amp; HOTELS</div>
-  <div class="brand-country">Brasil · Sudeste</div>
-  <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
-  <div class="header-meta-row">
-    <span class="header-meta">Belo Horizonte · Rio de Janeiro · São Paulo · + 6 cidades</span>
-    <span class="header-edition">Abril 2026</span>
-  </div>
-</header>
-
-<div class="stats-bar">
-  <div class="stat"><div class="stat-num">211</div><div class="stat-lbl">Restaurantes</div></div>
-  <div class="stat"><div class="stat-num">9</div><div class="stat-lbl">Cidades</div></div>
-  <div class="stat"><div class="stat-num">16</div><div class="stat-lbl">Hotéis</div></div>
-  <div class="stat"><div class="stat-num">20 ★</div><div class="stat-lbl">Michelin</div></div>
-</div>
-
-<div class="michelin-legend">
-  <span class="lbadge bm3">★★★ 3 Estrelas</span>
-  <span class="lbadge lm2">★★ 2 Estrelas</span>
-  <span class="lbadge lm1">★ 1 Estrela</span>
-  <span class="lbadge lbib">Bib Gourmand</span>
-  <span class="lbadge lgreen">Estrela Verde</span>
-  <span class="lbadge lrec">Michelin</span>
-  <span class="lbadge lhotel">Hospedagem</span>
-  <span class="lbadge" style="background:#FFF8E8;color:#B87820;border:1px solid #E8C870">🏆 Premiado</span>
-</div>
-
-
-<div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
-  <div class="map-sheet">
-    <div class="map-title" id="mapName"></div>
-    <div class="map-addr-txt" id="mapAddr"></div>
-    <div class="map-options">
-      <a class="map-btn" id="btnWaze" href="#" target="_blank">
-        <span class="map-btn-icon">🗺</span><div><strong>Waze</strong><span class="map-btn-sub">Navegar com Waze</span></div>
-      </a>
-      <a class="map-btn" id="btnGoogle" href="#" target="_blank">
-        <span class="map-btn-icon">📍</span><div><strong>Google Maps</strong><span class="map-btn-sub">Abrir no Google Maps</span></div>
-      </a>
-      <a class="map-btn" id="btnApple" href="#" target="_blank">
-        <span class="map-btn-icon">🍎</span><div><strong>Apple Maps</strong><span class="map-btn-sub">Abrir no Apple Maps</span></div>
-      </a>
-    </div>
-    <button class="map-cancel" onclick="closeMap()">Cancelar</button>
-  </div>
-</div>
-
-<div class="view-toggle">
-  <span class="view-toggle-lbl">Vista:</span>
-  <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
-  <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
-</div>
-<div class="type-bar">
-  <span class="type-lbl">Tipo:</span>
-  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
-  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
-  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
-</div>
-<div class="filters" id="filters"></div>
-<div class="cuisine-bar" id="cuisineBar"></div>
-<main id="main"></main>
-<div id="map" style="display:none"></div>
-<footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script>
-function openMap(name,addr){
-  const q=encodeURIComponent(name+' '+addr);
-  document.getElementById('mapName').textContent=name;
-  document.getElementById('mapAddr').textContent=addr;
-  document.getElementById('btnWaze').href='https://waze.com/ul?q='+q+'&navigate=yes';
-  document.getElementById('btnGoogle').href='https://www.google.com/maps/search/?api=1&query='+q;
-  document.getElementById('btnApple').href='https://maps.apple.com/?q='+q;
-  document.getElementById('mapModal').classList.add('open');
-}
-function closeMap(){document.getElementById('mapModal').classList.remove('open');}
-
-// m: michelin badge, h: tem hospedagem, pr: preço 1-4
-const FOLDER='brasil';
 const CITIES=[
   {city:"Belo Horizonte",region:"Minas Gerais",entries:[
     {n:"Casa Piacere",q:"Italiana",a:"Rua Bernardo Guimarães, 577 — Funcionários, Belo Horizonte — MG",p:"",pr:3,d:"Ristorante italiano sofisticado no elegante bairro dos Funcionários em Belo Horizonte. Massas artesanais, risottos cremosos e uma selecção de vinhos italianos que fazem jus ao nome — Casa Piacere, a casa do prazer — num ambiente que reproduz o charme dos melhores ristoranti do norte de Itália."},
@@ -268,7 +7,7 @@ const CITIES=[
     {n:"Taste Vin",q:"Francesa · Soufflés",a:"Rua Curitiba, 2105 — Lourdes, Belo Horizonte — MG",p:"+55 31 3292-5423",pr:3,d:"O restaurante mais clássico e querido de Belo Horizonte desde há 30 anos, referência da cozinha francesa em Minas Gerais. A especialidade são os soufflés — de camarão com gruyère, espinafre com passas, e os de sobremesa — numa casa com serviço impecável e uma das melhores cartas de vinho de BH."},
     {n:"Udon",q:"Japonesa Contemporânea",a:"Av. do Contorno, 7315 — Lourdes, Belo Horizonte — MG",p:"+55 31 3291-5050",pr:3,d:"Referência da culinária japonesa contemporânea em BH desde 2008, com o Chef Marcelo San e uma cozinha aberta onde os sushimen trabalham à vista. Foie gras brûlé, tempura de camarão ao molho de caipirinha e a robata grill são os destaques de um cardápio que vai além da tradição nipónica."},
     {n:"Xapuri",q:"Mineira Tradicional",a:"Rua Mandacarú, 260 — Trevo/Pampulha, Belo Horizonte — MG",p:"+55 31 3496-6198",pr:2,d:"Uma das maiores instituições da culinária mineira, fundada em 1987 pela visionária Dona Nelsa Trombino na Pampulha. Ambiente rústico de fazenda à beira da Lagoa da Pampulha com fogão de lenha, música de viola e sanfona. Frango ao molho pardo, picanha, feijão tropeiro e um buffet de doces com 30 variedades. Um programa completo para almoços de domingo."},
-    {"n":"La Macelleria","q":"Italiana · Talho","a":"Belo Horizonte — MG","p":"","pr":3,"d":"Talho-restaurante italiano em Belo Horizonte com cortes nobres maturados e cozinha contemporânea de carnes. Ambiente moderno com câmara de maturação à vista."},
+    {"n":"La Macelleria","c":"luli","q":"Italiana · Talho","a":"Belo Horizonte — MG","p":"","pr":3,"d":"Talho-restaurante italiano em Belo Horizonte com cortes nobres maturados e cozinha contemporânea de carnes. Ambiente moderno com câmara de maturação à vista."},
     {t:"h",n:"Hotel Fasano Belo Horizonte",q:"Hotel · Boutique 5★",a:"Av. dos Bandeirantes — Mangabeiras, Belo Horizonte — MG",p:"",pr:4,k:1,s:5,d:"Hotel boutique cinco-estrelas do grupo Fasano em Belo Horizonte, inaugurado com a elegância clássica que define a marca. Quartos sofisticados, restaurante Fasano Trattoria (cozinha italiana contemporânea), bar e spa. Localização privilegiada em Mangabeiras, com vista para a serra do Curral. O endereço de luxo da capital mineira."}
   ]},
   {city:"Búzios",region:"Rio de Janeiro",entries:[
@@ -281,7 +20,7 @@ const CITIES=[
     {n:"Lume",q:"Contemporânea · Autoral",a:"Campinas — SP",p:"",pr:3,d:"Restaurante autoral contemporâneo em Campinas com cozinha criativa e ingredientes seleccionados. Um dos endereços mais sofisticados do interior do estado de São Paulo para a gastronomia de autor."},
     {n:"Olivetto",q:"Italiana · Contemporânea",a:"Campinas — SP",p:"",pr:3,d:"Italiana contemporânea de alto nível em Campinas com técnica moderna e ingredientes de qualidade. Um dos melhores restaurantes da cidade para culinária italiana sofisticada no interior paulista."},
     {n:"Seo Rosa",q:"Boteco · Cerveja",a:"Campinas — SP",p:"",pr:1,d:"O boteco mais icónico de Campinas, famoso pelas cervejas artesanais e pelos petiscos generosos. Um ponto de encontro da vida nocturna campineira onde a cerveja gelada, os pastéis e a animação são os ingredientes principais."},
-    {"n":"Piselli Campinas","q":"Italiana","a":"Av. Iguatemi 777, 2º piso Iguatemi Campinas, Campinas — SP","p":"","pr":3,"note":"Filial Iguatemi Campinas","d":"Primeira filial do interior paulista da casa-mãe Piselli (São Paulo), inaugurada em 2025 no Iguatemi Campinas. Alta gastronomia italiana com a mesma curadoria da matriz — massas artesanais, antepastos sofisticados e carta de vinhos italianos. Sob o comando de Juscelino Pereira."}]},
+    {"n":"Piselli Campinas","c":"luli","q":"Italiana","a":"Av. Iguatemi 777, 2º piso Iguatemi Campinas, Campinas — SP","p":"","pr":3,"note":"Filial Iguatemi Campinas","d":"Primeira filial do interior paulista da casa-mãe Piselli (São Paulo), inaugurada em 2025 no Iguatemi Campinas. Alta gastronomia italiana com a mesma curadoria da matriz — massas artesanais, antepastos sofisticados e carta de vinhos italianos. Sob o comando de Juscelino Pereira."}]},
   {city:"Campos do Jordão",region:"São Paulo",entries:[
     {n:"Confraria do Sabor",q:"Contemporânea",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:3,d:"Restaurante contemporâneo em Campos do Jordão com cozinha autoral que valoriza os ingredientes da Serra da Mantiqueira. Uma das propostas gastronómicas mais sofisticadas da cidade para jantares especiais nas montanhas paulistas."},
     {n:"La Galia",q:"Caças · Francesa",a:"Campos do Jordão — SP",p:"+55 12 3662-0000",pr:3,d:"Especialista em caças em Campos do Jordão — javali, veado, perdiz e codorniz preparados com técnica francesa numa cidade serrana que é o ambiente perfeito para este tipo de cozinha. Uma experiência gastronómica única no Brasil."},
@@ -323,14 +62,14 @@ const CITIES=[
     {n:"Satyricon",q:"Frutos do Mar · Italiana",a:"Rua Barão da Torre, 192 — Ipanema, Rio de Janeiro — RJ",p:"+55 21 2521-0192",pr:4,d:"Uma instituição do Rio de Janeiro desde 1986, com a melhor seleção de frutos do mar da cidade preparados à italiana. Localizado em Ipanema, o Satyricon é referência absoluta em luxo marítimo carioca: ostras, lagosta, camarão e robalo da costa fluminense com técnica mediterrânea impecável."},
     {n:"Spicy Fish",q:"Asiática · Fusão",a:"Rio de Janeiro — RJ",p:"",pr:3,d:"Restaurante de fusão asiática no Rio de Janeiro com influências japonesas, chinesas e tailandesas num cardápio criativo e picante. Um dos endereços mais animados e originais para culinária oriental no Rio."},
     {n:"Térèze",q:"Francesa · Boutique",a:"Hotel Santa Teresa, Rio de Janeiro — RJ",p:"+55 21 3380-0200",pr:4,d:"O restaurante do Hotel Santa Teresa, boutique hotel de luxo no histórico bairro homónimo. Cozinha francesa contemporânea num ambiente de casarão colonial restaurado com vista para o Rio. Um dos jantares mais íntimos e sofisticados da cidade."},
-    {"n":"Corrientes 348 - Marina da Glória","q":"Carnes Argentinas","a":"Av. Reporter Nestor Moreira 11, Marina da Glória, Rio de Janeiro — RJ","p":"+55 21 3234-3434","pr":3,"m":"rec","note":"Selection Michelin · Parrilla argentina","d":"Filial carioca da renomada churrascaria argentina, em frente à Marina da Glória com vista para a Baía de Guanabara. Cortes nobres maturados — bife de chorizo, costela, ojo de bife — preparados sobre brasa de carvão argentino. Empanadas, milanesas e dulce de leche."},
-    {"n":"Giuseppe Grill Leblon","q":"Brasileira · Carnes","a":"Av. Bartolomeu Mitre 370, Leblon, Rio de Janeiro — RJ","p":"+55 21 2249-3055","pr":3,"m":"rec","note":"Selection Michelin · Tradição carioca","d":"Steakhouse clássico em Leblon que une a tradição da churrascaria brasileira com cozinha italo-portuguesa. Picanha, bacalhau à Giuseppe, polvo grelhado e a tradicional sobremesa de banana flambada. Um clássico carioca da família Joppert."},
-    {"n":"Henriqueta","q":"Portuguesa","a":"R. Visc. de Carvalho 5, Botafogo, Rio de Janeiro — RJ","p":"+55 21 99127-3000","pr":2,"m":"rec","note":"Selection Michelin","d":"Casa portuguesa em Botafogo com cozinha tradicional e produtos importados de Portugal. Bacalhau confitado, polvo à lagareiro, arroz de pato e pasteis de nata num ambiente acolhedor que celebra a tradição lusa no Rio."},
-    {"n":"Clan BBQ","q":"Carnes · Churrasco","a":"Rua Dias Ferreira 233, Leblon, Rio de Janeiro — RJ","p":"+55 21 99250-0900","pr":3,"m":"rec","note":"Selection Michelin · Churrasco contemporâneo","d":"Churrascaria contemporânea em Leblon com foco no fogo e na brasa. Cortes nobres, vegetais grelhados e pratos compartilhados num ambiente moderno e descontraído. Uma reinvenção do churrasco brasileiro pelo grupo Clan."},
-    {"n":"Aprazível","q":"Brasileira · Vista","a":"Rua Aprazível 62, Santa Teresa, Rio de Janeiro — RJ","p":"+55 21 2508-9174","pr":3,"m":"rec","note":"Selection Michelin · Vista panorâmica do Rio","d":"No alto de Santa Teresa, com uma das vistas mais espetaculares do Rio (Baía de Guanabara, Pão de Açúcar e Cristo Redentor) sob a copa das árvores. Cozinha brasileira contemporânea com ingredientes nacionais — paçoca de pintado, costela com fubá. Atmosfera de jardim tropical."},
-    {"n":"Mr. Lam","q":"Chinesa Contemporânea","a":"R. Maria Angélica 21, Lagoa, Rio de Janeiro — RJ","p":"+55 21 2286-6661","pr":3,"m":"rec","note":"Selection Michelin · Chef Mr. Lam","d":"Cozinha chinesa contemporânea em Lagoa com o chef Mr. Lam que trabalhou no lendário Mr. Chow de Nova Iorque. Peking duck preparado à mesa, dim sum, sopas e molhos sofisticados. Ambiente elegante com terraço para a Lagoa."},
-    {"n":"Pici Trattoria","q":"Italiana · Trattoria","a":"R. Conde de Irajá 132, Botafogo, Rio de Janeiro — RJ","p":"+55 21 99632-3232","pr":2,"m":"bib","note":"Bib Gourmand · Massas frescas","d":"Trattoria italiana de bairro em Botafogo com massas frescas feitas em casa, antepastos generosos e ambiente intimista. Pici (massa toscana cilíndrica), ravioli de abóbora, ossobuco. Uma das melhores relações qualidade-preço da cidade."},
-    {"n":"Babbo Osteria","q":"Italiana","a":"Av. Gen. San Martin 889, Leblon, Rio de Janeiro — RJ","p":"+55 21 2540-0009","pr":2,"m":"rec","note":"Selection Michelin","d":"Osteria italiana em Leblon com cozinha tradicional do norte da Itália. Pasta fresca, antepastos sazonais, vitello tonnato e tiramisù caseiro num ambiente descontraído e familiar."},
+    {"n":"Corrientes 348 - Marina da Glória","c":"luli","q":"Carnes Argentinas","a":"Av. Reporter Nestor Moreira 11, Marina da Glória, Rio de Janeiro — RJ","p":"+55 21 3234-3434","pr":3,"m":"rec","note":"Selection Michelin · Parrilla argentina","d":"Filial carioca da renomada churrascaria argentina, em frente à Marina da Glória com vista para a Baía de Guanabara. Cortes nobres maturados — bife de chorizo, costela, ojo de bife — preparados sobre brasa de carvão argentino. Empanadas, milanesas e dulce de leche."},
+    {"n":"Giuseppe Grill Leblon","c":"luli","q":"Brasileira · Carnes","a":"Av. Bartolomeu Mitre 370, Leblon, Rio de Janeiro — RJ","p":"+55 21 2249-3055","pr":3,"m":"rec","note":"Selection Michelin · Tradição carioca","d":"Steakhouse clássico em Leblon que une a tradição da churrascaria brasileira com cozinha italo-portuguesa. Picanha, bacalhau à Giuseppe, polvo grelhado e a tradicional sobremesa de banana flambada. Um clássico carioca da família Joppert."},
+    {"n":"Henriqueta","c":"luli","q":"Portuguesa","a":"R. Visc. de Carvalho 5, Botafogo, Rio de Janeiro — RJ","p":"+55 21 99127-3000","pr":2,"m":"rec","note":"Selection Michelin","d":"Casa portuguesa em Botafogo com cozinha tradicional e produtos importados de Portugal. Bacalhau confitado, polvo à lagareiro, arroz de pato e pasteis de nata num ambiente acolhedor que celebra a tradição lusa no Rio."},
+    {"n":"Clan BBQ","c":"luli","q":"Carnes · Churrasco","a":"Rua Dias Ferreira 233, Leblon, Rio de Janeiro — RJ","p":"+55 21 99250-0900","pr":3,"m":"rec","note":"Selection Michelin · Churrasco contemporâneo","d":"Churrascaria contemporânea em Leblon com foco no fogo e na brasa. Cortes nobres, vegetais grelhados e pratos compartilhados num ambiente moderno e descontraído. Uma reinvenção do churrasco brasileiro pelo grupo Clan."},
+    {"n":"Aprazível","c":"luli","q":"Brasileira · Vista","a":"Rua Aprazível 62, Santa Teresa, Rio de Janeiro — RJ","p":"+55 21 2508-9174","pr":3,"m":"rec","note":"Selection Michelin · Vista panorâmica do Rio","d":"No alto de Santa Teresa, com uma das vistas mais espetaculares do Rio (Baía de Guanabara, Pão de Açúcar e Cristo Redentor) sob a copa das árvores. Cozinha brasileira contemporânea com ingredientes nacionais — paçoca de pintado, costela com fubá. Atmosfera de jardim tropical."},
+    {"n":"Mr. Lam","c":"luli","q":"Chinesa Contemporânea","a":"R. Maria Angélica 21, Lagoa, Rio de Janeiro — RJ","p":"+55 21 2286-6661","pr":3,"m":"rec","note":"Selection Michelin · Chef Mr. Lam","d":"Cozinha chinesa contemporânea em Lagoa com o chef Mr. Lam que trabalhou no lendário Mr. Chow de Nova Iorque. Peking duck preparado à mesa, dim sum, sopas e molhos sofisticados. Ambiente elegante com terraço para a Lagoa."},
+    {"n":"Pici Trattoria","c":"luli","q":"Italiana · Trattoria","a":"R. Conde de Irajá 132, Botafogo, Rio de Janeiro — RJ","p":"+55 21 99632-3232","pr":2,"m":"bib","note":"Bib Gourmand · Massas frescas","d":"Trattoria italiana de bairro em Botafogo com massas frescas feitas em casa, antepastos generosos e ambiente intimista. Pici (massa toscana cilíndrica), ravioli de abóbora, ossobuco. Uma das melhores relações qualidade-preço da cidade."},
+    {"n":"Babbo Osteria","c":"luli","q":"Italiana","a":"Av. Gen. San Martin 889, Leblon, Rio de Janeiro — RJ","p":"+55 21 2540-0009","pr":2,"m":"rec","note":"Selection Michelin","d":"Osteria italiana em Leblon com cozinha tradicional do norte da Itália. Pasta fresca, antepastos sazonais, vitello tonnato e tiramisù caseiro num ambiente descontraído e familiar."},
     {t:"h",n:"Hotel Fasano Rio",q:"Hotel · Design 5★",a:"Av. Vieira Souto, 80 — Ipanema, Rio de Janeiro — RJ",p:"+55 21 3202-4000",pr:4,k:2,s:5,d:"Hotel-ícone na Av. Vieira Souto, em Ipanema, com decoração de Philippe Starck. Frente para a praia mais sofisticada do Rio. Rooftop com piscina e bar com a melhor vista da cidade. Restaurante Fasano Al Mare, design assinatura e o serviço impecável que define o grupo Fasano."},
     {t:"h",n:"Emiliano Rio",q:"Hotel · Luxo 5★",a:"Av. Atlântica, 3804 — Copacabana, Rio de Janeiro — RJ",p:"+55 21 3503-7000",pr:4,k:1,s:5,d:"Hotel de luxo na Av. Atlântica, em Copacabana, com vista para o icónico calçadão. 90 quartos espaçosos, piscina infinita no rooftop, spa premium e localização inigualável. Um dos hotéis de luxo mais aclamados do Rio."},
     {t:"h",n:"Hotel Santa Teresa MGallery",q:"Hotel · Boutique 5★",a:"R. Almte. Alexandrino, 660 — Santa Teresa, Rio de Janeiro — RJ",p:"+55 21 3380-0200",pr:4,k:1,s:5,d:"Antiga fazenda de café do século XIX transformada em hotel boutique no bohemio bairro de Santa Teresa. Vista panorâmica para a Baía de Guanabara, restaurante Térèze, piscina, spa e o charme de uma das colinas mais artísticas do Rio. MGallery Collection."},
@@ -452,42 +191,42 @@ const CITIES=[
     {n:"Yorimichi",q:"Izakaya · Íntima",a:"São Paulo — SP",p:"",pr:2,d:"Pequena izakaya íntima em São Paulo com espaço limitado e uma experiência próxima do balcão. O nome significa paragem num caminho — uma metáfora perfeita para este endereço que convida a parar e apreciar a culinária japonesa de botequim."},
     {n:"Yu",q:"Japonesa · Kaiseki",a:"São Paulo — SP",p:"",pr:4,d:"Alta cozinha japonesa kaiseki em São Paulo com menu de degustação que segue a filosofia das quatro estações. Ingredientes sazonais com a técnica e espiritualidade que definem a grande culinária japonesa tradicional."},
     {n:"Zena Cucina",q:"Italiana · Lombarda",a:"São Paulo — SP",p:"",pr:3,"m":"bib",d:"Italiana especializada na cozinha lombarda em São Paulo, com risottos, ossibuchi e os pratos do norte de Itália preparados com autenticidade. Uma das poucas casas que faz justiça à riqueza culinária da Lombardia fora de Milão."},
-    {"n":"SIMONE","q":"Italiana Contemporânea","a":"Rua Tapinas 118, Itaim Bibi, São Paulo — SP","p":"+55 11 3074-7790","pr":3,"m":"rec","note":"Selection Michelin","d":"Italiana contemporânea no Itaim Bibi com técnica refinada e produtos italianos cuidadosamente selecionados. Massas frescas, antepastos elaborados e carta de vinhos italianos completa num espaço sofisticado."},
-    {"n":"Grotta Cucina","q":"Italiana · Puglia","a":"Rua José Maria Lisboa 257, Jardim Paulista, São Paulo — SP","p":"+55 11 91200-2325","pr":2,"m":"bib","note":"Bib Gourmand · Chef Daniel Ricciardi","d":"O chef Daniel Ricciardi recria a atmosfera das grutas de Castellana (Puglia) num restaurante íntimo dos Jardins. Cozinha italiana artesanal com massas feitas em casa, focaccia recém-saída e produtos importados da região da Puglia."},
-    {"n":"Giulietta Carni","q":"Italiana · Carnes","a":"Rua Jerônimo da Veiga 36, Jardim Europa, São Paulo — SP","p":"+55 11 3168-5555","pr":3,"m":"rec","note":"Selection Michelin","d":"Fusão única entre cozinha italiana e churrascaria no Jardim Europa. Cortes nobres preparados ao fogo e à brasa, costela glaceada com Gran Masala, millefeuille de batata e atmosfera com decoração kitsch e cozinha à vista."},
-    {"n":"Mondo","q":"Italiana de Autor","a":"Rua Oscar Freire 30, Jardim Paulista, São Paulo — SP","p":"+55 11 3082-2666","pr":3,"m":"rec","note":"Selection Michelin · Chef Salvatore Loi","d":"Italiana moderna na Oscar Freire pelo chef sardo Salvatore Loi. Fettuccine com limão e lula, cordeiro assado com abóbora confit e avelãs tostadas. Refinamento em formato descontraído."},
-    {"n":"El Tranvia - Itaim Bibi","q":"Carnes Uruguaias","a":"Rua Leopoldo Couto de Magalhães Júnior 1372, Itaim Bibi, São Paulo — SP","p":"+55 11 3071-3000","pr":3,"m":"rec","note":"Selection Michelin · Cozinha tradicional uruguaia","d":"Instituição uruguaia em São Paulo com a melhor parrilla da cidade. Cortes maturados — vazio, entrecot, costela — sobre brasa de carvão, chimichurri caseiro e morcillas autênticas. Ambiente clássico e clientela fiel."},
-    {"n":"Lassù","q":"Italiana Contemporânea · Vista","a":"Rua Conselheiro Saraiva 207, 28º andar, Santana, São Paulo — SP","p":"+55 11 95677-1228","pr":3,"m":"rec","note":"Selection Michelin · Salão giratório","d":"Restaurante giratório no 28º andar com vista 270° de São Paulo. Cozinha que mistura técnica italiana com ingredientes brasileiros, lasanha herdada do chef Salvatore Loi e ambiente que vai girando suavemente durante a refeição."},
-    {"n":"Sal Gastronomia","q":"Contemporânea Brasileira","a":"Rua Bela Cintra 1958, Consolação, São Paulo — SP","p":"+55 11 3554-4460","pr":3,"m":"rec","note":"Selection Michelin · Chef Henrique Fogaça","d":"Restaurante do chef Henrique Fogaça (MasterChef) em Bela Cintra desde 2024. Cozinha contemporânea brasileira com tempero ousado, ingredientes de qualidade e o estilo destemido do chef nas criações da casa."},
-    {"n":"Ecully","q":"Franco-Brasileira-Italiana","a":"Rua Cotoxó 493, Pompeia, São Paulo — SP","p":"+55 11 3862-3122","pr":2,"m":"bib","note":"Bib Gourmand · Casal de chefs","d":"No pátio de uma casa centenária em Pompeia, os jovens chefs Juliana e Guilherme — que se conheceram em Écully (França) — assinam cozinha que mescla influências italianas, francesas e brasileiras. Tem ainda uma grande loja de vinhos a acompanhar."},
-    {"n":"Corrutela","q":"Sazonal Sustentável","a":"Rua Medeiros de Albuquerque 256, Vila Madalena, São Paulo — SP","p":"+55 11 3864-2200","pr":2,"m":"bib","note":"Bib Gourmand · 50 Best LatAm · Chef Cesar Costa","d":"Restaurante mais sustentável da América Latina pelo chef Cesar Costa em Vila Madalena. Apenas ingredientes orgânicos, energia solar, compostagem própria. Menu vegetal-forward que muda com as estações — ceviche de ostra com pitaya, língua de wagyu defumada."},
-    {"n":"Naga","q":"Japonesa","a":"Rua Bandeira Paulista 385, Itaim Bibi, São Paulo — SP","p":"+55 11 3079-0099","pr":3,"m":"rec","note":"Selection Michelin · Desde 1988","d":"Lendária japonesa do Itaim Bibi desde 1988, do grupo Nagayama. Carpaccios, sushi, sashimi, uramaki, temaki, tartares e teppanyaki numa carta extensa. Para grupos vale o omakase ou o Naga Case."},
-    {"n":"Kosushi","q":"Japonesa","a":"Av. Magalhães de Castro 12000, Cidade Jardim, São Paulo — SP","p":"+55 11 3552-7272","pr":3,"m":"rec","note":"Selection Michelin","d":"Tradicional japonesa em Cidade Jardim com chefs experientes ao balcão. Sushi e sashimi de produto fresco, uramakis criativos e omakase para os mais aventureiros num ambiente sofisticado do shopping mais luxuoso de São Paulo."},
-    {"n":"Petí Gastronomia","q":"Cozinha Moderna","a":"Rua Cotoxó 110, Pompeia, São Paulo — SP","p":"+55 11 3862-2122","pr":1,"m":"bib","note":"Bib Gourmand · Chef Victor Dimitrow · Só almoço","d":"Restaurante dentro do ateliê de materiais artísticos Pintar, em Pompeia. O jovem chef Victor Dimitrow cria pratos contemporâneos com ingredientes orgânicos e frescos. Aberto apenas ao almoço, terça a domingo. Excelente custo-benefício."},
-    {"n":"Brasserie Victória","q":"Libanesa","a":"Av. Pres. Juscelino Kubitschek 545, Itaim Bibi, São Paulo — SP","p":"+55 11 3040-8897","pr":1,"m":"bib","note":"Bib Gourmand · 70 anos · Mesma família","d":"Setenta anos de cozinha árabe autêntica na Av. JK pela mesma família desde a Dona Victória. Kaftas, sfihas (abertas, fechadas, dobradas), kibes, labneh e pão pita. Ícone gastronómico da região com excelente custo-benefício."},
-    {"n":"Bistrot de Paris","q":"Francesa Bistrô","a":"Villa San Pietro, Rua Augusta 2542, Jardins, São Paulo — SP","p":"+55 11 3063-1675","pr":2,"m":"rec","note":"Selection Michelin · Chef Alain Poletto","d":"Bistrô parisiense autêntico escondido na Villa San Pietro pelo chef Alain Poletto. Receitas clássicas francesas — escargots, steak frites, soupe à l'oignon — em ambiente romântico e acolhedor. Carta de vinhos franceses cuidadosa."},
-    {"n":"Goya Zushi","q":"Japonesa Omakase","a":"Alameda Franca 1151, Jardins, São Paulo — SP","p":"+55 11 95867-2233","pr":3,"m":"bib","note":"Selection Michelin · Omakase · Chef Uilian Goya","d":"Aberto em 2022 pelo chef Uilian Goya, omakase de 10 a 15 cursos para apenas dez clientes por sessão. Sushis, sashimis maturados, usuzukuri, temaki e pratos quentes. Decoração com cerâmicas, bonecos manga e grafiti — homenagem à tradição imigrante da família."},
-    {"n":"Nelita","q":"Italiana Contemporânea","a":"Rua Ferreira de Araújo 330, Pinheiros, São Paulo — SP","p":"+55 11 3814-3334","pr":3,"m":"rec","note":"Selection Michelin · 50 Best LatAm #12 · Chef Tássia Magalhães","d":"Da chef Tássia Magalhães com cozinha 100% feminina, em Pinheiros. Massa é a estrela — agnolotti de cabra com limão confit e alho preto, pappardelle com polvo, guanciale e espinafre. Menu degustação de 5 ou 11 pratos. Top 12 no Latin America's 50 Best 2025."},
-    {"n":"Rancho Português 53","q":"Portuguesa","a":"Rod. Castelo Branco Km 53, Araçariguama — SP","p":"+55 11 4136-1381","pr":2,"d":"Casa portuguesa autêntica e emporium na Castelo Branco — ponto de paragem obrigatória de quem viaja entre SP e o interior. Bolinhos de bacalhau, alheira, leitão à Bairrada, bacalhau com broa, e os famosos pastéis de nata. Aberto das 6h às 23h."},
-    {"n":"Dinho's","q":"Carnes","a":"São Paulo — SP","p":"","pr":3,"d":"Tradicional steakhouse paulistana, fundado em 1972. Carnes maturadas, picanha argentina e a melhor caipirinha de SP. Um clássico da família Antoniolli."},
-    {"n":"NTMU","q":"Carnes Contemporâneas","a":"São Paulo — SP","p":"","pr":3,"d":"Steakhouse contemporâneo em SP — Não Tem Mais Um — com cortes nobres em ambiente moderno. Wagyu, dry-aged e drinks autorais."},
-    {"n":"Assado Porteño","q":"Carnes Argentinas · Parrilla","a":"São Paulo — SP","p":"","pr":3,"d":"Parrilla argentina em São Paulo com cortes maturados, achuras e empanadas. Ambiente típico das parrillas de Buenos Aires."},
-    {"n":"Marena","q":"Italiana","a":"São Paulo — SP","p":"","pr":3,"d":"Italiana refinada em São Paulo com massas frescas e antepastos elaborados. Ambiente sofisticado e carta italiana cuidada."},
-    {"n":"Piselli Sud","q":"Italiana · Sul da Itália","a":"São Paulo — SP","p":"","pr":3,"d":"Filial mais descontraída do Piselli, focada na cozinha do sul da Itália — Puglia, Calabria, Basilicata. Massas, frutos do mar e ingredientes do mediterrâneo italiano."},
-    {"n":"Zucco","q":"Italiana","a":"São Paulo — SP","p":"","pr":3,"d":"Italiana clássica em São Paulo com massas, risottos e ambiente elegante."},
-    {"n":"Sardegna Trattoria","q":"Italiana · Sardenha","a":"São Paulo — SP","p":"","pr":3,"d":"Trattoria especializada na cozinha da Sardenha em São Paulo. Malloreddus, fregula, porceddu (leitão sardo) e vinhos da ilha. Cozinha italiana menos óbvia mas autêntica."},
-    {"n":"Parigi Amauri","q":"Franco-Italiana","a":"Rua Amauri, Itaim Bibi, São Paulo — SP","p":"+55 11 3168-3168","pr":4,"d":"O Parigi original na rua Amauri (Itaim Bibi). Casa franco-italiana clássica do grupo Fasano com receitas refinadas e ambiente sofisticado de bistrô parisiense."},
-    {"n":"Parigi Cidade Jardim","q":"Franco-Italiana","a":"Shopping Cidade Jardim, São Paulo — SP","p":"+55 11 3552-7790","pr":4,"d":"Filial do Parigi (grupo Fasano) no Shopping Cidade Jardim. Mesma cozinha franco-italiana refinada num ambiente moderno do shopping mais luxuoso de SP."},
-    {"n":"Le Deux Magot","q":"Francesa · Bistrô","a":"São Paulo — SP","p":"","pr":3,"d":"Bistrô francês em São Paulo inspirado no famoso Les Deux Magots de Saint-Germain-des-Prés (Paris). Receitas clássicas e ambiente parisiense."},
-    {"n":"La Avenue","q":"Francesa","a":"São Paulo — SP","p":"","pr":3,"d":"Restaurante francês em São Paulo com cozinha clássica e elegante. Ambiente refinado para encontros importantes."},
-    {"n":"Nit Bar de Tapas","q":"Espanhola · Tapas","a":"São Paulo — SP","p":"","pr":2,"d":"Bar de tapas espanholas em São Paulo. Pintxos bascos, jamón ibérico, paella, croquetas e vinhos espanhóis num ambiente animado de tapería."},
-    {"n":"Hon Maguro","q":"Japonesa · Sushi","a":"São Paulo — SP","p":"","pr":3,"d":"Sushi premium em São Paulo especializado em maguro (atum). Cortes nobres do peixe rei do sushi servidos com técnica refinada."},
-    {"n":"Yakiniku Yakidukoro","q":"Japonesa · Yakiniku","a":"São Paulo — SP","p":"","pr":3,"d":"Yakiniku autêntico em São Paulo — churrasco japonês onde o cliente grelha cortes premium na mesa. Wagyu, vísceras e carnes maturadas."},
-    {"n":"Song Qi","q":"Chinesa · Cantonesa","a":"São Paulo — SP","p":"","pr":3,"d":"Cozinha cantonesa de alta gastronomia em São Paulo. Dim sum sofisticado, peixe-vapor cantonês e pato laqueado em ambiente elegante."},
-    {"n":"Lavva","q":"Coreana","a":"São Paulo — SP","p":"","pr":2,"d":"Cozinha coreana contemporânea em São Paulo com bibimbap, bulgogi, kimchi e KBBQ na mesa. Ambiente moderno."},
-    {"n":"Arábia","q":"Árabe · Libanesa","a":"São Paulo — SP","p":"+55 11 3061-2203","pr":2,"d":"Tradicional libanês em São Paulo desde 1987 — Av. Oscar Freire. Mezzes generosos, kibes, esfihas, cordeiro assado e o tradicional café árabe. Família mantém a casa há gerações."},
-    {"n":"Leggera","q":"Pizzaria · Napolitana","a":"São Paulo — SP","p":"+55 11 3862-2581","pr":2,"d":"Pizzaria napolitana em São Paulo do chef André Guidon. Massa de longa fermentação, ingredientes italianos importados e forno a lenha a 480°C — uma das melhores napolitanas do Brasil."},
-    {"n":"Miado","q":"Criativa · Tasting Menu","a":"São Paulo — SP","p":"","pr":4,"d":"Restaurante de cozinha criativa em SP com menu de degustação experimental. Pratos artísticos com ingredientes brasileiros e técnicas avançadas."},
+    {"n":"SIMONE","c":"luli","q":"Italiana Contemporânea","a":"Rua Tapinas 118, Itaim Bibi, São Paulo — SP","p":"+55 11 3074-7790","pr":3,"m":"rec","note":"Selection Michelin","d":"Italiana contemporânea no Itaim Bibi com técnica refinada e produtos italianos cuidadosamente selecionados. Massas frescas, antepastos elaborados e carta de vinhos italianos completa num espaço sofisticado."},
+    {"n":"Grotta Cucina","c":"luli","q":"Italiana · Puglia","a":"Rua José Maria Lisboa 257, Jardim Paulista, São Paulo — SP","p":"+55 11 91200-2325","pr":2,"m":"bib","note":"Bib Gourmand · Chef Daniel Ricciardi","d":"O chef Daniel Ricciardi recria a atmosfera das grutas de Castellana (Puglia) num restaurante íntimo dos Jardins. Cozinha italiana artesanal com massas feitas em casa, focaccia recém-saída e produtos importados da região da Puglia."},
+    {"n":"Giulietta Carni","c":"luli","q":"Italiana · Carnes","a":"Rua Jerônimo da Veiga 36, Jardim Europa, São Paulo — SP","p":"+55 11 3168-5555","pr":3,"m":"rec","note":"Selection Michelin","d":"Fusão única entre cozinha italiana e churrascaria no Jardim Europa. Cortes nobres preparados ao fogo e à brasa, costela glaceada com Gran Masala, millefeuille de batata e atmosfera com decoração kitsch e cozinha à vista."},
+    {"n":"Mondo","c":"luli","q":"Italiana de Autor","a":"Rua Oscar Freire 30, Jardim Paulista, São Paulo — SP","p":"+55 11 3082-2666","pr":3,"m":"rec","note":"Selection Michelin · Chef Salvatore Loi","d":"Italiana moderna na Oscar Freire pelo chef sardo Salvatore Loi. Fettuccine com limão e lula, cordeiro assado com abóbora confit e avelãs tostadas. Refinamento em formato descontraído."},
+    {"n":"El Tranvia - Itaim Bibi","c":"luli","q":"Carnes Uruguaias","a":"Rua Leopoldo Couto de Magalhães Júnior 1372, Itaim Bibi, São Paulo — SP","p":"+55 11 3071-3000","pr":3,"m":"rec","note":"Selection Michelin · Cozinha tradicional uruguaia","d":"Instituição uruguaia em São Paulo com a melhor parrilla da cidade. Cortes maturados — vazio, entrecot, costela — sobre brasa de carvão, chimichurri caseiro e morcillas autênticas. Ambiente clássico e clientela fiel."},
+    {"n":"Lassù","c":"luli","q":"Italiana Contemporânea · Vista","a":"Rua Conselheiro Saraiva 207, 28º andar, Santana, São Paulo — SP","p":"+55 11 95677-1228","pr":3,"m":"rec","note":"Selection Michelin · Salão giratório","d":"Restaurante giratório no 28º andar com vista 270° de São Paulo. Cozinha que mistura técnica italiana com ingredientes brasileiros, lasanha herdada do chef Salvatore Loi e ambiente que vai girando suavemente durante a refeição."},
+    {"n":"Sal Gastronomia","c":"luli","q":"Contemporânea Brasileira","a":"Rua Bela Cintra 1958, Consolação, São Paulo — SP","p":"+55 11 3554-4460","pr":3,"m":"rec","note":"Selection Michelin · Chef Henrique Fogaça","d":"Restaurante do chef Henrique Fogaça (MasterChef) em Bela Cintra desde 2024. Cozinha contemporânea brasileira com tempero ousado, ingredientes de qualidade e o estilo destemido do chef nas criações da casa."},
+    {"n":"Ecully","c":"luli","q":"Franco-Brasileira-Italiana","a":"Rua Cotoxó 493, Pompeia, São Paulo — SP","p":"+55 11 3862-3122","pr":2,"m":"bib","note":"Bib Gourmand · Casal de chefs","d":"No pátio de uma casa centenária em Pompeia, os jovens chefs Juliana e Guilherme — que se conheceram em Écully (França) — assinam cozinha que mescla influências italianas, francesas e brasileiras. Tem ainda uma grande loja de vinhos a acompanhar."},
+    {"n":"Corrutela","c":"luli","q":"Sazonal Sustentável","a":"Rua Medeiros de Albuquerque 256, Vila Madalena, São Paulo — SP","p":"+55 11 3864-2200","pr":2,"m":"bib","note":"Bib Gourmand · 50 Best LatAm · Chef Cesar Costa","d":"Restaurante mais sustentável da América Latina pelo chef Cesar Costa em Vila Madalena. Apenas ingredientes orgânicos, energia solar, compostagem própria. Menu vegetal-forward que muda com as estações — ceviche de ostra com pitaya, língua de wagyu defumada."},
+    {"n":"Naga","c":"luli","q":"Japonesa","a":"Rua Bandeira Paulista 385, Itaim Bibi, São Paulo — SP","p":"+55 11 3079-0099","pr":3,"m":"rec","note":"Selection Michelin · Desde 1988","d":"Lendária japonesa do Itaim Bibi desde 1988, do grupo Nagayama. Carpaccios, sushi, sashimi, uramaki, temaki, tartares e teppanyaki numa carta extensa. Para grupos vale o omakase ou o Naga Case."},
+    {"n":"Kosushi","c":"luli","q":"Japonesa","a":"Av. Magalhães de Castro 12000, Cidade Jardim, São Paulo — SP","p":"+55 11 3552-7272","pr":3,"m":"rec","note":"Selection Michelin","d":"Tradicional japonesa em Cidade Jardim com chefs experientes ao balcão. Sushi e sashimi de produto fresco, uramakis criativos e omakase para os mais aventureiros num ambiente sofisticado do shopping mais luxuoso de São Paulo."},
+    {"n":"Petí Gastronomia","c":"luli","q":"Cozinha Moderna","a":"Rua Cotoxó 110, Pompeia, São Paulo — SP","p":"+55 11 3862-2122","pr":1,"m":"bib","note":"Bib Gourmand · Chef Victor Dimitrow · Só almoço","d":"Restaurante dentro do ateliê de materiais artísticos Pintar, em Pompeia. O jovem chef Victor Dimitrow cria pratos contemporâneos com ingredientes orgânicos e frescos. Aberto apenas ao almoço, terça a domingo. Excelente custo-benefício."},
+    {"n":"Brasserie Victória","c":"luli","q":"Libanesa","a":"Av. Pres. Juscelino Kubitschek 545, Itaim Bibi, São Paulo — SP","p":"+55 11 3040-8897","pr":1,"m":"bib","note":"Bib Gourmand · 70 anos · Mesma família","d":"Setenta anos de cozinha árabe autêntica na Av. JK pela mesma família desde a Dona Victória. Kaftas, sfihas (abertas, fechadas, dobradas), kibes, labneh e pão pita. Ícone gastronómico da região com excelente custo-benefício."},
+    {"n":"Bistrot de Paris","c":"luli","q":"Francesa Bistrô","a":"Villa San Pietro, Rua Augusta 2542, Jardins, São Paulo — SP","p":"+55 11 3063-1675","pr":2,"m":"rec","note":"Selection Michelin · Chef Alain Poletto","d":"Bistrô parisiense autêntico escondido na Villa San Pietro pelo chef Alain Poletto. Receitas clássicas francesas — escargots, steak frites, soupe à l'oignon — em ambiente romântico e acolhedor. Carta de vinhos franceses cuidadosa."},
+    {"n":"Goya Zushi","c":"luli","q":"Japonesa Omakase","a":"Alameda Franca 1151, Jardins, São Paulo — SP","p":"+55 11 95867-2233","pr":3,"m":"bib","note":"Selection Michelin · Omakase · Chef Uilian Goya","d":"Aberto em 2022 pelo chef Uilian Goya, omakase de 10 a 15 cursos para apenas dez clientes por sessão. Sushis, sashimis maturados, usuzukuri, temaki e pratos quentes. Decoração com cerâmicas, bonecos manga e grafiti — homenagem à tradição imigrante da família."},
+    {"n":"Nelita","c":"luli","q":"Italiana Contemporânea","a":"Rua Ferreira de Araújo 330, Pinheiros, São Paulo — SP","p":"+55 11 3814-3334","pr":3,"m":"rec","note":"Selection Michelin · 50 Best LatAm #12 · Chef Tássia Magalhães","d":"Da chef Tássia Magalhães com cozinha 100% feminina, em Pinheiros. Massa é a estrela — agnolotti de cabra com limão confit e alho preto, pappardelle com polvo, guanciale e espinafre. Menu degustação de 5 ou 11 pratos. Top 12 no Latin America's 50 Best 2025."},
+    {"n":"Rancho Português 53","c":"luli","q":"Portuguesa","a":"Rod. Castelo Branco Km 53, Araçariguama — SP","p":"+55 11 4136-1381","pr":2,"d":"Casa portuguesa autêntica e emporium na Castelo Branco — ponto de paragem obrigatória de quem viaja entre SP e o interior. Bolinhos de bacalhau, alheira, leitão à Bairrada, bacalhau com broa, e os famosos pastéis de nata. Aberto das 6h às 23h."},
+    {"n":"Dinho's","c":"luli","q":"Carnes","a":"São Paulo — SP","p":"","pr":3,"d":"Tradicional steakhouse paulistana, fundado em 1972. Carnes maturadas, picanha argentina e a melhor caipirinha de SP. Um clássico da família Antoniolli."},
+    {"n":"NTMU","c":"luli","q":"Carnes Contemporâneas","a":"São Paulo — SP","p":"","pr":3,"d":"Steakhouse contemporâneo em SP — Não Tem Mais Um — com cortes nobres em ambiente moderno. Wagyu, dry-aged e drinks autorais."},
+    {"n":"Assado Porteño","c":"luli","q":"Carnes Argentinas · Parrilla","a":"São Paulo — SP","p":"","pr":3,"d":"Parrilla argentina em São Paulo com cortes maturados, achuras e empanadas. Ambiente típico das parrillas de Buenos Aires."},
+    {"n":"Marena","c":"luli","q":"Italiana","a":"São Paulo — SP","p":"","pr":3,"d":"Italiana refinada em São Paulo com massas frescas e antepastos elaborados. Ambiente sofisticado e carta italiana cuidada."},
+    {"n":"Piselli Sud","c":"luli","q":"Italiana · Sul da Itália","a":"São Paulo — SP","p":"","pr":3,"d":"Filial mais descontraída do Piselli, focada na cozinha do sul da Itália — Puglia, Calabria, Basilicata. Massas, frutos do mar e ingredientes do mediterrâneo italiano."},
+    {"n":"Zucco","c":"luli","q":"Italiana","a":"São Paulo — SP","p":"","pr":3,"d":"Italiana clássica em São Paulo com massas, risottos e ambiente elegante."},
+    {"n":"Sardegna Trattoria","c":"luli","q":"Italiana · Sardenha","a":"São Paulo — SP","p":"","pr":3,"d":"Trattoria especializada na cozinha da Sardenha em São Paulo. Malloreddus, fregula, porceddu (leitão sardo) e vinhos da ilha. Cozinha italiana menos óbvia mas autêntica."},
+    {"n":"Parigi Amauri","c":"luli","q":"Franco-Italiana","a":"Rua Amauri, Itaim Bibi, São Paulo — SP","p":"+55 11 3168-3168","pr":4,"d":"O Parigi original na rua Amauri (Itaim Bibi). Casa franco-italiana clássica do grupo Fasano com receitas refinadas e ambiente sofisticado de bistrô parisiense."},
+    {"n":"Parigi Cidade Jardim","c":"luli","q":"Franco-Italiana","a":"Shopping Cidade Jardim, São Paulo — SP","p":"+55 11 3552-7790","pr":4,"d":"Filial do Parigi (grupo Fasano) no Shopping Cidade Jardim. Mesma cozinha franco-italiana refinada num ambiente moderno do shopping mais luxuoso de SP."},
+    {"n":"Le Deux Magot","c":"luli","q":"Francesa · Bistrô","a":"São Paulo — SP","p":"","pr":3,"d":"Bistrô francês em São Paulo inspirado no famoso Les Deux Magots de Saint-Germain-des-Prés (Paris). Receitas clássicas e ambiente parisiense."},
+    {"n":"La Avenue","c":"luli","q":"Francesa","a":"São Paulo — SP","p":"","pr":3,"d":"Restaurante francês em São Paulo com cozinha clássica e elegante. Ambiente refinado para encontros importantes."},
+    {"n":"Nit Bar de Tapas","c":"luli","q":"Espanhola · Tapas","a":"São Paulo — SP","p":"","pr":2,"d":"Bar de tapas espanholas em São Paulo. Pintxos bascos, jamón ibérico, paella, croquetas e vinhos espanhóis num ambiente animado de tapería."},
+    {"n":"Hon Maguro","c":"luli","q":"Japonesa · Sushi","a":"São Paulo — SP","p":"","pr":3,"d":"Sushi premium em São Paulo especializado em maguro (atum). Cortes nobres do peixe rei do sushi servidos com técnica refinada."},
+    {"n":"Yakiniku Yakidukoro","c":"luli","q":"Japonesa · Yakiniku","a":"São Paulo — SP","p":"","pr":3,"d":"Yakiniku autêntico em São Paulo — churrasco japonês onde o cliente grelha cortes premium na mesa. Wagyu, vísceras e carnes maturadas."},
+    {"n":"Song Qi","c":"luli","q":"Chinesa · Cantonesa","a":"São Paulo — SP","p":"","pr":3,"d":"Cozinha cantonesa de alta gastronomia em São Paulo. Dim sum sofisticado, peixe-vapor cantonês e pato laqueado em ambiente elegante."},
+    {"n":"Lavva","c":"luli","q":"Coreana","a":"São Paulo — SP","p":"","pr":2,"d":"Cozinha coreana contemporânea em São Paulo com bibimbap, bulgogi, kimchi e KBBQ na mesa. Ambiente moderno."},
+    {"n":"Arábia","c":"luli","q":"Árabe · Libanesa","a":"São Paulo — SP","p":"+55 11 3061-2203","pr":2,"d":"Tradicional libanês em São Paulo desde 1987 — Av. Oscar Freire. Mezzes generosos, kibes, esfihas, cordeiro assado e o tradicional café árabe. Família mantém a casa há gerações."},
+    {"n":"Leggera","c":"luli","q":"Pizzaria · Napolitana","a":"São Paulo — SP","p":"+55 11 3862-2581","pr":2,"d":"Pizzaria napolitana em São Paulo do chef André Guidon. Massa de longa fermentação, ingredientes italianos importados e forno a lenha a 480°C — uma das melhores napolitanas do Brasil."},
+    {"n":"Miado","c":"luli","q":"Criativa · Tasting Menu","a":"São Paulo — SP","p":"","pr":4,"d":"Restaurante de cozinha criativa em SP com menu de degustação experimental. Pratos artísticos com ingredientes brasileiros e técnicas avançadas."},
     {t:"h",n:"Palácio Tangará",q:"Hotel · Resort Urbano 5★",a:"R. Deputado Laércio Corte, 1501 — Panamby, São Paulo — SP",p:"+55 11 4904-4040",pr:4,k:2,s:5,d:"Hotel da Oetker Collection no Parque Burle Marx, em Panamby. Verdadeiro resort urbano em meio à mata atlântica. Restaurante Tangará Jean-Georges (1 Estrela Michelin), spa Sisley, piscina, jardins desenhados por Burle Marx. Um dos endereços mais exclusivos do Brasil."},
     {t:"h",n:"Rosewood São Paulo",q:"Hotel · Ultra-luxo 5★",a:"R. Itapeva, 435 — Cidade Matarazzo, Bela Vista, São Paulo — SP",p:"+55 11 3956-5500",pr:4,k:2,s:5,d:"Hotel Rosewood inaugurado no complexo Cidade Matarazzo. Arquitectura de Jean Nouvel e design de Philippe Starck. Restaurante Le Jardin, Blaise (Chef Felipe Rodrigues), Taraz, Rabieh. Ateliê de arte, spa, piscinas. O hotel mais ambicioso e premiado do Brasil — Rosewood Brand pelo seu padrão internacional ultra-luxo."},
     {t:"h",n:"Hotel Fasano São Paulo",q:"Hotel · Boutique 5★",a:"R. Vittorio Fasano, 88 — Cerqueira César, São Paulo — SP",p:"+55 11 3896-4000",pr:4,k:2,s:5,d:"O hotel-bandeira do grupo Fasano nos Jardins, projectado por Isay Weinfeld e Marcio Kogan. 60 quartos com a elegância clássica do grupo, restaurante Fasano (referência da cozinha italiana em São Paulo), Baretto-Londra, e o serviço Fasano que define o luxo na cidade."},
@@ -499,12 +238,12 @@ const CITIES=[
     {t:"h",n:"Boa Vista Surf Lodge",q:"Resort · Surf & Wellness 5★",a:"Fazenda Boa Vista — Porto Feliz — SP",p:"+55 15 3505-7600",pr:4,k:1,s:5,d:"Surf lodge único no interior de São Paulo, parte do complexo Fazenda Boa Vista. Tem a Surf Boa Vista — uma das maiores piscinas de ondas artificiais do mundo (Wavegarden Cove technology, ondas até 2m). 18 suítes de design contemporâneo, restaurante de cozinha tropical, spa, yoga, beach club. Um endereço inédito que combina luxo, surf e natureza, a 90 min de São Paulo."}
   ]},
   {city:"Vitória",region:"Espírito Santo",entries:[
-    {"n":"Soeta","q":"Contemporânea de Autor","a":"R. Desembargador Sampaio 332, Praia do Canto, Vitória — ES","p":"+55 27 3026-4433","pr":4,"m":"rec","note":"Latin America's 50 Best Discovery · Chefs Bárbara Verzola e Pablo Pavón (El Bulli)","d":"Alta gastronomia capixaba pelos chefs Bárbara Verzola e Pablo Pavón, ambos com passagem pelo lendário El Bulli. Cozinha contemporânea de autor com produtos locais do litoral capixaba e técnica de classe internacional. Praia do Canto."},
-    {"n":"Papaguth","q":"Capixaba · Frutos do Mar","a":"Av. Nossa Senhora dos Navegantes 700, Enseada do Suá, Vitória — ES","p":"+55 27 3315-1488","pr":3,"d":"Templo da cozinha capixaba pelo chef Júlio Lemos. Moqueca capixaba autêntica em panela de barro, frutos do mar do Atlântico e pratos regionais que celebram a tradição gastronómica do Espírito Santo. Praia do Suá."},
-    {"n":"Balthazar","q":"Contemporânea Refinada","a":"R. Elesbão Linhares 15, Shopping Day by Day, Praia do Canto, Vitória — ES","p":"+55 27 3325-3333","pr":3,"d":"Restaurante refinado na Praia do Canto com ambiente luxuoso e cozinha sofisticada. Antepastos elaborados, massas frescas, carnes nobres e clientela exigente. Uma das mesas mais elegantes de Vitória."},
-    {"n":"Moqueca do Geraldo","q":"Capixaba · Moqueca","a":"Manguinhos, Serra — ES","p":"+55 27 3243-1300","pr":2,"note":"Receita original há 70 anos · Desde 1957","d":"Templo da moqueca capixaba em Manguinhos com receita original que não mudou em quase sete décadas. Frente para o mar, panela de barro, peixes do dia da pesca local. Uma instituição da cozinha capixaba mantida pela família Geraldo desde 1957."},
-    {"n":"O Timoneiro","q":"Capixaba · Frutos do Mar","a":"R. Pedro Palácios 79, Prainha, Vila Velha — ES","p":"+55 27 3329-3637","pr":2,"d":"Em Vila Velha, junto ao Convento da Penha, uma das casas mais autênticas para a moqueca capixaba clássica. Camarões da costa capixaba, peixes do dia e o sabor genuíno do litoral do Espírito Santo."},
-    {"n":"Lareira Portuguesa","q":"Portuguesa","a":"Av. Saturnino de Brito 260, Vitória — ES","p":"+55 27 3325-7000","pr":2,"d":"Casa portuguesa em Vitória com cozinha tradicional e excelente carta de vinhos. Bacalhau à Brás, à Gomes de Sá, polvo à lagareiro e pasteis de nata num ambiente acolhedor que transporta a Portugal."}]}
+    {"n":"Soeta","c":"luli","q":"Contemporânea de Autor","a":"R. Desembargador Sampaio 332, Praia do Canto, Vitória — ES","p":"+55 27 3026-4433","pr":4,"m":"rec","note":"Latin America's 50 Best Discovery · Chefs Bárbara Verzola e Pablo Pavón (El Bulli)","d":"Alta gastronomia capixaba pelos chefs Bárbara Verzola e Pablo Pavón, ambos com passagem pelo lendário El Bulli. Cozinha contemporânea de autor com produtos locais do litoral capixaba e técnica de classe internacional. Praia do Canto."},
+    {"n":"Papaguth","c":"luli","q":"Capixaba · Frutos do Mar","a":"Av. Nossa Senhora dos Navegantes 700, Enseada do Suá, Vitória — ES","p":"+55 27 3315-1488","pr":3,"d":"Templo da cozinha capixaba pelo chef Júlio Lemos. Moqueca capixaba autêntica em panela de barro, frutos do mar do Atlântico e pratos regionais que celebram a tradição gastronómica do Espírito Santo. Praia do Suá."},
+    {"n":"Balthazar","c":"luli","q":"Contemporânea Refinada","a":"R. Elesbão Linhares 15, Shopping Day by Day, Praia do Canto, Vitória — ES","p":"+55 27 3325-3333","pr":3,"d":"Restaurante refinado na Praia do Canto com ambiente luxuoso e cozinha sofisticada. Antepastos elaborados, massas frescas, carnes nobres e clientela exigente. Uma das mesas mais elegantes de Vitória."},
+    {"n":"Moqueca do Geraldo","c":"luli","q":"Capixaba · Moqueca","a":"Manguinhos, Serra — ES","p":"+55 27 3243-1300","pr":2,"note":"Receita original há 70 anos · Desde 1957","d":"Templo da moqueca capixaba em Manguinhos com receita original que não mudou em quase sete décadas. Frente para o mar, panela de barro, peixes do dia da pesca local. Uma instituição da cozinha capixaba mantida pela família Geraldo desde 1957."},
+    {"n":"O Timoneiro","c":"luli","q":"Capixaba · Frutos do Mar","a":"R. Pedro Palácios 79, Prainha, Vila Velha — ES","p":"+55 27 3329-3637","pr":2,"d":"Em Vila Velha, junto ao Convento da Penha, uma das casas mais autênticas para a moqueca capixaba clássica. Camarões da costa capixaba, peixes do dia e o sabor genuíno do litoral do Espírito Santo."},
+    {"n":"Lareira Portuguesa","c":"luli","q":"Portuguesa","a":"Av. Saturnino de Brito 260, Vitória — ES","p":"+55 27 3325-7000","pr":2,"d":"Casa portuguesa em Vitória com cozinha tradicional e excelente carta de vinhos. Bacalhau à Brás, à Gomes de Sá, polvo à lagareiro e pasteis de nata num ambiente acolhedor que transporta a Portugal."}]}
 ];
 
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};

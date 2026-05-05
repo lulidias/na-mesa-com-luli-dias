@@ -1,220 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>França — Luli Dias · Restaurants &amp; Hotels</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;
-  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-dk:#8B6914;--gold-bg:#FAF5EB;--border:#E8E0D5;--card-bg:#FFF;
-  --m2:#E4002B;--m2bg:#FFF0F0;--m1:#C0001F;--m1bg:#FFF5F5;
-  --bib:#E8700A;--bibbg:#FFF5EE;--green:#2D7A3A;--greenbg:#F0F7F1;--rec:#4A6FA5;--recbg:#F0F4FA;
-  --hotel:#7B5EA7;--hotelbg:#F5F0FF;
-}
-html,body{height:100%}
-body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;}
-.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;gap:10px}
-.back-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;background:var(--gold-bg);border:1px solid var(--gold-lt);padding:8px 14px;border-radius:24px;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
-.back-link:hover{background:var(--gold);color:var(--white);border-color:var(--gold);transform:translateX(-2px)}
-.nav-sep{color:var(--border)}
-.nav-current{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
-header{background:var(--white);border-bottom:1px solid var(--border);padding:44px 48px 32px}
-.brand-mast{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:13px;letter-spacing:7px;padding-left:7px;color:var(--ink-lt);font-weight:400;margin-bottom:14px}
-.brand-country{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:48px;font-weight:400;color:var(--ink);font-style:italic;margin-bottom:18px}
-.header-orn{display:flex;align-items:center;gap:12px;margin-bottom:20px}
-.orn-line{height:1px;width:48px;background:linear-gradient(90deg,var(--gold),transparent)}
-.orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
-.header-meta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.header-meta{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs)}
-.header-edition{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
-.stats-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;flex-wrap:wrap}
-.stat{padding:0 28px;border-right:1px solid var(--border);text-align:center}
-.stat:first-child{padding-left:0}
-.stat:last-child{border-right:none}
-.stat-num{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);font-weight:600}
-.stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:2px}
-.michelin-legend{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.lbadge{font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
-.filters{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.filter-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
-.filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
-.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
-.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
-.view-toggle{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end}
-.view-toggle-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:auto}
-.view-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 18px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
-.view-btn:hover{border-color:var(--gold);color:var(--gold)}
-.view-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
-.cuisine-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.cuisine-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
-.cuisine-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;padding:5px 12px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
-.cuisine-btn:hover{border-color:var(--gold);color:var(--gold)}
-.cuisine-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
-#map{height:70vh;width:100%;max-width:1400px;margin:24px auto;border-radius:4px;border:1px solid var(--border)}
-.leaflet-popup-content{margin:14px 18px;line-height:1.4}
-.leaflet-popup-content-wrapper{border-radius:6px}
-.leaflet-tooltip.custom-tooltip{background:#fff;border:1px solid #E8E0D5;border-radius:6px;padding:8px 12px;box-shadow:0 4px 12px rgba(0,0,0,.08);font-family:'Montserrat',sans-serif}
-.leaflet-tooltip.custom-tooltip:before{display:none}
-main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
-.city-sec{margin-bottom:64px}
-.city-hdr{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:24px}
-.city-hdr-left{display:flex;flex-direction:column;gap:6px}
-.city-name{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--ink);letter-spacing:-1px;line-height:1}
-.city-count-block{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-.city-count-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--gold);opacity:.25;line-height:1}
-.city-count-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-xs);margin-top:2px}
-.restaurants-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
-.restaurant-card{background:var(--card-bg);overflow:hidden;border-left:3px solid var(--gold-lt);transition:box-shadow .3s}
-.restaurant-card:hover{box-shadow:0 4px 24px rgba(184,146,42,.12);z-index:1;position:relative}
-.card-photo-wrap{width:100%;height:300px;overflow:hidden;background:var(--border)}
-.card-photo{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
-.restaurant-card:hover .card-photo{transform:scale(1.04)}
-.card-photo-placeholder{width:100%;height:300px;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3}
-.card-body{padding:20px 22px 18px}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
-.card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
-.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;margin-top:2px}
-.badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
-.card-meta-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.card-cuisine{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
-.card-price{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:1px}
-.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink-lt);line-height:1.65;margin-bottom:12px}
-.card-contact{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
-.c-row{display:flex;align-items:flex-start;gap:8px}
-.c-icon{font-size:10px;color:var(--gold);min-width:16px;flex-shrink:0;margin-top:1px}
-.c-addr{font-size:10px;color:var(--ink-lt);cursor:pointer;line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
-.c-addr:hover{color:var(--gold)}
-.c-phone{font-size:10px;color:var(--ink-lt);line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
-.c-phone:hover{color:var(--gold)}
-.card-note{font-size:9px;color:var(--gold);font-style:italic;margin-top:8px}
-.map-modal{display:none;position:fixed;inset:0;z-index:1000;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.45)}
-.map-modal.open{display:flex}
-.map-sheet{background:var(--white);border-radius:16px 16px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(0,0,0,.18)}
-.map-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);margin-bottom:4px}
-.map-addr-txt{font-size:10px;color:var(--ink-lt);margin-bottom:22px;line-height:1.5}
-.map-options{display:flex;flex-direction:column;gap:10px}
-.map-btn{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);cursor:pointer;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:500;color:var(--ink);transition:background .15s}
-.map-btn:hover{background:var(--gold-bg)}
-.map-btn-icon{font-size:24px;width:32px;text-align:center;flex-shrink:0}
-.map-btn-sub{font-size:9px;color:var(--ink-xs);font-weight:400;display:block;margin-top:2px}
-.map-cancel{margin-top:16px;width:100%;padding:12px;border:none;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer}
-footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
-footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
-footer a{color:var(--gold);text-decoration:none}
-.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
-.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
-.type-btn:hover{border-color:var(--gold);color:var(--gold)}
-.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
-.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
-.curator-badge{display:inline-flex;align-items:center;gap:3px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:var(--gold-bg);padding:3px 8px;border-radius:10px;font-weight:600;border:1px solid var(--gold-lt)}
-.curator-badge.shared{background:linear-gradient(90deg,var(--gold-bg) 0%,#FBE6BD 100%);color:#7d5500}
-.bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
-.bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
-.bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
-
-.gallery-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:20px}
-.gallery-modal.open{display:flex}
-.gallery-img{max-width:95vw;max-height:90vh;object-fit:contain;border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,.5)}
-.gallery-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s}
-.gallery-close:hover{background:rgba(255,255,255,.3)}
-.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:52px;height:52px;border-radius:50%;font-size:24px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s}
-.gallery-arrow:hover{background:rgba(255,255,255,.3)}
-.gallery-arrow.prev{left:24px}
-.gallery-arrow.next{right:24px}
-.gallery-counter{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:#fff;font-size:13px;letter-spacing:2px;background:rgba(0,0,0,.5);padding:8px 16px;border-radius:20px;backdrop-filter:blur(8px)}
-.card-photo-wrap{position:relative;cursor:pointer}
-.photo-count-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.65);color:#fff;font-size:10px;letter-spacing:1px;padding:5px 10px;border-radius:14px;font-weight:600;backdrop-filter:blur(8px);display:flex;align-items:center;gap:4px}
-
-.card-photo-wrap{position:relative;cursor:pointer}
-.photo-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);color:#1A1A1A;border:none;width:32px;height:32px;border-radius:50%;font-size:18px;font-weight:600;cursor:pointer;opacity:0;transition:opacity .25s,background .15s;backdrop-filter:blur(4px);box-shadow:0 2px 8px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
-.card-photo-wrap:hover .photo-nav{opacity:1}
-.photo-nav:hover{background:#fff}
-.photo-nav.prev{left:8px}
-.photo-nav.next{right:8px}
-.photo-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2;opacity:0;transition:opacity .25s}
-.card-photo-wrap:hover .photo-dots{opacity:1}
-.photo-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:0 1px 3px rgba(0,0,0,.4)}
-.photo-dot.active{background:#fff;width:18px;border-radius:3px}
-.photo-count-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;letter-spacing:1px;padding:4px 8px;border-radius:12px;font-weight:600;backdrop-filter:blur(4px);z-index:2;display:flex;align-items:center;gap:3px}
-</style>
-</head>
-<body>
-<nav class="top-nav">
-  <a href="index.html" class="back-link">← Todos os Países</a>
-  <span class="nav-sep">·</span>
-  <span class="nav-current">França</span>
-</nav>
-<header>
-  <div class="brand-mast">LULI DIAS  ·  RESTAURANTS &amp; HOTELS</div>
-  <div class="brand-country">França</div>
-  <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
-  <div class="header-meta-row">
-    <span class="header-meta">Bordeaux · Paris · Reims · Lyon · Borgonha · Provence · Côte d'Azur</span>
-    <span class="header-edition">Abril 2026</span>
-  </div>
-</header>
-<div class="stats-bar">
-  <div class="stat"><div class="stat-num">105</div><div class="stat-lbl">Restaurantes</div></div>
-  <div class="stat"><div class="stat-num">34</div><div class="stat-lbl">Cidades</div></div>
-  <div class="stat"><div class="stat-num">10</div><div class="stat-lbl">Hotéis</div></div>
-  <div class="stat"><div class="stat-num">24</div><div class="stat-lbl">Michelin</div></div>
-</div>
-<div class="michelin-legend">
-  <span class="lbadge">★★★ 3 Estrelas</span>
-  <span class="lbadge">★★ 2 Estrelas</span>
-  <span class="lbadge">★ 1 Estrela</span>
-  <span class="lbadge">Bib Gourmand</span>
-  <span class="lbadge">Estrela Verde</span>
-  <span class="lbadge">Michelin</span>
-  <span class="lbadge">Hospedagem</span>
-</div>
-<div class="view-toggle">
-  <span class="view-toggle-lbl">Vista:</span>
-  <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
-  <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
-</div>
-<div class="type-bar">
-  <span class="type-lbl">Tipo:</span>
-  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
-  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
-  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
-</div>
-<div class="filters" id="filters"></div>
-<div class="cuisine-bar" id="cuisineBar"></div>
-<div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
-  <div class="map-sheet">
-    <div class="map-title" id="mapName"></div>
-    <div class="map-addr-txt" id="mapAddr"></div>
-    <div class="map-options">
-      <a class="map-btn" id="btnWaze" href="#" target="_blank"><span class="map-btn-icon">🗺</span><div><strong>Waze</strong><span class="map-btn-sub">Navegar com Waze</span></div></a>
-      <a class="map-btn" id="btnGoogle" href="#" target="_blank"><span class="map-btn-icon">📍</span><div><strong>Google Maps</strong><span class="map-btn-sub">Abrir no Google Maps</span></div></a>
-      <a class="map-btn" id="btnApple" href="#" target="_blank"><span class="map-btn-icon">🍎</span><div><strong>Apple Maps</strong><span class="map-btn-sub">Abrir no Apple Maps</span></div></a>
-    </div>
-    <button class="map-cancel" onclick="closeMap()">Cancelar</button>
-  </div>
-</div>
-<main id="main"></main>
-<div id="map" style="display:none"></div>
-<footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script>
-function openMap(name,addr){
-  const q=encodeURIComponent(name+' '+addr);
-  document.getElementById('mapName').textContent=name;
-  document.getElementById('mapAddr').textContent=addr;
-  document.getElementById('btnWaze').href='https://waze.com/ul?q='+q+'&navigate=yes';
-  document.getElementById('btnGoogle').href='https://www.google.com/maps/search/?api=1&query='+q;
-  document.getElementById('btnApple').href='https://maps.apple.com/?q='+q;
-  document.getElementById('mapModal').classList.add('open');
-}
-function closeMap(){document.getElementById('mapModal').classList.remove('open');}
-
-const FOLDER='franca';
 const CITIES=[
   // ── BORDEAUX & GIRONDE ──────────────────────────────
   {city:'Bordeaux',region:'Bordeaux & Gironde',entries:[
@@ -228,7 +11,6 @@ const CITIES=[
     {n:'Le Gabriel',q:'Francesa de Autor',a:'10 Pl. de la Bourse, Bordeaux',p:'+33 5 56 30 00 80',pr:3,m:'m2',note:'1 Estrela Michelin',d:'Uma Estrela Michelin com vista privilegiada para aPlace de la Bourse e o Miroir d\'Eau. Cozinha francesa criativa com os produtos da região num dos endereços mais icónicos de Bordeaux.'},
     {n:'Ressources',q:'Francesa Contemporânea',a:'Bordeaux',p:'',pr:3,m:'m1',note:'1 Estrela Michelin',d:'Uma Estrela Michelin em Bordeaux com cozinha francesa contemporânea e criativa, focada nos produtos sazonais da Aquitânia.'},
     {n:'Le Chapon Fin',q:'Francesa Clássica',a:'5 Rue Montesquieu, Bordeaux',p:'+33 5 56 79 10 10',pr:3,m:'rec',d:'Fundado em 1825, é um dos restaurantes históricos mais emblemáticos de França. Décor Belle Époque com a famosa sala em forma de gruta rochosa. Uma visita ao Le Chapon Fin é uma viagem no tempo.'},
-  ,
     {t:"h",n:"InterContinental Bordeaux Le Grand Hôtel",q:"Hotel · Histórico 5★",a:"2-5 Place de la Comédie, 33000 Bordeaux",p:"+33 5 57 30 44 44",pr:4,k:1,s:5,d:"Hotel monumental do séc. XVIII em frente ao Grand Théâtre de Bordeaux, na Place de la Comédie. 130 quartos com decoração assinada por Jacques Garcia. Restaurante Le Pressoir d'Argent (2 Estrelas Michelin, Chef Gordon Ramsay), spa Guerlain, rooftop com vista para a Garonne. O hotel mais prestigiado de Bordeaux."}
   ]},
   {city:'Lormont',region:'Bordeaux & Gironde',entries:[
@@ -255,7 +37,6 @@ const CITIES=[
     {n:'Le Jardin de Soutard',q:'Francesa',a:'Saint-Émilion',p:'',pr:2,d:'Restaurante num jardim de château em Saint-Émilion com cozinha regional bordalesa e ambiente tranquilo.'},
     {n:'Café Saigon',q:'Vietnamita',a:'Saint-Émilion',p:'',pr:1,d:'Uma surpresa em plena Saint-Émilion: cozinha vietnamita autêntica com pho, banh mi e pratos frescos, num endereço informal que contrasta com os grandes châteaux da região.'},
     {n:'Le Tertre',q:'Francesa Regional',a:'Saint-Émilion',p:'',pr:2,d:'Restaurante com cozinha regional bordalesa em Saint-Émilion, com os clássicos do sudoeste e carta de vinhos local.'},
-  ,
     {t:"h",n:"Château Bellefont-Belcier",q:"Hotel · Château Vinícola 5★",a:"Saint-Laurent-des-Combes, 33330 Saint-Émilion",p:"+33 5 57 24 72 16",pr:4,s:5,d:"Château Grand Cru Classé de Saint-Émilion com hospedagem boutique de luxo. Suítes elegantes em meio às vinhas, jantares privados com harmonização de vinhos da própria casa, prova de barricas no chai. Uma experiência exclusiva e íntima no coração de Saint-Émilion para apreciadores de vinhos da margem direita."}
   ]},
   {city:'Saint-Jean-de-Blaignac',region:'Bordeaux & Gironde',entries:[
@@ -272,7 +53,6 @@ const CITIES=[
   ]},
   {city:'Pauillac',region:'Bordeaux & Gironde',entries:[
     {n:'Lavinal',q:'Brasserie · Escargot & Pato',a:'Bages, Pauillac',p:'+33 5 57 75 00 09',pr:2,m:'bib',d:'Brasserie do Village de Bages, um conjunto de casas históricas restaurado por Jean-Michel Cazes de Lynch-Bages. Cozinha sudoeste descontraída com escargots, magret e a melhor garrafeira de Pauillac.'},
-  ,
     {t:"h",n:"Château Cordeillan-Bages",q:"Hotel · Château Vinícola 5★",a:"Route des Châteaux, 33250 Pauillac",p:"+33 5 56 59 24 24",pr:4,k:1,s:5,d:"Château do séc. XVII transformado em hotel boutique de luxo no coração do Médoc, propriedade da família Cazes (proprietários do Château Lynch-Bages). 28 quartos elegantes, restaurante gastronómico, piscina e localização privilegiada entre os Grands Crus Classés. Membro Relais & Châteaux. O endereço de eleição para visitas vinícolas em Pauillac."}
   ]},
   {city:'Pomerol',region:'Bordeaux & Gironde',entries:[
@@ -289,7 +69,6 @@ const CITIES=[
     {n:'Le Crypto',q:'Francesa',a:'Reims',p:'',pr:2,d:'Restaurante no centro de Reims com cozinha francesa contemporânea, numa cidade que respira Champagne e história.'},
     {n:'Le Millénaire',q:'Francesa Contemporânea',a:'4-6 Rue Bertin, Reims',p:'+33 3 26 08 26 62',pr:3,d:'Restaurante elegante no centro de Reims com cozinha francesa criativa e uma das melhores cartas de Champagne da cidade. Ambiente refinado a dois passos da Catedral.'},
     {n:'Brasserie Le Boulingrin',q:'Brasserie Art Déco',a:'48 Rue de Mars, Reims',p:'+33 3 26 40 96 22',pr:2,d:'Inaugurada em 1925, a mais emblemática brasserie de Reims. Décor Art Déco perfeitamente preservado, ostras, choucroute e fruits de mer servidos com Champagne. Uma instituição da cidade.'},
-  ,
     {t:"h",n:"Domaine Les Crayères",q:"Hotel · Château 5★",a:"64 Boulevard Henry Vasnier, 51100 Reims",p:"+33 3 26 24 90 00",pr:4,k:2,s:5,d:"Château em parque arborizado de 7 hectares no coração de Reims, capital de Champagne. Membro Relais & Châteaux. Restaurante Le Parc (2 Estrelas Michelin), Brasserie Le Jardin, e adega com mais de 350 referências de Champagne. O endereço de eleição para os apreciadores de Champagne em viagens à região vinícola."}
   ]},
   {city:'Metz',region:'Champagne & Alsácia',entries:[
@@ -324,7 +103,6 @@ const CITIES=[
     {n:'La Pépinière',q:'Francesa',a:'Paris',p:'',pr:2,d:'Restaurante francês contemporâneo em Paris com cozinha de produto e ambiente descontraído.'},
     {n:'Le Grand Café',q:'Brasserie 24h',a:'4 Bd des Capucines, Paris',p:'+33 1 43 12 19 00',pr:2,d:'A brasserie parisienne que nunca fecha — aberta 24 horas por dia, 365 dias por ano. Fruits de mer, steak-frites e croque-monsieur a qualquer hora junto aos Grands Boulevards.'},
     {n:'Bofinger',q:'Brasserie Alsaciana',a:'5-7 Rue de la Bastille, Paris',p:'+33 1 42 72 87 82',pr:2,d:'A mais antiga brasserie de Paris, fundada em 1864. Décor Belle Époque com cúpula de vidro Art Nouveau, choucroute, fruits de mer e foie gras. Um monumento gastronómico junto à Place de la Bastille.'},
-  ,
     {t:"h",n:"Hôtel Plaza Athénée",q:"Hotel · Lendário 5★",a:"25 Avenue Montaigne, 75008 Paris",p:"+33 1 53 67 66 65",pr:4,k:3,s:5,d:"O hotel mais glamouroso da Avenue Montaigne, com a fachada coberta de gerânios vermelhos virada para a Tour Eiffel. Membro da Dorchester Collection. Quatro restaurantes — Alain Ducasse au Plaza Athénée (3 Estrelas Michelin), Le Relais Plaza, La Galerie e Bar Plaza Athénée. Templo da alta-costura, da gastronomia e do luxo parisiense desde 1913."},
     {t:"h",n:"InterContinental Paris Le Grand",q:"Hotel · Histórico 5★",a:"2 Rue Scribe, 75009 Paris",p:"+33 1 40 07 32 32",pr:4,s:5,d:"Hotel histórico inaugurado em 1862 ao lado da Ópera Garnier, na Place de l'Opéra. 470 quartos com vista para o Café de la Paix (criado pelo mesmo arquitecto da Ópera). Brasserie Café de la Paix, spa, salão de baile com tectos pintados. Um dos endereços mais icónicos de Paris."},
     {t:"h",n:"Sofitel Paris Arc de Triomphe",q:"Hotel · Boutique 5★",a:"14 Rue Beaujon, 75008 Paris",p:"+33 1 53 89 50 50",pr:4,s:5,d:"Hotel boutique cinco-estrelas a poucos metros do Arco do Triunfo, escondido numa rua tranquila atrás dos Champs-Élysées. 135 quartos elegantes em estilo haussmaniano contemporâneo. Restaurante Akasha, bar de coquetéis e localização privilegiada para shopping na Avenue des Champs-Élysées."}
@@ -334,7 +112,6 @@ const CITIES=[
   {city:'Beaune',region:'Borgonha',entries:[
     {n:'Caveau des Arches',q:'Borgonhesa · Boeuf Bourguignon',a:'10 Bd Perpreuil, Beaune',p:'+33 3 80 22 10 37',pr:2,note:'O melhor Boeuf Bourguignon',d:'Numa adega do século XII em Beaune, serve o melhor boeuf bourguignon da Borgonha. Pratos cozinhados lentamente com os vinhos de Borgonha e ambiente histórico nas caves de pedra.'},
     {n:'Bistrot du Bord de L\'Eau',q:'Francesa Bistrô',a:'Beaune',p:'',pr:2,d:'Bistrô de charme em Beaune com cozinha borgonhesa descontraída e vista para o canal. Boa carta de borgonhas a preços razoáveis.'},
-  ,
     {t:"h",n:"Hostellerie Le Cèdre",q:"Hotel · Borgonha 5★",a:"12 Boulevard du Maréchal Foch, 21200 Beaune",p:"+33 3 80 24 01 01",pr:4,k:1,s:5,d:"Hotel cinco-estrelas no coração de Beaune, capital da Borgonha vinícola. 40 quartos elegantes num edifício do séc. XIX. Restaurante Clos du Cèdre (cozinha de autor com produtos da região), bar Patrick e a maior carta de vinhos da Borgonha entre os hotéis da cidade. Membro Small Luxury Hotels of the World. Localização perfeita para visitas vinícolas em Côte de Beaune."}
   ]},
   {city:'Gevrey-Chambertin',region:'Borgonha',entries:[
@@ -359,7 +136,6 @@ const CITIES=[
   // ── LANGUEDOC & PROVENCE ────────────────────────────
   {city:'Carcassonne',region:'Languedoc & Provence',entries:[
     {n:'La Demeure du Cassoulet',q:'Languedociana · Cassoulet',a:'Carcassonne',p:'',pr:2,d:'O melhor endereço de Carcassonne para o cassoulet — o prato emblema do Languedoc, com feijão branco, confit de canard e salsichas de Toulouse. Dentro da Cité medieval.'},
-  ,
     {t:"h",n:"Hôtel de la Cité Carcassonne",q:"Hotel · Castelo Medieval 5★",a:"Place Auguste-Pierre Pont, 11000 Carcassonne",p:"+33 4 68 71 98 71",pr:4,k:1,s:5,d:"Hotel cinco-estrelas dentro da Cité Médiévale de Carcassonne — Património UNESCO. 61 quartos em ambiente neogótico autêntico nas muralhas. Restaurante La Barbacane (1 Estrela Michelin, Chef Jérôme Ryon), bar Jardin, spa Gemology, piscina. Membro MGallery Sofitel. Vista para a basílica e jardins do castelo."}
   ]},
   {city:'Montpellier',region:'Languedoc & Provence',entries:[
@@ -416,7 +192,6 @@ const CITIES=[
     {n:'Le Palmiers — Beach Club',q:'Mediterrânea · Beach Club',a:'Saint-Tropez',p:'',pr:3,note:'Beach club',d:'Beach club elegante em Ramatuelle, perto de Saint-Tropez, com restaurante mediterrâneo e ambiente de luxo descontraído.'},
     {n:'Shellona — Beach Club',q:'Mediterrânea · Beach Club',a:'Saint-Tropez',p:'',pr:3,note:'Beach club',d:'Beach club sofisticado perto de Saint-Tropez com cozinha mediterrânea e ambiente de luxo tropical junto ao Mediterrâneo.'},
     {n:'Bagatelle — Beach Club',q:'Mediterrânea · Beach Club',a:'Saint-Tropez',p:'',pr:3,note:'Beach club',d:'A extensão do famoso Bagatelle de Paris em Saint-Tropez, com restaurante mediterrâneo, música e ambiente festivo de luxo.'},
-  ,
     {t:"h",n:"Hôtel Byblos",q:"Hotel · Lendário 5★",a:"27 Avenue Paul Signac, 83990 Saint-Tropez",p:"+33 4 94 56 68 00",pr:4,k:2,s:5,d:"O hotel mais lendário da Côte d'Azur, inaugurado em 1967 e desde sempre o ícone do glamour de Saint-Tropez. Aldeia provençal com 91 quartos coloridos pintados à mão, piscina, spa Sisley, restaurante Arcadia (Chef Nicola Canuti) e a icónica discoteca Les Caves du Roy. Membro Leading Hotels of the World. Frequentado pelas estrelas desde Brigitte Bardot até hoje."}
   ]},
   {city:'Bormes-les-Mimosas',region:'Saint-Tropez & Var',entries:[
