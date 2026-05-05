@@ -222,36 +222,15 @@ async function handlePublish(request, env) {
 }
 
 // ===================== HTML MUTATION =====================
+// Usa manipulação textual em vez de parsing JSON para suportar
+// guias com aspas mistas (ex: portugal-guia.html) que usam single quotes.
 
 function addEntryToGuide(content, cityName, entry, countryKey, folder) {
   // Find CITIES const
   const citiesMatch = content.match(/(const\s+CITIES\s*=\s*)(\[[\s\S]*?\])(\s*;)/);
   if (!citiesMatch) throw new Error('CITIES not found in guide');
 
-  let citiesStr = citiesMatch[2];
-
-  // Parse — try strict JSON first, then normalize unquoted keys
-  let cities;
-  try {
-    cities = JSON.parse(citiesStr);
-  } catch (e) {
-    const normalized = citiesStr.replace(/([{,])\s*([a-zA-Z_]\w*)\s*:/g, '$1"$2":');
-    try {
-      cities = JSON.parse(normalized);
-    } catch (e2) {
-      throw new Error('Failed to parse CITIES: ' + e2.message);
-    }
-  }
-
-  // Find city or create
-  let cityObj = cities.find(c => c.city === cityName);
-  if (!cityObj) {
-    cityObj = { city: cityName, region: cityName, entries: [] };
-    cities.push(cityObj);
-  }
-  if (!cityObj.entries) cityObj.entries = [];
-
-  // Extract lat/lng for COORDS update before stripping
+  // Extract lat/lng for COORDS update
   const lat = entry.lat;
   const lng = entry.lng;
   const slug = slugify(entry.n);
@@ -259,40 +238,103 @@ function addEntryToGuide(content, cityName, entry, countryKey, folder) {
   delete cleanEntry.lat;
   delete cleanEntry.lng;
 
-  cityObj.entries.push(cleanEntry);
+  const entryJson = JSON.stringify(cleanEntry);
+  const citiesStartIdx = citiesMatch.index + citiesMatch[1].length;
+  const citiesEndIdx = citiesStartIdx + citiesMatch[2].length;
+  const citiesText = citiesMatch[2]; // [...]
 
-  // Serialize CITIES
-  const newCitiesStr = JSON.stringify(cities);
-  let newContent = content.slice(0, citiesMatch.index) +
-    citiesMatch[1] + newCitiesStr + citiesMatch[3] +
-    content.slice(citiesMatch.index + citiesMatch[0].length);
+  let newCitiesText;
 
-  // Update COORDS if lat/lng provided
+  // Try to find existing city — match `city`/`"city"`/`'city'` followed by the cityName in any quote style
+  const escName = cityName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const cityRegex = new RegExp(
+    `["']?city["']?\\s*:\\s*["']${escName}["']`,
+    'i'
+  );
+  const cityMatch = citiesText.match(cityRegex);
+
+  if (cityMatch) {
+    // Find entries:[...] inside this city object
+    const fromCity = citiesText.slice(cityMatch.index);
+    const entriesMatch = fromCity.match(/["']?entries["']?\s*:\s*\[/);
+    if (entriesMatch) {
+      const entriesOpenIdx = cityMatch.index + entriesMatch.index + entriesMatch[0].length;
+      // Walk forward respecting nested brackets and strings
+      const closeIdx = findMatchingBracket(citiesText, entriesOpenIdx, '[', ']');
+      if (closeIdx !== -1) {
+        const inside = citiesText.slice(entriesOpenIdx, closeIdx).trim();
+        const sep = inside ? ',' : '';
+        newCitiesText = citiesText.slice(0, closeIdx) + sep + entryJson + citiesText.slice(closeIdx);
+      } else {
+        throw new Error('Could not find closing bracket of entries array');
+      }
+    } else {
+      throw new Error('Found city but no entries array inside');
+    }
+  } else {
+    // City não existe — adicionar nova city
+    const newCity = { city: cityName, region: cityName, entries: [cleanEntry] };
+    const newCityJson = JSON.stringify(newCity);
+    const closeBracketIdx = citiesText.lastIndexOf(']');
+    if (closeBracketIdx === -1) throw new Error('CITIES array malformed');
+    const inside = citiesText.slice(1, closeBracketIdx).trim();
+    const sep = inside ? ',' : '';
+    newCitiesText = citiesText.slice(0, closeBracketIdx) + sep + newCityJson + citiesText.slice(closeBracketIdx);
+  }
+
+  let newContent = content.slice(0, citiesStartIdx) + newCitiesText + content.slice(citiesEndIdx);
+
+  // ============ COORDS update ============
   if (lat && lng) {
     const coordsMatch = newContent.match(/(const\s+COORDS\s*=\s*)(\{[\s\S]*?\})(\s*;)/);
     if (coordsMatch) {
-      let coords;
-      try { coords = JSON.parse(coordsMatch[2]); }
-      catch (e) {
-        const normalized = coordsMatch[2].replace(/([{,])\s*([a-zA-Z_]\w*)\s*:/g, '$1"$2":');
-        try { coords = JSON.parse(normalized); } catch(e2) { coords = {}; }
-      }
-      const key = `${folder}/${slug}`;
-      coords[key] = {
+      const coordsStartIdx = coordsMatch.index + coordsMatch[1].length;
+      const coordsText = coordsMatch[2]; // {...}
+      const coordEntry = JSON.stringify({
         name: entry.n,
         address: entry.a || '',
         country: folder,
         lat: parseFloat(lat),
         lng: parseFloat(lng),
-      };
-      const newCoordsStr = JSON.stringify(coords);
-      newContent = newContent.slice(0, coordsMatch.index) +
-        coordsMatch[1] + newCoordsStr + coordsMatch[3] +
-        newContent.slice(coordsMatch.index + coordsMatch[0].length);
+      });
+      const coordKey = `"${folder}/${slug}"`;
+      const closeBraceIdx = coordsText.lastIndexOf('}');
+      if (closeBraceIdx !== -1) {
+        const inside = coordsText.slice(1, closeBraceIdx).trim();
+        const sep = inside ? ',' : '';
+        const newCoordsText = coordsText.slice(0, closeBraceIdx) + sep + coordKey + ':' + coordEntry + coordsText.slice(closeBraceIdx);
+        newContent = newContent.slice(0, coordsStartIdx) + newCoordsText + newContent.slice(coordsStartIdx + coordsText.length);
+      }
     }
   }
 
   return newContent;
+}
+
+// Walk forward through `text` from `startIdx` to find matching close bracket.
+// Respects strings (both " and ') and nested brackets.
+function findMatchingBracket(text, startIdx, openCh, closeCh) {
+  let depth = 1;
+  let i = startIdx;
+  while (i < text.length && depth > 0) {
+    const ch = text[i];
+    if (ch === '"' || ch === "'") {
+      // Skip string
+      const quote = ch;
+      i++;
+      while (i < text.length && text[i] !== quote) {
+        if (text[i] === '\\') i++; // skip escaped chars
+        i++;
+      }
+      i++;
+      continue;
+    }
+    if (ch === openCh) depth++;
+    else if (ch === closeCh) depth--;
+    if (depth === 0) return i;
+    i++;
+  }
+  return -1;
 }
 
 // ===================== UTILS =====================
