@@ -158,7 +158,7 @@ async function handlePublish(request, env) {
     return jsonResponse({ error: 'failed to fetch guide', file: guideFile, status: guideRes.status }, 500);
   }
   const guideData = await guideRes.json();
-  const currentContent = atob(guideData.content.replace(/\s/g, ''));
+  const currentContent = base64ToUtf8(guideData.content);
 
   // 2. Add entry to HTML
   let updatedContent;
@@ -346,9 +346,25 @@ function slugify(name) {
     .replace(/^-|-$/g, '');
 }
 
+// Convert UTF-8 string to base64 (handles all Unicode chars including acentos)
 function utf8ToBase64(str) {
-  // Cloudflare Workers expose btoa but not for non-Latin1
-  return btoa(unescape(encodeURIComponent(str)));
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
+// Convert base64 to UTF-8 string (correct decoding of multi-byte chars)
+function base64ToUtf8(b64) {
+  const cleaned = b64.replace(/\s/g, '');
+  const binary = atob(cleaned);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return new TextDecoder('utf-8').decode(bytes);
 }
 
 function jsonResponse(data, status = 200) {
