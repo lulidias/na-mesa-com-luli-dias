@@ -102,10 +102,10 @@ footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-
 .type-btn:hover{border-color:var(--gold);color:var(--gold)}
 .type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
 .bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
-.curator-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:11px;font-weight:700;position:absolute;top:10px;left:10px;z-index:3;backdrop-filter:blur(6px);box-shadow:0 1px 4px rgba(0,0,0,.25)}
-.curator-badge.luli{color:#8B6914;background:rgba(255,253,247,.95);border:1px solid #D4AE5C}
-.curator-badge.tito{color:#7A3F1B;background:rgba(255,247,238,.95);border:1px solid #C97C4A}
-.curator-badge.shared{color:#7d5500;background:linear-gradient(90deg,rgba(255,253,247,.95) 0%,rgba(255,235,210,.95) 100%);border:1px solid #C97C4A}
+.curator-badge{display:block;font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:600;font-style:italic;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border)}
+.curator-badge.luli{color:#B8922A}
+.curator-badge.tito{color:#A85020}
+.curator-badge.shared{background:linear-gradient(90deg,#B8922A 0%,#A85020 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 .bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 .bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
@@ -357,7 +357,7 @@ function render(){
                      (r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
                      (r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge">Hospedagem</span>':'');
-        card.innerHTML=`<div class="card-photo-wrap">${r.c?`<div class="curator-badge ${r.c}">${r.c==="shared"?"L+T":(r.c==="tito"?"T":"L")}</div>`:""}<img class="card-photo" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'','${em}')"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc">${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}</div>`;
+        card.innerHTML=`<div class="card-photo-wrap"><img class="card-photo" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'','${em}')"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc">${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}${r.c?`<div class="curator-badge ${r.c}">✦ por ${r.c==="shared"?"Luli & Tito":(r.c==="tito"?"Tito":"Luli")}</div>`:""}</div>`;
         grid.appendChild(card);
       });
     });
