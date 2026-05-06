@@ -111,7 +111,8 @@ footer a{color:var(--gold);text-decoration:none}
 .type-btn:hover{border-color:var(--gold);color:var(--gold)}
 .type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
 .bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
-.curator-badge{display:block;font-size:8px;letter-spacing:3px;text-transform:uppercase;font-weight:600;font-style:italic;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border)}
+.curator-badge{display:block;font-size:8px;letter-spacing:2px;text-transform:uppercase;font-weight:600;font-style:italic;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);word-break:break-word;overflow-wrap:anywhere;line-height:1.4}
+@media(max-width:480px){.curator-badge{font-size:7px;letter-spacing:1px}}
 .curator-badge.luli{color:#B8922A}
 .curator-badge.tito{color:#A85020}
 .curator-badge.shared{background:linear-gradient(90deg,#B8922A 0%,#A85020 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
