@@ -1,0 +1,150 @@
+name: Limpeza diária fotos/
+
+# Roda às 04:00 UTC (5h Lisboa, 1h São Paulo) todos os dias
+# + permite trigger manual via UI do GitHub
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Limpar pastas fotos/
+        id: cleanup
+        run: |
+          set -e
+          cd fotos
+
+          stats_heic=0
+          stats_jpg_dup=0
+          stats_jpg_renamed=0
+          stats_folders=0
+          stats_dsstore=0
+
+          # Loop por cada pasta de país
+          for dir in */; do
+            country="${dir%/}"
+            cd "$country"
+
+            # 1. Apagar HEICs que têm JPEG correspondente
+            for f in *.heic *.HEIC; do
+              [ -e "$f" ] || continue
+              base="${f%.*}"
+              if [ -f "${base}.jpeg" ]; then
+                rm -f "$f"
+                stats_heic=$((stats_heic + 1))
+              fi
+            done
+
+            # 2. Apagar .jpg duplicados (que têm .jpeg correspondente, exceto cover.jpg)
+            for f in *.jpg *.JPG; do
+              [ -e "$f" ] || continue
+              [ "$(echo $f | tr A-Z a-z)" = "cover.jpg" ] && continue
+              base="${f%.*}"
+              if [ -f "${base}.jpeg" ]; then
+                rm -f "$f"
+                stats_jpg_dup=$((stats_jpg_dup + 1))
+              fi
+            done
+
+            # 3. Renomear .jpg → .jpeg quando não há duplicado (exceto cover.jpg)
+            for f in *.jpg *.JPG; do
+              [ -e "$f" ] || continue
+              [ "$(echo $f | tr A-Z a-z)" = "cover.jpg" ] && continue
+              base="${f%.*}"
+              if [ ! -f "${base}.jpeg" ]; then
+                mv "$f" "${base}.jpeg"
+                stats_jpg_renamed=$((stats_jpg_renamed + 1))
+              fi
+            done
+
+            # 4. Apagar .DS_Store
+            if [ -f .DS_Store ]; then
+              rm -f .DS_Store
+              stats_dsstore=$((stats_dsstore + 1))
+            fi
+
+            # 5. Apagar subpastas (legacy de scripts antigos)
+            #    Migra fotos numeradas (1.jpeg, 2.jpeg) para slug se ainda não existe
+            for sub in */; do
+              [ -e "$sub" ] || continue
+              subname="${sub%/}"
+              # Verificar se já existe slug.jpeg na raiz
+              if [ ! -f "${subname}.jpeg" ]; then
+                # Migrar 1.jpeg → slug.jpeg, 2.jpeg → slug-2.jpeg, etc.
+                i=1
+                for src in "$sub"*.jpeg "$sub"*.jpg; do
+                  [ -e "$src" ] || continue
+                  if [ $i -eq 1 ]; then
+                    dst="${subname}.jpeg"
+                  else
+                    dst="${subname}-${i}.jpeg"
+                  fi
+                  [ ! -f "$dst" ] && cp "$src" "$dst"
+                  i=$((i + 1))
+                done
+              fi
+              rm -rf "$sub"
+              stats_folders=$((stats_folders + 1))
+            done
+
+            cd ..
+          done
+
+          echo "heic=$stats_heic" >> $GITHUB_OUTPUT
+          echo "jpg_dup=$stats_jpg_dup" >> $GITHUB_OUTPUT
+          echo "jpg_renamed=$stats_jpg_renamed" >> $GITHUB_OUTPUT
+          echo "folders=$stats_folders" >> $GITHUB_OUTPUT
+          echo "dsstore=$stats_dsstore" >> $GITHUB_OUTPUT
+
+          total=$((stats_heic + stats_jpg_dup + stats_jpg_renamed + stats_folders + stats_dsstore))
+          echo "total=$total" >> $GITHUB_OUTPUT
+
+      - name: Verificar se há mudanças
+        id: changes
+        run: |
+          if [ -n "$(git status --porcelain fotos/)" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit + Push
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          msg="Auto-cleanup fotos/: -${{ steps.cleanup.outputs.heic }} HEIC, -${{ steps.cleanup.outputs.jpg_dup }} jpg dup, ${{ steps.cleanup.outputs.jpg_renamed }} jpg→jpeg, -${{ steps.cleanup.outputs.folders }} pastas, -${{ steps.cleanup.outputs.dsstore }} DS_Store"
+
+          git add -A fotos/
+          git commit -m "$msg"
+          git push
+
+      - name: Resumo
+        run: |
+          echo "## Resumo da limpeza" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Tipo | Quantidade |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| HEICs apagados (com JPEG) | ${{ steps.cleanup.outputs.heic }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| .jpg duplicados apagados | ${{ steps.cleanup.outputs.jpg_dup }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| .jpg renomeados → .jpeg | ${{ steps.cleanup.outputs.jpg_renamed }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Subpastas removidas | ${{ steps.cleanup.outputs.folders }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| .DS_Store removidos | ${{ steps.cleanup.outputs.dsstore }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.changes.outputs.has_changes }}" = "true" ]; then
+            echo "✅ **Total: ${{ steps.cleanup.outputs.total }} alterações commitadas**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✨ **Já estava tudo limpo!**" >> $GITHUB_STEP_SUMMARY
+          fi
