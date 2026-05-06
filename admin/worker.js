@@ -42,8 +42,11 @@ export default {
       if (url.pathname === '/publish' && request.method === 'POST') {
         return await handlePublish(request, env);
       }
+      if (url.pathname === '/create-country' && request.method === 'POST') {
+        return await handleCreateCountry(request, env);
+      }
       if (url.pathname === '/' || url.pathname === '/health') {
-        return jsonResponse({ ok: true, version: '1.0' });
+        return jsonResponse({ ok: true, version: '1.1' });
       }
     } catch (err) {
       return jsonResponse({ error: err.message, stack: err.stack }, 500);
@@ -309,6 +312,134 @@ function addEntryToGuide(content, cityName, entry, countryKey, folder) {
   }
 
   return newContent;
+}
+
+// ===================== CREATE COUNTRY =====================
+
+async function handleCreateCountry(request, env) {
+  const { name, flag, cities, region } = await request.json();
+  if (!name || !flag) {
+    return jsonResponse({ error: 'name + flag required' }, 400);
+  }
+
+  const key = slugify(name);
+  if (!key) return jsonResponse({ error: 'invalid name' }, 400);
+
+  const guideFile = `${key}-guia.html`;
+  const owner = env.GITHUB_OWNER;
+  const repo = env.GITHUB_REPO;
+  const ghApi = `https://api.github.com/repos/${owner}/${repo}/contents`;
+  const ghHeaders = {
+    'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+    'User-Agent': 'luli-admin-worker',
+    'Accept': 'application/vnd.github.v3+json',
+  };
+
+  // 1. Check if country already exists
+  const existsRes = await fetch(`${ghApi}/${guideFile}`, { headers: ghHeaders });
+  if (existsRes.ok) {
+    return jsonResponse({ error: 'country already exists', file: guideFile }, 409);
+  }
+
+  // 2. Get template
+  const tplRes = await fetch(`${ghApi}/admin/country-template.html`, { headers: ghHeaders });
+  if (!tplRes.ok) {
+    return jsonResponse({ error: 'template not found' }, 500);
+  }
+  const tplData = await tplRes.json();
+  const template = base64ToUtf8(tplData.content);
+
+  // 3. Replace placeholders
+  const guideContent = template
+    .replace(/\{\{COUNTRY_NAME\}\}/g, name)
+    .replace(/\{\{COUNTRY_KEY\}\}/g, key)
+    .replace(/\{\{COUNTRY_CITIES\}\}/g, cities || name);
+
+  // 4. Commit guide file
+  const commitMsg = `Admin: novo país ${flag} ${name}`;
+  const createRes = await fetch(`${ghApi}/${guideFile}`, {
+    method: 'PUT',
+    headers: { ...ghHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      message: commitMsg,
+      content: utf8ToBase64(guideContent),
+    })
+  });
+  if (!createRes.ok) {
+    return jsonResponse({ error: 'failed to create guide', detail: await createRes.text() }, 500);
+  }
+
+  // 5. Update index.html — add to countries array
+  const indexRes = await fetch(`${ghApi}/index.html`, { headers: ghHeaders });
+  if (indexRes.ok) {
+    const indexData = await indexRes.json();
+    let indexContent = base64ToUtf8(indexData.content);
+
+    const newCountryEntry = `      { name:'${name}', flag:'${flag}', region:'${region || 'Internacional'}', cities:'${cities || name}', restaurants:0, michelin:0, hotels:0, file:'${guideFile}', photo:'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=500&fit=crop' },\n`;
+
+    // Insert before the closing ] of any region's countries array
+    // Find first "name: '" in countries array and add this entry after that region's last country
+    const oeRegex = /(name:\s*'Oriente Médio[^']*'[\s\S]*?countries:\s*\[)([\s\S]*?)(\n\s*\])/;
+    const match = indexContent.match(oeRegex);
+    if (match) {
+      const before = indexContent.slice(0, match.index + match[1].length + match[2].length);
+      const after = indexContent.slice(match.index + match[1].length + match[2].length);
+      // Add comma to last entry if needed
+      const trimmed = match[2].trimEnd();
+      const sep = trimmed.endsWith(',') ? '\n' : ',\n';
+      indexContent = before + sep + newCountryEntry.trimEnd() + after;
+    }
+
+    // Add to COUNTRY_NAMES dict
+    indexContent = indexContent.replace(
+      /(const COUNTRY_NAMES=\{[^}]+)\};/,
+      `$1,${key}:'${name}'};`
+    );
+
+    await fetch(`${ghApi}/index.html`, {
+      method: 'PUT',
+      headers: { ...ghHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: `Admin: adicionar ${name} ao index`,
+        content: utf8ToBase64(indexContent),
+        sha: indexData.sha,
+      })
+    });
+  }
+
+  // 6. Update admin/index.html — COUNTRY_FILES dict
+  const adminRes = await fetch(`${ghApi}/admin/index.html`, { headers: ghHeaders });
+  if (adminRes.ok) {
+    const adminData = await adminRes.json();
+    let adminContent = base64ToUtf8(adminData.content);
+    // Add to COUNTRY_FILES dict (insert before closing brace of dict)
+    adminContent = adminContent.replace(
+      /(const COUNTRY_FILES = \{[\s\S]*?)('brasil-sul':'Brasil Sul[^}]+\})/,
+      `$1'${key}':'${name} ${flag}', $2`
+    );
+    await fetch(`${ghApi}/admin/index.html`, {
+      method: 'PUT',
+      headers: { ...ghHeaders, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: `Admin: adicionar ${name} ao dropdown da admin`,
+        content: utf8ToBase64(adminContent),
+        sha: adminData.sha,
+      })
+    });
+  }
+
+  return jsonResponse({
+    success: true,
+    name,
+    flag,
+    key,
+    file: guideFile,
+    next_steps: [
+      'Aguarda 1-2 min para GitHub Pages republicar',
+      'Recarrega a admin (⌘+Shift+R) para ver o novo país no dropdown',
+      `Já podes adicionar estabelecimentos a ${name}!`
+    ]
+  });
 }
 
 // Walk forward through `text` from `startIdx` to find matching close bracket.

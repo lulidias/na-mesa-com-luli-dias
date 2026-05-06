@@ -447,6 +447,52 @@ main{max-width:980px;margin:0 auto;padding:32px}
     <div class="form-title" style="font-size:16px">Estado da migração</div>
     <div id="migration-status" style="font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.6;color:var(--ink-lt)">A verificar...</div>
   </div>
+
+  <div class="form-card">
+    <div class="form-title">＋ Adicionar novo país</div>
+    <div class="form-sub">Vais visitar um país novo? Cria o guia em 30 segundos.</div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Nome do país <span class="required">*</span></label>
+        <input type="text" id="nc-name" placeholder="Ex: Marrocos, Egito, Suíça">
+      </div>
+      <div class="field">
+        <label>Bandeira (emoji) <span class="required">*</span></label>
+        <input type="text" id="nc-flag" placeholder="🇲🇦" maxlength="4">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Cidades principais</label>
+        <input type="text" id="nc-cities" placeholder="Marraquexe · Casablanca · Fez">
+      </div>
+      <div class="field">
+        <label>Região</label>
+        <select id="nc-region">
+          <option value="Sul da Europa">Sul da Europa</option>
+          <option value="Norte da Europa">Norte da Europa</option>
+          <option value="Europa Central">Europa Central</option>
+          <option value="Reino Unido & Irlanda">Reino Unido &amp; Irlanda</option>
+          <option value="Oriente Médio">Oriente Médio</option>
+          <option value="Norte de África">Norte de África</option>
+          <option value="África Subsaariana">África Subsaariana</option>
+          <option value="Ásia Oriental">Ásia Oriental</option>
+          <option value="Sudeste Asiático">Sudeste Asiático</option>
+          <option value="Sul da Ásia">Sul da Ásia</option>
+          <option value="Oceania">Oceania</option>
+          <option value="América do Norte">América do Norte</option>
+          <option value="Caribe">Caribe</option>
+          <option value="América do Sul">América do Sul</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="create-country-btn" onclick="createCountry()">＋ Criar país</button>
+    </div>
+  </div>
 </section>
 
 </main>
@@ -732,7 +778,7 @@ const COUNTRY_FILES = {
   'chile':'Chile 🇨🇱','china':'China 🇨🇳','colombia':'Colômbia 🇨🇴','copenhague':'Dinamarca 🇩🇰','coreia':'Coreia do Sul 🇰🇷',
   'croacia':'Croácia 🇭🇷','curacao':'Curaçao 🇨🇼','dubai':'Dubai 🇦🇪','espanha':'Espanha 🇪🇸','eua':'EUA 🇺🇸',
   'franca':'França 🇫🇷','holanda':'Holanda 🇳🇱','hongkong':'Hong Kong 🇭🇰','irlanda':'Irlanda 🇮🇪','irlanda-norte':'Irlanda do Norte 🇬🇧',
-  'italia':'Itália 🇮🇹','japao':'Japão 🇯🇵','liechtenstein':'Liechtenstein 🇱🇮','londres':'Reino Unido 🇬🇧','luxemburgo':'Luxemburgo 🇱🇺',
+  'italia':'Itália 🇮🇹','japao':'Japão 🇯🇵','liechtenstein':'Liechtenstein 🇱🇮','londres':'Reino Unido 🇬🇧','luxemburgo':'Luxemburgo 🇱🇺','marrocos':'Marrocos 🇲🇦',
   'monaco':'Mónaco 🇲🇨','panama':'Panamá 🇵🇦','peru':'Peru 🇵🇪','portugal':'Portugal 🇵🇹','tailandia':'Tailândia 🇹🇭',
   'taiwan':'Taiwan 🇹🇼','turquia':'Turquia 🇹🇷','uruguai':'Uruguai 🇺🇾','vietna':'Vietnã 🇻🇳',
   'brasil-centroeste':'Brasil Centro-Oeste 🇧🇷','brasil-nordeste':'Brasil Nordeste 🇧🇷','brasil-sudeste':'Brasil Sudeste 🇧🇷','brasil-sul':'Brasil Sul 🇧🇷'
@@ -857,6 +903,51 @@ function showStatus(type, msg) {
 }
 
 // ===================== SETTINGS =====================
+async function createCountry() {
+  const name = document.getElementById('nc-name').value.trim();
+  const flag = document.getElementById('nc-flag').value.trim();
+  const cities = document.getElementById('nc-cities').value.trim();
+  const region = document.getElementById('nc-region').value;
+
+  if (!name || !flag) {
+    showStatus('error', 'Nome + bandeira são obrigatórios');
+    return;
+  }
+
+  if (!STATE.workerUrl || !STATE.workerKey) {
+    showStatus('error', 'Backend não configurado');
+    return;
+  }
+
+  const btn = document.getElementById('create-country-btn');
+  btn.disabled = true;
+  btn.textContent = 'A criar...';
+
+  try {
+    const res = await fetch(STATE.workerUrl + '/create-country', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','X-Admin-Key':STATE.workerKey},
+      body: JSON.stringify({ name, flag, cities, region })
+    });
+    if (!res.ok) {
+      const t = await res.text();
+      throw new Error('HTTP ' + res.status + ': ' + t);
+    }
+    const data = await res.json();
+    showStatus('success', `✅ ${flag} ${name} criado!`);
+    document.getElementById('nc-name').value = '';
+    document.getElementById('nc-flag').value = '';
+    document.getElementById('nc-cities').value = '';
+    // Recarregar guias após 5s para mostrar novo país no dropdown
+    setTimeout(() => loadAllGuides(), 5000);
+  } catch (err) {
+    showStatus('error', '❌ ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '＋ Criar país';
+  }
+}
+
 function saveSettings() {
   STATE.workerUrl = document.getElementById('worker-url').value.trim().replace(/\/$/, '');
   STATE.workerKey = document.getElementById('worker-key').value.trim();
