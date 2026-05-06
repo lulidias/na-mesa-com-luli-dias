@@ -138,7 +138,7 @@ footer a{color:var(--gold);text-decoration:none}.curator-badge{display:block;fon
 </head>
 <body>
 <nav class="top-nav">
-  <a href="index.html" class="back-link">← Todos os Países</a>
+  <a href="index.html" class="back-link" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}">← Voltar</a>
   <span class="nav-sep">·</span>
   <span class="nav-current">Panamá</span>
 </nav>
@@ -176,7 +176,7 @@ footer a{color:var(--gold);text-decoration:none}.curator-badge{display:block;fon
 </div>
 <main id="main"></main>
 <div id="map" style="display:none"></div>
-<footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
+<footer><p><a href="index.html" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}">← Voltar</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 
