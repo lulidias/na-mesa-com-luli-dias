@@ -361,7 +361,7 @@ function normCuisine(q){
 }
 function buildCuisineBar(){
   const set=new Set();
-  CITIES.forEach(c=>c.entries.forEach(r=>{if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;const n=normCuisine(r.q);if(n)set.add(n);}));
+  CITIES.forEach(c=>c.entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;const n=normCuisine(r.q);if(n)set.add(n);}));
   const cuisines=['Todas',...[...set].sort((a,b)=>a.localeCompare(b,'pt'))];
   const bar=document.getElementById('cuisineBar');
   if(!bar)return;
