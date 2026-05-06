@@ -271,7 +271,7 @@ function closeMap(){document.getElementById('mapModal').classList.remove('open')
 
 // m: michelin badge, h: tem hospedagem, pr: preço 1-4
 const FOLDER='portugal';
-const PHOTOS={"o-gaveto":6,"marisqueira-matosinhos":4,"o-talho-de-kiko-martins":3,"pigmeu":3,"jncquoi-avenida":2,"pinoquio":1,"pedro-dos-leitoes":1,"quinta-do-crasto":1};
+const PHOTOS={"antonio-padeiro": 8, "barriga-de-freira": 5, "cervejaria-ramiro": 5, "gambrinus": 3, "han-table": 3, "hotel-montebelo-mosteiro-de-alcobaca": 4, "jncquoi-avenida": 2, "jncquoi-club": 6, "marisqueira-liberdade": 5, "marisqueira-matosinhos": 4, "marisqueira-nunes-real": 2, "mugasa": 6, "o-antonio": 5, "o-faroleiro": 4, "o-gaveto": 8, "o-rei-dos-leitoes": 5, "o-talho-de-kiko-martins": 3, "pigmeu": 3, "pinoquio": 3, "praia-da-luz": 5, "restaurante-herdade-do-esporao": 9, "sakemico": 6, "sal-grosso": 2, "sem-horas": 5, "taberna-albricoque": 5, "taberna-da-julinha": 4, "tia-alice": 2, "vela-branca": 3, "yakuza-by-olivier": 7};
 const CITIES=[
   {city:'Lisboa',region:'Extremadura',entries:[
     {n:'A Casa do Bacalhau',q:'Bacalhau',a:'R. do Grilo 54, Lisboa',p:'+351 21 882 0890',pr:2,d:'Fundado para celebrar o bacalhau em todas as suas formas, apresenta mais de cem receitas do "fiel amigo". Destaque para o bacalhau à Brás, à lagareiro e à minhota, numa zona que se tornou o novo polo criativo de Lisboa.'},
@@ -545,7 +545,7 @@ function render(){
         let photoHtml;
         if(photoCount>1){
           let imgs='';
-          for(let i=1;i<=photoCount;i++) imgs+=`<img src="fotos/portugal/${sl}/${i}.jpeg" alt="${r.n}" loading="lazy">`;
+          for(let i=1;i<=photoCount;i++){const fname=i===1?`${sl}.jpeg`:`${sl}-${i}.jpeg`;imgs+=`<img src="fotos/portugal/${fname}" alt="${r.n}" loading="lazy">`;}
           let dots='<div class="card-dots">';
           for(let i=0;i<photoCount;i++) dots+=`<span${i===0?' class="active"':''}></span>`;
           dots+='</div>';
