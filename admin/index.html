@@ -682,10 +682,16 @@ function buildEntry() {
 async function publishEntry() {
   const name = document.getElementById('f-name').value.trim();
   const city = document.getElementById('f-city').value.trim();
-  const country = document.getElementById('f-country').value;
+  let country = document.getElementById('f-country').value;
   if (!name || !city || !country) {
     showStatus('error', 'Preenche Nome + Cidade + País');
     return;
+  }
+  // Auto-route Brasil: detectar região pelo endereço/cidade
+  if (country === 'brasil') {
+    const addr = document.getElementById('f-a').value.trim();
+    country = detectBrasilRegion(addr, city);
+    showStatus('success', `→ A direccionar para ${country.replace('brasil-','').toUpperCase()}`);
   }
   const entry = buildEntry();
   const slug = slugify(name);
@@ -781,8 +787,65 @@ const COUNTRY_FILES = {
   'italia':'Itália 🇮🇹','japao':'Japão 🇯🇵','liechtenstein':'Liechtenstein 🇱🇮','londres':'Reino Unido 🇬🇧','luxemburgo':'Luxemburgo 🇱🇺','marrocos':'Marrocos 🇲🇦',
   'monaco':'Mónaco 🇲🇨','panama':'Panamá 🇵🇦','peru':'Peru 🇵🇪','portugal':'Portugal 🇵🇹','tailandia':'Tailândia 🇹🇭',
   'taiwan':'Taiwan 🇹🇼','turquia':'Turquia 🇹🇷','uruguai':'Uruguai 🇺🇾','vietna':'Vietnã 🇻🇳',
-  'brasil-centroeste':'Brasil Centro-Oeste 🇧🇷','brasil-nordeste':'Brasil Nordeste 🇧🇷','brasil-sudeste':'Brasil Sudeste 🇧🇷','brasil-sul':'Brasil Sul 🇧🇷'
+  'brasil':'Brasil 🇧🇷 (auto-detecta região)'
 };
+
+// Mapping UF → guia regional
+const UF_TO_BRASIL_REGION = {
+  // Sudeste
+  SP:'brasil-sudeste', RJ:'brasil-sudeste', MG:'brasil-sudeste', ES:'brasil-sudeste',
+  // Sul
+  RS:'brasil-sul', SC:'brasil-sul', PR:'brasil-sul',
+  // Nordeste
+  BA:'brasil-nordeste', PE:'brasil-nordeste', CE:'brasil-nordeste', RN:'brasil-nordeste',
+  PB:'brasil-nordeste', AL:'brasil-nordeste', SE:'brasil-nordeste',
+  MA:'brasil-nordeste', PI:'brasil-nordeste',
+  // Centro-Oeste
+  GO:'brasil-centroeste', MT:'brasil-centroeste', MS:'brasil-centroeste', DF:'brasil-centroeste',
+  // Norte (futuro)
+  AM:'brasil-centroeste', PA:'brasil-centroeste'
+};
+
+// Cidades conhecidas → UF (fallback se não há UF no endereço)
+const KNOWN_CITY_TO_UF = {
+  'são paulo':'SP', 'campinas':'SP', 'campos do jordão':'SP', 'ilhabela':'SP',
+  'santos':'SP', 'guarujá':'SP', 'sorocaba':'SP', 'porto feliz':'SP',
+  'rio de janeiro':'RJ', 'búzios':'RJ', 'petrópolis':'RJ', 'angra dos reis':'RJ', 'paraty':'RJ',
+  'belo horizonte':'MG', 'ouro preto':'MG', 'tiradentes':'MG',
+  'vitória':'ES', 'vila velha':'ES',
+  'porto alegre':'RS', 'gramado':'RS', 'canela':'RS', 'bento gonçalves':'RS',
+  'florianópolis':'SC', 'blumenau':'SC', 'balneário camboriú':'SC',
+  'curitiba':'PR', 'foz do iguaçu':'PR',
+  'salvador':'BA', 'porto seguro':'BA', 'trancoso':'BA', 'itacaré':'BA',
+  'recife':'PE', 'olinda':'PE', 'fernando de noronha':'PE',
+  'fortaleza':'CE', 'jericoacoara':'CE', 'canoa quebrada':'CE',
+  'natal':'RN', 'pipa':'RN',
+  'joão pessoa':'PB',
+  'maceió':'AL',
+  'aracaju':'SE',
+  'são luís':'MA',
+  'teresina':'PI',
+  'brasília':'DF',
+  'goiânia':'GO',
+  'cuiabá':'MT',
+  'campo grande':'MS',
+  'manaus':'AM',
+  'belém':'PA'
+};
+
+function detectBrasilRegion(address, city) {
+  // 1. Tenta encontrar UF no endereço (padrão "— SP", "- SP", ", SP")
+  const ufMatch = (address || '').match(/[—\-,]\s*([A-Z]{2})\b/);
+  if (ufMatch && UF_TO_BRASIL_REGION[ufMatch[1]]) {
+    return UF_TO_BRASIL_REGION[ufMatch[1]];
+  }
+  // 2. Fallback: cidade conhecida
+  const cityNorm = (city || '').toLowerCase().trim();
+  const uf = KNOWN_CITY_TO_UF[cityNorm];
+  if (uf) return UF_TO_BRASIL_REGION[uf];
+  // 3. Default: sudeste (mais comum)
+  return 'brasil-sudeste';
+}
 
 async function loadAllGuides() {
   STATE.allEntries = [];
