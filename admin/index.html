@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Admin · Luli Dias</title>
 
+<!-- HEIC → JPEG converter (browser-side) -->
+<script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+
 <!-- iOS App Icon -->
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="apple-touch-icon" sizes="167x167" href="apple-touch-icon-167.png">
@@ -567,13 +570,115 @@ const dropZone = document.getElementById('drop-zone');
 ['dragleave','drop'].forEach(e => dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.remove('dragover'); }));
 dropZone.addEventListener('drop', ev => handleFiles(ev.dataTransfer.files));
 
-function handleFiles(files) {
+async function handleFiles(files) {
   for (const f of files) {
-    if (f.type.startsWith('image/') || /\.heic$/i.test(f.name)) {
-      STATE.files.push(f);
+    if (!(f.type.startsWith('image/') || /\.heic$/i.test(f.name))) continue;
+
+    let processed = f;
+    const isHeic = /\.heic$/i.test(f.name) || f.type === 'image/heic' || f.type === 'image/heif';
+    const isPng = /\.png$/i.test(f.name) || f.type === 'image/png';
+
+    if (isHeic) {
+      showStatus('success', `🔄 A converter HEIC: ${f.name}...`);
+      try {
+        const blob = await heic2any({ blob: f, toType: 'image/jpeg', quality: 0.88 });
+        const blobs = Array.isArray(blob) ? blob : [blob];
+        const jpegBlob = blobs[0];
+        const newName = f.name.replace(/\.heic$/i, '.jpeg');
+        processed = new File([jpegBlob], newName, { type: 'image/jpeg' });
+      } catch (err) {
+        showStatus('error', `Falha ao converter ${f.name}: ${err.message}`);
+        continue;
+      }
+    } else if (isPng) {
+      // PNG → JPEG via canvas
+      try {
+        processed = await pngToJpeg(f);
+      } catch (err) {
+        // Mantém PNG se falhar
+        console.warn('PNG conversion failed', err);
+      }
     }
+
+    // Resize se for muito grande (>2000px no maior lado)
+    if (processed.size > 1500000) {
+      try {
+        processed = await resizeImage(processed, 1600, 0.88);
+      } catch (err) {
+        console.warn('Resize failed', err);
+      }
+    }
+
+    STATE.files.push(processed);
   }
   renderPreviews();
+  showStatus('success', `✅ ${STATE.files.length} foto${STATE.files.length !== 1 ? 's' : ''} pronta${STATE.files.length !== 1 ? 's' : ''}`);
+}
+
+// PNG → JPEG via canvas
+function pngToJpeg(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(blob => {
+          if (!blob) return reject(new Error('toBlob failed'));
+          const newName = file.name.replace(/\.png$/i, '.jpeg');
+          resolve(new File([blob], newName, { type: 'image/jpeg' }));
+        }, 'image/jpeg', 0.88);
+      };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// Resize image keeping aspect, max dimension
+function resizeImage(file, maxDim, quality) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if (Math.max(width, height) <= maxDim) {
+          // Já é pequeno, retorna original
+          return resolve(file);
+        }
+        if (width > height) {
+          height = Math.round(height * (maxDim / width));
+          width = maxDim;
+        } else {
+          width = Math.round(width * (maxDim / height));
+          height = maxDim;
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(blob => {
+          if (!blob) return reject(new Error('toBlob failed'));
+          const newName = file.name.replace(/\.[^.]+$/, '.jpeg');
+          resolve(new File([blob], newName, { type: 'image/jpeg' }));
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 function renderPreviews() {
