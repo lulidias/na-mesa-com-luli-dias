@@ -117,7 +117,15 @@ main{max-width:980px;margin:0 auto;padding:32px}
 .preview-item img{width:100%;height:100%;object-fit:cover}
 .preview-remove{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.7);color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:14px;line-height:1}
 .preview-remove:hover{background:var(--red)}
-.preview-name{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));color:#fff;font-size:9px;padding:14px 8px 6px;letter-spacing:.5px}
+.preview-name{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));color:#fff;font-size:9px;padding:14px 8px 6px;letter-spacing:.5px;text-align:center;font-weight:600}
+.preview-name.cover{background:linear-gradient(transparent,rgba(184,146,42,.95));color:#fff;font-size:10px;letter-spacing:1.5px}
+.preview-item.is-cover{outline:3px solid var(--gold);outline-offset:-3px}
+.preview-cover-btn{position:absolute;top:6px;left:6px;background:rgba(0,0,0,.6);color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;line-height:1;backdrop-filter:blur(4px);transition:background .15s}
+.preview-cover-btn:hover{background:var(--gold)}
+.preview-arrows{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;gap:4px;opacity:0;transition:opacity .2s}
+.preview-item:hover .preview-arrows{opacity:1}
+.preview-arrow{background:rgba(0,0,0,.7);color:#fff;border:none;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:12px;font-weight:600;backdrop-filter:blur(4px)}
+.preview-arrow:hover{background:var(--gold)}
 
 /* ============ ACTION BUTTONS ============ */
 .actions{display:flex;gap:12px;margin-top:24px;justify-content:flex-end;align-items:center;flex-wrap:wrap}
@@ -686,9 +694,14 @@ function renderPreviews() {
   grid.innerHTML = '';
   STATE.files.forEach((f, i) => {
     const div = document.createElement('div');
-    div.className = 'preview-item';
+    div.className = 'preview-item' + (i === 0 ? ' is-cover' : '');
     const url = URL.createObjectURL(f);
-    div.innerHTML = `<img src="${url}" alt=""><button class="preview-remove" onclick="removeFile(${i})">×</button><div class="preview-name">foto ${i+1}</div>`;
+    const isCover = i === 0;
+    const label = isCover ? '★ CAPA' : `#${i+1}`;
+    const upBtn = i > 0 ? `<button class="preview-arrow up" onclick="movePhoto(${i},-1)" title="Mover para a frente">↑</button>` : '';
+    const downBtn = i < STATE.files.length - 1 ? `<button class="preview-arrow down" onclick="movePhoto(${i},1)" title="Mover para trás">↓</button>` : '';
+    const coverBtn = !isCover ? `<button class="preview-cover-btn" onclick="setCover(${i})" title="Tornar capa">★</button>` : '';
+    div.innerHTML = `<img src="${url}" alt=""><button class="preview-remove" onclick="removeFile(${i})">×</button>${coverBtn}<div class="preview-arrows">${upBtn}${downBtn}</div><div class="preview-name${isCover?' cover':''}">${label}</div>`;
     grid.appendChild(div);
   });
 }
@@ -696,6 +709,22 @@ function renderPreviews() {
 function removeFile(i) {
   STATE.files.splice(i, 1);
   renderPreviews();
+}
+
+function movePhoto(i, direction) {
+  const j = i + direction;
+  if (j < 0 || j >= STATE.files.length) return;
+  [STATE.files[i], STATE.files[j]] = [STATE.files[j], STATE.files[i]];
+  renderPreviews();
+}
+
+function setCover(i) {
+  if (i === 0) return;
+  // Move foto i para a posição 0
+  const photo = STATE.files.splice(i, 1)[0];
+  STATE.files.unshift(photo);
+  renderPreviews();
+  showStatus('success', '★ Nova capa definida');
 }
 
 // ===================== SLUG =====================
