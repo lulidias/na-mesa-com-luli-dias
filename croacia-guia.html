@@ -577,9 +577,11 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'ArrowRight') galleryNext();
   else if (e.key === 'ArrowLeft') galleryPrev();
 });
-// Auto-bind: clicar em qualquer card-photo abre lightbox
+// Auto-bind: clicar em qualquer foto do card abre lightbox (single .card-photo OU galeria inline)
 document.addEventListener('click', function(e) {
-  const img = e.target.closest('.card-photo');
+  // Ignorar cliques em controlos de navegação/dots
+  if (e.target.closest('.card-nav, .photo-nav, .card-dots, .photo-dots, .photo-count-badge')) return;
+  const img = e.target.closest('.card-photo, .card-gallery img');
   if (!img) return;
   const src = img.getAttribute('src') || '';
   const m = src.match(/fotos\/([^/]+)\/(.+?)(?:-\d+)?\.[a-zA-Z]+$/);
