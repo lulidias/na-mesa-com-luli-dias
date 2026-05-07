@@ -11,11 +11,29 @@
 :root{--cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-dk:#8B6914;--gold-bg:#FAF5EB;--border:#E8E0D5;--card-bg:#FFF;}
 html,body{height:100%}
 body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;}
-.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:90;box-shadow:0 1px 8px rgba(0,0,0,.04)}
-.back-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;background:var(--gold-bg);border:1px solid var(--gold-lt);padding:8px 14px;border-radius:24px;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:8px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:fixed;top:0;left:0;right:0;z-index:1000;box-shadow:0 1px 8px rgba(0,0,0,.04);min-height:60px}
+body{padding-top:72px}
+@media(max-width:640px){body{padding-top:62px}}
+.top-nav-left{display:flex;align-items:center;gap:18px}
+.back-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;background:var(--gold-bg);border:1px solid var(--gold-lt);padding:7px 13px;border-radius:24px;display:inline-flex;align-items:center;gap:6px;transition:all .2s;flex-shrink:0}
 .back-link:hover{background:var(--gold);color:var(--white);border-color:var(--gold);transform:translateX(-2px)}
+.top-nav-brand{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;padding-left:6px;line-height:1}
+.top-nav-brand-name{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:20px;letter-spacing:8px;color:var(--ink);font-weight:400;padding-left:8px}
+.top-nav-brand-tag{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:8px;letter-spacing:3px;color:var(--ink-lt);font-weight:400}
+.top-nav-brand:hover .top-nav-brand-name{color:var(--gold)}
 .nav-sep{color:var(--border)}
-.nav-current{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
+.nav-current{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);font-weight:500}
+@media(max-width:640px){
+  .top-nav{padding:8px 14px;min-height:52px;gap:10px}
+  .top-nav-left{gap:10px}
+  .top-nav-brand-name{font-size:14px;letter-spacing:5px;padding-left:5px}
+  .top-nav-brand-tag{font-size:6px;letter-spacing:1.8px}
+  .back-link{font-size:10px;padding:6px 10px;letter-spacing:1.5px}
+  .nav-current{font-size:8px;letter-spacing:2px}
+}
+@media(max-width:380px){
+  .top-nav-brand{display:none}
+}
 header{background:var(--white);border-bottom:1px solid var(--border);padding:44px 48px 32px}
 .brand-mast{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:13px;letter-spacing:7px;padding-left:7px;color:var(--ink-lt);font-weight:400;margin-bottom:14px}
 .brand-country{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:48px;font-weight:400;color:var(--ink);font-style:italic;margin-bottom:18px}
@@ -142,8 +160,13 @@ footer a{color:var(--gold);text-decoration:none}
 </head>
 <body>
 <nav class="top-nav">
-  <a href="index.html" class="back-link" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}">← Voltar</a>
-  <span class="nav-sep">·</span>
+  <div class="top-nav-left">
+    <a href="index.html" class="back-link" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}">← Voltar</a>
+    <a href="index.html" class="top-nav-brand">
+      <span class="top-nav-brand-name">LULI DIAS</span>
+      <span class="top-nav-brand-tag">RESTAURANTS &amp; HOTELS</span>
+    </a>
+  </div>
   <span class="nav-current">Espanha</span>
 </nav>
 <header>
