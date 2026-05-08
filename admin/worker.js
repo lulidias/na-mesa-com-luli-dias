@@ -483,72 +483,47 @@ async function handleAnalytics(url, env) {
   const range = url.searchParams.get('range') || '7d';
   const siteTag = url.searchParams.get('site') || env.CF_SITE_TAG || '';
 
-  // Calculate date range
+  // Calculate date range — use plain dates for date_geq/date_leq filter
   const now = new Date();
   const days = { '24h': 1, '7d': 7, '30d': 30, '90d': 90 }[range] || 7;
   const since = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
-  const sinceStr = since.toISOString();
-  const untilStr = now.toISOString();
+  // Use date format YYYY-MM-DD (the date filter expects date type)
+  const sinceDate = since.toISOString().split('T')[0];
+  const untilDate = now.toISOString().split('T')[0];
 
-  // GraphQL query — fetch multiple aggregations in one shot
+  // GraphQL query — inline filter values (avoids type-name guessing)
+  const filterStr = `{ siteTag: "${siteTag}", date_geq: "${sinceDate}", date_leq: "${untilDate}" }`;
   const query = `
-    query Analytics($accountTag: String!, $siteTag: String!, $since: Time!, $until: Time!) {
+    query Analytics($accountTag: String!) {
       viewer {
         accounts(filter: { accountTag: $accountTag }) {
-          totals: rumPageloadEventsAdaptiveGroups(
-            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
-            limit: 1
-          ) {
+          totals: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 1) {
             count
             sum { visits }
           }
-          countries: rumPageloadEventsAdaptiveGroups(
-            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
-            limit: 20
-            orderBy: [count_DESC]
-          ) {
+          countries: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 20, orderBy: [count_DESC]) {
             count
             sum { visits }
             dimensions { countryName }
           }
-          devices: rumPageloadEventsAdaptiveGroups(
-            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
-            limit: 10
-            orderBy: [count_DESC]
-          ) {
+          devices: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 10, orderBy: [count_DESC]) {
             count
             dimensions { deviceType }
           }
-          paths: rumPageloadEventsAdaptiveGroups(
-            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
-            limit: 30
-            orderBy: [count_DESC]
-          ) {
+          paths: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 30, orderBy: [count_DESC]) {
             count
             dimensions { requestPath }
           }
-          referers: rumPageloadEventsAdaptiveGroups(
-            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
-            limit: 20
-            orderBy: [count_DESC]
-          ) {
+          referers: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 20, orderBy: [count_DESC]) {
             count
             dimensions { refererHost }
           }
-          daily: rumPageloadEventsAdaptiveGroups(
-            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
-            limit: 100
-            orderBy: [dimensions_date_ASC]
-          ) {
+          daily: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 100, orderBy: [date_ASC]) {
             count
             sum { visits }
             dimensions { date }
           }
-          browsers: rumPageloadEventsAdaptiveGroups(
-            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
-            limit: 10
-            orderBy: [count_DESC]
-          ) {
+          browsers: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 10, orderBy: [count_DESC]) {
             count
             dimensions { userAgentBrowser }
           }
@@ -566,22 +541,23 @@ async function handleAnalytics(url, env) {
     body: JSON.stringify({
       query,
       variables: {
-        accountTag: env.CF_ACCOUNT_ID,
-        siteTag,
-        since: sinceStr,
-        until: untilStr
+        accountTag: env.CF_ACCOUNT_ID
       }
     })
   });
 
   if (!resp.ok) {
     const text = await resp.text();
-    return jsonResponse({ error: 'Cloudflare API error', detail: text }, 500);
+    return jsonResponse({ error: 'Cloudflare API error', status: resp.status, detail: text }, 500);
   }
 
   const data = await resp.json();
   if (data.errors) {
-    return jsonResponse({ error: 'GraphQL errors', detail: data.errors }, 500);
+    return jsonResponse({
+      error: 'GraphQL: ' + (data.errors[0]?.message || 'unknown'),
+      detail: data.errors,
+      query_dates: { since: sinceDate, until: untilDate, siteTag }
+    }, 500);
   }
 
   const account = data.data?.viewer?.accounts?.[0] || {};
@@ -592,8 +568,8 @@ async function handleAnalytics(url, env) {
 
   return jsonResponse({
     range,
-    since: sinceStr,
-    until: untilStr,
+    since: sinceDate,
+    until: untilDate,
     summary: {
       pageviews: totalPageviews,
       visits: totalVisits,
