@@ -17,7 +17,7 @@
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, X-Admin-Key',
 };
 
@@ -45,8 +45,11 @@ export default {
       if (url.pathname === '/create-country' && request.method === 'POST') {
         return await handleCreateCountry(request, env);
       }
+      if (url.pathname === '/analytics' && request.method === 'GET') {
+        return await handleAnalytics(url, env);
+      }
       if (url.pathname === '/' || url.pathname === '/health') {
-        return jsonResponse({ ok: true, version: '1.1' });
+        return jsonResponse({ ok: true, version: '1.2' });
       }
     } catch (err) {
       return jsonResponse({ error: err.message, stack: err.stack }, 500);
@@ -466,6 +469,162 @@ function findMatchingBracket(text, startIdx, openCh, closeCh) {
     i++;
   }
   return -1;
+}
+
+// ===================== ANALYTICS =====================
+
+async function handleAnalytics(url, env) {
+  if (!env.CF_API_TOKEN || !env.CF_ACCOUNT_ID) {
+    return jsonResponse({
+      error: 'Analytics not configured. Set CF_API_TOKEN and CF_ACCOUNT_ID secrets.'
+    }, 500);
+  }
+
+  const range = url.searchParams.get('range') || '7d';
+  const siteTag = url.searchParams.get('site') || env.CF_SITE_TAG || '';
+
+  // Calculate date range
+  const now = new Date();
+  const days = { '24h': 1, '7d': 7, '30d': 30, '90d': 90 }[range] || 7;
+  const since = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+  const sinceStr = since.toISOString();
+  const untilStr = now.toISOString();
+
+  // GraphQL query — fetch multiple aggregations in one shot
+  const query = `
+    query Analytics($accountTag: String!, $siteTag: String!, $since: Time!, $until: Time!) {
+      viewer {
+        accounts(filter: { accountTag: $accountTag }) {
+          totals: rumPageloadEventsAdaptiveGroups(
+            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
+            limit: 1
+          ) {
+            count
+            sum { visits }
+          }
+          countries: rumPageloadEventsAdaptiveGroups(
+            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
+            limit: 20
+            orderBy: [count_DESC]
+          ) {
+            count
+            sum { visits }
+            dimensions { countryName }
+          }
+          devices: rumPageloadEventsAdaptiveGroups(
+            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
+            limit: 10
+            orderBy: [count_DESC]
+          ) {
+            count
+            dimensions { deviceType }
+          }
+          paths: rumPageloadEventsAdaptiveGroups(
+            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
+            limit: 30
+            orderBy: [count_DESC]
+          ) {
+            count
+            dimensions { requestPath }
+          }
+          referers: rumPageloadEventsAdaptiveGroups(
+            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
+            limit: 20
+            orderBy: [count_DESC]
+          ) {
+            count
+            dimensions { refererHost }
+          }
+          daily: rumPageloadEventsAdaptiveGroups(
+            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
+            limit: 100
+            orderBy: [dimensions_date_ASC]
+          ) {
+            count
+            sum { visits }
+            dimensions { date }
+          }
+          browsers: rumPageloadEventsAdaptiveGroups(
+            filter: { siteTag: $siteTag, datetime_geq: $since, datetime_leq: $until }
+            limit: 10
+            orderBy: [count_DESC]
+          ) {
+            count
+            dimensions { userAgentBrowser }
+          }
+        }
+      }
+    }
+  `;
+
+  const resp = await fetch('https://api.cloudflare.com/client/v4/graphql', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.CF_API_TOKEN}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      query,
+      variables: {
+        accountTag: env.CF_ACCOUNT_ID,
+        siteTag,
+        since: sinceStr,
+        until: untilStr
+      }
+    })
+  });
+
+  if (!resp.ok) {
+    const text = await resp.text();
+    return jsonResponse({ error: 'Cloudflare API error', detail: text }, 500);
+  }
+
+  const data = await resp.json();
+  if (data.errors) {
+    return jsonResponse({ error: 'GraphQL errors', detail: data.errors }, 500);
+  }
+
+  const account = data.data?.viewer?.accounts?.[0] || {};
+
+  // Aggregate totals
+  const totalPageviews = (account.totals || []).reduce((s, r) => s + (r.count || 0), 0);
+  const totalVisits = (account.totals || []).reduce((s, r) => s + (r.sum?.visits || 0), 0);
+
+  return jsonResponse({
+    range,
+    since: sinceStr,
+    until: untilStr,
+    summary: {
+      pageviews: totalPageviews,
+      visits: totalVisits,
+    },
+    countries: (account.countries || []).map(r => ({
+      name: r.dimensions?.countryName || 'Unknown',
+      pageviews: r.count,
+      visits: r.sum?.visits || 0
+    })).filter(r => r.name && r.name !== 'Unknown').slice(0, 10),
+    devices: (account.devices || []).map(r => ({
+      name: r.dimensions?.deviceType || 'Unknown',
+      pageviews: r.count
+    })).filter(r => r.name),
+    paths: (account.paths || []).map(r => ({
+      path: r.dimensions?.requestPath || '/',
+      pageviews: r.count
+    })).slice(0, 15),
+    referers: (account.referers || []).map(r => ({
+      host: r.dimensions?.refererHost || 'direct',
+      pageviews: r.count
+    })).slice(0, 10),
+    daily: (account.daily || []).map(r => ({
+      date: r.dimensions?.date,
+      pageviews: r.count,
+      visits: r.sum?.visits || 0
+    })),
+    browsers: (account.browsers || []).map(r => ({
+      name: r.dimensions?.userAgentBrowser || 'Unknown',
+      pageviews: r.count
+    })).filter(r => r.name)
+  });
 }
 
 // ===================== UTILS =====================
