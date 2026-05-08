@@ -128,6 +128,7 @@ footer a{color:var(--gold);text-decoration:none}.curator-badge{display:block;fon
 .bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 .bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 .bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
+.bmarket{background:#EAF3E8;color:#3F6F2F;border:1px solid #A8C998;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 
 .gallery-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:20px}
 .gallery-modal.open{display:flex}
@@ -185,6 +186,7 @@ footer a{color:var(--gold);text-decoration:none}.curator-badge{display:block;fon
   <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
   <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
   <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
+  <button class="type-btn" id="typeM" onclick="setType('m',this)" style="display:none">🛒 Mercados</button>
 </div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
@@ -217,7 +219,7 @@ function openMap(name,addr){
 function closeMap(){document.getElementById('mapModal').classList.remove('open');}
 
 const FOLDER='inglaterra';
-const CITIES=[{"city": "Londres", "region": "Inglaterra", "entries": [{"n": "Bob Bob Ricard","c":"luli", "q": "Russo-Britânica de Luxo", "a": "1 Upper James St, London W1F 9DF", "p": "+44 20 3145 1000", "pr": 3, "note": "Botão 'Press for Champagne' em cada mesa", "m":"rec","d": "Um dos restaurantes mais extravagantes de Londres, com cabines privadas em couro azul e botões de 'Press for Champagne' em cada mesa. Cozinha russo-britânica de luxo com caviar, bife Stroganoff e lagosta. Ambiente de Orient Express numa sala Art Déco do Soho."}, {"n": "Sabor","c":"luli", "q": "Espanhola de Autor", "a": "35-37 Heddon St, London W1B 4BR", "p": "+44 20 3319 8130", "pr": 3, "m": "m1", "note": "1 Estrela Michelin", "d": "Uma Estrela Michelin com a chef Nieves Barragán Mohacho, que recria a viagem gastronómica pela Espanha em pleno Mayfair. Tapas de produto ibérico excecional e uma das melhores cartas de vinhos espanhóis de Londres."}, {"n": "The Anglesea Arms","c":"luli", "q": "Gastropub Britânico", "a": "15 Selwood Terrace, London SW7 3QG", "p": "+44 20 7373 7960", "pr": 2, "note": "Pub histórico", "d": "Um dos gastropubs históricos mais queridos de Londres, em South Kensington. Ambiente de pub vitoriano com chaminé, cervejas artesanais e cozinha de gastropub — fish and chips, Sunday roast e pies. O pub britânico na sua expressão mais autêntica."}, {"n": "67 Pall Mall","c":"luli", "q": "Wine Club · Members Only", "a": "67 Pall Mall, London SW1Y 5ES", "p": "+44 20 3000 6767", "pr": 4, "w": "67pallmall.com", "ig": "67pall_mall", "note": "Private Members Club · 6.000 vinhos de 42 países · Edifício Lutyens Grade II", "d": "**Clube privado de vinhos** mais prestigiado de Londres, em pleno coração de **St James's**. Edifício classificado Grade II do arquitecto Sir Edwin Lutyens. **6.000 referências de 42 países** — uma das melhores cartas de vinhos do mundo. Fundado em 2015 por entusiastas de vinho, expandiu-se para Verbier, Singapura, Bordéus, Beaune e Melbourne. Acesso só para membros e convidados — experiência única para quem ama grandes vinhos num ambiente clássico britânico."}, {"n": "Mercato Mayfair","c":"luli", "q": "Food Hall · Italiano", "a": "St Mark's Church, North Audley Street, London W1K 6ZA", "pr": 2, "w": "mercatometropolitano.com/locations/mayfair", "ig": "mercatomayfair", "note": "Food hall em igreja vitoriana Grade I · 3 pisos + cripta + rooftop", "d": "Food hall italiano dentro de uma **igreja vitoriana restaurada** — a antiga **St Mark's Church** (Grade I listed) em North Audley Street, no coração de Mayfair. Aberto desde 2019 pelo grupo Mercato Metropolitano, distribui-se por **3 pisos** (sala principal sob arcos góticos com vitrais), cripta e rooftop. Cozinha italiana de mercado — pizzas napolitanas, pasta fresca, salumi, formaggi, gelato. Bar de cocktails na cripta, jazz aos domingos. Cenário arquitectónico único."}, {"n": "The Red Lion (Crown Passage)","c":"luli", "q": "Pub Histórico · British Tradicional", "a": "23 Crown Passage, St James's, London SW1Y 6PP", "p": "+44 20 7930 4141", "pr": 2, "note": "~400 anos · 2ª licença mais antiga do West End · Henry VIII a Charles II", "d": "**Pub histórico escondido num beco** entre King Street e Pall Mall, em St James's, a 2 min do **67 Pall Mall**. Reputadamente com **~400 anos de história** (reconstruído 1861), reivindica a **segunda licença mais antiga do West End**. Frequentado ao longo dos séculos por **Henry VIII, Charles II e o Duque de Windsor**. Pequeno bar de rés-do-chão com **lambris de madeira, espelhos vitorianos e janelas de chumbo em diamante**. Uma das jóias secretas mais bem preservadas de Londres."}]}];
+const CITIES=[{"city": "Londres", "region": "Inglaterra", "entries": [{"n": "Bob Bob Ricard","c":"luli", "q": "Russo-Britânica de Luxo", "a": "1 Upper James St, London W1F 9DF", "p": "+44 20 3145 1000", "pr": 3, "note": "Botão 'Press for Champagne' em cada mesa", "m":"rec","d": "Um dos restaurantes mais extravagantes de Londres, com cabines privadas em couro azul e botões de 'Press for Champagne' em cada mesa. Cozinha russo-britânica de luxo com caviar, bife Stroganoff e lagosta. Ambiente de Orient Express numa sala Art Déco do Soho."}, {"n": "Sabor","c":"luli", "q": "Espanhola de Autor", "a": "35-37 Heddon St, London W1B 4BR", "p": "+44 20 3319 8130", "pr": 3, "m": "m1", "note": "1 Estrela Michelin", "d": "Uma Estrela Michelin com a chef Nieves Barragán Mohacho, que recria a viagem gastronómica pela Espanha em pleno Mayfair. Tapas de produto ibérico excecional e uma das melhores cartas de vinhos espanhóis de Londres."}, {"n": "The Anglesea Arms","c":"luli", "q": "Gastropub Britânico", "a": "15 Selwood Terrace, London SW7 3QG", "p": "+44 20 7373 7960", "pr": 2, "note": "Pub histórico", "d": "Um dos gastropubs históricos mais queridos de Londres, em South Kensington. Ambiente de pub vitoriano com chaminé, cervejas artesanais e cozinha de gastropub — fish and chips, Sunday roast e pies. O pub britânico na sua expressão mais autêntica."}, {"n": "67 Pall Mall","c":"luli", "q": "Wine Club · Members Only", "a": "67 Pall Mall, London SW1Y 5ES", "p": "+44 20 3000 6767", "pr": 4, "w": "67pallmall.com", "ig": "67pall_mall", "note": "Private Members Club · 6.000 vinhos de 42 países · Edifício Lutyens Grade II", "d": "**Clube privado de vinhos** mais prestigiado de Londres, em pleno coração de **St James's**. Edifício classificado Grade II do arquitecto Sir Edwin Lutyens. **6.000 referências de 42 países** — uma das melhores cartas de vinhos do mundo. Fundado em 2015 por entusiastas de vinho, expandiu-se para Verbier, Singapura, Bordéus, Beaune e Melbourne. Acesso só para membros e convidados — experiência única para quem ama grandes vinhos num ambiente clássico britânico."}, {"n": "Mercato Mayfair","c":"luli","t":"m", "q": "Food Hall · Italiano", "a": "St Mark's Church, North Audley Street, London W1K 6ZA", "pr": 2, "w": "mercatometropolitano.com/locations/mayfair", "ig": "mercatomayfair", "note": "Food hall em igreja vitoriana Grade I · 3 pisos + cripta + rooftop", "d": "Food hall italiano dentro de uma **igreja vitoriana restaurada** — a antiga **St Mark's Church** (Grade I listed) em North Audley Street, no coração de Mayfair. Aberto desde 2019 pelo grupo Mercato Metropolitano, distribui-se por **3 pisos** (sala principal sob arcos góticos com vitrais), cripta e rooftop. Cozinha italiana de mercado — pizzas napolitanas, pasta fresca, salumi, formaggi, gelato. Bar de cocktails na cripta, jazz aos domingos. Cenário arquitectónico único."}, {"n": "The Red Lion (Crown Passage)","c":"luli", "q": "Pub Histórico · British Tradicional", "a": "23 Crown Passage, St James's, London SW1Y 6PP", "p": "+44 20 7930 4141", "pr": 2, "note": "~400 anos · 2ª licença mais antiga do West End · Henry VIII a Charles II", "d": "**Pub histórico escondido num beco** entre King Street e Pall Mall, em St James's, a 2 min do **67 Pall Mall**. Reputadamente com **~400 anos de história** (reconstruído 1861), reivindica a **segunda licença mais antiga do West End**. Frequentado ao longo dos séculos por **Henry VIII, Charles II e o Duque de Windsor**. Pequeno bar de rés-do-chão com **lambris de madeira, espelhos vitorianos e janelas de chumbo em diamante**. Uma das jóias secretas mais bem preservadas de Londres."}]}];
 
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin',beach:'Beach Club'};
 const KEYS={1:'🗝 1 Chave',2:'🗝🗝 2 Chaves',3:'🗝🗝🗝 3 Chaves'};
@@ -249,16 +251,16 @@ function render(){
     rd.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 16px">${region}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
     main.appendChild(rd);
     cities.forEach(({city,entries,folder})=>{
-      const _passes=r=>!(activeType==="r"&&r.t==="h")&&!(activeType==="h"&&r.t!=="h");
+      const _passes=r=>(activeType==='all'||(activeType==='r'&&!r.t)||(activeType==='h'&&r.t==='h')||(activeType==='m'&&r.t==='m'))&&!(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine);
       const _visible=entries.filter(_passes);
       if(_visible.length===0)return;
       
       const f=folder||FOLDER;
       const sec=document.createElement('div');sec.className='city-sec';
-      sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block">${(()=>{const r=entries.filter(e=>e.t!=='h').length,h=entries.filter(e=>e.t==='h').length;const parts=[];if(r>0)parts.push(`<div class="city-count-num">${r}</div><div class="city-count-lbl">restaurante${r!==1?'s':''}</div>`);if(h>0)parts.push(`<div class="city-count-num">${h}</div><div class="city-count-lbl">${h!==1?'hotéis':'hotel'}</div>`);return parts.join('<div style="height:6px"></div>');})()}</div></div><div class="restaurants-grid"></div>`;
+      sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block">${(()=>{const r=entries.filter(e=>!e.t).length,h=entries.filter(e=>e.t==='h').length,m=entries.filter(e=>e.t==='m').length;const parts=[];if(r>0)parts.push(`<div class="city-count-num">${r}</div><div class="city-count-lbl">restaurante${r!==1?'s':''}</div>`);if(h>0)parts.push(`<div class="city-count-num">${h}</div><div class="city-count-lbl">${h!==1?'hotéis':'hotel'}</div>`);if(m>0)parts.push(`<div class="city-count-num">${m}</div><div class="city-count-lbl">mercado${m!==1?'s':''}</div>`);return parts.join('<div style="height:6px"></div>');})()}</div></div><div class="restaurants-grid"></div>`;
       main.appendChild(sec);
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(activeType==='r'&&r.t)return;if(activeType==='h'&&r.t!=='h')return;if(activeType==='m'&&r.t!=='m')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const nm=r.n.replace(/'/g,"\\'");
         const ad=(r.a&&r.a!==city)?r.a.replace(/'/g,"\\'"):'';
@@ -270,6 +272,7 @@ function render(){
         const em=emoji(r.q||'');
         const badges=(r.t==='h'&&r.k?`<span class="badge bkeys${r.k}">${KEYS[r.k]}</span>`:'')+
                      (r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
+                     (r.t==='m'?`<span class="badge bmarket">🛒 Mercado</span>`:'')+
                      (r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge">Hospedagem</span>':'')+(r.beach?'<span class="badge">Beach Club</span>':'');
         card.innerHTML=`<div class="card-photo-wrap"><img class="card-photo" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\'>${em}</div>'"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc">${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}${r.c?`<div class="curator-badge ${r.c}">✦ por ${r.c==="shared"?"Luli & Tito":(r.c==="tito"?"Tito":"Luli")}</div>`:""}</div>`;
@@ -331,7 +334,7 @@ function buildCuisineBar(){
 
 // Rebuild filter buttons based on active type
 function rebuildFilters(){
-  const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h');
+  const _passes = r => (activeType==='all'||(activeType==='r'&&!r.t)||(activeType==='h'&&r.t==='h')||(activeType==='m'&&r.t==='m'));
   const visibleCities = CITIES.filter(c => c.entries.some(_passes));
   const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.region))];
   const useRegion = typeof activeRegion !== 'undefined';
@@ -356,17 +359,22 @@ let activeType='all';
 (function(){
   const params = new URLSearchParams(window.location.search);
   const t = params.get('type');
-  if (t === 'r' || t === 'h') {
+  if (t === 'r' || t === 'h' || t === 'm') {
     activeType = t;
     setTimeout(() => {
       document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
-      const btn = document.getElementById('type' + (t==='r'?'R':'H'));
+      const btn = document.getElementById('type' + (t==='r'?'R':t==='h'?'H':'M'));
       if (btn) btn.classList.add('active');
       if (typeof rebuildFilters === 'function') rebuildFilters();
       render();
     }, 0);
   }
 })();
+// Mostra botão Mercados apenas se houver mercados neste país
+if (CITIES.some(c => c.entries.some(e => e.t === 'm'))) {
+  const btnM = document.getElementById('typeM');
+  if (btnM) btnM.style.display = '';
+}
 function setType(t,btn){
   activeType=t;
   document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));

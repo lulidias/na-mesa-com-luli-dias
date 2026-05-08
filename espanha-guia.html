@@ -131,6 +131,7 @@ footer a{color:var(--gold);text-decoration:none}
 .bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 .bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 .bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
+.bmarket{background:#EAF3E8;color:#3F6F2F;border:1px solid #A8C998;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
 
 .gallery-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:20px}
 .gallery-modal.open{display:flex}
@@ -203,6 +204,7 @@ footer a{color:var(--gold);text-decoration:none}
   <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
   <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
   <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
+  <button class="type-btn" id="typeM" onclick="setType('m',this)" style="display:none">🛒 Mercados</button>
 </div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
@@ -238,7 +240,7 @@ const FOLDER='espanha';
 const CITIES=[
   // ── MADRID ──────────────────────────────────────────
   {city:'Madrid',region:'Madrid',entries:[
-    {n:'Mercado de San Miguel',q:'Mercado Gourmet · Tapas',a:'Plaza de San Miguel s/n, 28005 Madrid',p:'+34 91 542 49 36',pr:2,w:'mercadodesanmiguel.es',ig:'mercadosanmiguel',note:'Mercado em estrutura de ferro de 1916 · Junto à Plaza Mayor · 30+ bancas',d:'O **mercado gourmet mais famoso de Madrid**, em pleno centro, a 1 minuto a pé da **Plaza Mayor**. Edifício original de 1916 em **estrutura de ferro forjado** completamente restaurado em 2009 — não é mercado tradicional de mercearia, mas sim um **espaço gourmet com 30+ bancas** com tapas frescas, ibéricos, ostras, sushi, doçaria, e bar de vinhos e cava. Aberto até tarde (1h Sex-Sáb). Atmosfera vibrante, ponto de encontro turístico mas com qualidade real.'},
+    {t:'m',n:'Mercado de San Miguel',q:'Mercado Gourmet · Tapas',a:'Plaza de San Miguel s/n, 28005 Madrid',p:'+34 91 542 49 36',pr:2,w:'mercadodesanmiguel.es',ig:'mercadosanmiguel',note:'Mercado em estrutura de ferro de 1916 · Junto à Plaza Mayor · 30+ bancas',d:'O **mercado gourmet mais famoso de Madrid**, em pleno centro, a 1 minuto a pé da **Plaza Mayor**. Edifício original de 1916 em **estrutura de ferro forjado** completamente restaurado em 2009 — não é mercado tradicional de mercearia, mas sim um **espaço gourmet com 30+ bancas** com tapas frescas, ibéricos, ostras, sushi, doçaria, e bar de vinhos e cava. Aberto até tarde (1h Sex-Sáb). Atmosfera vibrante, ponto de encontro turístico mas com qualidade real.'},
     {n:'Arzábal',q:'Tapas Madrilenas',a:'Mercado de San Miguel, Pl. de San Miguel, Madrid',p:'+34 91 542 21 91',pr:2,w:'arzabal.com',ig:'arzabal_madrid',note:'No Mercado de San Miguel',d:'Tapas criativas no icónico Mercado de San Miguel, um dos mercados cobertos mais bonitos de Madrid. Pinchos, croquetas e montaditos de alta qualidade num ambiente vibrante junto à Plaza Mayor.'},
     {n:'Chambao',q:'Mediterrânea',a:'C. de Bretón de los Herreros 56, Madrid',p:'+34 91 442 16 66',pr:2,d:'Restaurante mediterrâneo descontraído em Madrid com cozinha de produto fresco, arrozes e peixes. Ambiente de terrace ideal para um almoço de domingo com amigos.'},
     {n:'Desde 1911',q:'Frutos do Mar',a:'Vivero 3, 28040 Madrid',p:'+34 915 45 72 86',pr:3,m:'m1',w:'desde1911.es',ig:'desde1911',note:'1 Estrela Michelin 2026 · desde 2024',d:'Uma Estrela Michelin desde 2024, confirmada no guia 2026. Tributo à família Sánchez Romate que trabalha o melhor marisco em Madrid desde 1911. Liderado por Abel Valverde (sala) e o chef Diego Murciego, com menus que mudam diariamente conforme o produto. Percebes, ostras, centolla e marisco galego do mais alto nível.'},
@@ -264,6 +266,7 @@ const CITIES=[
   ]},
   {city:'Vigo',region:'Galiza',entries:[
     {n:'Mauro',q:'Frutos do Mar',a:'R. de Purificación Saavedra 8, Vigo',p:'+34 986 224 347',pr:2,d:'Restaurante de frutos do mar em Vigo, uma das maiores cidades pesqueiras da Europa. Ostras, percebes, nécoras e centolla chegam diretamente da ria de Vigo com uma frescura inigualável.'},
+    {n:'Mesón Compostela',q:'Galega Tradicional · Frutos do Mar',a:'Praza de Compostela 6, 36201 Vigo',p:'+34 986 43 28 96',pr:2,w:'mesoncompostela.com',ig:'mesoncompostela',note:'Praza de Compostela · Frente à Ría · Cozinha galega clássica',d:'Restaurante de **cozinha galega tradicional** numa das praças mais elegantes de Vigo, a **Praza de Compostela** — praça arborizada junto à Estação Marítima e ao Porto Desportivo, com vista para a **Ría de Vigo**. Especialidade em **peixe e marisco da ría** — rape con almejas, merluza con sidra e lamprea (na época), além de uma boa seleção de jamones ibéricos. Casa de 2 garfos com sala interior, salão privado e esplanada. Cozinha clássica e produto de qualidade no coração de Vigo.'},
   ]},
   {city:'Rías Baixas',region:'Galiza',entries:[
     {n:'Asador Paulo',q:'Carnes Galegas',a:'Rías Baixas, Galiza',p:'',pr:2,d:'Assador de carnes galegas nas Rías Baixas com chuletón de vaca rubia galega e cordeiro assado na brasa. Produto local de excelência numa região famosa pelo Albariño e pelos frutos do mar.'},
@@ -299,13 +302,13 @@ const CITIES=[
     {n:'El Cercle',q:'Mediterrânea & Japonesa · Arte',a:'Carrer dels Arcs 5, 1er, 08002 Barcelona',p:'+34 93 624 48 10',pr:3,w:'elcerclerestaurant.com',ig:'el_cercle',e:'hello@elcerclerestaurant.com',note:'Reial Cercle Artístic · Palau dels Comtes Pignatelli séc. XV · Chef Albert Ventura',d:'Restaurante multi-espaço dentro do **Reial Cercle Artístic** — instituição cultural num **palácio gótico do séc. XV** (Palau dels Comtes Pignatelli) no coração do **Barri Gòtic**. Cozinha em duas vertentes pelo **chef Albert Ventura**: **Mediterrânea catalã contemporânea** e **Japonesa**. Pátio interior, terraço com vista para a Catedral, sala principal com tetos abobadados e arte exposta. Conceito único de **gastronomia + arte + cultura**.'},
     {n:'7 Portes',q:'Catalana Histórica',a:'Pg. d\'Isabel II 14, Barcelona',p:'+34 93 319 30 33',pr:2,w:'7portes.com',ig:'7portes',note:'Desde 1836',d:'Fundado em 1836, o restaurante mais antigo de Barcelona em contínuo funcionamento. Paella Parellada (sem cascas), zarzuela de mariscos e fideuà numa sala histórica com colunas de ferro fundido junto ao port. Frequentado por Hemingway, Orson Welles e García Lorca.'},
     {n:'Can Majó',q:'Marisco · Catalã · Vista Mar',a:'Carrer de l\'Almirall Aixada 23, 08003 Barceloneta, Barcelona',p:'+34 93 221 54 55',pr:3,w:'canmajo.es',ig:'canmajo',note:'Família Majó · Desde 1968 · Terraço com vista Mediterrâneo',d:'Restaurante familiar histórico em **Barceloneta**, fundado em 1968 pelo pescador Enrique Majó e sua mulher Maria, quando Barceloneta ainda era uma aldeia piscatória. **Marisco fresco do dia** — boquerones, mexilhões, gambas, percebes, lulas. Especialidades: **Caldero de arroz con bogavante** (sopa de arroz com lavagante) e **arròs negre**. Um dos poucos com **terraço com vista directa para o Mediterrâneo** — perfeito para uma paella ao pôr-do-sol com cava.'},
-    {n:'Mercat de la Boqueria',q:'Mercado Histórico · Tapas',a:'La Rambla 91, 08001 Barcelona',p:'+34 93 413 23 03',pr:2,w:'boqueria.barcelona',ig:'la_boqueria',e:'elmercatdelaboqueria@gmail.com',note:'Mercat de Sant Josep · Desde 1836 · 200+ bancas · "Best Market" Food & Wine 2024',d:'**Mercado mais famoso de Espanha** (oficialmente Mercat de Sant Josep), na **La Rambla** desde **1836**. Mais de **200 bancas** com produto local e internacional — peixe e marisco fresco, carnes, jamón ibérico, frutas, frutos secos, especiarias, pintxos e tapas para comer ao balcão. **Eleito Melhor Mercado do Mundo pela Food & Wine 2024**. Aberto Seg-Sáb 8h-20h30. Bancas top: El Quim de la Boqueria, Pinotxo Bar, Bar Boqueria, Kiosko Universal.'},
+    {t:'m',n:'Mercat de la Boqueria',q:'Mercado Histórico · Tapas',a:'La Rambla 91, 08001 Barcelona',p:'+34 93 413 23 03',pr:2,w:'boqueria.barcelona',ig:'la_boqueria',e:'elmercatdelaboqueria@gmail.com',note:'Mercat de Sant Josep · Desde 1836 · 200+ bancas · "Best Market" Food & Wine 2024',d:'**Mercado mais famoso de Espanha** (oficialmente Mercat de Sant Josep), na **La Rambla** desde **1836**. Mais de **200 bancas** com produto local e internacional — peixe e marisco fresco, carnes, jamón ibérico, frutas, frutos secos, especiarias, pintxos e tapas para comer ao balcão. **Eleito Melhor Mercado do Mundo pela Food & Wine 2024**. Aberto Seg-Sáb 8h-20h30. Bancas top: El Quim de la Boqueria, Pinotxo Bar, Bar Boqueria, Kiosko Universal.'},
     {n:'Asador de Aranda',q:'Cordeiro Assado Castellano',a:'Av. del Tibidabo 31, Barcelona',p:'+34 93 417 01 15',pr:3,w:'asadordearanda.net',note:'Casa Roviralta — modernista',d:'O melhor cordeiro assado no forno de lenha fora de Castela, instalado na Casa Roviralta ("El frare blanc") — obra modernista de Joan Rubió i Bellvé, discípulo de Gaudí. Lechazo asado três horas no forno de lenha, com a pele crocante e a carne tenra — a especialidade de Aranda de Duero transplantada para Barcelona com toda a fidelidade.'},
     {n:'Boca Chica',q:'Coquetéis & Tapas',a:'Ptge. de la Concepció 12, Barcelona',p:'+34 93 467 51 66',pr:2,w:'bocagrande.cat/boca-chica',ig:'bocachicabcn',note:'Ambiente animado',d:'Bar de coquetéis e tapas no Eixample com ambiente glamouroso e colonial — chifres, tapetes persas e fotografias vintage. Uma das melhores cartas de gin-tonics e cocktails de Barcelona, com tapas criativas para acompanhar. Mesma casa que o Boca Grande, dois andares acima.'},
     {n:'Boca Grande',q:'Mariscos & Mediterrânea',a:'Ptge. de la Concepció 12, Barcelona',p:'+34 93 467 51 49',pr:3,w:'bocagrande.cat',ig:'bocagrande',d:'Marisqueira elegante no Eixample com frutos do mar mediterrâneos de qualidade excecional. Ostras, gambas de Palamós, cigalas e percebes num ambiente sofisticado com clientela cosmopolita. Aberto todos os dias 13h–02h30.'},
     {n:'Botafumeiro',q:'Frutos do Mar Galegos',a:'C. Gran de Gràcia 81, Barcelona',p:'+34 93 218 42 30',pr:3,w:'botafumeiro.es',ig:'botafumeirobcn',note:'Desde 1975',d:'A catedral dos frutos do mar galegos em Barcelona, fundada em 1975. Centolla, nécoras, percebes, lagosta à Botafumeiro e gambas de Palamós da melhor qualidade servido numa sala imponente em Gràcia. Uma das mesas mais tradicionais e respeitadas de Barcelona.'},
     {n:'Can Majó',q:'Frutos do Mar',a:'C. de l\'Almirall Aixada 23, Barcelona',p:'+34 93 221 54 55',pr:3,d:'Marisqueira de referência no bairro da Barceloneta com vista para o mar. Arroços de marisco, suquets de peixe e frutos do mar fresquíssimos numa casa com décadas de história junto à praia de Barcelona.'},
-    {n:'El Nacional',q:'Mercado Gastronómico',a:'Pg. de Gràcia 24 Bis, Barcelona',p:'+34 935 18 50 53',pr:2,w:'elnacionalbcn.com',ig:'elnacionalbcn',note:'4 restaurantes + 4 bares num só espaço',d:'Espaço gastronómico extraordinário no Passeig de Gràcia, com quatro restaurantes (La Llotja para peixe, La Braseria para carnes, La Paradeta para snacks, La Taperia para tapas e arrozes), quatro bares e uma adega numa sala Belle Époque de 1889 restaurada com arte. Aberto 12h–02h.'},
+    {t:'m',n:'El Nacional',q:'Mercado Gastronómico',a:'Pg. de Gràcia 24 Bis, Barcelona',p:'+34 935 18 50 53',pr:2,w:'elnacionalbcn.com',ig:'elnacionalbcn',note:'4 restaurantes + 4 bares num só espaço',d:'Espaço gastronómico extraordinário no Passeig de Gràcia, com quatro restaurantes (La Llotja para peixe, La Braseria para carnes, La Paradeta para snacks, La Taperia para tapas e arrozes), quatro bares e uma adega numa sala Belle Époque de 1889 restaurada com arte. Aberto 12h–02h.'},
     {n:'Lomo Alto',q:'Carnes de Raça',a:'Carrer d\'Aragó 283-285, Barcelona',p:'+34 935 19 30 00',pr:3,w:'lomoalto.barcelona',ig:'lomoalto.lomobajo',note:'+10 raças · LomoBajo no piso térreo',d:'O templo das carnes de raça em Barcelona — mais de 10 raças, da Bruna dels Pirineus à Rubia Gallega, passando por Parda Alpina e Angus. Dry-aged em câmaras visíveis na sala e equipa especializada nos cortes mais nobres. O irmão LomoBajo, no piso térreo, oferece sandes gourmet com a mesma carne maturada.'},
     {n:'Taktika Berri',q:'Basca · Pintxos',a:'C/ de València 169, Barcelona',p:'+34 93 453 47 59',pr:2,d:'Considerado por muitos o melhor restaurante basco de Barcelona — uma instituição familiar no Eixample desde 1996. Pintxos clássicos de San Sebastián servidos ao balcão (paga-se pelos palitos), bacalao al pil pil e txuletón. Ambiente íntimo, reserva obrigatória.'},
     {n:'Torre d\'Alta Mar',q:'Mediterrânea · Vista 360°',a:'Pg. de Joan de Borbó 88, Barcelona',p:'+34 93 221 00 07',pr:4,d:'Restaurante no topo da torre de telecomunicações de Barceloneta a 75 metros de altura, com vista panorâmica de 360° sobre Barcelona e o Mediterrâneo. Cozinha mediterrânea de alto nível num dos cenários mais espetaculares de Espanha.'},
@@ -317,6 +320,7 @@ const CITIES=[
   // ── SEVILHA ─────────────────────────────────────────
   {city:'Sevilha',region:'Andaluzia',entries:[
     {n:'Ovejas Negras',q:'Tapas Modernas · Andaluza',a:'Calle Hernando Colón 8, 41004 Sevilha',p:'+34 955 12 38 11',pr:2,w:'ovejasnegrastapas.com',ig:'ovejasnegrastapas',e:'hola@ovejasnegrascompany.com',note:'Desde 2011 · Sem reservas · Centro histórico',d:'Bar de **tapas modernas e irreverentes** no coração de Sevilha, a poucos passos da Catedral e do Alcázar. Ambiente descontraído, balcão e mesas pequenas para partilhar. Cozinha andaluza reinventada com toques internacionais — solomillo al whisky, pringá em mini-burger, atum vermelho com soja, ovo a baixa temperatura com batata e foie. **Não aceita reservas** — chegar cedo. Aberto desde 2011, é uma das tapas bars de referência da nova cena gastronómica sevilhana.'},
+    {t:'m',n:'Mercado Lonja del Barranco',q:'Mercado Gourmet · Tapas',a:'Calle Arjona s/n, 41001 Sevilha',p:'+34 954 22 04 95',pr:2,w:'mercadolonjadelbarranco.com',ig:'mercadolonjadelbarranco',note:'Edifício projetado por Gustave Eiffel · Margem do Guadalquivir · Aberto até tarde',d:'**Mercado gourmet** num **edifício histórico de ferro forjado projetado por Gustave Eiffel** — o mesmo da Torre Eiffel — originalmente usado como **lonja de pescado** (mercado de peixe). Hoje, **20+ bancas gastronómicas** numa nave de pé-direito imponente nas margens do **Guadalquivir**, junto ao Puente de Triana. Tapas, ibéricos, frutos do mar, sushi, hambúrgueres gourmet, cervejas artesanais e cocktails. **Aberto até tarde** (Sex-Sáb até 02h) — perfeito para passar de almoço a tapas, drinks e jantar tudo num só sítio com vista para o rio.'},
   ]},
 ];
 
@@ -363,7 +367,7 @@ function render(){
   filtered.forEach(c=>{if(!groups[c.region])groups[c.region]=[];groups[c.region].push(c);});
   Object.entries(groups).forEach(([region,cities])=>{
     // Skip region without visible entries
-    const _passes=r=>!(activeType==='r'&&r.t==='h')&&!(activeType==='h'&&r.t!=='h')&&!(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine);
+    const _passes=r=>(activeType==='all'||(activeType==='r'&&!r.t)||(activeType==='h'&&r.t==='h')||(activeType==='m'&&r.t==='m'))&&!(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine);
     const _regionHas=cities.some(c=>c.entries.some(_passes));
     if(!_regionHas)return;
 
@@ -377,10 +381,10 @@ function render(){
       const _lbl=activeType==='h'?'hotel':activeType==='r'?'restaurante':'estabelecimento';
 
       const sec=document.createElement('div');sec.className='city-sec';
-      sec.innerHTML=`<div class="city-hdr"><div class="city-hdr-left"><div class="city-name">${city}</div></div><div class="city-count-block">${(()=>{const r=entries.filter(e=>e.t!=='h').length,h=entries.filter(e=>e.t==='h').length;const parts=[];if(r>0)parts.push(`<div class="city-count-num">${r}</div><div class="city-count-lbl">restaurante${r!==1?'s':''}</div>`);if(h>0)parts.push(`<div class="city-count-num">${h}</div><div class="city-count-lbl">${h!==1?'hotéis':'hotel'}</div>`);return parts.join('<div style="height:6px"></div>');})()}</div></div><div class="restaurants-grid" id="g-${city.replace(/[\s']/g,'-')}"></div>`;
+      sec.innerHTML=`<div class="city-hdr"><div class="city-hdr-left"><div class="city-name">${city}</div></div><div class="city-count-block">${(()=>{const r=entries.filter(e=>!e.t).length,h=entries.filter(e=>e.t==='h').length,m=entries.filter(e=>e.t==='m').length;const parts=[];if(r>0)parts.push(`<div class="city-count-num">${r}</div><div class="city-count-lbl">restaurante${r!==1?'s':''}</div>`);if(h>0)parts.push(`<div class="city-count-num">${h}</div><div class="city-count-lbl">${h!==1?'hotéis':'hotel'}</div>`);if(m>0)parts.push(`<div class="city-count-num">${m}</div><div class="city-count-lbl">mercado${m!==1?'s':''}</div>`);return parts.join('<div style="height:6px"></div>');})()}</div></div><div class="restaurants-grid" id="g-${city.replace(/[\s']/g,'-')}"></div>`;
       main.appendChild(sec);
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(activeType==='r'&&r.t)return;if(activeType==='h'&&r.t!=='h')return;if(activeType==='m'&&r.t!=='m')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const bg=cardBg(r.q);
         const nm=r.n.replace(/'/g,"\\'");
@@ -393,6 +397,7 @@ function render(){
         const em=emoji(r.q,r.t);
         const badges=(r.t==='h'&&r.k?`<span class="badge bkeys${r.k}">${KEYS[r.k]}</span>`:'')+
                      (r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
+                     (r.t==='m'?`<span class="badge bmarket">🛒 Mercado</span>`:'')+
                      (r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge">Hospedagem</span>':'');
         card.innerHTML=`
@@ -463,7 +468,7 @@ function buildCuisineBar(){
 
 // Rebuild filter buttons based on active type (Restaurantes/Hotéis/Todos)
 function rebuildFilters(){
-  const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h');
+  const _passes = r => (activeType==='all'||(activeType==='r'&&!r.t)||(activeType==='h'&&r.t==='h')||(activeType==='m'&&r.t==='m'));
   const visibleCities = CITIES.filter(c => c.entries.some(_passes));
   const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.region))];
   // Support both activeCity and activeRegion (different files use different names)
@@ -491,17 +496,22 @@ let activeType='all';
 (function(){
   const params = new URLSearchParams(window.location.search);
   const t = params.get('type');
-  if (t === 'r' || t === 'h') {
+  if (t === 'r' || t === 'h' || t === 'm') {
     activeType = t;
     setTimeout(() => {
       document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
-      const btn = document.getElementById('type' + (t==='r'?'R':'H'));
+      const btn = document.getElementById('type' + (t==='r'?'R':t==='h'?'H':'M'));
       if (btn) btn.classList.add('active');
       rebuildFilters();
       render();
     }, 0);
   }
 })();
+// Mostra botão Mercados apenas se houver mercados neste país
+if (CITIES.some(c => c.entries.some(e => e.t === 'm'))) {
+  const btnM = document.getElementById('typeM');
+  if (btnM) btnM.style.display = '';
+}
 function setType(t,btn){
   activeType=t;
   document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
