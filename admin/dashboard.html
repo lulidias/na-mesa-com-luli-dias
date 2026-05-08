@@ -171,13 +171,16 @@ const FLAGS = {
   'Korea':'🇰🇷','China':'🇨🇳','Hong Kong':'🇭🇰','Thailand':'🇹🇭','Vietnam':'🇻🇳','Taiwan':'🇹🇼'
 };
 let charts = { trend: null, devices: null };
-let adminKey = sessionStorage.getItem('LULI_ADMIN_KEY') || '';
+// Reusa a sessão do admin (mesma localStorage key)
+let adminKey = localStorage.getItem('worker_key') || sessionStorage.getItem('LULI_ADMIN_KEY') || '';
 
 // ====== LOGIN ======
 function doLogin() {
   const v = document.getElementById('loginKey').value.trim();
   if (!v) return;
   adminKey = v;
+  // Salva nas duas chaves para compatibilidade com admin/index.html
+  localStorage.setItem('worker_key', v);
   sessionStorage.setItem('LULI_ADMIN_KEY', v);
   testAndShow();
 }
@@ -191,6 +194,13 @@ async function testAndShow() {
   try {
     const r = await fetch(`${WORKER_URL}/health`, { headers: { 'X-Admin-Key': adminKey } });
     if (r.status === 401) {
+      // Se chegou aqui via admin com chave inválida, redireciona pro admin
+      if (localStorage.getItem('worker_key')) {
+        // Chave do admin não funciona — limpa e força re-login no admin
+        localStorage.removeItem('worker_key');
+        window.location.href = 'index.html';
+        return;
+      }
       document.getElementById('loginError').style.display = 'block';
       adminKey = '';
       sessionStorage.removeItem('LULI_ADMIN_KEY');
