@@ -102,7 +102,7 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 .city-count-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-xs);margin-top:2px}
 .city-michelin{font-size:9px;color:var(--m2);font-weight:600;letter-spacing:1px;opacity:.85}
 
-.restaurants-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}
+.restaurants-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border)}@media(max-width:640px){.restaurants-grid{gap:18px;background:transparent}.restaurant-card{box-shadow:0 2px 8px rgba(0,0,0,.08)}}
 
 .restaurant-card{background:var(--card-bg);overflow:hidden;border-left:3px solid var(--gold-lt);transition:box-shadow .3s}
 .restaurant-card:hover{box-shadow:0 4px 24px rgba(184,146,42,.12);z-index:1;position:relative}
