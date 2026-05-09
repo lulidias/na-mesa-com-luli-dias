@@ -386,6 +386,8 @@ function showNearMe(myLat,myLng){
   },50);
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNearMe();});
+// Auto-open Near Me when navigating from guide pages (?nearme=1)
+if(new URLSearchParams(window.location.search).get('nearme')==='1'){setTimeout(()=>openNearMe(),100);}
 </script>
 </body>
 </html>
