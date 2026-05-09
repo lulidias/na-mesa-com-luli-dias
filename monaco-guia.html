@@ -87,7 +87,7 @@ header{background:var(--white);border-bottom:1px solid var(--border);padding:44p
 .michelin-legend{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .legend-title{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt)}
 .lbadge{font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
-.lm2,.lm1,.lbib,.lgreen,.lrec,.lhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.lm2,.lm1,.lbib,.lgreen,.lrec,.lhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}.michelin-legend .lbadge{cursor:pointer;transition:all .2s;user-select:none}.michelin-legend .lbadge:hover{filter:brightness(.92);transform:translateY(-1px)}.michelin-legend .lbadge.active{background:var(--gold)!important;color:var(--white)!important;border-color:var(--gold)!important;box-shadow:0 2px 6px rgba(184,146,42,.3)}
 
 main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 
@@ -224,12 +224,12 @@ footer a{color:var(--gold);text-decoration:none}
 </div>
 
 <div class="michelin-legend">
-  <span class="lbadge lm2">★★ 2 Estrelas</span>
-  <span class="lbadge lm1">★ 1 Estrela</span>
-  <span class="lbadge lbib">Bib Gourmand</span>
-  <span class="lbadge lgreen">Estrela Verde</span>
-  <span class="lbadge lrec">Michelin</span>
-  <span class="lbadge lhotel">Hospedagem</span>
+  <span class="lbadge lm2" onclick="setMichelin('m2',this)">★★ 2 Estrelas</span>
+  <span class="lbadge lm1" onclick="setMichelin('m1',this)">★ 1 Estrela</span>
+  <span class="lbadge lbib" onclick="setMichelin('bib',this)">Bib Gourmand</span>
+  <span class="lbadge lgreen" onclick="setMichelin('green',this)">Estrela Verde</span>
+  <span class="lbadge lrec" onclick="setMichelin('rec',this)">Michelin</span>
+  <span class="lbadge lhotel" onclick="setMichelin('h',this)">Hospedagem</span>
   <span class="lbadge" style="background:#FFF8E8;color:#B87820;border:1px solid #E8C870">🏆 Premiado</span>
 </div>
 
@@ -362,7 +362,7 @@ function render(){
       main.appendChild(sec);
 
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;if(activeMichelin){if(activeMichelin==='h'){if(r.t!=='h')return;}else if(r.m!==activeMichelin)return;}
         const card=document.createElement('div');card.className='restaurant-card';
         const bg=cardBg(r.q);
         const nm=r.n.replace(/'/g,"\\'");
@@ -445,7 +445,7 @@ function buildCuisineBar(){
 
 // Rebuild filter buttons based on active type
 function rebuildFilters(){
-  const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h');
+  const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h') && (!activeMichelin||(activeMichelin==='h'?r.t==='h':r.m===activeMichelin));
   const visibleCities = CITIES.filter(c => c.entries.some(_passes));
   const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.region))];
   const useRegion = typeof activeRegion !== 'undefined';
@@ -494,6 +494,14 @@ function setCuisine(c,btn){
   activeCuisine=c;
   document.querySelectorAll('.cuisine-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  render();
+}
+
+
+let activeMichelin=null;
+function setMichelin(m,el){
+  if(activeMichelin===m){activeMichelin=null;document.querySelectorAll('.michelin-legend .lbadge').forEach(b=>b.classList.remove('active'));}
+  else{activeMichelin=m;document.querySelectorAll('.michelin-legend .lbadge').forEach(b=>b.classList.remove('active'));if(el)el.classList.add('active');}
   render();
 }
 
