@@ -7,9 +7,18 @@ compatibility_date = "2024-09-01"
 GITHUB_OWNER = "lulidias"
 GITHUB_REPO = "na-mesa-com-luli-dias"
 
+# D1 database (CRM: subscribers, events, founder codes, sessions)
+[[d1_databases]]
+binding = "DB"
+database_name = "lulidias-db"
+database_id = "174f85c4-40ee-4209-b15d-1ec1d31ed9b2"
+
 # Os secrets seguintes são configurados separadamente via:
 #   wrangler secret put ANTHROPIC_API_KEY
 #   wrangler secret put GITHUB_TOKEN
 #   wrangler secret put ADMIN_KEY
+#   wrangler secret put STRIPE_SECRET_KEY
+#   wrangler secret put STRIPE_WEBHOOK_SECRET
+#   wrangler secret put RESEND_API_KEY
 #
 # OU pelo dashboard Cloudflare → Workers → luli-admin → Settings → Variables
