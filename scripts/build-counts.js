@@ -115,8 +115,10 @@ totals.totalKeys = totals.keys1 + totals.keys2 * 2 + totals.keys3 * 3;
 totals.michelin = totals.m1 + totals.m2 + totals.m3 + totals.bib + totals.green;
 totals.keysEntries = totals.keys1 + totals.keys2 + totals.keys3;
 
+// NOTA: não incluímos timestamp aqui — se incluíssemos, cada execução criava
+// uma diferença mesmo sem mudanças nas contagens, gerando conflitos de merge
+// entre commits locais e o GitHub Action.
 const output = {
-  generated_at: new Date().toISOString(),
   totals,
   countries
 };
