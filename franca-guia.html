@@ -458,7 +458,7 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.re
 const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
 const filtersEl=document.getElementById('filters');
 filtersEl.innerHTML='<span class="filter-lbl">Região:</span>'+
-  regions.map(r=>`<button class="filter-btn${r==='Todas'?' active':''}" onclick="setRegion('${r}',this)">${r}</button>`).join('');
+  regions.map(r=>`<button class="filter-btn${r==='Todas'?' active':''}" onclick="setRegion('${r.replace(/'/g, "\\'")}',this)">${r}</button>`).join('');
 
 let activeRegion='Todas';
 function setRegion(r,btn){

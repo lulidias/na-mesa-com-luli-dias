@@ -228,7 +228,7 @@ function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.inc
 
 const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
 document.getElementById('filters').innerHTML='<span class="filter-lbl">Região:</span>'+
-  regions.map(r=>`<button class="filter-btn${r==='Todas'?' active':''}" onclick="setRegion('${r}',this)">${r}</button>`).join('');
+  regions.map(r=>`<button class="filter-btn${r==='Todas'?' active':''}" onclick="setRegion('${r.replace(/'/g, "\\'")}',this)">${r}</button>`).join('');
 
 let activeRegion='Todas';
 function setRegion(r,btn){
