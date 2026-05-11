@@ -7,6 +7,12 @@ compatibility_date = "2024-09-01"
 GITHUB_OWNER = "lulidias"
 GITHUB_REPO = "na-mesa-com-luli-dias"
 
+# Stripe — chaves e IDs públicos (ok ir para Git)
+STRIPE_PUBLISHABLE_KEY = "pk_test_51TVfXCHDKFMdeZioMVYJb9BsIev4tXkE2YpFgACg2ke2dubIyDKie3yjGocptMqZtq3KwlYpsJ4WQfWBk1cn0V3B00T4pzFO9x"
+STRIPE_PRICE_ANNUAL = "price_1TVh7YHDKFMdeZioZ9HyZwwy"
+STRIPE_PRICE_FOUNDER_ANNUAL = "price_1TVhAUHDKFMdeZioWeEE4vBY"
+STRIPE_PRICE_FOUNDER_LIFETIME = "price_1TVhCDHDKFMdeZioNNbUyeb9"
+
 # D1 database (CRM: subscribers, events, founder codes, sessions)
 [[d1_databases]]
 binding = "DB"
