@@ -133,10 +133,9 @@ footer a{color:var(--gold-lt);text-decoration:none;margin:0 10px}
 <section class="stats-row">
   <div class="container">
     <div class="stats-grid">
-      <div><div class="stat-num">34</div><div class="stat-lbl">Países</div></div>
-      <div><div class="stat-num">5</div><div class="stat-lbl">Continentes</div></div>
-      <div><div class="stat-num">805</div><div class="stat-lbl">Restaurantes</div></div>
-      <div><div class="stat-num">107</div><div class="stat-lbl">Hotéis</div></div>
+      <div><div class="stat-num" data-stat="countries">—</div><div class="stat-lbl">Países</div></div>
+      <div><div class="stat-num" data-stat="restaurants">—</div><div class="stat-lbl">Restaurantes</div></div>
+      <div><div class="stat-num" data-stat="hotels">—</div><div class="stat-lbl">Hotéis</div></div>
       <div><div class="stat-num">84 ★</div><div class="stat-lbl">Estrelas Michelin</div></div>
       <div><div class="stat-num">96 🗝</div><div class="stat-lbl">Chaves Michelin</div></div>
     </div>
@@ -550,6 +549,15 @@ function signup(e){
   document.getElementById('emailInput').value = '';
   // TODO: integrar com Mailchimp/ConvertKit para realmente enviar email
 }
+</script>
+<script>
+fetch('counts.json?v=' + Date.now()).then(r => r.ok ? r.json() : null).then(d => {
+  if (!d) return;
+  const set = (k, v) => document.querySelectorAll('[data-stat="' + k + '"]').forEach(el => el.textContent = v);
+  set('countries', d.totals.countries);
+  set('restaurants', d.totals.restaurants);
+  set('hotels', d.totals.hotels);
+}).catch(() => {});
 </script>
 </body>
 </html>
