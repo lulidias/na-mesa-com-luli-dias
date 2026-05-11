@@ -475,6 +475,43 @@ function initMap(){
 }
 
 
+
+// ─── AUTO-COUNT stats-bar ──────────────────────────────────────────────
+// Conta automaticamente a partir do array CITIES — fonte única de verdade.
+// Não mexer manualmente nos valores HTML do stats-bar.
+(function(){
+  if (typeof CITIES === 'undefined') return;
+  let r=0, h=0, mk=0, cities=0, m1=0, m2=0, m3=0, bib=0, k1=0, k2=0, k3=0;
+  for (const city of CITIES) {
+    if (!city || !city.entries || city.entries.length === 0) continue;
+    cities++;
+    for (const e of city.entries) {
+      if (!e) continue;
+      if (e.t === 'h') { h++; if (e.k===1) k1++; else if (e.k===2) k2++; else if (e.k===3) k3++; }
+      else if (e.t === 'm') { mk++; r++; }
+      else r++;
+      if (e.m === 'm1') m1++; else if (e.m === 'm2') m2++; else if (e.m === 'm3') m3++;
+      else if (e.m === 'bib') bib++;
+    }
+  }
+  const stars = m1 + m2 * 2 + m3 * 3;
+  const keys = k1 + k2 * 2 + k3 * 3;
+  const statsBar = document.querySelector('.stats-bar');
+  if (!statsBar) return;
+  statsBar.querySelectorAll('.stat').forEach(stat => {
+    const lbl = ((stat.querySelector('.stat-lbl') || {}).textContent || '').toLowerCase().trim();
+    const num = stat.querySelector('.stat-num');
+    if (!num) return;
+    if (lbl.includes('restaurante')) num.textContent = r;
+    else if (lbl.includes('cidade') || lbl.includes('estado')) num.textContent = cities;
+    else if (lbl.includes('hotel') || lbl.includes('hotéis')) num.textContent = h;
+    else if (lbl.includes('michelin') || lbl.includes('estrela')) num.textContent = stars > 0 ? stars + ' ★' : '0';
+    else if (lbl.includes('chave')) num.textContent = keys > 0 ? keys + ' 🗝' : '0';
+    else if (lbl.includes('bib')) num.textContent = bib;
+    else if (lbl.includes('mercado')) num.textContent = mk;
+  });
+})();
+
 </script>
 
 <script>

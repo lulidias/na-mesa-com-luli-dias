@@ -111,12 +111,21 @@ footer a{color:var(--gold);text-decoration:none}
         <p>Este guia é o resultado natural de uma vida inteira vivida entre grandes mesas, vinhas inesquecíveis e a convicção de que uma boa refeição é sempre muito mais do que comer.</p>
       </div>
 
-      <!-- STATS -->
+      <!-- STATS — números dinâmicos via counts.json -->
       <div class="stats">
-        <div class="stat"><div class="stat-num">50</div><div class="stat-lbl">Países Visitados</div></div>
-        <div class="stat"><div class="stat-num">786</div><div class="stat-lbl">Restaurantes</div></div>
+        <div class="stat"><div class="stat-num" data-stat="countries">—</div><div class="stat-lbl">Países no Guia</div></div>
+        <div class="stat"><div class="stat-num" data-stat="restaurants">—</div><div class="stat-lbl">Restaurantes</div></div>
         <div class="stat"><div class="stat-num">40</div><div class="stat-lbl">Viagens/Ano</div></div>
       </div>
+      <script>
+        // Auto-loaded from counts.json (single source of truth)
+        fetch('counts.json?v=' + Date.now()).then(r => r.ok ? r.json() : null).then(d => {
+          if (!d) return;
+          const set = (k, v) => { const el = document.querySelector('[data-stat="' + k + '"]'); if (el) el.textContent = v; };
+          set('countries', d.totals.countries);
+          set('restaurants', d.totals.restaurants);
+        }).catch(() => {});
+      </script>
 
       <!-- DISTINÇÕES -->
       <div class="distinctions-title">Distinções do Mundo do Vinho</div>
