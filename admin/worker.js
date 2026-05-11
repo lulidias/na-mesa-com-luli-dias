@@ -243,6 +243,8 @@ function addEntryToGuide(content, cityName, entry, countryKey, folder) {
   const cleanEntry = { ...entry };
   delete cleanEntry.lat;
   delete cleanEntry.lng;
+  // STAGING — new entries enter pending state by default; admin flips them visible later
+  if (cleanEntry.pending === undefined) cleanEntry.pending = true;
 
   const entryJson = JSON.stringify(cleanEntry);
   const citiesStartIdx = citiesMatch.index + citiesMatch[1].length;

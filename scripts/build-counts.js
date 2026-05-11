@@ -75,6 +75,7 @@ for (const source of guideSources) {
     country.cities++;
     for (const r of city.entries) {
       if (!r) continue;
+      if (r.pending) continue;  // pending entries don't count toward stats
       hasContent = true;
       if (r.t === 'h') {
         country.hotels++;

@@ -413,7 +413,7 @@ function render(){
       main.appendChild(sec);
 
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      entries.forEach(r=>{if(r.pending)return;if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const bg=cardBg(r.q);
         const nm=r.n.replace(/'/g,"\\'");
@@ -614,7 +614,7 @@ function initMap(){
     if (!city || !city.entries || city.entries.length === 0) continue;
     cities++;
     for (const e of city.entries) {
-      if (!e) continue;
+      if (!e || e.pending) continue;
       if (e.t === 'h') { h++; if (e.k===1) k1++; else if (e.k===2) k2++; else if (e.k===3) k3++; }
       else if (e.t === 'm') { mk++; r++; }
       else r++;

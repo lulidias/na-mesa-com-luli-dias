@@ -438,7 +438,7 @@ function normCuisine(q){
 }
 function buildCuisineBar(){
   const set=new Set();
-  CITIES.forEach(c=>c.entries.forEach(r=>{if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;if(activeMichelin){if(activeMichelin==='h'){if(r.t!=='h')return;}else if(r.m!==activeMichelin)return;}const n=normCuisine(r.q);if(n)set.add(n);}));
+  CITIES.forEach(c=>c.entries.forEach(r=>{if(r.pending)return;if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;if(activeMichelin){if(activeMichelin==='h'){if(r.t!=='h')return;}else if(r.m!==activeMichelin)return;}const n=normCuisine(r.q);if(n)set.add(n);}));
   const cuisines=['Todas',...[...set].sort((a,b)=>a.localeCompare(b,'pt'))];
   const bar=document.getElementById('cuisineBar');
   if(!bar)return;
@@ -567,7 +567,7 @@ function initMap(){
     if (!city || !city.entries || city.entries.length === 0) continue;
     cities++;
     for (const e of city.entries) {
-      if (!e) continue;
+      if (!e || e.pending) continue;
       if (e.t === 'h') { h++; if (e.k===1) k1++; else if (e.k===2) k2++; else if (e.k===3) k3++; }
       else if (e.t === 'm') { mk++; r++; }
       else r++;
