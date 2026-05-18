@@ -1,23 +1,22 @@
 {
-  "generated_at": "2026-05-11T01:06:40.026Z",
   "totals": {
-    "restaurants": 861,
-    "hotels": 128,
+    "restaurants": 869,
+    "hotels": 131,
     "markets": 12,
     "m1": 43,
-    "m2": 12,
-    "m3": 6,
+    "m2": 13,
+    "m3": 5,
     "bib": 28,
     "green": 1,
-    "rec": 48,
-    "keys1": 47,
+    "rec": 49,
+    "keys1": 48,
     "keys2": 23,
     "keys3": 2,
-    "countries": 36,
-    "totalStars": 85,
-    "totalKeys": 99,
+    "countries": 37,
+    "totalStars": 84,
+    "totalKeys": 100,
     "michelin": 90,
-    "keysEntries": 72
+    "keysEntries": 73
   },
   "countries": {
     "alemanha": {
@@ -330,15 +329,15 @@
       "markets": 0,
       "cities": 34,
       "m1": 10,
-      "m2": 4,
-      "m3": 2,
+      "m2": 5,
+      "m3": 1,
       "bib": 2,
       "green": 0,
       "rec": 2,
       "keys1": 4,
       "keys2": 2,
       "keys3": 1,
-      "totalStars": 24,
+      "totalStars": 23,
       "totalKeys": 11,
       "michelin": 18,
       "keysEntries": 7
@@ -514,6 +513,25 @@
       "michelin": 1,
       "keysEntries": 0
     },
+    "marrocos": {
+      "restaurants": 7,
+      "hotels": 2,
+      "markets": 0,
+      "cities": 1,
+      "m1": 0,
+      "m2": 0,
+      "m3": 0,
+      "bib": 0,
+      "green": 0,
+      "rec": 0,
+      "keys1": 0,
+      "keys2": 0,
+      "keys3": 0,
+      "totalStars": 0,
+      "totalKeys": 0,
+      "michelin": 0,
+      "keysEntries": 0
+    },
     "monaco": {
       "restaurants": 3,
       "hotels": 1,
@@ -572,8 +590,8 @@
       "keysEntries": 5
     },
     "portugal": {
-      "restaurants": 94,
-      "hotels": 28,
+      "restaurants": 97,
+      "hotels": 29,
       "markets": 1,
       "cities": 29,
       "m1": 1,
@@ -581,14 +599,14 @@
       "m3": 0,
       "bib": 2,
       "green": 1,
-      "rec": 9,
-      "keys1": 7,
+      "rec": 10,
+      "keys1": 8,
       "keys2": 6,
       "keys3": 0,
       "totalStars": 5,
-      "totalKeys": 19,
+      "totalKeys": 20,
       "michelin": 6,
-      "keysEntries": 13
+      "keysEntries": 14
     },
     "tailandia": {
       "restaurants": 8,
@@ -686,7 +704,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 347,
+      "restaurants": 345,
       "hotels": 32,
       "markets": 0,
       "cities": 24,
