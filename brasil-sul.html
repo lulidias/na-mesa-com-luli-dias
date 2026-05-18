@@ -698,7 +698,7 @@ async function _setupGallery(wrap) {
   const folder = m[1], slug = m[2];
   const exts = ['.jpeg','.jpg','.JPG','.JPEG','.png','.PNG'];
   const urls = [src];
-  for (let i = 2; i <= 10; i++) {
+  for (let i = 2; i <= 20; i++) {
     let found = null;
     for (const ext of exts) {
       const url = `fotos/${folder}/${slug}-${i}${ext}`;
@@ -710,8 +710,7 @@ async function _setupGallery(wrap) {
       });
       if (exists) { found = url; break; }
     }
-    if (!found) break;
-    urls.push(found);
+    if (found) urls.push(found);
   }
   if (urls.length < 2) return;
   // Setup
