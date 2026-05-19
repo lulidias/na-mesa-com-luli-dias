@@ -16,7 +16,7 @@ echo ""
 
 # 1) Forçar download de TUDO em fotos/ do iCloud
 echo "1. A garantir que todas as fotos estão baixadas do iCloud..."
-find fotos/ -type f \( -iname "*.DNG" -o -iname "*.HEIC" -o -iname "*.HEIF" -o -iname "*.heic" -o -iname "*.dng" -o -iname "*.heif" \) | while read f; do
+find fotos/ -type f \( -iname "*.DNG" -o -iname "*.HEIC" -o -iname "*.HEIF" -o -iname "*.heic" -o -iname "*.dng" -o -iname "*.heif" -o -iname "*.png" -o -iname "*.PNG" \) | while read f; do
   brctl download "$f" 2>/dev/null
 done
 sleep 4
@@ -73,7 +73,7 @@ convert_file() {
 # Converter em TODAS as subpastas de fotos/
 for pasta in fotos/*/; do
   [ -d "$pasta" ] || continue
-  for f in "$pasta"*.DNG "$pasta"*.HEIC "$pasta"*.heic "$pasta"*.HEIF "$pasta"*.heif "$pasta"*.dng; do
+  for f in "$pasta"*.DNG "$pasta"*.HEIC "$pasta"*.heic "$pasta"*.HEIF "$pasta"*.heif "$pasta"*.dng "$pasta"*.png "$pasta"*.PNG; do
     [ -f "$f" ] || continue
     convert_file "$f"
   done
