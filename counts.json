@@ -1,9 +1,9 @@
 {
   "totals": {
-    "restaurants": 820,
-    "hotels": 126,
+    "restaurants": 821,
+    "hotels": 127,
     "markets": 8,
-    "m1": 41,
+    "m1": 42,
     "m2": 12,
     "m3": 4,
     "bib": 28,
@@ -13,9 +13,9 @@
     "keys2": 23,
     "keys3": 2,
     "countries": 36,
-    "totalStars": 77,
+    "totalStars": 78,
     "totalKeys": 100,
-    "michelin": 86,
+    "michelin": 87,
     "keysEntries": 73
   },
   "countries": {
@@ -305,11 +305,11 @@
       "keysEntries": 5
     },
     "franca": {
-      "restaurants": 105,
-      "hotels": 13,
+      "restaurants": 106,
+      "hotels": 14,
       "markets": 0,
-      "cities": 34,
-      "m1": 10,
+      "cities": 35,
+      "m1": 11,
       "m2": 5,
       "m3": 1,
       "bib": 2,
@@ -318,9 +318,9 @@
       "keys1": 4,
       "keys2": 2,
       "keys3": 1,
-      "totalStars": 23,
+      "totalStars": 24,
       "totalKeys": 11,
-      "michelin": 18,
+      "michelin": 19,
       "keysEntries": 7
     },
     "holanda": {
