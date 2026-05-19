@@ -187,7 +187,7 @@ footer a{color:var(--gold);text-decoration:none}
 </header>
 <div class="stats-bar">
   <div class="stat"><div class="stat-num">106</div><div class="stat-lbl">Restaurantes</div></div>
-  <div class="stat"><div class="stat-num">35</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num">36</div><div class="stat-lbl">Cidades</div></div>
   <div class="stat"><div class="stat-num">15</div><div class="stat-lbl">Hotéis</div></div>
   <div class="stat"><div class="stat-num">24 ★</div><div class="stat-lbl">Michelin</div></div>
 </div>
@@ -363,7 +363,7 @@ const CITIES=[
     {n:'Caveau des Arches',q:'Borgonhesa · Boeuf Bourguignon',a:'10 Bd Perpreuil, Beaune',p:'+33 3 80 22 10 37',pr:2,note:'O melhor Boeuf Bourguignon',d:'Numa adega do século XII em Beaune, serve o melhor boeuf bourguignon da Borgonha. Pratos cozinhados lentamente com os vinhos de Borgonha e ambiente histórico nas caves de pedra.'},
     {n:'Bistrot du Bord de L\'Eau',q:'Francesa Bistrô',a:'Beaune',p:'',pr:2,d:'Bistrô de charme em Beaune com cozinha borgonhesa descontraída e vista para o canal. Boa carta de borgonhas a preços razoáveis.'},
     {t:"h",n:"Hostellerie Le Cèdre",c:"luli",q:"Hotel · Borgonha 5★",a:"12 Boulevard du Maréchal Foch, 21200 Beaune",p:"+33 3 80 24 01 01",pr:4,k:1,s:5,d:"Hotel cinco-estrelas no coração de Beaune, capital da Borgonha vinícola. 40 quartos elegantes num edifício do séc. XIX. Restaurante Clos du Cèdre (cozinha de autor com produtos da região), bar Patrick e a maior carta de vinhos da Borgonha entre os hotéis da cidade. Membro Small Luxury Hotels of the World. Localização perfeita para visitas vinícolas em Côte de Beaune."}
-  ]},
+  ,{"n":"La Table du Square","c":"tito","q":"Bistrô Francês Contemporâneo","a":"22 Rue d'Alsace, 21200 Beaune","p":"+33 3 80 24 03 82","w":"latabledusquare.com","note":"Restaurante gastronómico no centro histórico de Beaune","d":"Bistrô contemporâneo no coração de Beaune, a poucos passos dos Hospices. Cozinha francesa sazonal baseada em produtos locais da Borgonha, com carta de vinhos focada nas denominações regionais. Ambiente intimista numa casa burguesa tradicional com jardim interior.","pr":3,"pending":true}]},
   {city:'Gevrey-Chambertin',region:'Borgonha',entries:[
     {n:'Rôtisserie Le Chambertin',q:'Borgonhesa',a:'Gevrey-Chambertin',p:'',pr:2,d:'Rôtisserie clássica em Gevrey-Chambertin, na Côte de Nuits, com cozinha borgonhesa à base de carnes assadas e os grands crus da aldeia.'},
   ]},
@@ -449,7 +449,7 @@ const CITIES=[
   {city:'Bormes-les-Mimosas',region:'Saint-Tropez & Var',entries:[
     {n:'Le E\'stagnol',q:'Peixe & Mariscos',a:'Bormes-les-Mimosas',p:'',pr:2,d:'Restaurante de peixe e mariscos em Bormes-les-Mimosas, uma das aldeias mais floridas de França, perto de Le Lavandou e Hyères.'},
   ]},
-];
+,{"city":"borgonha","region":"borgonha","entries":[{"n":"table de levernois","c":"tito","q":"Gastronomia Francesa · Relais & Châteaux","a":"Rue du Golf, 21200 Levernois, Beaune","p":"+33 3 80 24 73 58","w":"levernois.com","ig":"maison_lameloise","e":"lameloise@relaischateaux.com","note":"2 Estrelas Michelin · 3 Chaves Michelin","d":"Relais & Châteaux nos arredores de Beaune, na Côte-d'Or, com duas estrelas Michelin desde 1979. O chef Louis-Stéphane Petit propõe cozinha borgonhesa refinada com ênfase em produtos regionais e vinhos locais. O hotel dispõe de 22 quartos e suites, spa, piscina exterior e jardins elegantes numa propriedade do século XIX.","pr":4,"m":"m2","pending":true},{"n":"Bistrot du Bord de l´Eau","c":"tito","q":"Bistrot Borgonhês à Beira-Água","a":"Quai de l'Yonne, 89270 Vermenton, Borgonha","p":"+33 3 86 81 52 09","w":"bistrotduborddleau.com","d":"Bistrot tradicional às margens do rio Yonne, em Vermenton, entre Auxerre e Vézelay. Cozinha borgonhesa clássica com produtos regionais, terraço à beira-água muito procurado no verão. Ambiente familiar num edifício de pedra típico da região.","pr":2,"pending":true},{"n":"Le Soufflot","c":"tito","q":"Brasserie Tradicional Francesa","a":"16 Rue Pierre Joubert, 21000 Dijon","p":"+33 3 80 50 82 82","w":"lesoufflot.fr","d":"Brasserie clássica no centro histórico de Dijon, capital da Borgonha. Cozinha burguinhota tradicional com destaque para os escargots à la bourguignonne, boeuf bourguignon e ovos meurette. Ambiente descontraído frequentado por locais e turistas que exploram a rota dos vinhos.","pr":2,"pending":true}]}];
 
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin'};
 const KEYS={1:'🗝 1 Chave',2:'🗝🗝 2 Chaves',3:'🗝🗝🗝 3 Chaves'};
