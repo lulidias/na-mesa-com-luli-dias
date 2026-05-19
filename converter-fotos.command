@@ -53,7 +53,7 @@ convert_file() {
   fi
 
   # sips converte HEIC/DNG/PNG para JPEG (suporta tudo nativamente no macOS)
-  if sips -s format jpeg --resampleHeightWidthMax 1600 "$src" --out "$dst" >/dev/null 2>&1; then
+  if sips -s format jpeg -s formatOptions 72 --resampleHeightWidthMax 1200 "$src" --out "$dst" >/dev/null 2>&1; then
     if [ -f "$dst" ] && [ -s "$dst" ]; then
       ok=$((ok+1))
       echo "  ✓ $(basename "$dst")"
