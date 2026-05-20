@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 869,
+    "restaurants": 870,
     "hotels": 134,
     "markets": 12,
     "m1": 44,
@@ -8,7 +8,7 @@
     "m3": 5,
     "bib": 28,
     "green": 1,
-    "rec": 50,
+    "rec": 51,
     "keys1": 48,
     "keys2": 23,
     "keys3": 2,
@@ -324,7 +324,7 @@
       "keysEntries": 5
     },
     "franca": {
-      "restaurants": 105,
+      "restaurants": 106,
       "hotels": 16,
       "markets": 0,
       "cities": 37,
@@ -333,7 +333,7 @@
       "m3": 1,
       "bib": 2,
       "green": 0,
-      "rec": 3,
+      "rec": 4,
       "keys1": 4,
       "keys2": 2,
       "keys3": 1,
