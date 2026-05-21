@@ -243,8 +243,11 @@ function addEntryToGuide(content, cityName, entry, countryKey, folder) {
   const cleanEntry = { ...entry };
   delete cleanEntry.lat;
   delete cleanEntry.lng;
-  // STAGING — new entries enter pending state by default; admin flips them visible later
-  if (cleanEntry.pending === undefined) cleanEntry.pending = true;
+  // Entradas da Luli publicam diretamente; outros curadores ficam em standby
+  if (cleanEntry.pending === undefined) {
+    cleanEntry.pending = (cleanEntry.c !== 'luli');
+  }
+  if (cleanEntry.pending === false) delete cleanEntry.pending;
 
   const entryJson = JSON.stringify(cleanEntry);
   const citiesStartIdx = citiesMatch.index + citiesMatch[1].length;
@@ -271,7 +274,7 @@ function addEntryToGuide(content, cityName, entry, countryKey, folder) {
       const closeIdx = findMatchingBracket(citiesText, entriesOpenIdx, '[', ']');
       if (closeIdx !== -1) {
         const inside = citiesText.slice(entriesOpenIdx, closeIdx).trim();
-        const sep = inside ? ',' : '';
+        const sep = (inside && !inside.endsWith(',')) ? ',' : '';
         newCitiesText = citiesText.slice(0, closeIdx) + sep + entryJson + citiesText.slice(closeIdx);
       } else {
         throw new Error('Could not find closing bracket of entries array');
@@ -286,7 +289,7 @@ function addEntryToGuide(content, cityName, entry, countryKey, folder) {
     const closeBracketIdx = citiesText.lastIndexOf(']');
     if (closeBracketIdx === -1) throw new Error('CITIES array malformed');
     const inside = citiesText.slice(1, closeBracketIdx).trim();
-    const sep = inside ? ',' : '';
+    const sep = (inside && !inside.endsWith(',')) ? ',' : '';
     newCitiesText = citiesText.slice(0, closeBracketIdx) + sep + newCityJson + citiesText.slice(closeBracketIdx);
   }
 
