@@ -580,7 +580,7 @@ function render(){
 
       const grid=sec.querySelector('.restaurants-grid');
       entries.forEach(r=>{if(r.pending)return;if(activeType==='r'&&r.t)return;if(activeType==='h'&&r.t!=='h')return;if(activeType==='m'&&r.t!=='m')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;if(activeMichelin){if(activeMichelin==='h'){if(r.t!=='h')return;}else if(r.m!==activeMichelin)return;}
-        const card=document.createElement('div');card.className='restaurant-card';
+        const card=document.createElement('div');card.className='restaurant-card';card.id='card-'+slug(r.n);
         const bg=cardBg(r.q);
         const nm=r.n.replace(/'/g,"\\'");
         const ad=(r.a&&r.a!==city&&r.a!=='')?r.a.replace(/'/g,"\\'"):'';
@@ -801,7 +801,14 @@ function initMap(){
         const m=L.marker([c.lat,c.lng],{icon:goldIcon}).addTo(mapInstance);
         const phoneHtml=r.p?`<div style="font-size:11px;margin-top:4px"><a href="tel:${r.p.replace(/\s/g,'')}" style="color:#B8922A;text-decoration:none">${r.p}</a></div>`:'';
         const priceStr=r.pr?'€'.repeat(r.pr):'';
-        m.bindPopup(`<div style="font-family:Montserrat,sans-serif;min-width:220px"><div style="font-family:'Playfair Display',serif;font-size:17px;color:#1A1A1A;margin-bottom:4px">${r.n}</div><div style="font-size:8px;letter-spacing:2px;color:#B8922A;text-transform:uppercase;font-weight:500;margin-bottom:6px">${r.q||''} ${priceStr?'· '+priceStr:''}</div><div style="font-size:11px;color:#5A5A5A;line-height:1.4">${r.a||''}</div>${phoneHtml}<div style="font-size:11px;margin-top:8px"><a href="javascript:void(0)" onclick="openMap('${r.n.replace(/'/g,"\\'")}','${(r.a||'').replace(/'/g,"\\'")}');document.querySelectorAll('.leaflet-popup-close-button').forEach(b=>b.click())" style="color:#B8922A;text-decoration:underline">Abrir em Maps →</a></div></div>`);
+        const rSlug=slug(r.n);
+        m.on('click',function(){
+          showView('list');
+          setTimeout(function(){
+            const el=document.getElementById('card-'+rSlug);
+            if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.style.outline='2px solid #B8922A';setTimeout(()=>el.style.outline='',1800);}
+          },120);
+        });
         m.bindTooltip(`<div style="font-family:'Playfair Display',serif;font-size:13px;color:#1A1A1A;font-weight:500">${r.n}</div><div style="font-size:8px;letter-spacing:1.5px;color:#B8922A;text-transform:uppercase;margin-top:2px">${r.q||''}</div>`,{direction:'top',offset:[0,-8],opacity:0.95,className:'custom-tooltip'});
         markers.push(m);
       }
@@ -1008,6 +1015,6 @@ document.addEventListener('click', function(e) {
   <button class="gallery-arrow next" onclick="galleryNext()" aria-label="Próxima">›</button>
   <div class="gallery-counter" id="galleryCounter">1 / 1</div>
 </div>
-<a class="nearme-cta" href="index.html?nearme=1" aria-label="Restaurantes perto de mim"><span class="nearme-cta-icon"></span> Perto de Mim</a>
+<button class="nearme-cta" onclick="showView('map')" aria-label="Ver mapa">🗺 Mapa</button>
 </body>
 </html>
