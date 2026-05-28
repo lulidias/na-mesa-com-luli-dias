@@ -147,7 +147,7 @@ async function handlePublish(request, env) {
 
   // Determine guide file path
   const guideFile = country.startsWith('brasil-') ? `${country}.html` : `${country}-guia.html`;
-  const folder = country.startsWith('brasil-') ? 'brasil' : country;
+  const folder = country;
 
   const owner = env.GITHUB_OWNER;
   const repo = env.GITHUB_REPO;

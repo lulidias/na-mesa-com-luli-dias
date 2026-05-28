@@ -286,6 +286,7 @@ function closeMap(){document.getElementById('mapModal').classList.remove('open')
 
 // m: michelin badge, h: tem hospedagem, pr: preço 1-4
 const FOLDER='brasil';
+const PHOTO_FOLDER='fotos/brasil-sudeste/';
 const CITIES=[{city:"São Paulo",region:"São Paulo",entries:[
     {n:"348 Mario Ferraz",c:"luli",q:"Carnes · Contemporânea",a:"Rua Mario Ferraz, 348 — Itaim Bibi, São Paulo — SP",p:"+55 11 3167-0000",pr:3,d:"Casa de carnes contemporânea no elegante Itaim Bibi com cortes seleccionados de origem rastreável e técnica de preparo meticulosa. Ambiente sofisticado e minimalista para os conhecedores de carne que valorizam qualidade acima de tudo."},
     {n:"A Bela Sintra",c:"luli",q:"Portuguesa",a:"São Paulo — SP",p:"",pr:2,d:"Restaurante português tradicional em São Paulo que celebra a culinária de Sintra e da região de Lisboa. Bacalhau à Brás, arroz de pato, pastel de nata e uma selecção de vinhos portugueses numa casa que honra a imigração lusitana em São Paulo."},
@@ -556,7 +557,7 @@ function setCity(c, btn) {
 // Try multiple photo extensions before falling back to placeholder
 function tryPhoto(img, slug, isHotel, bg, em){
   const exts = ['.jpg', '.jpeg', '.JPG', '.JPEG', '.png', '.PNG', '.heic', '.HEIC'];
-  const folder = isHotel ? 'fotos/' + FOLDER + '/' : 'fotos/' + FOLDER + '/';
+  const folder = isHotel ? PHOTO_FOLDER : 'fotos/' + FOLDER + '/';
   let attempt = parseInt(img.dataset.attempt || '0', 10);
   attempt++;
   if (attempt < exts.length) {
@@ -634,7 +635,7 @@ function render(){
                      (r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge bhotel">Hospedagem</span>':'');
         card.innerHTML=`
-          <div class="card-photo-wrap"><img class="card-photo" src="${'fotos/brasil/'+slug(r.n)+'.jpeg'}" alt="${r.n}" loading="lazy" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'${bg}','${em}')"></div>
+          <div class="card-photo-wrap"><img class="card-photo" src="${PHOTO_FOLDER+slug(r.n)+'.jpeg'}" alt="${r.n}" loading="lazy" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'${bg}','${em}')"></div>
           <div class="card-body">
             <div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div>
             <div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div>

@@ -286,6 +286,7 @@ function closeMap(){document.getElementById('mapModal').classList.remove('open')
 
 // m: michelin badge, h: tem hospedagem, pr: preço 1-4
 const FOLDER='brasil';
+const PHOTO_FOLDER='fotos/brasil-centroeste/';
 const CITIES=[
   {city:"Brasília",region:"Distrito Federal",entries:[
     {n:"Aroma",c:"luli",q:"Contemporânea · Internacional",a:"Brasília — DF",p:"",pr:3,d:"Restaurante contemporâneo com influências internacionais num ambiente sofisticado em Brasília. Cardápio criativo com produtos de alta qualidade e carta de vinhos bem curada para jantares especiais na capital federal."},
@@ -351,7 +352,7 @@ function setCity(c, btn) {
 // Try multiple photo extensions before falling back to placeholder
 function tryPhoto(img, slug, isHotel, bg, em){
   const exts = ['.jpg', '.jpeg', '.JPG', '.JPEG', '.png', '.PNG', '.heic', '.HEIC'];
-  const folder = isHotel ? 'fotos/' + FOLDER + '/' : 'fotos/' + FOLDER + '/';
+  const folder = isHotel ? PHOTO_FOLDER : 'fotos/' + FOLDER + '/';
   let attempt = parseInt(img.dataset.attempt || '0', 10);
   attempt++;
   if (attempt < exts.length) {
@@ -429,7 +430,7 @@ function render(){
                      (r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge bhotel">Hospedagem</span>':'');
         card.innerHTML=`
-          <div class="card-photo-wrap"><img class="card-photo" src="${'fotos/brasil/'+slug(r.n)+'.jpeg'}" alt="${r.n}" loading="lazy" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'${bg}','${em}')"></div>
+          <div class="card-photo-wrap"><img class="card-photo" src="${PHOTO_FOLDER+slug(r.n)+'.jpeg'}" alt="${r.n}" loading="lazy" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'${bg}','${em}')"></div>
           <div class="card-body">
             <div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div>
             <div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div>
