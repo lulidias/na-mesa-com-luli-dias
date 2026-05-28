@@ -1,14 +1,14 @@
 {
   "totals": {
-    "restaurants": 873,
-    "hotels": 134,
+    "restaurants": 879,
+    "hotels": 136,
     "markets": 12,
     "m1": 44,
     "m2": 13,
     "m3": 4,
     "bib": 28,
     "green": 1,
-    "rec": 51,
+    "rec": 52,
     "keys1": 48,
     "keys2": 23,
     "keys3": 2,
@@ -438,8 +438,8 @@
       "keysEntries": 0
     },
     "italia": {
-      "restaurants": 27,
-      "hotels": 3,
+      "restaurants": 32,
+      "hotels": 4,
       "markets": 0,
       "cities": 10,
       "m1": 3,
@@ -447,7 +447,7 @@
       "m3": 1,
       "bib": 0,
       "green": 0,
-      "rec": 1,
+      "rec": 2,
       "keys1": 1,
       "keys2": 1,
       "keys3": 0,
@@ -590,8 +590,8 @@
       "keysEntries": 5
     },
     "portugal": {
-      "restaurants": 99,
-      "hotels": 29,
+      "restaurants": 100,
+      "hotels": 30,
       "markets": 1,
       "cities": 31,
       "m1": 1,
