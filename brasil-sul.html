@@ -371,11 +371,8 @@ function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.inc
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.repeat(pr)+'<span style="color:var(--border)">'+'$'.repeat(4-pr)+'</span></span>';}
 
 
-// City filter
-const cityList = ['Todas', 'Curitiba', 'Florianópolis', 'Gramado & Canela'];
+// City filter — built dynamically from CITIES array
 const filtersEl = document.getElementById('filters');
-filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
-  cityList.map(c => `<button class="filter-btn${c==='Todas'?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
 
 let activeCity = 'Todas';
 function setCity(c, btn) {
@@ -403,7 +400,7 @@ function tryPhoto(img, slug, isHotel, bg, em){
 function render(){
   const main=document.getElementById('main');
   main.innerHTML='';
-  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.region === activeCity);
+  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.city === activeCity);
 
   // Group by region
   const groups={};
@@ -537,7 +534,7 @@ function buildCuisineBar(){
 function rebuildFilters(){
   const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h');
   const visibleCities = CITIES.filter(c => c.entries.some(_passes));
-  const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.region))];
+  const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.city))];
   // Support both activeCity and activeRegion (different files use different names)
   const useRegion = typeof activeRegion !== 'undefined';
   const setterName = useRegion ? 'setRegion' : 'setCity';
@@ -551,7 +548,7 @@ function rebuildFilters(){
   const filtersEl = document.getElementById('filters');
   if (filtersEl) {
     const lbl = filtersEl.querySelector('.filter-lbl');
-    const lblText = lbl ? lbl.outerHTML : '<span class="filter-lbl">Estado:</span>';
+    const lblText = lbl ? lbl.outerHTML : '<span class="filter-lbl">Cidade:</span>';
     filtersEl.innerHTML = lblText + newCityList.map(c => 
       `<button class="filter-btn${c===newCurrent?' active':''}" onclick="${setterName}('${c.replace(/'/g,"\'")}',this)">${c}</button>`
     ).join('');
@@ -591,6 +588,7 @@ function setCuisine(c,btn){
 }
 
 buildCuisineBar();
+rebuildFilters();
 render();
 
 let mapInstance=null;
