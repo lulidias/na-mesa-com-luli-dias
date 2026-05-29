@@ -403,6 +403,8 @@ document.addEventListener('keydown', e => {
 document.addEventListener('click', function(e) {
   // Ignorar cliques em controlos de navegação/dots
   if (e.target.closest('.card-nav, .photo-nav, .card-dots, .photo-dots, .photo-count-badge')) return;
+  // Cards de navegação (país/região): clicar em qualquer lugar deve navegar, não abrir lightbox
+  if (e.target.closest('a.country-card')) return;
   const img = e.target.closest('.card-photo, .card-gallery img');
   if (!img) return;
   const src = img.getAttribute('src') || '';
