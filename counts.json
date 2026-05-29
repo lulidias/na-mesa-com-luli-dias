@@ -1,22 +1,22 @@
 {
   "totals": {
-    "restaurants": 879,
-    "hotels": 136,
+    "restaurants": 904,
+    "hotels": 137,
     "markets": 12,
     "m1": 44,
     "m2": 13,
     "m3": 4,
     "bib": 28,
     "green": 1,
-    "rec": 52,
+    "rec": 53,
     "keys1": 48,
-    "keys2": 23,
+    "keys2": 24,
     "keys3": 2,
     "countries": 37,
     "totalStars": 82,
-    "totalKeys": 100,
+    "totalKeys": 102,
     "michelin": 90,
-    "keysEntries": 73
+    "keysEntries": 74
   },
   "countries": {
     "alemanha": {
@@ -704,23 +704,23 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 345,
-      "hotels": 32,
+      "restaurants": 370,
+      "hotels": 33,
       "markets": 0,
-      "cities": 25,
+      "cities": 33,
       "m1": 11,
       "m2": 3,
       "m3": 2,
       "bib": 16,
       "green": 0,
-      "rec": 18,
+      "rec": 19,
       "keys1": 15,
-      "keys2": 5,
+      "keys2": 6,
       "keys3": 0,
       "totalStars": 23,
-      "totalKeys": 25,
+      "totalKeys": 27,
       "michelin": 32,
-      "keysEntries": 20
+      "keysEntries": 21
     }
   }
 }
