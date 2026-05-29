@@ -182,7 +182,7 @@ footer a{color:var(--gold);text-decoration:none}
           </div>
           <div class="card-cities">Fortaleza · João Pessoa · Maceió · Natal · Recife · Salvador</div>
           <div class="card-highlight">Pobre Juan — Guia Michelin 2026</div>
-          <div class="card-meta">55 restaurantes · 8 hotéis</div>
+          <div class="card-meta" data-region="brasil-nordeste">55 restaurantes · 8 hotéis</div>
         </div>
       </a>
       <a class="country-card" href="brasil-centroeste.html">
@@ -192,11 +192,11 @@ footer a{color:var(--gold);text-decoration:none}
         <div class="card-body">
           <div class="card-top">
             <div class="card-name">Centro-Oeste</div>
-            
+
           </div>
           <div class="card-cities">Brasília · Cuiabá · Goiânia</div>
           <div class="card-highlight">Cerrado · Pantanal · Capital Federal</div>
-          <div class="card-meta">26 restaurantes · 1 hotel</div>
+          <div class="card-meta" data-region="brasil-centroeste">26 restaurantes · 1 hotel</div>
         </div>
       </a>
       <a class="country-card" href="brasil-sul.html">
@@ -206,11 +206,11 @@ footer a{color:var(--gold);text-decoration:none}
         <div class="card-body">
           <div class="card-top">
             <div class="card-name">Sul</div>
-            
+
           </div>
           <div class="card-cities">Curitiba · Florianópolis · Gramado & Canela</div>
           <div class="card-highlight">Serra Gaúcha · Beach Clubs · Alta Gastronomia</div>
-          <div class="card-meta">63 restaurantes · 7 hotéis</div>
+          <div class="card-meta" data-region="brasil-sul">63 restaurantes · 7 hotéis</div>
         </div>
       </a>
       <a class="country-card" href="brasil-sudeste.html">
@@ -225,13 +225,33 @@ footer a{color:var(--gold);text-decoration:none}
           </div>
           <div class="card-cities">Belo Horizonte · Rio de Janeiro · São Paulo · + 4 cidades</div>
           <div class="card-highlight">Evvai & Tuju ★★★ — 1ºs da América Latina</div>
-          <div class="card-meta">196 restaurantes · 18 hotéis</div>
+          <div class="card-meta" data-region="brasil-sudeste">196 restaurantes · 18 hotéis</div>
         </div>
       </a>
   </div>
 </main>
 
 <footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
+
+<script>
+// Carrega counts.json e actualiza os contadores das regiões Brasil automaticamente
+fetch('counts.json?v=' + Date.now())
+  .then(r => r.ok ? r.json() : null)
+  .then(data => {
+    if (!data || !data.countries) return;
+    document.querySelectorAll('[data-region]').forEach(el => {
+      const slug = el.dataset.region;
+      const c = data.countries[slug];
+      if (!c) return;
+      const r = c.restaurants;
+      const h = c.hotels;
+      el.textContent =
+        r + ' ' + (r === 1 ? 'restaurante' : 'restaurantes') +
+        ' · ' + h + ' ' + (h === 1 ? 'hotel' : 'hotéis');
+    });
+  })
+  .catch(() => {});
+</script>
 
 <script>
 // Propaga ?type= do index para os cards regionais

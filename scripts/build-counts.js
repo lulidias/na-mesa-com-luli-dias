@@ -25,7 +25,13 @@ const brasilFiles = fs.readdirSync(ROOT)
   .filter(f => f.startsWith('brasil-') && f.endsWith('.html') && f !== 'brasil-index.html');
 const guideSources = [...standardGuides];
 if (brasilFiles.length > 0) {
+  // Combined brasil entry (for the global totals)
   guideSources.push({ slug: 'brasil', files: brasilFiles });
+  // Individual Brasil regions (for brasil-index.html dynamic counts)
+  for (const f of brasilFiles) {
+    const regionSlug = f.replace('.html', ''); // e.g. 'brasil-sul'
+    guideSources.push({ slug: regionSlug, files: [f], brasilRegion: true });
+  }
 }
 
 const totals = { restaurants: 0, hotels: 0, markets: 0, m1: 0, m2: 0, m3: 0, bib: 0, green: 0, rec: 0, keys1: 0, keys2: 0, keys3: 0, countries: 0 };
@@ -103,9 +109,12 @@ for (const source of guideSources) {
     country.michelin = country.m1 + country.m2 + country.m3 + country.bib + country.green;
     country.keysEntries = country.keys1 + country.keys2 + country.keys3;
     countries[slug] = country;
-    totals.countries++;
-    for (const k of ['restaurants', 'hotels', 'markets', 'm1', 'm2', 'm3', 'bib', 'green', 'rec', 'keys1', 'keys2', 'keys3']) {
-      totals[k] += country[k];
+    // Brasil regions are stored individually but NOT added to totals (the combined 'brasil' entry handles that)
+    if (!source.brasilRegion) {
+      totals.countries++;
+      for (const k of ['restaurants', 'hotels', 'markets', 'm1', 'm2', 'm3', 'bib', 'green', 'rec', 'keys1', 'keys2', 'keys3']) {
+        totals[k] += country[k];
+      }
     }
   }
 }
