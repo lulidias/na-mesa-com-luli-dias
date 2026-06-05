@@ -222,6 +222,7 @@ main{max-width:980px;margin:0 auto;padding:32px}
 <div class="tabs">
   <button class="tab active" data-tab="new" onclick="switchTab('new')">＋ Novo</button>
   <button class="tab" data-tab="edit" onclick="switchTab('edit')">✎ Editar Existente</button>
+  <button class="tab" data-tab="leads" onclick="switchTab('leads');loadLeads()">👥 Cadastros</button>
   <button class="tab" data-tab="settings" onclick="switchTab('settings')">⚙ Configurações</button>
 </div>
 
@@ -508,6 +509,41 @@ main{max-width:980px;margin:0 auto;padding:32px}
 
     <div class="actions">
       <button class="btn btn-primary" id="create-country-btn" onclick="createCountry()">＋ Criar país</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LEADS / CADASTROS ============ -->
+<section id="sect-leads" class="section">
+  <div class="form-card">
+    <div class="form-title">Cadastros do Guia</div>
+    <div class="form-sub">Visitantes que se registaram para aceder ao guia</div>
+    <div style="margin:20px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="loadLeads()">↻ Actualizar</button>
+      <button class="btn" onclick="exportLeads()">⤓ Exportar CSV</button>
+      <span id="leads-count" style="font-size:11px;color:var(--ink-lt);letter-spacing:1px;margin-left:4px"></span>
+    </div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border);text-align:left">
+            <th style="padding:10px 12px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);font-weight:600">Nome</th>
+            <th style="padding:10px 12px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);font-weight:600">E-mail</th>
+            <th style="padding:10px 12px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);font-weight:600">Newsletter</th>
+            <th style="padding:10px 12px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);font-weight:600">Data</th>
+          </tr>
+        </thead>
+        <tbody id="leads-tbody">
+          <tr><td colspan="4" style="padding:32px;text-align:center;color:var(--ink-lt);font-style:italic">Clique em Actualizar para carregar os cadastros</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:24px;padding:16px;background:var(--gold-bg);border-radius:6px;border:1px solid var(--border)">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:8px">⚙ Configuração Supabase</div>
+      <div style="font-size:11px;color:var(--ink-lt);line-height:1.7">
+        Para activar os cadastros, configure as chaves Supabase em <code style="background:var(--cream);padding:2px 6px;border-radius:3px;font-size:10px">index.html</code> (anon key) e nesta página (service key).<br>
+        Variáveis: <code style="background:var(--cream);padding:2px 6px;border-radius:3px;font-size:10px">_SB_URL_ADMIN</code> e <code style="background:var(--cream);padding:2px 6px;border-radius:3px;font-size:10px">_SB_KEY_ADMIN</code>
+      </div>
     </div>
   </div>
 </section>
@@ -1202,6 +1238,58 @@ async function init() {
 }
 
 init();
+
+// ===== CADASTROS / LEADS =====
+const _SB_URL_ADMIN = 'https://YOUR_PROJECT_ID.supabase.co';
+const _SB_KEY_ADMIN = 'YOUR_SERVICE_ROLE_KEY_HERE';
+
+let _leadsCache = [];
+
+async function loadLeads() {
+  const tbody = document.getElementById('leads-tbody');
+  const countEl = document.getElementById('leads-count');
+  tbody.innerHTML = '<tr><td colspan="4" style="padding:32px;text-align:center;color:var(--ink-lt)">A carregar…</td></tr>';
+  if (_SB_URL_ADMIN.includes('YOUR_PROJECT')) {
+    tbody.innerHTML = '<tr><td colspan="4" style="padding:32px;text-align:center;color:var(--ink-lt);font-style:italic">Configure as chaves Supabase para ver os cadastros.</td></tr>';
+    return;
+  }
+  try {
+    const res = await fetch(`${_SB_URL_ADMIN}/rest/v1/leads?select=*&order=created_at.desc`, {
+      headers: { 'apikey': _SB_KEY_ADMIN, 'Authorization': `Bearer ${_SB_KEY_ADMIN}` }
+    });
+    if (!res.ok) throw new Error(res.status);
+    _leadsCache = await res.json();
+    countEl.textContent = `${_leadsCache.length} cadastro${_leadsCache.length !== 1 ? 's' : ''}`;
+    if (!_leadsCache.length) {
+      tbody.innerHTML = '<tr><td colspan="4" style="padding:32px;text-align:center;color:var(--ink-lt);font-style:italic">Nenhum cadastro ainda.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = _leadsCache.map(l => `
+      <tr style="border-bottom:1px solid var(--border);transition:background .15s" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">
+        <td style="padding:10px 12px;font-weight:500">${escHtml(l.nome||'')}</td>
+        <td style="padding:10px 12px"><a href="mailto:${escHtml(l.email)}" style="color:var(--gold);text-decoration:none">${escHtml(l.email||'')}</a></td>
+        <td style="padding:10px 12px;text-align:center">${l.aceita_email ? '✅' : '—'}</td>
+        <td style="padding:10px 12px;color:var(--ink-lt)">${l.created_at ? new Date(l.created_at).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}) : ''}</td>
+      </tr>`).join('');
+  } catch(err) {
+    tbody.innerHTML = `<tr><td colspan="4" style="padding:32px;text-align:center;color:var(--red)">Erro ao carregar (${err.message}). Verifique as chaves Supabase.</td></tr>`;
+  }
+}
+
+function exportLeads() {
+  if (!_leadsCache.length) { alert('Carregue os cadastros primeiro.'); return; }
+  const header = ['Nome','E-mail','Newsletter','Data'];
+  const rows = _leadsCache.map(l => [
+    l.nome||'', l.email||'', l.aceita_email ? 'Sim' : 'Não',
+    l.created_at ? new Date(l.created_at).toLocaleDateString('pt-BR') : ''
+  ].map(v => `"${String(v).replace(/"/g,'""')}"`).join(','));
+  const csv = [header.join(','), ...rows].join('\n');
+  const blob = new Blob(['﻿'+csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `leads-namesa-${new Date().toISOString().split('T')[0]}.csv`; a.click();
+}
+
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 </script>
 </body>
 </html>

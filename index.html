@@ -110,6 +110,25 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 .type-btn-idx{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;padding:8px 22px;border:1px solid var(--border);border-radius:24px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
 .type-btn-idx:hover{border-color:var(--gold);color:var(--gold)}
 .type-btn-idx.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+/* ===== REGISTRATION MODAL ===== */
+.reg-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(26,26,26,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:24px}
+.reg-overlay.open{display:flex}
+.reg-box{background:var(--white);border-radius:6px;width:100%;max-width:420px;padding:48px 40px;box-shadow:0 32px 80px rgba(0,0,0,.45);text-align:center;animation:regin .35s cubic-bezier(.22,.68,0,1.2)}
+@keyframes regin{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+.reg-brand{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:16px}
+.reg-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);margin-bottom:10px}
+.reg-sub{font-size:11px;line-height:1.75;color:var(--ink-lt);margin-bottom:32px}
+.reg-field{text-align:left;margin-bottom:14px}
+.reg-field label{display:block;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;color:var(--ink-lt);margin-bottom:6px}
+.reg-field input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:4px;font-family:'Montserrat',sans-serif;font-size:13px;color:var(--ink);background:var(--cream);transition:border-color .2s;outline:none}
+.reg-field input:focus{border-color:var(--gold)}
+.reg-check{display:flex;align-items:flex-start;gap:10px;text-align:left;margin:16px 0 28px}
+.reg-check input[type=checkbox]{width:16px;height:16px;margin-top:2px;accent-color:var(--gold);flex-shrink:0;cursor:pointer}
+.reg-check label{font-size:10px;line-height:1.65;color:var(--ink-lt);cursor:pointer}
+.reg-submit{width:100%;padding:15px;background:var(--ink);color:var(--white);border:none;border-radius:4px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:3.5px;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background .2s}
+.reg-submit:hover:not(:disabled){background:var(--gold)}
+.reg-submit:disabled{opacity:.5;cursor:default}
+.reg-err{font-size:11px;color:#c0392b;margin-top:12px;min-height:16px}
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "267deca0f25fd78caf5c7d0264c49431"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
@@ -429,6 +448,72 @@ function showNearMe(myLat,myLng){
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNearMe();});
 // Auto-open Near Me when navigating from guide pages (?nearme=1)
 if(new URLSearchParams(window.location.search).get('nearme')==='1'){setTimeout(()=>openNearMe(),100);}
+
+// ===== REGISTRATION GATE =====
+const _SB_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+const _SB_ANON = 'YOUR_ANON_KEY_HERE';
+let _regDest = null;
+
+document.addEventListener('click', function(e) {
+  const card = e.target.closest('a.card:not(.coming-soon)');
+  if (!card) return;
+  if (localStorage.getItem('namesa_lead')) return;
+  e.preventDefault();
+  _regDest = card.href;
+  document.getElementById('reg-modal').classList.add('open');
+  setTimeout(() => document.getElementById('reg-nome').focus(), 120);
+}, true);
+
+document.getElementById('reg-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const nome = document.getElementById('reg-nome').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const aceita = document.getElementById('reg-aceita').checked;
+  const btn = document.getElementById('reg-btn');
+  const err = document.getElementById('reg-err');
+  if (!nome) { err.textContent = 'Por favor preencha o seu nome.'; return; }
+  if (!email || !email.includes('@')) { err.textContent = 'Por favor introduza um e-mail válido.'; return; }
+  btn.disabled = true; btn.textContent = 'A guardar…'; err.textContent = '';
+  const lead = { nome, email, ts: Date.now() };
+  try {
+    if (!_SB_URL.includes('YOUR_PROJECT')) {
+      const r = await fetch(`${_SB_URL}/rest/v1/leads`, {
+        method: 'POST',
+        headers: { 'apikey': _SB_ANON, 'Authorization': `Bearer ${_SB_ANON}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ nome, email, aceita_email: aceita, pais_href: _regDest })
+      });
+      if (!r.ok && r.status !== 409) throw new Error('api');
+    }
+  } catch(_) { /* soft fail — lead lost but user proceeds */ }
+  localStorage.setItem('namesa_lead', JSON.stringify(lead));
+  document.getElementById('reg-modal').classList.remove('open');
+  window.location.href = _regDest;
+});
 </script>
+
+<!-- REGISTRATION MODAL -->
+<div id="reg-modal" class="reg-overlay" role="dialog" aria-modal="true" aria-label="Cadastro">
+  <div class="reg-box">
+    <div class="reg-brand">Na Mesa com Luli Dias</div>
+    <h2 class="reg-title">Bem-vindo ao guia</h2>
+    <p class="reg-sub">Deixe o seu contacto para aceder às recomendações exclusivas de restaurantes e hotéis.</p>
+    <form id="reg-form" novalidate>
+      <div class="reg-field">
+        <label for="reg-nome">Nome</label>
+        <input type="text" id="reg-nome" required placeholder="O seu nome completo" autocomplete="name">
+      </div>
+      <div class="reg-field">
+        <label for="reg-email">E-mail</label>
+        <input type="email" id="reg-email" required placeholder="o-seu@email.com" autocomplete="email">
+      </div>
+      <div class="reg-check">
+        <input type="checkbox" id="reg-aceita">
+        <label for="reg-aceita">Aceito receber novidades, recomendações e actualizações do guia por e-mail</label>
+      </div>
+      <button type="submit" class="reg-submit" id="reg-btn">Entrar no Guia →</button>
+      <div class="reg-err" id="reg-err"></div>
+    </form>
+  </div>
+</div>
 </body>
 </html>
