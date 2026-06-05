@@ -664,6 +664,11 @@ function tryPhoto(img, slug, isHotel, bg, em){
 function render(){
   const main=document.getElementById('main');
   main.innerHTML='';
+  // DEBUG TEMPORÁRIO
+  const _dbg=document.createElement('div');
+  _dbg.style.cssText='position:fixed;top:70px;right:10px;background:#000;color:#0f0;padding:4px 8px;font:10px monospace;z-index:9999;border-radius:4px';
+  _dbg.textContent='render() estado:'+activeCity+' sub:'+activeSub+' CITIES:'+CITIES.length;
+  document.body.appendChild(_dbg);
   let filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.region === activeCity);
   if (activeSub !== 'Todas') filtered = filtered.filter(c => c.city === activeSub);
   // Capital primeiro, depois alfabético (só quando estado seleccionado mas sem sub-cidade)
