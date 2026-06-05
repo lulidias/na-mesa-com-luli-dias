@@ -493,13 +493,14 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
   if (!nome) { err.textContent = 'Por favor preencha o seu nome.'; return; }
   if (!email || !email.includes('@')) { err.textContent = 'Por favor introduza um e-mail válido.'; return; }
   btn.disabled = true; btn.textContent = 'A guardar…'; err.textContent = '';
+  // Guardar imediatamente — antes de qualquer chamada async
+  localStorage.setItem('namesa_lead', JSON.stringify({nome, email, ts: Date.now()}));
   try {
     const r = await _mcSubscribe(nome, email, true);
     if (r.result === 'error' && r.msg && !r.msg.toLowerCase().includes('already subscribed')) {
       throw new Error(r.msg);
     }
-  } catch(_) { /* soft fail — user entra mesmo assim */ }
-  localStorage.setItem('namesa_lead', JSON.stringify({nome, email, ts: Date.now()}));
+  } catch(_) { /* soft fail — lead pode ser perdido mas user entra */ }
   document.getElementById('reg-modal').classList.remove('open');
   window.location.href = _regDest;
 });
