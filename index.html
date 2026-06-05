@@ -468,6 +468,8 @@ function _regSave(nome, email) {
   try { document.cookie = 'nr=1; max-age=31536000; path=/; SameSite=Lax; Secure'; } catch(_) {}
   _regDone = true;
 }
+// Bypass por URL: lulidias.com?v=1 nunca mostra o modal
+if (location.search.includes('v=1') || location.hash === '#v') { _regSave('visitor','bypass@lulidias.com'); }
 let _regDone = _regCheck(); // verifica logo no arranque da página
 
 function _mcSubscribe(nome, email, newsletter) {
