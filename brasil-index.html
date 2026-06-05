@@ -150,11 +150,11 @@ footer a{color:var(--gold);text-decoration:none}
 </header>
 
 <div class="stats-bar">
-  <div class="stat"><div class="stat-num">346</div><div class="stat-lbl">Restaurantes</div></div>
-  <div class="stat"><div class="stat-num">25</div><div class="stat-lbl">Cidades</div></div>
-  <div class="stat"><div class="stat-num">31</div><div class="stat-lbl">Hotéis</div></div>
-  <div class="stat"><div class="stat-num">4</div><div class="stat-lbl">Regiões</div></div>
-  <div class="stat"><div class="stat-num">20 ★</div><div class="stat-lbl">Michelin</div></div>
+  <div class="stat"><div class="stat-num" id="br-rest">—</div><div class="stat-lbl">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num" id="br-cit">—</div><div class="stat-lbl">Cidades</div></div>
+  <div class="stat"><div class="stat-num" id="br-hot">—</div><div class="stat-lbl">Hotéis</div></div>
+  <div class="stat"><div class="stat-num">16</div><div class="stat-lbl">Estados</div></div>
+  <div class="stat"><div class="stat-num" id="br-mic">—</div><div class="stat-lbl">Michelin</div></div>
 </div>
 
 <div class="hero-strip">
@@ -163,7 +163,7 @@ footer a{color:var(--gold);text-decoration:none}
     <div class="hero-text">
       <div class="hero-label">Guia Gastronómico Pessoal</div>
       <div class="hero-title">Do Nordeste ao<br><em>Sudeste</em></div>
-      <div class="hero-sub">25 cidades · 346 restaurantes · 31 hotéis</div>
+      <div class="hero-sub" id="br-hero-sub">a carregar…</div>
     </div>
   </div>
 </div>
@@ -173,7 +173,7 @@ footer a{color:var(--gold);text-decoration:none}
   <div class="regions-grid">
 
     <a class="country-card" href="brasil-sudeste.html?city=S%C3%A3o%20Paulo">
-      <div class="card-photo-wrap"><img class="card-photo" src="https://images.unsplash.com/photo-1578994734773-cdecb8b4c81e?w=800&h=400&fit=crop" alt="São Paulo" onerror="this.style.display='none'"></div>
+      <div class="card-photo-wrap"><img class="card-photo" src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800&h=400&fit=crop" alt="São Paulo" onerror="this.style.display='none'"></div>
       <div class="card-body">
         <div class="card-top"><div class="card-name">São Paulo</div><div class="country-michelin">★ Michelin</div></div>
         <div class="card-cities">São Paulo · Campinas · Campos do Jordão · Ilhabela · Porto Feliz</div>
@@ -273,7 +273,7 @@ footer a{color:var(--gold);text-decoration:none}
     </a>
 
     <a class="country-card" href="brasil-sudeste.html?city=Minas%20Gerais">
-      <div class="card-photo-wrap"><img class="card-photo" src="https://images.unsplash.com/photo-1548025374-0d92c2b42e34?w=800&h=400&fit=crop" alt="Minas Gerais" onerror="this.style.display='none'"></div>
+      <div class="card-photo-wrap"><img class="card-photo" src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800&h=400&fit=crop" alt="Minas Gerais" onerror="this.style.display='none'"></div>
       <div class="card-body">
         <div class="card-top"><div class="card-name">Minas Gerais</div></div>
         <div class="card-cities">Belo Horizonte</div>
@@ -338,21 +338,20 @@ footer a{color:var(--gold);text-decoration:none}
 <footer><p><a href="index.html">← Todos os Países</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
 
 <script>
-// Carrega counts.json e actualiza os contadores das regiões Brasil automaticamente
+// Carrega counts.json e actualiza AUTOMATICAMENTE todos os contadores do Brasil
 fetch('counts.json?v=' + Date.now())
   .then(r => r.ok ? r.json() : null)
   .then(data => {
     if (!data || !data.countries) return;
-    document.querySelectorAll('[data-region]').forEach(el => {
-      const slug = el.dataset.region;
-      const c = data.countries[slug];
-      if (!c) return;
-      const r = c.restaurants;
-      const h = c.hotels;
-      el.textContent =
-        r + ' ' + (r === 1 ? 'restaurante' : 'restaurantes') +
-        ' · ' + h + ' ' + (h === 1 ? 'hotel' : 'hotéis');
-    });
+    const b = data.countries['brasil'] || {};
+    const set = (id, v) => { const el=document.getElementById(id); if(el&&v!==undefined)el.textContent=v; };
+    set('br-rest', b.restaurants);
+    set('br-hot',  b.hotels);
+    set('br-cit',  b.cities);
+    set('br-mic',  b.michelin ? b.michelin + ' ★' : undefined);
+    const sub = document.getElementById('br-hero-sub');
+    if (sub && b.cities && b.restaurants && b.hotels)
+      sub.textContent = b.cities + ' cidades · ' + b.restaurants + ' restaurantes · ' + b.hotels + ' hotéis';
   })
   .catch(() => {});
 </script>
