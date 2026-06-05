@@ -585,20 +585,8 @@ function buildCuisineBar(){
 }
 
 
-// Rebuild filter buttons based on active type (Restaurantes/Hotéis/Todos)
-function rebuildFilters(){
-  const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h');
-  const visibleCities = CITIES.filter(c => c.entries.some(_passes));
-  const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.region))];
-  // Support both activeCity and activeRegion (different files use different names)
-  const useRegion = typeof activeRegion !== 'undefined';
-  const setterName = useRegion ? 'setRegion' : 'setCity';
-  const currentVal = useRegion ? activeRegion : (typeof activeCity !== 'undefined' ? activeCity : 'Todas');
-  // If active filter no longer exists, reset to Todas
-  if (currentVal !== 'Todas' && !newCityList.includes(currentVal)) {
-    if (useRegion) activeRegion = 'Todas';
-    else if (typeof activeCity !== 'undefined') activeCity = 'Todas';
-  }
+// Rebuild filter buttons — delegated to new two-level system
+function rebuildFilters(){ buildFilters(); }
   const newCurrent = useRegion ? activeRegion : (typeof activeCity !== 'undefined' ? activeCity : 'Todas');
   const filtersEl = document.getElementById('filters');
   if (filtersEl) {
