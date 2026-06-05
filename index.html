@@ -455,6 +455,19 @@ const _MC_ID = '16f5320bea';
 const _MC_SV = 'us12';
 let _regDest = null;
 
+// Tripla protecção: cookie + localStorage + variável em memória
+function _regCheck() {
+  try { if (localStorage.getItem('namesa_lead')) return true; } catch(_) {}
+  try { if (document.cookie.split(';').some(c => c.trim().startsWith('nr=1'))) return true; } catch(_) {}
+  return false;
+}
+function _regSave(nome, email) {
+  try { localStorage.setItem('namesa_lead', JSON.stringify({nome, email, ts: Date.now()})); } catch(_) {}
+  try { document.cookie = 'nr=1; max-age=31536000; path=/; SameSite=Lax'; } catch(_) {}
+  _regDone = true;
+}
+let _regDone = _regCheck(); // verifica logo no arranque da página
+
 function _mcSubscribe(nome, email, newsletter) {
   return new Promise(resolve => {
     const cb = '_mc' + Date.now();
@@ -477,7 +490,7 @@ function _mcSubscribe(nome, email, newsletter) {
 document.addEventListener('click', function(e) {
   const card = e.target.closest('a.card:not(.coming-soon)');
   if (!card) return;
-  if (localStorage.getItem('namesa_lead')) return;
+  if (_regDone || _regCheck()) { _regDone = true; return; }
   e.preventDefault();
   _regDest = card.href;
   document.getElementById('reg-modal').classList.add('open');
@@ -493,8 +506,8 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
   if (!nome) { err.textContent = 'Por favor preencha o seu nome.'; return; }
   if (!email || !email.includes('@')) { err.textContent = 'Por favor introduza um e-mail válido.'; return; }
   btn.disabled = true; btn.textContent = 'A guardar…'; err.textContent = '';
-  // Guardar imediatamente — antes de qualquer chamada async
-  localStorage.setItem('namesa_lead', JSON.stringify({nome, email, ts: Date.now()}));
+  // Guardar imediatamente — tripla protecção
+  _regSave(nome, email);
   try {
     const r = await _mcSubscribe(nome, email, true);
     if (r.result === 'error' && r.msg && !r.msg.toLowerCase().includes('already subscribed')) {
