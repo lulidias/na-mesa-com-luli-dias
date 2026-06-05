@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 910,
+    "restaurants": 911,
     "hotels": 141,
     "markets": 12,
     "m1": 43,
@@ -8,7 +8,7 @@
     "m3": 4,
     "bib": 28,
     "green": 1,
-    "rec": 53,
+    "rec": 54,
     "keys1": 50,
     "keys2": 24,
     "keys3": 2,
@@ -704,7 +704,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 377,
+      "restaurants": 378,
       "hotels": 37,
       "markets": 0,
       "cities": 33,
@@ -713,7 +713,7 @@
       "m3": 2,
       "bib": 16,
       "green": 0,
-      "rec": 19,
+      "rec": 20,
       "keys1": 17,
       "keys2": 6,
       "keys3": 0,
@@ -761,7 +761,7 @@
       "keysEntries": 2
     },
     "brasil-sudeste": {
-      "restaurants": 218,
+      "restaurants": 219,
       "hotels": 20,
       "markets": 0,
       "cities": 9,
@@ -770,7 +770,7 @@
       "m3": 2,
       "bib": 16,
       "green": 0,
-      "rec": 18,
+      "rec": 19,
       "keys1": 11,
       "keys2": 5,
       "keys3": 0,
