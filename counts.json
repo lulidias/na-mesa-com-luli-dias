@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 953,
+    "restaurants": 955,
     "hotels": 144,
     "markets": 12,
     "m1": 43,
@@ -704,7 +704,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 418,
+      "restaurants": 420,
       "hotels": 40,
       "markets": 0,
       "cities": 34,
@@ -761,7 +761,7 @@
       "keysEntries": 2
     },
     "brasil-sudeste": {
-      "restaurants": 251,
+      "restaurants": 253,
       "hotels": 23,
       "markets": 0,
       "cities": 10,
