@@ -390,9 +390,6 @@ function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.inc
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.repeat(pr)+'<span style="color:var(--border)">'+'$'.repeat(4-pr)+'</span></span>';}
 
 
-// City filter
-const cityList = ['Todas', 'Fortaleza', 'João Pessoa', 'Maceió', 'Natal', 'Recife', 'Salvador'];
-const filtersEl = document.getElementById('filters');
 // Filtro de dois níveis: Estado → Cidade
 const _urlCity = new URLSearchParams(location.search).get('city');
 const _urlSub  = new URLSearchParams(location.search).get('sub');
