@@ -492,18 +492,6 @@ function _regSave(nome, email) {
 // Bypass por URL
 if (location.search.includes('v=1')||location.hash==='#v') { _regSave('visitor','bypass@lulidias.com'); }
 
-// Debug temporário — aparece no canto para diagnóstico
-window.addEventListener('DOMContentLoaded', () => {
-  const d = document.createElement('div');
-  d.style.cssText = 'position:fixed;bottom:8px;left:8px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;padding:4px 8px;border-radius:4px;z-index:9999;font-family:monospace';
-  const wn = (window.name||'').includes('nr1') ? '✓wn' : '✗wn';
-  const ls = (() => { try { return localStorage.getItem('namesa_lead') ? '✓ls' : '✗ls'; } catch(_) { return '✗ls'; }})();
-  const ss = (() => { try { return sessionStorage.getItem('namesa_reg') ? '✓ss' : '✗ss'; } catch(_) { return '✗ss'; }})();
-  const ck = document.cookie.includes('nr=1') ? '✓ck' : '✗ck';
-  d.textContent = `reg: ${wn} ${ls} ${ss} ${ck}`;
-  document.body.appendChild(d);
-});
-
 // Mostrar modal no carregamento da página (não no clique) — muito mais fiável
 if (!_regCheck()) {
   setTimeout(() => {
