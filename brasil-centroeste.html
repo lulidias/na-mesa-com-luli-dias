@@ -344,18 +344,47 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.re
 // City filter
 const cityList = ['Todas', 'Brasília', 'Cuiabá', 'Goiânia'];
 const filtersEl = document.getElementById('filters');
+// Filtro de dois níveis: Estado → Cidade
 const _urlCity = new URLSearchParams(location.search).get('city');
+const _urlSub  = new URLSearchParams(location.search).get('sub');
 let activeCity = _urlCity || 'Todas';
+let activeSub  = _urlSub  || 'Todas';
 
-filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
-  cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
+const _stateList = ['Todas', ...new Set(CITIES.map(c => c.region))];
+const filtersEl = document.getElementById('filters');
 
-function setCity(c, btn) {
-  activeCity = c;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  render();
-  const url = c === 'Todas' ? location.pathname : `${location.pathname}?city=${encodeURIComponent(c)}`;  history.replaceState(null, '', url);
+function buildFilters() {
+  if (activeCity === 'Todas') {
+    filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
+      _stateList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+    const hm = document.querySelector('.header-meta');
+    if (hm) hm.textContent = 'Brasília · Cuiabá · Goiânia';
+  } else {
+    const citiesInState = ['Todas', ...CITIES.filter(c => c.region === activeCity).map(c => c.city)];
+    filtersEl.innerHTML =
+      `<button class="filter-btn" onclick="setCity('Todas',this)" style="border-color:var(--gold-lt);color:var(--gold)">← Estados</button>` +
+      `<span class="filter-lbl" style="font-size:8px;letter-spacing:3px;color:var(--ink);font-weight:600;padding:0 8px">${activeCity.toUpperCase()}</span>` +
+      `<span style="width:1px;height:16px;background:var(--border);margin:0 4px"></span>` +
+      citiesInState.map(c => `<button class="filter-btn${c===activeSub?' active':''}" onclick="setSubCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+    const hm = document.querySelector('.header-meta');
+    if (hm) hm.textContent = citiesInState.slice(1).join(' · ');
+  }
+}
+buildFilters();
+
+function setCity(c) {
+  activeCity = c; activeSub = 'Todas';
+  const url = c === 'Todas' ? location.pathname : `${location.pathname}?city=${encodeURIComponent(c)}`;
+  history.replaceState(null, '', url);
+  buildFilters(); render();
+}
+
+function setSubCity(c) {
+  activeSub = c;
+  const base = `${location.pathname}?city=${encodeURIComponent(activeCity)}`;
+  history.replaceState(null, '', c === 'Todas' ? base : `${base}&sub=${encodeURIComponent(c)}`);
+  buildFilters(); render();
+}?city=${encodeURIComponent(c)}`;  history.replaceState(null, '', url);
 }
 
 
@@ -376,7 +405,8 @@ function tryPhoto(img, slug, isHotel, bg, em){
 function render(){
   const main=document.getElementById('main');
   main.innerHTML='';
-  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.region === activeCity);
+  let filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.region === activeCity);
+  if (activeSub !== 'Todas') filtered = filtered.filter(c => c.city === activeSub);
   // Capital primeiro, depois alfabético
   const _CAPS={'São Paulo':'São Paulo','Rio de Janeiro':'Rio de Janeiro','Minas Gerais':'Belo Horizonte','Espírito Santo':'Vitória','Paraná':'Curitiba','Santa Catarina':'Florianópolis','Rio Grande do Sul':'Porto Alegre','Bahia':'Salvador','Pernambuco':'Recife','Ceará':'Fortaleza','Alagoas':'Maceió','Paraíba':'João Pessoa','Rio Grande do Norte':'Natal','Distrito Federal':'Brasília','Mato Grosso':'Cuiabá','Goiás':'Goiânia'};
   if(activeCity!=='Todas'){const _cap=_CAPS[activeCity]||'';filtered.sort((a,b)=>{if(a.city===_cap)return -1;if(b.city===_cap)return 1;return a.city.localeCompare(b.city,'pt');});}
