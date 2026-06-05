@@ -400,7 +400,10 @@ function tryPhoto(img, slug, isHotel, bg, em){
 function render(){
   const main=document.getElementById('main');
   main.innerHTML='';
-  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.city === activeCity);
+  const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.region === activeCity);
+  // Capital primeiro, depois alfabético
+  const _CAPS={'Paraná':'Curitiba','Santa Catarina':'Florianópolis','Rio Grande do Sul':'Porto Alegre'};
+  if(activeCity!=='Todas'){const _cap=_CAPS[activeCity]||'';filtered.sort((a,b)=>{if(a.city===_cap)return -1;if(b.city===_cap)return 1;return a.city.localeCompare(b.city,'pt');});}
 
   // Group by region
   const groups={};
@@ -534,7 +537,7 @@ function buildCuisineBar(){
 function rebuildFilters(){
   const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h');
   const visibleCities = CITIES.filter(c => c.entries.some(_passes));
-  const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.city))];
+  const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.region))];
   // Support both activeCity and activeRegion (different files use different names)
   const useRegion = typeof activeRegion !== 'undefined';
   const setterName = useRegion ? 'setRegion' : 'setCity';

@@ -607,6 +607,9 @@ function render(){
   const main=document.getElementById('main');
   main.innerHTML='';
   const filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.region === activeCity);
+  // Capital primeiro, depois alfabético
+  const _CAPS={'São Paulo':'São Paulo','Rio de Janeiro':'Rio de Janeiro','Minas Gerais':'Belo Horizonte','Espírito Santo':'Vitória','Paraná':'Curitiba','Santa Catarina':'Florianópolis','Rio Grande do Sul':'Porto Alegre','Bahia':'Salvador','Pernambuco':'Recife','Ceará':'Fortaleza','Alagoas':'Maceió','Paraíba':'João Pessoa','Rio Grande do Norte':'Natal','Distrito Federal':'Brasília','Mato Grosso':'Cuiabá','Goiás':'Goiânia'};
+  if(activeCity!=='Todas'){const _cap=_CAPS[activeCity]||'';filtered.sort((a,b)=>{if(a.city===_cap)return -1;if(b.city===_cap)return 1;return a.city.localeCompare(b.city,'pt');});}
 
   // Group by region
   const groups={};
