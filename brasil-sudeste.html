@@ -560,13 +560,19 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.re
 const cityList = ['Todas', ...new Set(CITIES.map(c => c.region))];
 const filtersEl = document.getElementById('filters');
 filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
-  cityList.map(c => `<button class="filter-btn${c==='Todas'?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
+  cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
 
-let activeCity = 'Todas';
+// Restaurar filtro de cidade do URL ao carregar a página
+const _urlCity = new URLSearchParams(location.search).get('city');
+let activeCity = _urlCity || 'Todas';
+
 function setCity(c, btn) {
   activeCity = c;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  // Guardar no URL sem recarregar a página
+  const url = c === 'Todas' ? location.pathname : `${location.pathname}?city=${encodeURIComponent(c)}`;
+  history.replaceState(null, '', url);
   render();
 }
 

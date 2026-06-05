@@ -342,14 +342,16 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.re
 const cityList = ['Todas', 'Brasília', 'Cuiabá', 'Goiânia'];
 const filtersEl = document.getElementById('filters');
 filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
-  cityList.map(c => `<button class="filter-btn${c==='Todas'?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
+  cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
 
-let activeCity = 'Todas';
+const _urlCity = new URLSearchParams(location.search).get('city');
+let activeCity = _urlCity || 'Todas';
 function setCity(c, btn) {
   activeCity = c;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   render();
+  const url = c === 'Todas' ? location.pathname : `${location.pathname}?city=${encodeURIComponent(c)}`;  history.replaceState(null, '', url);
 }
 
 
@@ -496,7 +498,7 @@ function buildCuisineBar(){
   const cuisines=['Todas',...[...set].sort((a,b)=>a.localeCompare(b,'pt'))];
   const bar=document.getElementById('cuisineBar');
   if(!bar)return;
-  bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+  bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c===activeCity?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
 
 
