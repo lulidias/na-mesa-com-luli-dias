@@ -1,7 +1,7 @@
 {
   "totals": {
-    "restaurants": 904,
-    "hotels": 137,
+    "restaurants": 908,
+    "hotels": 138,
     "markets": 12,
     "m1": 43,
     "m2": 13,
@@ -9,14 +9,14 @@
     "bib": 28,
     "green": 1,
     "rec": 53,
-    "keys1": 48,
+    "keys1": 49,
     "keys2": 24,
     "keys3": 2,
     "countries": 37,
     "totalStars": 81,
-    "totalKeys": 102,
+    "totalKeys": 103,
     "michelin": 89,
-    "keysEntries": 74
+    "keysEntries": 75
   },
   "countries": {
     "alemanha": {
@@ -704,8 +704,8 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 371,
-      "hotels": 33,
+      "restaurants": 375,
+      "hotels": 34,
       "markets": 0,
       "cities": 33,
       "m1": 11,
@@ -714,13 +714,13 @@
       "bib": 16,
       "green": 0,
       "rec": 19,
-      "keys1": 15,
+      "keys1": 16,
       "keys2": 6,
       "keys3": 0,
       "totalStars": 23,
-      "totalKeys": 27,
+      "totalKeys": 28,
       "michelin": 32,
-      "keysEntries": 21
+      "keysEntries": 22
     },
     "brasil-centroeste": {
       "restaurants": 27,
@@ -761,8 +761,8 @@
       "keysEntries": 2
     },
     "brasil-sudeste": {
-      "restaurants": 212,
-      "hotels": 17,
+      "restaurants": 216,
+      "hotels": 18,
       "markets": 0,
       "cities": 10,
       "m1": 11,
@@ -771,13 +771,13 @@
       "bib": 16,
       "green": 0,
       "rec": 18,
-      "keys1": 9,
+      "keys1": 10,
       "keys2": 5,
       "keys3": 0,
       "totalStars": 23,
-      "totalKeys": 19,
+      "totalKeys": 20,
       "michelin": 32,
-      "keysEntries": 14
+      "keysEntries": 15
     },
     "brasil-sul": {
       "restaurants": 69,
