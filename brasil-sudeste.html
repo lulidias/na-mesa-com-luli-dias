@@ -596,50 +596,23 @@ function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f
 function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.repeat(pr)+'<span style="color:var(--border)">'+'$'.repeat(4-pr)+'</span></span>';}
 
-// Filtro de dois níveis: Estado → Cidade
+// Restaurar filtro de cidade do URL ao carregar a página
 const _urlCity = new URLSearchParams(location.search).get('city');
-const _urlSub  = new URLSearchParams(location.search).get('sub');
-let activeCity = _urlCity || 'Todas'; // estado seleccionado
-let activeSub  = _urlSub  || 'Todas'; // cidade dentro do estado
+let activeCity = _urlCity || 'Todas';
 
-const _stateList = ['Todas', ...new Set(CITIES.map(c => c.region))];
+const cityList = ['Todas', ...new Set(CITIES.map(c => c.region))];
 const filtersEl = document.getElementById('filters');
+filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
+  cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 
-function buildFilters() {
-  if (activeCity === 'Todas') {
-    // Nível 1: mostrar estados
-    filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
-      _stateList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
-    // Restaurar header-meta original
-    const hm = document.querySelector('.header-meta');
-    if (hm) hm.textContent = 'Belo Horizonte · Rio de Janeiro · São Paulo · + 6 cidades';
-  } else {
-    // Nível 2: mostrar cidades do estado seleccionado
-    const citiesInState = ['Todas', ...CITIES.filter(c => c.region === activeCity).map(c => c.city)];
-    filtersEl.innerHTML =
-      `<button class="filter-btn" onclick="setCity('Todas',this)" style="border-color:var(--gold-lt);color:var(--gold)">← Estados</button>` +
-      `<span class="filter-lbl" style="font-size:8px;letter-spacing:3px;color:var(--ink);font-weight:600;padding:0 8px">${activeCity.toUpperCase()}</span>` +
-      `<span style="width:1px;height:16px;background:var(--border);margin:0 4px"></span>` +
-      citiesInState.map(c => `<button class="filter-btn${c===activeSub?' active':''}" onclick="setSubCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
-    // Actualizar header-meta com o estado
-    const hm = document.querySelector('.header-meta');
-    if (hm) hm.textContent = citiesInState.slice(1).join(' · ');
-  }
-}
-buildFilters();
-
-function setCity(c) {
+function setCity(c, btn) {
   activeCity = c;
-  activeSub  = 'Todas';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
   const url = c === 'Todas' ? location.pathname : `${location.pathname}?city=${encodeURIComponent(c)}`;
   history.replaceState(null, '', url);
-  buildFilters();
   render();
-}
-
-function setSubCity(c) {
-  activeSub = c;
-  const base = `${location.pathname}?city=${encodeURIComponent(activeCity)}`;
+}?city=${encodeURIComponent(activeCity)}`;
   const url  = c === 'Todas' ? base : `${base}&sub=${encodeURIComponent(c)}`;
   history.replaceState(null, '', url);
   buildFilters();
@@ -664,16 +637,10 @@ function tryPhoto(img, slug, isHotel, bg, em){
 function render(){
   const main=document.getElementById('main');
   main.innerHTML='';
-  // DEBUG TEMPORÁRIO
-  const _dbg=document.createElement('div');
-  _dbg.style.cssText='position:fixed;top:70px;right:10px;background:#000;color:#0f0;padding:4px 8px;font:10px monospace;z-index:9999;border-radius:4px';
-  _dbg.textContent='render() estado:'+activeCity+' sub:'+activeSub+' CITIES:'+CITIES.length;
-  document.body.appendChild(_dbg);
   let filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.region === activeCity);
-  if (activeSub !== 'Todas') filtered = filtered.filter(c => c.city === activeSub);
   // Capital primeiro, depois alfabético (só quando estado seleccionado mas sem sub-cidade)
   const _CAPS={'São Paulo':'São Paulo','Rio de Janeiro':'Rio de Janeiro','Minas Gerais':'Belo Horizonte','Espírito Santo':'Vitória','Paraná':'Curitiba','Santa Catarina':'Florianópolis','Rio Grande do Sul':'Porto Alegre','Bahia':'Salvador','Pernambuco':'Recife','Ceará':'Fortaleza','Alagoas':'Maceió','Paraíba':'João Pessoa','Rio Grande do Norte':'Natal','Distrito Federal':'Brasília','Mato Grosso':'Cuiabá','Goiás':'Goiânia'};
-  if(activeCity!=='Todas'&&activeSub==='Todas'){const _cap=_CAPS[activeCity]||'';filtered.sort((a,b)=>{if(a.city===_cap)return -1;if(b.city===_cap)return 1;return a.city.localeCompare(b.city,'pt');});}
+  if(activeCity!=='Todas'){const _cap=_CAPS[activeCity]||'';filtered.sort((a,b)=>{if(a.city===_cap)return -1;if(b.city===_cap)return 1;return a.city.localeCompare(b.city,'pt');});}
 
   // Group by region
   const groups={};
