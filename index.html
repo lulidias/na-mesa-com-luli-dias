@@ -455,15 +455,17 @@ const _MC_ID = '16f5320bea';
 const _MC_SV = 'us12';
 let _regDest = null;
 
-// Tripla protecção: cookie + localStorage + variável em memória
+// Quádrupla protecção: localStorage + sessionStorage + cookie + memória
 function _regCheck() {
   try { if (localStorage.getItem('namesa_lead')) return true; } catch(_) {}
+  try { if (sessionStorage.getItem('namesa_reg')) return true; } catch(_) {}
   try { if (document.cookie.split(';').some(c => c.trim().startsWith('nr=1'))) return true; } catch(_) {}
   return false;
 }
 function _regSave(nome, email) {
   try { localStorage.setItem('namesa_lead', JSON.stringify({nome, email, ts: Date.now()})); } catch(_) {}
-  try { document.cookie = 'nr=1; max-age=31536000; path=/; SameSite=Lax'; } catch(_) {}
+  try { sessionStorage.setItem('namesa_reg', '1'); } catch(_) {}
+  try { document.cookie = 'nr=1; max-age=31536000; path=/; SameSite=Lax; Secure'; } catch(_) {}
   _regDone = true;
 }
 let _regDone = _regCheck(); // verifica logo no arranque da página
