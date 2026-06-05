@@ -488,14 +488,13 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
   e.preventDefault();
   const nome = document.getElementById('reg-nome').value.trim();
   const email = document.getElementById('reg-email').value.trim();
-  const aceita = document.getElementById('reg-aceita').checked;
   const btn = document.getElementById('reg-btn');
   const err = document.getElementById('reg-err');
   if (!nome) { err.textContent = 'Por favor preencha o seu nome.'; return; }
   if (!email || !email.includes('@')) { err.textContent = 'Por favor introduza um e-mail válido.'; return; }
   btn.disabled = true; btn.textContent = 'A guardar…'; err.textContent = '';
   try {
-    const r = await _mcSubscribe(nome, email, aceita);
+    const r = await _mcSubscribe(nome, email, true);
     if (r.result === 'error' && r.msg && !r.msg.toLowerCase().includes('already subscribed')) {
       throw new Error(r.msg);
     }
@@ -509,9 +508,9 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
 <!-- REGISTRATION MODAL -->
 <div id="reg-modal" class="reg-overlay" role="dialog" aria-modal="true" aria-label="Cadastro">
   <div class="reg-box">
-    <div class="reg-brand">Na Mesa com Luli Dias</div>
+    <div class="reg-brand">Luli Dias Restaurants &amp; Hotels</div>
     <h2 class="reg-title">Bem-vindo ao guia</h2>
-    <p class="reg-sub">Deixe o seu contacto para aceder às recomendações exclusivas de restaurantes e hotéis.</p>
+    <p class="reg-sub">Um guia <strong>independente</strong> de restaurantes e hotéis — sem patrocínios, sem parcerias comerciais. Apenas a curadoria honesta de Luli Dias.<br><br>Estamos a dar os últimos retoques. Deixe o seu contacto e avisamos assim que o guia estiver 100% pronto.</p>
     <form id="reg-form" novalidate>
       <div class="reg-field">
         <label for="reg-nome">Nome</label>
@@ -521,12 +520,9 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
         <label for="reg-email">E-mail</label>
         <input type="email" id="reg-email" required placeholder="o-seu@email.com" autocomplete="email">
       </div>
-      <div class="reg-check">
-        <input type="checkbox" id="reg-aceita">
-        <label for="reg-aceita">Aceito receber novidades, recomendações e actualizações do guia por e-mail</label>
-      </div>
       <button type="submit" class="reg-submit" id="reg-btn">Entrar no Guia →</button>
       <div class="reg-err" id="reg-err"></div>
+      <p style="font-size:9px;color:#aaa;margin-top:14px;line-height:1.6;text-align:center">Ao entrar, receberá as novidades do guia por e-mail.<br>Pode cancelar a subscrição a qualquer momento.</p>
     </form>
   </div>
 </div>
