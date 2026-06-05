@@ -168,6 +168,28 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
     <div id="nearmeContent" class="nearme-loading"><div class="nearme-spinner"></div><div>A obter localização...</div></div>
   </div>
 </div>
+<!-- REGISTRATION MODAL — tem de vir antes do <script> para o form existir no DOM -->
+<div id="reg-modal" class="reg-overlay" role="dialog" aria-modal="true" aria-label="Cadastro">
+  <div class="reg-box">
+    <div class="reg-brand">Luli Dias Restaurants &amp; Hotels</div>
+    <h2 class="reg-title">Bem-vindo ao guia</h2>
+    <p class="reg-sub">Um guia completamente <strong>independente</strong> — sem patrocínios, sem comissões, sem parcerias comerciais.<br><br>Visitei muitos mais restaurantes e hotéis pelo mundo do que os que estão aqui. Estes são os meus favoritos: os lugares que continuo a frequentar, que recomendo sem hesitar e pelos quais tenho genuíno carinho.<br><br>Estamos nos retoques finais. Deixe o seu contacto e será o primeiro a saber quando estiver tudo pronto.</p>
+    <form id="reg-form" novalidate>
+      <div class="reg-field">
+        <label for="reg-nome">Nome</label>
+        <input type="text" id="reg-nome" required placeholder="O seu nome completo" autocomplete="name">
+      </div>
+      <div class="reg-field">
+        <label for="reg-email">E-mail</label>
+        <input type="email" id="reg-email" required placeholder="o-seu@email.com" autocomplete="email">
+      </div>
+      <button type="submit" class="reg-submit" id="reg-btn">Entrar no Guia →</button>
+      <div class="reg-err" id="reg-err"></div>
+      <p style="font-size:9px;color:#aaa;margin-top:14px;line-height:1.6;text-align:center">Ao entrar, receberá as novidades do guia por e-mail.<br>Pode cancelar a subscrição a qualquer momento.</p>
+    </form>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 const REGIONS = [
@@ -515,32 +537,10 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
   if (!nome) { err.textContent = 'Por favor preencha o seu nome.'; return; }
   if (!email || !email.includes('@')) { err.textContent = 'Por favor introduza um e-mail válido.'; return; }
   btn.disabled = true; btn.textContent = 'A guardar…'; err.textContent = '';
-  _regSave(nome, email); // guardar imediatamente em todas as camadas de storage
-  _mcSubscribe(nome, email, true); // enviar ao Mailchimp em background — sem esperar
-  document.getElementById('reg-modal').classList.remove('open'); // fechar imediatamente
+  _regSave(nome, email);
+  _mcSubscribe(nome, email, true);
+  document.getElementById('reg-modal').classList.remove('open');
 });
 </script>
-
-<!-- REGISTRATION MODAL -->
-<div id="reg-modal" class="reg-overlay" role="dialog" aria-modal="true" aria-label="Cadastro">
-  <div class="reg-box">
-    <div class="reg-brand">Luli Dias Restaurants &amp; Hotels</div>
-    <h2 class="reg-title">Bem-vindo ao guia</h2>
-    <p class="reg-sub">Um guia completamente <strong>independente</strong> — sem patrocínios, sem comissões, sem parcerias comerciais.<br><br>Visitei muitos mais restaurantes e hotéis pelo mundo do que os que estão aqui. Estes são os meus favoritos: os lugares que continuo a frequentar, que recomendo sem hesitar e pelos quais tenho genuíno carinho.<br><br>Estamos nos retoques finais. Deixe o seu contacto e será o primeiro a saber quando estiver tudo pronto.</p>
-    <form id="reg-form" novalidate>
-      <div class="reg-field">
-        <label for="reg-nome">Nome</label>
-        <input type="text" id="reg-nome" required placeholder="O seu nome completo" autocomplete="name">
-      </div>
-      <div class="reg-field">
-        <label for="reg-email">E-mail</label>
-        <input type="email" id="reg-email" required placeholder="o-seu@email.com" autocomplete="email">
-      </div>
-      <button type="submit" class="reg-submit" id="reg-btn">Entrar no Guia →</button>
-      <div class="reg-err" id="reg-err"></div>
-      <p style="font-size:9px;color:#aaa;margin-top:14px;line-height:1.6;text-align:center">Ao entrar, receberá as novidades do guia por e-mail.<br>Pode cancelar a subscrição a qualquer momento.</p>
-    </form>
-  </div>
-</div>
 </body>
 </html>
