@@ -455,17 +455,20 @@ const _MC_ID = '16f5320bea';
 const _MC_SV = 'us12';
 let _regDest = null;
 
-// Quádrupla protecção: localStorage + sessionStorage + cookie + memória
+// 5 camadas: window.name + localStorage + sessionStorage + cookie + memória
+// window.name é a mais fiável — persiste entre páginas no mesmo tab, sem depender de cookies ou storage
 function _regCheck() {
+  try { if ((window.name || '').includes('nr1')) return true; } catch(_) {}
   try { if (localStorage.getItem('namesa_lead')) return true; } catch(_) {}
   try { if (sessionStorage.getItem('namesa_reg')) return true; } catch(_) {}
   try { if (document.cookie.split(';').some(c => c.trim().startsWith('nr=1'))) return true; } catch(_) {}
   return false;
 }
 function _regSave(nome, email) {
+  try { window.name = ((window.name||'').replace('nr1','') + 'nr1'); } catch(_) {}
   try { localStorage.setItem('namesa_lead', JSON.stringify({nome, email, ts: Date.now()})); } catch(_) {}
   try { sessionStorage.setItem('namesa_reg', '1'); } catch(_) {}
-  try { document.cookie = 'nr=1; max-age=31536000; path=/; SameSite=Lax; Secure'; } catch(_) {}
+  try { document.cookie = 'nr=1; max-age=31536000; path=/; SameSite=Lax'; } catch(_) {}
   _regDone = true;
 }
 // Bypass por URL: lulidias.com?v=1 nunca mostra o modal
