@@ -449,10 +449,30 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNearMe();});
 // Auto-open Near Me when navigating from guide pages (?nearme=1)
 if(new URLSearchParams(window.location.search).get('nearme')==='1'){setTimeout(()=>openNearMe(),100);}
 
-// ===== REGISTRATION GATE =====
-const _SB_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-const _SB_ANON = 'YOUR_ANON_KEY_HERE';
+// ===== REGISTRATION GATE — Mailchimp =====
+const _MC_U  = '833e6c347c848d6ebe8d59014';
+const _MC_ID = '16f5320bea';
+const _MC_SV = 'us12';
 let _regDest = null;
+
+function _mcSubscribe(nome, email, newsletter) {
+  return new Promise(resolve => {
+    const cb = '_mc' + Date.now();
+    const qs = new URLSearchParams({
+      u: _MC_U, id: _MC_ID,
+      EMAIL: email,
+      FNAME: nome.split(' ')[0],
+      LNAME: nome.split(' ').slice(1).join(' '),
+      NEWSLETTER: newsletter ? 'Sim' : 'Não',
+      c: cb
+    });
+    window[cb] = d => { delete window[cb]; sc.remove(); resolve(d); };
+    const sc = document.createElement('script');
+    sc.src = `https://${_MC_SV}.list-manage.com/subscribe/post-json?${qs}`;
+    document.head.appendChild(sc);
+    setTimeout(() => { delete window[cb]; sc.remove(); resolve({result:'timeout'}); }, 8000);
+  });
+}
 
 document.addEventListener('click', function(e) {
   const card = e.target.closest('a.card:not(.coming-soon)');
@@ -474,18 +494,13 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
   if (!nome) { err.textContent = 'Por favor preencha o seu nome.'; return; }
   if (!email || !email.includes('@')) { err.textContent = 'Por favor introduza um e-mail válido.'; return; }
   btn.disabled = true; btn.textContent = 'A guardar…'; err.textContent = '';
-  const lead = { nome, email, ts: Date.now() };
   try {
-    if (!_SB_URL.includes('YOUR_PROJECT')) {
-      const r = await fetch(`${_SB_URL}/rest/v1/leads`, {
-        method: 'POST',
-        headers: { 'apikey': _SB_ANON, 'Authorization': `Bearer ${_SB_ANON}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-        body: JSON.stringify({ nome, email, aceita_email: aceita, pais_href: _regDest })
-      });
-      if (!r.ok && r.status !== 409) throw new Error('api');
+    const r = await _mcSubscribe(nome, email, aceita);
+    if (r.result === 'error' && r.msg && !r.msg.toLowerCase().includes('already subscribed')) {
+      throw new Error(r.msg);
     }
-  } catch(_) { /* soft fail — lead lost but user proceeds */ }
-  localStorage.setItem('namesa_lead', JSON.stringify(lead));
+  } catch(_) { /* soft fail — user entra mesmo assim */ }
+  localStorage.setItem('namesa_lead', JSON.stringify({nome, email, ts: Date.now()}));
   document.getElementById('reg-modal').classList.remove('open');
   window.location.href = _regDest;
 });
