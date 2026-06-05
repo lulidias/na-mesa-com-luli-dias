@@ -453,38 +453,39 @@ if(new URLSearchParams(window.location.search).get('nearme')==='1'){setTimeout((
 const _MC_U  = '833e6c347c848d6ebe8d59014';
 const _MC_ID = '16f5320bea';
 const _MC_SV = 'us12';
-let _regDest = null;
 
-// 5 camadas: window.name + localStorage + sessionStorage + cookie + memória
-// window.name é a mais fiável — persiste entre páginas no mesmo tab, sem depender de cookies ou storage
 function _regCheck() {
-  try { if ((window.name || '').includes('nr1')) return true; } catch(_) {}
+  try { if ((window.name||'').includes('nr1')) return true; } catch(_) {}
   try { if (localStorage.getItem('namesa_lead')) return true; } catch(_) {}
   try { if (sessionStorage.getItem('namesa_reg')) return true; } catch(_) {}
-  try { if (document.cookie.split(';').some(c => c.trim().startsWith('nr=1'))) return true; } catch(_) {}
+  try { if (document.cookie.split(';').some(c=>c.trim().startsWith('nr=1'))) return true; } catch(_) {}
   return false;
 }
 function _regSave(nome, email) {
-  try { window.name = ((window.name||'').replace('nr1','') + 'nr1'); } catch(_) {}
-  try { localStorage.setItem('namesa_lead', JSON.stringify({nome, email, ts: Date.now()})); } catch(_) {}
-  try { sessionStorage.setItem('namesa_reg', '1'); } catch(_) {}
-  try { document.cookie = 'nr=1; max-age=31536000; path=/; SameSite=Lax'; } catch(_) {}
-  _regDone = true;
+  try { window.name = ((window.name||'').replace('nr1','')+'nr1'); } catch(_) {}
+  try { localStorage.setItem('namesa_lead', JSON.stringify({nome,email,ts:Date.now()})); } catch(_) {}
+  try { sessionStorage.setItem('namesa_reg','1'); } catch(_) {}
+  try { document.cookie='nr=1; max-age=31536000; path=/; SameSite=Lax'; } catch(_) {}
 }
-// Bypass por URL: lulidias.com?v=1 nunca mostra o modal
-if (location.search.includes('v=1') || location.hash === '#v') { _regSave('visitor','bypass@lulidias.com'); }
-let _regDone = _regCheck(); // verifica logo no arranque da página
+// Bypass por URL
+if (location.search.includes('v=1')||location.hash==='#v') { _regSave('visitor','bypass@lulidias.com'); }
+
+// Mostrar modal no carregamento da página (não no clique) — muito mais fiável
+// O utilizador preenche uma vez e navega livremente depois
+if (!_regCheck()) {
+  setTimeout(() => {
+    document.getElementById('reg-modal').classList.add('open');
+    setTimeout(() => document.getElementById('reg-nome').focus(), 120);
+  }, 600);
+}
 
 function _mcSubscribe(nome, email, newsletter) {
   return new Promise(resolve => {
     const cb = '_mc' + Date.now();
     const qs = new URLSearchParams({
-      u: _MC_U, id: _MC_ID,
-      EMAIL: email,
-      FNAME: nome.split(' ')[0],
-      LNAME: nome.split(' ').slice(1).join(' '),
-      NEWSLETTER: newsletter ? 'Sim' : 'Não',
-      c: cb
+      u:_MC_U, id:_MC_ID, EMAIL:email,
+      FNAME:nome.split(' ')[0], LNAME:nome.split(' ').slice(1).join(' '),
+      NEWSLETTER: newsletter?'Sim':'Não', c:cb
     });
     window[cb] = d => { delete window[cb]; sc.remove(); resolve(d); };
     const sc = document.createElement('script');
@@ -493,16 +494,6 @@ function _mcSubscribe(nome, email, newsletter) {
     setTimeout(() => { delete window[cb]; sc.remove(); resolve({result:'timeout'}); }, 8000);
   });
 }
-
-document.addEventListener('click', function(e) {
-  const card = e.target.closest('a.card:not(.coming-soon)');
-  if (!card) return;
-  if (_regDone || _regCheck()) { _regDone = true; return; }
-  e.preventDefault();
-  _regDest = card.href;
-  document.getElementById('reg-modal').classList.add('open');
-  setTimeout(() => document.getElementById('reg-nome').focus(), 120);
-}, true);
 
 document.getElementById('reg-form').addEventListener('submit', async function(e) {
   e.preventDefault();
@@ -513,16 +504,13 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
   if (!nome) { err.textContent = 'Por favor preencha o seu nome.'; return; }
   if (!email || !email.includes('@')) { err.textContent = 'Por favor introduza um e-mail válido.'; return; }
   btn.disabled = true; btn.textContent = 'A guardar…'; err.textContent = '';
-  // Guardar imediatamente — tripla protecção
-  _regSave(nome, email);
+  _regSave(nome, email); // guardar imediatamente
   try {
     const r = await _mcSubscribe(nome, email, true);
-    if (r.result === 'error' && r.msg && !r.msg.toLowerCase().includes('already subscribed')) {
-      throw new Error(r.msg);
-    }
-  } catch(_) { /* soft fail — lead pode ser perdido mas user entra */ }
+    if (r.result === 'error' && r.msg && !r.msg.toLowerCase().includes('already subscribed')) throw new Error(r.msg);
+  } catch(_) { }
   document.getElementById('reg-modal').classList.remove('open');
-  window.location.href = _regDest;
+  // Sem navegação forçada — utilizador clica no país que quer naturalmente
 });
 </script>
 
