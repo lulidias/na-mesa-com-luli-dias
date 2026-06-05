@@ -439,7 +439,7 @@ function normCuisine(q){
 }
 function buildCuisineBar(){
   const set=new Set();
-  CITIES.forEach(c=>c.entries.forEach(r=>{if(r.pending)return;if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;if(activeMichelin){if(activeMichelin==='h'){if(r.t!=='h')return;}else if(r.m!==activeMichelin)return;}const n=normCuisine(r.q);if(n)set.add(n);}));
+  CITIES.forEach(c=>c.[...entries].sort((a,b)=>{if(activeType==='all'){if(a.t==='h'&&b.t!=='h')return 1;if(a.t!=='h'&&b.t==='h')return -1;}return a.n.localeCompare(b.n,'pt',{sensitivity:'base'});}).forEach(r=>{if(r.pending)return;if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;if(activeMichelin){if(activeMichelin==='h'){if(r.t!=='h')return;}else if(r.m!==activeMichelin)return;}const n=normCuisine(r.q);if(n)set.add(n);}));
   const cuisines=['Todas',...[...set].sort((a,b)=>a.localeCompare(b,'pt'))];
   const bar=document.getElementById('cuisineBar');
   if(!bar)return;

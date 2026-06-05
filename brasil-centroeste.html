@@ -312,6 +312,10 @@ const CITIES=[
     {n:"Lelis",c:"luli",q:"Peixes · Regional",a:"Cuiabá — MT",p:"",pr:2,d:"Restaurante especialista em peixes do Pantanal e do Rio Cuiabá, com pintado na telha, caldo de piranha e outras especialidades da culinária fluvial mato-grossense. Uma experiência gastronómica única que só existe aqui."},
     {n:"Okado Peixaria",c:"luli",q:"Peixes · Regional",a:"Cuiabá — MT",p:"",pr:2,d:"A melhor peixaria de Cuiabá, com os peixes frescos do Pantanal e dos rios mato-grossenses: pintado, dourado, pacu e piraputanga num cardápio que celebra a riqueza fluvial do estado. Uma visita obrigatória para entender a culinária mato-grossense."}
   ]},
+
+  {city:"Chapada dos Guimarães",region:"Mato Grosso",entries:[
+    {"t":"h","n":"Malai Resort Manso","c":"luli","q":"Resort em Chapada dos Guimarães","a":"Rodovia Emanuel Pinheiro, Km 63, Chapada dos Guimarães — MT","p":"+55 65 3301 1000","w":"malaimanso.com.br","ig":"malaimanso","d":"Resort integrado na paisagem do cerrado mato-grossense, junto ao Parque Nacional da Chapada dos Guimarães. Arquitectura contemporânea com materiais regionais, piscinas naturais, spa e restaurante com gastronomia local. Base para exploração das formações rochosas, cachoeiras e mirantes da região.","pr":3,"s":4}
+  ]},
   {city:"Goiânia",region:"Goiás",entries:[
     {n:"1929 Trattoria",c:"luli",q:"Italiana",a:"Goiânia — GO",p:"",pr:2,d:"Trattoria italiana com charme vintage inspirada nos clássicos ristoranti italianos dos anos 20. Massas artesanais, risottos e um ambiente nostálgico e acolhedor que conquista pela autenticidade e pela qualidade consistente."},
     {n:"Black Sushi",c:"luli",q:"Japonesa · Sushi",a:"Goiânia — GO",p:"",pr:2,d:"Restaurante japonês de Goiânia com sushi contemporâneo e criativo. Rolls elaborados, combinados especiais e uma proposta que vai além do tradicional, tornando-se referência da culinária oriental na capital goiana."},
@@ -414,7 +418,7 @@ function render(){
       main.appendChild(sec);
 
       const grid=sec.querySelector('.restaurants-grid');
-      entries.forEach(r=>{if(r.pending)return;if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+      [...entries].sort((a,b)=>{if(activeType==='all'){if(a.t==='h'&&b.t!=='h')return 1;if(a.t!=='h'&&b.t==='h')return -1;}return a.n.localeCompare(b.n,'pt',{sensitivity:'base'});}).forEach(r=>{if(r.pending)return;if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
         const card=document.createElement('div');card.className='restaurant-card';
         const bg=cardBg(r.q);
         const nm=r.n.replace(/'/g,"\\'");
