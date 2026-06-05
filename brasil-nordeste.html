@@ -392,11 +392,12 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.re
 // City filter
 const cityList = ['Todas', 'Fortaleza', 'João Pessoa', 'Maceió', 'Natal', 'Recife', 'Salvador'];
 const filtersEl = document.getElementById('filters');
+const _urlCity = new URLSearchParams(location.search).get('city');
+let activeCity = _urlCity || 'Todas';
+
 filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
   cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
 
-const _urlCity = new URLSearchParams(location.search).get('city');
-let activeCity = _urlCity || 'Todas';
 function setCity(c, btn) {
   activeCity = c;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));

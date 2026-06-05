@@ -556,14 +556,14 @@ function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f
 function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.repeat(pr)+'<span style="color:var(--border)">'+'$'.repeat(4-pr)+'</span></span>';}
 
+// Restaurar filtro de cidade do URL ao carregar a página — tem de vir ANTES dos botões
+const _urlCity = new URLSearchParams(location.search).get('city');
+let activeCity = _urlCity || 'Todas';
+
 const cityList = ['Todas', ...new Set(CITIES.map(c => c.region))];
 const filtersEl = document.getElementById('filters');
 filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
   cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c}',this)">${c}</button>`).join('');
-
-// Restaurar filtro de cidade do URL ao carregar a página
-const _urlCity = new URLSearchParams(location.search).get('city');
-let activeCity = _urlCity || 'Todas';
 
 function setCity(c, btn) {
   activeCity = c;
