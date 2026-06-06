@@ -405,7 +405,8 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.re
 // ── Filtros Estado → Cidade ───────────────────────────────────────
 const _CAPS={'São Paulo':'São Paulo','Rio de Janeiro':'Rio de Janeiro','Minas Gerais':'Belo Horizonte','Espírito Santo':'Vitória','Paraná':'Curitiba','Santa Catarina':'Florianópolis','Rio Grande do Sul':'Porto Alegre','Bahia':'Salvador','Pernambuco':'Recife','Ceará':'Fortaleza','Alagoas':'Maceió','Paraíba':'João Pessoa','Rio Grande do Norte':'Natal','Distrito Federal':'Brasília','Mato Grosso':'Cuiabá','Goiás':'Goiânia'};
 const _ESTADO_LIST=[...new Set(CITIES.map(c=>c.region).filter(Boolean))];
-let activeState=new URLSearchParams(location.search).get('state')||_ESTADO_LIST[0];
+const _stateParam=new URLSearchParams(location.search).get('state')||new URLSearchParams(location.search).get('city');
+let activeState=(_stateParam&&_ESTADO_LIST.includes(_stateParam))?_stateParam:_ESTADO_LIST[0];
 let activeCity='Todas';
 let activeType='all';
 let activeCuisine='Todas';
