@@ -158,7 +158,7 @@ footer a{color:var(--gold);text-decoration:none}.curator-badge{display:block;fon
 /* ===== SEARCH BAR ===== */
 .search-toggle{background:none;border:none;cursor:pointer;color:var(--text,#2c2c2c);padding:4px 6px;display:flex;align-items:center;opacity:.7;transition:opacity .2s;margin-left:auto;}
 .search-toggle:hover{opacity:1;}
-.search-bar-wrap{position:fixed;top:60px;left:0;right:0;z-index:999;max-height:0;overflow:hidden;transition:max-height .3s ease,opacity .3s ease;opacity:0;background:var(--bg,#f9f6f1);border-bottom:1px solid var(--border,#d4c9b0);box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.search-bar-wrap{overflow:hidden;max-height:0;transition:max-height .28s ease;background:var(--bg,#f9f6f1);border-bottom:1px solid var(--border,#d4c9b0);}
 .search-bar-wrap.open{max-height:64px;opacity:1;}
 .search-bar-inner{display:flex;align-items:center;gap:10px;padding:10px 24px;max-width:760px;margin:0 auto;}
 .search-bar-icon{opacity:.45;flex-shrink:0;}
@@ -516,42 +516,35 @@ function initMap(){
 })();
 
 
+
 // ===== BUSCA =====
-let _searchQuery = '';
-function toggleSearch() {
-  const wrap = document.getElementById('searchBarWrap');
-  const isOpen = wrap.classList.contains('open');
-  if (isOpen) { clearSearch(); return; }
-  wrap.classList.add('open');
-  setTimeout(() => document.getElementById('searchInput').focus(), 50);
-}
-function onSearch(val) {
-  _searchQuery = val.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  document.getElementById('searchClear').classList.toggle('visible', val.length > 0);
-  _applySearch();
-}
-function clearSearch() {
-  _searchQuery = '';
-  const inp = document.getElementById('searchInput');
-  if (inp) inp.value = '';
-  const cl = document.getElementById('searchClear');
-  if (cl) cl.classList.remove('visible');
-  document.getElementById('searchBarWrap').classList.remove('open');
-  document.querySelectorAll('.restaurant-card').forEach(c => c.style.display = '');
-}
-function _applySearch() {
-  const q = _searchQuery;
-  document.querySelectorAll('.restaurant-card').forEach(card => {
-    if (!q) { card.style.display = ''; return; }
-    const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-    card.style.display = norm(card.textContent).includes(q) ? '' : 'none';
-  });
-}
 (function(){
-  const orig = typeof render === 'function' ? render : null;
-  if (orig) { render = function(){ orig.apply(this,arguments); _applySearch(); }; }
+  var _q = '';
+  function _norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+  function _filter(){
+    document.querySelectorAll('.restaurant-card').forEach(function(c){
+      if(!_q){ c.style.display=''; return; }
+      var txt = _norm(c.getAttribute('data-s') || c.textContent);
+      c.style.display = txt.indexOf(_q) >= 0 ? '' : 'none';
+    });
+  }
+  function _open(){
+    var w=document.getElementById('searchBarWrap'); if(w) w.classList.add('open');
+    var i=document.getElementById('searchInput'); if(i) setTimeout(function(){ i.focus(); },60);
+  }
+  function _close(){
+    _q='';
+    var w=document.getElementById('searchBarWrap'); if(w) w.classList.remove('open');
+    var i=document.getElementById('searchInput'); if(i) i.value='';
+    var c=document.getElementById('searchClear'); if(c) c.classList.remove('vis');
+    document.querySelectorAll('.restaurant-card').forEach(function(c){ c.style.display=''; });
+  }
+  window.toggleSearch=function(){ document.getElementById('searchBarWrap').classList.contains('open')?_close():_open(); };
+  window.onSearch=function(v){ _q=_norm(v); var c=document.getElementById('searchClear'); if(c) c.classList.toggle('vis',v.length>0); _filter(); };
+  window.clearSearch=_close;
+  if(typeof render==='function'){ var _r=render; render=function(){ _r.apply(this,arguments); if(_q)_filter(); }; }
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&_q)_close(); });
 })();
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && _searchQuery) clearSearch(); });
 
 </script>
 
