@@ -472,9 +472,11 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNearMe();});
 if(new URLSearchParams(window.location.search).get('nearme')==='1'){setTimeout(()=>openNearMe(),100);}
 
 // ===== REGISTRATION GATE — Mailchimp =====
-const _MC_U  = '833e6c347c848d6ebe8d59014';
-const _MC_ID = '16f5320bea';
-const _MC_SV = 'us12';
+const _MC_U    = '833e6c347c848d6ebe8d59014';
+const _MC_ID   = '16f5320bea';
+const _MC_SV   = 'us12';
+const _MC_ACCT = 'lulidias';
+const _MC_FID  = '00554ae0f0';
 
 function _regCheck() {
   try { if ((window.name||'').includes('nr1')) return true; } catch(_) {}
@@ -504,12 +506,13 @@ function _mcSubscribe(nome, email, newsletter) {
   return new Promise(resolve => {
     const cb = '_mc' + Date.now();
     const qs = new URLSearchParams({
-      u:_MC_U, id:_MC_ID, EMAIL:email,
-      FNAME:nome.split(' ')[0], LNAME:nome.split(' ').slice(1).join(' '), c:cb
+      u:_MC_U, id:_MC_ID, f_id:_MC_FID, EMAIL:email,
+      FNAME:nome.split(' ')[0], LNAME:nome.split(' ').slice(1).join(' '),
+      ['b_'+_MC_U+'_'+_MC_ID]: '', c:cb
     });
     window[cb] = d => { delete window[cb]; sc.remove(); resolve(d); };
     const sc = document.createElement('script');
-    sc.src = `https://${_MC_SV}.list-manage.com/subscribe/post-json?${qs}`;
+    sc.src = `https://${_MC_ACCT}.${_MC_SV}.list-manage.com/subscribe/post-json?${qs}`;
     document.head.appendChild(sc);
     setTimeout(() => { delete window[cb]; sc.remove(); resolve({result:'timeout'}); }, 8000);
   });
