@@ -284,15 +284,6 @@ function openMap(name,addr){
 }
 function closeMap(){document.getElementById('mapModal').classList.remove('open');}
 
-// DEBUG — aparece se JS corre
-try {
-  const _t=document.createElement('div');
-  _t.style.cssText='position:fixed;top:72px;left:0;right:0;background:#c00;color:#fff;text-align:center;padding:8px;font-weight:bold;z-index:99999;font-family:monospace;font-size:14px';
-  _t.id='_dbg_banner';
-  _t.textContent='JS A CORRER — aguarda render...';
-  document.body.appendChild(_t);
-} catch(e) {}
-
 // m: michelin badge, h: tem hospedagem, pr: preço 1-4
 const FOLDER='brasil';
 const PHOTO_FOLDER='fotos/brasil-sudeste/';
@@ -609,24 +600,12 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.re
 const _urlCity = new URLSearchParams(location.search).get('city');
 let activeCity = _urlCity || 'Todas';
 
-// DEBUG extra
-try {
-  const _d2=document.getElementById('_dbg_banner');
-  if(_d2)_d2.textContent='JS OK: CITIES='+CITIES.length+' activeCity='+activeCity;
-} catch(e2){}
-
-let cityList, filtersEl;
-try {
-  cityList = ['Todas', ...new Set(CITIES.map(c => c.region))];
-  filtersEl = document.getElementById('filters');
+cityList = ['Todas', ...new Set(CITIES.map(c => c.region).filter(Boolean))];
+  const filtersEl = document.getElementById('filters');
   if(!filtersEl) throw new Error('filtersEl NULL');
   filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
     cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
-} catch(errFilter) {
-  const _e=document.getElementById('_dbg_banner');
-  if(_e)_e.textContent='ERRO FILTRO: '+errFilter.message+' | CITIES:'+(typeof CITIES)+' len:'+(CITIES&&CITIES.length);
-  _e.style.background='#900';
-}
+
 
 function setCity(c, btn) {
   activeCity = c;
