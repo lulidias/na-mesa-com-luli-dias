@@ -354,6 +354,9 @@ const CITIES=[
     {"n":"Pobre Juan Recife","c":"luli","q":"Argentina · Parrilla","a":"Av. República do Líbano, 251, 1º Piso — Shopping RioMar, Pina, Recife — PE","p":"+55 81 3327-0862","pr":3,"w":"pobrejuan.com.br","ig":"restaurantepobrejuan","d":"No Shopping RioMar, um dos mais modernos do Nordeste, a parrilla argentina chega a Recife. Cortes nobres na grelha, cervejas geladas e selecção de vinhos — referência gastronómica na capital pernambucana."},
     {t:"h",n:"Novotel Recife Marina",c:"luli",q:"Hotel · Beira-mar 4★",a:"Av. Boa Viagem, 5277 — Boa Viagem, Recife — PE",p:"+55 81 3206-8333",pr:2,s:4,d:"Hotel da rede Accor na Av. Boa Viagem, com vista para o mar. 313 quartos modernos, piscina, restaurante e localização privilegiada para acesso aos restaurantes e praias de Boa Viagem. Boa relação qualidade-preço para estadia em Recife."}
   ]},
+  {city:"Porto de Galinhas",region:"Pernambuco",entries:[{"n":"Beijupira","q":"Frutos do Mar Contemporânea","a":"Porto de Galinhas — PE","p":"+55 81 3552-2354","pr":3,"d":"Restaurante referência de Porto de Galinhas com cozinha contemporânea de frutos do mar do litoral pernambucano. Beijupira (peixe local) preparado em diferentes técnicas, polvo grelhado e pratos criativos num ambiente tropical sofisticado."},{"t":"h","n":"Nannai Resort & Spa","q":"Resort · Praia 5★","a":"Rod. PE-09, Km 3 — Muro Alto, Ipojuca (Porto de Galinhas) — PE","p":"+55 81 3552-0100","pr":4,"s":5,"d":"Resort de bangalôs com piscina privativa em Muro Alto, perto de Porto de Galinhas. Considerado um dos melhores resorts do Brasil — só recebe hóspedes maiores de 13 anos. Praia exclusiva, três restaurantes, spa, sport complex. O endereço de luxo do Nordeste para casais."}]},
+  {city:"Gravatá",region:"Pernambuco",entries:[{"n":"Restaurante Mania Caseira","q":"Brasileira Caseira","a":"Gravatá — PE","p":"","pr":1,"d":"Restaurante de cozinha caseira mineira/pernambucana em Gravatá. Pratos generosos, comida feita no fogão a lenha e o sabor das casas familiares do agreste."},{"n":"Taverna Suissa","q":"Suíça","a":"Gravatá — PE","p":"","pr":2,"d":"Taverna suíça em Gravatá — única no Nordeste. Fondues de queijo e chocolate, raclette, rösti e cervejas trapistas num chalé alpino no agreste pernambucano."},{"n":"Buchadinha do Gordo","q":"Nordestina","a":"Gravatá — PE","p":"","pr":1,"d":"Buchada de bode, sarapatel, carne de sol e os clássicos da cozinha nordestina em ambiente despretensioso. Uma referência da gastronomia popular do agreste."}]},
+  {city:"Olinda",region:"Pernambuco",entries:[{"n":"Oficina do Sabor","q":"Pernambucana Contemporânea","a":"Olinda — PE","p":"+55 81 3429-3331","pr":3,"d":"O restaurante mais celebrado de Olinda, do chef César Santos. Cozinha pernambucana contemporânea com produtos da região — caruru de camarão, jerimum recheado, peixe na folha de bananeira — numa casa centenária do centro histórico colonial."}]},
   {city:"Salvador",region:"Bahia",entries:[
     {n:"Lafayette",c:"luli",q:"Contemporânea · Autoral",a:"Salvador — BA",p:"",pr:3,d:"Um dos restaurantes mais sofisticados de Salvador, com cozinha contemporânea autoral que faz a ponte entre a tradição baiana e as técnicas modernas. Ingredientes locais num ambiente elegante que conquistou os mais exigentes da cidade."},
     {n:"Mistura",c:"luli",q:"Frutos do Mar",a:"Salvador — BA",p:"",pr:3,d:"Especialista em frutos do mar com os melhores espécimes da costa baiana: lagosta, camarão, caranguejo e muito mais. Preparações que respeitam a simplicidade e potencializam o sabor natural dos ingredientes frescos do Atlântico."},
@@ -396,7 +399,7 @@ let activeCity = _urlCity || 'Todas';
 
 const cityList = ['Todas', ...new Set(CITIES.map(c => c.region).filter(Boolean))];
 const filtersEl = document.getElementById('filters');
-filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
+if (filtersEl) { filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
   cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 
 function setCity(c, btn) {
@@ -555,7 +558,7 @@ function normCuisine(q){
 }
 function buildCuisineBar(){
   const set=new Set();
-  CITIES.forEach(c=>c.entries.forEach(r=>{const n=normCuisine(r.q);if(n)set.add(n);}));
+  CITIES.forEach(c=>{if(!c.entries)return;c.entries.forEach(r=>{const n=normCuisine(r.q);if(n)set.add(n);});});
   const cuisines=['Todas',...[...set].sort((a,b)=>a.localeCompare(b,'pt'))];
   const bar=document.getElementById('cuisineBar');
   if(!bar)return;
@@ -639,13 +642,7 @@ function initMap(){
   CITIES.forEach(city=>{
     city.entries.forEach(r=>{
       const key=`${FOLDER}/${slug(r.n)}`;
-      const c=coords[key,
-  {city:"Porto de Galinhas",region:"Pernambuco",entries:[{"n":"Beijupira","q":"Frutos do Mar Contemporânea","a":"Porto de Galinhas — PE","p":"+55 81 3552-2354","pr":3,"d":"Restaurante referência de Porto de Galinhas com cozinha contemporânea de frutos do mar do litoral pernambucano. Beijupira (peixe local) preparado em diferentes técnicas, polvo grelhado e pratos criativos num ambiente tropical sofisticado."},
-    {t:"h",n:"Nannai Resort & Spa",q:"Resort · Praia 5★",a:"Rod. PE-09, Km 3 — Muro Alto, Ipojuca (Porto de Galinhas) — PE",p:"+55 81 3552-0100",pr:4,s:5,d:"Resort de bangalôs com piscina privativa em Muro Alto, perto de Porto de Galinhas. Considerado um dos melhores resorts do Brasil — só recebe hóspedes maiores de 13 anos. Praia exclusiva, três restaurantes, spa, sport complex. O endereço de luxo do Nordeste para casais."}
-  ]},
-  {city:"Gravatá",region:"Pernambuco",entries:[{"n":"Restaurante Mania Caseira","q":"Brasileira Caseira","a":"Gravatá — PE","p":"","pr":1,"d":"Restaurante de cozinha caseira mineira/pernambucana em Gravatá. Pratos generosos, comida feita no fogão a lenha e o sabor das casas familiares do agreste."},{"n":"Taverna Suissa","q":"Suíça","a":"Gravatá — PE","p":"","pr":2,"d":"Taverna suíça em Gravatá — única no Nordeste. Fondues de queijo e chocolate, raclette, rösti e cervejas trapistas num chalé alpino no agreste pernambucano."},{"n":"Buchadinha do Gordo","q":"Nordestina","a":"Gravatá — PE","p":"","pr":1,"d":"Buchada de bode, sarapatel, carne de sol e os clássicos da cozinha nordestina em ambiente despretensioso. Uma referência da gastronomia popular do agreste."}]},
-  {city:"Olinda",region:"Pernambuco",entries:[{"n":"Oficina do Sabor","q":"Pernambucana Contemporânea","a":"Olinda — PE","p":"+55 81 3429-3331","pr":3,"d":"O restaurante mais celebrado de Olinda, do chef César Santos. Cozinha pernambucana contemporânea com produtos da região — caruru de camarão, jerimum recheado, peixe na folha de bananeira — numa casa centenária do centro histórico colonial."}]}
-];
+      const c=coords[key];
       if(c&&c.lat&&c.lng){
         const m=L.marker([c.lat,c.lng],{icon:goldIcon}).addTo(mapInstance);
         const phoneHtml=r.p?`<div style="font-size:11px;margin-top:4px"><a href="tel:${r.p.replace(/\s/g,'')}" style="color:#B8922A;text-decoration:none">${r.p}</a></div>`:'';
