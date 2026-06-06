@@ -827,9 +827,8 @@ function setCuisine(c,btn){
 
 try { buildCuisineBar(); } catch(e) { console.error('buildCuisineBar error:',e); }
 try { render(); } catch(e) {
-  console.error('render error:',e);
   const m=document.getElementById('main');
-  if(m) m.innerHTML='<div style="padding:40px;text-align:center;color:#B8922A;font-family:Montserrat,sans-serif">A carregar — se isto persistir, contacte o curador.<br><br><button onclick="location.reload()" style="padding:10px 24px;border:1px solid #B8922A;background:#fff;color:#B8922A;cursor:pointer;font-size:12px;letter-spacing:2px">RECARREGAR</button></div>';
+  if(m) m.innerHTML='<div style="padding:40px;background:#fee;border:2px solid red;margin:20px;font-family:monospace;font-size:13px;white-space:pre-wrap">ERRO: '+e.message+'\n\nStack: '+e.stack+'</div>';
 }
 
 let mapInstance=null;
