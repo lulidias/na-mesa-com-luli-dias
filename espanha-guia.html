@@ -158,6 +158,18 @@ footer a{color:var(--gold);text-decoration:none}
 .photo-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:0 1px 3px rgba(0,0,0,.4)}
 .photo-dot.active{background:#fff;width:18px;border-radius:3px}
 .photo-count-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;letter-spacing:1px;padding:4px 8px;border-radius:12px;font-weight:600;backdrop-filter:blur(4px);z-index:2;display:flex;align-items:center;gap:3px}
+
+/* ===== SEARCH BAR ===== */
+.search-toggle{background:none;border:none;cursor:pointer;color:var(--text,#2c2c2c);padding:4px 6px;display:flex;align-items:center;opacity:.7;transition:opacity .2s;margin-left:auto;}
+.search-toggle:hover{opacity:1;}
+.search-bar-wrap{max-height:0;overflow:hidden;transition:max-height .3s ease, opacity .3s ease;opacity:0;background:var(--bg,#f9f6f1);border-bottom:1px solid var(--border,#d4c9b0);}
+.search-bar-wrap.open{max-height:64px;opacity:1;}
+.search-bar-inner{display:flex;align-items:center;gap:10px;padding:10px 24px;max-width:760px;margin:0 auto;}
+.search-bar-icon{opacity:.45;flex-shrink:0;}
+#searchInput{flex:1;border:none;background:transparent;font-size:.95rem;font-family:inherit;color:var(--text,#2c2c2c);outline:none;padding:4px 0;}
+#searchInput::placeholder{color:#999;}
+.search-clear{background:none;border:none;cursor:pointer;color:#999;font-size:.85rem;padding:2px 4px;line-height:1;display:none;}
+.search-clear.visible{display:block;}
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "267deca0f25fd78caf5c7d0264c49431"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
@@ -171,7 +183,17 @@ footer a{color:var(--gold);text-decoration:none}
     </a>
   </div>
   <span class="nav-current">Espanha</span>
+  <button class="search-toggle" id="searchToggle" onclick="toggleSearch()" title="Buscar" aria-label="Buscar restaurante">
+    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  </button>
 </nav>
+<div class="search-bar-wrap" id="searchBarWrap">
+  <div class="search-bar-inner">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="search-bar-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="searchInput" placeholder="Buscar restaurante, culinária ou bairro…" autocomplete="off" oninput="onSearch(this.value)">
+    <button class="search-clear" id="searchClear" onclick="clearSearch()" aria-label="Limpar busca">✕</button>
+  </div>
+</div>
 <header>
   <div class="brand-mast">LULI DIAS  ·  RESTAURANTS &amp; HOTELS</div>
   <div class="brand-country">Espanha</div>
@@ -625,6 +647,44 @@ function initMap(){
     else if (lbl.includes('mercado')) num.textContent = mk;
   });
 })();
+
+
+// ===== BUSCA =====
+let _searchQuery = '';
+function toggleSearch() {
+  const wrap = document.getElementById('searchBarWrap');
+  const isOpen = wrap.classList.contains('open');
+  if (isOpen) { clearSearch(); return; }
+  wrap.classList.add('open');
+  setTimeout(() => document.getElementById('searchInput').focus(), 50);
+}
+function onSearch(val) {
+  _searchQuery = val.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  document.getElementById('searchClear').classList.toggle('visible', val.length > 0);
+  _applySearch();
+}
+function clearSearch() {
+  _searchQuery = '';
+  const inp = document.getElementById('searchInput');
+  if (inp) inp.value = '';
+  const cl = document.getElementById('searchClear');
+  if (cl) cl.classList.remove('visible');
+  document.getElementById('searchBarWrap').classList.remove('open');
+  document.querySelectorAll('.card').forEach(c => c.style.display = '');
+}
+function _applySearch() {
+  const q = _searchQuery;
+  document.querySelectorAll('.card').forEach(card => {
+    if (!q) { card.style.display = ''; return; }
+    const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    card.style.display = norm(card.textContent).includes(q) ? '' : 'none';
+  });
+}
+(function(){
+  const orig = typeof render === 'function' ? render : null;
+  if (orig) { render = function(){ orig.apply(this,arguments); _applySearch(); }; }
+})();
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && _searchQuery) clearSearch(); });
 
 </script>
 
