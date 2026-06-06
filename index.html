@@ -505,8 +505,7 @@ function _mcSubscribe(nome, email, newsletter) {
     const cb = '_mc' + Date.now();
     const qs = new URLSearchParams({
       u:_MC_U, id:_MC_ID, EMAIL:email,
-      FNAME:nome.split(' ')[0], LNAME:nome.split(' ').slice(1).join(' '),
-      NEWSLETTER: newsletter?'Sim':'Não', c:cb
+      FNAME:nome.split(' ')[0], LNAME:nome.split(' ').slice(1).join(' '), c:cb
     });
     window[cb] = d => { delete window[cb]; sc.remove(); resolve(d); };
     const sc = document.createElement('script');
@@ -526,7 +525,7 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
   if (!email || !email.includes('@')) { err.textContent = 'Por favor introduza um e-mail válido.'; return; }
   btn.disabled = true; btn.textContent = 'A guardar…'; err.textContent = '';
   _regSave(nome, email);
-  _mcSubscribe(nome, email, true);
+  _mcSubscribe(nome, email, true).catch(()=>{});
   document.getElementById('reg-modal').classList.remove('open');
 });
 </script>
