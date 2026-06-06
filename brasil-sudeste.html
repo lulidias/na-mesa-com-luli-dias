@@ -642,6 +642,8 @@ const _CAPS={'São Paulo':'São Paulo','Rio de Janeiro':'Rio de Janeiro','Minas 
 const _ESTADO_LIST=[...new Set(CITIES.map(c=>c.region).filter(Boolean))];
 let activeState=new URLSearchParams(location.search).get('state')||_ESTADO_LIST[0];
 let activeCity='Todas';
+let activeType='all';
+let activeCuisine='Todas';
 const filtersEl=document.getElementById('filters');
 const cityFilterEl=document.getElementById('cityFilter');
 
@@ -858,7 +860,6 @@ function rebuildFilters(){
   buildCityFilter();
 }
 
-let activeType='all';
 // Aplica filtro inicial vindo de ?type= na URL (vindo do index)
 (function(){
   const params = new URLSearchParams(window.location.search);
@@ -882,7 +883,6 @@ function setType(t,btn){
   render();
 }
 
-let activeCuisine='Todas';
 function setCuisine(c,btn){
   activeCuisine=c;
   document.querySelectorAll('.cuisine-btn').forEach(b=>b.classList.remove('active'));
