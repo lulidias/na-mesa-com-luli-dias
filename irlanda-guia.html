@@ -448,16 +448,9 @@ function buildCuisineBar(){
 
 // Rebuild filter buttons based on active type
 function rebuildFilters(){
-  const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h') && (!activeMichelin||(activeMichelin==='h'?r.t==='h':r.m===activeMichelin));
-  const visibleCities = CITIES.filter(c => c.entries.some(_passes));
-  const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.region))];
-  const useRegion = typeof activeRegion !== 'undefined';
-  const setterName = useRegion ? 'setRegion' : 'setCity';
-  const currentVal = useRegion ? activeRegion : (typeof activeCity !== 'undefined' ? activeCity : 'Todas');
-  if (currentVal !== 'Todas' && !newCityList.includes(currentVal)) {
-    if (useRegion) activeRegion = 'Todas';
-    else if (typeof activeCity !== 'undefined') activeCity = 'Todas';
-  }
+  const fl=document.getElementById('filters');
+  if(fl){fl.innerHTML='<span class="filter-lbl">Cidade:</span>'+cityList.map(c=>`<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');}
+}
   const newCurrent = useRegion ? activeRegion : (typeof activeCity !== 'undefined' ? activeCity : 'Todas');
   const filtersEl = document.getElementById('filters');
   if (filtersEl) {
