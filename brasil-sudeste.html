@@ -612,11 +612,6 @@ function setCity(c, btn) {
   const url = c === 'Todas' ? location.pathname : `${location.pathname}?city=${encodeURIComponent(c)}`;
   history.replaceState(null, '', url);
   render();
-}?city=${encodeURIComponent(activeCity)}`;
-  const url  = c === 'Todas' ? base : `${base}&sub=${encodeURIComponent(c)}`;
-  history.replaceState(null, '', url);
-  buildFilters();
-  render();
 }
 
 
