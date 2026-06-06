@@ -380,7 +380,7 @@ let activeCity = _urlCity || 'Todas';
 const cityList = ['Todas', ...new Set(CITIES.map(c => c.region).filter(Boolean))];
 const filtersEl = document.getElementById('filters');
 if (filtersEl) { filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
-  cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+  cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join(''); }
 
 function setCity(c, btn) {
   activeCity = c;
@@ -389,10 +389,6 @@ function setCity(c, btn) {
   const url = c === 'Todas' ? location.pathname : `${location.pathname}?city=${encodeURIComponent(c)}`;
   history.replaceState(null, '', url);
   render();
-}?city=${encodeURIComponent(activeCity)}`;
-  history.replaceState(null, '', c === 'Todas' ? base : `${base}&sub=${encodeURIComponent(c)}`);
-  buildFilters(); render();
-}?city=${encodeURIComponent(c)}`;  history.replaceState(null, '', url);
 }
 
 
