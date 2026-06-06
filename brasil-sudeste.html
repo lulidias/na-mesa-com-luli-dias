@@ -609,10 +609,24 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.re
 const _urlCity = new URLSearchParams(location.search).get('city');
 let activeCity = _urlCity || 'Todas';
 
-const cityList = ['Todas', ...new Set(CITIES.map(c => c.region))];
-const filtersEl = document.getElementById('filters');
-filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
-  cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+// DEBUG extra
+try {
+  const _d2=document.getElementById('_dbg_banner');
+  if(_d2)_d2.textContent='JS OK: CITIES='+CITIES.length+' activeCity='+activeCity;
+} catch(e2){}
+
+let cityList, filtersEl;
+try {
+  cityList = ['Todas', ...new Set(CITIES.map(c => c.region))];
+  filtersEl = document.getElementById('filters');
+  if(!filtersEl) throw new Error('filtersEl NULL');
+  filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
+    cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+} catch(errFilter) {
+  const _e=document.getElementById('_dbg_banner');
+  if(_e)_e.textContent='ERRO FILTRO: '+errFilter.message+' | CITIES:'+(typeof CITIES)+' len:'+(CITIES&&CITIES.length);
+  _e.style.background='#900';
+}
 
 function setCity(c, btn) {
   activeCity = c;
