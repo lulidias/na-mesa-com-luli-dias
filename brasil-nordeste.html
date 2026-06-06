@@ -284,6 +284,15 @@ function openMap(name,addr){
 }
 function closeMap(){document.getElementById('mapModal').classList.remove('open');}
 
+// DEBUG — aparece se JS corre
+try {
+  const _t=document.createElement("div");
+  _t.style.cssText="position:fixed;top:72px;left:0;right:0;background:#c00;color:#fff;text-align:center;padding:8px;font-weight:bold;z-index:99999;font-family:monospace;font-size:14px";
+  _t.id="_dbg_banner";
+  _t.textContent="JS OK: "+location.pathname;
+  document.body.appendChild(_t);
+} catch(e) {}
+
 // m: michelin badge, h: tem hospedagem, pr: preço 1-4
 const FOLDER='brasil';
 const PHOTO_FOLDER='fotos/brasil-nordeste/';
