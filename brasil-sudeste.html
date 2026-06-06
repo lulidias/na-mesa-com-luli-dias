@@ -600,11 +600,12 @@ function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.re
 const _urlCity = new URLSearchParams(location.search).get('city');
 let activeCity = _urlCity || 'Todas';
 
-cityList = ['Todas', ...new Set(CITIES.map(c => c.region).filter(Boolean))];
-  const filtersEl = document.getElementById('filters');
-  if(!filtersEl) throw new Error('filtersEl NULL');
+const cityList = ['Todas', ...new Set(CITIES.map(c => c.region).filter(Boolean))];
+const filtersEl = document.getElementById('filters');
+if (filtersEl) {
   filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
     cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+}
 
 
 function setCity(c, btn) {
