@@ -853,9 +853,7 @@ function initMap(){
   CITIES.forEach(city=>{
     city.entries.forEach(r=>{
       const key=`${FOLDER}/${slug(r.n)}`;
-      const c=coords[key,
-  {city:"Ribeirão Preto",region:"São Paulo",entries:[{"n":"La Cucina di Tulio Santini","q":"Italiana","a":"Ribeirão Preto — SP","p":"","pr":3,"d":"Italiana sofisticada em Ribeirão Preto pelo chef Tulio Santini. Massas frescas, antepastos elaborados e carta de vinhos italianos cuidada."},{"n":"Una","q":"Italiana","a":"Ribeirão Preto — SP","p":"","pr":3,"d":"Restaurante italiano em Ribeirão Preto com massas e pratos tradicionais. Ambiente moderno e produto importado da Itália."},{"n":"Amici","q":"Italiana","a":"Ribeirão Preto — SP","p":"","pr":2,"d":"Trattoria italiana em Ribeirão Preto. Massas frescas e clássicos da cozinha italiana num ambiente de bairro acolhedor."},{"n":"Mirai","q":"Japonesa","a":"Ribeirão Preto — SP","p":"","pr":3,"d":"Japonesa contemporânea em Ribeirão Preto com sushi premium, sashimi e pratos quentes. Ambiente moderno e produto fresco."}]}
-];
+      const c=coords[key];
       if(c&&c.lat&&c.lng){
         const m=L.marker([c.lat,c.lng],{icon:goldIcon}).addTo(mapInstance);
         const phoneHtml=r.p?`<div style="font-size:11px;margin-top:4px"><a href="tel:${r.p.replace(/\s/g,'')}" style="color:#B8922A;text-decoration:none">${r.p}</a></div>`:'';
