@@ -236,10 +236,10 @@ footer a{color:var(--gold);text-decoration:none}
 </div>
 <header>
   <div class="brand-mast">LULI DIAS  ·  RESTAURANTS &amp; HOTELS</div>
-  <div class="brand-country">Brasil · Sul</div>
+  <div class="brand-country" id="brandCountry">Brasil · Sul</div>
   <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
   <div class="header-meta-row">
-    <span class="header-meta">Curitiba · Florianópolis · Porto Alegre · + 9 cidades</span>
+    <span class="header-meta" id="headerMeta">Curitiba · Florianópolis · Porto Alegre · + 9 cidades</span>
     <span class="header-edition">Abril 2026</span>
   </div>
 </header>
@@ -294,6 +294,7 @@ footer a{color:var(--gold);text-decoration:none}
   <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
 </div>
 <div class="filters" id="filters"></div>
+<div class="filters" id="cityFilter"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
 <main id="main"></main>
 <div id="map" style="display:none"></div>
@@ -401,23 +402,80 @@ function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.inc
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.repeat(pr)+'<span style="color:var(--border)">'+'$'.repeat(4-pr)+'</span></span>';}
 
 
-// Restaurar filtro de cidade do URL ao carregar a página
-const _urlCity = new URLSearchParams(location.search).get('city');
-let activeCity = _urlCity || 'Todas';
+// ── Filtros Estado → Cidade ───────────────────────────────────────
+const _CAPS={'São Paulo':'São Paulo','Rio de Janeiro':'Rio de Janeiro','Minas Gerais':'Belo Horizonte','Espírito Santo':'Vitória','Paraná':'Curitiba','Santa Catarina':'Florianópolis','Rio Grande do Sul':'Porto Alegre','Bahia':'Salvador','Pernambuco':'Recife','Ceará':'Fortaleza','Alagoas':'Maceió','Paraíba':'João Pessoa','Rio Grande do Norte':'Natal','Distrito Federal':'Brasília','Mato Grosso':'Cuiabá','Goiás':'Goiânia'};
+const _ESTADO_LIST=[...new Set(CITIES.map(c=>c.region).filter(Boolean))];
+let activeState=new URLSearchParams(location.search).get('state')||_ESTADO_LIST[0];
+let activeCity='Todas';
+const filtersEl=document.getElementById('filters');
+const cityFilterEl=document.getElementById('cityFilter');
 
-const cityList = ['Todas', ...new Set(CITIES.map(c => c.region).filter(Boolean))];
-const filtersEl = document.getElementById('filters');
-if (filtersEl) { filtersEl.innerHTML = '<span class="filter-lbl">Estado:</span>' +
-  cityList.map(c => `<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join(''); }
-
-function setCity(c, btn) {
-  activeCity = c;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  const url = c === 'Todas' ? location.pathname : `${location.pathname}?city=${encodeURIComponent(c)}`;
-  history.replaceState(null, '', url);
-  render();
+function buildStateFilter(){
+  if(!filtersEl)return;
+  filtersEl.innerHTML='<span class="filter-lbl">Estado:</span>'+
+    _ESTADO_LIST.map(s=>`<button class="filter-btn${s===activeState?' active':''}" onclick="setStateFilter('${s.replace(/'/g,"\\'")}',this)">${s}</button>`).join('');
 }
+function buildCityFilter(){
+  if(!cityFilterEl)return;
+  const _p=r=>!(activeType==='r'&&r.t==='h')&&!(activeType==='h'&&r.t!=='h');
+  const inState=CITIES.filter(c=>c.region===activeState&&c.entries.some(_p));
+  const cap=_CAPS[activeState]||'';
+  inState.sort((a,b)=>{if(a.city===cap)return -1;if(b.city===cap)return 1;return a.city.localeCompare(b.city,'pt');});
+  if(inState.length<=1){cityFilterEl.innerHTML='';return;}
+  const opts=['Todas',...inState.map(c=>c.city)];
+  cityFilterEl.innerHTML='<span class="filter-lbl">Cidade:</span>'+
+    opts.map(c=>`<button class="filter-btn${c===activeCuisine?' active':''}" onclick="setCityFilter('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+}
+function updateHeader(){
+  const bc=document.getElementById('brandCountry');
+  if(bc)bc.textContent=activeState;
+  const hm=document.getElementById('headerMeta');
+  if(hm){
+    const cap=_CAPS[activeState]||'';
+    const cs=CITIES.filter(c=>c.region===activeState).map(c=>c.city)
+      .sort((a,b)=>{if(a===cap)return -1;if(b===cap)return 1;return a.localeCompare(b,'pt');});
+    hm.textContent=cs.length>3?cs.slice(0,3).join(' · ')+' · + '+(cs.length-3)+' cidades':cs.join(' · ');
+  }
+  const nc=document.querySelector('.nav-current');
+  if(nc)nc.textContent='Brasil · '+activeState;
+}
+function updateStats(){
+  if(typeof CITIES==='undefined'||typeof activeState==='undefined')return;
+  let r=0,h=0,mk=0,cities=0,m1=0,m2=0,m3=0,bib=0,k1=0,k2=0,k3=0;
+  for(const city of CITIES.filter(c=>c.region===activeState)){
+    if(!city||!city.entries||city.entries.length===0)continue;
+    cities++;
+    for(const e of city.entries){
+      if(!e||e.pending)continue;
+      if(e.t==='h'){h++;if(e.k===1)k1++;else if(e.k===2)k2++;else if(e.k===3)k3++;}
+      else if(e.t==='m'){mk++;r++;}else r++;
+      if(e.m==='m1')m1++;else if(e.m==='m2')m2++;else if(e.m==='m3')m3++;else if(e.m==='bib')bib++;
+    }
+  }
+  const stars=m1+m2*2+m3*3;const keys=k1+k2*2+k3*3;
+  const statsBar=document.querySelector('.stats-bar');
+  if(!statsBar)return;
+  statsBar.querySelectorAll('.stat').forEach(stat=>{
+    const lbl=((stat.querySelector('.stat-lbl')||{}).textContent||'').toLowerCase().trim();
+    const num=stat.querySelector('.stat-num');
+    if(!num)return;
+    if(lbl.includes('restaurante'))num.textContent=r;
+    else if(lbl.includes('cidade')||lbl.includes('estado'))num.textContent=cities;
+    else if(lbl.includes('hotel')||lbl.includes('hotéis'))num.textContent=h;
+    else if(lbl.includes('michelin')||lbl.includes('estrela'))num.textContent=stars>0?stars+' ★':'0';
+    else if(lbl.includes('chave'))num.textContent=keys>0?keys+' 🗝':'0';
+    else if(lbl.includes('bib'))num.textContent=bib;
+  });
+}
+function setStateFilter(s,btn){
+  activeState=s;activeCity='Todas';
+  history.replaceState(null,'',location.pathname+'?state='+encodeURIComponent(s));
+  buildStateFilter();buildCityFilter();updateHeader();updateStats();buildCuisineBar();render();
+}
+function setCityFilter(c,btn){
+  activeCity=c;buildCityFilter();render();
+}
+buildStateFilter();buildCityFilter();updateHeader();updateStats();
 
 
 // Try multiple photo extensions before falling back to placeholder
@@ -437,31 +495,12 @@ function tryPhoto(img, slug, isHotel, bg, em){
 function render(){
   const main=document.getElementById('main');
   main.innerHTML='';
-  let filtered = activeCity === 'Todas' ? CITIES : CITIES.filter(c => c.region === activeCity);
-  // Capital primeiro, depois alfabético
-  const _CAPS={'Paraná':'Curitiba','Santa Catarina':'Florianópolis','Rio Grande do Sul':'Porto Alegre'};
-  if(activeCity!=='Todas'){const _cap=_CAPS[activeCity]||'';filtered.sort((a,b)=>{if(a.city===_cap)return -1;if(b.city===_cap)return 1;return a.city.localeCompare(b.city,'pt');});}
-
-  // Group by region
-  const groups={};
-  filtered.forEach(c=>{
-    if(!groups[c.region])groups[c.region]=[];
-    groups[c.region].push(c);
-  });
-
-  Object.entries(groups).forEach(([region,cities])=>{
-    // Skip region without visible entries
-    const _passes=r=>!(activeType==='r'&&r.t==='h')&&!(activeType==='h'&&r.t!=='h')&&!(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine);
-    const _regionHas=cities.some(c=>c.entries.some(_passes));
-    if(!_regionHas)return;
-
-    // Region divider
-    const rd=document.createElement('div');
-    rd.style.cssText='display:flex;align-items:center;gap:16px;margin:44px 0 8px';
-    rd.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 16px">${region}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
-    main.appendChild(rd);
-
-    cities.forEach(({city,entries})=>{
+  let filtered=CITIES.filter(c=>c.region===activeState);
+  const _cap=_CAPS[activeState]||'';
+  filtered.sort((a,b)=>{if(a.city===_cap)return -1;if(b.city===_cap)return 1;return a.city.localeCompare(b.city,'pt');});
+  if(activeCity!=='Todas')filtered=filtered.filter(c=>c.city===activeCity);
+  const _passes=r=>!(activeType==='r'&&r.t==='h')&&!(activeType==='h'&&r.t!=='h')&&!(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine);
+  filtered.forEach(({city,entries})=>{
       const _visible=entries.filter(_passes);
       if(_visible.length===0)return;
       const _lbl=activeType==='h'?'hotel':activeType==='r'?'restaurante':'estabelecimento';
@@ -515,7 +554,6 @@ function render(){
         grid.appendChild(card);
       });
     });
-  });
 }
 
 
@@ -562,18 +600,17 @@ function normCuisine(q){
 }
 function buildCuisineBar(){
   const set=new Set();
-  CITIES.forEach(c=>{if(!c.entries)return;c.entries.forEach(r=>{const n=normCuisine(r.q);if(n)set.add(n);});});
+  CITIES.filter(c=>c.region===activeState).forEach(c=>{if(!c.entries)return;c.entries.forEach(r=>{const n=normCuisine(r.q);if(n)set.add(n);});});
   const cuisines=['Todas',...[...set].sort((a,b)=>a.localeCompare(b,'pt'))];
   const bar=document.getElementById('cuisineBar');
   if(!bar)return;
-  bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c===activeCity?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+  bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c===activeCuisine?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
 }
 
 
-// Rebuild filter buttons — delegated to new two-level system
+// Rebuild filter buttons based on active type (Restaurantes/Hotéis/Todos)
 function rebuildFilters(){
-  const fl=document.getElementById('filters');
-  if(fl){fl.innerHTML='<span class="filter-lbl">Estado:</span>'+cityList.map(c=>`<button class="filter-btn${c===activeCity?' active':''}" onclick="setCity('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');}
+  buildCityFilter();
 }
 
 
@@ -662,41 +699,6 @@ function initMap(){
 }
 
 
-// ─── AUTO-COUNT stats-bar ──────────────────────────────────────────────
-// Conta automaticamente a partir do array CITIES — fonte única de verdade.
-// Não mexer manualmente nos valores HTML do stats-bar.
-(function(){
-  if (typeof CITIES === 'undefined') return;
-  let r=0, h=0, mk=0, cities=0, m1=0, m2=0, m3=0, bib=0, k1=0, k2=0, k3=0;
-  for (const city of CITIES) {
-    if (!city || !city.entries || city.entries.length === 0) continue;
-    cities++;
-    for (const e of city.entries) {
-      if (!e || e.pending) continue;
-      if (e.t === 'h') { h++; if (e.k===1) k1++; else if (e.k===2) k2++; else if (e.k===3) k3++; }
-      else if (e.t === 'm') { mk++; r++; }
-      else r++;
-      if (e.m === 'm1') m1++; else if (e.m === 'm2') m2++; else if (e.m === 'm3') m3++;
-      else if (e.m === 'bib') bib++;
-    }
-  }
-  const stars = m1 + m2 * 2 + m3 * 3;
-  const keys = k1 + k2 * 2 + k3 * 3;
-  const statsBar = document.querySelector('.stats-bar');
-  if (!statsBar) return;
-  statsBar.querySelectorAll('.stat').forEach(stat => {
-    const lbl = ((stat.querySelector('.stat-lbl') || {}).textContent || '').toLowerCase().trim();
-    const num = stat.querySelector('.stat-num');
-    if (!num) return;
-    if (lbl.includes('restaurante')) num.textContent = r;
-    else if (lbl.includes('cidade') || lbl.includes('estado')) num.textContent = cities;
-    else if (lbl.includes('hotel') || lbl.includes('hotéis')) num.textContent = h;
-    else if (lbl.includes('michelin') || lbl.includes('estrela')) num.textContent = stars > 0 ? stars + ' ★' : '0';
-    else if (lbl.includes('chave')) num.textContent = keys > 0 ? keys + ' 🗝' : '0';
-    else if (lbl.includes('bib')) num.textContent = bib;
-    else if (lbl.includes('mercado')) num.textContent = mk;
-  });
-})();
 
 
 
