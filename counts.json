@@ -1,7 +1,7 @@
 {
   "totals": {
-    "restaurants": 986,
-    "hotels": 150,
+    "restaurants": 990,
+    "hotels": 151,
     "markets": 12,
     "m1": 43,
     "m2": 13,
@@ -704,8 +704,8 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 451,
-      "hotels": 46,
+      "restaurants": 455,
+      "hotels": 47,
       "markets": 0,
       "cities": 39,
       "m1": 11,
@@ -723,8 +723,8 @@
       "keysEntries": 24
     },
     "brasil-centroeste": {
-      "restaurants": 34,
-      "hotels": 3,
+      "restaurants": 38,
+      "hotels": 4,
       "markets": 0,
       "cities": 4,
       "m1": 0,
