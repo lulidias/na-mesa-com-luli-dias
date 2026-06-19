@@ -150,6 +150,7 @@ footer a{color:var(--gold-lt);text-decoration:none;margin:0 10px}
       <a href="sobre.html">Sobre</a>
       <a href="portugal-guia.html">Preview Portugal</a>
       <a href="subscrever.html" class="btn nav-cta">Subscrever</a>
+      <button id="lang-toggle" onclick="toggleLang()" style="background:none;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;font-weight:600;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;text-transform:uppercase">EN</button>
     </div>
   </div>
 </nav>
@@ -174,11 +175,11 @@ footer a{color:var(--gold-lt);text-decoration:none;margin:0 10px}
 <section class="stats-bar">
   <div class="container">
     <div class="stats-grid">
-      <div><div class="stat-num" data-stat="countries">—</div><div class="stat-lbl">Países</div></div>
-      <div><div class="stat-num" data-stat="restaurants">—</div><div class="stat-lbl">Restaurantes</div></div>
-      <div><div class="stat-num" data-stat="hotels">—</div><div class="stat-lbl">Hotéis</div></div>
-      <div><div class="stat-num">84 ★</div><div class="stat-lbl">Estrelas Michelin</div></div>
-      <div><div class="stat-num">96 🗝</div><div class="stat-lbl">Chaves Michelin</div></div>
+      <div><div class="stat-num" data-stat="countries">—</div><div class="stat-lbl" data-i18n="countries_lbl">Países</div></div>
+      <div><div class="stat-num" data-stat="restaurants">—</div><div class="stat-lbl" data-i18n="sr">Restaurantes</div></div>
+      <div><div class="stat-num" data-stat="hotels">—</div><div class="stat-lbl" data-i18n="sh">Hotéis</div></div>
+      <div><div class="stat-num">84 ★</div><div class="stat-lbl" data-i18n="michelin_stars">Estrelas Michelin</div></div>
+      <div><div class="stat-num">96 🗝</div><div class="stat-lbl" data-i18n="michelin_keys">Chaves Michelin</div></div>
     </div>
   </div>
 </section>
@@ -617,6 +618,25 @@ fetch('counts.json?v=' + Date.now()).then(r => r.ok ? r.json() : null).then(d =>
   set('restaurants', d.totals.restaurants);
   set('hotels', d.totals.hotels);
 }).catch(() => {});
+</script>
+<script>
+(function(){
+  var T={
+    pt:{countries_lbl:'Países',sr:'Restaurantes',sh:'Hotéis',michelin_stars:'Estrelas Michelin',michelin_keys:'Chaves Michelin'},
+    en:{countries_lbl:'Countries',sr:'Restaurants',sh:'Hotels',michelin_stars:'Michelin Stars',michelin_keys:'Michelin Keys'}
+  };
+  var LANG=localStorage.getItem('ld-lang')||'pt';
+  var t=function(k){return T[LANG][k]||T.pt[k]||k;};
+  function apply(){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){el.textContent=t(el.dataset.i18n);});
+    document.documentElement.lang=LANG==='pt'?'pt-BR':'en';
+    var btn=document.getElementById('lang-toggle');
+    if(btn)btn.textContent=LANG==='pt'?'EN':'PT';
+  }
+  window.toggleLang=function(){LANG=LANG==='pt'?'en':'pt';localStorage.setItem('ld-lang',LANG);apply();};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);
+  else apply();
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-mails — Luli Dias Admin</title>
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon-v2.png">
+<link rel="apple-touch-icon" sizes="167x167" href="../apple-touch-icon-167-v2.png">
+<link rel="apple-touch-icon" sizes="152x152" href="../apple-touch-icon-152-v2.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../icon-512-v2.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-dk:#8B6914;--gold-bg:#FAF5EB;--border:#E8E0D5;
+  --green:#2E7D5C;--green-bg:#EAF5F0;--red:#B84A4A;--red-bg:#FDF0F0;
+  --blue:#2563EB;--blue-bg:#EFF6FF;--amber:#92600A;--amber-bg:#FFFBEB;
+}
+html,body{height:100%;font-family:'Montserrat',sans-serif}
+body{background:var(--cream);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
+
+/* ── HEADER ── */
+header{background:var(--white);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:100;flex-shrink:0}
+.brand{display:flex;flex-direction:column;line-height:1;gap:0}
+.brand-name{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:18px;letter-spacing:8px;color:var(--ink);font-weight:400;text-transform:uppercase}
+.brand-tag{font-family:Arial,'Helvetica Neue',sans-serif;font-size:7px;letter-spacing:4px;color:var(--ink-lt);text-transform:uppercase;margin-top:4px}
+.header-nav{display:flex;align-items:center;gap:12px}
+.nav-link{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;padding:7px 14px;border:1px solid var(--gold-lt);border-radius:20px;background:var(--gold-bg);transition:all .2s}
+.nav-link:hover{background:var(--gold);color:var(--white)}
+.nav-link.plain{background:none;border-color:var(--border);color:var(--ink-lt)}
+.nav-link.plain:hover{border-color:var(--gold);color:var(--gold);background:none}
+
+/* ── LAYOUT (sidebar + preview) ── */
+.layout{display:flex;flex:1;height:calc(100vh - 57px);overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{width:340px;flex-shrink:0;border-right:1px solid var(--border);background:var(--white);display:flex;flex-direction:column;overflow:hidden}
+.sidebar-header{padding:20px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.sidebar-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);margin-bottom:3px}
+.sidebar-tag{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs)}
+.email-list{flex:1;overflow-y:auto;padding:12px}
+
+/* ── EMAIL CARD ── */
+.email-card{border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .2s;background:var(--cream)}
+.email-card:hover{border-color:var(--gold);background:var(--gold-bg)}
+.email-card.active{border-color:var(--gold);background:var(--gold-bg);box-shadow:0 0 0 2px rgba(184,146,42,.15)}
+.email-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.email-name{font-family:'Playfair Display',serif;font-size:15px;color:var(--ink);line-height:1.2}
+.email-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:10px;flex-shrink:0}
+.badge-draft{background:var(--cream);color:var(--ink-xs);border:1px solid var(--border)}
+.badge-scheduled{background:var(--amber-bg);color:var(--amber);border:1px solid #F3D08A}
+.badge-sent{background:var(--green-bg);color:var(--green);border:1px solid #A8D8C0}
+.email-subject{font-size:11px;color:var(--ink-lt);margin-bottom:8px;line-height:1.4;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:13px}
+.email-meta{display:flex;gap:14px}
+.email-meta-item{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-xs)}
+.email-meta-item svg{width:10px;height:10px;opacity:.6}
+.email-date{font-weight:600;color:var(--ink-lt)}
+
+/* ── ADD BUTTON ── */
+.add-btn{margin:0 12px 12px;padding:12px;border:2px dashed var(--border);border-radius:10px;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-xs);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.add-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
+
+/* ── PREVIEW PANEL ── */
+.preview-panel{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--cream)}
+.preview-toolbar{padding:14px 20px;border-bottom:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.preview-toolbar-left{display:flex;align-items:center;gap:14px}
+.preview-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink)}
+.preview-subtitle{font-size:10px;letter-spacing:1px;color:var(--ink-xs)}
+.toolbar-actions{display:flex;gap:8px}
+.tool-btn{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;padding:7px 14px;border-radius:20px;cursor:pointer;transition:all .2s;font-family:'Montserrat',sans-serif;border:1px solid var(--border);background:var(--white);color:var(--ink-lt)}
+.tool-btn:hover{border-color:var(--gold);color:var(--gold)}
+.tool-btn.primary{background:var(--gold);color:var(--white);border-color:var(--gold)}
+.tool-btn.primary:hover{background:var(--gold-dk)}
+.tool-btn.green{background:var(--green);color:var(--white);border-color:var(--green)}
+.tool-btn.green:hover{background:#1e5c3f}
+
+/* Send date picker (hidden by default) */
+.schedule-bar{padding:12px 20px;background:var(--amber-bg);border-bottom:1px solid #F3D08A;display:none;align-items:center;gap:12px;font-size:12px;color:var(--amber)}
+.schedule-bar.show{display:flex}
+.schedule-bar input[type="datetime-local"]{border:1px solid #F3D08A;border-radius:6px;padding:6px 10px;font-family:inherit;font-size:12px;color:var(--ink);background:var(--white)}
+.schedule-bar input:focus{outline:none;border-color:var(--amber)}
+
+/* Iframe container */
+.preview-frame-wrap{flex:1;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:28px}
+.preview-frame-wrap.desktop .frame-inner{width:660px;max-width:100%}
+.preview-frame-wrap.mobile .frame-inner{width:390px;max-width:100%}
+.frame-inner{background:var(--white);border:1px solid var(--border);border-radius:4px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+iframe{width:100%;border:none;display:block;min-height:600px}
+
+/* Empty state */
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--ink-xs);padding:48px}
+.empty-icon{font-size:48px;opacity:.35}
+.empty-text{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic}
+.empty-sub{font-size:11px;letter-spacing:1px}
+
+/* Viewport toggle */
+.vp-toggle{display:flex;gap:4px;background:var(--cream);border:1px solid var(--border);border-radius:20px;padding:3px}
+.vp-btn{font-size:10px;padding:4px 10px;border:none;background:none;border-radius:16px;cursor:pointer;color:var(--ink-lt);font-family:inherit;transition:all .2s;font-weight:600}
+.vp-btn.active{background:var(--white);color:var(--gold);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+
+/* Status modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;display:none;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--white);border-radius:12px;padding:36px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--ink);margin-bottom:6px}
+.modal-sub{font-size:12px;color:var(--ink-lt);margin-bottom:24px;font-family:'Cormorant Garamond',serif;font-style:italic}
+.modal-field{margin-bottom:16px}
+.modal-field label{display:block;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);font-weight:600;margin-bottom:8px}
+.modal-field input,.modal-field select,.modal-field textarea{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;color:var(--ink);background:var(--cream)}
+.modal-field input:focus,.modal-field select:focus,.modal-field textarea:focus{outline:none;border-color:var(--gold);background:var(--white)}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
+.modal-btn{padding:11px 22px;border-radius:24px;font-family:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.modal-btn.secondary{background:var(--cream);color:var(--ink-lt);border:1px solid var(--border)}
+.modal-btn.primary{background:var(--gold);color:var(--white)}
+.modal-btn.primary:hover{background:var(--gold-dk)}
+
+/* Status bar */
+.status-bar{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:13px 22px;border-radius:28px;font-size:11px;letter-spacing:1px;display:none;align-items:center;gap:10px;z-index:1000;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.status-bar.show{display:flex}
+.status-bar.success{background:var(--green)}
+.status-bar.error{background:var(--red)}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="brand">
+    <span class="brand-name">Luli Dias</span>
+    <span class="brand-tag">Restaurants &amp; Hotels</span>
+  </div>
+  <div class="header-nav">
+    <a href="dashboard.html" class="nav-link plain">📊 Analytics</a>
+    <a href="index.html" class="nav-link plain">← Admin</a>
+    <a href="../index.html" class="nav-link plain">← Site</a>
+  </div>
+</header>
+
+<!-- ── LAYOUT ── -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">E-mails</div>
+      <div class="sidebar-tag">Campanhas &amp; Transacionais</div>
+    </div>
+
+    <div class="email-list" id="emailList"></div>
+
+    <button class="add-btn" onclick="openNewEmailModal()">＋ Novo e-mail</button>
+  </aside>
+
+  <!-- PREVIEW PANEL -->
+  <div class="preview-panel" id="previewPanel">
+
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">✉️</div>
+      <div class="empty-text">Selecciona um e-mail para pré-visualizar</div>
+      <div class="empty-sub">Clica em qualquer campanha na lista à esquerda</div>
+    </div>
+
+    <div id="previewContent" style="display:none;flex:1;flex-direction:column;overflow:hidden;display:none">
+
+      <!-- Toolbar -->
+      <div class="preview-toolbar">
+        <div class="preview-toolbar-left">
+          <div>
+            <div class="preview-title" id="toolbarTitle">—</div>
+            <div class="preview-subtitle" id="toolbarSubtitle">—</div>
+          </div>
+          <div class="vp-toggle">
+            <button class="vp-btn active" onclick="setViewport('desktop')">Desktop</button>
+            <button class="vp-btn" onclick="setViewport('mobile')">Mobile</button>
+          </div>
+        </div>
+        <div class="toolbar-actions">
+          <button class="tool-btn" onclick="toggleSchedule()">📅 Agendar</button>
+          <button class="tool-btn" onclick="openStatusModal()">✎ Estado</button>
+          <button class="tool-btn primary" onclick="openExternal()" id="openBtn">↗ Abrir</button>
+        </div>
+      </div>
+
+      <!-- Schedule bar -->
+      <div class="schedule-bar" id="scheduleBar">
+        <span>📅 Enviar em:</span>
+        <input type="datetime-local" id="scheduleInput" onchange="saveSchedule()">
+        <button class="tool-btn green" onclick="confirmSchedule()" style="margin-left:8px">Confirmar</button>
+        <button class="tool-btn" onclick="toggleSchedule()" style="margin-left:4px">Cancelar</button>
+      </div>
+
+      <!-- iframe preview -->
+      <div class="preview-frame-wrap desktop" id="frameWrap">
+        <div class="frame-inner">
+          <iframe id="previewIframe" src="" onload="resizeIframe(this)"></iframe>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ── STATUS MODAL ── -->
+<div class="modal-overlay" id="statusModal">
+  <div class="modal">
+    <div class="modal-title">Estado do e-mail</div>
+    <div class="modal-sub">Actualiza o estado desta campanha</div>
+
+    <div class="modal-field">
+      <label>Estado</label>
+      <select id="statusSelect">
+        <option value="draft">Rascunho</option>
+        <option value="scheduled">Agendado</option>
+        <option value="sent">Enviado</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <label>Data de envio (opcional)</label>
+      <input type="datetime-local" id="statusDateInput">
+    </div>
+    <div class="modal-field">
+      <label>Nota interna</label>
+      <input type="text" id="statusNote" placeholder="Ex: Enviar após lançamento do site">
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-btn secondary" onclick="closeStatusModal()">Cancelar</button>
+      <button class="modal-btn primary" onclick="saveStatus()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── NEW EMAIL MODAL ── -->
+<div class="modal-overlay" id="newEmailModal">
+  <div class="modal">
+    <div class="modal-title">Novo e-mail</div>
+    <div class="modal-sub">Adiciona uma nova campanha ou e-mail transacional</div>
+
+    <div class="modal-field">
+      <label>Nome interno</label>
+      <input type="text" id="ne-name" placeholder="Ex: Newsletter — Junho 2025">
+    </div>
+    <div class="modal-field">
+      <label>Assunto</label>
+      <input type="text" id="ne-subject" placeholder="Ex: O guia está no ar!">
+    </div>
+    <div class="modal-field">
+      <label>Tipo</label>
+      <select id="ne-type">
+        <option value="transactional">Transacional (automático)</option>
+        <option value="campaign">Campanha (manual)</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <label>Ficheiro HTML (caminho relativo à raiz do site)</label>
+      <input type="text" id="ne-file" placeholder="Ex: emails/newsletter-junho.html">
+    </div>
+    <div class="modal-field">
+      <label>Data de envio prevista</label>
+      <input type="datetime-local" id="ne-date">
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-btn secondary" onclick="closeNewEmailModal()">Cancelar</button>
+      <button class="modal-btn primary" onclick="saveNewEmail()">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── STATUS BAR ── -->
+<div class="status-bar" id="statusBar"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+// Persisted in localStorage. Seeded with defaults on first load.
+const STORAGE_KEY = 'ld_emails_v1';
+
+const DEFAULTS = [
+  {
+    id: 'boas-vindas',
+    name: 'Boas-vindas',
+    subject: 'Obrigado por te registares — o guia está quase pronto',
+    type: 'transactional',
+    trigger: 'No registo do visitante',
+    status: 'draft',
+    scheduledFor: null,
+    sentAt: null,
+    note: 'Enviar automaticamente após confirmação de registo',
+    file: '../email-boas-vindas.html',
+  }
+];
+
+function loadEmails() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [...DEFAULTS];
+  } catch(e) { return [...DEFAULTS]; }
+}
+
+function saveEmails(list) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+}
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let emails = loadEmails();
+let activeId = null;
+
+// ── RENDER LIST ───────────────────────────────────────────────────────────
+function renderList() {
+  const list = document.getElementById('emailList');
+  if (!emails.length) {
+    list.innerHTML = '<div style="padding:24px;text-align:center;color:var(--ink-xs);font-size:12px;font-style:italic">Nenhum e-mail ainda</div>';
+    return;
+  }
+
+  list.innerHTML = emails.map(e => {
+    const badgeClass = e.status === 'sent' ? 'badge-sent' : e.status === 'scheduled' ? 'badge-scheduled' : 'badge-draft';
+    const badgeLabel = e.status === 'sent' ? 'Enviado' : e.status === 'scheduled' ? 'Agendado' : 'Rascunho';
+    const typeLabel = e.type === 'transactional' ? '⚡ Transacional' : '📢 Campanha';
+    const dateInfo = e.scheduledFor ? fmtDate(e.scheduledFor) : e.sentAt ? fmtDate(e.sentAt) : '—';
+    const dateLabel = e.sentAt ? 'Enviado em' : e.scheduledFor ? 'Agendado para' : 'Sem data';
+
+    return `<div class="email-card ${e.id === activeId ? 'active' : ''}" onclick="selectEmail('${e.id}')">
+      <div class="email-card-top">
+        <div class="email-name">${esc(e.name)}</div>
+        <div class="email-badge ${badgeClass}">${badgeLabel}</div>
+      </div>
+      <div class="email-subject">${esc(e.subject)}</div>
+      <div class="email-meta">
+        <div class="email-meta-item">${typeLabel}</div>
+        <div class="email-meta-item">📅 <span class="email-date">${dateInfo}</span></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── SELECT EMAIL ──────────────────────────────────────────────────────────
+function selectEmail(id) {
+  activeId = id;
+  const e = emails.find(x => x.id === id);
+  if (!e) return;
+
+  // Update sidebar active state
+  renderList();
+
+  // Show preview panel
+  document.getElementById('emptyState').style.display = 'none';
+  const content = document.getElementById('previewContent');
+  content.style.display = 'flex';
+  content.style.flexDirection = 'column';
+  content.style.flex = '1';
+  content.style.overflow = 'hidden';
+
+  // Toolbar info
+  document.getElementById('toolbarTitle').textContent = e.name;
+  document.getElementById('toolbarSubtitle').textContent = e.subject;
+
+  // Set iframe src
+  const iframe = document.getElementById('previewIframe');
+  iframe.src = '';
+  requestAnimationFrame(() => { iframe.src = e.file; });
+
+  // Schedule input
+  if (e.scheduledFor) {
+    document.getElementById('scheduleInput').value = toLocalDatetime(e.scheduledFor);
+  }
+
+  // Status modal defaults
+  document.getElementById('statusSelect').value = e.status;
+  document.getElementById('statusDateInput').value = e.scheduledFor ? toLocalDatetime(e.scheduledFor) : (e.sentAt ? toLocalDatetime(e.sentAt) : '');
+  document.getElementById('statusNote').value = e.note || '';
+}
+
+// ── IFRAME RESIZE ─────────────────────────────────────────────────────────
+function resizeIframe(iframe) {
+  try {
+    iframe.style.height = iframe.contentDocument.body.scrollHeight + 32 + 'px';
+  } catch(e) {
+    iframe.style.height = '800px';
+  }
+}
+
+// ── VIEWPORT TOGGLE ───────────────────────────────────────────────────────
+function setViewport(mode) {
+  document.getElementById('frameWrap').className = 'preview-frame-wrap ' + mode;
+  document.querySelectorAll('.vp-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase() === mode));
+}
+
+// ── SCHEDULE ─────────────────────────────────────────────────────────────
+function toggleSchedule() {
+  const bar = document.getElementById('scheduleBar');
+  bar.classList.toggle('show');
+}
+
+function saveSchedule() {
+  const val = document.getElementById('scheduleInput').value;
+  if (!val || !activeId) return;
+  const e = emails.find(x => x.id === activeId);
+  if (!e) return;
+  e.scheduledFor = new Date(val).toISOString();
+  e.status = 'scheduled';
+  saveEmails(emails);
+  renderList();
+}
+
+function confirmSchedule() {
+  saveSchedule();
+  document.getElementById('scheduleBar').classList.remove('show');
+  showStatus('success', '📅 E-mail agendado!');
+}
+
+// ── STATUS MODAL ──────────────────────────────────────────────────────────
+function openStatusModal() {
+  if (!activeId) return;
+  const e = emails.find(x => x.id === activeId);
+  if (!e) return;
+  document.getElementById('statusSelect').value = e.status;
+  document.getElementById('statusDateInput').value = e.scheduledFor ? toLocalDatetime(e.scheduledFor) : (e.sentAt ? toLocalDatetime(e.sentAt) : '');
+  document.getElementById('statusNote').value = e.note || '';
+  document.getElementById('statusModal').classList.add('show');
+}
+
+function closeStatusModal() {
+  document.getElementById('statusModal').classList.remove('show');
+}
+
+function saveStatus() {
+  const e = emails.find(x => x.id === activeId);
+  if (!e) return;
+  const status = document.getElementById('statusSelect').value;
+  const dateVal = document.getElementById('statusDateInput').value;
+  e.status = status;
+  e.note = document.getElementById('statusNote').value;
+  if (status === 'sent') {
+    e.sentAt = dateVal ? new Date(dateVal).toISOString() : new Date().toISOString();
+    e.scheduledFor = null;
+  } else if (status === 'scheduled') {
+    e.scheduledFor = dateVal ? new Date(dateVal).toISOString() : null;
+    e.sentAt = null;
+  } else {
+    e.scheduledFor = null;
+    e.sentAt = null;
+  }
+  saveEmails(emails);
+  renderList();
+  closeStatusModal();
+  // Re-select to refresh toolbar subtitle
+  selectEmail(activeId);
+  showStatus('success', '✅ Estado actualizado');
+}
+
+// ── NEW EMAIL MODAL ───────────────────────────────────────────────────────
+function openNewEmailModal() {
+  document.getElementById('ne-name').value = '';
+  document.getElementById('ne-subject').value = '';
+  document.getElementById('ne-type').value = 'campaign';
+  document.getElementById('ne-file').value = '';
+  document.getElementById('ne-date').value = '';
+  document.getElementById('newEmailModal').classList.add('show');
+}
+
+function closeNewEmailModal() {
+  document.getElementById('newEmailModal').classList.remove('show');
+}
+
+function saveNewEmail() {
+  const name = document.getElementById('ne-name').value.trim();
+  const subject = document.getElementById('ne-subject').value.trim();
+  const file = document.getElementById('ne-file').value.trim();
+  if (!name || !subject) { showStatus('error', 'Nome e assunto são obrigatórios'); return; }
+  const id = 'email-' + Date.now();
+  const dateVal = document.getElementById('ne-date').value;
+  emails.push({
+    id,
+    name,
+    subject,
+    type: document.getElementById('ne-type').value,
+    status: dateVal ? 'scheduled' : 'draft',
+    scheduledFor: dateVal ? new Date(dateVal).toISOString() : null,
+    sentAt: null,
+    note: '',
+    file: file || '#',
+  });
+  saveEmails(emails);
+  renderList();
+  closeNewEmailModal();
+  selectEmail(id);
+  showStatus('success', '✉️ E-mail adicionado');
+}
+
+// ── OPEN EXTERNAL ─────────────────────────────────────────────────────────
+function openExternal() {
+  const e = emails.find(x => x.id === activeId);
+  if (!e) return;
+  window.open(e.file, '_blank');
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+
+function toLocalDatetime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const pad = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function showStatus(type, msg) {
+  const bar = document.getElementById('statusBar');
+  bar.className = 'status-bar show ' + type;
+  bar.textContent = msg;
+  setTimeout(() => bar.classList.remove('show'), 3000);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+renderList();
+// Auto-select first email
+if (emails.length) selectEmail(emails[0].id);
+</script>
+</body>
+</html>

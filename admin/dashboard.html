@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard — Luli Dias Admin</title>
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon-v2.png">
+<link rel="apple-touch-icon" sizes="167x167" href="../apple-touch-icon-167-v2.png">
+<link rel="apple-touch-icon" sizes="152x152" href="../apple-touch-icon-152-v2.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../icon-512-v2.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -14,8 +19,9 @@ body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-seri
 /* Top nav */
 .top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .top-nav-left{display:flex;align-items:center;gap:16px}
-.brand{font-family:Didot,'Bodoni 72','Playfair Display',serif;font-size:18px;letter-spacing:6px;color:var(--ink)}
-.brand-tag{font-size:8px;letter-spacing:3px;color:var(--ink-lt);text-transform:uppercase}
+.brand{display:flex;flex-direction:column;line-height:1;gap:0}
+.brand-name{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:18px;letter-spacing:8px;color:var(--ink);font-weight:400;text-transform:uppercase}
+.brand-tag{font-family:Arial,'Helvetica Neue',sans-serif;font-size:7px;letter-spacing:4px;color:var(--ink-lt);text-transform:uppercase;margin-top:4px}
 .back-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;background:var(--gold-bg);border:1px solid var(--gold-lt);padding:7px 13px;border-radius:24px}
 .range-selector{display:flex;gap:6px}
 .range-btn{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 12px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
@@ -95,9 +101,9 @@ canvas{max-height:280px}
   <nav class="top-nav">
     <div class="top-nav-left">
       <a href="index.html" class="back-link">← Voltar Admin</a>
-      <div>
-        <div class="brand">LULI DIAS</div>
-        <div class="brand-tag">Analytics Dashboard</div>
+      <div class="brand">
+        <span class="brand-name">Luli Dias</span>
+        <span class="brand-tag">Restaurants &amp; Hotels</span>
       </div>
     </div>
     <div class="range-selector">

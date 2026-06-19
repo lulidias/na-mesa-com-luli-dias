@@ -48,6 +48,9 @@ export default {
       if (url.pathname === '/analytics' && request.method === 'GET') {
         return await handleAnalytics(url, env);
       }
+      if (url.pathname === '/leads' && request.method === 'GET') {
+        return await handleLeads(url, env);
+      }
       if (url.pathname === '/' || url.pathname === '/health') {
         return jsonResponse({ ok: true, version: '1.2' });
       }
@@ -605,6 +608,48 @@ async function handleAnalytics(url, env) {
       name: r.dimensions?.userAgentBrowser || 'Unknown',
       pageviews: r.count
     })).filter(r => r.name)
+  });
+}
+
+// ===================== LEADS =====================
+
+async function handleLeads(url, env) {
+  if (!env.MC_API_KEY) {
+    return jsonResponse({ error: 'MC_API_KEY secret not configured in Cloudflare Worker' }, 500);
+  }
+  const listId = env.MC_LIST_ID || '16f5320bea';
+  const offset = parseInt(url.searchParams.get('offset') || '0');
+  const count  = parseInt(url.searchParams.get('count')  || '200');
+
+  const mcUrl = `https://us12.api.mailchimp.com/3.0/lists/${listId}/members`
+    + `?count=${count}&offset=${offset}&sort_field=timestamp_signup&sort_dir=DESC`
+    + `&fields=total_items,members.id,members.email_address,members.merge_fields,members.status,members.timestamp_signup`;
+
+  const resp = await fetch(mcUrl, {
+    headers: {
+      'Authorization': 'Basic ' + btoa('anystring:' + env.MC_API_KEY),
+      'Content-Type': 'application/json',
+    }
+  });
+
+  if (!resp.ok) {
+    const detail = await resp.text();
+    return jsonResponse({ error: 'Mailchimp API error', status: resp.status, detail }, 500);
+  }
+
+  const data = await resp.json();
+  return jsonResponse({
+    total: data.total_items || 0,
+    offset,
+    count,
+    members: (data.members || []).map(m => ({
+      id: m.id,
+      email: m.email_address,
+      fname: (m.merge_fields?.FNAME || '').trim(),
+      lname: (m.merge_fields?.LNAME || '').trim(),
+      status: m.status,
+      signed_up: m.timestamp_signup,
+    }))
   });
 }
 

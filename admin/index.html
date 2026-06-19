@@ -9,10 +9,11 @@
 <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
 
 <!-- iOS App Icon -->
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="167x167" href="apple-touch-icon-167.png">
-<link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon-152.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon-v2.png">
+<link rel="apple-touch-icon" sizes="167x167" href="../apple-touch-icon-167-v2.png">
+<link rel="apple-touch-icon" sizes="152x152" href="../apple-touch-icon-152-v2.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../icon-512-v2.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
 
 <!-- iOS Web App: abrir em fullscreen sem barras -->
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -45,12 +46,12 @@ body{background:var(--cream);color:var(--ink);min-height:100vh}
 
 /* ============ HEADER ============ */
 header{background:var(--white);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:100}
-.brand{display:flex;flex-direction:column;align-items:flex-start;gap:4px;line-height:1}
-.brand-name{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:20px;letter-spacing:8px;color:var(--ink);font-weight:400;padding-left:8px;text-transform:uppercase}
-.brand-tag{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:8px;letter-spacing:3px;color:var(--ink-lt);font-weight:400;text-transform:uppercase}
+.brand{display:flex;flex-direction:column;align-items:flex-start;line-height:1;gap:0}
+.brand-name{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:20px;letter-spacing:8px;color:var(--ink);font-weight:400;text-transform:uppercase}
+.brand-tag{font-family:Arial,'Helvetica Neue',sans-serif;font-size:7px;letter-spacing:4px;color:var(--ink-lt);font-weight:400;text-transform:uppercase;margin-top:4px}
 @media(max-width:640px){
-  .brand-name{font-size:14px;letter-spacing:5px;padding-left:5px}
-  .brand-tag{font-size:6px;letter-spacing:1.8px}
+  .brand-name{font-size:14px;letter-spacing:5px}
+  .brand-tag{font-size:6px;letter-spacing:2px}
 }
 .user-chip{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;padding:6px 14px;border-radius:18px}
 .user-chip.luli{color:var(--gold-dk);background:var(--gold-bg);border:1px solid var(--gold-lt)}
@@ -186,6 +187,39 @@ main{max-width:980px;margin:0 auto;padding:32px}
 
 /* Loading spinner */
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--gold-bg);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle}
+.loading{display:flex;align-items:center;justify-content:center;color:var(--ink-lt);font-size:13px;gap:10px}
+.loading::after{content:'';width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+
+/* ============ HOME CARDS ============ */
+.home-header{text-align:center;padding:48px 0 40px}
+.home-greeting{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--ink-lt);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;font-style:italic}
+.home-title{font-family:'Playfair Display',serif;font-size:36px;color:var(--ink);margin-bottom:6px}
+.home-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs)}
+
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+.cards-grid-2{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:760px){.cards-grid,.cards-grid-2{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.cards-grid,.cards-grid-2{grid-template-columns:1fr}}
+
+.action-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:28px 24px;cursor:pointer;transition:all .22s;display:flex;flex-direction:column;align-items:flex-start;gap:14px;text-decoration:none;color:inherit;position:relative;overflow:hidden}
+.action-card::after{content:'→';position:absolute;bottom:22px;right:22px;font-size:16px;color:var(--border);transition:all .22s}
+.action-card:hover{border-color:var(--gold);box-shadow:0 4px 20px rgba(184,146,42,.12);transform:translateY(-2px)}
+.action-card:hover::after{color:var(--gold);right:18px}
+.action-card.featured{border-color:var(--gold-lt);background:linear-gradient(135deg,#FFFDF7 0%,var(--gold-bg) 100%)}
+.action-card.featured:hover{border-color:var(--gold)}
+.action-card-icon{font-size:30px;line-height:1}
+.action-card-body{flex:1}
+.action-card-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);margin-bottom:5px}
+.action-card-desc{font-size:11px;color:var(--ink-lt);line-height:1.6;font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic}
+.action-card-tag{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700;padding:3px 9px;border-radius:10px;margin-top:8px;display:inline-block}
+.tag-gold{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.tag-bronze{background:var(--bronze-bg);color:var(--bronze-dk);border:1px solid var(--bronze-lt)}
+.tag-neutral{background:var(--cream);color:var(--ink-xs);border:1px solid var(--border)}
+
+/* Back button inside sections */
+.sect-back{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:var(--gold);cursor:pointer;background:none;border:none;font-family:inherit;padding:0;margin-bottom:24px}
+.sect-back:hover{text-decoration:underline}
+.sect-back-wrap{padding-top:8px}
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "267deca0f25fd78caf5c7d0264c49431"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
@@ -210,6 +244,7 @@ main{max-width:980px;margin:0 auto;padding:32px}
   </div>
   <div style="display:flex;align-items:center;gap:14px">
     <a href="dashboard.html" class="back-link">📊 Analytics</a>
+    <a href="emails.html" class="back-link">✉️ E-mails</a>
     <a href="../index.html" class="back-link">← Site</a>
     <div id="user-display" class="user-chip"></div>
     <button class="logout-btn" onclick="logout()">sair</button>
@@ -218,16 +253,68 @@ main{max-width:980px;margin:0 auto;padding:32px}
 
 <main>
 
-<!-- ============ TABS ============ -->
-<div class="tabs">
-  <button class="tab active" data-tab="new" onclick="switchTab('new')">＋ Novo</button>
-  <button class="tab" data-tab="edit" onclick="switchTab('edit')">✎ Editar Existente</button>
-  <button class="tab" data-tab="leads" onclick="switchTab('leads');loadLeads()">👥 Cadastros</button>
-  <button class="tab" data-tab="settings" onclick="switchTab('settings')">⚙ Configurações</button>
-</div>
+<!-- ============ HOME ============ -->
+<section id="sect-home" class="section active">
+  <div class="home-header">
+    <div class="home-greeting" id="homeGreeting">Bem-vindo</div>
+    <div class="home-title">O que vamos fazer hoje?</div>
+    <div class="home-sub">Luli Dias · Restaurants &amp; Hotels · Admin</div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="action-card featured" onclick="switchTab('new')">
+      <div class="action-card-icon">＋</div>
+      <div class="action-card-body">
+        <div class="action-card-title">Novo Estabelecimento</div>
+        <div class="action-card-desc">Adiciona um restaurante ou hotel ao guia — preenche o nome e a cidade, o resto é preenchido automaticamente.</div>
+        <div class="action-card-tag tag-gold">Ação principal</div>
+      </div>
+    </div>
+    <div class="action-card" onclick="switchTab('edit')">
+      <div class="action-card-icon">✎</div>
+      <div class="action-card-body">
+        <div class="action-card-title">Editar Existente</div>
+        <div class="action-card-desc">Procura qualquer restaurante ou hotel do guia para actualizar dados, fotos ou curadores.</div>
+      </div>
+    </div>
+    <div class="action-card" onclick="switchTab('leads');loadLeads()">
+      <div class="action-card-icon">👥</div>
+      <div class="action-card-body">
+        <div class="action-card-title">Cadastros</div>
+        <div class="action-card-desc">Visitantes registados no guia. Gerido pelo Mailchimp — vê contactos, exporta e cria campanhas.</div>
+        <div class="action-card-tag tag-neutral" id="homeLeadsTag">Mailchimp</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid-2">
+    <a class="action-card" href="emails.html">
+      <div class="action-card-icon">✉️</div>
+      <div class="action-card-body">
+        <div class="action-card-title">E-mails</div>
+        <div class="action-card-desc">Pré-visualiza e gere campanhas e e-mails transacionais. Agenda envios e acompanha o estado.</div>
+      </div>
+    </a>
+    <a class="action-card" href="dashboard.html">
+      <div class="action-card-icon">📊</div>
+      <div class="action-card-body">
+        <div class="action-card-title">Analytics</div>
+        <div class="action-card-desc">Visitas, países, páginas mais vistas, dispositivos e tendências do lulidias.com.</div>
+      </div>
+    </a>
+    <div class="action-card" onclick="switchTab('settings')">
+      <div class="action-card-icon">⚙</div>
+      <div class="action-card-body">
+        <div class="action-card-title">Configurações</div>
+        <div class="action-card-desc">Backend, chave de acesso, migração de dados e criação de novos países no guia.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ============ NEW ENTRY ============ -->
-<section id="sect-new" class="section active">
+<section id="sect-new" class="section">
+  <div class="sect-back-wrap"><button class="sect-back" onclick="switchTab('home')">← Voltar</button></div>
   <div class="info-card">
     <div class="info-icon">✨</div>
     <div class="info-text">
@@ -421,6 +508,7 @@ main{max-width:980px;margin:0 auto;padding:32px}
 
 <!-- ============ EDIT EXISTING ============ -->
 <section id="sect-edit" class="section">
+  <div class="sect-back-wrap"><button class="sect-back" onclick="switchTab('home')">← Voltar</button></div>
   <div class="info-card">
     <div class="info-icon">🔍</div>
     <div class="info-text">
@@ -440,6 +528,7 @@ main{max-width:980px;margin:0 auto;padding:32px}
 
 <!-- ============ SETTINGS ============ -->
 <section id="sect-settings" class="section">
+  <div class="sect-back-wrap"><button class="sect-back" onclick="switchTab('home')">← Voltar</button></div>
   <div class="form-card">
     <div class="form-title">Configurações</div>
     <div class="form-sub">Backend + integrações</div>
@@ -515,46 +604,43 @@ main{max-width:980px;margin:0 auto;padding:32px}
 
 <!-- ============ LEADS / CADASTROS ============ -->
 <section id="sect-leads" class="section">
-  <div class="form-card">
-    <div class="form-title">Cadastros do Guia</div>
-    <div class="form-sub">Gerido pelo Mailchimp — Audience "Luli Dias Restaurants &amp; Hotels"</div>
+  <div class="sect-back-wrap"><button class="sect-back" onclick="switchTab('home')">← Voltar</button></div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px 0">
-      <button class="btn btn-primary" onclick="loadLeads()" style="padding:16px;display:flex;flex-direction:column;align-items:center;gap:6px;height:auto">
-        <span style="font-size:24px">👥</span>
-        <span>Ver Contactos</span>
-        <span style="font-size:9px;opacity:.7;letter-spacing:1px;text-transform:uppercase;font-weight:400">Abre no Mailchimp</span>
-      </button>
-      <button class="btn" onclick="exportLeads()" style="padding:16px;display:flex;flex-direction:column;align-items:center;gap:6px;height:auto">
-        <span style="font-size:24px">⤓</span>
-        <span>Exportar CSV</span>
-        <span style="font-size:9px;opacity:.7;letter-spacing:1px;text-transform:uppercase;font-weight:400">Audience completa</span>
-      </button>
-      <a href="https://us12.admin.mailchimp.com/campaigns/wizard/email" target="_blank" class="btn" style="padding:16px;display:flex;flex-direction:column;align-items:center;gap:6px;height:auto;text-decoration:none;text-align:center">
-        <span style="font-size:24px">✉️</span>
-        <span>Enviar Newsletter</span>
-        <span style="font-size:9px;opacity:.7;letter-spacing:1px;text-transform:uppercase;font-weight:400">Nova campanha</span>
-      </a>
+  <!-- KPIs -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px" id="leads-kpis">
+    <div class="form-card" style="padding:20px;text-align:center">
+      <div style="font-size:32px;font-family:'Playfair Display',serif;font-weight:600;color:var(--gold)" id="leads-total">—</div>
+      <div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs);margin-top:4px">Registados</div>
     </div>
-
-    <div style="padding:20px;background:var(--cream);border-radius:6px;border:1px solid var(--border)">
-      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:12px">ℹ Como funciona</div>
-      <ul style="font-size:11px;color:var(--ink-lt);line-height:2;padding-left:18px">
-        <li>Cada visitante preenche nome + e-mail ao clicar num país pela primeira vez</li>
-        <li>Os dados vão directamente para o Mailchimp (campo <strong>NEWSLETTER</strong>: Sim/Não)</li>
-        <li>Quem aceita newsletter fica marcado — pode filtrar em Audience → Segmentos</li>
-        <li>O visitante não volta a ver o modal (guardado no dispositivo)</li>
-      </ul>
+    <div class="form-card" style="padding:20px;text-align:center">
+      <div style="font-size:32px;font-family:'Playfair Display',serif;font-weight:600;color:var(--green)" id="leads-subscribed">—</div>
+      <div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs);margin-top:4px">Subscritos</div>
     </div>
-
-    <div style="margin-top:16px;padding:16px;background:var(--gold-bg);border-radius:6px;border:1px solid var(--border);display:flex;align-items:center;gap:12px">
-      <span style="font-size:20px">🔗</span>
-      <div>
-        <div style="font-size:11px;font-weight:600;margin-bottom:2px">Mailchimp Audience</div>
-        <a href="https://us12.admin.mailchimp.com/audience/contacts/?id=1084893" target="_blank" style="font-size:11px;color:var(--gold)">Luli Dias Hotels &amp; Restaurants → Abrir ↗</a>
-      </div>
+    <div class="form-card" style="padding:20px;text-align:center">
+      <div style="font-size:32px;font-family:'Playfair Display',serif;font-weight:600;color:var(--ink)" id="leads-last">—</div>
+      <div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs);margin-top:4px">Último registo</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;justify-content:center">
+      <a href="https://us12.admin.mailchimp.com/campaigns/wizard/email" target="_blank" class="btn btn-primary" style="text-decoration:none;text-align:center;font-size:10px">✉️ Nova Campanha</a>
+      <button class="btn btn-secondary" onclick="exportLeadsCsv()" style="font-size:10px">⤓ Exportar CSV</button>
     </div>
   </div>
+
+  <!-- Barra de busca -->
+  <div class="search-wrap" style="margin-bottom:16px">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="leads-search" placeholder="Procurar por nome ou e-mail…" oninput="filterLeads()">
+  </div>
+
+  <!-- Lista -->
+  <div class="form-card" style="padding:0;overflow:hidden">
+    <div id="leads-list" style="min-height:200px">
+      <div class="loading" style="padding:48px">A carregar cadastros</div>
+    </div>
+  </div>
+
+  <!-- Paginação -->
+  <div id="leads-pagination" style="display:flex;justify-content:center;gap:10px;margin-top:16px"></div>
 </section>
 
 </main>
@@ -583,10 +669,12 @@ async function login(user) {
   document.getElementById('login-overlay').classList.remove('show');
   updateUserChip();
   selectCurator(user);
-  // Carregar guias e configurações após login
+  // Saudação personalizada
+  const greet = document.getElementById('homeGreeting');
+  if (greet) greet.textContent = user === 'luli' ? 'Olá, Luli 👋' : 'Olá, Tito 👋';
   loadSettings();
   await loadAllGuides();
-  searchEntries();
+  switchTab('home');
 }
 
 function logout() {
@@ -603,11 +691,11 @@ function updateUserChip() {
 
 // ===================== TABS =====================
 function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('sect-' + tab).classList.add('active');
   if (tab === 'edit') searchEntries();
   if (tab === 'settings') updateMigrationStatus();
+  if (tab === 'home') window.scrollTo(0, 0);
 }
 
 // ===================== TYPE / CURATOR =====================
@@ -1243,22 +1331,135 @@ async function init() {
 
   loadSettings();
   await loadAllGuides();
-  searchEntries();
+  switchTab('home');
 }
 
 init();
 
-// ===== CADASTROS / LEADS — Mailchimp =====
-const _MC_LIST_URL = 'https://us12.admin.mailchimp.com/audience/contacts/?id=1084893';
+// ===== CADASTROS / LEADS =====
+let _leadsData = [];    // all loaded
+let _leadsFiltered = []; // after search
+const _LEADS_PAGE = 50;
+let _leadsOffset = 0;
 
-function loadLeads() {
-  // Os contactos vivem no Mailchimp — abre directo
-  window.open(_MC_LIST_URL, '_blank');
+async function loadLeads() {
+  const list = document.getElementById('leads-list');
+  list.innerHTML = '<div class="loading" style="padding:48px">A carregar cadastros</div>';
+
+  if (!STATE.workerUrl || !STATE.workerKey) {
+    list.innerHTML = `<div style="padding:32px;text-align:center;color:var(--ink-lt);font-size:13px;font-family:'Cormorant Garamond',serif;font-style:italic">
+      Backend não configurado. Vai a <button onclick="switchTab('settings')" style="background:none;border:none;color:var(--gold);cursor:pointer;font-family:inherit;font-size:inherit;text-decoration:underline">Configurações</button> e guarda o URL do Worker + chave.
+    </div>`;
+    return;
+  }
+
+  try {
+    const res = await fetch(STATE.workerUrl + '/leads?count=500', {
+      headers: { 'X-Admin-Key': STATE.workerKey }
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: 'HTTP ' + res.status }));
+      throw new Error(err.error || 'HTTP ' + res.status);
+    }
+    const data = await res.json();
+    _leadsData = data.members || [];
+    _leadsFiltered = _leadsData;
+    _leadsOffset = 0;
+
+    // KPIs
+    const subscribed = _leadsData.filter(m => m.status === 'subscribed').length;
+    document.getElementById('leads-total').textContent = data.total ?? _leadsData.length;
+    document.getElementById('leads-subscribed').textContent = subscribed;
+    const last = _leadsData[0];
+    document.getElementById('leads-last').textContent = last
+      ? new Date(last.signed_up).toLocaleDateString('pt-BR', { day:'2-digit', month:'short' })
+      : '—';
+
+    renderLeadsPage();
+  } catch (err) {
+    list.innerHTML = `<div style="padding:32px;text-align:center;color:var(--red);font-size:13px">${escHtml(err.message)}</div>`;
+  }
 }
 
-function exportLeads() {
-  // Exportar via Mailchimp → Audience → Export audience
-  window.open('https://us12.admin.mailchimp.com/lists/members/export?id=1084893', '_blank');
+function filterLeads() {
+  const q = (document.getElementById('leads-search').value || '').toLowerCase().trim();
+  _leadsFiltered = q
+    ? _leadsData.filter(m =>
+        (m.fname + ' ' + m.lname).toLowerCase().includes(q) ||
+        m.email.toLowerCase().includes(q))
+    : _leadsData;
+  _leadsOffset = 0;
+  renderLeadsPage();
+}
+
+function renderLeadsPage() {
+  const page = _leadsFiltered.slice(_leadsOffset, _leadsOffset + _LEADS_PAGE);
+  const list = document.getElementById('leads-list');
+
+  if (!_leadsFiltered.length) {
+    list.innerHTML = `<div style="padding:40px;text-align:center;color:var(--ink-xs);font-size:13px;font-style:italic">Nenhum resultado</div>`;
+    document.getElementById('leads-pagination').innerHTML = '';
+    return;
+  }
+
+  // Table header
+  let html = `<table style="width:100%;border-collapse:collapse">
+    <thead>
+      <tr style="border-bottom:2px solid var(--border)">
+        <th style="padding:12px 20px;text-align:left;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs);font-weight:600">Nome</th>
+        <th style="padding:12px 20px;text-align:left;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs);font-weight:600">E-mail</th>
+        <th style="padding:12px 20px;text-align:left;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs);font-weight:600">Registo</th>
+        <th style="padding:12px 20px;text-align:left;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs);font-weight:600">Estado</th>
+      </tr>
+    </thead>
+    <tbody>`;
+
+  page.forEach((m, i) => {
+    const nome = [m.fname, m.lname].filter(Boolean).join(' ') || '—';
+    const dt = m.signed_up ? new Date(m.signed_up).toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric' }) : '—';
+    const statusColor = m.status === 'subscribed' ? 'var(--green)' : 'var(--ink-xs)';
+    const statusLabel = m.status === 'subscribed' ? 'Subscrito' : m.status === 'unsubscribed' ? 'Removido' : m.status;
+    const bg = i % 2 === 0 ? 'var(--white)' : 'var(--cream)';
+    html += `<tr style="background:${bg};border-bottom:1px solid var(--border)">
+      <td style="padding:13px 20px;font-size:13px;color:var(--ink);font-weight:500">${escHtml(nome)}</td>
+      <td style="padding:13px 20px;font-size:12px;color:var(--ink-lt)">${escHtml(m.email)}</td>
+      <td style="padding:13px 20px;font-size:11px;color:var(--ink-xs)">${dt}</td>
+      <td style="padding:13px 20px"><span style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${statusColor}">${statusLabel}</span></td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  list.innerHTML = html;
+
+  // Paginação
+  const total = _leadsFiltered.length;
+  const pages = Math.ceil(total / _LEADS_PAGE);
+  const cur = Math.floor(_leadsOffset / _LEADS_PAGE);
+  const pag = document.getElementById('leads-pagination');
+  if (pages <= 1) { pag.innerHTML = ''; return; }
+  let pagHtml = '';
+  if (cur > 0) pagHtml += `<button class="btn btn-secondary" onclick="_leadsOffset=${(cur-1)*_LEADS_PAGE};renderLeadsPage()" style="font-size:10px;padding:8px 16px">← Anterior</button>`;
+  pagHtml += `<span style="font-size:11px;color:var(--ink-xs);padding:8px 12px">${_leadsOffset+1}–${Math.min(_leadsOffset+_LEADS_PAGE,total)} de ${total}</span>`;
+  if (cur < pages - 1) pagHtml += `<button class="btn btn-secondary" onclick="_leadsOffset=${(cur+1)*_LEADS_PAGE};renderLeadsPage()" style="font-size:10px;padding:8px 16px">Próxima →</button>`;
+  pag.innerHTML = pagHtml;
+}
+
+function exportLeadsCsv() {
+  if (!_leadsData.length) { showStatus('error', 'Carrega os cadastros primeiro'); return; }
+  const rows = [['Nome','E-mail','Estado','Registo']];
+  _leadsData.forEach(m => {
+    rows.push([
+      [m.fname, m.lname].filter(Boolean).join(' '),
+      m.email, m.status,
+      m.signed_up ? new Date(m.signed_up).toISOString().split('T')[0] : ''
+    ]);
+  });
+  const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g,'""') + '"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'cadastros-lulidias.csv';
+  a.click();
+  showStatus('success', `⤓ CSV exportado (${_leadsData.length} registos)`);
 }
 
 function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }

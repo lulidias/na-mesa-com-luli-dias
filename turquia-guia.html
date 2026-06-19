@@ -181,20 +181,21 @@ footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-
 <body>
 <nav class="top-nav">
   <div class="top-nav-left">
-    <a href="index.html" class="back-link" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}">← Voltar</a>
+    <a href="index.html" class="back-link" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}" data-i18n="back">← Voltar</a>
     <a href="index.html" class="top-nav-brand">
       <span class="top-nav-brand-name">LULI DIAS</span>
       <span class="top-nav-brand-tag">RESTAURANTS &amp; HOTELS</span>
     </a>
   </div>
   <span class="nav-current">Turquia</span>
-    <button class="search-toggle" onclick="toggleSearch()" title="Buscar">
+    <button id="lang-toggle" onclick="toggleLang()" style="background:none;border:1px solid var(--border);color:var(--ink-lt);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;font-weight:600;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;text-transform:uppercase;flex-shrink:0">EN</button>
+  <button class="search-toggle" onclick="toggleSearch()" title="Buscar">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
   </button>
 </nav>
 <div id="searchBar">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-  <input id="searchInput" type="search" placeholder="Buscar restaurante, culinária, bairro…" oninput="doSearch()" autocomplete="off">
+  <input id="searchInput" type="search" placeholder="Buscar restaurante, culinária, bairro…" data-i18n="srch" oninput="doSearch()" autocomplete="off">
   <button id="searchClose" onclick="doCloseSearch()" title="Fechar">✕</button>
 </div>
 <header>
@@ -203,22 +204,22 @@ footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-
   <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
   <div class="header-meta-row"><span class="header-meta">Istambul</span><span class="header-edition">Abril 2026</span></div>
 </header>
-<div class="stats-bar"><div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Restaurantes</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div>
+<div class="stats-bar"><div class="stat"><div class="stat-num">5</div><div class="stat-lbl" data-i18n="sr">Restaurantes</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div>
   <div class="stat"><div class="stat-num">2</div><div class="stat-lbl">Hotel</div></div></div>
 <div class="michelin-legend">
-  <span class="lbadge lm3" onclick="setMichelin('m3',this)">★★★ 3 Estrelas</span><span class="lbadge lm2" onclick="setMichelin('m2',this)">★★ 2 Estrelas</span><span class="lbadge lm1" onclick="setMichelin('m1',this)">★ 1 Estrela</span>
-  <span class="lbadge lbib" onclick="setMichelin('bib',this)">Bib Gourmand</span><span class="lbadge lrec" onclick="setMichelin('rec',this)">Michelin</span><span class="lbadge lhotel" onclick="setMichelin('h',this)">Hospedagem</span>
+  <span class="lbadge lm3" onclick="setMichelin('m3',this)" data-i18n="m3">★★★ 3 Estrelas</span><span class="lbadge lm2" onclick="setMichelin('m2',this)" data-i18n="m2">★★ 2 Estrelas</span><span class="lbadge lm1" onclick="setMichelin('m1',this)" data-i18n="m1">★ 1 Estrela</span>
+  <span class="lbadge lbib" onclick="setMichelin('bib',this)" data-i18n="bib">Bib Gourmand</span><span class="lbadge lrec" onclick="setMichelin('rec',this)" data-i18n="mich">Michelin</span><span class="lbadge lhotel" onclick="setMichelin('h',this)" data-i18n="acc">Hospedagem</span>
 </div>
 <div class="view-toggle">
-  <span class="view-toggle-lbl">Vista:</span>
-  <button class="view-btn active" id="btnList" onclick="showView('list')">Lista</button>
-  <button class="view-btn" id="btnMap" onclick="showView('map')">Mapa</button>
+  <span class="view-toggle-lbl" data-i18n="view">Vista:</span>
+  <button class="view-btn active" id="btnList" onclick="showView('list')" data-i18n="list">Lista</button>
+  <button class="view-btn" id="btnMap" onclick="showView('map')" data-i18n="map">Mapa</button>
 </div>
 <div class="type-bar">
-  <span class="type-lbl">Tipo:</span>
-  <button class="type-btn active" id="typeAll" onclick="setType('all',this)">✦ Todos</button>
-  <button class="type-btn" id="typeR" onclick="setType('r',this)">🍽 Restaurantes</button>
-  <button class="type-btn" id="typeH" onclick="setType('h',this)">🛏 Hotéis</button>
+  <span class="type-lbl" data-i18n="type">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)" data-i18n="all">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)" data-i18n="rest">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)" data-i18n="hot">🛏 Hotéis</button>
 </div>
 <div class="filters" id="filters"></div>
 <div class="cuisine-bar" id="cuisineBar"></div>
@@ -226,16 +227,16 @@ footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-
   <div class="map-sheet">
     <div class="map-title" id="mapName"></div><div class="map-addr-txt" id="mapAddr"></div>
     <div class="map-options">
-      <a class="map-btn" id="btnWaze" href="#" target="_blank"><span class="map-btn-icon">🗺</span><div><strong>Waze</strong><span class="map-btn-sub">Navegar com Waze</span></div></a>
-      <a class="map-btn" id="btnGoogle" href="#" target="_blank"><span class="map-btn-icon">📍</span><div><strong>Google Maps</strong><span class="map-btn-sub">Abrir no Google Maps</span></div></a>
-      <a class="map-btn" id="btnApple" href="#" target="_blank"><span class="map-btn-icon">🍎</span><div><strong>Apple Maps</strong><span class="map-btn-sub">Abrir no Apple Maps</span></div></a>
+      <a class="map-btn" id="btnWaze" href="#" target="_blank"><span class="map-btn-icon">🗺</span><div><strong>Waze</strong><span class="map-btn-sub" data-i18n="waze">Navegar com Waze</span></div></a>
+      <a class="map-btn" id="btnGoogle" href="#" target="_blank"><span class="map-btn-icon">📍</span><div><strong>Google Maps</strong><span class="map-btn-sub" data-i18n="gmaps">Abrir no Google Maps</span></div></a>
+      <a class="map-btn" id="btnApple" href="#" target="_blank"><span class="map-btn-icon">🍎</span><div><strong>Apple Maps</strong><span class="map-btn-sub" data-i18n="apple">Abrir no Apple Maps</span></div></a>
     </div>
-    <button class="map-cancel" onclick="closeMap()">Cancelar</button>
+    <button class="map-cancel" onclick="closeMap()" data-i18n="cancel">Cancelar</button>
   </div>
 </div>
 <main id="main"></main>
 <div id="map" style="display:none"></div>
-<footer><p><a href="index.html" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}">← Voltar</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
+<footer><p><a href="index.html" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}" data-i18n="back">← Voltar</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 
@@ -329,7 +330,7 @@ function render(){
         const badges=(r.t==='h'&&r.k?`<span class="badge bkeys${r.k}">${KEYS[r.k]}</span>`:'')+
                      (r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
                      (r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
-                     (r.h?'<span class="badge">Hospedagem</span>':'');
+                     (r.h?'<span class="badge" data-i18n="acc">Hospedagem</span>':'');
         card.innerHTML=`<div class="card-photo-wrap"><img class="card-photo" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'','${em}')"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc">${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}${r.c?`<div class="curator-badge ${r.c}">✦ por ${r.c==="shared"?"Luli & Tito":(r.c==="tito"?"Tito":"Luli")}</div>`:""}</div>`;
         grid.appendChild(card);
       });
@@ -720,6 +721,51 @@ document.addEventListener('click', function(e) {
   <button class="gallery-arrow next" onclick="galleryNext()" aria-label="Próxima">›</button>
   <div class="gallery-counter" id="galleryCounter">1 / 1</div>
 </div>
-<a class="nearme-cta" href="index.html?nearme=1" aria-label="Restaurantes perto de mim"><span class="nearme-cta-icon"></span> Perto de Mim</a>
+<a class="nearme-cta" href="index.html?nearme=1" aria-label="Restaurantes perto de mim"><span class="nearme-cta-icon"></span><span data-i18n="nm"> Perto de Mim</span></a>
+<script>
+(function(){
+  var T={
+    pt:{back:'← Voltar',srch:'Buscar restaurante, culinária, bairro…',sr:'Restaurantes',sc:'Cidades',sh:'Hotéis',sm:'Michelin',m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',grn:'Estrela Verde',mich:'Michelin',acc:'Hospedagem',view:'Vista:',list:'Lista',map:'Mapa',type:'Tipo:',all:'✦ Todos',rest:'🍽 Restaurantes',hot:'🛏 Hotéis',waze:'Navegar com Waze',gmaps:'Abrir no Google Maps',apple:'Abrir no Apple Maps',cancel:'Cancelar',call:'Todas',nm:' Perto de Mim'},
+    en:{back:'← Back',srch:'Search restaurant, cuisine, neighbourhood…',sr:'Restaurants',sc:'Cities',sh:'Hotels',sm:'Michelin',m3:'★★★ 3 Stars',m2:'★★ 2 Stars',m1:'★ 1 Star',bib:'Bib Gourmand',grn:'Green Star',mich:'Michelin',acc:'Accommodation',view:'View:',list:'List',map:'Map',type:'Type:',all:'✦ All',rest:'🍽 Restaurants',hot:'🛏 Hotels',waze:'Navigate with Waze',gmaps:'Open in Google Maps',apple:'Open in Apple Maps',cancel:'Cancel',call:'All',nm:' Near Me'}
+  };
+  var LANG=localStorage.getItem('ld-lang')||'pt';
+  var t=function(k){return T[LANG][k]||T.pt[k]||k;};
+  function apply(){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.dataset.i18n;
+      if(el.tagName==='INPUT')el.placeholder=t(k);
+      else el.textContent=t(k);
+    });
+    // Dynamic: cuisine bar first btn (Todas/All)
+    document.querySelectorAll('.cuisine-btn').forEach(function(btn){
+      if(btn.textContent.trim()==='Todas'||btn.textContent.trim()==='All')btn.textContent=t('call');
+    });
+    // Dynamic: filter bar first btn (Todas/All)
+    document.querySelectorAll('.filter-btn').forEach(function(btn){
+      if(btn.textContent.trim()==='Todas'||btn.textContent.trim()==='All')btn.textContent=t('call');
+    });
+    document.documentElement.lang=LANG==='pt'?'pt-BR':'en';
+    var btn=document.getElementById('lang-toggle');
+    if(btn)btn.textContent=LANG==='pt'?'EN':'PT';
+  }
+  // Wrap rebuildFilters to re-apply translation after filter rebuild
+  if(typeof window.rebuildFilters==='function'){
+    var _rb=window.rebuildFilters;
+    window.rebuildFilters=function(){_rb();apply();};
+  }
+  // Wrap buildCuisineBar similarly
+  if(typeof window.buildCuisineBar==='function'){
+    var _bc=window.buildCuisineBar;
+    window.buildCuisineBar=function(){_bc();apply();};
+  }
+  // Wrap render so card badges re-translate after filter changes
+  if(typeof window.render==='function'){var _rndr=window.render;window.render=function(){_rndr.apply(this,arguments);apply();};}
+  window.toggleLang=function(){LANG=LANG==='pt'?'en':'pt';localStorage.setItem('ld-lang',LANG);apply();};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);
+  else apply();
+  // Also run after full load to catch async-rendered elements
+  window.addEventListener('load',apply);
+})();
+</script>
 </body>
 </html>
