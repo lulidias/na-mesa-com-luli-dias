@@ -552,6 +552,12 @@ main{max-width:980px;margin:0 auto;padding:32px}
       <div style="font-size:10px;color:var(--ink-xs);margin-top:6px">A mesma chave configurada no Worker como secret <code>ADMIN_KEY</code>.</div>
     </div>
 
+    <div class="field">
+      <label>Chave de cadastros</label>
+      <input type="password" id="broadcast-key" placeholder="••••••••">
+      <div style="font-size:10px;color:var(--ink-xs);margin-top:6px">Chave para listar e contactar os inscritos (Supabase).</div>
+    </div>
+
     <div class="actions">
       <button class="btn btn-primary" onclick="saveSettings()">Guardar</button>
     </div>
@@ -665,6 +671,7 @@ const STATE = {
   allCountries: [],       // List of country files
   workerUrl: '',
   workerKey: '',
+  broadcastSecret: '',
 };
 
 // ===================== AUTH =====================
@@ -1366,17 +1373,21 @@ async function createCountry() {
 function saveSettings() {
   STATE.workerUrl = document.getElementById('worker-url').value.trim().replace(/\/$/, '');
   STATE.workerKey = document.getElementById('worker-key').value.trim();
+  STATE.broadcastSecret = document.getElementById('broadcast-key').value.trim();
   localStorage.setItem('worker_url', STATE.workerUrl);
   localStorage.setItem('worker_key', STATE.workerKey);
+  localStorage.setItem('broadcast_secret', STATE.broadcastSecret);
   showStatus('success', '✅ Configurações guardadas');
 }
 
 function loadSettings() {
   STATE.workerUrl = localStorage.getItem('worker_url') || '';
   STATE.workerKey = localStorage.getItem('worker_key') || '';
+  STATE.broadcastSecret = localStorage.getItem('broadcast_secret') || '';
   if (STATE.workerKey) sessionStorage.setItem('LULI_ADMIN_KEY', STATE.workerKey);
   document.getElementById('worker-url').value = STATE.workerUrl;
   document.getElementById('worker-key').value = STATE.workerKey;
+  document.getElementById('broadcast-key').value = STATE.broadcastSecret;
 }
 
 function updateMigrationStatus() {
@@ -1426,30 +1437,32 @@ async function loadLeads() {
   const list = document.getElementById('leads-list');
   list.innerHTML = '<div class="loading" style="padding:48px">A carregar cadastros</div>';
 
-  if (!STATE.workerUrl || !STATE.workerKey) {
+  const secret = STATE.broadcastSecret;
+  if (!secret) {
     list.innerHTML = `<div style="padding:32px;text-align:center;color:var(--ink-lt);font-size:13px;font-family:'Cormorant Garamond',serif;font-style:italic">
-      Backend não configurado. Vai a <button onclick="switchTab('settings')" style="background:none;border:none;color:var(--gold);cursor:pointer;font-family:inherit;font-size:inherit;text-decoration:underline">Configurações</button> e guarda o URL do Worker + chave.
+      Chave de cadastros não configurada. Vai a <button onclick="switchTab('settings')" style="background:none;border:none;color:var(--gold);cursor:pointer;font-family:inherit;font-size:inherit;text-decoration:underline">Configurações</button> e guarda a chave.
     </div>`;
     return;
   }
 
   try {
-    const res = await fetch(STATE.workerUrl + '/leads?count=500', {
-      headers: { 'X-Admin-Key': STATE.workerKey }
+    const res = await fetch('https://saotncritqxuchsvvnzi.supabase.co/functions/v1/guia-broadcast', {
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${secret}` }
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({ error: 'HTTP ' + res.status }));
       throw new Error(err.error || 'HTTP ' + res.status);
     }
     const data = await res.json();
-    _leadsData = data.members || [];
+    _leadsData = (data.members || []).map(m => ({
+      email: m.email, fname: '', lname: '', status: 'subscribed', signed_up: m.created_at
+    }));
     _leadsFiltered = _leadsData;
     _leadsOffset = 0;
 
-    // KPIs
-    const subscribed = _leadsData.filter(m => m.status === 'subscribed').length;
     document.getElementById('leads-total').textContent = data.total ?? _leadsData.length;
-    document.getElementById('leads-subscribed').textContent = subscribed;
+    document.getElementById('leads-subscribed').textContent = _leadsData.length;
     const last = _leadsData[0];
     document.getElementById('leads-last').textContent = last
       ? new Date(last.signed_up).toLocaleDateString('pt-BR', { day:'2-digit', month:'short' })
