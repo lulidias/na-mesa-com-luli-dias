@@ -82,6 +82,11 @@ html,body{min-height:100%;background:var(--cream);color:var(--ink);font-family:'
 .email-btn{padding:15px 30px;background:var(--gold);color:var(--white);border:none;border-radius:30px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;cursor:pointer}
 .email-btn:hover{background:var(--white);color:var(--ink)}
 .signup-success{background:#1a3a1a;border:1px solid #2a5a2a;border-radius:10px;padding:20px;color:#7ec97e;display:none;max-width:520px;margin:24px auto 0;font-size:14px}
+.lang-toggle{display:flex;justify-content:center;margin-bottom:24px}
+.lang-btn{padding:6px 20px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:1px solid #444;background:transparent;color:#777;cursor:pointer;transition:all .2s}
+.lang-btn:first-child{border-radius:20px 0 0 20px}
+.lang-btn:last-child{border-radius:0 20px 20px 0;border-left:none}
+.lang-btn.active{background:var(--gold);border-color:var(--gold);color:#fff}
 
 /* FAQ */
 .faq{padding:80px 0}
@@ -473,13 +478,15 @@ footer a{color:var(--gold-lt);text-decoration:none;margin:0 10px}
   <div class="container">
     <h2>Lista de <em>early access</em></h2>
     <p>Os primeiros utilizadores recebem um cupão de 30 dias gratuitos antes do lançamento oficial. Deixa o teu email — avisamos pessoalmente quando o site abrir.</p>
+    <div class="lang-toggle">
+      <button type="button" class="lang-btn active" id="langPT" onclick="setLang('pt')">PT</button>
+      <button type="button" class="lang-btn" id="langEN" onclick="setLang('en')">EN</button>
+    </div>
     <form class="email-form" onsubmit="signup(event)">
       <input type="email" class="email-input" id="emailInput" placeholder="O teu melhor email" required>
-      <button type="submit" class="email-btn">Quero ser avisado →</button>
+      <button type="submit" class="email-btn" id="signupBtn">Quero ser avisado →</button>
     </form>
-    <div class="signup-success" id="signupSuccess">
-      ✓ Email registado. Vais receber em breve um email do Luli com mais detalhes.
-    </div>
+    <div class="signup-success" id="signupSuccess"></div>
   </div>
 </section>
 
@@ -550,9 +557,23 @@ footer a{color:var(--gold-lt);text-decoration:none;margin:0 10px}
 </footer>
 
 <script>
+const _copy = {
+  pt: { placeholder: 'O teu melhor email', btn: 'Quero ser avisado →', success: '✓ Email registado. Vais receber em breve um email do Luli com mais detalhes.', err: 'Algo correu mal. Tenta novamente ou envia um email para lulidias@me.com' },
+  en: { placeholder: 'Your best email', btn: 'Notify me →', success: '✓ Email registered. You\'ll receive an email from Luli with more details soon.', err: 'Something went wrong. Please try again or email lulidias@me.com' }
+};
+let _lang = 'pt';
+
+function setLang(lang) {
+  _lang = lang;
+  document.getElementById('langPT').classList.toggle('active', lang === 'pt');
+  document.getElementById('langEN').classList.toggle('active', lang === 'en');
+  document.getElementById('emailInput').placeholder = _copy[lang].placeholder;
+  document.getElementById('signupBtn').textContent = _copy[lang].btn;
+}
+
 async function signup(e){
   e.preventDefault();
-  const btn   = e.target.querySelector('button[type="submit"]');
+  const btn   = document.getElementById('signupBtn');
   const email = document.getElementById('emailInput').value.trim();
 
   btn.disabled = true;
@@ -562,24 +583,26 @@ async function signup(e){
     const res = await fetch('https://saotncritqxuchsvvnzi.supabase.co/functions/v1/guia-waitlist', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
+      body: JSON.stringify({ email, lang: _lang })
     });
 
     if (res.ok) {
-      document.getElementById('signupSuccess').style.display = 'block';
+      const el = document.getElementById('signupSuccess');
+      el.textContent = _copy[_lang].success;
+      el.style.display = 'block';
       document.getElementById('emailInput').value = '';
     } else {
       throw new Error('status ' + res.status);
     }
   } catch(err) {
-    alert('Algo correu mal. Tenta novamente ou envia um email para lulidias@me.com');
+    alert(_copy[_lang].err);
     btn.disabled = false;
-    btn.textContent = 'Quero ser avisado →';
+    btn.textContent = _copy[_lang].btn;
     return;
   }
 
   btn.disabled = false;
-  btn.textContent = 'Quero ser avisado →';
+  btn.textContent = _copy[_lang].btn;
 }
 </script>
 <script>
