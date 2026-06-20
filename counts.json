@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 990,
+    "restaurants": 991,
     "hotels": 153,
     "markets": 12,
     "m1": 43,
@@ -704,7 +704,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 455,
+      "restaurants": 456,
       "hotels": 49,
       "markets": 0,
       "cities": 39,
@@ -780,7 +780,7 @@
       "keysEntries": 16
     },
     "brasil-sul": {
-      "restaurants": 72,
+      "restaurants": 73,
       "hotels": 8,
       "markets": 0,
       "cities": 12,
@@ -876,7 +876,7 @@
       "cities": 8
     },
     "Rio Grande do Sul": {
-      "restaurants": 46,
+      "restaurants": 48,
       "hotels": 8,
       "cities": 8
     }
