@@ -248,14 +248,14 @@ main{max-width:980px;margin:0 auto;padding:32px}
 
 <!-- ============ HEADER ============ -->
 <header>
-  <div class="brand">
-    <span class="brand-name">Luli Dias</span>
-    <span class="brand-tag">Restaurants &amp; Hotels</span>
+  <div style="display:flex;align-items:center;gap:16px">
+    <button id="header-back" class="sect-back" onclick="switchTab('home')" style="display:none;margin-bottom:0">← Voltar</button>
+    <div class="brand" id="header-brand">
+      <span class="brand-name">Luli Dias</span>
+      <span class="brand-tag">Restaurants &amp; Hotels</span>
+    </div>
   </div>
   <div style="display:flex;align-items:center;gap:14px">
-    <a href="dashboard.html" class="back-link">📊 Analytics</a>
-    <a href="emails.html" class="back-link">✉️ E-mails</a>
-    <a href="../index.html" class="back-link">← Site</a>
     <div id="user-display" class="user-chip"></div>
     <button class="logout-btn" onclick="logout()">sair</button>
   </div>
@@ -324,7 +324,6 @@ main{max-width:980px;margin:0 auto;padding:32px}
 
 <!-- ============ NEW ENTRY ============ -->
 <section id="sect-new" class="section">
-  <div class="sect-back-wrap"><button class="sect-back" onclick="switchTab('home')">← Voltar</button></div>
   <div class="info-card">
     <div class="info-icon">✨</div>
     <div class="info-text">
@@ -518,7 +517,6 @@ main{max-width:980px;margin:0 auto;padding:32px}
 
 <!-- ============ EDIT EXISTING ============ -->
 <section id="sect-edit" class="section">
-  <div class="sect-back-wrap"><button class="sect-back" onclick="switchTab('home')">← Voltar</button></div>
   <div class="info-card">
     <div class="info-icon">🔍</div>
     <div class="info-text">
@@ -538,7 +536,6 @@ main{max-width:980px;margin:0 auto;padding:32px}
 
 <!-- ============ SETTINGS ============ -->
 <section id="sect-settings" class="section">
-  <div class="sect-back-wrap"><button class="sect-back" onclick="switchTab('home')">← Voltar</button></div>
   <div class="form-card">
     <div class="form-title">Configurações</div>
     <div class="form-sub">Backend + integrações</div>
@@ -614,7 +611,6 @@ main{max-width:980px;margin:0 auto;padding:32px}
 
 <!-- ============ LEADS / CADASTROS ============ -->
 <section id="sect-leads" class="section">
-  <div class="sect-back-wrap"><button class="sect-back" onclick="switchTab('home')">← Voltar</button></div>
 
   <!-- KPIs -->
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px" id="leads-kpis">
@@ -705,7 +701,10 @@ function switchTab(tab) {
   document.getElementById('sect-' + tab).classList.add('active');
   if (tab === 'edit') searchEntries();
   if (tab === 'settings') updateMigrationStatus();
-  if (tab === 'home') window.scrollTo(0, 0);
+  const isHome = tab === 'home';
+  document.getElementById('header-back').style.display = isHome ? 'none' : '';
+  document.getElementById('header-brand').style.display = isHome ? '' : 'none';
+  if (isHome) window.scrollTo(0, 0);
 }
 
 // ===================== TYPE / CURATOR =====================
