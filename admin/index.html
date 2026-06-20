@@ -1295,6 +1295,7 @@ function saveSettings() {
 function loadSettings() {
   STATE.workerUrl = localStorage.getItem('worker_url') || '';
   STATE.workerKey = localStorage.getItem('worker_key') || '';
+  if (STATE.workerKey) sessionStorage.setItem('LULI_ADMIN_KEY', STATE.workerKey);
   document.getElementById('worker-url').value = STATE.workerUrl;
   document.getElementById('worker-key').value = STATE.workerKey;
 }

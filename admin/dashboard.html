@@ -192,30 +192,21 @@ document.getElementById('loginKey').addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
 });
 
-async function testAndShow(fromForm) {
-  try {
-    const r = await fetch(`${WORKER_URL}/health`, { headers: { 'X-Admin-Key': adminKey } });
-    if (r.status === 401) {
-      adminKey = '';
-      localStorage.removeItem('worker_key');
-      sessionStorage.removeItem('LULI_ADMIN_KEY');
-      document.getElementById('loginError').style.display = 'block';
-      document.getElementById('loginKey').value = '';
-      return;
-    }
-    // Chave válida — guarda e abre o dashboard
-    localStorage.setItem('worker_key', fromForm ? document.getElementById('loginKey').value.trim() : adminKey);
-    sessionStorage.setItem('LULI_ADMIN_KEY', adminKey);
-    document.getElementById('loginOverlay').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    loadAnalytics('7d');
-  } catch (err) {
-    document.getElementById('loginError').textContent = 'Erro: ' + err.message;
-    document.getElementById('loginError').style.display = 'block';
-  }
+function showDashboard(key) {
+  adminKey = key;
+  localStorage.setItem('worker_key', key);
+  sessionStorage.setItem('LULI_ADMIN_KEY', key);
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadAnalytics('7d');
 }
 
-if (adminKey) testAndShow();
+function doLogin() {
+  const v = document.getElementById('loginKey').value.trim();
+  if (v) showDashboard(v);
+}
+
+if (adminKey) showDashboard(adminKey);
 
 // ====== ANALYTICS ======
 async function loadAnalytics(range) {
