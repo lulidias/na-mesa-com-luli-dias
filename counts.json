@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 992,
+    "restaurants": 993,
     "hotels": 152,
     "markets": 12,
     "m1": 43,
@@ -704,7 +704,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 457,
+      "restaurants": 458,
       "hotels": 48,
       "markets": 0,
       "cities": 39,
@@ -723,7 +723,7 @@
       "keysEntries": 24
     },
     "brasil-centroeste": {
-      "restaurants": 38,
+      "restaurants": 39,
       "hotels": 5,
       "markets": 0,
       "cities": 4,
@@ -797,6 +797,88 @@
       "totalKeys": 5,
       "michelin": 0,
       "keysEntries": 4
+    }
+  },
+  "states": {
+    "Distrito Federal": {
+      "restaurants": 44,
+      "hotels": 4,
+      "cities": 2
+    },
+    "Mato Grosso": {
+      "restaurants": 10,
+      "hotels": 4,
+      "cities": 4
+    },
+    "Goiás": {
+      "restaurants": 24,
+      "hotels": 2,
+      "cities": 2
+    },
+    "Ceará": {
+      "restaurants": 16,
+      "hotels": 2,
+      "cities": 2
+    },
+    "Paraíba": {
+      "restaurants": 6,
+      "hotels": 2,
+      "cities": 2
+    },
+    "Alagoas": {
+      "restaurants": 14,
+      "hotels": 0,
+      "cities": 2
+    },
+    "Rio Grande do Norte": {
+      "restaurants": 4,
+      "hotels": 6,
+      "cities": 4
+    },
+    "Pernambuco": {
+      "restaurants": 70,
+      "hotels": 10,
+      "cities": 12
+    },
+    "Bahia": {
+      "restaurants": 32,
+      "hotels": 6,
+      "cities": 4
+    },
+    "São Paulo": {
+      "restaurants": 422,
+      "hotels": 18,
+      "cities": 10
+    },
+    "Minas Gerais": {
+      "restaurants": 16,
+      "hotels": 2,
+      "cities": 2
+    },
+    "Rio de Janeiro": {
+      "restaurants": 88,
+      "hotels": 24,
+      "cities": 6
+    },
+    "Espírito Santo": {
+      "restaurants": 20,
+      "hotels": 2,
+      "cities": 2
+    },
+    "Paraná": {
+      "restaurants": 48,
+      "hotels": 4,
+      "cities": 8
+    },
+    "Santa Catarina": {
+      "restaurants": 50,
+      "hotels": 4,
+      "cities": 8
+    },
+    "Rio Grande do Sul": {
+      "restaurants": 52,
+      "hotels": 6,
+      "cities": 8
     }
   }
 }

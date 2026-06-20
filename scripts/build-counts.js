@@ -36,6 +36,7 @@ if (brasilFiles.length > 0) {
 
 const totals = { restaurants: 0, hotels: 0, markets: 0, m1: 0, m2: 0, m3: 0, bib: 0, green: 0, rec: 0, keys1: 0, keys2: 0, keys3: 0, countries: 0 };
 const countries = {};
+const states = {}; // Per-state breakdown for Brasil cards in brasil-index.html
 
 for (const source of guideSources) {
   const slug = source.slug;
@@ -79,6 +80,14 @@ for (const source of guideSources) {
   for (const city of CITIES) {
     if (!city || !city.entries || city.entries.length === 0) continue;
     country.cities++;
+
+    // Per-state breakdown (Brasil only)
+    if (city.region && source.files.some(f => f.startsWith('brasil-'))) {
+      const stateKey = city.region;
+      if (!states[stateKey]) states[stateKey] = { restaurants: 0, hotels: 0, cities: 0 };
+      states[stateKey].cities++;
+    }
+
     for (const r of city.entries) {
       if (!r) continue;
       if (r.pending) continue;  // pending entries don't count toward stats
@@ -88,11 +97,14 @@ for (const source of guideSources) {
         if (r.k === 1) country.keys1++;
         else if (r.k === 2) country.keys2++;
         else if (r.k === 3) country.keys3++;
+        if (city.region && source.files.some(f => f.startsWith('brasil-'))) states[city.region].hotels = (states[city.region].hotels || 0) + 1;
       } else if (r.t === 'm') {
         country.markets++;
         country.restaurants++;
+        if (city.region && source.files.some(f => f.startsWith('brasil-'))) states[city.region].restaurants = (states[city.region].restaurants || 0) + 1;
       } else {
         country.restaurants++;
+        if (city.region && source.files.some(f => f.startsWith('brasil-'))) states[city.region].restaurants = (states[city.region].restaurants || 0) + 1;
       }
       if (r.m === 'm1') country.m1++;
       else if (r.m === 'm2') country.m2++;
@@ -129,7 +141,8 @@ totals.keysEntries = totals.keys1 + totals.keys2 + totals.keys3;
 // entre commits locais e o GitHub Action.
 const output = {
   totals,
-  countries
+  countries,
+  states
 };
 
 const outPath = path.join(ROOT, 'counts.json');
