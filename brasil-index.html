@@ -147,18 +147,18 @@ footer a{color:var(--gold);text-decoration:none}
       <span class="top-nav-brand-tag">RESTAURANTS &amp; HOTELS</span>
     </a>
   </div>
-  <span class="nav-current">Brasil</span>
+  <span class="nav-current" data-en="Brazil">Brasil</span>
   <button id="lang-toggle" onclick="toggleLang()" style="background:none;border:1px solid var(--border);color:var(--ink-lt);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;font-weight:600;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;text-transform:uppercase;flex-shrink:0">EN</button>
   
 </nav>
 
 <header>
   <div class="brand-mast">LULI DIAS  ·  RESTAURANTS &amp; HOTELS</div>
-  <div class="brand-country">Brasil</div>
+  <div class="brand-country" data-en="Brazil">Brasil</div>
   <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
   <div class="header-meta-row">
-    <span class="header-meta">Nordeste · Centro-Oeste · Sul · Sudeste</span>
-    <span class="header-edition">Abril 2026</span>
+    <span class="header-meta" data-en="Northeast · Midwest · South · Southeast">Nordeste · Centro-Oeste · Sul · Sudeste</span>
+    <span class="header-edition" data-en="April 2026">Abril 2026</span>
   </div>
 </header>
 
@@ -559,6 +559,7 @@ document.addEventListener('click', function(e) {
     document.querySelectorAll('.filter-btn').forEach(function(btn){
       if(btn.textContent.trim()==='Todas'||btn.textContent.trim()==='All')btn.textContent=t('call');
     });
+    document.querySelectorAll('[data-en]').forEach(function(el){if(!el.dataset.pt)el.dataset.pt=el.textContent.trim();el.textContent=LANG==='en'?el.dataset.en:el.dataset.pt;});
     document.documentElement.lang=LANG==='pt'?'pt-BR':'en';
     var btn=document.getElementById('lang-toggle');
     if(btn)btn.textContent=LANG==='pt'?'EN':'PT';
