@@ -185,33 +185,27 @@ function doLogin() {
   const v = document.getElementById('loginKey').value.trim();
   if (!v) return;
   adminKey = v;
-  // Salva nas duas chaves para compatibilidade com admin/index.html
-  localStorage.setItem('worker_key', v);
-  sessionStorage.setItem('LULI_ADMIN_KEY', v);
-  testAndShow();
+  testAndShow(true);
 }
 
 document.getElementById('loginKey').addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
 });
 
-async function testAndShow() {
-  // Test by calling /health (any endpoint that returns 401 if wrong key)
+async function testAndShow(fromForm) {
   try {
     const r = await fetch(`${WORKER_URL}/health`, { headers: { 'X-Admin-Key': adminKey } });
     if (r.status === 401) {
-      // Se chegou aqui via admin com chave inválida, redireciona pro admin
-      if (localStorage.getItem('worker_key')) {
-        // Chave do admin não funciona — limpa e força re-login no admin
-        localStorage.removeItem('worker_key');
-        window.location.href = 'index.html';
-        return;
-      }
-      document.getElementById('loginError').style.display = 'block';
       adminKey = '';
+      localStorage.removeItem('worker_key');
       sessionStorage.removeItem('LULI_ADMIN_KEY');
+      document.getElementById('loginError').style.display = 'block';
+      document.getElementById('loginKey').value = '';
       return;
     }
+    // Chave válida — guarda e abre o dashboard
+    localStorage.setItem('worker_key', fromForm ? document.getElementById('loginKey').value.trim() : adminKey);
+    sessionStorage.setItem('LULI_ADMIN_KEY', adminKey);
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     loadAnalytics('7d');
