@@ -128,10 +128,11 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
 
   // Autorização
-  let secret: string;
+  let secret: string, importEmails: string[] | undefined;
   try {
     const body = await req.json();
     secret = body?.secret ?? "";
+    importEmails = Array.isArray(body?.emails) ? body.emails : undefined;
   } catch {
     return json({ error: "json_invalido" }, 400);
   }
@@ -140,7 +141,28 @@ Deno.serve(async (req) => {
     return json({ error: "nao_autorizado" }, 401);
   }
 
-  // Ler todos os inscritos
+  // Se foram passados e-mails, inseri-los primeiro no Supabase
+  if (importEmails && importEmails.length > 0) {
+    const rows = importEmails.map(e => ({ email: e.trim().toLowerCase() }));
+    const insRes = await fetch(`${SUPABASE_URL}/rest/v1/guia_waitlist?on_conflict=email`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_SERVICE_KEY,
+        "Authorization": `Bearer ${SUPABASE_SERVICE_KEY}`,
+        "Prefer": "resolution=ignore-duplicates,return=minimal",
+      },
+      body: JSON.stringify(rows),
+    });
+    if (!insRes.ok) {
+      const err = await insRes.text();
+      console.error("Import insert error:", insRes.status, err);
+      return json({ error: "erro_ao_importar", status: insRes.status, detail: err }, 500);
+    }
+    console.log("Import insert ok:", insRes.status, "rows:", rows.length);
+  }
+
+  // Ler todos os inscritos do Supabase
   const listRes = await fetch(`${SUPABASE_URL}/rest/v1/guia_waitlist?select=email&order=created_at.asc`, {
     headers: {
       "apikey": SUPABASE_SERVICE_KEY,
