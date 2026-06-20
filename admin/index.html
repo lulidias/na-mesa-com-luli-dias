@@ -160,6 +160,16 @@ main{max-width:980px;margin:0 auto;padding:32px}
 .result-curator.luli{color:var(--gold-dk);background:var(--gold-bg);border:1px solid var(--gold-lt)}
 .result-curator.tito{color:var(--bronze-dk);background:var(--bronze-bg);border:1px solid var(--bronze-lt)}
 .result-curator.shared{color:#7d5500;background:linear-gradient(90deg,var(--gold-bg) 0%,var(--bronze-bg) 100%);border:1px solid var(--bronze-lt)}
+.country-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+@media(max-width:760px){.country-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.country-grid{grid-template-columns:1fr}}
+.country-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:16px 14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px}
+.country-card:hover{border-color:var(--gold);background:var(--gold-bg);transform:translateY(-1px)}
+.country-card-flag{font-size:24px;line-height:1;flex-shrink:0}
+.country-card-name{font-family:'Playfair Display',serif;font-size:14px;color:var(--ink);margin-bottom:2px}
+.country-card-count{font-size:9px;color:var(--ink-xs);letter-spacing:1px;text-transform:uppercase}
+.city-section{margin-bottom:20px}
+.city-header{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs);font-weight:700;padding:8px 0 10px;border-bottom:1px solid var(--border);margin-bottom:8px}
 
 /* ============ STATUS / TOAST ============ */
 .status-bar{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:14px 24px;border-radius:28px;font-size:12px;letter-spacing:1px;display:none;align-items:center;gap:12px;z-index:1000;box-shadow:0 8px 32px rgba(0,0,0,.3)}
@@ -1175,19 +1185,21 @@ function searchEntries() {
     return;
   }
 
-  let filtered = q ? STATE.allEntries.filter(e =>
+  if (!q) { renderCountryGrid(); return; }
+
+  const filtered = STATE.allEntries.filter(e =>
     (e.n||'').toLowerCase().includes(q) ||
     (e.city||'').toLowerCase().includes(q) ||
     (e.countryLabel||'').toLowerCase().includes(q) ||
     (e.a||'').toLowerCase().includes(q)
-  ) : STATE.allEntries.slice(0, 50);
+  );
 
   if (filtered.length === 0) {
     results.innerHTML = `<div style="text-align:center;padding:32px;color:var(--ink-xs);font-size:13px;font-family:'Cormorant Garamond',serif;font-style:italic">Nenhum resultado para "${q}"</div>`;
     return;
   }
 
-  results.innerHTML = filtered.slice(0, 50).map(e => {
+  results.innerHTML = filtered.slice(0, 60).map(e => {
     const flag = (e.countryLabel || '').match(/[\u{1F1E6}-\u{1F1FF}]{2}/u);
     const c = e.c || 'luli';
     const cLabel = c === 'shared' ? 'Luli & Tito' : (c === 'tito' ? 'Tito' : 'Luli');
@@ -1195,14 +1207,82 @@ function searchEntries() {
       <div class="result-flag">${flag ? flag[0] : '📍'}</div>
       <div class="result-info">
         <div class="result-name">${e.n || ''}${e.t==='h'?' 🛏':''}</div>
-        <div class="result-meta">${e.city || ''} · ${(e.countryLabel || '').replace(/[\u{1F1E6}-\u{1F1FF}]{2}/gu, '').trim()} · ${e.q || ''}</div>
+        <div class="result-meta">${e.city||''} · ${(e.countryLabel||'').replace(/[\u{1F1E6}-\u{1F1FF}]{2}/gu,'').replace(/\(.*\)/,'').trim()} · ${e.q||''}</div>
       </div>
       <div class="result-curator ${c}">${cLabel}</div>
     </div>`;
   }).join('');
-  if (filtered.length > 50) {
-    results.innerHTML += `<div style="text-align:center;padding:16px;color:var(--ink-xs);font-size:11px">+${filtered.length - 50} resultados — refina a busca</div>`;
+  if (filtered.length > 60) {
+    results.innerHTML += `<div style="text-align:center;padding:16px;color:var(--ink-xs);font-size:11px">+${filtered.length - 60} resultados — refina a busca</div>`;
   }
+}
+
+function renderCountryGrid() {
+  const results = document.getElementById('search-results');
+  const byCountry = {};
+  STATE.allEntries.forEach(e => {
+    if (!byCountry[e.country]) byCountry[e.country] = { label: e.countryLabel, r: 0, h: 0 };
+    if (e.t === 'h') byCountry[e.country].h++; else byCountry[e.country].r++;
+  });
+  const sorted = Object.entries(byCountry).sort((a,b) =>
+    (a[1].label||'').localeCompare(b[1].label||'', 'pt')
+  );
+  let html = '<div class="country-grid">';
+  sorted.forEach(([key, data]) => {
+    const flag = (data.label||'').match(/[\u{1F1E6}-\u{1F1FF}]{2}/u);
+    const name = (data.label||'').replace(/[\u{1F1E6}-\u{1F1FF}]{2}/gu,'').replace(/\(.*\)/,'').trim();
+    const parts = [data.r ? `${data.r} rest.` : '', data.h ? `${data.h} hot.` : ''].filter(Boolean).join(' · ');
+    html += `<div class="country-card" onclick="renderCountryDetail('${key}')">
+      <div class="country-card-flag">${flag ? flag[0] : '📍'}</div>
+      <div>
+        <div class="country-card-name">${name}</div>
+        <div class="country-card-count">${parts}</div>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  results.innerHTML = html;
+}
+
+function renderCountryDetail(countryKey) {
+  const results = document.getElementById('search-results');
+  const entries = STATE.allEntries.filter(e => e.country === countryKey);
+  if (!entries.length) return;
+  const label = entries[0].countryLabel || countryKey;
+  const flag = (label).match(/[\u{1F1E6}-\u{1F1FF}]{2}/u);
+  const name = label.replace(/[\u{1F1E6}-\u{1F1FF}]{2}/gu,'').replace(/\(.*\)/,'').trim();
+
+  const byCity = {};
+  entries.forEach(e => {
+    if (!byCity[e.city]) byCity[e.city] = [];
+    byCity[e.city].push(e);
+  });
+
+  let html = `<div style="margin-bottom:20px">
+    <button class="sect-back" onclick="renderCountryGrid()" style="margin-bottom:14px">← Todos os países</button>
+    <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--ink)">${flag?flag[0]:''} ${name}</div>
+    <div style="font-size:9px;color:var(--ink-xs);letter-spacing:2px;text-transform:uppercase;margin-top:4px">${entries.length} estabelecimentos</div>
+  </div>`;
+
+  Object.entries(byCity).sort((a,b) => a[0].localeCompare(b[0],'pt')).forEach(([city, cityEntries]) => {
+    html += `<div class="city-section"><div class="city-header">${city}</div>`;
+    cityEntries.forEach(e => {
+      const c = e.c || 'luli';
+      const cLabel = c === 'shared' ? 'Luli & Tito' : (c === 'tito' ? 'Tito' : 'Luli');
+      const safeN = (e.n||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      const safeCity = (city||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      html += `<div class="result-item" onclick="loadForEdit('${countryKey}','${safeN}','${safeCity}')">
+        <div class="result-flag">${e.t==='h'?'🛏':'🍽'}</div>
+        <div class="result-info">
+          <div class="result-name">${e.n||''}</div>
+          <div class="result-meta">${e.q||''}</div>
+        </div>
+        <div class="result-curator ${c}">${cLabel}</div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  results.innerHTML = html;
 }
 
 function loadForEdit(country, name, city) {
