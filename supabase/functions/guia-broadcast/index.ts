@@ -168,7 +168,7 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         from: EMAIL_FROM,
         to: [row.email],
-        subject: "Na Mesa com Luli Dias — você está na lista",
+        subject: "Luli Dias Restaurants & Hotels — você está na lista",
         html: EMAIL_HTML,
       }),
     });

@@ -300,8 +300,8 @@ Deno.serve(async (req) => {
         from: EMAIL_FROM,
         to: [email],
         subject: lang === "en"
-          ? "Na Mesa com Luli Dias — you're on the list"
-          : "Na Mesa com Luli Dias — você está na lista",
+          ? "Luli Dias Restaurants & Hotels — you're on the list"
+          : "Luli Dias Restaurants & Hotels — você está na lista",
         html: lang === "en" ? EMAIL_HTML_EN : EMAIL_HTML,
       }),
     });
