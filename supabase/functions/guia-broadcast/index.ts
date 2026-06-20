@@ -125,6 +125,29 @@ const EMAIL_HTML = `<!DOCTYPE html>
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+
+  // GET /guia-broadcast — lista todos os inscritos (protegido pelo mesmo secret)
+  if (req.method === "GET") {
+    const auth = req.headers.get("Authorization") ?? "";
+    if (!BROADCAST_SECRET || auth !== `Bearer ${BROADCAST_SECRET}`) {
+      return json({ error: "nao_autorizado" }, 401);
+    }
+    const listRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/guia_waitlist?select=email,created_at&order=created_at.desc`,
+      {
+        headers: {
+          "apikey": SUPABASE_SERVICE_KEY,
+          "Authorization": `Bearer ${SUPABASE_SERVICE_KEY}`,
+        },
+      }
+    );
+    if (!listRes.ok) {
+      return json({ error: "erro_ao_ler_waitlist", status: listRes.status }, 500);
+    }
+    const rows: { email: string; created_at: string }[] = await listRes.json();
+    return json({ total: rows.length, members: rows });
+  }
+
   if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
 
   // Autorização
