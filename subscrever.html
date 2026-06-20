@@ -550,16 +550,44 @@ footer a{color:var(--gold-lt);text-decoration:none;margin:0 10px}
 </footer>
 
 <script>
-function signup(e){
+const SB_URL  = 'https://saotncritqxuchsvvnzi.supabase.co';
+const SB_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhb3RuY3JpdHF4dWNoc3Z2bnppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNTAyMzgsImV4cCI6MjA5NTcyNjIzOH0.1ksIbjXve815YloF3iFC26n3mVBw6kI2Hw6iVtBjB5o';
+
+async function signup(e){
   e.preventDefault();
-  const email = document.getElementById('emailInput').value;
-  // Save to localStorage as MVP — depois ligamos a Mailchimp/ConvertKit
-  const list = JSON.parse(localStorage.getItem('lulidias-waitlist') || '[]');
-  if (!list.includes(email)) list.push(email);
-  localStorage.setItem('lulidias-waitlist', JSON.stringify(list));
-  document.getElementById('signupSuccess').style.display = 'block';
-  document.getElementById('emailInput').value = '';
-  // TODO: integrar com Mailchimp/ConvertKit para realmente enviar email
+  const btn   = e.target.querySelector('button[type="submit"]');
+  const email = document.getElementById('emailInput').value.trim();
+
+  btn.disabled = true;
+  btn.textContent = '…';
+
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/guia_waitlist', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + SB_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ email })
+    });
+
+    if (res.ok || res.status === 409) {
+      document.getElementById('signupSuccess').style.display = 'block';
+      document.getElementById('emailInput').value = '';
+    } else {
+      throw new Error('status ' + res.status);
+    }
+  } catch(err) {
+    alert('Algo correu mal. Tenta novamente ou envia um email para lulidias@me.com');
+    btn.disabled = false;
+    btn.textContent = 'Quero ser avisado →';
+    return;
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Quero ser avisado →';
 }
 </script>
 <script>
