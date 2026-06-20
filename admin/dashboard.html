@@ -85,19 +85,7 @@ canvas{max-height:280px}
 </head>
 <body>
 
-<!-- Login overlay -->
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-card">
-    <div class="login-title">Dashboard</div>
-    <div class="login-tag">Acesso Restrito · Luli Dias</div>
-    <input type="password" class="login-input" id="loginKey" placeholder="Admin Key" autofocus>
-    <button class="login-btn" onclick="doLogin()">Entrar</button>
-    <div class="login-error" id="loginError">Chave inválida</div>
-  </div>
-</div>
-
-<!-- Main app (hidden until logged in) -->
-<div id="app" style="display:none">
+<div id="app">
   <nav class="top-nav">
     <div class="top-nav-left">
       <a href="index.html" class="back-link">← Voltar Admin</a>
@@ -177,36 +165,9 @@ const FLAGS = {
   'Korea':'🇰🇷','China':'🇨🇳','Hong Kong':'🇭🇰','Thailand':'🇹🇭','Vietnam':'🇻🇳','Taiwan':'🇹🇼'
 };
 let charts = { trend: null, devices: null };
-// Reusa a sessão do admin (mesma localStorage key)
 let adminKey = localStorage.getItem('worker_key') || sessionStorage.getItem('LULI_ADMIN_KEY') || '';
 
-// ====== LOGIN ======
-function doLogin() {
-  const v = document.getElementById('loginKey').value.trim();
-  if (!v) return;
-  adminKey = v;
-  testAndShow(true);
-}
-
-document.getElementById('loginKey').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
-});
-
-function showDashboard(key) {
-  adminKey = key;
-  localStorage.setItem('worker_key', key);
-  sessionStorage.setItem('LULI_ADMIN_KEY', key);
-  document.getElementById('loginOverlay').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  loadAnalytics('7d');
-}
-
-function doLogin() {
-  const v = document.getElementById('loginKey').value.trim();
-  if (v) showDashboard(v);
-}
-
-if (adminKey) showDashboard(adminKey);
+loadAnalytics('7d');
 
 // ====== ANALYTICS ======
 async function loadAnalytics(range) {
