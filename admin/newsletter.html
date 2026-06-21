@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Newsletter — Admin · Luli Dias</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#F0EBE4;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1A1A1A;min-height:100vh}
+.top-bar{background:#1A1A1A;padding:16px 28px;display:flex;align-items:center;gap:16px}
+.top-bar a{color:#B8922A;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none}
+.top-bar span{color:#444;font-size:10px}
+.top-bar .title{color:#F7F3EE;font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-left:auto}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:calc(100vh - 52px)}
+.editor{padding:32px 28px;overflow-y:auto;border-right:1px solid #DDD8D0}
+.preview-pane{background:#EDE7DF;padding:32px 20px;overflow-y:auto}
+h2{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#5A5A5A;margin-bottom:20px}
+.field{margin-bottom:20px}
+label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#7A7A7A;margin-bottom:7px}
+input[type=text],input[type=email],textarea{width:100%;border:1px solid #E0D8CF;background:#FFF;padding:11px 14px;font-family:inherit;font-size:14px;color:#1A1A1A;border-radius:3px;resize:vertical}
+input[type=text]:focus,textarea:focus{outline:none;border-color:#B8922A}
+textarea.tall{min-height:120px}
+textarea.short{min-height:60px}
+.section-block{background:#FFF;border:1px solid #E8E0D5;border-radius:4px;padding:20px;margin-bottom:16px}
+.section-block h3{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#B8922A;margin-bottom:14px}
+.remove-btn{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#C44;background:none;border:none;cursor:pointer;float:right;margin-top:2px}
+.add-btn{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#B8922A;background:none;border:1px solid #B8922A;padding:8px 16px;cursor:pointer;border-radius:3px;width:100%;margin-top:4px}
+.add-btn:hover{background:#B8922A;color:#FFF}
+.actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+.btn{padding:11px 22px;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:3px;font-family:inherit;border:none;transition:all .15s}
+.btn-test{background:#1A1A1A;color:#F7F3EE}
+.btn-test:hover{background:#333}
+.btn-send{background:#B8922A;color:#FFF}
+.btn-send:hover{background:#9A7220}
+.btn-count{background:none;border:1px solid #DDD8D0;color:#5A5A5A}
+.btn-count:hover{border-color:#B8922A;color:#B8922A}
+.status{margin-top:16px;font-size:13px;padding:10px 14px;border-radius:3px;display:none}
+.status.ok{background:#EDF7F0;color:#1A6640;border:1px solid #A8DFC0;display:block}
+.status.err{background:#FDF0F0;color:#A0201A;border:1px solid #F0B8B8;display:block}
+.status.info{background:#F0F4FF;color:#2A40A0;border:1px solid #B8C8F8;display:block}
+
+/* Audio recorder */
+.audio-section{background:#FFF;border:1px solid #E8E0D5;border-radius:4px;padding:20px;margin-bottom:20px}
+.audio-section h3{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#5A5A5A;margin-bottom:14px}
+.audio-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-rec{background:#C44;color:#FFF;padding:9px 18px;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer;font-family:inherit}
+.btn-rec.recording{background:#E88;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.btn-rec:disabled{background:#DDD;color:#999;cursor:default}
+.audio-status{font-size:12px;color:#7A7A7A}
+.transcribing{font-size:12px;color:#B8922A}
+input[type=file]{font-size:12px;color:#5A5A5A}
+
+/* Preview */
+.preview-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#7A7A7A;margin-bottom:16px}
+#preview-frame{width:100%;border:none;background:transparent;min-height:800px}
+
+/* Auth overlay */
+.auth-overlay{position:fixed;inset:0;background:#F0EBE4;display:flex;align-items:center;justify-content:center;z-index:100}
+.auth-box{background:#FFF;border:1px solid #E8E0D5;border-radius:6px;padding:48px 40px;max-width:360px;width:100%;text-align:center}
+.auth-box h1{font-family:Georgia,serif;font-size:22px;font-weight:400;letter-spacing:8px;text-transform:uppercase;margin-bottom:6px}
+.auth-box p{font-size:11px;color:#7A7A7A;letter-spacing:1px;margin-bottom:24px}
+.auth-box input{width:100%;padding:12px 16px;border:1px solid #DDD;border-radius:3px;font-size:14px;text-align:center;letter-spacing:3px}
+.auth-box input:focus{outline:none;border-color:#B8922A}
+.auth-box button{margin-top:12px;width:100%;padding:12px;background:#1A1A1A;color:#FFF;border:none;border-radius:3px;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:inherit}
+
+@media(max-width:900px){.layout{grid-template-columns:1fr}.preview-pane{display:none}}
+</style>
+</head>
+<body>
+
+<!-- Auth overlay -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-box">
+    <h1>Luli Dias</h1>
+    <p>Newsletter Admin</p>
+    <input type="password" id="secretInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')auth()">
+    <button onclick="auth()">Entrar →</button>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+
+<div class="top-bar">
+  <a href="/">← Guia</a>
+  <span>/</span>
+  <span class="title">Newsletter Admin</span>
+</div>
+
+<div class="layout">
+
+  <!-- EDITOR -->
+  <div class="editor">
+    <h2>Compor Newsletter</h2>
+
+    <!-- Audio recorder -->
+    <div class="audio-section">
+      <h3>🎙 Gravar ou carregar áudio</h3>
+      <div class="audio-controls">
+        <button class="btn-rec" id="recBtn" onclick="toggleRec()">● Gravar</button>
+        <input type="file" id="audioFile" accept="audio/*" onchange="transcribeFile(this)">
+        <span class="audio-status" id="audioStatus">ou carrega um ficheiro de voz</span>
+      </div>
+      <p class="transcribing" id="transcribing" style="display:none;margin-top:10px">A transcrever áudio…</p>
+    </div>
+
+    <div class="field">
+      <label>Assunto do email</label>
+      <input type="text" id="subject" placeholder="Esta semana com o Luli — 22 de Junho">
+    </div>
+
+    <div class="field">
+      <label>Nota de abertura (a voz do Luli)</label>
+      <textarea class="tall" id="intro" placeholder="Esta semana estive em Lisboa e descobri uma coisa incrível no Mercado da Ribeira…"></textarea>
+    </div>
+
+    <!-- Blocos dinâmicos -->
+    <div id="blocks"></div>
+    <button class="add-btn" onclick="addBlock('lugar')">+ Adicionar lugar em destaque</button>
+    <button class="add-btn" style="margin-top:8px" onclick="addBlock('novidade')">+ Adicionar novidade / evento</button>
+
+    <div class="actions">
+      <button class="btn btn-count" onclick="countSubscribers()">Ver subscritores</button>
+      <input type="email" id="testEmail" placeholder="email de teste" style="padding:9px 14px;border:1px solid #DDD;border-radius:3px;font-size:13px;flex:1;min-width:180px">
+      <button class="btn btn-test" onclick="sendTest()">Enviar teste</button>
+      <button class="btn btn-send" onclick="sendAll()">📤 Enviar a todos</button>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-pane">
+    <div class="preview-label">Pré-visualização</div>
+    <iframe id="preview-frame" title="preview" sandbox="allow-same-origin"></iframe>
+  </div>
+
+</div>
+</div>
+
+<script>
+const SB_URL  = 'https://saotncritqxuchsvvnzi.supabase.co';
+const NL_FN   = SB_URL + '/functions/v1/guia-newsletter';
+let SECRET = '';
+
+// ── Auth ────────────────────────────────────────────────────────────────────
+function auth() {
+  const v = document.getElementById('secretInput').value.trim();
+  if (!v) return;
+  SECRET = v;
+  localStorage.setItem('nl_secret', v);
+  document.getElementById('authOverlay').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  updatePreview();
+}
+(function() {
+  const s = localStorage.getItem('nl_secret');
+  if (s) { SECRET = s; document.getElementById('secretInput').value = s; auth(); }
+})();
+
+// ── Blocos dinâmicos ─────────────────────────────────────────────────────────
+let blockCount = 0;
+function addBlock(type) {
+  const id = ++blockCount;
+  const div = document.createElement('div');
+  div.className = 'section-block';
+  div.id = 'block-' + id;
+  if (type === 'lugar') {
+    div.innerHTML = `
+      <button class="remove-btn" onclick="document.getElementById('block-${id}').remove();updatePreview()">✕ remover</button>
+      <h3>Lugar em destaque</h3>
+      <div class="field"><label>Nome do lugar</label><input type="text" id="b${id}-name" oninput="updatePreview()" placeholder="Noma, Copenhague"></div>
+      <div class="field"><label>País / cidade</label><input type="text" id="b${id}-loc" oninput="updatePreview()" placeholder="Dinamarca"></div>
+      <div class="field"><label>A nota do Luli (o que comeu, o que recomenda)</label><textarea class="short" id="b${id}-note" oninput="updatePreview()" placeholder="Pedi o prato de lagosta e foi a melhor coisa que comi este mês…"></textarea></div>
+      <div class="field"><label>Link para o guia (opcional)</label><input type="text" id="b${id}-url" oninput="updatePreview()" placeholder="https://lulidias.com/dinamarca-guia.html"></div>`;
+  } else {
+    div.innerHTML = `
+      <button class="remove-btn" onclick="document.getElementById('block-${id}').remove();updatePreview()">✕ remover</button>
+      <h3>Novidade / Evento</h3>
+      <div class="field"><label>Título</label><input type="text" id="b${id}-name" oninput="updatePreview()" placeholder="Festival Peixe em Lisboa · 5–8 Julho"></div>
+      <div class="field"><label>Nota</label><textarea class="short" id="b${id}-note" oninput="updatePreview()" placeholder="Um dos melhores eventos gastronómicos de Portugal…"></textarea></div>
+      <div class="field"><label>Link (opcional)</label><input type="text" id="b${id}-url" oninput="updatePreview()" placeholder="https://…"></div>`;
+  }
+  div.dataset.type = type;
+  document.getElementById('blocks').appendChild(div);
+  updatePreview();
+}
+
+// ── Gerar HTML do corpo ───────────────────────────────────────────────────────
+function buildBodyHtml() {
+  const intro = document.getElementById('intro').value.trim();
+  let html = '';
+
+  if (intro) {
+    const lines = intro.split('\n').filter(l => l.trim());
+    lines.forEach(l => {
+      html += `<p style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#5A5045;line-height:1.8;margin:0 0 18px;">${escHtml(l)}</p>`;
+    });
+  }
+
+  document.querySelectorAll('.section-block').forEach(block => {
+    const id = block.id.replace('block-', '');
+    const type = block.dataset.type;
+    const name = (document.getElementById('b'+id+'-name')?.value ?? '').trim();
+    const note = (document.getElementById('b'+id+'-note')?.value ?? '').trim();
+    const url  = (document.getElementById('b'+id+'-url')?.value ?? '').trim();
+    const loc  = (document.getElementById('b'+id+'-loc')?.value ?? '').trim();
+    if (!name) return;
+
+    html += `<table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:28px 0 0;border-top:1px solid #E8E0D5;padding-top:24px;">
+      <tr><td>
+        <div style="font-family:Arial,Helvetica,sans-serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#B8922A;margin-bottom:6px;">${type === 'lugar' ? '✦ Destaque' : '✦ Novidade'}</div>
+        <div style="font-family:Georgia,'Times New Roman',serif;font-size:18px;font-weight:400;color:#1A1A1A;margin-bottom:${loc ? '2px' : '10px'}">${escHtml(name)}</div>
+        ${loc ? `<div style="font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#7A7A7A;margin-bottom:10px;">${escHtml(loc)}</div>` : ''}
+        ${note ? `<p style="font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#5A5045;line-height:1.75;margin:0 0 12px;">${escHtml(note)}</p>` : ''}
+        ${url ? `<a href="${escAttr(url)}" style="font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#B8922A;text-decoration:none;">Ver no guia →</a>` : ''}
+      </td></tr>
+    </table>`;
+  });
+
+  return html;
+}
+
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escAttr(s) { return s.replace(/"/g,'&quot;'); }
+
+// ── Preview ───────────────────────────────────────────────────────────────────
+function updatePreview() {
+  const subject = document.getElementById('subject').value || '(sem assunto)';
+  const bodyHtml = buildBodyHtml();
+  const frame = document.getElementById('preview-frame');
+  const previewHtml = buildFullEmail(subject, bodyHtml);
+  frame.srcdoc = previewHtml;
+}
+
+function buildFullEmail(subject, bodyHtml) {
+  return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>${subject}</title></head>
+<body style="margin:0;padding:0;background:#EDE7DF;font-family:Arial,Helvetica,sans-serif;">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#EDE7DF;padding:32px 12px;">
+  <tr><td align="center">
+  <table cellpadding="0" cellspacing="0" border="0" width="560" style="max-width:560px;background:#F7F3EE;border:1px solid #E8E0D5;">
+    <tr><td align="center" style="padding:32px 40px 28px;border-bottom:1px solid #E8E0D5;">
+      <div style="font-family:Georgia,serif;font-size:28px;letter-spacing:12px;text-transform:uppercase;color:#1A1A1A;margin-bottom:6px">LULI DIAS</div>
+      <div style="font-size:8px;letter-spacing:5px;text-transform:uppercase;color:#3A3A3A;margin-bottom:12px">RESTAURANTS & HOTELS</div>
+      <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;width:220px;"><tr>
+        <td style="border-bottom:1px solid #B8922A;height:1px;width:98px;"></td>
+        <td style="text-align:center;padding:0 8px;color:#B8922A;font-size:9px;vertical-align:middle;">◆</td>
+        <td style="border-bottom:1px solid #B8922A;height:1px;width:98px;"></td>
+      </tr></table>
+    </td></tr>
+    <tr><td style="padding:36px 48px 32px;">
+      ${bodyHtml || '<p style="color:#AAA;font-style:italic;font-size:14px">O conteúdo aparece aqui…</p>'}
+      <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top:32px;"><tr><td style="border-bottom:1px solid #E8E0D5;height:1px;"></td></tr></table>
+      <p style="font-family:Georgia,serif;font-size:14px;color:#8A7E72;font-style:italic;margin:24px 0 4px;">Um abraço,</p>
+      <p style="font-family:Georgia,serif;font-size:15px;color:#1A1A1A;margin:0;">Luli Dias</p>
+    </td></tr>
+    <tr><td style="background:#FAF6EF;border-top:1px solid #E8E0D5;padding:24px 40px;text-align:center;">
+      <a href="https://lulidias.com" style="font-family:Georgia,serif;font-size:18px;letter-spacing:8px;text-transform:uppercase;color:#1A1A1A;text-decoration:none">LULI DIAS</a><br>
+      <span style="font-size:8px;letter-spacing:4px;text-transform:uppercase;color:#5A5A5A">Restaurants &amp; Hotels</span>
+    </td></tr>
+    <tr><td style="padding:14px 40px;text-align:center;border-top:1px solid #E8E0D5;background:#F7F3EE;">
+      <span style="font-size:10px;color:#B0A090">cancelar subscrição</span>
+    </td></tr>
+  </table>
+  </td></tr>
+</table>
+</body></html>`;
+}
+
+// ── Envio ─────────────────────────────────────────────────────────────────────
+function showStatus(msg, type) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = 'status ' + type;
+}
+
+async function countSubscribers() {
+  showStatus('A verificar…', 'info');
+  const r = await fetch(NL_FN, { headers: { Authorization: 'Bearer ' + SECRET } });
+  const d = await r.json();
+  if (d.active !== undefined) showStatus(`${d.active} subscritores activos (${d.total} total)`, 'ok');
+  else if (d.error === 'nao_autorizado') { showStatus('Secret incorrecto.', 'err'); localStorage.removeItem('nl_secret'); }
+  else showStatus('Erro: ' + JSON.stringify(d), 'err');
+}
+
+async function sendTest() {
+  const testEmail = document.getElementById('testEmail').value.trim();
+  if (!testEmail) { showStatus('Insere um email de teste.', 'err'); return; }
+  const subject = document.getElementById('subject').value.trim();
+  if (!subject) { showStatus('Insere o assunto.', 'err'); return; }
+  showStatus('A enviar email de teste…', 'info');
+  const r = await fetch(NL_FN, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ secret: SECRET, subject, html: buildBodyHtml(), testEmail })
+  });
+  const d = await r.json();
+  if (d.ok) showStatus('✓ Email de teste enviado para ' + testEmail, 'ok');
+  else showStatus('Erro: ' + JSON.stringify(d), 'err');
+}
+
+async function sendAll() {
+  const subject = document.getElementById('subject').value.trim();
+  if (!subject) { showStatus('Insere o assunto.', 'err'); return; }
+  const body = buildBodyHtml();
+  if (!body.trim()) { showStatus('A newsletter está vazia.', 'err'); return; }
+  if (!confirm('Enviar newsletter a TODOS os subscritores?\n\nAssunto: ' + subject)) return;
+  showStatus('A enviar…', 'info');
+  const r = await fetch(NL_FN, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ secret: SECRET, subject, html: body })
+  });
+  const d = await r.json();
+  if (d.ok) showStatus(`✓ Enviado para ${d.sent} subscritores${d.failed?.length ? ' ('+d.failed.length+' falhas)' : ''}.`, 'ok');
+  else showStatus('Erro: ' + JSON.stringify(d), 'err');
+}
+
+// ── Audio recorder ────────────────────────────────────────────────────────────
+let mediaRec = null, chunks = [], isRecording = false;
+
+async function toggleRec() {
+  const btn = document.getElementById('recBtn');
+  if (isRecording) {
+    mediaRec.stop();
+    isRecording = false;
+    btn.textContent = '● Gravar';
+    btn.classList.remove('recording');
+    return;
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    chunks = [];
+    mediaRec = new MediaRecorder(stream);
+    mediaRec.ondataavailable = e => chunks.push(e.data);
+    mediaRec.onstop = async () => {
+      stream.getTracks().forEach(t => t.stop());
+      const blob = new Blob(chunks, { type: 'audio/webm' });
+      await transcribeBlob(blob);
+    };
+    mediaRec.start();
+    isRecording = true;
+    btn.textContent = '■ Parar';
+    btn.classList.add('recording');
+    document.getElementById('audioStatus').textContent = 'A gravar…';
+  } catch(e) {
+    document.getElementById('audioStatus').textContent = 'Microfone não disponível.';
+  }
+}
+
+async function transcribeFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  await transcribeBlob(file);
+}
+
+async function transcribeBlob(blob) {
+  document.getElementById('transcribing').style.display = 'block';
+  document.getElementById('audioStatus').textContent = '';
+  try {
+    const form = new FormData();
+    form.append('audio', blob, 'audio.webm');
+    form.append('secret', SECRET);
+    const r = await fetch(SB_URL + '/functions/v1/guia-transcribe', { method: 'POST', body: form });
+    if (!r.ok) throw new Error('Função de transcrição não disponível. Cola o texto manualmente.');
+    const d = await r.json();
+    if (d.text) {
+      const intro = document.getElementById('intro');
+      intro.value = (intro.value ? intro.value + '\n\n' : '') + d.text;
+      updatePreview();
+      document.getElementById('audioStatus').textContent = '✓ Transcrição concluída.';
+    }
+  } catch(e) {
+    document.getElementById('audioStatus').textContent = e.message;
+  } finally {
+    document.getElementById('transcribing').style.display = 'none';
+  }
+}
+
+// Preview ao alterar campos existentes
+['subject','intro'].forEach(id => {
+  document.getElementById(id)?.addEventListener('input', updatePreview);
+});
+updatePreview();
+</script>
+</body>
+</html>

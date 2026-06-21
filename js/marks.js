@@ -133,6 +133,129 @@
     }, 0);
   };
 
+  // ── Modal ────────────────────────────────────────────────────────────
+  var modal = null;
+  var modalIdx = 0;
+
+  function buildModal() {
+    if (modal) return;
+    modal = document.createElement('div');
+    modal.id = 'ld-modal';
+    modal.innerHTML =
+      '<div id="ldm-overlay"></div>' +
+      '<div id="ldm-box">' +
+        '<button id="ldm-close" aria-label="Fechar">✕</button>' +
+        '<div id="ldm-gallery"></div>' +
+        '<div id="ldm-body"></div>' +
+      '</div>';
+    document.body.appendChild(modal);
+    modal.querySelector('#ldm-overlay').onclick = closeModal;
+    modal.querySelector('#ldm-close').onclick   = closeModal;
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+    window.addEventListener('popstate', function () { if (modal && modal.classList.contains('ldm-open')) closeModal(true); });
+  }
+
+  function openModal(card) {
+    buildModal();
+    modalIdx = 0;
+
+    // ── Extract from DOM ──────────────────────────────────────────────
+    var name     = (card.querySelector('.card-name')    || {}).textContent || '';
+    var cuisine  = (card.querySelector('.card-cuisine') || {}).textContent || '';
+    var badgesEl = card.querySelector('.card-badges');
+    var priceEl  = card.querySelector('.card-price');
+    var descEl   = card.querySelector('.card-desc');
+    var noteEl   = card.querySelector('.card-note');
+    var addrEl   = card.querySelector('.c-addr');
+
+    var badges = badgesEl ? badgesEl.innerHTML : '';
+    var price  = priceEl  ? priceEl.innerHTML  : '';
+    var desc   = descEl   ? descEl.innerHTML   : '';
+    var note   = noteEl   ? noteEl.textContent.replace(/^✦\s*/, '') : '';
+    var addr   = addrEl   ? addrEl.textContent : '';
+
+    var phone = null, web = null, ig = null;
+    card.querySelectorAll('a.c-phone').forEach(function (a) {
+      if (a.href.startsWith('tel:'))           phone = { href: a.href, text: a.textContent };
+      else if (a.href.includes('instagram'))   ig    = { href: a.href, text: a.textContent };
+      else                                     web   = { href: a.href, text: a.textContent };
+    });
+
+    // ── Photos ────────────────────────────────────────────────────────
+    var photos = [];
+    card.querySelectorAll('img').forEach(function (img) {
+      if (img.src && !img.src.startsWith('data:')) photos.push(img.src);
+    });
+
+    // ── Gallery ───────────────────────────────────────────────────────
+    var gallEl = modal.querySelector('#ldm-gallery');
+    gallEl.innerHTML = '';
+    if (photos.length) {
+      var track = document.createElement('div');
+      track.className = 'ldm-track';
+      photos.forEach(function (src) {
+        var im = document.createElement('img');
+        im.src = src; im.className = 'ldm-img'; im.alt = name;
+        track.appendChild(im);
+      });
+      gallEl.appendChild(track);
+
+      if (photos.length > 1) {
+        var dots  = document.createElement('div');  dots.className  = 'ldm-dots';
+        var btnP  = document.createElement('button'); btnP.className = 'ldm-nav ldm-prev'; btnP.innerHTML = '‹';
+        var btnN  = document.createElement('button'); btnN.className = 'ldm-nav ldm-next'; btnN.innerHTML = '›';
+        photos.forEach(function (_, i) {
+          var d = document.createElement('span'); if (i === 0) d.className = 'ldm-dot-on'; dots.appendChild(d);
+        });
+        gallEl.appendChild(btnP); gallEl.appendChild(btnN); gallEl.appendChild(dots);
+
+        function goPhoto(i) {
+          modalIdx = (i + photos.length) % photos.length;
+          track.style.transform = 'translateX(-' + (modalIdx * 100) + '%)';
+          dots.querySelectorAll('span').forEach(function (d, j) { d.className = j === modalIdx ? 'ldm-dot-on' : ''; });
+        }
+        btnP.onclick = function (e) { e.stopPropagation(); goPhoto(modalIdx - 1); };
+        btnN.onclick = function (e) { e.stopPropagation(); goPhoto(modalIdx + 1); };
+
+        // Swipe
+        var sx = 0;
+        gallEl.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+        gallEl.addEventListener('touchend',   function (e) { var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) goPhoto(modalIdx + (dx < 0 ? 1 : -1)); });
+      }
+    }
+
+    // ── Body ──────────────────────────────────────────────────────────
+    var mapUrl = addr ? 'https://maps.google.com/maps?q=' + encodeURIComponent(addr) : '';
+    var contactHtml = '';
+    if (addr)  contactHtml += '<a href="' + mapUrl + '" target="_blank" rel="noopener" class="ldm-crow ldm-map"><span>📍</span><span>' + addr + '</span><span class="ldm-arr">→</span></a>';
+    if (phone) contactHtml += '<a href="' + phone.href + '" class="ldm-crow"><span>📞</span><span>' + phone.text + '</span></a>';
+    if (web)   contactHtml += '<a href="' + web.href   + '" target="_blank" rel="noopener" class="ldm-crow"><span>🌐</span><span>' + web.text + '</span></a>';
+    if (ig)    contactHtml += '<a href="' + ig.href    + '" target="_blank" rel="noopener" class="ldm-crow"><span>📷</span><span>' + ig.text  + '</span></a>';
+
+    modal.querySelector('#ldm-body').innerHTML =
+      '<div class="ldm-hdr">' +
+        '<div class="ldm-name">' + name + '</div>' +
+        (badges ? '<div class="ldm-badges">' + badges + '</div>' : '') +
+        '<div class="ldm-meta">' + cuisine + (price ? '<span class="ldm-price">' + price + '</span>' : '') + '</div>' +
+      '</div>' +
+      (note ? '<div class="ldm-sec"><div class="ldm-note">✦ ' + note + '</div></div>' : '') +
+      (desc ? '<div class="ldm-sec ldm-desc">' + desc + '</div>' : '') +
+      (contactHtml ? '<div class="ldm-sec ldm-contact">' + contactHtml + '</div>' : '');
+
+    // hash & open
+    var hash = card.id ? card.id.replace('card-', '') : '';
+    if (hash) history.pushState(null, '', '#' + hash);
+    modal.classList.add('ldm-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(skipHistory) {
+    if (!modal || !modal.classList.contains('ldm-open')) return;
+    modal.classList.remove('ldm-open');
+    document.body.style.overflow = '';
+    if (!skipHistory) history.pushState(null, '', location.pathname + location.search);
+  }
+
   // ── Attach buttons to a card ──────────────────────────────────────────
   function initCard(card) {
     if (card.querySelector('.card-actions')) return;
@@ -143,6 +266,23 @@
     var eName = name.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
     var body  = card.querySelector('.card-body');
     if (body) body.insertAdjacentHTML('beforeend', actionsHTML(key, eName));
+
+    // Photo wrap → opens modal
+    var wrap = card.querySelector('.card-photo-wrap');
+    if (wrap && !wrap.dataset.ldmInit) {
+      wrap.dataset.ldmInit = '1';
+      wrap.classList.add('ldm-clickable');
+      wrap.addEventListener('click', function (e) {
+        if (e.target.classList.contains('card-nav')) return;
+        openModal(card);
+      });
+    }
+    // Card name → opens modal
+    if (!nameEl.dataset.ldmInit) {
+      nameEl.dataset.ldmInit = '1';
+      nameEl.style.cursor = 'pointer';
+      nameEl.addEventListener('click', function () { openModal(card); });
+    }
   }
 
   // ── MutationObserver — picks up cards added by render() ──────────────
@@ -219,6 +359,46 @@
     '.nav-lista-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}' +
     '.nav-lista-badge{position:absolute;top:-4px;right:-4px;background:var(--gold);color:#fff;' +
     'font-size:8px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;' +
-    'align-items:center;justify-content:center;padding:0 3px;font-family:Montserrat,sans-serif}';
+    'align-items:center;justify-content:center;padding:0 3px;font-family:Montserrat,sans-serif}' +
+    // Modal
+    '#ld-modal{display:none;position:fixed;inset:0;z-index:9000}' +
+    '#ld-modal.ldm-open{display:block}' +
+    '#ldm-overlay{position:absolute;inset:0;background:rgba(10,8,6,.65);backdrop-filter:blur(3px)}' +
+    '#ldm-box{position:absolute;bottom:0;left:0;right:0;max-height:91vh;background:#F7F3EE;border-radius:18px 18px 0 0;overflow-y:auto;-webkit-overflow-scrolling:touch;animation:ldmUp .28s cubic-bezier(.22,1,.36,1)}' +
+    '@keyframes ldmUp{from{transform:translateY(60%);opacity:.4}to{transform:translateY(0);opacity:1}}' +
+    '@media(min-width:700px){#ldm-box{top:50%;left:50%;right:auto;bottom:auto;width:660px;max-height:88vh;border-radius:10px;transform:translate(-50%,-50%);animation:ldmFade .2s ease}' +
+    '@keyframes ldmFade{from{opacity:0;transform:translate(-50%,-52%)}to{opacity:1;transform:translate(-50%,-50%)}}}' +
+    '#ldm-close{position:sticky;top:12px;float:right;margin:12px 12px -44px 0;width:32px;height:32px;border-radius:50%;background:#fff;border:1px solid #E8E0D5;font-size:13px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;color:#5A5A5A;flex-shrink:0}' +
+    '#ldm-close:hover{border-color:var(--gold,#B8922A);color:var(--gold,#B8922A)}' +
+    // Gallery
+    '#ldm-gallery{position:relative;overflow:hidden;background:#EDE7DF;max-height:360px}' +
+    '.ldm-track{display:flex;transition:transform .32s ease}' +
+    '.ldm-img{width:100%;flex-shrink:0;object-fit:cover;height:300px;max-height:360px}' +
+    '@media(min-width:700px){.ldm-img{height:340px}}' +
+    '.ldm-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(247,243,238,.88);border:1px solid #E8E0D5;border-radius:50%;width:36px;height:36px;font-size:22px;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center;line-height:1;color:#1A1A1A;padding-bottom:1px}' +
+    '.ldm-prev{left:10px}.ldm-next{right:10px}' +
+    '.ldm-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;pointer-events:none}' +
+    '.ldm-dots span{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.45)}' +
+    '.ldm-dot-on{background:#fff!important}' +
+    // Photo-wrap clickable hint
+    '.ldm-clickable{cursor:pointer;position:relative}' +
+    '.ldm-clickable::after{content:"⊕";position:absolute;bottom:10px;right:10px;background:rgba(247,243,238,.88);border:1px solid #E8E0D5;color:#1A1A1A;font-size:14px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none;line-height:1}' +
+    '.ldm-clickable:hover::after{opacity:1}' +
+    // Body
+    '.ldm-hdr{padding:20px 24px 12px;clear:both}' +
+    '.ldm-name{font-family:Georgia,"Times New Roman",serif;font-size:22px;font-weight:400;color:#1A1A1A;margin-bottom:8px;line-height:1.3}' +
+    '.ldm-badges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}' +
+    '.ldm-meta{font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:1px;color:#7A7A7A;display:flex;align-items:center;gap:12px}' +
+    '.ldm-price{color:var(--gold,#B8922A);font-weight:700;letter-spacing:.5px}' +
+    '.ldm-sec{padding:14px 24px;border-top:1px solid #E8E0D5}' +
+    '.ldm-note{font-family:Montserrat,sans-serif;font-size:11px;letter-spacing:.5px;color:var(--gold,#B8922A)}' +
+    '.ldm-desc{font-size:14px;line-height:1.78;color:#3A3835}' +
+    '.ldm-desc strong,.ldm-desc b{font-weight:600;color:#1A1A1A}' +
+    '.ldm-contact{display:flex;flex-direction:column;gap:0}' +
+    '.ldm-crow{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#3A3A3A;text-decoration:none;padding:9px 0;border-bottom:1px solid #F0EBE4}' +
+    '.ldm-crow:last-child{border-bottom:none}' +
+    '.ldm-crow:hover{color:var(--gold,#B8922A)}' +
+    '.ldm-crow span:first-child{flex-shrink:0;width:18px;text-align:center}' +
+    '.ldm-arr{margin-left:auto;color:var(--gold,#B8922A);font-size:11px;flex-shrink:0;align-self:center}';
   document.head.appendChild(style);
 })();
