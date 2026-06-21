@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minha Lista — Luli Dias · Restaurants &amp; Hotels</title>
+<meta property="og:title" content="Minha Lista — Luli Dias · Restaurants &amp; Hotels">
+<meta property="og:url" content="https://lulidias.com/minha-lista.html">
+<meta property="og:image" content="https://lulidias.com/og-image.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5;
+}
+html,body{min-height:100%}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;padding-top:68px}
+/* ── Top nav ── */
+.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:8px 24px;display:flex;align-items:center;gap:14px;position:fixed;top:0;left:0;right:0;z-index:1000;box-shadow:0 1px 8px rgba(0,0,0,.04);min-height:60px}
+.back-link{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;background:var(--gold-bg);border:1px solid var(--gold-lt);padding:6px 12px;border-radius:24px;flex-shrink:0;transition:all .2s}
+.back-link:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+.nav-brand{font-family:'Playfair Display',serif;font-size:18px;letter-spacing:5px;color:var(--ink);text-decoration:none;font-weight:400}
+.nav-brand:hover{color:var(--gold)}
+.nav-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);font-weight:500;margin-left:auto}
+.nav-clear{font-size:9px;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid var(--border);color:var(--ink-xs);padding:5px 12px;border-radius:20px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s}
+.nav-clear:hover{border-color:#c00;color:#c00}
+@media(max-width:600px){.nav-brand{display:none}.nav-title{margin-left:0}}
+/* ── Header ── */
+.page-header{text-align:center;padding:44px 24px 28px;border-bottom:1px solid var(--border);background:var(--white)}
+.page-header-title{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;letter-spacing:2px;margin-bottom:8px}
+.page-header-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
+/* ── Tabs ── */
+.tabs{display:flex;border-bottom:1px solid var(--border);background:var(--white);position:sticky;top:60px;z-index:10}
+.tab{flex:1;padding:16px 8px;text-align:center;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;cursor:pointer;border-bottom:2.5px solid transparent;color:var(--ink-lt);transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;font-family:'Montserrat',sans-serif}
+.tab.on{color:var(--ink);border-bottom-color:var(--gold)}
+.tab-count{display:inline-flex;align-items:center;justify-content:center;background:var(--border);color:var(--ink-lt);font-size:9px;font-weight:700;width:18px;height:18px;border-radius:50%;margin-left:6px}
+.tab.on .tab-count{background:var(--gold);color:#fff}
+/* ── List ── */
+.list-wrap{max-width:720px;margin:0 auto;padding:28px 24px 80px}
+/* ── Item card ── */
+.item{display:flex;align-items:center;gap:14px;background:var(--white);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:all .2s}
+.item:hover{box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.item-flag{font-size:22px;flex-shrink:0}
+.item-body{flex:1;min-width:0}
+.item-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-meta{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-xs)}
+.item-country{color:var(--ink-lt);margin-right:6px}
+.item-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.item-goto{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold-lt);padding:5px 12px;border-radius:20px;white-space:nowrap;transition:all .2s}
+.item-goto:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+.item-del{background:none;border:none;color:var(--ink-xs);cursor:pointer;font-size:16px;padding:4px 6px;border-radius:50%;transition:all .2s;line-height:1}
+.item-del:hover{background:#FFF0F0;color:#c00}
+/* ── Empty state ── */
+.empty{text-align:center;padding:60px 24px}
+.empty-icon{font-size:44px;margin-bottom:18px;opacity:.5}
+.empty-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;color:var(--ink-lt);margin-bottom:10px}
+.empty-msg{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-xs);line-height:2}
+.empty-link{display:inline-block;margin-top:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold-lt);padding:10px 20px;border-radius:24px;background:var(--gold-bg);transition:all .2s}
+.empty-link:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+/* ── Section divider ── */
+.section-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="back-link">← Voltar</a>
+  <a href="index.html" class="nav-brand">LULI DIAS</a>
+  <span class="nav-title">Minha Lista</span>
+  <button class="nav-clear" onclick="clearAll()">Limpar tudo</button>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-title">Minha Lista</div>
+  <div class="page-header-sub">Os lugares que marcou nos guias</div>
+</div>
+
+<div class="tabs">
+  <button class="tab on" id="tab-fui" onclick="setTab('fui')">
+    ✓ Já fui <span class="tab-count" id="cnt-fui">0</span>
+  </button>
+  <button class="tab" id="tab-quero" onclick="setTab('quero')">
+    ♡ Quero ir <span class="tab-count" id="cnt-quero">0</span>
+  </button>
+</div>
+
+<div class="list-wrap" id="listWrap"></div>
+
+<script>
+var activeTab = 'fui';
+
+function getMarks(){
+  try{ return JSON.parse(localStorage.getItem('ld-marks')||'{}'); }catch(e){ return {}; }
+}
+
+function removeMark(key){
+  var m = getMarks(); delete m[key];
+  localStorage.setItem('ld-marks', JSON.stringify(m));
+  render();
+}
+
+function clearAll(){
+  if(!confirm('Apagar toda a lista?')) return;
+  localStorage.removeItem('ld-marks');
+  render();
+}
+
+function setTab(t){
+  activeTab = t;
+  document.getElementById('tab-fui').classList.toggle('on', t==='fui');
+  document.getElementById('tab-quero').classList.toggle('on', t==='quero');
+  render();
+}
+
+function render(){
+  var marks = getMarks();
+  var all   = Object.entries(marks);
+  var fui   = all.filter(function(e){ return e[1].type==='fui'; });
+  var quero = all.filter(function(e){ return e[1].type==='quero'; });
+
+  document.getElementById('cnt-fui').textContent   = fui.length;
+  document.getElementById('cnt-quero').textContent = quero.length;
+
+  var items = activeTab === 'fui' ? fui : quero;
+  var wrap  = document.getElementById('listWrap');
+
+  if(!items.length){
+    var label = activeTab==='fui' ? 'lugares que já visitou' : 'lugares que quer visitar';
+    wrap.innerHTML =
+      '<div class="empty">' +
+        '<div class="empty-icon">' + (activeTab==='fui'?'✓':'♡') + '</div>' +
+        '<div class="empty-title">Nenhum lugar aqui</div>' +
+        '<div class="empty-msg">Marque ' + label + '<br>directamente nos cards dos guias</div>' +
+        '<a href="index.html" class="empty-link">Explorar guias →</a>' +
+      '</div>';
+    return;
+  }
+
+  // Sort by country then name
+  items.sort(function(a,b){
+    var ca = (a[1].country||''), cb = (b[1].country||'');
+    if(ca!==cb) return ca.localeCompare(cb,'pt');
+    return (a[1].name||'').localeCompare(b[1].name||'','pt');
+  });
+
+  // Group by country
+  var groups = {};
+  items.forEach(function(pair){
+    var m = pair[1];
+    var c = m.country||'';
+    if(!groups[c]) groups[c] = { flag: m.flag||'', items: [] };
+    groups[c].items.push({ key: pair[0], mark: m });
+  });
+
+  var html = '';
+  Object.keys(groups).sort(function(a,b){return a.localeCompare(b,'pt');}).forEach(function(country){
+    var g = groups[country];
+    html += '<div class="section-label">' + g.flag + ' ' + country + '</div>';
+    g.items.forEach(function(it){
+      var guide = (it.mark.guide||'').replace(/\.html$/,'');
+      var url   = (it.mark.guide||'#') + '?q=' + encodeURIComponent(it.mark.name||'');
+      html += '<div class="item">' +
+        '<div class="item-flag">' + (it.mark.flag||'🏳️') + '</div>' +
+        '<div class="item-body">' +
+          '<div class="item-name">' + (it.mark.name||'') + '</div>' +
+          '<div class="item-meta"><span class="item-country">' + country + '</span></div>' +
+        '</div>' +
+        '<div class="item-actions">' +
+          '<a class="item-goto" href="' + url + '">Ver no guia →</a>' +
+          '<button class="item-del" onclick="removeMark(' + JSON.stringify(it.key) + ')" title="Remover">✕</button>' +
+        '</div>' +
+        '</div>';
+    });
+  });
+  wrap.innerHTML = html;
+}
+
+render();
+</script>
+</body>
+</html>
