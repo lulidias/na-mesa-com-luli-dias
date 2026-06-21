@@ -85,14 +85,52 @@
   };
 
   window.__ldShare = function (btn) {
-    var name    = btn.closest('.card-actions').dataset.name;
+    var existing = document.getElementById('ld-share-dd');
+    if (existing) { existing.remove(); return; }
+
+    var actions = btn.closest('.card-actions');
+    var name    = actions.dataset.name;
     var pageUrl = location.origin + '/' + GUIDE_SLUG + '.html?q=' + encodeURIComponent(name);
-    var text    = name + ' — Luli Dias · Restaurants & Hotels';
-    if (navigator.share) {
-      navigator.share({ title: name, text: text, url: pageUrl });
-    } else {
-      window.open('https://wa.me/?text=' + encodeURIComponent(text + '\n' + pageUrl), '_blank');
-    }
+    var waText  = name + ' — Luli Dias · Restaurants & Hotels';
+
+    var rect = btn.getBoundingClientRect();
+    var dd   = document.createElement('div');
+    dd.id    = 'ld-share-dd';
+    dd.className = 'share-dd';
+    var above = rect.top > 120;
+    dd.style.cssText = (above
+      ? 'bottom:' + (window.innerHeight - rect.top + 6) + 'px'
+      : 'top:'    + (rect.bottom + 6) + 'px')
+      + ';left:' + Math.min(rect.left, window.innerWidth - 170) + 'px';
+
+    var waBtn = document.createElement('button');
+    waBtn.className = 'share-dd-item';
+    waBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.533 5.846L.057 23.571c-.088.32.217.617.535.52l5.867-1.537C8.066 23.467 10.001 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.85 0-3.598-.502-5.11-1.378l-.363-.214-3.765.987.999-3.672-.237-.375C2.548 15.738 2 13.937 2 12 2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg> WhatsApp';
+    waBtn.onclick = function () {
+      window.open('https://wa.me/?text=' + encodeURIComponent(waText + '\n' + pageUrl), '_blank');
+      dd.remove();
+    };
+
+    var copyBtn = document.createElement('button');
+    copyBtn.className = 'share-dd-item';
+    copyBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar link';
+    copyBtn.onclick = function () {
+      (navigator.clipboard ? navigator.clipboard.writeText(pageUrl) : Promise.resolve(
+        (function () { var t = document.createElement('textarea'); t.value = pageUrl; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); })()
+      )).then(function () {
+        copyBtn.textContent = '✓ Copiado!';
+        setTimeout(function () { dd.remove(); }, 800);
+      });
+    };
+
+    dd.appendChild(waBtn);
+    dd.appendChild(copyBtn);
+    document.body.appendChild(dd);
+
+    setTimeout(function () {
+      function closeDD(e) { if (!dd.contains(e.target)) { dd.remove(); document.removeEventListener('click', closeDD); } }
+      document.addEventListener('click', closeDD);
+    }, 0);
   };
 
   // ── Attach buttons to a card ──────────────────────────────────────────
@@ -169,6 +207,10 @@
     '.ca-quero.ca-on{background:var(--ink);border-color:var(--ink);color:#fff}' +
     '.ca-share{margin-left:auto;display:inline-flex;align-items:center;gap:5px;color:var(--ink-lt);padding:5px 11px}' +
     '.ca-share:hover{border-color:var(--gold);color:var(--gold)}' +
+    '.share-dd{position:fixed;background:#fff;border:1px solid var(--border,#E8E0D5);border-radius:4px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:2000;overflow:hidden;min-width:155px}' +
+    '.share-dd-item{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt,#5A5A5A);background:none;border:none;width:100%;text-align:left;cursor:pointer;font-family:Montserrat,sans-serif;transition:color .2s;white-space:nowrap}' +
+    '.share-dd-item:hover{color:var(--gold,#B8922A)}' +
+    '.share-dd-item+.share-dd-item{border-top:1px solid var(--border,#E8E0D5)}' +
     '.nav-lista-btn{display:inline-flex;align-items:center;justify-content:center;position:relative;' +
     'width:36px;height:36px;border-radius:50%;border:1px solid var(--border);color:var(--ink-lt);' +
     'background:none;cursor:pointer;text-decoration:none;transition:all .2s;flex-shrink:0}' +
