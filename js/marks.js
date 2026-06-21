@@ -136,7 +136,9 @@
 
     var actions = btn.closest('.card-actions');
     var name    = actions.dataset.name;
-    var pageUrl = location.origin + '/' + GUIDE_SLUG + '.html?q=' + encodeURIComponent(name);
+    var card    = actions.closest('.restaurant-card');
+    var slug    = card && card.id ? card.id.replace('card-', '') : '';
+    var pageUrl = location.origin + location.pathname + (slug ? '#' + slug : '?q=' + encodeURIComponent(name));
     var waText  = name + ' — Luli Dias · Restaurants & Hotels';
 
     var rect = btn.getBoundingClientRect();
@@ -390,9 +392,27 @@
   obs.observe(root, { childList: true, subtree: true });
   document.querySelectorAll('.restaurant-card').forEach(initCard);
 
-  // ── Auto-open local search when ?q= is in URL (for shared links) ─────
+  // ── Auto-open card modal when URL has #slug (shared links) ──────────
+  function tryOpenHash() {
+    var hash = location.hash.replace('#', '');
+    if (!hash) return;
+    var card = document.getElementById('card-' + hash);
+    if (card) { openModal(card); return true; }
+    return false;
+  }
+  if (location.hash) {
+    // Cards may not be rendered yet — retry a few times
+    if (!tryOpenHash()) {
+      var attempts = 0;
+      var hashTimer = setInterval(function () {
+        if (tryOpenHash() || ++attempts > 10) clearInterval(hashTimer);
+      }, 200);
+    }
+  }
+
+  // ── Auto-open local search when ?q= is in URL (fallback) ─────────────
   var qParam = new URLSearchParams(location.search).get('q');
-  if (qParam && typeof toggleSearch === 'function') {
+  if (qParam && !location.hash && typeof toggleSearch === 'function') {
     setTimeout(function () {
       toggleSearch();
       var inp = document.getElementById('searchInput');
