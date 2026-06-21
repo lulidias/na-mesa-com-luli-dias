@@ -482,132 +482,96 @@ function findMatchingBracket(text, startIdx, openCh, closeCh) {
 // ===================== ANALYTICS =====================
 
 async function handleAnalytics(url, env) {
-  if (!env.CF_API_TOKEN || !env.CF_ACCOUNT_ID) {
-    return jsonResponse({
-      error: 'Analytics not configured. Set CF_API_TOKEN and CF_ACCOUNT_ID secrets.'
-    }, 500);
+  if (!env.CF_API_TOKEN) {
+    return jsonResponse({ error: 'Analytics not configured. Set CF_API_TOKEN secret.' }, 500);
   }
 
   const range = url.searchParams.get('range') || '7d';
-  const siteTag = url.searchParams.get('site') || env.CF_SITE_TAG || '';
-
-  // Calculate date range — use plain dates for date_geq/date_leq filter
   const now = new Date();
   const days = { '24h': 1, '7d': 7, '30d': 30, '90d': 90 }[range] || 7;
   const since = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
-  // Use date format YYYY-MM-DD (the date filter expects date type)
   const sinceDate = since.toISOString().split('T')[0];
   const untilDate = now.toISOString().split('T')[0];
 
-  // GraphQL query — inline filter values (avoids type-name guessing)
-  const filterStr = `{ siteTag: "${siteTag}", date_geq: "${sinceDate}", date_leq: "${untilDate}" }`;
-  const query = `
-    query Analytics($accountTag: String!) {
-      viewer {
-        accounts(filter: { accountTag: $accountTag }) {
-          totals: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 1) {
-            count
-            sum { visits }
-          }
-          countries: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 20, orderBy: [count_DESC]) {
-            count
-            sum { visits }
-            dimensions { countryName }
-          }
-          devices: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 10, orderBy: [count_DESC]) {
-            count
-            dimensions { deviceType }
-          }
-          paths: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 30, orderBy: [count_DESC]) {
-            count
-            dimensions { requestPath }
-          }
-          referers: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 20, orderBy: [count_DESC]) {
-            count
-            dimensions { refererHost }
-          }
-          daily: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 100, orderBy: [date_ASC]) {
-            count
-            sum { visits }
-            dimensions { date }
-          }
-          browsers: rumPageloadEventsAdaptiveGroups(filter: ${filterStr}, limit: 10, orderBy: [count_DESC]) {
-            count
-            dimensions { userAgentBrowser }
-          }
+  const zoneId = env.CF_ZONE_ID || '15a1bd24a5161bdf163dbf5aa4af3232';
+
+  // Zone analytics via GraphQL (httpRequests1dGroups — daily aggregates, available on all plans)
+  // zoneTag goes to zones(), date_geq/date_leq go inside the dataset filter
+  const dtFilter = `{ date_geq: "${sinceDate}", date_leq: "${untilDate}" }`;
+  const query = `{
+    viewer {
+      zones(filter: { zoneTag: "${zoneId}" }) {
+        daily: httpRequests1dGroups(filter: ${dtFilter}, limit: 180, orderBy: [date_ASC]) {
+          sum { requests pageViews bytes countryMap { clientCountryName requests } browserMap { uaBrowserFamily pageViews } }
+          uniq { uniques }
+          dimensions { date }
         }
       }
     }
-  `;
+  }`;
 
   const resp = await fetch('https://api.cloudflare.com/client/v4/graphql', {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${env.CF_API_TOKEN}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      query,
-      variables: {
-        accountTag: env.CF_ACCOUNT_ID
-      }
-    })
+    headers: { 'Authorization': `Bearer ${env.CF_API_TOKEN}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query })
   });
 
   if (!resp.ok) {
-    const text = await resp.text();
-    return jsonResponse({ error: 'Cloudflare API error', status: resp.status, detail: text }, 500);
+    return jsonResponse({ error: 'Cloudflare GraphQL error', status: resp.status, detail: await resp.text() }, 500);
   }
 
   const data = await resp.json();
   if (data.errors) {
-    return jsonResponse({
-      error: 'GraphQL: ' + (data.errors[0]?.message || 'unknown'),
-      detail: data.errors,
-      query_dates: { since: sinceDate, until: untilDate, siteTag }
-    }, 500);
+    return jsonResponse({ error: 'GraphQL: ' + (data.errors[0]?.message || 'unknown'), detail: data.errors }, 500);
   }
 
-  const account = data.data?.viewer?.accounts?.[0] || {};
+  const dailyRows = data.data?.viewer?.zones?.[0]?.daily || [];
 
-  // Aggregate totals
-  const totalPageviews = (account.totals || []).reduce((s, r) => s + (r.count || 0), 0);
-  const totalVisits = (account.totals || []).reduce((s, r) => s + (r.sum?.visits || 0), 0);
+  // Aggregate totals across all days
+  let totalPageViews = 0, totalRequests = 0, totalUniques = 0;
+  const countryAgg = {}, browserAgg = {};
+
+  for (const row of dailyRows) {
+    totalPageViews += row.sum?.pageViews || 0;
+    totalRequests += row.sum?.requests || 0;
+    totalUniques += row.uniq?.uniques || 0;
+    for (const c of (row.sum?.countryMap || [])) {
+      countryAgg[c.clientCountryName] = (countryAgg[c.clientCountryName] || 0) + c.requests;
+    }
+    for (const b of (row.sum?.browserMap || [])) {
+      browserAgg[b.uaBrowserFamily] = (browserAgg[b.uaBrowserFamily] || 0) + b.pageViews;
+    }
+  }
+
+  const countries = Object.entries(countryAgg)
+    .map(([name, pageviews]) => ({ name, pageviews }))
+    .sort((a, b) => b.pageviews - a.pageviews)
+    .filter(r => r.name && r.name !== 'XX')
+    .slice(0, 10);
+
+  const browsers = Object.entries(browserAgg)
+    .map(([name, pageviews]) => ({ name, pageviews }))
+    .sort((a, b) => b.pageviews - a.pageviews)
+    .slice(0, 8);
 
   return jsonResponse({
     range,
     since: sinceDate,
     until: untilDate,
     summary: {
-      pageviews: totalPageviews,
-      visits: totalVisits,
+      pageviews: totalPageViews,
+      visits: totalUniques,
     },
-    countries: (account.countries || []).map(r => ({
-      name: r.dimensions?.countryName || 'Unknown',
-      pageviews: r.count,
-      visits: r.sum?.visits || 0
-    })).filter(r => r.name && r.name !== 'Unknown').slice(0, 10),
-    devices: (account.devices || []).map(r => ({
-      name: r.dimensions?.deviceType || 'Unknown',
-      pageviews: r.count
-    })).filter(r => r.name),
-    paths: (account.paths || []).map(r => ({
-      path: r.dimensions?.requestPath || '/',
-      pageviews: r.count
-    })).slice(0, 15),
-    referers: (account.referers || []).map(r => ({
-      host: r.dimensions?.refererHost || 'direct',
-      pageviews: r.count
-    })).slice(0, 10),
-    daily: (account.daily || []).map(r => ({
+    countries,
+    browsers,
+    devices: [],
+    paths: [],
+    referers: [],
+    daily: dailyRows.map(r => ({
       date: r.dimensions?.date,
-      pageviews: r.count,
-      visits: r.sum?.visits || 0
+      pageviews: r.sum?.pageViews || 0,
+      visits: r.uniq?.uniques || 0,
     })),
-    browsers: (account.browsers || []).map(r => ({
-      name: r.dimensions?.userAgentBrowser || 'Unknown',
-      pageviews: r.count
-    })).filter(r => r.name)
   });
 }
 
