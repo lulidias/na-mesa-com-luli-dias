@@ -341,6 +341,19 @@
     // Aplicar nota do Supabase se já carregada
     applyNote(card);
 
+    // Clamp descrição + "Ler mais" abre modal
+    var descEl = card.querySelector('.card-desc');
+    if (descEl && !descEl.dataset.ldmC) {
+      descEl.dataset.ldmC = '1';
+      descEl.style.cursor = 'pointer';
+      descEl.addEventListener('click', function () { openModal(card); });
+      var hint = document.createElement('button');
+      hint.className = 'ldm-more';
+      hint.textContent = 'Ler mais →';
+      hint.addEventListener('click', function (e) { e.stopPropagation(); openModal(card); });
+      descEl.after(hint);
+    }
+
     // Photo wrap → opens modal
     var wrap = card.querySelector('.card-photo-wrap');
     if (wrap && !wrap.dataset.ldmInit) {
@@ -474,6 +487,10 @@
     '.ldm-crow:hover{color:var(--gold,#B8922A)}' +
     '.ldm-crow span:first-child{flex-shrink:0;width:18px;text-align:center}' +
     '.ldm-arr{margin-left:auto;color:var(--gold,#B8922A);font-size:11px;flex-shrink:0;align-self:center}' +
+    // Descrição truncada
+    '.card-desc{display:-webkit-box!important;-webkit-line-clamp:3!important;-webkit-box-orient:vertical!important;overflow:hidden!important;cursor:pointer}' +
+    '.ldm-more{background:none;border:none;padding:4px 0 0;font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold,#B8922A);cursor:pointer;display:block}' +
+    '.ldm-more:hover{opacity:.75}' +
     // Badge "Luli conhece"
     '.badge-luli{background:var(--gold,#B8922A)!important;color:#fff!important;font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:10px;font-family:Montserrat,sans-serif;white-space:nowrap}' +
     // Secção Luli no modal
