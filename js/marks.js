@@ -198,7 +198,9 @@
   // ── Styles ────────────────────────────────────────────────────────────
   var style = document.createElement('style');
   style.textContent =
-    '.card-actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;align-items:center}' +
+    '.restaurant-card{display:flex!important;flex-direction:column!important}' +
+    '.card-body{display:flex!important;flex-direction:column!important;flex:1!important}' +
+    '.card-actions{display:flex;gap:6px;margin-top:auto;padding-top:16px;flex-wrap:wrap;align-items:center}' +
     '.ca-btn{font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;' +
     'border:1px solid var(--border);background:none;color:var(--ink-lt);padding:5px 11px;cursor:pointer;' +
     'border-radius:20px;transition:all .2s;white-space:nowrap;font-weight:500;line-height:1}' +
