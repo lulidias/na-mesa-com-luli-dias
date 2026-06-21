@@ -74,7 +74,7 @@
       if (badgesEl) {
         var b = document.createElement('span');
         b.className = 'badge badge-luli';
-        b.innerHTML = '✦ Luli conhece';
+        b.innerHTML = '✦ Amigo da casa';
         badgesEl.insertAdjacentElement('afterbegin', b);
       }
     }
@@ -288,7 +288,7 @@
     var luliSecHtml = '';
     if (luliKnows || luliStory || luliPhoto || chefPhoto || favDish) {
       luliSecHtml = '<div class="ldm-sec ldm-luli-sec">';
-      if (luliKnows) luliSecHtml += '<div class="ldm-luli-badge">✦ Luli conhece pessoalmente</div>';
+      if (luliKnows) luliSecHtml += '<div class="ldm-luli-badge">✦ Amigo da casa</div>';
       if (chefPhoto || luliPhoto) {
         luliSecHtml += '<div class="ldm-photos-row">';
         if (chefPhoto) luliSecHtml += '<div class="ldm-pblock"><img src="' + chefPhoto + '" class="ldm-pthumb" alt="' + (chefName || 'Chef') + '"><div class="ldm-pname">' + (chefName || 'Chef / Proprietário') + '</div></div>';
@@ -305,7 +305,7 @@
     modal.querySelector('#ldm-body').innerHTML =
       '<div class="ldm-hdr">' +
         '<div class="ldm-name">' + name + '</div>' +
-        (badges ? '<div class="ldm-badges">' + badges + (luliKnows && !badges.includes('badge-luli') ? '<span class="badge badge-luli">✦ Luli conhece</span>' : '') + '</div>' : (luliKnows ? '<div class="ldm-badges"><span class="badge badge-luli">✦ Luli conhece</span></div>' : '')) +
+        (badges ? '<div class="ldm-badges">' + badges + (luliKnows && !badges.includes('badge-luli') ? '<span class="badge badge-luli">✦ Amigo da casa</span>' : '') + '</div>' : (luliKnows ? '<div class="ldm-badges"><span class="badge badge-luli">✦ Amigo da casa</span></div>' : '')) +
         '<div class="ldm-meta">' + cuisine + (price ? '<span class="ldm-price">' + price + '</span>' : '') + '</div>' +
       '</div>' +
       (finalNote ? '<div class="ldm-sec"><div class="ldm-note">✦ ' + finalNote + '</div></div>' : '') +
