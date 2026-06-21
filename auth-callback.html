@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luli Dias</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#F7F3EE;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:Montserrat,sans-serif}
+.spinner{width:24px;height:24px;border:2px solid #E8E0D5;border-top-color:#B8922A;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:20px}
+@keyframes spin{to{transform:rotate(360deg)}}
+p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#9A9A9A}
+</style>
+</head>
+<body>
+<div class="spinner"></div>
+<p>A autenticar&hellip;</p>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+  var sb = window.supabase.createClient(
+    'https://saotncritqxuchsvvnzi.supabase.co',
+    'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5'
+  );
+
+  sb.auth.onAuthStateChange(function (event, session) {
+    if (event === 'SIGNED_IN' || (session && session.user)) {
+      window.location.replace('/');
+    }
+  });
+
+  sb.auth.getSession().then(function (res) {
+    if (res.data && res.data.session) {
+      window.location.replace('/');
+    }
+  });
+
+  // Fallback: if nothing happens in 8s, go home anyway
+  setTimeout(function () { window.location.replace('/'); }, 8000);
+})();
+</script>
+</body>
+</html>

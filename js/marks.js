@@ -87,7 +87,7 @@
   window.__ldShare = function (btn) {
     var name    = btn.closest('.card-actions').dataset.name;
     var pageUrl = location.origin + '/' + GUIDE_SLUG + '.html?q=' + encodeURIComponent(name);
-    var text    = name + ' — Na Mesa com Luli Dias';
+    var text    = name + ' — Luli Dias · Restaurants & Hotels';
     if (navigator.share) {
       navigator.share({ title: name, text: text, url: pageUrl });
     } else {
