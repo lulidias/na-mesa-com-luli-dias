@@ -47,6 +47,48 @@
   const GUIDE_SLUG = window.location.pathname.split('/').pop().replace(/\.html$/, '');
   const meta = GUIDE_META[GUIDE_SLUG] || { country: '', flag: '' };
 
+  // ── Notes do Supabase (por estabelecimento) ───────────────────────────
+  var NOTES = {};
+  var NOTES_LOADED = false;
+  var SB_URL = 'https://saotncritqxuchsvvnzi.supabase.co/functions/v1/';
+
+  function fetchNotes() {
+    if (!GUIDE_SLUG) return;
+    fetch(SB_URL + 'guia-notes?guide=' + GUIDE_SLUG)
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (data) {
+        if (!Array.isArray(data)) return;
+        data.forEach(function (row) { NOTES[row.slug] = row; });
+        NOTES_LOADED = true;
+        document.querySelectorAll('.restaurant-card').forEach(applyNote);
+      })
+      .catch(function () {});
+  }
+
+  function applyNote(card) {
+    var sl = card.id ? card.id.replace('card-', '') : '';
+    var n = NOTES[sl];
+    if (!n) return;
+    if (n.luli_knows && !card.querySelector('.badge-luli')) {
+      var badgesEl = card.querySelector('.card-badges');
+      if (badgesEl) {
+        var b = document.createElement('span');
+        b.className = 'badge badge-luli';
+        b.innerHTML = '✦ Luli conhece';
+        badgesEl.insertAdjacentElement('afterbegin', b);
+      }
+    }
+    if (n.luli_note && !card.querySelector('.card-note-luli')) {
+      var el = document.createElement('div');
+      el.className = 'card-note card-note-luli';
+      el.textContent = '✦ ' + n.luli_note;
+      var actions = card.querySelector('.card-actions');
+      if (actions) actions.parentNode.insertBefore(el, actions);
+    }
+  }
+
+  fetchNotes();
+
   // ── localStorage ──────────────────────────────────────────────────────
   function getMarks() {
     try { return JSON.parse(localStorage.getItem('ld-marks') || '{}'); } catch (e) { return {}; }
@@ -232,13 +274,42 @@
     if (web)   contactHtml += '<a href="' + web.href   + '" target="_blank" rel="noopener" class="ldm-crow"><span>🌐</span><span>' + web.text + '</span></a>';
     if (ig)    contactHtml += '<a href="' + ig.href    + '" target="_blank" rel="noopener" class="ldm-crow"><span>📷</span><span>' + ig.text  + '</span></a>';
 
+    // ── Notes do Supabase ─────────────────────────────────────────────
+    var sl = card.id ? card.id.replace('card-', '') : '';
+    var nb = NOTES[sl] || {};
+    var luliKnows   = nb.luli_knows   || false;
+    var luliNote    = nb.luli_note    || '';
+    var luliStory   = nb.luli_story   || '';
+    var luliPhoto   = nb.luli_photo_url || '';
+    var chefName    = nb.chef_name    || '';
+    var chefPhoto   = nb.chef_photo_url || '';
+    var favDish     = nb.favorite_dish || '';
+
+    var luliSecHtml = '';
+    if (luliKnows || luliStory || luliPhoto || chefPhoto || favDish) {
+      luliSecHtml = '<div class="ldm-sec ldm-luli-sec">';
+      if (luliKnows) luliSecHtml += '<div class="ldm-luli-badge">✦ Luli conhece pessoalmente</div>';
+      if (chefPhoto || luliPhoto) {
+        luliSecHtml += '<div class="ldm-photos-row">';
+        if (chefPhoto) luliSecHtml += '<div class="ldm-pblock"><img src="' + chefPhoto + '" class="ldm-pthumb" alt="' + (chefName || 'Chef') + '"><div class="ldm-pname">' + (chefName || 'Chef / Proprietário') + '</div></div>';
+        if (luliPhoto) luliSecHtml += '<div class="ldm-pblock"><img src="' + luliPhoto + '" class="ldm-pthumb ldm-pthumb-luli" alt="Luli Dias"><div class="ldm-pname">Com o Luli</div></div>';
+        luliSecHtml += '</div>';
+      }
+      if (luliStory) luliSecHtml += '<p class="ldm-story">' + luliStory + '</p>';
+      if (favDish)   luliSecHtml += '<div class="ldm-dish"><span class="ldm-dish-lbl">Prato favorito do Luli</span><span class="ldm-dish-val">' + favDish + '</span></div>';
+      luliSecHtml += '</div>';
+    }
+
+    var finalNote = luliNote || note;
+
     modal.querySelector('#ldm-body').innerHTML =
       '<div class="ldm-hdr">' +
         '<div class="ldm-name">' + name + '</div>' +
-        (badges ? '<div class="ldm-badges">' + badges + '</div>' : '') +
+        (badges ? '<div class="ldm-badges">' + badges + (luliKnows && !badges.includes('badge-luli') ? '<span class="badge badge-luli">✦ Luli conhece</span>' : '') + '</div>' : (luliKnows ? '<div class="ldm-badges"><span class="badge badge-luli">✦ Luli conhece</span></div>' : '')) +
         '<div class="ldm-meta">' + cuisine + (price ? '<span class="ldm-price">' + price + '</span>' : '') + '</div>' +
       '</div>' +
-      (note ? '<div class="ldm-sec"><div class="ldm-note">✦ ' + note + '</div></div>' : '') +
+      (finalNote ? '<div class="ldm-sec"><div class="ldm-note">✦ ' + finalNote + '</div></div>' : '') +
+      luliSecHtml +
       (desc ? '<div class="ldm-sec ldm-desc">' + desc + '</div>' : '') +
       (contactHtml ? '<div class="ldm-sec ldm-contact">' + contactHtml + '</div>' : '');
 
@@ -266,6 +337,9 @@
     var eName = name.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
     var body  = card.querySelector('.card-body');
     if (body) body.insertAdjacentHTML('beforeend', actionsHTML(key, eName));
+
+    // Aplicar nota do Supabase se já carregada
+    applyNote(card);
 
     // Photo wrap → opens modal
     var wrap = card.querySelector('.card-photo-wrap');
@@ -399,6 +473,20 @@
     '.ldm-crow:last-child{border-bottom:none}' +
     '.ldm-crow:hover{color:var(--gold,#B8922A)}' +
     '.ldm-crow span:first-child{flex-shrink:0;width:18px;text-align:center}' +
-    '.ldm-arr{margin-left:auto;color:var(--gold,#B8922A);font-size:11px;flex-shrink:0;align-self:center}';
+    '.ldm-arr{margin-left:auto;color:var(--gold,#B8922A);font-size:11px;flex-shrink:0;align-self:center}' +
+    // Badge "Luli conhece"
+    '.badge-luli{background:var(--gold,#B8922A)!important;color:#fff!important;font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:10px;font-family:Montserrat,sans-serif;white-space:nowrap}' +
+    // Secção Luli no modal
+    '.ldm-luli-sec{background:#FAF6EF}' +
+    '.ldm-luli-badge{font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold,#B8922A);margin-bottom:14px}' +
+    '.ldm-photos-row{display:flex;gap:16px;margin-bottom:14px}' +
+    '.ldm-pblock{text-align:center}' +
+    '.ldm-pthumb{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid #E8E0D5}' +
+    '.ldm-pthumb-luli{border-color:var(--gold,#B8922A)}' +
+    '.ldm-pname{font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:1px;color:#7A7A7A;margin-top:5px;text-transform:uppercase}' +
+    '.ldm-story{font-size:13px;line-height:1.75;color:#3A3835;margin:0;font-style:italic}' +
+    '.ldm-dish{display:flex;flex-direction:column;gap:3px;margin-top:12px;padding-top:12px;border-top:1px solid #F0EBE4}' +
+    '.ldm-dish-lbl{font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#B8922A}' +
+    '.ldm-dish-val{font-size:14px;color:#1A1A1A;font-family:Georgia,serif}';
   document.head.appendChild(style);
 })();
