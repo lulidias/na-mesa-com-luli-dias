@@ -1,22 +1,22 @@
 {
   "totals": {
-    "restaurants": 991,
-    "hotels": 153,
+    "restaurants": 994,
+    "hotels": 154,
     "markets": 12,
     "m1": 43,
     "m2": 13,
     "m3": 4,
     "bib": 28,
     "green": 1,
-    "rec": 55,
+    "rec": 57,
     "keys1": 51,
-    "keys2": 24,
+    "keys2": 25,
     "keys3": 2,
-    "countries": 37,
+    "countries": 38,
     "totalStars": 81,
-    "totalKeys": 105,
+    "totalKeys": 107,
     "michelin": 89,
-    "keysEntries": 77
+    "keysEntries": 78
   },
   "countries": {
     "alemanha": {
@@ -607,6 +607,25 @@
       "totalKeys": 20,
       "michelin": 6,
       "keysEntries": 14
+    },
+    "qatar": {
+      "restaurants": 3,
+      "hotels": 1,
+      "markets": 0,
+      "cities": 1,
+      "m1": 0,
+      "m2": 0,
+      "m3": 0,
+      "bib": 0,
+      "green": 0,
+      "rec": 2,
+      "keys1": 0,
+      "keys2": 1,
+      "keys3": 0,
+      "totalStars": 0,
+      "totalKeys": 2,
+      "michelin": 0,
+      "keysEntries": 1
     },
     "tailandia": {
       "restaurants": 8,
