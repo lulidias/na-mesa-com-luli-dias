@@ -481,17 +481,56 @@ function findMatchingBracket(text, startIdx, openCh, closeCh) {
 
 // ===================== ANALYTICS =====================
 
-async function handleAnalytics(url, env) {
-  if (!env.CF_API_TOKEN) {
-    return jsonResponse({ error: 'Analytics not configured. Set CF_API_TOKEN secret.' }, 500);
+async function getCFAccessToken(env) {
+  const refreshToken = env.CF_REFRESH_TOKEN;
+  if (!refreshToken) return env.CF_API_TOKEN || null;
+
+  // Try to get cached token from D1
+  if (env.DB) {
+    try {
+      await env.DB.exec(`CREATE TABLE IF NOT EXISTS cf_token_cache (key TEXT PRIMARY KEY, value TEXT, expires_at INTEGER)`);
+      const row = await env.DB.prepare('SELECT value, expires_at FROM cf_token_cache WHERE key = ?').bind('access_token').first();
+      if (row && row.expires_at > Date.now() + 300000) {
+        return row.value;
+      }
+    } catch (_) { /* D1 unavailable, continue */ }
   }
 
+  // Refresh the OAuth token
+  const res = await fetch('https://dash.cloudflare.com/oauth2/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(refreshToken)}&client_id=54d11594-84e4-41aa-b438-e81b8fa78ee7`,
+  });
+  if (!res.ok) return env.CF_API_TOKEN || null;
+
+  const data = await res.json();
+  const accessToken = data.access_token;
+  if (!accessToken) return env.CF_API_TOKEN || null;
+
+  // Cache in D1
+  if (env.DB && data.expires_in) {
+    const expiresAt = Date.now() + (data.expires_in * 1000);
+    try {
+      await env.DB.prepare('INSERT OR REPLACE INTO cf_token_cache (key, value, expires_at) VALUES (?, ?, ?)').bind('access_token', accessToken, expiresAt).run();
+    } catch (_) { /* ignore */ }
+  }
+
+  return accessToken;
+}
+
+async function handleAnalytics(url, env) {
   const range = url.searchParams.get('range') || '7d';
   const now = new Date();
   const days = { '24h': 1, '7d': 7, '30d': 30, '90d': 90 }[range] || 7;
   const since = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
   const sinceDate = since.toISOString().split('T')[0];
   const untilDate = now.toISOString().split('T')[0];
+
+  const cfToken = await getCFAccessToken(env);
+  if (!cfToken) {
+    return jsonResponse({ error: 'Analytics not configured. Set CF_API_TOKEN or CF_REFRESH_TOKEN secrets.' }, 500);
+  }
 
   const zoneId = env.CF_ZONE_ID || '15a1bd24a5161bdf163dbf5aa4af3232';
 
@@ -512,7 +551,7 @@ async function handleAnalytics(url, env) {
 
   const resp = await fetch('https://api.cloudflare.com/client/v4/graphql', {
     method: 'POST',
-    headers: { 'Authorization': `Bearer ${env.CF_API_TOKEN}`, 'Content-Type': 'application/json' },
+    headers: { 'Authorization': `Bearer ${cfToken}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ query })
   });
 
