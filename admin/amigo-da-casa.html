@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amigo da Casa · Admin · Luli Dias</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#F0EBE4;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1A1A1A;min-height:100vh}
+.top-bar{background:#1A1A1A;padding:16px 28px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:50}
+.top-bar a{color:#B8922A;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none}
+.top-bar span{color:#444;font-size:10px}
+.top-bar .title{color:#F7F3EE;font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-left:auto}
+.page{max-width:900px;margin:0 auto;padding:36px 24px}
+h2{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#5A5A5A;margin-bottom:20px}
+.btn{padding:10px 22px;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:3px;font-family:inherit;border:none;transition:all .15s}
+.btn-gold{background:#B8922A;color:#FFF}.btn-gold:hover{background:#9A7220}
+.btn-dark{background:#1A1A1A;color:#FFF}.btn-dark:hover{background:#333}
+.btn-danger{background:none;border:1px solid #C44;color:#C44;font-size:9px;letter-spacing:1px;padding:7px 14px}.btn-danger:hover{background:#C44;color:#FFF}
+.btn-outline{background:none;border:1px solid #DDD;color:#5A5A5A}.btn-outline:hover{border-color:#B8922A;color:#B8922A}
+.status{margin-top:14px;font-size:13px;padding:10px 14px;border-radius:3px;display:none}
+.status.ok{background:#EDF7F0;color:#1A6640;border:1px solid #A8DFC0;display:block}
+.status.err{background:#FDF0F0;color:#A0201A;border:1px solid #F0B8B8;display:block}
+.status.info{background:#F0F4FF;color:#2A40A0;border:1px solid #B8C8F8;display:block}
+
+/* Auth */
+.auth-overlay{position:fixed;inset:0;background:#F0EBE4;display:flex;align-items:center;justify-content:center;z-index:100}
+.auth-box{background:#FFF;border:1px solid #E8E0D5;border-radius:6px;padding:48px 40px;max-width:360px;width:100%;text-align:center}
+.auth-box h1{font-family:Georgia,serif;font-size:22px;font-weight:400;letter-spacing:8px;text-transform:uppercase;margin-bottom:6px}
+.auth-box p{font-size:11px;color:#7A7A7A;letter-spacing:1px;margin-bottom:24px}
+.auth-box input{width:100%;padding:12px 16px;border:1px solid #DDD;border-radius:3px;font-size:14px;text-align:center;letter-spacing:3px}
+.auth-box input:focus{outline:none;border-color:#B8922A}
+.auth-box button{margin-top:12px;width:100%;padding:12px;background:#1A1A1A;color:#FFF;border:none;border-radius:3px;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:inherit}
+
+/* Lista */
+.amigos-list{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.amigo-row{background:#FFF;border:1px solid #E8E0D5;border-radius:4px;padding:16px 20px;display:flex;align-items:center;gap:16px;cursor:pointer;transition:border-color .15s}
+.amigo-row:hover{border-color:#B8922A}
+.amigo-info{flex:1}
+.amigo-name{font-family:Georgia,serif;font-size:16px;color:#1A1A1A;margin-bottom:3px}
+.amigo-meta{font-size:11px;color:#7A7A7A;letter-spacing:.5px}
+.amigo-badge{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#B8922A;background:#FAF5EB;border:1px solid #E8D8A0;padding:3px 8px;border-radius:10px;white-space:nowrap}
+.amigo-chef{font-size:11px;color:#5A5A5A}
+.amigo-phone{font-size:11px;color:#B8922A;font-family:monospace}
+.empty{text-align:center;padding:48px;color:#AAA;font-size:13px}
+
+/* Formulário */
+.form-card{background:#FFF;border:1px solid #E8E0D5;border-radius:4px;padding:28px;margin-bottom:20px}
+.form-title{font-family:Georgia,serif;font-size:18px;margin-bottom:20px;color:#1A1A1A}
+.field{margin-bottom:16px}
+label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#7A7A7A;margin-bottom:7px}
+input[type=text],input[type=tel],textarea,select{width:100%;border:1px solid #E0D8CF;background:#FFF;padding:10px 14px;font-family:inherit;font-size:14px;color:#1A1A1A;border-radius:3px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:none;border-color:#B8922A}
+textarea{min-height:80px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.toggle-amigo{display:flex;align-items:center;gap:10px;padding:12px 16px;border:1px solid #E0D8CF;border-radius:3px;cursor:pointer;background:#FFF}
+.toggle-amigo.on{border-color:#B8922A;background:#FAF5EB}
+.toggle-amigo-dot{width:20px;height:20px;border-radius:50%;border:2px solid #DDD;flex-shrink:0;transition:all .15s}
+.toggle-amigo.on .toggle-amigo-dot{background:#B8922A;border-color:#B8922A}
+.toggle-amigo-lbl{font-size:13px;color:#5A5A5A}
+.toggle-amigo.on .toggle-amigo-lbl{color:#1A1A1A}
+.section-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#B8922A;margin:20px 0 12px;border-top:1px solid #F0EBE4;padding-top:16px}
+.hint{font-size:11px;color:#AAA;margin-top:5px;font-style:italic}
+.form-actions{display:flex;justify-content:space-between;align-items:center;margin-top:24px;flex-wrap:wrap;gap:10px}
+
+/* Guias list para o select */
+optgroup{font-weight:600}
+
+/* VIP preview */
+.vip-preview{background:#FAF5EB;border:1px solid #E8D8A0;border-radius:4px;padding:16px;margin-top:16px;display:none}
+.vip-preview.show{display:block}
+.vip-preview-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#B8922A;margin-bottom:8px}
+.vip-preview-text{font-size:13px;color:#3A3A3A;line-height:1.6}
+</style>
+</head>
+<body>
+
+<!-- Auth -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-box">
+    <h1>Luli Dias</h1>
+    <p>Amigo da Casa · Admin</p>
+    <input type="password" id="secretInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')auth()">
+    <button onclick="auth()">Entrar →</button>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+  <div class="top-bar">
+    <a href="index.html">← Admin</a>
+    <span>/</span>
+    <span class="title">✦ Amigo da Casa</span>
+  </div>
+
+  <div class="page">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+      <h2>Amigos da Casa</h2>
+      <button class="btn btn-gold" onclick="showForm(null)">+ Novo amigo da casa</button>
+    </div>
+
+    <div id="listSection">
+      <div class="amigos-list" id="amigosList">
+        <div class="empty">A carregar…</div>
+      </div>
+    </div>
+
+    <!-- Formulário -->
+    <div id="formSection" style="display:none">
+      <div class="form-card">
+        <div class="form-title" id="formTitle">Novo Amigo da Casa</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>País / Guia <span style="color:#C44">*</span></label>
+            <select id="f-guide">
+              <optgroup label="Europa">
+                <option value="portugal-guia">🇵🇹 Portugal</option>
+                <option value="espanha-guia">🇪🇸 Espanha</option>
+                <option value="franca-guia">🇫🇷 França</option>
+                <option value="italia-guia">🇮🇹 Itália</option>
+                <option value="alemanha-guia">🇩🇪 Alemanha</option>
+                <option value="austria-guia">🇦🇹 Áustria</option>
+                <option value="inglaterra-guia">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra</option>
+                <option value="holanda-guia">🇳🇱 Holanda</option>
+                <option value="monaco-guia">🇲🇨 Mónaco</option>
+              </optgroup>
+              <optgroup label="Brasil">
+                <option value="brasil-sudeste">🇧🇷 Brasil (Sudeste)</option>
+                <option value="brasil-nordeste">🇧🇷 Brasil (Nordeste)</option>
+                <option value="brasil-sul">🇧🇷 Brasil (Sul)</option>
+                <option value="brasil-centroeste">🇧🇷 Brasil (Centro-Oeste)</option>
+              </optgroup>
+              <optgroup label="Américas">
+                <option value="argentina-guia">🇦🇷 Argentina</option>
+                <option value="chile-guia">🇨🇱 Chile</option>
+                <option value="colombia-guia">🇨🇴 Colômbia</option>
+                <option value="peru-guia">🇵🇪 Peru</option>
+                <option value="uruguai-guia">🇺🇾 Uruguai</option>
+                <option value="eua-guia">🇺🇸 Estados Unidos</option>
+                <option value="panama-guia">🇵🇦 Panamá</option>
+              </optgroup>
+              <optgroup label="Ásia">
+                <option value="japao-guia">🇯🇵 Japão</option>
+                <option value="coreia-guia">🇰🇷 Coreia do Sul</option>
+                <option value="tailandia-guia">🇹🇭 Tailândia</option>
+                <option value="china-guia">🇨🇳 China</option>
+                <option value="hongkong-guia">🇭🇰 Hong Kong</option>
+                <option value="taiwan-guia">🇹🇼 Taiwan</option>
+                <option value="vietna-guia">🇻🇳 Vietnã</option>
+                <option value="dubai-guia">🇦🇪 Dubai</option>
+              </optgroup>
+              <optgroup label="África & Oceania">
+                <option value="marrocos-guia">🇲🇦 Marrocos</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="field">
+            <label>Nome do restaurante <span style="color:#C44">*</span></label>
+            <input type="text" id="f-name" placeholder="Pigmeu" oninput="autoSlug()">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Slug (ID interno)</label>
+          <input type="text" id="f-slug" placeholder="pigmeu" oninput="slugEdited=true">
+          <p class="hint">Gerado automaticamente a partir do nome. Deve coincidir com o ID do card no guia.</p>
+        </div>
+
+        <div class="section-label">Chef / Proprietário</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Nome do chef / proprietário</label>
+            <input type="text" id="f-chef" placeholder="Miguel Azevedo Peres">
+          </div>
+          <div class="field">
+            <label>Quem contactar (gerente/dono)</label>
+            <input type="text" id="f-contact" placeholder="Miguel">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>📱 Telefone directo para reservas</label>
+          <input type="tel" id="f-phone" placeholder="+351 912 345 678" oninput="updatePreview()">
+          <p class="hint">Número privado — só visível no modal para quem usa o guia.</p>
+        </div>
+
+        <div id="vipPreview" class="vip-preview">
+          <div class="vip-preview-lbl">Prévia no modal</div>
+          <div class="vip-preview-text" id="vipPreviewText"></div>
+        </div>
+
+        <div class="section-label">A nota do Luli</div>
+
+        <div class="field">
+          <label>Nota curta (aparece no card)</label>
+          <input type="text" id="f-note" placeholder="Um dos meus favoritos absolutos em Lisboa. Pede o secretos.">
+        </div>
+
+        <div class="field">
+          <label>História pessoal (aparece no modal)</label>
+          <textarea id="f-story" placeholder="Conheço o Miguel há 10 anos, desde que abri a Épice. É uma pessoa incrível e um dos melhores cozinheiros que conheço…"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Prato favorito do Luli</label>
+          <input type="text" id="f-dish" placeholder="Secretos de porco com puré de batata-doce">
+        </div>
+
+        <div class="section-label">Fotos</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>URL da foto do chef</label>
+            <input type="text" id="f-chef-photo" placeholder="https://…">
+          </div>
+          <div class="field">
+            <label>URL da foto Luli + chef</label>
+            <input type="text" id="f-luli-photo" placeholder="https://…">
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-danger btn" id="deleteBtn" onclick="deleteAmigo()" style="display:none">🗑 Eliminar</button>
+          <div style="display:flex;gap:10px;margin-left:auto">
+            <button class="btn btn-outline" onclick="showList()">Cancelar</button>
+            <button class="btn btn-gold" onclick="saveAmigo()">Guardar →</button>
+          </div>
+        </div>
+        <div class="status" id="formStatus"></div>
+      </div>
+    </div>
+
+    <div class="status" id="listStatus"></div>
+  </div>
+</div>
+
+<script>
+const SB_URL   = 'https://saotncritqxuchsvvnzi.supabase.co/functions/v1/';
+let SECRET = '';
+let editingKey = null; // "slug|guide"
+let slugEdited = false;
+
+// ── Auth ──────────────────────────────────────────────────────────────────
+function auth() {
+  const v = document.getElementById('secretInput').value.trim();
+  if (!v) return;
+  SECRET = v;
+  localStorage.setItem('nl_secret', v);
+  document.getElementById('authOverlay').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadList();
+}
+(function() {
+  const s = localStorage.getItem('nl_secret');
+  if (s) { SECRET = s; document.getElementById('secretInput').value = s; auth(); }
+})();
+
+// ── Lista ─────────────────────────────────────────────────────────────────
+async function loadList() {
+  const r = await fetch(SB_URL + 'guia-notes');
+  const data = await r.json().catch(() => []);
+  const amigos = Array.isArray(data) ? data.filter(d => d.luli_knows) : [];
+  const list = document.getElementById('amigosList');
+  if (!amigos.length) {
+    list.innerHTML = '<div class="empty">Ainda sem amigos da casa. Clica em "+ Novo" para adicionar.</div>';
+    return;
+  }
+  amigos.sort((a, b) => (a.guide + a.slug).localeCompare(b.guide + b.slug));
+  list.innerHTML = amigos.map(a => `
+    <div class="amigo-row" onclick="showForm(${JSON.stringify(a).replace(/"/g,'&quot;')})">
+      <div class="amigo-info">
+        <div class="amigo-name">${a.slug.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</div>
+        <div class="amigo-meta">${guideLabel(a.guide)}${a.chef_name ? ' · ' + a.chef_name : ''}</div>
+        ${a.direct_phone ? '<div class="amigo-phone">📱 ' + a.direct_phone + (a.contact_name ? ' (' + a.contact_name + ')' : '') + '</div>' : ''}
+        ${a.luli_note ? '<div class="amigo-chef" style="margin-top:4px;font-style:italic;color:#7A7A7A">"' + a.luli_note.substring(0,80) + (a.luli_note.length>80?'…':'') + '"</div>' : ''}
+      </div>
+      <div class="amigo-badge">✦ Amigo da casa</div>
+    </div>`).join('');
+}
+
+function guideLabel(g) {
+  const map = {'portugal-guia':'🇵🇹 Portugal','espanha-guia':'🇪🇸 Espanha','franca-guia':'🇫🇷 França','italia-guia':'🇮🇹 Itália','brasil-sudeste':'🇧🇷 Brasil (Sudeste)','brasil-nordeste':'🇧🇷 Brasil (Nordeste)','japao-guia':'🇯🇵 Japão','eua-guia':'🇺🇸 EUA','argentina-guia':'🇦🇷 Argentina'};
+  return map[g] || g;
+}
+
+// ── Form ──────────────────────────────────────────────────────────────────
+function showForm(data) {
+  slugEdited = false;
+  editingKey = data ? (data.slug + '|' + data.guide) : null;
+  document.getElementById('listSection').style.display = 'none';
+  document.getElementById('formSection').style.display = 'block';
+  document.getElementById('formTitle').textContent = data ? 'Editar Amigo da Casa' : 'Novo Amigo da Casa';
+  document.getElementById('deleteBtn').style.display = data ? 'inline-flex' : 'none';
+  document.getElementById('formStatus').className = 'status';
+
+  document.getElementById('f-guide').value    = data?.guide       || 'portugal-guia';
+  document.getElementById('f-name').value     = data ? data.slug.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase()) : '';
+  document.getElementById('f-slug').value     = data?.slug        || '';
+  document.getElementById('f-chef').value     = data?.chef_name   || '';
+  document.getElementById('f-contact').value  = data?.contact_name|| '';
+  document.getElementById('f-phone').value    = data?.direct_phone|| '';
+  document.getElementById('f-note').value     = data?.luli_note   || '';
+  document.getElementById('f-story').value    = data?.luli_story  || '';
+  document.getElementById('f-dish').value     = data?.favorite_dish|| '';
+  document.getElementById('f-chef-photo').value = data?.chef_photo_url || '';
+  document.getElementById('f-luli-photo').value = data?.luli_photo_url || '';
+  updatePreview();
+}
+
+function showList() {
+  document.getElementById('listSection').style.display = 'block';
+  document.getElementById('formSection').style.display = 'none';
+  loadList();
+}
+
+function autoSlug() {
+  if (slugEdited) return;
+  const name = document.getElementById('f-name').value;
+  document.getElementById('f-slug').value = name
+    .toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[^a-z0-9\s-]/g,'')
+    .trim().replace(/\s+/g,'-');
+  updatePreview();
+}
+
+function updatePreview() {
+  const phone   = document.getElementById('f-phone').value.trim();
+  const contact = document.getElementById('f-contact').value.trim();
+  const wrap    = document.getElementById('vipPreview');
+  const txt     = document.getElementById('vipPreviewText');
+  if (!phone) { wrap.className = 'vip-preview'; return; }
+  wrap.className = 'vip-preview show';
+  txt.innerHTML = `Ligue para <strong>${contact || 'o responsável'}</strong> no <strong>${phone}</strong> e mencione o <strong>Luli Dias</strong>.`;
+}
+
+async function saveAmigo() {
+  const slug  = document.getElementById('f-slug').value.trim();
+  const guide = document.getElementById('f-guide').value;
+  if (!slug || !guide) { showStatus('formStatus', 'Preenche o nome e o país.', 'err'); return; }
+
+  showStatus('formStatus', 'A guardar…', 'info');
+  const r = await fetch(SB_URL + 'guia-notes-save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      secret:         SECRET,
+      slug,  guide,
+      luli_knows:     true,
+      chef_name:      document.getElementById('f-chef').value.trim()       || null,
+      contact_name:   document.getElementById('f-contact').value.trim()    || null,
+      direct_phone:   document.getElementById('f-phone').value.trim()      || null,
+      luli_note:      document.getElementById('f-note').value.trim()       || null,
+      luli_story:     document.getElementById('f-story').value.trim()      || null,
+      favorite_dish:  document.getElementById('f-dish').value.trim()       || null,
+      chef_photo_url: document.getElementById('f-chef-photo').value.trim() || null,
+      luli_photo_url: document.getElementById('f-luli-photo').value.trim() || null,
+    })
+  });
+  const d = await r.json().catch(() => ({}));
+  if (d.ok) {
+    showStatus('formStatus', '✓ Guardado com sucesso.', 'ok');
+    setTimeout(showList, 1200);
+  } else {
+    showStatus('formStatus', 'Erro: ' + JSON.stringify(d.error), 'err');
+  }
+}
+
+async function deleteAmigo() {
+  if (!editingKey) return;
+  if (!confirm('Eliminar este amigo da casa?')) return;
+  const [slug, guide] = editingKey.split('|');
+  const r = await fetch(SB_URL + 'guia-notes-save', {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ secret: SECRET, slug, guide })
+  });
+  const d = await r.json().catch(() => ({}));
+  if (d.ok) showList();
+  else showStatus('formStatus', 'Erro ao eliminar.', 'err');
+}
+
+function showStatus(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'status ' + type;
+}
+</script>
+</body>
+</html>

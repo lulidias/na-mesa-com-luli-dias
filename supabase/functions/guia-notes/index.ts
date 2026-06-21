@@ -18,8 +18,8 @@ Deno.serve(async (req) => {
   const guide = url.searchParams.get("guide") ?? "";
 
   const query = guide
-    ? `guide=eq.${encodeURIComponent(guide)}&select=slug,guide,luli_note,chef_name,luli_knows,luli_story,luli_photo_url,chef_photo_url,favorite_dish,updated_at`
-    : `select=slug,guide,luli_note,chef_name,luli_knows,luli_story,luli_photo_url,chef_photo_url,favorite_dish,updated_at`;
+    ? `guide=eq.${encodeURIComponent(guide)}&select=slug,guide,luli_note,chef_name,contact_name,direct_phone,luli_knows,luli_story,luli_photo_url,chef_photo_url,favorite_dish,updated_at`
+    : `select=slug,guide,luli_note,chef_name,contact_name,direct_phone,luli_knows,luli_story,luli_photo_url,chef_photo_url,favorite_dish,updated_at`;
 
   const r = await fetch(
     `${SUPABASE_URL}/rest/v1/restaurant_notes?${query}&order=updated_at.desc`,
