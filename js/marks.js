@@ -84,8 +84,8 @@
       var box = document.createElement('div');
       box.className = 'card-note-luli';
       box.innerHTML =
-        '<div class="cln-text">“' + n.luli_note + '”</div>' +
-        '<div class="cln-fade"><span class="cln-cta">ver mais ↓</span></div>';
+        '<div class=”cln-text”>”' + n.luli_note + '”</div>' +
+        '<span class=”cln-cta”>✦ Ver nota completa →</span>';
       box.addEventListener('click', function (e) { e.stopPropagation(); openModal(card); });
       actions.parentNode.insertBefore(box, actions);
     }
@@ -497,10 +497,10 @@
     '.ldm-more:hover{opacity:.75}' +
     // Badge "Luli conhece"
     '.badge-luli{background:var(--gold,#B8922A)!important;color:#fff!important;font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:10px;font-family:Montserrat,sans-serif;white-space:nowrap}' +
-    '.card-note-luli{position:relative;background:#FAF5EB;border:1px solid #E8D9B0;border-radius:4px;padding:8px 10px 22px;margin-bottom:10px;cursor:pointer}' +
-    '.cln-text{font-family:Georgia,"Times New Roman",serif;font-size:11px;font-style:italic;color:#3A3530;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}' +
-    '.cln-fade{position:absolute;bottom:0;left:0;right:0;height:28px;background:linear-gradient(transparent,#FAF5EB);display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;pointer-events:none}' +
-    '.cln-cta{font-family:Montserrat,sans-serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#B8922A;font-weight:600}' +
+    '.card-note-luli{position:relative;background:#FAF5EB;border:1px solid #E8D9B0;border-radius:4px;padding:8px 10px 0;margin-bottom:10px;cursor:pointer;transition:border-color .2s}' +
+    '.card-note-luli:hover{border-color:#B8922A}' +
+    '.cln-text{font-family:Georgia,"Times New Roman",serif;font-size:11px;font-style:italic;color:#3A3530;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding-bottom:2px}' +
+    '.cln-cta{display:block;width:100%;text-align:center;font-family:Montserrat,sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#B8922A;font-weight:600;padding:6px 0;border-top:1px solid #E8D9B0;margin-top:6px}' +
     // Secção Luli no modal
     '.ldm-luli-sec{background:#FAF6EF}' +
     '.ldm-luli-badge{font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold,#B8922A);margin-bottom:14px}' +
