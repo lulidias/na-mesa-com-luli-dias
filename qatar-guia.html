@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+  <meta property="og:title" content="Doha — Luli Dias · Restaurants &amp; Hotels">
+  <meta property="og:description" content="Um guia dos meus restaurantes e hotéis favoritos — São Paulo, Rio, Lisboa, Paris, Tóquio e mais.">
+  <meta property="og:url" content="https://lulidias.com/qatar-guia.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Luli Dias · Restaurants &amp; Hotels">
+  <meta property="og:image" content="https://lulidias.com/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Luli Dias · Restaurants &amp; Hotels">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://lulidias.com/og-image.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doha — Luli Dias · Restaurants &amp; Hotels</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-dk:#8B6914;--gold-bg:#FAF5EB;--border:#E8E0D5;--card-bg:#FFF;}
+html,body{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;}
+.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:8px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:fixed;top:0;left:0;right:0;z-index:1000;box-shadow:0 1px 8px rgba(0,0,0,.04);min-height:60px}
+body{padding-top:72px}
+@media(max-width:640px){body{padding-top:62px}}
+.top-nav-left{display:flex;align-items:center;gap:18px}
+.back-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;background:var(--gold-bg);border:1px solid var(--gold-lt);padding:7px 13px;border-radius:24px;display:inline-flex;align-items:center;gap:6px;transition:all .2s;flex-shrink:0}
+.back-link:hover{background:var(--gold);color:var(--white);border-color:var(--gold);transform:translateX(-2px)}
+.top-nav-brand{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;padding-left:6px;line-height:1}
+.top-nav-brand-name{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:20px;letter-spacing:8px;color:var(--ink);font-weight:400;padding-left:8px}
+.top-nav-brand-tag{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:8px;letter-spacing:3px;color:var(--ink-lt);font-weight:400}
+.top-nav-brand:hover .top-nav-brand-name{color:var(--gold)}
+.nav-sep{color:var(--border)}
+.nav-current{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);font-weight:500}
+@media(max-width:640px){
+  .top-nav{padding:8px 14px;min-height:52px;gap:10px}
+  .top-nav-left{gap:10px}
+  .top-nav-brand-name{font-size:14px;letter-spacing:5px;padding-left:5px}
+  .top-nav-brand-tag{font-size:6px;letter-spacing:1.8px}
+  .back-link{font-size:10px;padding:6px 10px;letter-spacing:1.5px}
+  .nav-current{font-size:8px;letter-spacing:2px}
+}
+@media(max-width:380px){
+  .top-nav-brand{display:none}
+}
+header{background:var(--white);border-bottom:1px solid var(--border);padding:44px 48px 32px}
+.brand-mast{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:13px;letter-spacing:7px;padding-left:7px;color:var(--ink-lt);font-weight:400;margin-bottom:14px}
+.brand-country{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:48px;font-weight:400;color:var(--ink);font-style:italic;margin-bottom:18px}
+.header-orn{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.orn-line{height:1px;width:48px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+.header-meta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.header-meta{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs)}
+.header-edition{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+.stats-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;flex-wrap:wrap}
+.stat{padding:0 28px;border-right:1px solid var(--border);text-align:center}
+.stat:first-child{padding-left:0}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);font-weight:600}
+.stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:2px}
+.michelin-legend{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.lbadge{font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}.michelin-legend .lbadge{cursor:pointer;transition:all .2s;user-select:none}.michelin-legend .lbadge:hover{filter:brightness(.92);transform:translateY(-1px)}.michelin-legend .lbadge.active{background:var(--gold)!important;color:var(--white)!important;border-color:var(--gold)!important;box-shadow:0 2px 6px rgba(184,146,42,.3)}
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.view-toggle{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end}
+.view-toggle-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:auto}
+.view-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 18px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.view-btn:hover{border-color:var(--gold);color:var(--gold)}
+.view-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.cuisine-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.cuisine-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.cuisine-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;padding:5px 12px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.cuisine-btn:hover{border-color:var(--gold);color:var(--gold)}
+.cuisine-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+#map{height:70vh;width:100%;max-width:1400px;margin:24px auto;border-radius:4px;border:1px solid var(--border)}
+.leaflet-popup-content{margin:14px 18px;line-height:1.4}
+.leaflet-popup-content-wrapper{border-radius:6px}
+.leaflet-tooltip.custom-tooltip{background:#fff;border:1px solid #E8E0D5;border-radius:6px;padding:8px 12px;box-shadow:0 4px 12px rgba(0,0,0,.08);font-family:'Montserrat',sans-serif}
+.leaflet-tooltip.custom-tooltip:before{display:none}
+main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
+.city-sec{margin-bottom:64px}
+.city-hdr{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:24px}
+.city-name{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--ink);letter-spacing:-1px;line-height:1}
+.city-count-block{text-align:right}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--gold);opacity:.25;line-height:1}
+.city-count-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-xs);margin-top:2px}
+.restaurants-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;background:transparent}.restaurant-card{box-shadow:0 2px 8px rgba(0,0,0,.08)}.nearme-cta{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));right:24px;z-index:1100;background:#1A1A1A;color:#FFF;border:none;border-radius:50px;padding:14px 22px;font-family:Montserrat,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:500;cursor:pointer;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.25);display:flex;align-items:center;gap:8px;transition:transform .2s,background .2s}.nearme-cta:hover{transform:translateY(-2px);background:#B8922A}.nearme-cta-icon{width:14px;height:14px;border:2px solid currentColor;border-radius:50%;position:relative}.nearme-cta-icon::after{content:"";position:absolute;top:50%;left:50%;width:4px;height:4px;background:currentColor;border-radius:50%;transform:translate(-50%,-50%)}@media(max-width:640px){.nearme-cta{bottom:calc(24px + env(safe-area-inset-bottom,0px));right:16px;padding:12px 18px;font-size:10px;letter-spacing:2px}}
+.restaurant-card{background:var(--card-bg);overflow:hidden;border-left:3px solid var(--gold-lt);transition:box-shadow .3s}
+.restaurant-card:hover{box-shadow:0 4px 24px rgba(184,146,42,.12);z-index:1;position:relative}
+.card-photo-wrap{width:100%;height:300px;overflow:hidden;background:var(--border)}
+.card-photo{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.restaurant-card:hover .card-photo{transform:scale(1.04)}
+.card-photo-placeholder{width:100%;height:300px;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3}
+.card-body{padding:20px 22px 18px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
+.card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;margin-top:2px}
+.badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.card-meta-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.card-cuisine{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+.card-price{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:1px}
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink-lt);line-height:1.65;margin-bottom:12px}
+.card-contact{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.c-row{display:flex;align-items:flex-start;gap:8px}
+.c-icon{font-size:10px;color:var(--gold);min-width:16px;flex-shrink:0;margin-top:1px}
+.c-addr{font-size:10px;color:var(--ink-lt);cursor:pointer;line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-addr:hover{color:var(--gold)}
+.c-phone{font-size:10px;color:var(--ink-lt);line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-phone:hover{color:var(--gold)}
+.card-note{font-size:9px;color:var(--gold);font-style:italic;margin-top:8px}
+.map-modal{display:none;position:fixed;inset:0;z-index:1000;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.45)}
+.map-modal.open{display:flex}
+.map-sheet{background:var(--white);border-radius:16px 16px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(0,0,0,.18)}
+.map-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);margin-bottom:4px}
+.map-addr-txt{font-size:10px;color:var(--ink-lt);margin-bottom:22px;line-height:1.5}
+.map-options{display:flex;flex-direction:column;gap:10px}
+.map-btn{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);cursor:pointer;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:500;color:var(--ink);transition:background .15s}
+.map-btn:hover{background:var(--gold-bg)}
+.map-btn-icon{font-size:24px;width:32px;text-align:center;flex-shrink:0}
+.map-btn-sub{font-size:9px;color:var(--ink-xs);font-weight:400;display:block;margin-top:2px}
+.map-cancel{margin-top:16px;width:100%;padding:12px;border:none;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer}
+footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
+footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
+footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
+.curator-badge{display:block;font-size:8px;letter-spacing:2px;text-transform:uppercase;font-weight:600;font-style:italic;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);word-break:break-word;overflow-wrap:anywhere;line-height:1.4}
+@media(max-width:480px){.curator-badge{font-size:7px;letter-spacing:1px}}
+.curator-badge.luli{color:#B8922A}
+.curator-badge.tito{color:#A85020}
+.curator-badge.shared{background:linear-gradient(90deg,#B8922A 0%,#A85020 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
+
+.gallery-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:20px}
+.gallery-modal.open{display:flex}
+.gallery-img{max-width:95vw;max-height:90vh;object-fit:contain;border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+.gallery-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s}
+.gallery-close:hover{background:rgba(255,255,255,.3)}
+.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:52px;height:52px;border-radius:50%;font-size:24px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s}
+.gallery-arrow:hover{background:rgba(255,255,255,.3)}
+.gallery-arrow.prev{left:24px}
+.gallery-arrow.next{right:24px}
+.gallery-counter{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:#fff;font-size:13px;letter-spacing:2px;background:rgba(0,0,0,.5);padding:8px 16px;border-radius:20px;backdrop-filter:blur(8px)}
+.card-photo-wrap{position:relative;cursor:pointer}
+.photo-count-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.65);color:#fff;font-size:10px;letter-spacing:1px;padding:5px 10px;border-radius:14px;font-weight:600;backdrop-filter:blur(8px);display:flex;align-items:center;gap:4px}
+
+.card-photo-wrap{position:relative;cursor:pointer}
+.photo-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);color:#1A1A1A;border:none;width:32px;height:32px;border-radius:50%;font-size:18px;font-weight:600;cursor:pointer;opacity:0;transition:opacity .25s,background .15s;backdrop-filter:blur(4px);box-shadow:0 2px 8px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+.card-photo-wrap:hover .photo-nav{opacity:1}
+.photo-nav:hover{background:#fff}
+.photo-nav.prev{left:8px}
+.photo-nav.next{right:8px}
+.photo-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2;opacity:0;transition:opacity .25s}
+.card-photo-wrap:hover .photo-dots{opacity:1}
+.photo-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.photo-dot.active{background:#fff;width:18px;border-radius:3px}
+.photo-count-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;letter-spacing:1px;padding:4px 8px;border-radius:12px;font-weight:600;backdrop-filter:blur(4px);z-index:2;display:flex;align-items:center;gap:3px}
+
+/* SEARCH */
+#searchBar{display:none;padding:9px 28px;background:#f5f0e8;border-bottom:1px solid #d4c9b0;position:sticky;top:61px;z-index:998;align-items:center;gap:10px;}
+#searchBar.open{display:flex;}
+#searchInput{flex:1;border:none;background:transparent;font-size:15px;font-family:inherit;color:#1a1a1a;outline:none;}
+#searchInput::placeholder{color:#aaa;}
+#searchClose{background:none;border:none;cursor:pointer;font-size:18px;color:#aaa;line-height:1;padding:0 4px;}
+.search-toggle{background:none;border:none;cursor:pointer;padding:6px;opacity:.6;display:flex;align-items:center;margin-left:8px;}
+.search-toggle:hover{opacity:1;}
+
+</style>
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "267deca0f25fd78caf5c7d0264c49431"}'></script><!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+<nav class="top-nav">
+  <div class="top-nav-left">
+    <a href="index.html" class="back-link" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}" data-i18n="back">← Voltar</a>
+    <a href="index.html" class="top-nav-brand">
+      <span class="top-nav-brand-name">LULI DIAS</span>
+      <span class="top-nav-brand-tag">RESTAURANTS &amp; HOTELS</span>
+    </a>
+  </div>
+  <span class="nav-current" data-en="Doha">Doha</span>
+    <button id="lang-toggle" onclick="toggleLang()" style="background:none;border:1px solid var(--border);color:var(--ink-lt);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;font-weight:600;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;text-transform:uppercase;flex-shrink:0">EN</button>
+  <button class="search-toggle" onclick="toggleSearch()" title="Buscar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  </button>
+</nav>
+<div id="searchBar">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  <input id="searchInput" type="search" placeholder="Buscar restaurante, culinária, bairro…" data-i18n="srch" oninput="doSearch()" autocomplete="off">
+  <button id="searchClose" onclick="doCloseSearch()" title="Fechar">✕</button>
+</div>
+<header>
+  <div class="brand-mast">LULI DIAS  ·  RESTAURANTS &amp; HOTELS</div>
+  <div class="brand-country" data-en="Doha">Doha</div>
+  <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+  <div class="header-meta-row"><span class="header-meta" data-en="Qatar">Qatar</span><span class="header-edition" data-en="June 2026">Junho 2026</span></div>
+</header>
+<div class="stats-bar"><div class="stat"><div class="stat-num">3</div><div class="stat-lbl" data-i18n="sr">Restaurantes</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Hotel</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div></div>
+<div class="michelin-legend"><span class="lbadge lm3" onclick="setMichelin('m3',this)" data-i18n="m3">★★★ 3 Estrelas</span><span class="lbadge lm2" onclick="setMichelin('m2',this)" data-i18n="m2">★★ 2 Estrelas</span><span class="lbadge lm1" onclick="setMichelin('m1',this)" data-i18n="m1">★ 1 Estrela</span><span class="lbadge lbib" onclick="setMichelin('bib',this)" data-i18n="bib">Bib Gourmand</span><span class="lbadge lrec" onclick="setMichelin('rec',this)" data-i18n="mich">Michelin</span><span class="lbadge lhotel" onclick="setMichelin('h',this)" data-i18n="acc">Hospedagem</span></div>
+<div class="view-toggle">
+  <span class="view-toggle-lbl" data-i18n="view">Vista:</span>
+  <button class="view-btn active" id="btnList" onclick="showView('list')" data-i18n="list">Lista</button>
+  <button class="view-btn" id="btnMap" onclick="showView('map')" data-i18n="map">Mapa</button>
+</div>
+<div class="type-bar">
+  <span class="type-lbl" data-i18n="type">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)" data-i18n="all">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)" data-i18n="rest">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)" data-i18n="hot">🛏 Hotéis</button>
+</div>
+<div class="filters" id="filters"></div>
+<div class="cuisine-bar" id="cuisineBar"></div>
+<div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
+  <div class="map-sheet">
+    <div class="map-title" id="mapName"></div><div class="map-addr-txt" id="mapAddr"></div>
+    <div class="map-options">
+      <a class="map-btn" id="btnWaze" href="#" target="_blank"><span class="map-btn-icon">🗺</span><div><strong>Waze</strong><span class="map-btn-sub" data-i18n="waze">Navegar com Waze</span></div></a>
+      <a class="map-btn" id="btnGoogle" href="#" target="_blank"><span class="map-btn-icon">📍</span><div><strong>Google Maps</strong><span class="map-btn-sub" data-i18n="gmaps">Abrir no Google Maps</span></div></a>
+      <a class="map-btn" id="btnApple" href="#" target="_blank"><span class="map-btn-icon">🍎</span><div><strong>Apple Maps</strong><span class="map-btn-sub" data-i18n="apple">Abrir no Apple Maps</span></div></a>
+    </div>
+    <button class="map-cancel" onclick="closeMap()" data-i18n="cancel">Cancelar</button>
+  </div>
+</div>
+<main id="main"></main>
+<div id="map" style="display:none"></div>
+<footer><p><a href="index.html" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}" data-i18n="back">← Voltar</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+
+function openMap(name,addr){
+  const q=encodeURIComponent(name+' '+addr);
+  document.getElementById('mapName').textContent=name;
+  document.getElementById('mapAddr').textContent=addr;
+  document.getElementById('btnWaze').href='https://waze.com/ul?q='+q+'&navigate=yes';
+  document.getElementById('btnGoogle').href='https://www.google.com/maps/search/?api=1&query='+q;
+  document.getElementById('btnApple').href='https://maps.apple.com/?q='+q;
+  document.getElementById('mapModal').classList.add('open');
+}
+function closeMap(){document.getElementById('mapModal').classList.remove('open');}
+
+const FOLDER='qatar';
+const CITIES=[{"city":"Doha","region":"Doha","entries":[
+  {"t":"h","n":"Mandarin Oriental, Doha","c":"luli","q":"Hotel de Luxo · 5★","a":"Wadi Msheireb, Doha, Qatar","p":"+974 4008 8888","pr":4,"k":2,"s":5,"w":"mandarinoriental.com/en/doha","ig":"mo_doha","note":"Michelin 2 Chaves · Centro histórico de Doha","d":"Hotel cinco-estrelas no coração do renovado bairro histórico de Msheireb. Design contemporâneo que honra a arquitectura tradicional qatariana — pedra natural, claraboias e painéis em latão dourado. 209 quartos e suítes com vista para o horizonte da cidade, spa premiado e uma colecção de restaurantes de referência. Uma base excecional para descobrir o Doha antigo e moderno.","de":"Five-star hotel in the heart of Msheireb, Doha's renovated historic district. Contemporary design that honours traditional Qatari architecture — natural stone, skylights, and burnished brass panels. 209 rooms and suites with city skyline views, an award-winning spa, and a curated collection of restaurants. An exceptional base for exploring both old and modern Doha."},
+  {"n":"barAmbar","c":"luli","q":"Bar & Restaurante · Contemporâneo","a":"Mandarin Oriental, Wadi Msheireb, Doha, Qatar","p":"+974 4008 8888","pr":3,"w":"mandarinoriental.com/en/doha/dining","ig":"mo_doha","note":"Cocktails e cozinha contemporânea · Mandarin Oriental","d":"O restaurante e bar principal do Mandarin Oriental Doha — um espaço de design sofisticado inspirado nos tons âmbar da pedra qatariana. Cozinha contemporânea com influências mediterrânicas e do Médio Oriente, cocktails artesanais e seleção de vinhos curada. Ambiente animado ao entardecer, perfeito para um jantar descontraído ou para partilhar pratos.","de":"The main restaurant and bar at the Mandarin Oriental Doha — a sophisticated space inspired by the amber tones of Qatari stone. Contemporary cuisine with Mediterranean and Middle Eastern influences, artisanal cocktails, and a curated wine selection. Lively at dusk, perfect for a relaxed dinner or sharing plates."},
+  {"n":"Em Sherif","c":"luli","q":"Libanesa","a":"Al Maha Island, Doha, Qatar","pr":3,"m":"rec","note":"Michelin Selected · Al Maha Island","d":"A extensão qatariana do lendário restaurante libanês Em Sherif, instalada na pitoresca Al Maha Island. Selecção Michelin Guide. Mezze libaneses de alta qualidade — hummus, labneh, kibbeh nayeh, falafel fresco — e grelhados de carne e peixe com as especiarias do Levante. Uma viagem gastronómica ao Líbano com vista para a baía de Doha.","de":"The Qatari extension of the legendary Lebanese restaurant Em Sherif, set on the picturesque Al Maha Island. Michelin Guide Selection. High-quality Lebanese mezze — hummus, labneh, kibbeh nayeh, fresh falafel — alongside meat and fish grills seasoned with Levantine spices. A culinary journey to Lebanon with views over Doha Bay."},
+  {"n":"Hakkasan","c":"luli","q":"Cantonesa","a":"St. Regis Doha, West Bay, Doha, Qatar","pr":4,"m":"rec","w":"hakkasan.com/doha","ig":"hakkasandoha","note":"Michelin Selected · St. Regis West Bay","d":"O fine dining cantonês da prestigiada cadeia Hakkasan, instalado no St. Regis West Bay. Selecção Michelin Guide. O interior inconfundível da marca — painéis de madeira rendilhada, iluminação íntima e ambiente sedutor — envolve uma carta de clássicos cantoneses reinterpretados: dim sum de autor, pato laqueado, wagyu wok-grelhado e marisco premium. A referência da gastronomia chinesa em Doha.","de":"Cantonese fine dining from the prestigious Hakkasan group, installed within the St. Regis West Bay. Michelin Guide Selection. The brand's unmistakable interior — latticed wood screens, intimate lighting, and a seductive atmosphere — frames a menu of reinterpreted Cantonese classics: signature dim sum, lacquered duck, wok-grilled wagyu, and premium seafood. The benchmark for Chinese gastronomy in Doha."}
+]}];
+
+const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin'};
+const KEYS={1:'🗝 1 Chave',2:'🗝🗝 2 Chaves',3:'🗝🗝🗝 3 Chaves'};
+function slug(n){return n.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.repeat(pr)+'<span style="color:var(--border)">'+'$'.repeat(4-pr)+'</span></span>';}
+function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
+
+const regions=['Todas',...[...new Set(CITIES.map(c=>c.region))]];
+document.getElementById('filters').innerHTML='<span class="filter-lbl">Região:</span>'+
+  regions.map(r=>`<button class="filter-btn${r==='Todas'?' active':''}" onclick="setRegion('${r.replace(/'/g, "\\'")}',this)">${r}</button>`).join('');
+
+let activeRegion='Todas';
+function setRegion(r,btn){
+  activeRegion=r;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');render();
+}
+function render(){
+  const main=document.getElementById('main');main.innerHTML='';
+  const filtered=activeRegion==='Todas'?CITIES:CITIES.filter(c=>c.region===activeRegion);
+  const groups={};
+  filtered.forEach(c=>{if(!groups[c.region])groups[c.region]=[];groups[c.region].push(c);});
+  Object.entries(groups).forEach(([region,cities])=>{
+    const _passesR=r=>!(activeType==="r"&&r.t==="h")&&!(activeType==="h"&&r.t!=="h");
+    if(!cities.some(c=>c.entries.some(_passesR)))return;
+
+    const rd=document.createElement('div');
+    rd.style.cssText='display:flex;align-items:center;gap:16px;margin:44px 0 8px';
+    rd.innerHTML=`<div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 16px">${region}</span><div style="flex:1;height:1px;background:var(--border)"></div>`;
+    main.appendChild(rd);
+    cities.forEach(({city,entries,folder})=>{
+      const _passes=r=>!(activeType==="r"&&r.t==="h")&&!(activeType==="h"&&r.t!=="h");
+      const _visible=entries.filter(_passes);
+      if(_visible.length===0)return;
+
+      const f=folder||FOLDER;
+      const sec=document.createElement('div');sec.className='city-sec';
+      sec.innerHTML=`<div class="city-hdr"><div><div class="city-name">${city}</div></div><div class="city-count-block">${(()=>{const r=entries.filter(e=>e.t!=='h').length,h=entries.filter(e=>e.t==='h').length;const parts=[];if(r>0)parts.push(`<div class="city-count-num">${r}</div><div class="city-count-lbl">restaurante${r!==1?'s':''}</div>`);if(h>0)parts.push(`<div class="city-count-num">${h}</div><div class="city-count-lbl">${h!==1?'hotéis':'hotel'}</div>`);return parts.join('<div style="height:6px"></div>');})()}</div></div><div class="restaurants-grid"></div>`;
+      main.appendChild(sec);
+      const grid=sec.querySelector('.restaurants-grid');
+      [...entries].sort((a,b)=>{if(activeType==='all'){if(a.t==='h'&&b.t!=='h')return 1;if(a.t!=='h'&&b.t==='h')return -1;}return a.n.localeCompare(b.n,'pt',{sensitivity:'base'});}).forEach(r=>{if(r.pending)return;if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;if(activeMichelin){if(activeMichelin==='h'){if(r.t!=='h')return;}else if(r.m!==activeMichelin)return;}
+        const card=document.createElement('div');card.className='restaurant-card';
+        const nm=r.n.replace(/'/g,"\\'");
+        const ad=(r.a&&r.a!==city)?r.a.replace(/'/g,"\\'"):'';
+        const addrHtml=ad?`<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap('${nm}','${ad}')">${r.a}</span></div>`:'';
+        const phoneHtml=r.p?`<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:${r.p.replace(/\s/g,'')}">${r.p}</a></div>`:'';
+        const webHtml=r.w?`<div class=\"c-row\"><span class=\"c-icon\">🌐</span><a class=\"c-phone\" href=\"${r.w.startsWith('http')?r.w:'https://'+r.w}\" target=\"_blank\" rel=\"noopener\">${r.w.replace(/^https?:\/\//,'').replace(/\/$/,'')}</a></div>`:'';
+        const igHtml=r.ig?`<div class=\"c-row\"><span class=\"c-icon\">📷</span><a class=\"c-phone\" href=\"https://instagram.com/${r.ig.replace('@','')}\" target=\"_blank\" rel=\"noopener\">@${r.ig.replace('@','')}</a></div>`:'';;
+        const emailHtml=r.e?`<div class=\"c-row\"><span class=\"c-icon\">✉️</span><a class=\"c-phone\" href=\"mailto:${r.e}\">${r.e}</a></div>`:'';
+        const contact=(addrHtml||phoneHtml||webHtml||igHtml||emailHtml)?`<div class=\"card-contact\">${addrHtml}${phoneHtml}${webHtml}${igHtml}${emailHtml}</div>`:'';
+        const em=emoji(r.q||'');
+        const badges=(r.t==='h'&&r.k?`<span class="badge bkeys${r.k}">${KEYS[r.k]}</span>`:'')+
+                     (r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
+                     (r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
+                     (r.h?'<span class="badge" data-i18n="acc">Hospedagem</span>':'')+(r.beach?'<span class="badge">Beach Club</span>':'');
+        card.innerHTML=`<div class="card-photo-wrap"><img class="card-photo" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\'>${em}</div>'"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc"${r.de?' data-en="'+r.de.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}>${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}${r.c?`<div class="curator-badge ${r.c}">✦ por ${r.c==="shared"?"Luli & Tito":(r.c==="tito"?"Tito":"Luli")}</div>`:""}</div>`;
+        card.id='card-'+slug(r.n);
+        grid.appendChild(card);
+      });
+    });
+  });
+}
+
+function normCuisine(q){
+  if(!q)return null;
+  const s=q.toLowerCase();
+  if(/itali/.test(s))return 'Italiana';
+  if(/japon|sushi|omakase|nikkei|gyukatsu|izakaya/.test(s))return 'Japonesa';
+  if(/coreana|korean/.test(s))return 'Coreana';
+  if(/chinesa|chines|dim sum|cantonesa/.test(s))return 'Chinesa';
+  if(/tailand|thai/.test(s))return 'Tailandesa';
+  if(/indian|indiana/.test(s))return 'Indiana';
+  if(/vietnam/.test(s))return 'Vietnamita';
+  if(/asia|asiática|fusion asiática/.test(s))return 'Asiática';
+  if(/francesa|bistr|brasserie|cr[eê]perie|provença/.test(s))return 'Francesa';
+  if(/portuguesa|portugues|alentejana|bairrada|leit[ãa]o/.test(s))return 'Portuguesa';
+  if(/espanhola|espanhol|basca|catalã|catala|tapas|paella|pintxo/.test(s))return 'Espanhola';
+  if(/alemã|alema|alemão|cervejaria.*alemã|francônica/.test(s))return 'Alemã';
+  if(/holandesa/.test(s))return 'Holandesa';
+  if(/dinamarquesa|dinamarq|nova nórdica|nordic/.test(s))return 'Nórdica';
+  if(/grega/.test(s))return 'Grega';
+  if(/turca/.test(s))return 'Turca';
+  if(/libanesa|árabe|lebanese|arab/.test(s))return 'Libanesa';
+  if(/marroquina/.test(s))return 'Marroquina';
+  if(/argentina|argentino|parrilla/.test(s))return 'Argentina';
+  if(/peruana|nikkei|cebicheria|cevicheria|arequipeñ|andina/.test(s))return 'Peruana';
+  if(/uruguaia|uruguai/.test(s))return 'Uruguaia';
+  if(/mexicana|mexican/.test(s))return 'Mexicana';
+  if(/brasileira|brasilian|brasil|carioca|paulista|açoriana|baiana|nordestin|mineira/.test(s))return 'Brasileira';
+  if(/peixe|marisco|frutos do mar|seafood|polvo|bacalhau|cevichería/.test(s))return 'Frutos do Mar';
+  if(/carnes|carne|steak|churrasco|grelhado|bife|cortes nobres|wagyu/.test(s))return 'Carnes';
+  if(/pizza|pizzeria/.test(s))return 'Pizzeria';
+  if(/vinho|wine bar|enoteca|enot/.test(s))return 'Vinhos';
+  if(/café|cafe|pâtisserie|patisserie|confeit/.test(s))return 'Café & Pâtisserie';
+  if(/rooftop|cocktail|coquetel/.test(s))return 'Rooftop & Bar';
+  if(/mercado|food hall|street food|tasca|petisco|taverna|tasc|taska/.test(s))return 'Tasca & Street Food';
+  if(/contempor|autor|moderna|criativ|alta cozinha|de alta/.test(s))return 'Contemporânea';
+  if(/tradicion|caseira|cozinha caseira/.test(s))return 'Tradicional';
+  if(/mediterrân|mediterrane/.test(s))return 'Mediterrânea';
+  if(/internaciona|fusion|fusão/.test(s))return 'Internacional';
+  if(/beach club|praia/.test(s))return 'Beach Club';
+  if(/hotel|pousada|hospedagem/.test(s))return 'Hotel';
+  return q.split(/[·\-,]/)[0].trim();
+}
+function buildCuisineBar(){
+  const set=new Set();
+  CITIES.forEach(c=>{if(!c.entries)return;c.entries.forEach(r=>{const n=normCuisine(r.q);if(n)set.add(n);});});
+  const cuisines=['Todas',...[...set].sort((a,b)=>a.localeCompare(b,'pt'))];
+  const bar=document.getElementById('cuisineBar');
+  if(!bar)return;
+  bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c==='Todas'?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+}
+
+function rebuildFilters(){
+  const _passes = r => !(activeType==='r'&&r.t==='h') && !(activeType==='h'&&r.t!=='h') && (!activeMichelin||(activeMichelin==='h'?r.t==='h':r.m===activeMichelin));
+  const visibleCities = CITIES.filter(c => c.entries.some(_passes));
+  const newCityList = ['Todas', ...new Set(visibleCities.map(c => c.region))];
+  const useRegion = typeof activeRegion !== 'undefined';
+  const setterName = useRegion ? 'setRegion' : 'setCity';
+  const currentVal = useRegion ? activeRegion : (typeof activeCity !== 'undefined' ? activeCity : 'Todas');
+  if (currentVal !== 'Todas' && !newCityList.includes(currentVal)) {
+    if (useRegion) activeRegion = 'Todas';
+    else if (typeof activeCity !== 'undefined') activeCity = 'Todas';
+  }
+  const newCurrent = useRegion ? activeRegion : (typeof activeCity !== 'undefined' ? activeCity : 'Todas');
+  const filtersEl = document.getElementById('filters');
+  if (filtersEl) {
+    const lbl = filtersEl.querySelector('.filter-lbl');
+    const lblText = lbl ? lbl.outerHTML : '<span class="filter-lbl">Estado:</span>';
+    filtersEl.innerHTML = lblText + newCityList.map(c =>
+      `<button class="filter-btn${c===newCurrent?' active':''}" onclick="${setterName}('${c.replace(/'/g,"\\'")}',this)">${c}</button>`
+    ).join('');
+  }
+}
+
+let activeType='all';
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('type');
+  if (t === 'r' || t === 'h') {
+    activeType = t;
+    setTimeout(() => {
+      document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+      const btn = document.getElementById('type' + (t==='r'?'R':'H'));
+      if (btn) btn.classList.add('active');
+    }, 0);
+  }
+})();
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+let activeCuisine='Todas';
+function setCuisine(c,btn){
+  activeCuisine=c;
+  document.querySelectorAll('.cuisine-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+let activeMichelin=null;
+function setMichelin(m,el){
+  if(activeMichelin===m){activeMichelin=null;document.querySelectorAll('.michelin-legend .lbadge').forEach(b=>b.classList.remove('active'));}
+  else{activeMichelin=m;document.querySelectorAll('.michelin-legend .lbadge').forEach(b=>b.classList.remove('active'));if(el)el.classList.add('active');}
+  render();
+}
+
+buildCuisineBar();
+render();
+
+let mapInstance=null;
+const COORDS={};
+function showView(mode){
+  const main=document.getElementById('main');
+  const map=document.getElementById('map');
+  const btnList=document.getElementById('btnList');
+  const btnMap=document.getElementById('btnMap');
+  if(mode==='map'){
+    main.style.display='none';
+    map.style.display='block';
+    btnMap.classList.add('active');btnList.classList.remove('active');
+    initMap();
+  }else{
+    main.style.display='';
+    map.style.display='none';
+    btnList.classList.add('active');btnMap.classList.remove('active');
+  }
+}
+function initMap(){
+  if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
+  const coords=COORDS;
+  mapInstance=L.map('map',{scrollWheelZoom:true});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
+  const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});
+  const markers=[];
+  CITIES.forEach(city=>{
+    city.entries.forEach(r=>{
+      const key=`${FOLDER}/${slug(r.n)}`;
+      const c=coords[key];
+      if(c&&c.lat&&c.lng){
+        const m=L.marker([c.lat,c.lng],{icon:goldIcon}).addTo(mapInstance);
+        const phoneHtml=r.p?`<div style="font-size:11px;margin-top:4px"><a href="tel:${r.p.replace(/\s/g,'')}" style="color:#B8922A;text-decoration:none">${r.p}</a></div>`:'';
+        const priceStr=r.pr?'€'.repeat(r.pr):'';
+        m.bindPopup(`<div style="font-family:Montserrat,sans-serif;min-width:220px"><div style="font-family:'Playfair Display',serif;font-size:17px;color:#1A1A1A;margin-bottom:4px">${r.n}</div><div style="font-size:8px;letter-spacing:2px;color:#B8922A;text-transform:uppercase;font-weight:500;margin-bottom:6px">${r.q||''} ${priceStr?'· '+priceStr:''}</div><div style="font-size:11px;color:#5A5A5A;line-height:1.4">${r.a||''}</div>${phoneHtml}<div style="font-size:11px;margin-top:8px"><a href="javascript:void(0)" onclick="openMap('${r.n.replace(/'/g,"\\'")}','${(r.a||'').replace(/'/g,"\\'")}');document.querySelectorAll('.leaflet-popup-close-button').forEach(b=>b.click())" style="color:#B8922A;text-decoration:underline">Abrir em Maps →</a></div></div>`);
+        m.bindTooltip(`<div style="font-family:'Playfair Display',serif;font-size:13px;color:#1A1A1A;font-weight:500">${r.n}</div><div style="font-size:8px;letter-spacing:1.5px;color:#B8922A;text-transform:uppercase;margin-top:2px">${r.q||''}</div>`,{direction:'top',offset:[0,-8],opacity:0.95,className:'custom-tooltip'});
+        markers.push(m);
+      }
+    });
+  });
+  if(markers.length){
+    const group=L.featureGroup(markers);
+    mapInstance.fitBounds(group.getBounds().pad(0.15));
+  }else{
+    mapInstance.setView([25.2854,51.5310],12);
+  }
+  setTimeout(()=>mapInstance.invalidateSize(),100);
+}
+
+// ─── AUTO-COUNT stats-bar ──────────────────────────────────────────────
+(function(){
+  if (typeof CITIES === 'undefined') return;
+  let r=0, h=0, mk=0, cities=0, m1=0, m2=0, m3=0, bib=0, k1=0, k2=0, k3=0;
+  for (const city of CITIES) {
+    if (!city || !city.entries || city.entries.length === 0) continue;
+    cities++;
+    for (const e of city.entries) {
+      if (!e || e.pending) continue;
+      if (e.t === 'h') { h++; if (e.k===1) k1++; else if (e.k===2) k2++; else if (e.k===3) k3++; }
+      else if (e.t === 'm') { mk++; r++; }
+      else r++;
+      if (e.m === 'm1') m1++; else if (e.m === 'm2') m2++; else if (e.m === 'm3') m3++;
+      else if (e.m === 'bib') bib++;
+    }
+  }
+  const stars = m1 + m2 * 2 + m3 * 3;
+  const keys = k1 + k2 * 2 + k3 * 3;
+  const statsBar = document.querySelector('.stats-bar');
+  if (!statsBar) return;
+  statsBar.querySelectorAll('.stat').forEach(stat => {
+    const lbl = ((stat.querySelector('.stat-lbl') || {}).textContent || '').toLowerCase().trim();
+    const num = stat.querySelector('.stat-num');
+    if (!num) return;
+    if (lbl.includes('restaurante')) num.textContent = r;
+    else if (lbl.includes('cidade') || lbl.includes('estado')) num.textContent = cities;
+    else if (lbl.includes('hotel') || lbl.includes('hotéis')) num.textContent = h;
+    else if (lbl.includes('michelin') || lbl.includes('estrela')) num.textContent = stars > 0 ? stars + ' ★' : '0';
+    else if (lbl.includes('chave')) num.textContent = keys > 0 ? keys + ' 🗝' : '0';
+    else if (lbl.includes('bib')) num.textContent = bib;
+    else if (lbl.includes('mercado')) num.textContent = mk;
+  });
+})();
+
+/* SEARCH */
+function toggleSearch(){
+  var b=document.getElementById('searchBar');
+  if(!b)return;
+  if(b.classList.contains('open')){ doCloseSearch(); }
+  else { b.classList.add('open'); document.getElementById('searchInput').focus(); }
+}
+function doSearch(){
+  var q=(document.getElementById('searchInput').value||'').toLowerCase().trim();
+  document.querySelectorAll('.restaurant-card').forEach(function(card){
+    if(!q){ card.style.display=''; return; }
+    var t=(card.innerText||card.textContent||'').toLowerCase();
+    card.style.display=t.indexOf(q)>=0?'':'none';
+  });
+}
+function doCloseSearch(){
+  var i=document.getElementById('searchInput'); if(i) i.value='';
+  var b=document.getElementById('searchBar'); if(b) b.classList.remove('open');
+  document.querySelectorAll('.restaurant-card').forEach(function(c){c.style.display='';});
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')doCloseSearch();});
+</script>
+
+<script>
+
+// === Setas in-line + indicador "tem mais fotos" ===
+async function _setupGallery(wrap) {
+  if (wrap.dataset.galleryReady) return;
+  wrap.dataset.galleryReady = '1';
+  const img = wrap.querySelector('.card-photo');
+  if (!img) return;
+  const src = img.getAttribute('src') || '';
+  const m = src.match(/fotos\/([^/]+)\/(.+?)(?:-\d+)?\.[a-zA-Z]+$/);
+  if (!m) return;
+  const folder = m[1], slug = m[2];
+  const exts = ['.jpeg','.jpg','.JPG','.JPEG','.png','.PNG'];
+  const urls = [src];
+  for (let i = 2; i <= 20; i++) {
+    let found = null;
+    for (const ext of exts) {
+      const url = `fotos/${folder}/${slug}-${i}${ext}`;
+      const exists = await new Promise(r => {
+        const im = new Image();
+        im.onload = () => r(true);
+        im.onerror = () => r(false);
+        im.src = url;
+      });
+      if (exists) { found = url; break; }
+    }
+    if (found) urls.push(found);
+  }
+  if (urls.length < 2) return;
+  let idx = 0;
+  wrap.dataset.urls = JSON.stringify(urls);
+  wrap.dataset.idx = '0';
+  const badge = document.createElement('div');
+  badge.className = 'photo-count-badge';
+  badge.innerHTML = `📷 ${urls.length}`;
+  wrap.appendChild(badge);
+  const prev = document.createElement('button');
+  prev.className = 'photo-nav prev';
+  prev.innerHTML = '‹';
+  prev.setAttribute('aria-label','Foto anterior');
+  prev.onclick = (e) => { e.stopPropagation(); idx = (idx - 1 + urls.length) % urls.length; img.src = urls[idx]; updateDots(); };
+  wrap.appendChild(prev);
+  const next = document.createElement('button');
+  next.className = 'photo-nav next';
+  next.innerHTML = '›';
+  next.setAttribute('aria-label','Próxima foto');
+  next.onclick = (e) => { e.stopPropagation(); idx = (idx + 1) % urls.length; img.src = urls[idx]; updateDots(); };
+  wrap.appendChild(next);
+  const dots = document.createElement('div');
+  dots.className = 'photo-dots';
+  for (let i = 0; i < urls.length; i++) {
+    const d = document.createElement('span');
+    d.className = 'photo-dot' + (i === 0 ? ' active' : '');
+    dots.appendChild(d);
+  }
+  wrap.appendChild(dots);
+  function updateDots() {
+    dots.querySelectorAll('.photo-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === idx);
+    });
+  }
+}
+
+function _scanGalleries() {
+  document.querySelectorAll('.card-photo-wrap').forEach(_setupGallery);
+}
+const _origScan = setInterval(() => {
+  if (document.querySelector('.card-photo')) {
+    _scanGalleries();
+  }
+}, 800);
+const _galleryObserver = new MutationObserver(() => _scanGalleries());
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(_scanGalleries, 500);
+  const main = document.getElementById('main');
+  if (main) _galleryObserver.observe(main, { childList: true, subtree: true });
+});
+
+// === LIGHTBOX ===
+let _galleryImages = [];
+let _galleryIdx = 0;
+
+async function openGallery(slug, folder) {
+  const exts = ['.jpeg','.jpg','.JPG','.JPEG','.png','.PNG'];
+  _galleryImages = [];
+  for (let i = 1; i <= 10; i++) {
+    const suffix = i === 1 ? '' : '-' + i;
+    let found = false;
+    for (const ext of exts) {
+      const url = `fotos/${folder}/${slug}${suffix}${ext}`;
+      const exists = await new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+      });
+      if (exists) {
+        _galleryImages.push(url);
+        found = true;
+        break;
+      }
+    }
+    if (!found && i > 1) break;
+    if (!found && i === 1) return;
+  }
+  if (_galleryImages.length === 0) return;
+  _galleryIdx = 0;
+  showGalleryImage();
+  document.getElementById('galleryModal').classList.add('open');
+}
+function showGalleryImage() {
+  document.getElementById('galleryImg').src = _galleryImages[_galleryIdx];
+  document.getElementById('galleryCounter').textContent = `${_galleryIdx+1} / ${_galleryImages.length}`;
+}
+function galleryNext() { _galleryIdx = (_galleryIdx + 1) % _galleryImages.length; showGalleryImage(); }
+function galleryPrev() { _galleryIdx = (_galleryIdx - 1 + _galleryImages.length) % _galleryImages.length; showGalleryImage(); }
+function closeGallery() { document.getElementById('galleryModal').classList.remove('open'); }
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('galleryModal')?.classList.contains('open')) return;
+  if (e.key === 'Escape') closeGallery();
+  else if (e.key === 'ArrowRight') galleryNext();
+  else if (e.key === 'ArrowLeft') galleryPrev();
+});
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.card-nav, .photo-nav, .card-dots, .photo-dots, .photo-count-badge')) return;
+  const img = e.target.closest('.card-photo, .card-gallery img');
+  if (!img) return;
+  const src = img.getAttribute('src') || '';
+  const m = src.match(/fotos\/([^/]+)\/(.+?)(?:-\d+)?\.[a-zA-Z]+$/);
+  if (m) {
+    e.preventDefault();
+    e.stopPropagation();
+    openGallery(m[2], m[1]);
+  }
+});
+</script>
+<div class="gallery-modal" id="galleryModal" onclick="if(event.target===this)closeGallery()">
+  <button class="gallery-close" onclick="closeGallery()" aria-label="Fechar">&times;</button>
+  <button class="gallery-arrow prev" onclick="galleryPrev()" aria-label="Anterior">‹</button>
+  <img class="gallery-img" id="galleryImg" alt="">
+  <button class="gallery-arrow next" onclick="galleryNext()" aria-label="Próxima">›</button>
+  <div class="gallery-counter" id="galleryCounter">1 / 1</div>
+</div>
+<a class="nearme-cta" href="index.html?nearme=1" aria-label="Restaurantes perto de mim"><span class="nearme-cta-icon"></span><span data-i18n="nm"> Perto de Mim</span></a>
+<script>
+(function(){
+  var T={
+    pt:{back:'← Voltar',srch:'Buscar restaurante, culinária, bairro…',sr:'Restaurantes',sc:'Cidades',sh:'Hotéis',sm:'Michelin',m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',grn:'Estrela Verde',mich:'Michelin',acc:'Hospedagem',view:'Vista:',list:'Lista',map:'Mapa',type:'Tipo:',all:'✦ Todos',rest:'🍽 Restaurantes',hot:'🛏 Hotéis',waze:'Navegar com Waze',gmaps:'Abrir no Google Maps',apple:'Abrir no Apple Maps',cancel:'Cancelar',call:'Todas',nm:' Perto de Mim'},
+    en:{back:'← Back',srch:'Search restaurant, cuisine, neighbourhood…',sr:'Restaurants',sc:'Cities',sh:'Hotels',sm:'Michelin',m3:'★★★ 3 Stars',m2:'★★ 2 Stars',m1:'★ 1 Star',bib:'Bib Gourmand',grn:'Green Star',mich:'Michelin',acc:'Accommodation',view:'View:',list:'List',map:'Map',type:'Type:',all:'✦ All',rest:'🍽 Restaurants',hot:'🛏 Hotels',waze:'Navigate with Waze',gmaps:'Open in Google Maps',apple:'Open in Apple Maps',cancel:'Cancel',call:'All',nm:' Near Me'}
+  };
+  var LANG=localStorage.getItem('ld-lang')||'pt';
+  var t=function(k){return T[LANG][k]||T.pt[k]||k;};
+  function apply(){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.dataset.i18n;
+      if(el.tagName==='INPUT')el.placeholder=t(k);
+      else el.textContent=t(k);
+    });
+    document.querySelectorAll('.cuisine-btn').forEach(function(btn){
+      if(btn.textContent.trim()==='Todas'||btn.textContent.trim()==='All')btn.textContent=t('call');
+    });
+    document.querySelectorAll('.filter-btn').forEach(function(btn){
+      if(btn.textContent.trim()==='Todas'||btn.textContent.trim()==='All')btn.textContent=t('call');
+    });
+    document.querySelectorAll('[data-en]').forEach(function(el){if(!el.dataset.pt)el.dataset.pt=el.textContent.trim();el.textContent=LANG==='en'?el.dataset.en:el.dataset.pt;});
+    document.documentElement.lang=LANG==='pt'?'pt-BR':'en';
+    var btn=document.getElementById('lang-toggle');
+    if(btn)btn.textContent=LANG==='pt'?'EN':'PT';
+  }
+  if(typeof window.rebuildFilters==='function'){
+    var _rb=window.rebuildFilters;
+    window.rebuildFilters=function(){_rb();apply();};
+  }
+  if(typeof window.buildCuisineBar==='function'){
+    var _bc=window.buildCuisineBar;
+    window.buildCuisineBar=function(){_bc();apply();};
+  }
+  if(typeof window.render==='function'){var _rndr=window.render;window.render=function(){_rndr.apply(this,arguments);apply();};}
+  window.toggleLang=function(){LANG=LANG==='pt'?'en':'pt';localStorage.setItem('ld-lang',LANG);apply();};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);
+  else apply();
+  window.addEventListener('load',apply);
+})();
+</script>
+<script src="js/marks.js"></script>
+</body>
+</html>
