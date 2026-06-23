@@ -188,7 +188,7 @@ footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-
     </a>
   </div>
   <span class="nav-current" data-en="Dubai">Dubai</span>
-    <button id="lang-toggle" onclick="toggleLang()" style="background:none;border:1px solid var(--border);color:var(--ink-lt);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;font-weight:600;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;text-transform:uppercase;flex-shrink:0">EN</button>
+    <button id="lang-toggle" onclick="toggleLang()" class="util-link" style="background:none;border:none;cursor:pointer;font-family:inherit">PT · EN</button>
   <button class="search-toggle" onclick="toggleSearch()" title="Buscar">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
   </button>
@@ -713,7 +713,7 @@ document.addEventListener('click', function(e) {
     document.querySelectorAll('[data-en]').forEach(function(el){if(!el.dataset.pt)el.dataset.pt=el.textContent.trim();el.textContent=LANG==='en'?el.dataset.en:el.dataset.pt;});
     document.documentElement.lang=LANG==='pt'?'pt-BR':'en';
     var btn=document.getElementById('lang-toggle');
-    if(btn)btn.textContent=LANG==='pt'?'EN':'PT';
+    if(btn){btn.textContent=LANG==='en'?'PT | EN ·':'PT · EN';btn.style.color=LANG==='en'?'var(--gold)':'';}
   }
   // Wrap rebuildFilters to re-apply translation after filter rebuild
   if(typeof window.rebuildFilters==='function'){
