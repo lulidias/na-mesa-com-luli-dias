@@ -1,8 +1,8 @@
 {
   "totals": {
-    "restaurants": 994,
-    "hotels": 154,
-    "markets": 12,
+    "restaurants": 999,
+    "hotels": 155,
+    "markets": 13,
     "m1": 43,
     "m2": 13,
     "m3": 4,
@@ -666,10 +666,10 @@
       "keysEntries": 1
     },
     "romenia": {
-      "restaurants": 0,
-      "hotels": 0,
-      "markets": 0,
-      "cities": 0,
+      "restaurants": 5,
+      "hotels": 1,
+      "markets": 1,
+      "cities": 1,
       "m1": 0,
       "m2": 0,
       "m3": 0,
