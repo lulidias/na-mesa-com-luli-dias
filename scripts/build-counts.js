@@ -115,15 +115,15 @@ for (const source of guideSources) {
     }
   }
 
-  if (hasContent) {
-    country.totalStars = country.m1 + country.m2 * 2 + country.m3 * 3;
-    country.totalKeys = country.keys1 + country.keys2 * 2 + country.keys3 * 3;
-    country.michelin = country.m1 + country.m2 + country.m3 + country.bib + country.green;
-    country.keysEntries = country.keys1 + country.keys2 + country.keys3;
-    countries[slug] = country;
-    // Brasil regions are stored individually but NOT added to totals (the combined 'brasil' entry handles that)
-    if (!source.brasilRegion) {
-      totals.countries++;
+  country.totalStars = country.m1 + country.m2 * 2 + country.m3 * 3;
+  country.totalKeys = country.keys1 + country.keys2 * 2 + country.keys3 * 3;
+  country.michelin = country.m1 + country.m2 + country.m3 + country.bib + country.green;
+  country.keysEntries = country.keys1 + country.keys2 + country.keys3;
+  countries[slug] = country;
+  // Brasil regions are stored individually but NOT added to totals (the combined 'brasil' entry handles that)
+  if (!source.brasilRegion) {
+    totals.countries++;
+    if (hasContent) {
       for (const k of ['restaurants', 'hotels', 'markets', 'm1', 'm2', 'm3', 'bib', 'green', 'rec', 'keys1', 'keys2', 'keys3']) {
         totals[k] += country[k];
       }
