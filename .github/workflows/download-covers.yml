@@ -1,0 +1,129 @@
+name: Download Cover Photos
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Unsplash covers
+        run: |
+          set -e
+
+          download() {
+            local url="$1"
+            local dest="$2"
+            mkdir -p "$(dirname "$dest")"
+            echo "⬇ $dest"
+            curl -L --silent --fail --max-time 30 \
+              -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" \
+              "$url" -o "$dest"
+          }
+
+          # Europa
+          download "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1200&h=750&fit=crop" "fotos/alemanha/cover.jpg"
+          download "https://images.unsplash.com/photo-1516550893923-42d28e5677af?w=1200&h=750&fit=crop" "fotos/austria/cover.jpg"
+          download "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1200&h=750&fit=crop" "fotos/grecia/cover.jpg"
+          download "https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?w=1200&h=750&fit=crop" "fotos/holanda/cover.jpg"
+          download "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1200&h=750&fit=crop" "fotos/inglaterra/cover.jpg"
+          download "https://images.unsplash.com/photo-1590089415225-401ed6f9db8e?w=1200&h=750&fit=crop" "fotos/irlanda/cover.jpg"
+          download "https://images.unsplash.com/photo-1529260830199-42c24126f198?w=1200&h=750&fit=crop" "fotos/italia/cover.jpg"
+          download "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=750&fit=crop" "fotos/liechtenstein/cover.jpg"
+          download "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=1200&h=750&fit=crop" "fotos/franca/cover.jpg"
+          download "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=1200&h=750&fit=crop" "fotos/noruega/cover.jpg"
+          download "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=750&fit=crop" "fotos/romenia/cover.jpg"
+          download "https://images.unsplash.com/photo-1509356843151-3e7d96241e11?w=1200&h=750&fit=crop" "fotos/suecia/cover.jpg"
+
+          # Oriente Médio & África
+          download "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1200&h=750&fit=crop" "fotos/dubai/cover.jpg"
+          download "https://images.unsplash.com/photo-1565552645632-d725f8bfc19a?w=1200&h=750&fit=crop" "fotos/qatar/cover.jpg"
+          download "https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=1200&h=750&fit=crop" "fotos/marrocos/cover.jpg"
+          download "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=1200&h=750&fit=crop" "fotos/turquia/cover.jpg"
+
+          # Ásia
+          download "https://images.unsplash.com/photo-1480796927426-f609979314bd?w=1200&h=750&fit=crop" "fotos/japao/cover.jpg"
+          download "https://images.unsplash.com/photo-1506970845246-18f21d533b20?w=1200&h=750&fit=crop" "fotos/hongkong/cover.jpg"
+          download "https://images.unsplash.com/photo-1528181304800-259b08848526?w=1200&h=750&fit=crop" "fotos/tailandia/cover.jpg"
+          download "https://images.unsplash.com/photo-1470004914212-05527e49370b?w=1200&h=750&fit=crop" "fotos/taiwan/cover.jpg"
+          download "https://images.unsplash.com/photo-1528127269322-539801943592?w=1200&h=750&fit=crop" "fotos/vietna/cover.jpg"
+
+          # Américas
+          download "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200&h=750&fit=crop" "fotos/aruba/cover.jpg"
+          download "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1200&h=750&fit=crop" "fotos/curacao/cover.jpg"
+          download "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=1200&h=750&fit=crop" "fotos/eua/cover.jpg"
+          download "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1200&h=750&fit=crop" "fotos/brasil/cover.jpg"
+          download "https://images.unsplash.com/photo-1526392060635-9d6019884377?w=1200&h=750&fit=crop" "fotos/peru/cover.jpg"
+
+          echo "✓ Todos os downloads concluídos"
+
+      - name: Update index.html to use local paths
+        run: |
+          node - <<'EOF'
+          const fs = require('fs');
+          let html = fs.readFileSync('index.html', 'utf8');
+
+          const replacements = [
+            // Europa
+            ["https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&h=500&fit=crop", "fotos/alemanha/cover.jpg"],
+            ["https://images.unsplash.com/photo-1516550893923-42d28e5677af?w=800&h=500&fit=crop", "fotos/austria/cover.jpg"],
+            ["https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800&h=500&fit=crop", "fotos/grecia/cover.jpg"],
+            ["https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?w=800&h=500&fit=crop", "fotos/holanda/cover.jpg"],
+            ["https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=500&fit=crop", "fotos/inglaterra/cover.jpg"],
+            ["https://images.unsplash.com/photo-1590089415225-401ed6f9db8e?w=800&h=500&fit=crop", "fotos/irlanda/cover.jpg"],
+            ["https://images.unsplash.com/photo-1529260830199-42c24126f198?w=800&h=500&fit=crop", "fotos/italia/cover.jpg"],
+            ["https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=500&fit=crop", "fotos/liechtenstein/cover.jpg"],
+            ["https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800&h=500&fit=crop", "fotos/franca/cover.jpg"],
+            ["https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800&h=500&fit=crop", "fotos/noruega/cover.jpg"],
+            ["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop", "fotos/romenia/cover.jpg"],
+            ["https://images.unsplash.com/photo-1509356843151-3e7d96241e11?w=800&h=500&fit=crop", "fotos/suecia/cover.jpg"],
+            // Oriente Médio & África
+            ["https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=500&fit=crop", "fotos/dubai/cover.jpg"],
+            ["https://images.unsplash.com/photo-1565552645632-d725f8bfc19a?w=800&h=500&fit=crop", "fotos/qatar/cover.jpg"],
+            ["https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=800&h=500&fit=crop", "fotos/marrocos/cover.jpg"],
+            ["https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&h=500&fit=crop", "fotos/turquia/cover.jpg"],
+            // Ásia
+            ["https://images.unsplash.com/photo-1480796927426-f609979314bd?w=800&h=500&fit=crop", "fotos/japao/cover.jpg"],
+            ["https://images.unsplash.com/photo-1506970845246-18f21d533b20?w=800&h=500&fit=crop", "fotos/hongkong/cover.jpg"],
+            ["https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&h=500&fit=crop", "fotos/tailandia/cover.jpg"],
+            ["https://images.unsplash.com/photo-1470004914212-05527e49370b?w=800&h=500&fit=crop", "fotos/taiwan/cover.jpg"],
+            ["https://images.unsplash.com/photo-1528127269322-539801943592?w=800&h=500&fit=crop", "fotos/vietna/cover.jpg"],
+            // Américas
+            ["https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=500&fit=crop", "fotos/aruba/cover.jpg"],
+            ["https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&h=500&fit=crop", "fotos/curacao/cover.jpg"],
+            ["https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800&h=500&fit=crop", "fotos/eua/cover.jpg"],
+            ["https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800&h=500&fit=crop", "fotos/brasil/cover.jpg"],
+            ["https://images.unsplash.com/photo-1526392060635-9d6019884377?w=800&h=500&fit=crop", "fotos/peru/cover.jpg"],
+          ];
+
+          let count = 0;
+          for (const [old, newPath] of replacements) {
+            if (html.includes(old)) {
+              html = html.split(old).join(newPath);
+              count++;
+              console.log(`✓ ${old.split('/').pop().split('?')[0]} → ${newPath}`);
+            } else {
+              console.log(`⚠ não encontrado: ${old}`);
+            }
+          }
+
+          fs.writeFileSync('index.html', html);
+          console.log(`\n✓ ${count} URLs substituídos em index.html`);
+          EOF
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add fotos/ index.html
+          if git diff --staged --quiet; then
+            echo "Nada para commitar."
+          else
+            git commit -m "Migrar fotos de capa do Unsplash para hospedagem local"
+            git push
+          fi
