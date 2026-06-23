@@ -144,7 +144,7 @@
     var name    = actions.dataset.name;
     var card    = actions.closest('.restaurant-card');
     var slug    = card && card.id ? card.id.replace('card-', '') : '';
-    var pageUrl = location.origin + location.pathname + (slug ? '#' + slug : '?q=' + encodeURIComponent(name));
+    var pageUrl = location.origin + location.pathname + (slug ? '?modal=' + slug : '?q=' + encodeURIComponent(name));
     var waText  = name + ' — Luli Dias · Restaurants & Hotels';
 
     var rect = btn.getBoundingClientRect();
@@ -420,22 +420,38 @@
   obs.observe(root, { childList: true, subtree: true });
   document.querySelectorAll('.restaurant-card').forEach(initCard);
 
-  // ── Auto-open card modal when URL has #slug (shared links) ──────────
-  function tryOpenHash() {
-    var hash = location.hash.replace('#', '');
-    if (!hash) return;
-    var card = document.getElementById('card-' + hash);
+  // ── Auto-open card modal when URL has ?modal=slug or #slug (shared links) ──
+  function tryOpenSlug(slug) {
+    if (!slug) return false;
+    var card = document.getElementById('card-' + slug);
     if (card) { openModal(card); return true; }
     return false;
   }
-  if (location.hash) {
-    // Cards may not be rendered yet — retry a few times
-    if (!tryOpenHash()) {
-      var attempts = 0;
-      var hashTimer = setInterval(function () {
-        if (tryOpenHash() || ++attempts > 10) clearInterval(hashTimer);
-      }, 200);
-    }
+
+  var _modalParam = new URLSearchParams(location.search).get('modal');
+  if (_modalParam) {
+    // ?modal=slug (from WhatsApp share) — clean URL first so back button goes
+    // to guide page without re-opening the modal
+    history.replaceState(null, '', location.pathname);
+    setTimeout(function () {
+      if (!tryOpenSlug(_modalParam)) {
+        var _ma = 0;
+        var _mt = setInterval(function () {
+          if (tryOpenSlug(_modalParam) || ++_ma > 20) clearInterval(_mt);
+        }, 300);
+      }
+    }, 300);
+  } else if (location.hash) {
+    // #slug fallback (backward-compatible with old shared links)
+    var _hash = location.hash.replace('#', '');
+    setTimeout(function () {
+      if (!tryOpenSlug(_hash)) {
+        var _ha = 0;
+        var _ht = setInterval(function () {
+          if (tryOpenSlug(_hash) || ++_ha > 15) clearInterval(_ht);
+        }, 250);
+      }
+    }, 200);
   }
 
   // ── Auto-open local search when ?q= is in URL (fallback) ─────────────
