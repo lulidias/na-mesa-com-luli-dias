@@ -1398,7 +1398,7 @@ function saveSettings() {
 function loadSettings() {
   STATE.workerUrl = localStorage.getItem('worker_url') || '';
   STATE.workerKey = localStorage.getItem('worker_key') || '';
-  STATE.broadcastSecret = localStorage.getItem('broadcast_secret') || '';
+  STATE.broadcastSecret = localStorage.getItem('broadcast_secret') || 'lulidias-admin-2026';
   if (STATE.workerKey) sessionStorage.setItem('LULI_ADMIN_KEY', STATE.workerKey);
   document.getElementById('worker-url').value = STATE.workerUrl;
   document.getElementById('worker-key').value = STATE.workerKey;
@@ -1485,7 +1485,12 @@ async function loadLeads() {
 
     renderLeadsPage();
   } catch (err) {
-    list.innerHTML = `<div style="padding:32px;text-align:center;color:var(--red);font-size:13px">${escHtml(err.message)}</div>`;
+    const isAuth = err.message === 'nao_autorizado' || err.message.includes('401');
+    list.innerHTML = `<div style="padding:32px;text-align:center;color:var(--red);font-size:13px">
+      ${isAuth
+        ? 'Chave de cadastros incorrecta. <button onclick="switchTab(\'settings\')" style="background:none;border:none;color:var(--gold);cursor:pointer;font-family:inherit;font-size:inherit;text-decoration:underline;padding:0">Vai a Configurações</button> e confirma a chave <em>Broadcast Secret</em>.'
+        : escHtml(err.message)}
+    </div>`;
   }
 }
 
