@@ -1,0 +1,45 @@
+name: Update Country Cover Photo
+
+on:
+  workflow_dispatch:
+    inputs:
+      country:
+        description: 'Pasta do país (ex: romenia, franca, japao)'
+        required: true
+        default: 'romenia'
+      photo_id:
+        description: 'ID da foto no Unsplash (ex: ufpm60NuTXo)'
+        required: true
+        default: 'ufpm60NuTXo'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download photo
+        run: |
+          DEST="fotos/${{ github.event.inputs.country }}/cover.jpg"
+          URL="https://images.unsplash.com/photo-${{ github.event.inputs.photo_id }}?w=1200&h=750&fit=crop"
+          mkdir -p "$(dirname "$DEST")"
+          echo "⬇ $URL → $DEST"
+          curl -L --silent --fail --max-time 30 \
+            -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" \
+            "$URL" -o "$DEST"
+          echo "✓ Ficheiro: $(du -sh $DEST | cut -f1)"
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add fotos/
+          if git diff --staged --quiet; then
+            echo "Sem alterações."
+          else
+            git commit -m "Actualizar capa: fotos/${{ github.event.inputs.country }}/cover.jpg"
+            git push
+          fi
