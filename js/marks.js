@@ -420,24 +420,78 @@
     }, 300);
   }
 
-  // ── Inject "Minha Lista" + "Busca Global" buttons into top-nav ──────
+  // ── Inject util-link nav buttons into top-nav (matches homepage style) ──
   function injectNavButtons() {
     var nav = document.querySelector('.top-nav');
-    if (!nav || nav.querySelector('.nav-lista-btn')) return;
-    var marks   = getMarks();
-    var total   = Object.keys(marks).length;
-    var badge   = total ? '<span class="nav-lista-badge">' + total + '</span>' : '';
+    if (!nav || nav.querySelector('#nav-lista-btn')) return;
+
+    var marks = getMarks();
+    var total = Object.keys(marks).length;
+
+    // 1. Transform #lang-toggle pill → util-link
+    var langBtn = document.getElementById('lang-toggle');
+    if (langBtn) {
+      langBtn.className = 'util-link';
+      langBtn.removeAttribute('style');
+      var curLang = localStorage.getItem('ld-lang') || 'pt';
+      langBtn.textContent = curLang === 'en' ? 'PT | EN ·' : 'PT · EN';
+      if (curLang === 'en') langBtn.style.color = 'var(--gold)';
+      var _origToggle = window.toggleLang;
+      window.toggleLang = function () {
+        if (_origToggle) _origToggle.call(this);
+        var tgl = document.getElementById('lang-toggle');
+        if (tgl) {
+          var l = localStorage.getItem('ld-lang') || 'pt';
+          tgl.textContent = l === 'en' ? 'PT | EN ·' : 'PT · EN';
+          tgl.style.color = l === 'en' ? 'var(--gold)' : '';
+        }
+      };
+    }
+
+    // 2. Transform .search-toggle → util-link with "Busca" label
+    var searchBtn = nav.querySelector('.search-toggle');
+    if (searchBtn) {
+      searchBtn.className = 'util-link';
+      searchBtn.removeAttribute('style');
+      searchBtn.innerHTML =
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Busca';
+      // Move before lang-toggle so order is: Busca | Lista | PT·EN | Entrar
+      if (langBtn && langBtn.parentNode === nav) nav.insertBefore(searchBtn, langBtn);
+    }
+
+    // 3. Create Minha Lista button (insert before lang-toggle)
+    var svgHeart = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+    var badgeHtml = '<span class="util-badge"' + (total ? '' : ' style="display:none"') + '>' + total + '</span>';
     var listaEl = document.createElement('a');
-    listaEl.href      = 'minha-lista.html';
-    listaEl.className = 'nav-lista-btn';
-    listaEl.title     = 'Minha Lista';
-    listaEl.innerHTML =
-      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>' + badge;
-    var searchToggle = nav.querySelector('.search-toggle');
-    if (searchToggle) {
-      nav.insertBefore(listaEl, searchToggle);
+    listaEl.href = 'minha-lista.html';
+    listaEl.id = 'nav-lista-btn';
+    listaEl.className = 'util-link';
+    listaEl.innerHTML = svgHeart + 'Minha Lista' + badgeHtml;
+    if (langBtn && langBtn.parentNode === nav) nav.insertBefore(listaEl, langBtn);
+    else nav.appendChild(listaEl);
+
+    // 4. Create Entrar button (insert after lang-toggle)
+    var svgPerson = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+    var authBtn = document.createElement('button');
+    authBtn.id = 'util-auth-btn';
+    authBtn.className = 'util-link';
+    authBtn.innerHTML = svgPerson + 'Entrar';
+    if (langBtn && langBtn.parentNode === nav) {
+      langBtn.nextSibling ? nav.insertBefore(authBtn, langBtn.nextSibling) : nav.appendChild(authBtn);
     } else {
-      nav.appendChild(listaEl);
+      nav.appendChild(authBtn);
+    }
+
+    // 5. Load Supabase + auth.js for the Entrar button to work
+    if (!document.querySelector('script[src*="supabase"]')) {
+      var sbScript = document.createElement('script');
+      sbScript.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+      document.head.appendChild(sbScript);
+    }
+    if (!document.querySelector('script[src*="auth.js"]')) {
+      var authScript = document.createElement('script');
+      authScript.src = 'js/auth.js';
+      document.head.appendChild(authScript);
     }
   }
   if (document.readyState === 'loading') {
@@ -464,13 +518,12 @@
     '.share-dd-item{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt,#5A5A5A);background:none;border:none;width:100%;text-align:left;cursor:pointer;font-family:Montserrat,sans-serif;transition:color .2s;white-space:nowrap}' +
     '.share-dd-item:hover{color:var(--gold,#B8922A)}' +
     '.share-dd-item+.share-dd-item{border-top:1px solid var(--border,#E8E0D5)}' +
-    '.nav-lista-btn{display:inline-flex;align-items:center;justify-content:center;position:relative;' +
-    'width:36px;height:36px;border-radius:50%;border:1px solid var(--border);color:var(--ink-lt);' +
-    'background:none;cursor:pointer;text-decoration:none;transition:all .2s;flex-shrink:0}' +
-    '.nav-lista-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}' +
-    '.nav-lista-badge{position:absolute;top:-4px;right:-4px;background:var(--gold);color:#fff;' +
-    'font-size:8px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;' +
-    'align-items:center;justify-content:center;padding:0 3px;font-family:Montserrat,sans-serif}' +
+    '.util-link{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);text-decoration:none;' +
+    'display:inline-flex;align-items:center;gap:6px;padding:0 12px;height:44px;transition:color .2s;' +
+    'white-space:nowrap;background:none;border:none;cursor:pointer;font-family:\'Montserrat\',sans-serif;font-weight:500;flex-shrink:0}' +
+    '.util-link:hover{color:var(--gold)}' +
+    '.util-badge{background:var(--gold);color:#fff;font-size:8px;font-weight:700;min-width:16px;height:16px;' +
+    'border-radius:8px;display:inline-flex;align-items:center;justify-content:center;padding:0 3px;font-family:\'Montserrat\',sans-serif}' +
     // Modal
     '#ld-modal{display:none;position:fixed;inset:0;z-index:9000}' +
     '#ld-modal.ldm-open{display:block}' +
