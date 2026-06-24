@@ -218,7 +218,7 @@ footer a{color:var(--gold);text-decoration:none}
 
 <nav class="top-nav">
   <div class="top-nav-left">
-    <a href="index.html" class="back-link" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}" data-i18n="back">← Voltar</a>
+    <a href="index.html" class="back-link" data-i18n="back">← Voltar</a>
     <a href="index.html" class="top-nav-brand">
       <span class="top-nav-brand-name">LULI DIAS</span>
       <span class="top-nav-brand-tag">RESTAURANTS &amp; HOTELS</span>
@@ -630,7 +630,7 @@ function doCloseSearch(){
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape')doCloseSearch();});
 </script>
-<footer><p><a href="index.html" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}" data-i18n="back">← Voltar</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
+<footer><p><a href="index.html" data-i18n="back">← Voltar</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels</p></footer>
 
 <script>
 

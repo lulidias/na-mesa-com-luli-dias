@@ -90,14 +90,16 @@ if git diff --cached --quiet; then
 else
   timestamp=$(date "+%d/%m/%Y %H:%M")
   git commit -m "sincronizar fotos — $timestamp" -q
-  # Rebaser antes de publicar para evitar conflito com o iCloud auto-push
-  if ! git pull --rebase -q 2>/dev/null; then
-    git rebase --abort 2>/dev/null
-    echo "   ❌ Erro ao publicar. Tenta de novo em instantes."
-    echo "      (abre o GitHub Desktop e faz Sync)"
-  else
-    git push -q && echo "   ✓ Fotos publicadas! O site atualiza em ~1 minuto."
-  fi
+  # Retry pull+push até 4 vezes (o iCloud pode commitar entre pulls)
+  published=0
+  for attempt in 1 2 3 4; do
+    git pull --rebase -q 2>/dev/null || { git rebase --abort 2>/dev/null; continue; }
+    if git push -q 2>/dev/null; then
+      echo "   ✓ Fotos publicadas! O site atualiza em ~1 minuto."
+      published=1; break
+    fi
+  done
+  [ $published -eq 0 ] && echo "   ❌ Erro ao publicar. Abre o GitHub Desktop e faz Sync."
 fi
 
 echo ""
