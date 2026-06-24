@@ -499,11 +499,9 @@
       searchBtn.removeAttribute('style');
       searchBtn.innerHTML =
         '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Busca';
-      // Move before lang-toggle so order is: Busca | Lista | PT·EN | Entrar
-      if (langBtn && langBtn.parentNode === nav) nav.insertBefore(searchBtn, langBtn);
     }
 
-    // 3. Create Minha Lista button (insert before lang-toggle)
+    // 3. Create Minha Lista button
     var svgHeart = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
     var badgeHtml = '<span class="util-badge"' + (total ? '' : ' style="display:none"') + '>' + total + '</span>';
     var listaEl = document.createElement('a');
@@ -511,20 +509,26 @@
     listaEl.id = 'nav-lista-btn';
     listaEl.className = 'util-link';
     listaEl.innerHTML = svgHeart + 'Minha Lista' + badgeHtml;
-    if (langBtn && langBtn.parentNode === nav) nav.insertBefore(listaEl, langBtn);
-    else nav.appendChild(listaEl);
 
-    // 4. Create Entrar button (insert after lang-toggle)
+    // 4. Create Entrar button
     var svgPerson = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
     var authBtn = document.createElement('button');
     authBtn.id = 'util-auth-btn';
     authBtn.className = 'util-link';
     authBtn.innerHTML = svgPerson + 'Entrar';
-    if (langBtn && langBtn.parentNode === nav) {
-      langBtn.nextSibling ? nav.insertBefore(authBtn, langBtn.nextSibling) : nav.appendChild(authBtn);
-    } else {
-      nav.appendChild(authBtn);
+
+    // 5. Agrupar todos os botões num wrapper à direita (igual ao util-bar da homepage)
+    var rightGroup = document.createElement('div');
+    rightGroup.id = 'top-nav-right';
+    rightGroup.style.cssText = 'display:flex;align-items:center;margin-left:auto';
+    if (searchBtn) rightGroup.appendChild(searchBtn);
+    rightGroup.appendChild(listaEl);
+    if (langBtn) {
+      if (langBtn.parentNode) langBtn.parentNode.removeChild(langBtn);
+      rightGroup.appendChild(langBtn);
     }
+    rightGroup.appendChild(authBtn);
+    nav.appendChild(rightGroup);
 
     // 5. Load Supabase + auth.js for the Entrar button to work
     if (!document.querySelector('script[src*="supabase"]')) {
