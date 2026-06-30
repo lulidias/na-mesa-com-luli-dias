@@ -41,18 +41,16 @@ echo "3. A verificar ficheiros com nomes inválidos..."
 bad=0
 while IFS= read -r -d '' f; do
   name=$(basename "$f")
-  # Ignorar ficheiros com "Captura", "Ver as fotos", ou espaços no nome
   if echo "$name" | grep -qiE "captura de tela|ver as fotos|screenshot"; then
     echo "   ⚠️  Ignorado (nome inválido): $name"
     bad=$((bad+1))
   fi
-done < <(find fotos/ -type f -name "*.jpeg" -o -name "*.jpg" -print0 2>/dev/null)
+done < <(find fotos/ -type f \( -name "*.jpeg" -o -name "*.jpg" \) -print0 2>/dev/null)
 
 # 4) Verificar se há fotos novas para subir
 echo ""
 echo "4. A verificar fotos novas..."
 
-# Adicionar apenas JPEGs válidos (sem espaços no caminho problemáticos)
 new_files=$(git ls-files --others --exclude-standard fotos/ | grep -iE "\.(jpeg|jpg)$" | grep -viE "captura de tela|ver as fotos|screenshot")
 modified=$(git diff --name-only fotos/ | grep -iE "\.(jpeg|jpg)$")
 
@@ -74,7 +72,6 @@ echo ""
 # 5) Adicionar e fazer commit
 echo "5. A subir para o site..."
 
-# Adicionar ficheiros válidos
 echo "$new_files" | while read f; do
   [ -z "$f" ] && continue
   git add "$f"
@@ -84,13 +81,16 @@ echo "$modified" | while read f; do
   git add "$f"
 done
 
-# Verificar se há algo para commitar
 if git diff --cached --quiet; then
   echo "   Nada para commitar."
 else
   timestamp=$(date "+%d/%m/%Y %H:%M")
   git commit -m "sincronizar fotos — $timestamp" -q
-  # Retry pull+push até 4 vezes (o iCloud pode commitar entre pulls)
+
+  # Guardar temporariamente quaisquer ficheiros HTML/JS não commitados
+  # (são alterações já subidas ao GitHub pelo Claude — podem ser descartadas)
+  git stash -q 2>/dev/null || true
+
   published=0
   for attempt in 1 2 3 4; do
     git pull --rebase -q 2>/dev/null || { git rebase --abort 2>/dev/null; continue; }
@@ -99,6 +99,10 @@ else
       published=1; break
     fi
   done
+
+  # Descartar o stash (as alterações HTML já estão no GitHub)
+  git stash drop -q 2>/dev/null || true
+
   [ $published -eq 0 ] && echo "   ❌ Erro ao publicar. Abre o GitHub Desktop e faz Sync."
 fi
 
