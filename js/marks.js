@@ -428,6 +428,7 @@
       wrap.classList.add('ldm-clickable');
       wrap.addEventListener('click', function (e) {
         if (e.target.classList.contains('card-nav')) return;
+        e.stopPropagation();
         openModal(card);
       });
     }
