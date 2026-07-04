@@ -1,0 +1,226 @@
+== gerado em: Sat Jul  4 08:22:58 UTC 2026 ==
+
+== /pages (config) ==
+{
+  "url": "https://api.github.com/repos/lulidias/na-mesa-com-luli-dias/pages",
+  "status": "errored",
+  "cname": "lulidias.com",
+  "custom_404": false,
+  "html_url": "http://lulidias.com/",
+  "build_type": "legacy",
+  "source": {
+    "branch": "main",
+    "path": "/"
+  },
+  "public": true,
+  "protected_domain_state": null,
+  "pending_domain_unverified_at": null,
+  "https_certificate": {
+    "state": "bad_authz",
+    "description": "The ACME authorization is in a bad state. We need to start over.",
+    "domains": [
+      "lulidias.com",
+      "www.lulidias.com"
+    ],
+    "expires_at": "2026-07-31"
+  },
+  "https_enforced": false
+}
+
+== /pages/builds/latest ==
+{
+  "url": "https://api.github.com/repos/lulidias/na-mesa-com-luli-dias/pages/builds/1078179236",
+  "status": "building",
+  "error": {
+    "message": null
+  },
+  "pusher": {
+    "login": "lulidias",
+    "id": 280341863,
+    "node_id": "U_kgDOELWtZw",
+    "avatar_url": "https://avatars.githubusercontent.com/u/280341863?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/lulidias",
+    "html_url": "https://github.com/lulidias",
+    "followers_url": "https://api.github.com/users/lulidias/followers",
+    "following_url": "https://api.github.com/users/lulidias/following{/other_user}",
+    "gists_url": "https://api.github.com/users/lulidias/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/lulidias/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/lulidias/subscriptions",
+    "organizations_url": "https://api.github.com/users/lulidias/orgs",
+    "repos_url": "https://api.github.com/users/lulidias/repos",
+    "events_url": "https://api.github.com/users/lulidias/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/lulidias/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "commit": "4143b35286cdadf60e929a232be42c66deb72045",
+  "duration": 0,
+  "created_at": "2026-07-04T08:21:58Z",
+  "updated_at": "2026-07-04T08:21:58Z"
+}
+
+== /pages/builds (últimos 5) ==
+[
+  {
+    "url": "https://api.github.com/repos/lulidias/na-mesa-com-luli-dias/pages/builds/1078179236",
+    "status": "building",
+    "error": {
+      "message": null
+    },
+    "pusher": {
+      "login": "lulidias",
+      "id": 280341863,
+      "node_id": "U_kgDOELWtZw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/280341863?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lulidias",
+      "html_url": "https://github.com/lulidias",
+      "followers_url": "https://api.github.com/users/lulidias/followers",
+      "following_url": "https://api.github.com/users/lulidias/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lulidias/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lulidias/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lulidias/subscriptions",
+      "organizations_url": "https://api.github.com/users/lulidias/orgs",
+      "repos_url": "https://api.github.com/users/lulidias/repos",
+      "events_url": "https://api.github.com/users/lulidias/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lulidias/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "commit": "4143b35286cdadf60e929a232be42c66deb72045",
+    "duration": 0,
+    "created_at": "2026-07-04T08:21:58Z",
+    "updated_at": "2026-07-04T08:21:58Z"
+  },
+  {
+    "url": "https://api.github.com/repos/lulidias/na-mesa-com-luli-dias/pages/builds/1076623601",
+    "status": "errored",
+    "error": {
+      "message": "Page build failed."
+    },
+    "pusher": {
+      "login": "lulidias",
+      "id": 280341863,
+      "node_id": "U_kgDOELWtZw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/280341863?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lulidias",
+      "html_url": "https://github.com/lulidias",
+      "followers_url": "https://api.github.com/users/lulidias/followers",
+      "following_url": "https://api.github.com/users/lulidias/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lulidias/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lulidias/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lulidias/subscriptions",
+      "organizations_url": "https://api.github.com/users/lulidias/orgs",
+      "repos_url": "https://api.github.com/users/lulidias/repos",
+      "events_url": "https://api.github.com/users/lulidias/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lulidias/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "commit": "47b50c1651a81d9c6138e666722cdb013dd9f428",
+    "duration": 0,
+    "created_at": "2026-07-03T08:51:20Z",
+    "updated_at": "2026-07-04T08:21:58Z"
+  },
+  {
+    "url": "https://api.github.com/repos/lulidias/na-mesa-com-luli-dias/pages/builds/1076530614",
+    "status": "errored",
+    "error": {
+      "message": "Page build failed."
+    },
+    "pusher": {
+      "login": "github-actions[bot]",
+      "id": 41898282,
+      "node_id": "MDM6Qm90NDE4OTgyODI=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+      "html_url": "https://github.com/apps/github-actions",
+      "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "commit": "13c2b7abcb02b16b187271ce544a7db87f5eab30",
+    "duration": 0,
+    "created_at": "2026-07-03T07:36:06Z",
+    "updated_at": "2026-07-03T08:51:20Z"
+  },
+  {
+    "url": "https://api.github.com/repos/lulidias/na-mesa-com-luli-dias/pages/builds/1076528937",
+    "status": "errored",
+    "error": {
+      "message": "Page build failed."
+    },
+    "pusher": {
+      "login": "lulidias",
+      "id": 280341863,
+      "node_id": "U_kgDOELWtZw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/280341863?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lulidias",
+      "html_url": "https://github.com/lulidias",
+      "followers_url": "https://api.github.com/users/lulidias/followers",
+      "following_url": "https://api.github.com/users/lulidias/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lulidias/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lulidias/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lulidias/subscriptions",
+      "organizations_url": "https://api.github.com/users/lulidias/orgs",
+      "repos_url": "https://api.github.com/users/lulidias/repos",
+      "events_url": "https://api.github.com/users/lulidias/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lulidias/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "commit": "4df6cf29b0fc6f7ea829470488b9c35962d90e65",
+    "duration": 0,
+    "created_at": "2026-07-03T07:34:50Z",
+    "updated_at": "2026-07-03T07:36:06Z"
+  },
+  {
+    "url": "https://api.github.com/repos/lulidias/na-mesa-com-luli-dias/pages/builds/1072219577",
+    "status": "built",
+    "error": {
+      "message": null
+    },
+    "pusher": {
+      "login": "lulidias",
+      "id": 280341863,
+      "node_id": "U_kgDOELWtZw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/280341863?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lulidias",
+      "html_url": "https://github.com/lulidias",
+      "followers_url": "https://api.github.com/users/lulidias/followers",
+      "following_url": "https://api.github.com/users/lulidias/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lulidias/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lulidias/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lulidias/subscriptions",
+      "organizations_url": "https://api.github.com/users/lulidias/orgs",
+      "repos_url": "https://api.github.com/users/lulidias/repos",
+      "events_url": "https://api.github.com/users/lulidias/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lulidias/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "commit": "4df6cf29b0fc6f7ea829470488b9c35962d90e65",
+    "duration": 184265,
+    "created_at": "2026-06-30T18:23:51Z",
+    "updated_at": "2026-06-30T18:26:55Z"
+  }
+]
