@@ -1,15 +1,16 @@
-.DS_Store
-**/.DS_Store
-franca-candidatas/
-franca-gps.json
-photo_matches_franca*.json
-franca-rest-info.json
-franca-review.html
 
 # Originais não-otimizados (use os .jpeg gerados pelo converter-fotos.command)
+**/.DS_Store
 *.DNG
-*.dng
 *.HEIC
-*.heic
 *.HEIF
+*.dng
+*.heic
 *.heif
+.DS_Store
+assets/profile/DSCF*
+franca-candidatas/
+franca-gps.json
+franca-rest-info.json
+franca-review.html
+photo_matches_franca*.json
