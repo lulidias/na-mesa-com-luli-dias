@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1005,
+    "restaurants": 1006,
     "hotels": 157,
     "markets": 13,
     "m1": 45,
@@ -628,7 +628,7 @@
       "keysEntries": 5
     },
     "portugal": {
-      "restaurants": 106,
+      "restaurants": 107,
       "hotels": 32,
       "markets": 1,
       "cities": 32,
