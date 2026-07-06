@@ -72,7 +72,7 @@ header{background:var(--white);border-bottom:1px solid var(--border);padding:48p
 .global-stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;justify-content:center;flex-wrap:wrap;gap:0}
 .gstat{padding:10px 24px;text-align:center;border-right:1px solid var(--border)}
 .gstat:last-child{border-right:none}
-.gstat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);font-weight:600}
+.gstat-num{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);font-weight:600;transition:opacity .18s}
 .gstat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:2px}
 
 main{max-width:1100px;margin:0 auto;padding:40px 24px 60px}
@@ -373,6 +373,7 @@ const REGIONS = [
 // REGIONS' hardcoded count fields become fallback values only.
 fetch('counts.json?v=' + Date.now()).then(r => r.ok ? r.json() : null).then(data => {
   if (!data) return;
+  window.__countsData = data;
   // Update global gstats
   const t = data.totals;
   const update = (key, value) => {
@@ -536,6 +537,44 @@ function build() {
     </div>`;
   });
   document.getElementById('main').innerHTML = html;
+  updateStatsBar();
+}
+
+// ─── Barra de estatísticas dinâmica: reage ao tipo e ao continente ───
+function _setStat(key,val){
+  const el=document.querySelector('[data-stat="'+key+'"]'); if(!el)return;
+  if(el.textContent===String(val))return;
+  el.style.opacity='0';
+  setTimeout(()=>{el.textContent=val;el.style.opacity='1';},180);
+}
+function _showStat(key,on){
+  const el=document.querySelector('[data-stat="'+key+'"]');
+  if(el)el.parentElement.style.display=on?'':'none';
+}
+function updateStatsBar(){
+  const d=window.__countsData; if(!d)return;
+  const t=d.totals;
+  const regions=activeCont==='Todos'?REGIONS:REGIONS.filter(r=>r.name===activeCont);
+  const sum={c:0,r:0,h:0,s:0,b:0,k:0,rc:0,hc:0};
+  regions.forEach(rg=>(rg.countries||[]).forEach(c=>{
+    if(c.comingSoon)return;
+    const slug=c.slug||(c.file||'').replace('-guia.html','').replace('.html','');
+    const cc=d.countries[slug]; if(!cc)return;
+    sum.c++; sum.r+=cc.restaurants; sum.h+=cc.hotels; sum.s+=cc.totalStars; sum.b+=cc.bib; sum.k+=cc.totalKeys;
+    if(cc.restaurants>0)sum.rc++; if(cc.hotels>0)sum.hc++;
+  }));
+  const global=activeCont==='Todos';
+  const S=global?{c:t.countries,r:t.restaurants,h:t.hotels,s:t.totalStars,b:t.bib,k:t.totalKeys,rc:sum.rc,hc:sum.hc}:sum;
+  if(idxType==='r'){
+    _setStat('countries',S.rc); _setStat('restaurants',S.r); _setStat('stars',S.s+' ★'); _setStat('bib',S.b);
+    _showStat('countries',1);_showStat('restaurants',1);_showStat('stars',1);_showStat('bib',1);_showStat('hotels',0);_showStat('keys',0);
+  }else if(idxType==='h'){
+    _setStat('countries',S.hc); _setStat('hotels',S.h); _setStat('keys',S.k+' 🗝');
+    _showStat('countries',1);_showStat('hotels',1);_showStat('keys',1);_showStat('restaurants',0);_showStat('stars',0);_showStat('bib',0);
+  }else{
+    _setStat('countries',S.c); _setStat('restaurants',S.r); _setStat('hotels',S.h); _setStat('stars',S.s+' ★'); _setStat('bib',S.b); _setStat('keys',S.k+' 🗝');
+    ['countries','restaurants','hotels','stars','bib','keys'].forEach(k=>_showStat(k,1));
+  }
 }
 
 build();

@@ -682,3 +682,50 @@
     '.ldm-share-wa:hover{background:#25D366;border-color:#25D366;color:#fff}';
   document.head.appendChild(style);
 })();
+
+// ─── Stats do país reagem ao filtro de tipo (Todos/Restaurantes/Hotéis) ───
+(function () {
+  if (typeof window.setType !== 'function') return;
+  function recomputeStats(type) {
+    if (typeof CITIES === 'undefined') return;
+    var r = 0, h = 0, cities = 0, m1 = 0, m2 = 0, m3 = 0, bib = 0, k1 = 0, k2 = 0, k3 = 0;
+    (CITIES || []).forEach(function (city) {
+      if (!city || !city.entries || !city.entries.length) return;
+      var counted = false;
+      city.entries.forEach(function (e) {
+        if (!e || e.pending) return;
+        var isH = e.t === 'h';
+        if (type === 'r' && isH) return;
+        if (type === 'h' && !isH) return;
+        counted = true;
+        if (isH) { h++; if (e.k === 1) k1++; else if (e.k === 2) k2++; else if (e.k === 3) k3++; }
+        else r++;
+        if (e.m === 'm1') m1++; else if (e.m === 'm2') m2++; else if (e.m === 'm3') m3++;
+        else if (e.m === 'bib') bib++;
+      });
+      if (counted) cities++;
+    });
+    var stars = m1 + m2 * 2 + m3 * 3, keys = k1 + k2 * 2 + k3 * 3;
+    var bar = document.querySelector('.stats-bar'); if (!bar) return;
+    bar.querySelectorAll('.stat').forEach(function (st) {
+      var lbl = ((st.querySelector('.stat-lbl') || {}).textContent || '').toLowerCase();
+      var num = st.querySelector('.stat-num'); if (!num) return;
+      var show = true;
+      if (lbl.indexOf('restaurant') >= 0) { num.textContent = r; show = type !== 'h'; }
+      else if (lbl.indexOf('cidade') >= 0 || lbl.indexOf('estado') >= 0 || lbl.indexOf('cit') >= 0 || lbl.indexOf('state') >= 0) { num.textContent = cities; }
+      else if (lbl.indexOf('hot') >= 0) { num.textContent = h; show = type !== 'r'; }
+      else if (lbl.indexOf('chave') >= 0 || lbl.indexOf('key') >= 0) { num.textContent = keys > 0 ? keys + ' 🗝' : '0'; show = type !== 'r'; }
+      else if (lbl.indexOf('michelin') >= 0 || lbl.indexOf('estrela') >= 0 || lbl.indexOf('star') >= 0) { num.textContent = stars > 0 ? stars + ' ★' : '0'; show = type !== 'h'; }
+      else if (lbl.indexOf('bib') >= 0) { num.textContent = bib; show = type !== 'h'; }
+      else if (lbl.indexOf('mercado') >= 0 || lbl.indexOf('market') >= 0) { show = type === 'all' || type === 'm'; }
+      st.style.display = show ? '' : 'none';
+    });
+  }
+  var _origSetType = window.setType;
+  window.setType = function (t, btn) {
+    _origSetType(t, btn);
+    try { recomputeStats(t === 'm' ? 'all' : t); } catch (_) {}
+  };
+  // aplicar já se a página abriu com ?type= do índice
+  try { if (typeof activeType !== 'undefined' && activeType !== 'all') recomputeStats(activeType); } catch (_) {}
+})();
