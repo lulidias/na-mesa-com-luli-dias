@@ -56,14 +56,19 @@ header{background:var(--white);border-bottom:1px solid var(--border);padding:48p
 .orn-line.r{background:linear-gradient(90deg,var(--gold),transparent)}
 .orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
 
-.curator-hero{display:flex;align-items:center;justify-content:center;gap:36px;max-width:780px;margin:0 auto;padding:38px 32px 42px;text-align:left}
-.curator-photo{width:150px;height:188px;object-fit:cover;border:1px solid var(--gold);padding:5px;background:var(--white);box-shadow:0 4px 20px rgba(0,0,0,.08);flex-shrink:0}
-.curator-kicker{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
-.curator-lead{font-family:'Playfair Display',serif;font-size:20px;line-height:1.5;color:var(--ink);font-weight:400;margin:0 0 12px}
-.curator-sub{font-size:13px;line-height:1.7;color:var(--ink-lt);margin:0 0 16px}
+.curator-hero{display:flex;align-items:center;justify-content:center;gap:44px;max-width:820px;margin:0 auto;padding:44px 32px 40px;text-align:left}
+.curator-photo{width:168px;height:210px;object-fit:cover;border:1px solid var(--gold);padding:6px;background:var(--white);box-shadow:0 6px 28px rgba(0,0,0,.10);flex-shrink:0}
+.curator-kicker{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.curator-kicker::after{content:'';flex:0 0 44px;height:1px;background:var(--gold);opacity:.5}
+.curator-lead{font-family:'Playfair Display',serif;font-size:21px;line-height:1.55;color:var(--ink);font-weight:400;margin:0 0 12px}
+.curator-sub{font-size:13px;line-height:1.75;color:var(--ink-lt);margin:0 0 14px}
+.curator-sign{font-family:'Playfair Display',serif;font-style:italic;font-size:19px;color:var(--gold);margin:0 0 16px}
 .curator-more{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px}
 .curator-more:hover{color:var(--ink)}
-@media(max-width:640px){.curator-hero{flex-direction:column;text-align:center;gap:22px;padding:28px 24px 32px}.curator-photo{width:130px;height:163px}.curator-lead{font-size:17px}}
+.curator-orn{display:flex;align-items:center;justify-content:center;gap:10px;padding:0 0 34px}
+.curator-orn .co-line{width:110px;height:1px;background:var(--gold);opacity:.4}
+.curator-orn .co-diamond{color:var(--gold);font-size:9px}
+@media(max-width:640px){.curator-hero{flex-direction:column;text-align:center;gap:24px;padding:30px 24px 26px}.curator-photo{width:140px;height:175px}.curator-lead{font-size:17px}.curator-kicker{justify-content:center}.curator-kicker::before{content:'';flex:0 0 44px;height:1px;background:var(--gold);opacity:.5}}
 .global-stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;justify-content:center;flex-wrap:wrap;gap:0}
 .gstat{padding:10px 24px;text-align:center;border-right:1px solid var(--border)}
 .gstat:last-child{border-right:none}
@@ -172,14 +177,16 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
   <div class="brand-tagline">RESTAURANTS &amp; HOTELS</div>
 </header>
 <section class="curator-hero">
-  <img class="curator-photo" src="assets/profile/luli-dias-web.jpg" alt="Luli Dias" width="150" height="188">
+  <img class="curator-photo" src="assets/profile/luli-dias-web.jpg" alt="Luli Dias" width="168" height="210">
   <div class="curator-body">
     <div class="curator-kicker" data-i18n="curatorKicker">O Curador</div>
-    <p class="curator-lead" data-i18n="curatorLead">Sou o Luli Dias. Nasci no Recife, vivo entre o Brasil e a Europa, e há décadas percorro o mundo à mesa — cada lugar deste guia foi visitado por mim, e cada conta foi paga do meu bolso.</p>
-    <p class="curator-sub" data-i18n="curatorSub">Sem convites, sem press trips, sem comissões. Só os lugares que continuo a frequentar e que recomendo sem hesitar.</p>
+    <p class="curator-lead" data-i18n="curatorLead">Sou o Luli Dias. Nasci no Recife, vivo entre o Brasil e a Europa e há mais de trinta anos percorro o mundo à mesa. Este guia reúne apenas lugares que conheço pessoalmente — os que continuo a frequentar, que recomendo aos amigos e pelos quais tenho genuíno carinho.</p>
+    <p class="curator-sub" data-i18n="curatorSub">Curadoria independente: nenhum lugar paga para estar aqui. Sem comissões, sem publicidade — a escolha é sempre minha.</p>
+    <p class="curator-sign">— Luli</p>
     <a href="sobre.html" class="curator-more" id="curator-link" data-i18n="curatorMore">A minha história →</a>
   </div>
 </section>
+<div class="curator-orn"><div class="co-line"></div><div class="co-diamond">◆</div><div class="co-line"></div></div>
 <div class="global-stats" id="globalStats">
   <div class="gstat"><div class="gstat-num" data-stat="countries">—</div><div class="gstat-lbl" data-i18n="countries">Países</div></div>
   <div class="gstat"><div class="gstat-num" data-stat="restaurants">—</div><div class="gstat-lbl" data-i18n="restaurants">Restaurantes</div></div>
@@ -248,8 +255,8 @@ const T = {
     gettingLocation:'A obter localização...',
     aboutCurator:'Sobre o Curador →', aboutCuratorFooter:'Sobre o Curador',
     curatorKicker:'O Curador',
-    curatorLead:'Sou o Luli Dias. Nasci no Recife, vivo entre o Brasil e a Europa, e há décadas percorro o mundo à mesa — cada lugar deste guia foi visitado por mim, e cada conta foi paga do meu bolso.',
-    curatorSub:'Sem convites, sem press trips, sem comissões. Só os lugares que continuo a frequentar e que recomendo sem hesitar.',
+    curatorLead:'Sou o Luli Dias. Nasci no Recife, vivo entre o Brasil e a Europa e há mais de trinta anos percorro o mundo à mesa. Este guia reúne apenas lugares que conheço pessoalmente — os que continuo a frequentar, que recomendo aos amigos e pelos quais tenho genuíno carinho.',
+    curatorSub:'Curadoria independente: nenhum lugar paga para estar aqui. Sem comissões, sem publicidade — a escolha é sempre minha.',
     curatorMore:'A minha história →'
   },
   en: {
@@ -264,8 +271,8 @@ const T = {
     gettingLocation:'Getting location...',
     aboutCurator:'About the Curator →', aboutCuratorFooter:'About the Curator',
     curatorKicker:'The Curator',
-    curatorLead:"I'm Luli Dias. Born in Recife, living between Brazil and Europe, I have spent decades travelling the world at the table — every place in this guide was visited by me, and every bill was paid from my own pocket.",
-    curatorSub:'No invitations, no press trips, no commissions. Only the places I keep returning to and recommend without hesitation.',
+    curatorLead:"I'm Luli Dias. Born in Recife, living between Brazil and Europe, I have spent more than thirty years travelling the world at the table. This guide gathers only places I know personally — the ones I keep returning to, recommend to friends and genuinely care about.",
+    curatorSub:'Independent curation: no place pays to be listed here. No commissions, no advertising — the choice is always mine.',
     curatorMore:'My story →'
   }
 };
