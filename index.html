@@ -56,6 +56,14 @@ header{background:var(--white);border-bottom:1px solid var(--border);padding:48p
 .orn-line.r{background:linear-gradient(90deg,var(--gold),transparent)}
 .orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
 
+.curator-hero{display:flex;align-items:center;justify-content:center;gap:36px;max-width:780px;margin:0 auto;padding:38px 32px 42px;text-align:left}
+.curator-photo{width:150px;height:188px;object-fit:cover;border:1px solid var(--gold);padding:5px;background:var(--white);box-shadow:0 4px 20px rgba(0,0,0,.08);flex-shrink:0}
+.curator-kicker{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.curator-lead{font-family:'Playfair Display',serif;font-size:20px;line-height:1.5;color:var(--ink);font-weight:400;margin:0 0 12px}
+.curator-sub{font-size:13px;line-height:1.7;color:var(--ink-lt);margin:0 0 16px}
+.curator-more{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px}
+.curator-more:hover{color:var(--ink)}
+@media(max-width:640px){.curator-hero{flex-direction:column;text-align:center;gap:22px;padding:28px 24px 32px}.curator-photo{width:130px;height:163px}.curator-lead{font-size:17px}}
 .global-stats{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;justify-content:center;flex-wrap:wrap;gap:0}
 .gstat{padding:10px 24px;text-align:center;border-right:1px solid var(--border)}
 .gstat:last-child{border-right:none}
@@ -162,10 +170,16 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
   <div class="brand-name">LULI DIAS</div>
   <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line r"></div></div>
   <div class="brand-tagline">RESTAURANTS &amp; HOTELS</div>
-  <div style="margin-top:28px">
-    <a id="curator-link" href="sobre.html" style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold);padding:6px 16px">Sobre o Curador →</a>
-  </div>
 </header>
+<section class="curator-hero">
+  <img class="curator-photo" src="assets/profile/luli-dias-web.jpg" alt="Luli Dias" width="150" height="188">
+  <div class="curator-body">
+    <div class="curator-kicker" data-i18n="curatorKicker">O Curador</div>
+    <p class="curator-lead" data-i18n="curatorLead">Sou o Luli Dias. Nasci no Recife, vivo entre o Brasil e a Europa, e há décadas percorro o mundo à mesa — cada lugar deste guia foi visitado por mim, e cada conta foi paga do meu bolso.</p>
+    <p class="curator-sub" data-i18n="curatorSub">Sem convites, sem press trips, sem comissões. Só os lugares que continuo a frequentar e que recomendo sem hesitar.</p>
+    <a href="sobre.html" class="curator-more" id="curator-link" data-i18n="curatorMore">A minha história →</a>
+  </div>
+</section>
 <div class="global-stats" id="globalStats">
   <div class="gstat"><div class="gstat-num" data-stat="countries">—</div><div class="gstat-lbl" data-i18n="countries">Países</div></div>
   <div class="gstat"><div class="gstat-num" data-stat="restaurants">—</div><div class="gstat-lbl" data-i18n="restaurants">Restaurantes</div></div>
@@ -232,7 +246,11 @@ const T = {
     comingSoon:'em breve',
     nearMe:'Perto de Mim', nearMeTitle:'Perto de Ti', nearMeSub:'Os restaurantes mais próximos',
     gettingLocation:'A obter localização...',
-    aboutCurator:'Sobre o Curador →', aboutCuratorFooter:'Sobre o Curador'
+    aboutCurator:'Sobre o Curador →', aboutCuratorFooter:'Sobre o Curador',
+    curatorKicker:'O Curador',
+    curatorLead:'Sou o Luli Dias. Nasci no Recife, vivo entre o Brasil e a Europa, e há décadas percorro o mundo à mesa — cada lugar deste guia foi visitado por mim, e cada conta foi paga do meu bolso.',
+    curatorSub:'Sem convites, sem press trips, sem comissões. Só os lugares que continuo a frequentar e que recomendo sem hesitar.',
+    curatorMore:'A minha história →'
   },
   en: {
     countries:'Countries', restaurants:'Restaurants', hotels:'Hotels',
@@ -244,7 +262,11 @@ const T = {
     comingSoon:'coming soon',
     nearMe:'Near Me', nearMeTitle:'Near You', nearMeSub:'The closest restaurants',
     gettingLocation:'Getting location...',
-    aboutCurator:'About the Curator →', aboutCuratorFooter:'About the Curator'
+    aboutCurator:'About the Curator →', aboutCuratorFooter:'About the Curator',
+    curatorKicker:'The Curator',
+    curatorLead:"I'm Luli Dias. Born in Recife, living between Brazil and Europe, I have spent decades travelling the world at the table — every place in this guide was visited by me, and every bill was paid from my own pocket.",
+    curatorSub:'No invitations, no press trips, no commissions. Only the places I keep returning to and recommend without hesitation.',
+    curatorMore:'My story →'
   }
 };
 const REGION_NAMES_EN = {
@@ -263,8 +285,6 @@ function applyTranslations(){
     const key=el.getAttribute('data-i18n');
     if(key) el.textContent=t(key);
   });
-  const cl=document.getElementById('curator-link');
-  if(cl) cl.textContent=t('aboutCurator');
   const tgl=document.getElementById('lang-toggle');
   if(tgl){ tgl.textContent=LANG==='en'?'PT | EN ·':'PT · EN'; tgl.style.color=LANG==='en'?'var(--gold)':'var(--ink-lt)'; }
 }
