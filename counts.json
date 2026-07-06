@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1014,
+    "restaurants": 1015,
     "hotels": 159,
     "markets": 13,
     "m1": 45,
@@ -343,7 +343,7 @@
       "keysEntries": 7
     },
     "grecia": {
-      "restaurants": 3,
+      "restaurants": 4,
       "hotels": 1,
       "markets": 0,
       "cities": 1,
