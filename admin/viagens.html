@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Minhas Viagens — BI · Luli Dias Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;font-size:14px}
+.nav{background:var(--white);border-bottom:1px solid var(--border);padding:12px 32px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:50}
+.nav a{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600}
+.nav .tit{font-family:'Playfair Display',serif;font-size:16px}
+.wrap{max-width:1200px;margin:0 auto;padding:28px 24px 80px}
+h1{font-family:'Playfair Display',serif;font-weight:400;font-size:30px;text-align:center;margin:18px 0 4px}
+.sub{text-align:center;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs);margin-bottom:26px}
+.filtros{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.fbtn{border:1px solid var(--border);background:var(--white);padding:7px 16px;font-family:Montserrat;font-size:11px;letter-spacing:1px;cursor:pointer;border-radius:20px;color:var(--ink-lt)}
+.fbtn.on{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:30px}
+.kpi{background:var(--white);padding:18px 10px;text-align:center}
+.kpi b{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);font-weight:600;display:block}
+.kpi span{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:26px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;margin-bottom:26px}
+@media(max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
+.card{background:var(--white);border:1px solid var(--border);padding:18px}
+.card h3{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600}
+.card canvas{max-height:260px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);text-align:left;padding:7px 8px;border-bottom:1px solid var(--gold);cursor:pointer}
+td{padding:6px 8px;border-bottom:1px solid var(--border)}
+tr:hover td{background:var(--gold-bg)}
+.busca{width:100%;border:1px solid var(--border);padding:9px 12px;font-family:Montserrat;font-size:12px;margin-bottom:10px}
+.rec{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--border)}
+.rec b{font-family:'Playfair Display',serif;color:var(--gold);min-width:110px;text-align:right}
+.rec span{color:var(--ink-lt)}
+#login{max-width:380px;margin:110px auto;background:var(--white);border:1px solid var(--border);padding:36px;text-align:center}
+#login input{width:100%;border:1px solid var(--border);padding:11px;margin:16px 0;font-family:Montserrat}
+#login button{background:var(--gold);border:none;color:#fff;padding:11px 26px;letter-spacing:2px;font-size:11px;text-transform:uppercase;cursor:pointer;font-weight:600}
+.mini{font-size:10px;color:var(--ink-xs);margin-top:8px}
+</style>
+</head>
+<body>
+<nav class="nav"><a href="dashboard.html">← Dashboard</a><span style="color:var(--border)">·</span><span class="tit">Minhas <em style="color:var(--gold)">Viagens</em></span><span style="flex:1"></span><span id="atualizado" style="font-size:9px;color:var(--ink-xs);letter-spacing:1px"></span></nav>
+
+<div id="login">
+  <div style="font-family:'Playfair Display',serif;font-size:20px">Minhas Viagens</div>
+  <div class="mini">Introduz a chave do admin</div>
+  <input type="password" id="chave" placeholder="Admin key" onkeydown="if(event.key==='Enter')entrar()">
+  <button onclick="entrar()">Entrar</button>
+  <div class="mini" id="loginerr" style="color:#b00"></div>
+</div>
+
+<div class="wrap" id="app" style="display:none">
+  <h1>O histórico completo</h1>
+  <div class="sub" id="periodo"></div>
+  <div class="filtros" id="anos"></div>
+  <div class="kpis" id="kpis"></div>
+
+  <div class="grid2">
+    <div class="card"><h3>km voados por ano · voltas ao mundo</h3><canvas id="cKm"></canvas></div>
+    <div class="card"><h3>Noites fora · dias fora do Brasil</h3><canvas id="cNoites"></canvas></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Decolagens por mês <span id="mesAno" style="color:var(--ink-xs)"></span></h3><canvas id="cMes"></canvas></div>
+    <div class="card"><h3>Países por noites (top 12)</h3><canvas id="cPaises"></canvas></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Cidades onde mais dormi (top 12)</h3><canvas id="cCidades"></canvas></div>
+    <div class="card"><h3>Hotéis onde mais voltei (top 12)</h3><canvas id="cHoteis"></canvas></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h3>🏆 Recordes</h3><div id="recordes"></div></div>
+    <div class="card"><h3>Rotas mais voadas</h3><table id="tRotas"></table></div>
+  </div>
+
+  <div class="card" style="margin-bottom:26px"><h3>Todas as estadias <span id="nEst" style="color:var(--ink-xs)"></span></h3>
+    <input class="busca" id="bEst" placeholder="Filtrar por hotel, cidade ou país…" oninput="renderEstadias()">
+    <div style="max-height:420px;overflow:auto"><table id="tEst"></table></div>
+  </div>
+  <div class="card"><h3>Todos os voos <span id="nVoo" style="color:var(--ink-xs)"></span></h3>
+    <input class="busca" id="bVoo" placeholder="Filtrar por aeroporto ou data…" oninput="renderVoos()">
+    <div style="max-height:420px;overflow:auto"><table id="tVoo"></table></div>
+  </div>
+</div>
+
+<script>
+const WORKER='https://luli-admin.lulidias.workers.dev';
+const OURO='#B8922A', OURO2='#D4AE5C', TINTA='#5A5045';
+const COORD={CGH:[-23.63,-46.66],GRU:[-23.43,-46.47],SAO:[-23.5,-46.6],VCP:[-23.01,-47.13],REC:[-8.13,-34.92],EZE:[-34.82,-58.54],LIS:[38.77,-9.13],PTY:[9.07,-79.38],GYN:[-16.63,-49.22],FLN:[-27.67,-48.55],CWB:[-25.53,-49.18],BSB:[-15.87,-47.92],SDU:[-22.91,-43.16],RIO:[-22.9,-43.2],GIG:[-22.81,-43.25],SSA:[-12.91,-38.33],POA:[-29.99,-51.17],AJU:[-10.98,-37.07],MDZ:[-32.83,-68.79],SCL:[-33.39,-70.79],BOG:[4.7,-74.15],JFK:[40.64,-73.78],FOR:[-3.78,-38.53],CNF:[-19.62,-43.97],IGU:[-25.6,-54.49],CGB:[-15.65,-56.12],ORY:[48.72,2.38],PAR:[48.85,2.35],LYS:[45.73,5.08],OPO:[41.25,-8.68],MAD:[40.47,-3.57],MXP:[45.63,8.72],MIL:[45.63,8.72],DOH:[25.27,51.61],OTP:[44.57,26.09],FRA:[50.03,8.57],CDG:[49.01,2.55],NCE:[43.66,7.22],MVD:[-34.84,-56.03],LIM:[-12.02,-77.11],CUZ:[-13.54,-71.94],AQP:[-16.34,-71.57],CPH:[55.62,12.65],BOD:[44.83,-0.72],AMS:[52.31,4.76],ZRH:[47.46,8.55],DUB:[53.43,-6.24],DUS:[51.29,6.77],NAT:[-5.9,-35.25],MCZ:[-9.51,-35.79],SLZ:[-2.59,-44.23],LDB:[-23.33,-51.13],NVT:[-26.88,-48.65],PVG:[31.14,121.81],SHA:[31.14,121.81],HKG:[22.31,113.91],MGF:[-23.48,-52.01],UDI:[-18.88,-48.23],MIA:[25.79,-80.29],BCN:[41.3,2.08],EDI:[55.95,-3.36],MPL:[43.58,3.96],BEL:[-1.38,-48.48],LHR:[51.47,-0.45],IST:[41.26,28.74],KIX:[34.43,135.24],ICN:[37.46,126.44],PEK:[40.08,116.58],HND:[35.55,139.78],BKK:[13.68,100.75],HAN:[21.22,105.81],POR:[41.25,-8.68],BOR:[44.83,-0.72],COP:[55.62,12.65],GOI:[-16.63,-49.22],LON:[51.47,-0.45]};
+function kmSeg(a,b){a=COORD[a];b=COORD[b];if(!a||!b)return 0;const p=Math.PI/180,[la1,lo1]=a,[la2,lo2]=b;const x=.5-Math.cos((la2-la1)*p)/2+Math.cos(la1*p)*Math.cos(la2*p)*(1-Math.cos((lo2-lo1)*p))/2;return 12742*Math.asin(Math.sqrt(x));}
+const fmt=n=>Math.round(n).toLocaleString('pt-BR');
+const normC=c=>{const t=(c||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');const m={'lisbon':'lisboa','milan':'milao','seville':'sevilha','tokyo':'toquio','toquio':'toquio'};return m[t]||t;};
+let D=null, ANO='todos', charts={};
+
+let adminKey=localStorage.getItem('worker_key')||sessionStorage.getItem('LULI_ADMIN_KEY')||'';
+async function entrar(){
+  const k=document.getElementById('chave').value.trim()||adminKey;
+  const r=await fetch(WORKER+'/viagens',{headers:{'X-Admin-Key':k}});
+  if(!r.ok){document.getElementById('loginerr').textContent='Chave inválida ('+r.status+')';return;}
+  localStorage.setItem('worker_key',k); adminKey=k;
+  D=await r.json();
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='';
+  document.getElementById('atualizado').textContent='dados: '+D.atualizado;
+  montar();
+}
+if(adminKey){document.getElementById('chave').value=adminKey;entrar();}
+
+function anosDisponiveis(){return Object.keys(D.metricas).sort();}
+function stF(){return D.stays.filter(s=>ANO==='todos'||s.checkin.startsWith(ANO));}
+function sgF(){return D.segments.filter(s=>ANO==='todos'||s.date.startsWith(ANO));}
+
+function montar(){
+  const div=document.getElementById('anos');
+  div.innerHTML='';
+  ['todos',...anosDisponiveis()].forEach(a=>{
+    const b=document.createElement('button');b.className='fbtn'+(a===ANO?' on':'');b.textContent=a==='todos'?'Todos os anos':a;
+    b.onclick=()=>{ANO=a;montar();};div.appendChild(b);
+  });
+  const anos=anosDisponiveis();
+  document.getElementById('periodo').textContent=anos[0]+' — '+anos[anos.length-1]+' · auditado de e-mails e fotografias';
+  kpis(); graficos(); recordes(); rotas(); renderEstadias(); renderVoos();
+}
+
+function kpis(){
+  const st=stF(), sg=sgF();
+  const km=sg.reduce((a,s)=>a+kmSeg(s.from,s.to),0);
+  const noites=st.reduce((a,s)=>a+s.nights,0);
+  const paises=new Set(st.map(s=>s.country)); paises.add('Brazil');
+  const hoteis=new Set(st.map(s=>normC(s.hotel)));
+  const diasFora=ANO==='todos'?Object.values(D.metricas).reduce((a,m)=>a+(m.dias_fora||0),0):(D.metricas[ANO]?.dias_fora||0);
+  const ref=ANO==='todos'?Object.values(D.metricas).reduce((a,m)=>a+(m.ref||0),0):(D.metricas[ANO]?.ref||0);
+  const K=[['Decolagens',sg.length],['km voados',fmt(km)],['Voltas ao mundo',(km/40075).toFixed(1)],['Estadias',st.length],['Noites fora',noites],['Hotéis distintos',hoteis.size],['Países',paises.size],['Dias fora do Brasil',diasFora],['Refeições fora (est.)','~'+fmt(ref)]];
+  document.getElementById('kpis').innerHTML=K.map(([l,v])=>`<div class="kpi"><b>${v}</b><span>${l}</span></div>`).join('');
+}
+
+function chart(id,cfg){if(charts[id])charts[id].destroy();charts[id]=new Chart(document.getElementById(id),cfg);}
+function graficos(){
+  const anos=anosDisponiveis();
+  const met=anos.map(a=>D.metricas[a]);
+  chart('cKm',{type:'bar',data:{labels:anos,datasets:[{label:'km',data:met.map(m=>Math.round(m.km)),backgroundColor:OURO},{label:'voltas ao mundo',data:met.map(m=>+(m.voltas).toFixed(1)),type:'line',yAxisID:'y2',borderColor:TINTA,pointBackgroundColor:TINTA}]},options:{scales:{y2:{position:'right',grid:{display:false}}},plugins:{legend:{display:false}}}});
+  chart('cNoites',{type:'bar',data:{labels:anos,datasets:[{label:'noites fora',data:met.map(m=>m.noites),backgroundColor:OURO},{label:'dias fora do Brasil',data:met.map(m=>m.dias_fora||0),backgroundColor:'#E3DACB'}]},options:{plugins:{legend:{position:'bottom',labels:{font:{size:10}}}}}});
+  // decolagens por mês
+  const sg=sgF(); const meses=Array(12).fill(0);
+  sg.forEach(s=>meses[+s.date.slice(5,7)-1]++);
+  document.getElementById('mesAno').textContent=ANO==='todos'?'(todos os anos)':'('+ANO+')';
+  chart('cMes',{type:'bar',data:{labels:['J','F','M','A','M','J','J','A','S','O','N','D'],datasets:[{data:meses,backgroundColor:OURO2}]},options:{plugins:{legend:{display:false}}}});
+  // países / cidades / hotéis
+  const st=stF();
+  const top=(keyF,valF,n)=>{const c={};st.forEach(s=>{const k=keyF(s);c[k]=(c[k]||0)+valF(s);});return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,n);};
+  const P={Brazil:'Brasil',France:'França',Portugal:'Portugal',Italy:'Itália',Spain:'Espanha',Japan:'Japão','South Korea':'Coreia do Sul',China:'China','Hong Kong':'Hong Kong',Turkey:'Turquia',Peru:'Peru',Argentina:'Argentina',Uruguay:'Uruguai',Germany:'Alemanha',Denmark:'Dinamarca',Ireland:'Irlanda','United Kingdom':'Reino Unido',Thailand:'Tailândia',Vietnam:'Vietname',Qatar:'Catar',Romania:'Roménia',Morocco:'Marrocos',Austria:'Áustria',Netherlands:'Países Baixos',Chile:'Chile',Colombia:'Colômbia',Panama:'Panamá'};
+  const tp=top(s=>P[s.country]||s.country,s=>s.nights,12);
+  chart('cPaises',{type:'bar',data:{labels:tp.map(x=>x[0]),datasets:[{data:tp.map(x=>x[1]),backgroundColor:OURO}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
+  const tc=top(s=>normC(s.city).replace(/\b\w/g,c=>c.toUpperCase()),s=>1,12);
+  chart('cCidades',{type:'bar',data:{labels:tc.map(x=>x[0]),datasets:[{label:'estadias',data:tc.map(x=>x[1]),backgroundColor:OURO2}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
+  const th=top(s=>s.hotel.split('—')[0].split('(')[0].trim(),s=>1,12);
+  chart('cHoteis',{type:'bar',data:{labels:th.map(x=>x[0].slice(0,28)),datasets:[{data:th.map(x=>x[1]),backgroundColor:OURO}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
+}
+
+function recordes(){
+  const st=stF(), sg=sgF();
+  const voosKm=sg.map(s=>({...s,km:kmSeg(s.from,s.to)})).sort((a,b)=>b.km-a.km);
+  const estLonga=[...st].sort((a,b)=>b.nights-a.nights)[0];
+  const mesC={}; sg.forEach(s=>{const k=s.date.slice(0,7);mesC[k]=(mesC[k]||0)+1;});
+  const mesTop=Object.entries(mesC).sort((a,b)=>b[1]-a[1])[0];
+  const aero={}; sg.forEach(s=>{aero[s.from]=(aero[s.from]||0)+1;aero[s.to]=(aero[s.to]||0)+1;});
+  const aeroTop=Object.entries(aero).sort((a,b)=>b[1]-a[1])[0];
+  const hc={}; st.forEach(s=>{const k=s.hotel.split('(')[0].trim();hc[k]=(hc[k]||0)+1;});
+  const hTop=Object.entries(hc).sort((a,b)=>b[1]-a[1])[0];
+  const R=[
+    ['Voo mais longo', voosKm[0]?`${voosKm[0].from} → ${voosKm[0].to} · ${fmt(voosKm[0].km)} km (${voosKm[0].date})`:'—'],
+    ['Estadia mais longa', estLonga?`${estLonga.hotel} · ${estLonga.nights} noites (${estLonga.checkin})`:'—'],
+    ['Mês mais intenso', mesTop?`${mesTop[0]} · ${mesTop[1]} decolagens`:'—'],
+    ['Aeroporto favorito', aeroTop?`${aeroTop[0]} · ${aeroTop[1]} passagens`:'—'],
+    ['Hotel mais repetido', hTop?`${hTop[0]} · ${hTop[1]}×`:'—'],
+  ];
+  document.getElementById('recordes').innerHTML=R.map(([l,v])=>`<div class="rec"><b>${l}</b><span>${v}</span></div>`).join('');
+}
+
+function rotas(){
+  const sg=sgF(); const r={};
+  sg.forEach(s=>{const par=[s.from,s.to].sort().join(' ↔ ');r[par]=(r[par]||0)+1;});
+  const top=Object.entries(r).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  document.getElementById('tRotas').innerHTML='<tr><th>Rota</th><th>Voos</th></tr>'+top.map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+}
+
+function renderEstadias(){
+  const q=(document.getElementById('bEst').value||'').toLowerCase();
+  const st=stF().filter(s=>!q||(s.hotel+' '+s.city+' '+s.country).toLowerCase().includes(q));
+  document.getElementById('nEst').textContent=`(${st.length})`;
+  document.getElementById('tEst').innerHTML='<tr><th>Check-in</th><th>Hotel</th><th>Cidade</th><th>País</th><th>Noites</th></tr>'+
+    st.map(s=>`<tr><td>${s.checkin}</td><td>${s.hotel}</td><td>${s.city}</td><td>${s.country}</td><td>${s.nights}</td></tr>`).join('');
+}
+function renderVoos(){
+  const q=(document.getElementById('bVoo').value||'').toLowerCase();
+  const sg=sgF().filter(s=>!q||(s.date+' '+s.from+' '+s.to).toLowerCase().includes(q));
+  document.getElementById('nVoo').textContent=`(${sg.length})`;
+  document.getElementById('tVoo').innerHTML='<tr><th>Data</th><th>De</th><th>Para</th><th>~km</th><th>Fonte</th></tr>'+
+    sg.map(s=>`<tr><td>${s.date}</td><td>${s.from}</td><td>${s.to}</td><td>${fmt(kmSeg(s.from,s.to))}</td><td style="color:var(--ink-xs)">${(s.source||'').slice(0,22)}</td></tr>`).join('');
+}
+Chart.defaults.font.family='Montserrat'; Chart.defaults.font.size=10; Chart.defaults.color='#5A5045';
+</script>
+</body>
+</html>

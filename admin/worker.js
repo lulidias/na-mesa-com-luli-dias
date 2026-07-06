@@ -51,6 +51,18 @@ export default {
       if (url.pathname === '/leads' && request.method === 'GET') {
         return await handleLeads(url, env);
       }
+      if (url.pathname === '/viagens' && request.method === 'GET') {
+        const row = await env.DB.prepare("SELECT v FROM viagens_kv WHERE k='dados'").first();
+        if (!row) return jsonResponse({ error: 'sem_dados' }, 404);
+        return new Response(row.v, { headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' } });
+      }
+      if (url.pathname === '/viagens' && request.method === 'POST') {
+        const body = await request.text();
+        JSON.parse(body); // valida
+        await env.DB.prepare("CREATE TABLE IF NOT EXISTS viagens_kv (k TEXT PRIMARY KEY, v TEXT)").run();
+        await env.DB.prepare("INSERT INTO viagens_kv (k,v) VALUES ('dados',?1) ON CONFLICT(k) DO UPDATE SET v=?1").bind(body).run();
+        return jsonResponse({ ok: true, bytes: body.length });
+      }
       if (url.pathname === '/' || url.pathname === '/health') {
         return jsonResponse({ ok: true, version: '1.2' });
       }
