@@ -1,0 +1,167 @@
+{
+ "franca": {
+  "visitas": 31,
+  "noites": 178,
+  "desde": "2009"
+ },
+ "portugal": {
+  "visitas": 36,
+  "noites": 241,
+  "desde": "2010"
+ },
+ "espanha": {
+  "visitas": 21,
+  "noites": 56,
+  "desde": "2010"
+ },
+ "argentina": {
+  "visitas": 19,
+  "noites": 67,
+  "desde": "2011"
+ },
+ "mexico": {
+  "visitas": 2,
+  "noites": 6,
+  "desde": "2012"
+ },
+ "eua": {
+  "visitas": 6,
+  "noites": 50,
+  "desde": "2013"
+ },
+ "chile": {
+  "visitas": 2,
+  "noites": 2,
+  "desde": "2013"
+ },
+ "italia": {
+  "visitas": 11,
+  "noites": 25,
+  "desde": "2013"
+ },
+ "holanda": {
+  "visitas": 7,
+  "noites": 11,
+  "desde": "2013"
+ },
+ "alemanha": {
+  "visitas": 10,
+  "noites": 34,
+  "desde": "2014"
+ },
+ "uruguai": {
+  "visitas": 4,
+  "noites": 14,
+  "desde": "2014"
+ },
+ "inglaterra": {
+  "visitas": 2,
+  "noites": 5,
+  "desde": "2017"
+ },
+ "escocia": {
+  "visitas": 1,
+  "noites": 3,
+  "desde": "2019"
+ },
+ "dubai": {
+  "visitas": 1,
+  "noites": 5,
+  "desde": "2023"
+ },
+ "japao": {
+  "visitas": 3,
+  "noites": 21,
+  "desde": "2023"
+ },
+ "copenhague": {
+  "visitas": 1,
+  "noites": 3,
+  "desde": "2024"
+ },
+ "colombia": {
+  "visitas": 1,
+  "noites": 6,
+  "desde": "2024"
+ },
+ "panama": {
+  "visitas": 1,
+  "noites": 2,
+  "desde": "2024"
+ },
+ "peru": {
+  "visitas": 1,
+  "noites": 15,
+  "desde": "2024"
+ },
+ "turquia": {
+  "visitas": 3,
+  "noites": 6,
+  "desde": "2024"
+ },
+ "coreia": {
+  "visitas": 2,
+  "noites": 20,
+  "desde": "2025"
+ },
+ "china": {
+  "visitas": 2,
+  "noites": 12,
+  "desde": "2025"
+ },
+ "hongkong": {
+  "visitas": 1,
+  "noites": 3,
+  "desde": "2025"
+ },
+ "macau": {
+  "visitas": 1,
+  "noites": 1,
+  "desde": "2025"
+ },
+ "suica": {
+  "visitas": 2,
+  "noites": 2,
+  "desde": "2025"
+ },
+ "irlanda": {
+  "visitas": 1,
+  "noites": 8,
+  "desde": "2025"
+ },
+ "irlanda-norte": {
+  "visitas": 1,
+  "noites": 1,
+  "desde": "2025"
+ },
+ "taiwan": {
+  "visitas": 1,
+  "noites": 2,
+  "desde": "2026"
+ },
+ "tailandia": {
+  "visitas": 1,
+  "noites": 3,
+  "desde": "2026"
+ },
+ "marrocos": {
+  "visitas": 1,
+  "noites": 3,
+  "desde": "2026"
+ },
+ "qatar": {
+  "visitas": 1,
+  "noites": 2,
+  "desde": "2026"
+ },
+ "romenia": {
+  "visitas": 1,
+  "noites": 1,
+  "desde": "2026"
+ },
+ "grecia": {
+  "visitas": 1,
+  "noites": 2,
+  "desde": "2026"
+ }
+}

@@ -729,3 +729,25 @@
   // aplicar já se a página abriu com ?type= do índice
   try { if (typeof activeType !== 'undefined' && activeType !== 'all') recomputeStats(activeType); } catch (_) {}
 })();
+
+// ─── Credencial de pesquisa por país (dados agregados de pesquisa-paises.json) ───
+(function () {
+  var m = location.pathname.match(/\/([a-z-]+)-guia\.html$/);
+  if (!m) return;
+  var slug = m[1];
+  fetch('pesquisa-paises.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+    if (!d || !d[slug]) return;
+    var bar = document.querySelector('.stats-bar');
+    if (!bar) return;
+    var p = d[slug];
+    var en = false;
+    try { en = localStorage.getItem('ld-lang') === 'en'; } catch (_) {}
+    var el = document.createElement('div');
+    el.className = 'ld-pesquisa-pais';
+    el.style.cssText = 'text-align:center;padding:9px 20px;background:var(--gold-bg,#FAF5EB);border-bottom:1px solid var(--border,#E8E0D5);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold,#B8922A)';
+    el.textContent = en
+      ? ('✦ Research behind this guide: ' + p.visitas + (p.visitas === 1 ? ' visit' : ' visits') + ' · ' + p.noites + ' days in the country · since ' + p.desde)
+      : ('✦ Pesquisa deste guia: ' + p.visitas + (p.visitas === 1 ? ' visita' : ' visitas') + ' · ' + p.noites + ' dias no país · desde ' + p.desde);
+    bar.parentNode.insertBefore(el, bar.nextSibling);
+  }).catch(function () {});
+})();
