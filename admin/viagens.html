@@ -19,10 +19,11 @@ h1{font-family:'Playfair Display',serif;font-weight:400;font-size:30px;text-alig
 .filtros{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:28px}
 .fbtn{border:1px solid var(--border);background:var(--white);padding:7px 16px;font-family:Montserrat;font-size:11px;letter-spacing:1px;cursor:pointer;border-radius:20px;color:var(--ink-lt)}
 .fbtn.on{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:30px}
-.kpi{background:var(--white);padding:18px 10px;text-align:center}
-.kpi b{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);font-weight:600;display:block}
-.kpi span{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt)}
+.kpis{display:grid;grid-template-columns:repeat(10,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:30px}
+@media(max-width:1100px){.kpis{grid-template-columns:repeat(5,1fr)}}
+.kpi{background:var(--white);padding:16px 6px;text-align:center}
+.kpi b{font-family:'Playfair Display',serif;font-size:21px;color:var(--gold);font-weight:600;display:block;white-space:nowrap}
+.kpi span{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:26px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;margin-bottom:26px}
 @media(max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
@@ -91,6 +92,11 @@ tr:hover td{background:var(--gold-bg)}
     <div class="card"><h3>Hotéis onde mais voltei (top 12)</h3><canvas id="cHoteis"></canvas></div>
   </div>
 
+  <div class="grid2" id="cardCias" style="display:none">
+    <div class="card"><h3>✈️ Companhias aéreas por voos <span id="ciaAno" style="color:var(--ink-xs)"></span></h3><canvas id="cCias"></canvas></div>
+    <div class="card"><h3>Companhias aéreas por km</h3><canvas id="cCiasKm"></canvas></div>
+  </div>
+
   <div class="grid2">
     <div class="card"><h3>🏆 Recordes</h3><div id="recordes"></div></div>
     <div class="card"><h3>Rotas mais voadas</h3><table id="tRotas"></table></div>
@@ -154,7 +160,8 @@ function kpis(){
   const hoteis=new Set(st.map(s=>normC(s.hotel)));
   const diasFora=ANO==='todos'?Object.values(D.metricas).reduce((a,m)=>a+(m.dias_fora||0),0):(D.metricas[ANO]?.dias_fora||0);
   const ref=ANO==='todos'?Object.values(D.metricas).reduce((a,m)=>a+(m.ref||0),0):(D.metricas[ANO]?.ref||0);
-  const K=[['Decolagens',sg.length],['km voados',fmt(km)],['Voltas ao mundo',(km/40075).toFixed(1)],['Estadias',st.length],['Noites fora',noites],['Hotéis distintos',hoteis.size],['Países',paises.size],['Dias fora do Brasil',diasFora],['Refeições fora (est.)','~'+fmt(ref)]];
+  const noitesFora=ANO==='todos'?Object.values(D.metricas).reduce((a,m)=>a+(m.noites_fora||0),0):(D.metricas[ANO]?.noites_fora||0);
+  const K=[['Decolagens',sg.length],['km voados',fmt(km)],['Voltas ao mundo',(km/40075).toFixed(1)],['Estadias',st.length],['Noites fora de casa',noitesFora],['Noites de hotel',noites],['Hotéis distintos',hoteis.size],['Países',paises.size],['Dias fora do Brasil',diasFora],['Refeições fora (est.)','~'+fmt(ref)]];
   document.getElementById('kpis').innerHTML=K.map(([l,v])=>`<div class="kpi"><b>${v}</b><span>${l}</span></div>`).join('');
 }
 
@@ -163,7 +170,7 @@ function graficos(){
   const anos=anosDisponiveis();
   const met=anos.map(a=>D.metricas[a]);
   chart('cKm',{type:'bar',data:{labels:anos,datasets:[{label:'km',data:met.map(m=>Math.round(m.km)),backgroundColor:OURO},{label:'voltas ao mundo',data:met.map(m=>+(m.voltas).toFixed(1)),type:'line',yAxisID:'y2',borderColor:TINTA,pointBackgroundColor:TINTA}]},options:{scales:{y2:{position:'right',grid:{display:false}}},plugins:{legend:{display:false}}}});
-  chart('cNoites',{type:'bar',data:{labels:anos,datasets:[{label:'noites fora',data:met.map(m=>m.noites),backgroundColor:OURO},{label:'dias fora do Brasil',data:met.map(m=>m.dias_fora||0),backgroundColor:'#E3DACB'}]},options:{plugins:{legend:{position:'bottom',labels:{font:{size:10}}}}}});
+  chart('cNoites',{type:'bar',data:{labels:anos,datasets:[{label:'noites fora de casa',data:met.map(m=>m.noites_fora||0),backgroundColor:OURO},{label:'noites de hotel',data:met.map(m=>m.noites||0),backgroundColor:OURO2},{label:'dias fora do Brasil',data:met.map(m=>m.dias_fora||0),backgroundColor:'#E3DACB'}]},options:{plugins:{legend:{position:'bottom',labels:{font:{size:10}}}}}});
   // decolagens por mês
   const sg=sgF(); const meses=Array(12).fill(0);
   sg.forEach(s=>meses[+s.date.slice(5,7)-1]++);
@@ -179,6 +186,20 @@ function graficos(){
   chart('cCidades',{type:'bar',data:{labels:tc.map(x=>x[0]),datasets:[{label:'estadias',data:tc.map(x=>x[1]),backgroundColor:OURO2}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
   const th=top(s=>s.hotel.split('—')[0].split('(')[0].trim(),s=>1,12);
   chart('cHoteis',{type:'bar',data:{labels:th.map(x=>x[0].slice(0,28)),datasets:[{data:th.map(x=>x[1]),backgroundColor:OURO}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
+  companhias();
+}
+
+function companhias(){
+  const sg=sgF().filter(s=>s.cia&&s.cia!=='?');
+  if(!sg.length){document.getElementById('cardCias').style.display='none';return;}
+  document.getElementById('cardCias').style.display='';
+  document.getElementById('ciaAno').textContent=ANO==='todos'?'(todos os anos)':'('+ANO+')';
+  const v={}, km={};
+  sg.forEach(s=>{v[s.cia]=(v[s.cia]||0)+1;km[s.cia]=(km[s.cia]||0)+kmSeg(s.from,s.to);});
+  const tv=Object.entries(v).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  chart('cCias',{type:'bar',data:{labels:tv.map(x=>x[0]),datasets:[{data:tv.map(x=>x[1]),backgroundColor:OURO}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
+  const tk=Object.entries(km).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  chart('cCiasKm',{type:'bar',data:{labels:tk.map(x=>x[0]),datasets:[{data:tk.map(x=>Math.round(x[1])),backgroundColor:OURO2}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
 }
 
 function recordes(){
