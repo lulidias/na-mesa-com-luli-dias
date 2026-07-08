@@ -305,7 +305,7 @@ function recordes(){
   const anoKm=Object.entries(D.metricas).sort((a,b)=>(b[1].km||0)-(a[1].km||0))[0];
   const ciaC={}; sg.forEach(s=>{if(s.cia&&s.cia!=='?')ciaC[s.cia]=(ciaC[s.cia]||0)+1;});
   const ciaTop=Object.entries(ciaC).sort((a,b)=>b[1]-a[1])[0];
-  const paisN={}; st.forEach(s=>{const pt=PAISPT[s.country]||s.country;if(pt!=='Brasil')paisN[pt]=(paisN[pt]||0)+s.nights;});
+  const paisN={}; stF().forEach(s=>{const pt=PAISPT[s.country]||s.country;if(pt!=='Brasil')paisN[pt]=(paisN[pt]||0)+s.nights;});
   const paisTop=Object.entries(paisN).sort((a,b)=>b[1]-a[1])[0];
   const hNoites={}; st.forEach(s=>{const k=s.hotel.split('(')[0].trim();hNoites[k]=(hNoites[k]||0)+s.nights;});
   const hNTop=Object.entries(hNoites).sort((a,b)=>b[1]-a[1])[0];
