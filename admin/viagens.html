@@ -253,11 +253,16 @@ function redeDe(hotel){
 function marcas(){
   const st=stF();
   document.getElementById('marcaAno').textContent=ANO==='todos'?'(todos os anos)':'('+ANO+')';
-  const e={}, nn={};
-  st.forEach(s=>{const r=redeDe(s.hotel);if(!r)return;e[r]=(e[r]||0)+1;nn[r]=(nn[r]||0)+(s.nights||0);});
+  const e={}, nn={}, disp={};
+  st.forEach(s=>{const r=redeDe(s.hotel);if(!r)return;
+    const k=r.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    if(!disp[k]||/[À-ü]/.test(r))disp[k]=r;
+    e[k]=(e[k]||0)+1;nn[k]=(nn[k]||0)+(s.nights||0);});
+  const ren=o=>Object.fromEntries(Object.entries(o).map(([k,v])=>[disp[k],v]));
+  const E=ren(e), NN=ren(nn);
   const lg=()=>'<span style="width:20px;text-align:center">🏨</span>';
-  barrasCia('cMarcas', Object.entries(e).sort((a,b)=>b[1]-a[1]).slice(0,14), x=>x+'×', lg);
-  barrasCia('cMarcasN', Object.entries(nn).sort((a,b)=>b[1]-a[1]).slice(0,14), x=>x+' noites', lg);
+  barrasCia('cMarcas', Object.entries(E).sort((a,b)=>b[1]-a[1]).slice(0,14), x=>x+'×', lg);
+  barrasCia('cMarcasN', Object.entries(NN).sort((a,b)=>b[1]-a[1]).slice(0,14), x=>x+' noites', lg);
 }
 
 function recordes(){
