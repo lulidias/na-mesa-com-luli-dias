@@ -371,8 +371,8 @@ function renderVoos(){
     return true;
   });
   document.getElementById('nVoo').textContent=`(${sg.length})`;
-  document.getElementById('tVoo').innerHTML='<tr><th>Data</th><th>De</th><th>Para</th><th>~km</th><th>Fonte</th></tr>'+
-    sg.map(s=>`<tr><td>${s.date}</td><td>${aero(s.from)}</td><td>${aero(s.to)}</td><td>${fmt(kmSeg(s.from,s.to))}</td><td style="color:var(--ink-xs)">${(s.source||'').slice(0,22)}</td></tr>`).join('');
+  document.getElementById('tVoo').innerHTML='<tr><th>Data</th><th>De</th><th>Para</th><th>Avião</th><th>~km</th><th>Fonte</th></tr>'+
+    sg.map(s=>`<tr><td>${s.date}</td><td>${aero(s.from)}</td><td>${aero(s.to)}</td><td>${s.aviao||'<span style="color:var(--ink-xs)">—</span>'}</td><td>${fmt(kmSeg(s.from,s.to))}</td><td style="color:var(--ink-xs)">${(s.source||'').slice(0,22)}</td></tr>`).join('');
 }
 
 const MESES_PT=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
