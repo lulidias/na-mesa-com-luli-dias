@@ -150,6 +150,7 @@ if(adminKey){document.getElementById('chave').value=adminKey;entrar();}
 
 function anosDisponiveis(){return Object.keys(D.metricas).sort();}
 function stF(){return D.stays.filter(s=>ANO==='todos'||s.checkin.startsWith(ANO));}
+function stH(){return stF().filter(s=>s.tipo!=='casa');}  // sem casas próprias
 function sgF(){return D.segments.filter(s=>ANO==='todos'||s.date.startsWith(ANO));}
 
 function montar(){
@@ -166,10 +167,10 @@ function montar(){
 }
 
 function kpis(){
-  const st=stF(), sg=sgF();
+  const st=stH(), sg=sgF();
   const km=sg.reduce((a,s)=>a+kmSeg(s.from,s.to),0);
   const noites=st.reduce((a,s)=>a+s.nights,0);
-  const paises=new Set(st.map(s=>s.country)); paises.add('Brazil');
+  const paises=new Set(stF().map(s=>s.country)); paises.add('Brazil');
   const hoteis=new Set(st.map(s=>normC(s.hotel)));
   const diasFora=ANO==='todos'?Object.values(D.metricas).reduce((a,m)=>a+(m.dias_fora||0),0):(D.metricas[ANO]?.dias_fora||0);
   const ref=ANO==='todos'?Object.values(D.metricas).reduce((a,m)=>a+(m.ref||0),0):(D.metricas[ANO]?.ref||0);
@@ -209,14 +210,14 @@ function graficos(){
   document.getElementById('mesAno').textContent=ANO==='todos'?'(todos os anos)':'('+ANO+')';
   chart('cMes',{type:'bar',data:{labels:['J','F','M','A','M','J','J','A','S','O','N','D'],datasets:[{data:meses,backgroundColor:OURO2}]},options:{plugins:{legend:{display:false}}}});
   // países / cidades / hotéis
-  const st=stF();
-  const top=(keyF,valF,n)=>{const c={};st.forEach(s=>{const k=keyF(s);c[k]=(c[k]||0)+valF(s);});return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,n);};
+  const st=stF(), stSemCasa=stH();
+  const top=(keyF,valF,n,lista)=>{const c={};(lista||st).forEach(s=>{const k=keyF(s);c[k]=(c[k]||0)+valF(s);});return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,n);};
   const P={Brazil:'Brasil',France:'França',Portugal:'Portugal',Italy:'Itália',Spain:'Espanha',Japan:'Japão','South Korea':'Coreia do Sul',China:'China','Hong Kong':'Hong Kong',Turkey:'Turquia',Peru:'Peru',Argentina:'Argentina',Uruguay:'Uruguai',Germany:'Alemanha',Denmark:'Dinamarca',Ireland:'Irlanda','United Kingdom':'Reino Unido',Thailand:'Tailândia',Vietnam:'Vietname',Qatar:'Catar',Romania:'Roménia',Morocco:'Marrocos',Austria:'Áustria',Netherlands:'Países Baixos',Chile:'Chile',Colombia:'Colômbia',Panama:'Panamá'};
   const tp=top(s=>P[s.country]||s.country,s=>s.nights,12);
   chart('cPaises',{type:'bar',data:{labels:tp.map(x=>x[0]),datasets:[{data:tp.map(x=>x[1]),backgroundColor:OURO}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
   const tc=top(s=>normC(s.city).replace(/\b\w/g,c=>c.toUpperCase()),s=>1,12);
   chart('cCidades',{type:'bar',data:{labels:tc.map(x=>x[0]),datasets:[{label:'estadias',data:tc.map(x=>x[1]),backgroundColor:OURO2}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
-  const th=top(s=>s.hotel.split('—')[0].split('(')[0].trim(),s=>1,12);
+  const th=top(s=>s.hotel.split('—')[0].split('(')[0].trim(),s=>1,12,stSemCasa);
   chart('cHoteis',{type:'bar',data:{labels:th.map(x=>x[0].slice(0,28)),datasets:[{data:th.map(x=>x[1]),backgroundColor:OURO}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
   companhias(); marcas();
 }
@@ -251,7 +252,7 @@ function redeDe(hotel){
   return hotel.split('(')[0].split(' — ')[0].split(' - ')[0].trim().replace(/\s+/g,' ');
 }
 function marcas(){
-  const st=stF();
+  const st=stH();
   document.getElementById('marcaAno').textContent=ANO==='todos'?'(todos os anos)':'('+ANO+')';
   const e={}, nn={}, disp={};
   st.forEach(s=>{const r=redeDe(s.hotel);if(!r)return;
@@ -271,7 +272,7 @@ function logoHotel(nome){
 }
 
 function recordes(){
-  const st=stF(), sg=sgF();
+  const st=stH(), sg=sgF();
   const voosKm=sg.map(s=>({...s,km:kmSeg(s.from,s.to)})).sort((a,b)=>b.km-a.km);
   const estLonga=[...st].sort((a,b)=>b.nights-a.nights)[0];
   const mesC={}; sg.forEach(s=>{const k=s.date.slice(0,7);mesC[k]=(mesC[k]||0)+1;});
@@ -302,7 +303,7 @@ function renderEstadias(){
   const st=stF().filter(s=>!q||(s.hotel+' '+s.city+' '+s.country).toLowerCase().includes(q));
   document.getElementById('nEst').textContent=`(${st.length})`;
   document.getElementById('tEst').innerHTML='<tr><th>Check-in</th><th>Hotel</th><th>Cidade</th><th>País</th><th>Noites</th></tr>'+
-    st.map(s=>`<tr><td>${s.checkin}</td><td>${s.hotel}</td><td>${s.city}</td><td>${s.country}</td><td>${s.nights}</td></tr>`).join('');
+    st.map(s=>`<tr><td>${s.checkin}</td><td>${s.tipo==='casa'?'🏠 ':''}${s.hotel}</td><td>${s.city}</td><td>${s.country}</td><td>${s.nights}</td></tr>`).join('');
 }
 function renderVoos(){
   const q=(document.getElementById('bVoo').value||'').toLowerCase();
