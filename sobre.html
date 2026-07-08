@@ -113,7 +113,7 @@ footer a{color:var(--gold);text-decoration:none}
 </nav>
 
 <div style="max-width:1100px;margin:0 auto;padding:64px 48px 0">
-  <div class="hero" style="max-width:none;padding:0;border:none">
+  <div class="hero">
 
     <!-- FOTO -->
     <div class="photo-wrap">
@@ -138,9 +138,9 @@ footer a{color:var(--gold);text-decoration:none}
         <p class="lang-pt">Ainda jovem, partiu para a Alemanha para estudar e aprofundar o domínio da língua alemã, experiência que viria a moldar a sua sensibilidade europeia e a abrir portas ao mundo do vinho. Regressou ao Brasil em 1996 para trabalhar com o seu tio Licínio Dias e a família, na distribuição e desenvolvimento de marcas importadas. Em 2005, aos 25 anos, mudou-se para São Paulo — cidade onde vive há mais de vinte anos — e integrou a Épice Wine &amp; Spirits, empresa familiar em parceria com Nivaldo Oliveira — hoje uma das dez maiores importadoras de vinhos do Brasil, com um portfólio criteriosamente selecionado que inclui algumas das mais prestigiadas etiquetas do mundo.</p>
         <p class="lang-en" style="display:none">As a young man he moved to Germany to study and deepen his command of the German language — an experience that shaped his European sensibility and opened the doors of the wine world to him. He returned to Brazil in 1996 to work with his uncle Licínio Dias on the distribution and development of imported brands. In 2005, at 25, he moved to São Paulo — his home for more than twenty years — and joined Épice Wine &amp; Spirits, a family business built in partnership with Nivaldo Oliveira — today one of the ten largest wine importers in Brazil, with a carefully curated portfolio that includes some of the world's most prestigious labels.</p>
 
-        <p class="lang-pt">Ao longo dos anos, construiu amizades com chefs de referência em vários países e tornou-se um reconhecido entusiasta do mundo do vinho, acumulando sete das mais prestigiadas distinções do mundo do vinho. Fluente em cinco idiomas — português, francês, alemão, espanhol e inglês —, é também avaliador de cabine premium de voos de longa distância da revista Aero Magazine, a maior revista de aviação da América Latina. Realiza em média 40 viagens por ano — entre Brasil e exterior, dessas oito internacionais —, já conheceu quase 50 países e tem como maior passatempo cozinhar.</p>
+        <p class="lang-pt">Ao longo dos anos, construiu amizades com chefs de referência em vários países e tornou-se um reconhecido entusiasta do mundo do vinho, acumulando sete das mais prestigiadas distinções do mundo do vinho. Fluente em cinco idiomas — português, francês, alemão, espanhol e inglês —, é também avaliador de cabine premium de voos de longa distância da revista Aero Magazine, a maior revista de aviação da América Latina. Realiza em média 40 viagens por ano — entre Brasil e exterior, dessas oito internacionais —, já percorreu 53 países e tem como maior passatempo cozinhar.</p>
         <p class="lang-pt">É casado e pai de uma filha, e em casa a paixão é partilhada: os três amam comer fora e viajar juntos — muitos dos lugares deste guia foram postos à prova em família.</p>
-        <p class="lang-en" style="display:none">Over the years he has built friendships with leading chefs across several countries and become a recognized voice in the wine world, accumulating seven of its most prestigious distinctions. Fluent in five languages — Portuguese, French, German, Spanish and English — he also reviews premium-cabin long-haul flights for Aero Magazine, Latin America's largest aviation publication. He averages 40 trips a year, eight of them international, has visited nearly 50 countries, and counts cooking among his greatest pleasures.</p>
+        <p class="lang-en" style="display:none">Over the years he has built friendships with leading chefs across several countries and become a recognized voice in the wine world, accumulating seven of its most prestigious distinctions. Fluent in five languages — Portuguese, French, German, Spanish and English — he also reviews premium-cabin long-haul flights for Aero Magazine, Latin America's largest aviation publication. He averages 40 trips a year, eight of them international, has travelled to 53 countries, and counts cooking among his greatest pleasures.</p>
         <p class="lang-en" style="display:none">He is married and has a daughter, and at home the passion is shared: all three love eating out and travelling together — many of the places in this guide have been put to the test as a family.</p>
 
         <p class="lang-pt"><strong style="font-weight:500;color:var(--ink)">Este guia nasce de um princípio simples: independência.</strong> Nenhum restaurante ou hotel paga para estar aqui — não há comissões, publicidade nem compromissos comerciais, e cada recomendação reflete exclusivamente a sua opinião pessoal. Os restaurantes aqui listados não são todos os que visitou. São apenas aqueles que, na sua avaliação, considera realmente bons o suficiente para indicar.</p>
@@ -154,7 +154,7 @@ footer a{color:var(--gold);text-decoration:none}
       <div class="stats">
         <div class="stat"><div class="stat-num" data-stat="countries">—</div><div class="stat-lbl" data-i18n="countries_guide">Países no Guia</div></div>
         <div class="stat"><div class="stat-num" data-stat="restaurants">—</div><div class="stat-lbl" data-i18n="sr">Restaurantes</div></div>
-        <div class="stat"><div class="stat-num">40</div><div class="stat-lbl" data-i18n="trips_year">Viagens/Ano</div></div>
+        <div class="stat"><div class="stat-num" data-stat="voltas">44</div><div class="stat-lbl" data-i18n="trips_year">Voltas ao Mundo Voadas</div></div>
       </div>
       <script>
         // Auto-loaded from counts.json (single source of truth)
@@ -163,6 +163,7 @@ footer a{color:var(--gold);text-decoration:none}
           const set = (k, v) => { const el = document.querySelector('[data-stat="' + k + '"]'); if (el) el.textContent = v; };
           set('countries', d.totals.countries);
           set('restaurants', d.totals.restaurants);
+          if(d.totals.voltas) set('voltas', d.totals.voltas);
         }).catch(() => {});
       </script>
 
@@ -641,8 +642,8 @@ footer a{color:var(--gold);text-decoration:none}
 <script>
 (function(){
   var T={
-    pt:{back:'← Voltar',back_brasil:'← Brasil',back_todos:'← Todos os Países',srch:'Buscar restaurante, culinária, bairro…',sr:'Restaurantes',sc:'Cidades',sh:'Hotéis',se:'Estados',sm:'Michelin',m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',grn:'Estrela Verde',mich:'Michelin',acc:'Hospedagem',view:'Vista:',list:'Lista',map:'Mapa',type:'Tipo:',all:'✦ Todos',rest:'🍽 Restaurantes',hot:'🛏 Hotéis',waze:'Navegar com Waze',gmaps:'Abrir no Google Maps',apple:'Abrir no Apple Maps',cancel:'Cancelar',call:'Todas',nm:' Perto de Mim',guide_personal:'Guia Gastronómico Pessoal',choose_state:'Escolha um estado',about_pre:'sobre o curador',countries_guide:'Países no Guia',trips_year:'Viagens/Ano',wine_distinctions:'Distinções do Mundo do Vinho'},
-    en:{back:'← Back',back_brasil:'← Brazil',back_todos:'← All Countries',srch:'Search restaurant, cuisine, neighbourhood…',sr:'Restaurants',sc:'Cities',sh:'Hotels',se:'States',sm:'Michelin',m3:'★★★ 3 Stars',m2:'★★ 2 Stars',m1:'★ 1 Star',bib:'Bib Gourmand',grn:'Green Star',mich:'Michelin',acc:'Accommodation',view:'View:',list:'List',map:'Map',type:'Type:',all:'✦ All',rest:'🍽 Restaurants',hot:'🛏 Hotels',waze:'Navigate with Waze',gmaps:'Open in Google Maps',apple:'Open in Apple Maps',cancel:'Cancel',call:'All',nm:' Near Me',guide_personal:'Personal Gastronomic Guide',choose_state:'Choose a state',about_pre:'about the curator',countries_guide:'Countries in Guide',trips_year:'Trips/Year',wine_distinctions:'Wine World Distinctions'}
+    pt:{back:'← Voltar',back_brasil:'← Brasil',back_todos:'← Todos os Países',srch:'Buscar restaurante, culinária, bairro…',sr:'Restaurantes',sc:'Cidades',sh:'Hotéis',se:'Estados',sm:'Michelin',m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',grn:'Estrela Verde',mich:'Michelin',acc:'Hospedagem',view:'Vista:',list:'Lista',map:'Mapa',type:'Tipo:',all:'✦ Todos',rest:'🍽 Restaurantes',hot:'🛏 Hotéis',waze:'Navegar com Waze',gmaps:'Abrir no Google Maps',apple:'Abrir no Apple Maps',cancel:'Cancelar',call:'Todas',nm:' Perto de Mim',guide_personal:'Guia Gastronómico Pessoal',choose_state:'Escolha um estado',about_pre:'sobre o curador',countries_guide:'Países no Guia',trips_year:'Voltas ao Mundo Voadas',wine_distinctions:'Distinções do Mundo do Vinho'},
+    en:{back:'← Back',back_brasil:'← Brazil',back_todos:'← All Countries',srch:'Search restaurant, cuisine, neighbourhood…',sr:'Restaurants',sc:'Cities',sh:'Hotels',se:'States',sm:'Michelin',m3:'★★★ 3 Stars',m2:'★★ 2 Stars',m1:'★ 1 Star',bib:'Bib Gourmand',grn:'Green Star',mich:'Michelin',acc:'Accommodation',view:'View:',list:'List',map:'Map',type:'Type:',all:'✦ All',rest:'🍽 Restaurants',hot:'🛏 Hotels',waze:'Navigate with Waze',gmaps:'Open in Google Maps',apple:'Open in Apple Maps',cancel:'Cancel',call:'All',nm:' Near Me',guide_personal:'Personal Gastronomic Guide',choose_state:'Choose a state',about_pre:'about the curator',countries_guide:'Countries in Guide',trips_year:'Times Around the World Flown',wine_distinctions:'Wine World Distinctions'}
   };
   var LANG=localStorage.getItem('ld-lang')||'pt';
   var t=function(k){return T[LANG][k]||T.pt[k]||k;};
