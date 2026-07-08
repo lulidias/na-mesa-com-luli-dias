@@ -106,6 +106,11 @@ tr:hover td{background:var(--gold-bg)}
   </div>
 
   <div class="grid2">
+    <div class="card"><h3>🏨 Bandeiras de hotéis por estadias <span id="marcaAno" style="color:var(--ink-xs)"></span></h3><div class="cialist" id="cMarcas"></div></div>
+    <div class="card"><h3>Bandeiras de hotéis por noites</h3><div class="cialist" id="cMarcasN"></div></div>
+  </div>
+
+  <div class="grid2">
     <div class="card"><h3>🏆 Recordes</h3><div id="recordes"></div></div>
     <div class="card"><h3>Rotas mais voadas</h3><table id="tRotas"></table></div>
   </div>
@@ -213,7 +218,7 @@ function graficos(){
   chart('cCidades',{type:'bar',data:{labels:tc.map(x=>x[0]),datasets:[{label:'estadias',data:tc.map(x=>x[1]),backgroundColor:OURO2}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
   const th=top(s=>s.hotel.split('—')[0].split('(')[0].trim(),s=>1,12);
   chart('cHoteis',{type:'bar',data:{labels:th.map(x=>x[0].slice(0,28)),datasets:[{data:th.map(x=>x[1]),backgroundColor:OURO}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
-  companhias();
+  companhias(); marcas();
 }
 
 const CIA_IATA={'LATAM':'LA','TAM':'LA','GOL':'G3','Azul':'AD','TAP':'TP','Air France':'AF','KLM':'KL','Iberia':'IB','British Airways':'BA','Lufthansa':'LH','Swiss':'LX','Turkish':'TK','Qatar':'QR','Emirates':'EK','Cathay Pacific':'CX','Korean Air':'KE','SAS':'SK','Aegean':'A3','ITA':'AZ','Alitalia':'AZ','United':'UA','American':'AA','Delta':'DL','Avianca':'AV','Avianca Brasil':'O6','Copa':'CM','Sky':'H2','Aerolíneas':'AR','Webjet':'WH','Oceanair':'O6','easyJet':'U2','Ryanair':'FR','Vueling':'VY','Aer Lingus':'EI','Aeroméxico':'AM','Air Berlin':'AB','Passaredo':'2Z','Vietnam Airlines':'VN','ANA':'NH','Singapore Airlines':'SQ','EVA Air':'BR','Thai Airways':'TG'};
@@ -221,10 +226,10 @@ function logoCia(nome){
   const c=CIA_IATA[nome];
   return c?`<img src="https://pics.avs.io/80/80/${c}@2x.png" alt="" onerror="this.outerHTML='<span style=&quot;width:20px;text-align:center&quot;>✈️</span>'">`:'<span style="width:20px;text-align:center">✈️</span>';
 }
-function barrasCia(id, pares, fmtV){
-  const max=pares[0][1];
+function barrasCia(id, pares, fmtV, logoFn){
+  const max=pares[0][1], lf=logoFn||logoCia;
   document.getElementById(id).innerHTML=pares.map(([n,v])=>
-    `<div class="cia">${logoCia(n)}<span class="nm" title="${n}">${n}</span><div class="bar" style="width:${Math.round(v/max*46)}%"></div><span class="val">${fmtV(v)}</span></div>`).join('');
+    `<div class="cia">${lf(n)}<span class="nm" title="${n}">${n}</span><div class="bar" style="width:${Math.round(v/max*46)}%"></div><span class="val">${fmtV(v)}</span></div>`).join('');
 }
 function companhias(){
   const sg=sgF().filter(s=>s.cia&&s.cia!=='?');
@@ -235,6 +240,24 @@ function companhias(){
   sg.forEach(s=>{v[s.cia]=(v[s.cia]||0)+1;km[s.cia]=(km[s.cia]||0)+kmSeg(s.from,s.to);});
   barrasCia('cCias', Object.entries(v).sort((a,b)=>b[1]-a[1]).slice(0,12), x=>x+'×');
   barrasCia('cCiasKm', Object.entries(km).sort((a,b)=>b[1]-a[1]).slice(0,12), x=>fmt(x)+' km');
+}
+
+// bandeiras de hotéis: redes consolidadas; independentes pelo próprio nome
+const REDES=[['four seasons','Four Seasons'],['novotel','Novotel'],['sofitel','Sofitel'],['mercure','Mercure'],['ibis','ibis'],['pullman','Pullman'],['fasano','Fasano'],['sheraton','Sheraton'],['radisson','Radisson'],['hilton','Hilton'],['hyatt','Hyatt'],['jw marriott','JW Marriott'],['marriott','Marriott'],['renaissance','Renaissance'],['le meridien','Le Méridien'],['westin','Westin'],['w hotel','W Hotels'],['st regis','St. Regis'],['ritz','Ritz-Carlton'],['autograph','Autograph Collection'],['ac hotel','AC Hotels'],['intercontinental','InterContinental'],['holiday inn','Holiday Inn'],['crowne plaza','Crowne Plaza'],['kimpton','Kimpton'],['gran melia','Meliá'],['melia','Meliá'],['tryp','TRYP'],['nh ','NH'],['nh collection','NH'],['best western','Best Western'],['bw premier','Best Western'],['kempinski','Kempinski'],['jumeirah','Jumeirah'],['mandarin oriental','Mandarin Oriental'],['lotte','Lotte'],['fairmont','Fairmont'],['belmond','Belmond'],['rocco forte','Rocco Forte'],['oetker','Oetker Collection'],['tivoli','Tivoli'],['portobay','PortoBay'],['pestana','Pestana'],['iberostar','Iberostar'],['eurostars','Eurostars'],['golden tulip','Golden Tulip'],['royal tulip','Royal Tulip'],['transamerica','Transamerica'],['deville','Deville'],['wish ','Wish'],['windsor','Windsor'],['bourbon','Bourbon'],['intercity','Intercity'],['bugan','Bugan'],['atlantica','Bugan'],['appart\'city','Appart\'City'],['corinthia','Corinthia'],['h10 ','H10'],['sana','SANA'],['laghetto','Laghetto'],['blue tree','Blue Tree']];
+function redeDe(hotel){
+  const n=(hotel||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  if(!n.trim())return null;
+  for(const [pat,nome] of REDES) if(n.includes(pat)) return nome;
+  return hotel.split('(')[0].split(' — ')[0].split(' - ')[0].trim().replace(/\s+/g,' ');
+}
+function marcas(){
+  const st=stF();
+  document.getElementById('marcaAno').textContent=ANO==='todos'?'(todos os anos)':'('+ANO+')';
+  const e={}, nn={};
+  st.forEach(s=>{const r=redeDe(s.hotel);if(!r)return;e[r]=(e[r]||0)+1;nn[r]=(nn[r]||0)+(s.nights||0);});
+  const lg=()=>'<span style="width:20px;text-align:center">🏨</span>';
+  barrasCia('cMarcas', Object.entries(e).sort((a,b)=>b[1]-a[1]).slice(0,14), x=>x+'×', lg);
+  barrasCia('cMarcasN', Object.entries(nn).sort((a,b)=>b[1]-a[1]).slice(0,14), x=>x+' noites', lg);
 }
 
 function recordes(){
