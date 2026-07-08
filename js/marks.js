@@ -751,3 +751,49 @@
     bar.parentNode.insertBefore(el, bar.nextSibling);
   }).catch(function () {});
 })();
+
+/* ===== Credencial de estadias por hotel (auditoria de viagens) ===== */
+(function(){
+  var VIS=null;
+  var MES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  function normN(x){
+    return (x||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  }
+  function fmes(u){ // '2026-03' -> 'mar/2026'
+    var p=(u||'').split('-'); if(p.length<2) return u;
+    return MES[parseInt(p[1],10)-1]+'/'+p[0];
+  }
+  function aplicar(){
+    if(!VIS) return;
+    document.querySelectorAll('.card-body').forEach(function(b){
+      if(b.querySelector('.ld-visitas')) return;
+      var nm=b.querySelector('.card-name'); if(!nm) return;
+      var d=VIS[normN(nm.textContent)]; if(!d) return;
+      var el=document.createElement('div');
+      el.className='card-note ld-visitas';
+      el.textContent=d.v===1?('✦ Dormi aqui em '+fmes(d.u)):('✦ Dormi aqui '+d.v+' vezes · última em '+fmes(d.u));
+      b.appendChild(el);
+      if(d.v>=3){
+        var badges=b.querySelector('.card-badges');
+        if(badges&&!badges.querySelector('.ld-voltei')){
+          var s=document.createElement('span');
+          s.className='badge ld-voltei';
+          s.style.cssText='background:#B8922A;color:#fff;border:none';
+          s.textContent='↺ voltei '+d.v+'×';
+          badges.appendChild(s);
+        }
+      }
+    });
+  }
+  function iniciar(){
+    fetch('hoteis-visitas.json').then(function(r){return r.ok?r.json():null;}).then(function(j){
+      if(!j) return;
+      VIS=j; aplicar();
+      var t=null;
+      new MutationObserver(function(){clearTimeout(t);t=setTimeout(aplicar,150);})
+        .observe(document.body,{childList:true,subtree:true});
+    }).catch(function(){});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',iniciar);
+  else iniciar();
+})();
