@@ -203,6 +203,14 @@ footer a{color:var(--gold);text-decoration:none}
           set('restaurants', d.totals.restaurants);
           if(d.totals.voltas) set('voltas', d.totals.voltas);
         }).catch(() => {});
+        // voltas ao mundo: lidas da linha Total da tabela da pesquisa (fonte única, auto-atualiza)
+        document.addEventListener('DOMContentLoaded', function(){
+          var tot = document.querySelector('#pesquisa tr.tot');
+          if (tot && tot.cells[3]) {
+            var v = parseFloat(tot.cells[3].textContent.replace(',', '.'));
+            if (v) { var el = document.querySelector('[data-stat="voltas"]'); if (el) el.textContent = Math.round(v); }
+          }
+        });
       </script>
 
       <!-- DISTINÇÕES -->
