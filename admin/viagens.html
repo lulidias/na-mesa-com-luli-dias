@@ -195,7 +195,8 @@ function chart(id,cfg){if(charts[id])charts[id].destroy();charts[id]=new Chart(d
 function graficos(){
   const anos=anosDisponiveis();
   const met=anos.map(a=>D.metricas[a]);
-  chart('cKm',{type:'bar',data:{labels:anos,datasets:[{label:'km',data:met.map(m=>Math.round(m.km)),backgroundColor:OURO},{label:'voltas ao mundo',data:met.map(m=>+(m.voltas).toFixed(1)),type:'line',yAxisID:'y2',borderColor:TINTA,pointBackgroundColor:TINTA}]},options:{scales:{y2:{position:'right',grid:{display:false}}},plugins:{legend:{display:false}}}});
+  const kmMax=Math.max(...met.map(m=>m.km));
+  chart('cKm',{type:'bar',data:{labels:anos,datasets:[{label:'km',data:met.map(m=>Math.round(m.km)),backgroundColor:OURO,yAxisID:'y'},{label:'voltas ao mundo',data:met.map(m=>+(m.km/40075).toFixed(1)),type:'line',yAxisID:'y2',borderColor:TINTA,pointBackgroundColor:TINTA}]},options:{scales:{y:{beginAtZero:true,max:Math.ceil(kmMax/50000)*50000},y2:{position:'right',grid:{display:false},beginAtZero:true,max:Math.ceil(kmMax/50000)*50000/40075,ticks:{callback:v=>v.toFixed(1)}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.datasetIndex?c.parsed.y+' voltas':c.parsed.y.toLocaleString('pt-BR')+' km')}}}}});
   chart('cNoites',{type:'bar',data:{labels:anos,datasets:[{label:'noites fora de casa',data:met.map(m=>m.noites_fora||0),backgroundColor:OURO},{label:'noites de hotel',data:met.map(m=>m.noites||0),backgroundColor:OURO2},{label:'dias fora do Brasil',data:met.map(m=>m.dias_fora||0),backgroundColor:'#E3DACB'}]},options:{plugins:{legend:{position:'bottom',labels:{font:{size:10}}}}}});
   // decolagens por mês
   const sg=sgF(); const meses=Array(12).fill(0);
