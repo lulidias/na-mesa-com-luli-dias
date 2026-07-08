@@ -215,7 +215,7 @@ function graficos(){
   companhias();
 }
 
-const CIA_IATA={'LATAM':'LA','TAM':'LA','GOL':'G3','Azul':'AD','TAP':'TP','Air France':'AF','KLM':'KL','Iberia':'IB','British Airways':'BA','Lufthansa':'LH','Swiss':'LX','Turkish':'TK','Qatar':'QR','Emirates':'EK','Cathay Pacific':'CX','Korean Air':'KE','SAS':'SK','Aegean':'A3','ITA':'AZ','Alitalia':'AZ','United':'UA','American':'AA','Delta':'DL','Avianca':'AV','Avianca Brasil':'O6','Copa':'CM','Sky':'H2','Aerolíneas':'AR','Webjet':'WH','Oceanair':'O6'};
+const CIA_IATA={'LATAM':'LA','TAM':'LA','GOL':'G3','Azul':'AD','TAP':'TP','Air France':'AF','KLM':'KL','Iberia':'IB','British Airways':'BA','Lufthansa':'LH','Swiss':'LX','Turkish':'TK','Qatar':'QR','Emirates':'EK','Cathay Pacific':'CX','Korean Air':'KE','SAS':'SK','Aegean':'A3','ITA':'AZ','Alitalia':'AZ','United':'UA','American':'AA','Delta':'DL','Avianca':'AV','Avianca Brasil':'O6','Copa':'CM','Sky':'H2','Aerolíneas':'AR','Webjet':'WH','Oceanair':'O6','easyJet':'U2','Ryanair':'FR','Vueling':'VY','Aer Lingus':'EI','Aeroméxico':'AM','Air Berlin':'AB','Passaredo':'2Z','Vietnam Airlines':'VN'};
 function logoCia(nome){
   const c=CIA_IATA[nome];
   return c?`<img src="https://pics.avs.io/80/80/${c}@2x.png" alt="" onerror="this.outerHTML='<span style=&quot;width:20px;text-align:center&quot;>✈️</span>'">`:'<span style="width:20px;text-align:center">✈️</span>';
