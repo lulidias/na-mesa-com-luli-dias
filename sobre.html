@@ -109,14 +109,39 @@ footer a{color:var(--gold);text-decoration:none}
 .pq-ytd{font-family:Montserrat;font-size:8px;color:var(--ink-xs);letter-spacing:1px}
 .metodo{max-width:640px;margin:8px auto 60px;padding:0 24px;text-align:center;font-size:11px;line-height:1.8;color:var(--ink-xs)}
 .intro p{margin-bottom:14px}
+
+.top-nav{justify-content:space-between}
+.top-nav-left{display:flex;align-items:center;gap:18px}
+.top-nav-brand{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;padding-left:6px;line-height:1}
+.top-nav-brand-name{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:20px;letter-spacing:8px;color:var(--ink);font-weight:400;padding-left:8px}
+.top-nav-brand-tag{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:8px;letter-spacing:3px;color:var(--ink-lt);font-weight:400}
+.top-nav-brand:hover .top-nav-brand-name{color:var(--gold)}
+@media(max-width:640px){.top-nav-brand{display:none}}
+/* ===== tabela da pesquisa ===== */
+#pesquisa .tbl-wrap{overflow-x:auto;margin:28px 0 10px}
+#pesquisa table{width:100%;border-collapse:collapse;font-family:'Montserrat',sans-serif;font-size:13px}
+#pesquisa th{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt);font-weight:600;padding:10px 12px;border-bottom:2px solid var(--gold);text-align:right;white-space:nowrap;vertical-align:bottom}
+#pesquisa th:first-child{text-align:left}
+#pesquisa td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+#pesquisa td:first-child{text-align:left;white-space:nowrap}
+#pesquisa tbody tr:hover td{background:#FAF5EB}
+#pesquisa tr.tot td{border-top:2px solid var(--gold);border-bottom:none;font-weight:600;background:#FAF5EB}
+#pesquisa .pq-ano{font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);font-weight:600}
+#pesquisa tr.tot .pq-ano{font-size:15px;letter-spacing:1px}
+#pesquisa .pq-ytd{font-family:'Montserrat',sans-serif;font-size:8px;color:var(--ink-xs,#9a9a9a);letter-spacing:1px;white-space:nowrap}
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "267deca0f25fd78caf5c7d0264c49431"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
 <body>
 
 <nav class="top-nav">
-  <a href="index.html" class="back-link" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}" data-i18n="back">← Voltar</a>
-  <span class="nav-sep">·</span>
+  <div class="top-nav-left">
+    <a href="index.html" class="back-link" data-i18n="back">← Voltar</a>
+    <a href="index.html" class="top-nav-brand">
+      <span class="top-nav-brand-name">LULI DIAS</span>
+      <span class="top-nav-brand-tag">RESTAURANTS &amp; HOTELS</span>
+    </a>
+  </div>
   <span class="nav-current">Sobre</span>
   <button id="lang-toggle" onclick="toggleLang()" style="background:none;border:1px solid var(--border);color:var(--ink-lt);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;font-weight:600;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;text-transform:uppercase;flex-shrink:0">EN</button>
   
