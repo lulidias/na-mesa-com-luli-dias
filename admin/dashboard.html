@@ -10,7 +10,6 @@
 <link rel="icon" type="image/png" sizes="512x512" href="../icon-512-v2.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;--gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5;--green:#4A8B3F;--red:#C84545}
@@ -94,212 +93,30 @@ canvas{max-height:280px}
         <span class="brand-tag">Restaurants &amp; Hotels</span>
       </div>
     </div>
-    <div class="range-selector">
-      <button class="range-btn" data-range="24h">24h</button>
-      <button class="range-btn active" data-range="7d">7 dias</button>
-      <button class="range-btn" data-range="30d">30 dias</button>
-      <button class="range-btn" data-range="90d">90 dias</button>
-    </div>
   </nav>
 
   <main>
     <h1 class="page-title">Visão Geral</h1>
     <div class="page-tag">lulidias.com · Web Analytics</div>
 
-    <!-- KPIs -->
-    <div class="kpis" id="kpis">
-      <div class="loading">Carregando dados</div>
-    </div>
-
-    <!-- Trend chart + Devices -->
-    <div class="grid">
-      <div class="card col-8">
-        <div class="card-title">Tendência</div>
-        <div class="card-tag">Page views por dia</div>
-        <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+    <div class="card" style="text-align:center;padding:52px 32px;max-width:700px;margin:36px auto">
+      <div style="font-size:46px;margin-bottom:14px">📊</div>
+      <div class="card-title" style="font-size:21px">Estatísticas do site</div>
+      <p style="color:#8a8478;line-height:1.75;margin:14px auto 30px;font-size:14px;max-width:520px">
+        As visitas, páginas mais vistas, países, origens de tráfego e dispositivos de <b>lulidias.com</b>
+        são recolhidos e apresentados diretamente pela Cloudflare — sempre atualizados e sem configuração.
+      </p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="https://dash.cloudflare.com/267deca0f25fd78caf5c7d0264c49431/web-analytics" target="_blank" rel="noopener"
+           style="display:inline-block;background:#B8922A;color:#fff;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:600;letter-spacing:1.5px;font-size:12px;text-transform:uppercase">Abrir Web Analytics &rarr;</a>
+        <a href="https://dash.cloudflare.com/267deca0f25fd78caf5c7d0264c49431/lulidias.com/analytics/traffic" target="_blank" rel="noopener"
+           style="display:inline-block;background:#fff;color:#B8922A;border:1px solid #B8922A;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:600;letter-spacing:1.5px;font-size:12px;text-transform:uppercase">Tráfego da zona &rarr;</a>
       </div>
-      <div class="card col-4">
-        <div class="card-title">Dispositivos</div>
-        <div class="card-tag">Mobile · Desktop · Tablet</div>
-        <div class="chart-wrap"><canvas id="devicesChart"></canvas></div>
-      </div>
-    </div>
-
-    <!-- Countries + Pages -->
-    <div class="grid">
-      <div class="card col-6">
-        <div class="card-title">Países</div>
-        <div class="card-tag">Top 10 por visualizações</div>
-        <ul class="list" id="countriesList"></ul>
-      </div>
-      <div class="card col-6">
-        <div class="card-title">Páginas</div>
-        <div class="card-tag">Top 15 mais vistas</div>
-        <ul class="list" id="pagesList"></ul>
-      </div>
-    </div>
-
-    <!-- Referrers + Browsers -->
-    <div class="grid">
-      <div class="card col-6">
-        <div class="card-title">Origem do Tráfego</div>
-        <div class="card-tag">De onde vêm os visitantes</div>
-        <ul class="list" id="referersList"></ul>
-      </div>
-      <div class="card col-6">
-        <div class="card-title">Browsers</div>
-        <div class="card-tag">Top 10</div>
-        <ul class="list" id="browsersList"></ul>
-      </div>
+      <div style="margin-top:26px;font-size:11px;color:#b0a99a">Web Analytics = visitas e páginas · Tráfego = pedidos, países e largura de banda</div>
     </div>
   </main>
 </div>
 
-<script>
-const WORKER_URL = 'https://luli-admin.lulidias.workers.dev';
-const FLAGS = {
-  'Portugal':'🇵🇹','Brazil':'🇧🇷','Brasil':'🇧🇷','United States':'🇺🇸','Spain':'🇪🇸','Espanha':'🇪🇸',
-  'France':'🇫🇷','França':'🇫🇷','Italy':'🇮🇹','Itália':'🇮🇹','Germany':'🇩🇪','Alemanha':'🇩🇪',
-  'United Kingdom':'🇬🇧','Reino Unido':'🇬🇧','Netherlands':'🇳🇱','Holanda':'🇳🇱','Argentina':'🇦🇷',
-  'Uruguay':'🇺🇾','Chile':'🇨🇱','Peru':'🇵🇪','Colombia':'🇨🇴','Mexico':'🇲🇽','Japan':'🇯🇵',
-  'Korea':'🇰🇷','China':'🇨🇳','Hong Kong':'🇭🇰','Thailand':'🇹🇭','Vietnam':'🇻🇳','Taiwan':'🇹🇼'
-};
-let charts = { trend: null, devices: null };
-let adminKey = localStorage.getItem('worker_key') || sessionStorage.getItem('LULI_ADMIN_KEY') || '';
 
-loadAnalytics('7d');
-
-// ====== ANALYTICS ======
-async function loadAnalytics(range) {
-  // Update active button
-  document.querySelectorAll('.range-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.range === range);
-  });
-
-  document.getElementById('kpis').innerHTML = '<div class="loading">Carregando dados</div>';
-
-  try {
-    const r = await fetch(`${WORKER_URL}/analytics?range=${range}`, {
-      headers: { 'X-Admin-Key': adminKey }
-    });
-    if (!r.ok) {
-      const err = await r.json().catch(() => ({}));
-      throw new Error(err.error || `HTTP ${r.status}`);
-    }
-    const data = await r.json();
-    render(data);
-  } catch (err) {
-    document.getElementById('kpis').innerHTML = `<div class="empty">Erro: ${err.message}<br><br>Falta um token de API válido da Cloudflare com permissão <b>Zone · Analytics · Read</b> para lulidias.com. Cria-o e define-o com <code>wrangler secret put CF_API_TOKEN</code>.</div>`;
-  }
-}
-
-function render(d) {
-  // KPIs
-  document.getElementById('kpis').innerHTML = `
-    <div class="kpi"><div class="kpi-label">Page Views</div><div class="kpi-value">${(d.summary?.pageviews || 0).toLocaleString('pt-PT')}</div><div class="kpi-sub">No período</div></div>
-    <div class="kpi"><div class="kpi-label">Visitas</div><div class="kpi-value">${(d.summary?.visits || 0).toLocaleString('pt-PT')}</div><div class="kpi-sub">Sessões únicas</div></div>
-    <div class="kpi"><div class="kpi-label">Top País</div><div class="kpi-value" style="font-size:24px">${d.countries?.[0] ? (FLAGS[d.countries[0].name] || '🌍') + ' ' + d.countries[0].name : '—'}</div><div class="kpi-sub">${d.countries?.[0]?.pageviews || 0} views</div></div>
-    <div class="kpi"><div class="kpi-label">Top Device</div><div class="kpi-value" style="font-size:24px">${d.devices?.[0]?.name || '—'}</div><div class="kpi-sub">${d.devices?.[0]?.pageviews || 0} views</div></div>
-  `;
-
-  // Trend chart
-  if (charts.trend) charts.trend.destroy();
-  const trendCtx = document.getElementById('trendChart').getContext('2d');
-  charts.trend = new Chart(trendCtx, {
-    type: 'line',
-    data: {
-      labels: (d.daily || []).map(r => r.date),
-      datasets: [{
-        label: 'Page Views',
-        data: (d.daily || []).map(r => r.pageviews),
-        borderColor: '#B8922A',
-        backgroundColor: 'rgba(184,146,42,.1)',
-        tension: 0.3,
-        fill: true,
-        pointRadius: 4,
-        pointBackgroundColor: '#B8922A'
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
-    }
-  });
-
-  // Devices chart
-  if (charts.devices) charts.devices.destroy();
-  const devCtx = document.getElementById('devicesChart').getContext('2d');
-  charts.devices = new Chart(devCtx, {
-    type: 'doughnut',
-    data: {
-      labels: (d.devices || []).map(r => r.name),
-      datasets: [{
-        data: (d.devices || []).map(r => r.pageviews),
-        backgroundColor: ['#B8922A', '#D4AE5C', '#8B6914', '#5A5A5A']
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } }
-    }
-  });
-
-  // Countries list
-  const max = Math.max(...(d.countries || []).map(c => c.pageviews), 1);
-  document.getElementById('countriesList').innerHTML = (d.countries || []).map(c => `
-    <li>
-      <div style="flex:1;overflow:hidden">
-        <div class="list-name">${FLAGS[c.name] || '🌍'} ${c.name}</div>
-        <span class="list-bar" style="width:${(c.pageviews/max*100).toFixed(0)}%"></span>
-      </div>
-      <span class="list-count">${c.pageviews}</span>
-    </li>
-  `).join('') || '<li class="empty">Sem dados ainda</li>';
-
-  // Pages list
-  const maxP = Math.max(...(d.paths || []).map(p => p.pageviews), 1);
-  document.getElementById('pagesList').innerHTML = (d.paths || []).slice(0, 15).map(p => `
-    <li>
-      <div style="flex:1;overflow:hidden">
-        <div class="list-name">${p.path}</div>
-        <span class="list-bar" style="width:${(p.pageviews/maxP*100).toFixed(0)}%"></span>
-      </div>
-      <span class="list-count">${p.pageviews}</span>
-    </li>
-  `).join('') || '<li class="empty">Sem dados ainda</li>';
-
-  // Referrers list
-  const maxR = Math.max(...(d.referers || []).map(r => r.pageviews), 1);
-  document.getElementById('referersList').innerHTML = (d.referers || []).map(r => `
-    <li>
-      <div style="flex:1;overflow:hidden">
-        <div class="list-name">${r.host || 'direct'}</div>
-        <span class="list-bar" style="width:${(r.pageviews/maxR*100).toFixed(0)}%"></span>
-      </div>
-      <span class="list-count">${r.pageviews}</span>
-    </li>
-  `).join('') || '<li class="empty">Sem dados ainda</li>';
-
-  // Browsers list
-  const maxB = Math.max(...(d.browsers || []).map(b => b.pageviews), 1);
-  document.getElementById('browsersList').innerHTML = (d.browsers || []).map(b => `
-    <li>
-      <div style="flex:1;overflow:hidden">
-        <div class="list-name">${b.name}</div>
-        <span class="list-bar" style="width:${(b.pageviews/maxB*100).toFixed(0)}%"></span>
-      </div>
-      <span class="list-count">${b.pageviews}</span>
-    </li>
-  `).join('') || '<li class="empty">Sem dados ainda</li>';
-}
-
-// Range buttons
-document.querySelectorAll('.range-btn').forEach(b => {
-  b.addEventListener('click', () => loadAnalytics(b.dataset.range));
-});
-</script>
 </body>
 </html>
