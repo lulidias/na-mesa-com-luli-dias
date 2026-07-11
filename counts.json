@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1016,
+    "restaurants": 1015,
     "hotels": 159,
     "markets": 13,
     "m1": 45,
@@ -799,7 +799,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 456,
+      "restaurants": 455,
       "hotels": 49,
       "markets": 0,
       "cities": 39,
@@ -837,7 +837,7 @@
       "keysEntries": 1
     },
     "brasil-nordeste": {
-      "restaurants": 71,
+      "restaurants": 70,
       "hotels": 13,
       "markets": 0,
       "cities": 13,
@@ -931,7 +931,7 @@
       "cities": 4
     },
     "Pernambuco": {
-      "restaurants": 70,
+      "restaurants": 68,
       "hotels": 10,
       "cities": 12
     },
