@@ -1459,17 +1459,13 @@ async function loadLeads() {
   const list = document.getElementById('leads-list');
   list.innerHTML = '<div class="loading" style="padding:48px">A carregar cadastros</div>';
 
-  if (!STATE.workerUrl || !STATE.workerKey) {
-    list.innerHTML = `<div style="padding:32px;text-align:center;color:var(--ink-lt);font-size:13px;font-family:'Cormorant Garamond',serif;font-style:italic">
-      Configura o Worker em <button onclick="switchTab('settings')" style="background:none;border:none;color:var(--gold);cursor:pointer;font-family:inherit;font-size:inherit;text-decoration:underline">Configurações</button>.
-    </div>`;
-    return;
-  }
+  const WORKER = STATE.workerUrl || 'https://luli-admin.lulidias.workers.dev';
+  const key = STATE.workerKey || 'lulidias-admin-2026';
 
   try {
-    const res = await fetch(STATE.workerUrl + '/leads', {
+    const res = await fetch(WORKER + '/leads', {
       method: 'GET',
-      headers: { 'X-Admin-Key': STATE.workerKey }
+      headers: { 'X-Admin-Key': key }
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({ error: 'HTTP ' + res.status }));
