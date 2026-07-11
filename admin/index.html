@@ -1459,18 +1459,17 @@ async function loadLeads() {
   const list = document.getElementById('leads-list');
   list.innerHTML = '<div class="loading" style="padding:48px">A carregar cadastros</div>';
 
-  const secret = STATE.broadcastSecret;
-  if (!secret) {
+  if (!STATE.workerUrl || !STATE.workerKey) {
     list.innerHTML = `<div style="padding:32px;text-align:center;color:var(--ink-lt);font-size:13px;font-family:'Cormorant Garamond',serif;font-style:italic">
-      Chave de cadastros não configurada. Vai a <button onclick="switchTab('settings')" style="background:none;border:none;color:var(--gold);cursor:pointer;font-family:inherit;font-size:inherit;text-decoration:underline">Configurações</button> e guarda a chave.
+      Configura o Worker em <button onclick="switchTab('settings')" style="background:none;border:none;color:var(--gold);cursor:pointer;font-family:inherit;font-size:inherit;text-decoration:underline">Configurações</button>.
     </div>`;
     return;
   }
 
   try {
-    const res = await fetch('https://saotncritqxuchsvvnzi.supabase.co/functions/v1/guia-broadcast', {
+    const res = await fetch(STATE.workerUrl + '/leads', {
       method: 'GET',
-      headers: { 'Authorization': `Bearer ${secret}` }
+      headers: { 'X-Admin-Key': STATE.workerKey }
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({ error: 'HTTP ' + res.status }));
@@ -1478,7 +1477,7 @@ async function loadLeads() {
     }
     const data = await res.json();
     _leadsData = (data.members || []).map(m => ({
-      email: m.email, fname: '', lname: '', status: 'subscribed', signed_up: m.created_at
+      email: m.email, fname: m.fname || '', lname: m.lname || '', status: m.status || 'subscribed', signed_up: m.signed_up
     }));
     _leadsFiltered = _leadsData;
     _leadsOffset = 0;
@@ -1492,11 +1491,8 @@ async function loadLeads() {
 
     renderLeadsPage();
   } catch (err) {
-    const isAuth = err.message === 'nao_autorizado' || err.message.includes('401');
     list.innerHTML = `<div style="padding:32px;text-align:center;color:var(--red);font-size:13px">
-      ${isAuth
-        ? 'Chave de cadastros incorrecta. <button onclick="switchTab(\'settings\')" style="background:none;border:none;color:var(--gold);cursor:pointer;font-family:inherit;font-size:inherit;text-decoration:underline;padding:0">Vai a Configurações</button> e confirma a chave <em>Broadcast Secret</em>.'
-        : escHtml(err.message)}
+      ${escHtml(err.message)}
     </div>`;
   }
 }
