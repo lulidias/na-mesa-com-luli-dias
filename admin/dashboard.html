@@ -189,7 +189,7 @@ async function loadAnalytics(range) {
     const data = await r.json();
     render(data);
   } catch (err) {
-    document.getElementById('kpis').innerHTML = `<div class="empty">Erro: ${err.message}<br><br>Confirma que CF_API_TOKEN, CF_ACCOUNT_ID e CF_SITE_TAG estão configurados no Worker.</div>`;
+    document.getElementById('kpis').innerHTML = `<div class="empty">Erro: ${err.message}<br><br>Falta um token de API válido da Cloudflare com permissão <b>Zone · Analytics · Read</b> para lulidias.com. Cria-o e define-o com <code>wrangler secret put CF_API_TOKEN</code>.</div>`;
   }
 }
 
