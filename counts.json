@@ -1,7 +1,7 @@
 {
   "totals": {
-    "restaurants": 1029,
-    "hotels": 160,
+    "restaurants": 1031,
+    "hotels": 162,
     "markets": 13,
     "m1": 45,
     "m2": 13,
@@ -799,10 +799,10 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 465,
-      "hotels": 50,
+      "restaurants": 467,
+      "hotels": 52,
       "markets": 0,
-      "cities": 39,
+      "cities": 41,
       "m1": 11,
       "m2": 3,
       "m3": 2,
@@ -837,10 +837,10 @@
       "keysEntries": 1
     },
     "brasil-nordeste": {
-      "restaurants": 80,
-      "hotels": 14,
+      "restaurants": 82,
+      "hotels": 16,
       "markets": 0,
-      "cities": 13,
+      "cities": 15,
       "m1": 0,
       "m2": 0,
       "m3": 0,
@@ -936,9 +936,9 @@
       "cities": 12
     },
     "Bahia": {
-      "restaurants": 38,
-      "hotels": 8,
-      "cities": 4
+      "restaurants": 42,
+      "hotels": 12,
+      "cities": 8
     },
     "São Paulo": {
       "restaurants": 422,
