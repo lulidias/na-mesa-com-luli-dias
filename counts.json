@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1028,
+    "restaurants": 1029,
     "hotels": 160,
     "markets": 13,
     "m1": 45,
@@ -799,7 +799,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 464,
+      "restaurants": 465,
       "hotels": 50,
       "markets": 0,
       "cities": 39,
@@ -837,7 +837,7 @@
       "keysEntries": 1
     },
     "brasil-nordeste": {
-      "restaurants": 79,
+      "restaurants": 80,
       "hotels": 14,
       "markets": 0,
       "cities": 13,
@@ -936,7 +936,7 @@
       "cities": 12
     },
     "Bahia": {
-      "restaurants": 36,
+      "restaurants": 38,
       "hotels": 8,
       "cities": 4
     },
