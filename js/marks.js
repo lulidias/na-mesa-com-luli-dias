@@ -770,22 +770,21 @@
       var nm=b.querySelector('.card-name'); if(!nm) return;
       var d=VIS[normN(nm.textContent)]; if(!d) return;
       var el=document.createElement('div');
-      el.className='card-note ld-visitas';
-      el.textContent=d.v===1?('✦ Dormi aqui em '+fmes(d.u)):('✦ Dormi aqui '+d.v+' vezes · última em '+fmes(d.u));
+      el.className='ld-visitas';
+      el.innerHTML=(d.v>=2)
+        ? '<span class="ld-voltei-chip">↺ Voltei '+d.v+'×</span><span class="ld-voltei-when">última em '+fmes(d.u)+'</span>'
+        : '<span class="ld-voltei-chip">✦ Dormi aqui</span><span class="ld-voltei-when">'+fmes(d.u)+'</span>';
       b.appendChild(el);
-      if(d.v>=3){
-        var badges=b.querySelector('.card-badges');
-        if(badges&&!badges.querySelector('.ld-voltei')){
-          var s=document.createElement('span');
-          s.className='badge ld-voltei';
-          s.style.cssText='background:#B8922A;color:#fff;border:none';
-          s.textContent='↺ voltei '+d.v+'×';
-          badges.appendChild(s);
-        }
-      }
     });
   }
   function iniciar(){
+    if(!document.getElementById('ld-visitas-css')){
+      var st=document.createElement('style'); st.id='ld-visitas-css';
+      st.textContent='.ld-visitas{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}'+
+        '.ld-voltei-chip{display:inline-block;background:#FAF5EB;color:#B8922A;border:1px solid #E4CE96;border-radius:20px;padding:3px 10px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;white-space:nowrap}'+
+        '.ld-voltei-when{font-size:11px;color:#9A9A9A;font-style:italic}';
+      document.head.appendChild(st);
+    }
     fetch('hoteis-visitas.json').then(function(r){return r.ok?r.json():null;}).then(function(j){
       if(!j) return;
       VIS=j; aplicar();
