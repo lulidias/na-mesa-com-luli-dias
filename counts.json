@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1032,
+    "restaurants": 1033,
     "hotels": 162,
     "markets": 13,
     "m1": 45,
@@ -799,7 +799,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 468,
+      "restaurants": 469,
       "hotels": 52,
       "markets": 0,
       "cities": 42,
@@ -837,7 +837,7 @@
       "keysEntries": 1
     },
     "brasil-nordeste": {
-      "restaurants": 83,
+      "restaurants": 84,
       "hotels": 16,
       "markets": 0,
       "cities": 16,
@@ -911,7 +911,7 @@
       "cities": 2
     },
     "Ceará": {
-      "restaurants": 16,
+      "restaurants": 18,
       "hotels": 2,
       "cities": 2
     },
