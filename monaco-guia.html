@@ -412,7 +412,7 @@ function render(){
           <div class="card-body">
             <div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div>
             <div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div>
-            <div class="card-desc"${r.de?' data-en="'+r.de.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}>${r.d||''}</div>
+            <div class="card-desc"${r.de?' data-en="'+r.de.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.df?' data-fr="'+r.df.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}>${r.d||''}</div>
             ${contact}
             ${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}
           </div>`;
@@ -810,9 +810,10 @@ document.addEventListener('click', function(e) {
     en:{back:'← Back',srch:'Search restaurant, cuisine, neighbourhood…',sr:'Restaurants',sc:'Cities',sh:'Hotels',sm:'Michelin',m3:'★★★ 3 Stars',m2:'★★ 2 Stars',m1:'★ 1 Star',bib:'Bib Gourmand',grn:'Green Star',mich:'Michelin',acc:'Accommodation',view:'View:',list:'List',map:'Map',type:'Type:',all:'✦ All',rest:'🍽 Restaurants',hot:'🛏 Hotels',waze:'Navigate with Waze',gmaps:'Open in Google Maps',apple:'Open in Apple Maps',cancel:'Cancel',call:'All',nm:' Near Me'}
   };
   var LANG=localStorage.getItem('ld-lang')||'pt';
-  var t=function(k){return T[LANG][k]||T.pt[k]||k;};
+  var t=function(k){return (T[LANG]&&T[LANG][k])||T.pt[k]||k;};
+  T.fr={back:'← Retour',back_brasil:'← Brésil',back_todos:'← Tous les pays',srch:'Rechercher un restaurant, une cuisine, un quartier…',sr:'Restaurants',sc:'Villes',sh:'Hôtels',se:'États',sm:'Michelin',m3:'★★★ 3 Étoiles',m2:'★★ 2 Étoiles',m1:'★ 1 Étoile',bib:'Bib Gourmand',grn:'Étoile Verte',mich:'Michelin',acc:'Hébergement',view:'Vue :',list:'Liste',map:'Carte',type:'Type :',all:'✦ Tous',rest:'🍽 Restaurants',hot:'🛏 Hôtels',waze:'Naviguer avec Waze',gmaps:'Ouvrir dans Google Maps',apple:'Ouvrir dans Apple Maps',cancel:'Annuler',call:'Tous',nm:' Près de moi',guide_personal:'Guide gastronomique personnel',choose_state:'Choisissez un état',about_pre:'sur le curateur',countries_guide:'Pays du guide',trips_year:'Voyages/an',wine_distinctions:'Distinctions du monde du vin'};
   function apply(){
-    document.querySelectorAll('.card-desc').forEach(function(el){if(el.dataset.pt===undefined)el.dataset.pt=el.textContent;el.textContent=(LANG==='en'&&el.dataset.en)?el.dataset.en:el.dataset.pt;});
+    document.querySelectorAll('.card-desc').forEach(function(el){if(el.dataset.pt===undefined)el.dataset.pt=el.textContent;el.textContent=LANG==='fr'?(el.dataset.fr||el.dataset.en||el.dataset.pt):LANG==='en'?(el.dataset.en||el.dataset.pt):el.dataset.pt;});
     document.querySelectorAll('[data-i18n]').forEach(function(el){
       var k=el.dataset.i18n;
       if(el.tagName==='INPUT')el.placeholder=t(k);
@@ -826,10 +827,10 @@ document.addEventListener('click', function(e) {
     document.querySelectorAll('.filter-btn').forEach(function(btn){
       if(btn.textContent.trim()==='Todas'||btn.textContent.trim()==='All')btn.textContent=t('call');
     });
-    document.querySelectorAll('[data-en]').forEach(function(el){if(!el.dataset.pt)el.dataset.pt=el.textContent.trim();el.textContent=LANG==='en'?el.dataset.en:el.dataset.pt;});
-    document.documentElement.lang=LANG==='pt'?'pt-BR':'en';
+    document.querySelectorAll('[data-en],[data-fr]').forEach(function(el){if(!el.dataset.pt)el.dataset.pt=el.textContent.trim();el.textContent=LANG==='fr'?(el.dataset.fr||el.dataset.en||el.dataset.pt):LANG==='en'?(el.dataset.en||el.dataset.pt):el.dataset.pt;});
+    document.documentElement.lang=LANG==='fr'?'fr':LANG==='en'?'en':'pt-BR';
     var btn=document.getElementById('lang-toggle');
-    if(btn){btn.textContent=LANG==='en'?'PT | EN ·':'PT · EN';btn.style.color=LANG==='en'?'var(--gold)':'';}
+    if(btn){btn.textContent=LANG.toUpperCase();btn.style.color='var(--gold)';}
   }
   // Wrap rebuildFilters to re-apply translation after filter rebuild
   if(typeof window.rebuildFilters==='function'){
@@ -843,7 +844,7 @@ document.addEventListener('click', function(e) {
   }
   // Wrap render so card badges re-translate after filter changes
   if(typeof window.render==='function'){var _rndr=window.render;window.render=function(){_rndr.apply(this,arguments);apply();};}
-  window.toggleLang=function(){LANG=LANG==='pt'?'en':'pt';localStorage.setItem('ld-lang',LANG);apply();};
+  window.toggleLang=function(){LANG=LANG==='pt'?'en':LANG==='en'?'fr':'pt';localStorage.setItem('ld-lang',LANG);apply();};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);
   else apply();
   // Also run after full load to catch async-rendered elements
