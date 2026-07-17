@@ -727,6 +727,7 @@ footer a{color:var(--gold);text-decoration:none}
   var LANG=localStorage.getItem('ld-lang')||'pt';
   var t=function(k){return T[LANG][k]||T.pt[k]||k;};
   function apply(){
+    document.querySelectorAll('.card-desc').forEach(function(el){if(el.dataset.pt===undefined)el.dataset.pt=el.textContent;el.textContent=(LANG==='en'&&el.dataset.en)?el.dataset.en:el.dataset.pt;});
     document.querySelectorAll('.lang-pt').forEach(function(el){el.style.display=LANG==='pt'?'':'none';});
     document.querySelectorAll('.lang-en').forEach(function(el){el.style.display=LANG==='en'?'':'none';});
     document.querySelectorAll('[data-i18n]').forEach(function(el){

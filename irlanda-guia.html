@@ -795,6 +795,7 @@ document.addEventListener('click', function(e) {
   var LANG=localStorage.getItem('ld-lang')||'pt';
   var t=function(k){return T[LANG][k]||T.pt[k]||k;};
   function apply(){
+    document.querySelectorAll('.card-desc').forEach(function(el){if(el.dataset.pt===undefined)el.dataset.pt=el.textContent;el.textContent=(LANG==='en'&&el.dataset.en)?el.dataset.en:el.dataset.pt;});
     document.querySelectorAll('[data-i18n]').forEach(function(el){
       var k=el.dataset.i18n;
       if(el.tagName==='INPUT')el.placeholder=t(k);

@@ -623,6 +623,7 @@ fetch('counts.json?v=' + Date.now()).then(r => r.ok ? r.json() : null).then(d =>
   var LANG=localStorage.getItem('ld-lang')||'pt';
   var t=function(k){return T[LANG][k]||T.pt[k]||k;};
   function apply(){
+    document.querySelectorAll('.card-desc').forEach(function(el){if(el.dataset.pt===undefined)el.dataset.pt=el.textContent;el.textContent=(LANG==='en'&&el.dataset.en)?el.dataset.en:el.dataset.pt;});
     document.querySelectorAll('[data-i18n]').forEach(function(el){el.textContent=t(el.dataset.i18n);});
     document.documentElement.lang=LANG==='pt'?'pt-BR':'en';
     var btn=document.getElementById('lang-toggle');
