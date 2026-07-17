@@ -506,24 +506,15 @@
     var marks = getMarks();
     var total = Object.keys(marks).length;
 
-    // 1. Transform #lang-toggle pill → util-link
+    // 1. Transform #lang-toggle pill → util-link (dropdown 🌐, gerido inline)
     var langBtn = document.getElementById('lang-toggle');
     if (langBtn) {
       langBtn.className = 'util-link';
       langBtn.removeAttribute('style');
       var curLang = localStorage.getItem('ld-lang') || 'pt';
-      langBtn.textContent = curLang === 'en' ? 'PT | EN ·' : 'PT · EN';
-      if (curLang === 'en') langBtn.style.color = 'var(--gold)';
-      var _origToggle = window.toggleLang;
-      window.toggleLang = function () {
-        if (_origToggle) _origToggle.call(this);
-        var tgl = document.getElementById('lang-toggle');
-        if (tgl) {
-          var l = localStorage.getItem('ld-lang') || 'pt';
-          tgl.textContent = l === 'en' ? 'PT | EN ·' : 'PT · EN';
-          tgl.style.color = l === 'en' ? 'var(--gold)' : '';
-        }
-      };
+      langBtn.textContent = '🌐 ' + curLang.toUpperCase();
+      if (curLang !== 'pt') langBtn.style.color = 'var(--gold)';
+      // NÃO envolver window.toggleLang: o dropdown inline é o dono canónico.
     }
 
     // 2. Transform .search-toggle → util-link with "Busca" label
