@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1036,
+    "restaurants": 1049,
     "hotels": 162,
     "markets": 13,
     "m1": 44,
@@ -324,10 +324,10 @@
       "keysEntries": 5
     },
     "franca": {
-      "restaurants": 115,
+      "restaurants": 127,
       "hotels": 16,
       "markets": 0,
-      "cities": 36,
+      "cities": 38,
       "m1": 10,
       "m2": 5,
       "m3": 0,
@@ -552,7 +552,7 @@
       "keysEntries": 0
     },
     "monaco": {
-      "restaurants": 3,
+      "restaurants": 4,
       "hotels": 1,
       "markets": 0,
       "cities": 1,
