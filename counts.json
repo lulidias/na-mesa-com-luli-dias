@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1049,
+    "restaurants": 1048,
     "hotels": 163,
     "markets": 13,
     "m1": 44,
@@ -8,7 +8,7 @@
     "m3": 4,
     "bib": 28,
     "green": 1,
-    "rec": 63,
+    "rec": 62,
     "keys1": 52,
     "keys2": 25,
     "keys3": 2,
@@ -799,7 +799,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 473,
+      "restaurants": 472,
       "hotels": 52,
       "markets": 0,
       "cities": 43,
@@ -808,7 +808,7 @@
       "m3": 2,
       "bib": 16,
       "green": 0,
-      "rec": 20,
+      "rec": 19,
       "keys1": 18,
       "keys2": 6,
       "keys3": 0,
@@ -856,7 +856,7 @@
       "keysEntries": 3
     },
     "brasil-sudeste": {
-      "restaurants": 277,
+      "restaurants": 276,
       "hotels": 23,
       "markets": 0,
       "cities": 11,
@@ -865,7 +865,7 @@
       "m3": 2,
       "bib": 16,
       "green": 0,
-      "rec": 19,
+      "rec": 18,
       "keys1": 11,
       "keys2": 5,
       "keys3": 0,
@@ -941,7 +941,7 @@
       "cities": 8
     },
     "São Paulo": {
-      "restaurants": 430,
+      "restaurants": 428,
       "hotels": 18,
       "cities": 12
     },
