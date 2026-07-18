@@ -1,7 +1,7 @@
 {
   "totals": {
     "restaurants": 1049,
-    "hotels": 162,
+    "hotels": 163,
     "markets": 13,
     "m1": 44,
     "m2": 13,
@@ -325,7 +325,7 @@
     },
     "franca": {
       "restaurants": 127,
-      "hotels": 16,
+      "hotels": 17,
       "markets": 0,
       "cities": 38,
       "m1": 10,
