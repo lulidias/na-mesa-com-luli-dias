@@ -19,3 +19,7 @@ tools-fr/
 # Screenshots (nunca versionar)
 Captura de Tela*
 **/Captura de Tela*
+
+# Fotos raw da câmara (renomear antes de commitar)
+fotos/**/IMG_*
+fotos/**/img_*
