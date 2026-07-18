@@ -66,15 +66,19 @@ body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-seri
 .stat-num{font-family:'Playfair Display',serif;font-size:32px;color:var(--gold);font-weight:600;line-height:1}
 .stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px}
 
-/* DISTINÇÕES */
-.distinctions-title{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+/* COMENDAS — vitrine */
+.distinctions-title{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:8px;display:flex;align-items:center;gap:12px}
 .distinctions-title::after{content:'';flex:1;height:1px;background:var(--border)}
-.distinction-list{list-style:none;padding:0;margin:0}
-.distinction-list li{display:flex;align-items:baseline;gap:14px;padding:10px 0;border-bottom:1px solid var(--border)}
-.distinction-list li:last-child{border-bottom:none}
-.distinction-num{font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);font-weight:500;flex-shrink:0;width:42px}
-.distinction-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:400;color:var(--ink);line-height:1.3;flex:1}
-.distinction-country{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-xs);font-family:'Montserrat',sans-serif;flex-shrink:0;text-align:right}
+.comendas-sub{font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.3px;color:var(--ink-xs);margin-bottom:26px;max-width:52ch}
+.comendas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(206px,1fr));gap:15px;margin:0}
+.comenda{position:relative;border:1px solid var(--border);border-radius:14px;padding:26px 18px 22px;text-align:center;background:linear-gradient(180deg,rgba(197,163,90,.055),transparent 60%);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.comenda:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(150,110,30,.12);border-color:var(--gold)}
+.comenda-seal{width:54px;height:54px;margin:0 auto 15px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1.5px solid var(--gold);box-shadow:inset 0 0 0 3px rgba(197,163,90,.16);font-family:'Playfair Display',serif;color:var(--gold)}
+.comenda-seal b{font-size:14px;font-weight:600;letter-spacing:.5px;line-height:1}
+.comenda-seal i{font-size:6px;font-style:normal;margin-top:3px;opacity:.85}
+.comenda-name{font-family:'Playfair Display',serif;font-size:15.5px;font-weight:500;color:var(--ink);line-height:1.3;text-wrap:balance;min-height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:11px}
+.comenda-region{font-family:'Montserrat',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-xs)}
+.comenda-region::before{content:'\25C6';color:var(--gold);font-size:7px;margin-right:6px}
 
 
 /* MAPA VISITADOS */
@@ -213,45 +217,19 @@ footer a{color:var(--gold);text-decoration:none}
         });
       </script>
 
-      <!-- DISTINÇÕES -->
-      <div class="distinctions-title" data-i18n="wine_distinctions">Distinções do Mundo do Vinho</div>
-      <ul class="distinction-list">
-        <li>
-          <span class="distinction-num">2022</span>
-          <span class="distinction-name">Cavaleiro do Vinho do Porto</span>
-          <span class="distinction-country">Portugal · Porto</span>
-        </li>
-        <li>
-          <span class="distinction-num">2023</span>
-          <span class="distinction-name">Jurade de Saint-Émilion</span>
-          <span class="distinction-country">França · Saint-Émilion</span>
-        </li>
-        <li>
-          <span class="distinction-num">2024</span>
-          <span class="distinction-name">Hospitaliers de Pomerol</span>
-          <span class="distinction-country">França · Pomerol</span>
-        </li>
-        <li>
-          <span class="distinction-num">2024</span>
-          <span class="distinction-name">Commandeur du Bontemps</span>
-          <span class="distinction-country">França · Médoc &amp; Sauternes</span>
-        </li>
-        <li>
-          <span class="distinction-num">2025</span>
-          <span class="distinction-name">Commandeur de Bordeaux</span>
-          <span class="distinction-country">França · Bordeaux</span>
-        </li>
-        <li>
-          <span class="distinction-num">2026</span>
-          <span class="distinction-name">Enófilo do Alentejo</span>
-          <span class="distinction-country">Portugal · Alentejo</span>
-        </li>
-        <li>
-          <span class="distinction-num">2026</span>
-          <span class="distinction-name">Cavaliere del Tartufo e dei Vini di Alba</span>
-          <span class="distinction-country">Itália · Alba</span>
-        </li>
-      </ul></div>
+      <!-- COMENDAS -->
+      <div class="distinctions-title" data-i18n="wine_distinctions">Comendas do Mundo do Vinho</div>
+      <div class="comendas-sub lang-pt">Sete das mais prestigiadas confrarias e ordens enófilas da Europa acolheram Luli Dias entre os seus — um reconhecimento raro no mundo do vinho.</div>
+      <div class="comendas-sub lang-en" style="display:none">Seven of Europe's most prestigious wine confraternities and orders have welcomed Luli Dias into their ranks — a rare distinction in the world of wine.</div>
+      <div class="comendas-grid">
+        <div class="comenda"><div class="comenda-seal"><b>2022</b><i>◆</i></div><div class="comenda-name">Cavaleiro do Vinho do Porto</div><div class="comenda-region">Portugal · Porto</div></div>
+        <div class="comenda"><div class="comenda-seal"><b>2023</b><i>◆</i></div><div class="comenda-name">Jurade de Saint-Émilion</div><div class="comenda-region">França · Saint-Émilion</div></div>
+        <div class="comenda"><div class="comenda-seal"><b>2024</b><i>◆</i></div><div class="comenda-name">Hospitaliers de Pomerol</div><div class="comenda-region">França · Pomerol</div></div>
+        <div class="comenda"><div class="comenda-seal"><b>2024</b><i>◆</i></div><div class="comenda-name">Commandeur du Bontemps</div><div class="comenda-region">França · Médoc &amp; Sauternes</div></div>
+        <div class="comenda"><div class="comenda-seal"><b>2025</b><i>◆</i></div><div class="comenda-name">Commandeur de Bordeaux</div><div class="comenda-region">França · Bordeaux</div></div>
+        <div class="comenda"><div class="comenda-seal"><b>2026</b><i>◆</i></div><div class="comenda-name">Enófilo do Alentejo</div><div class="comenda-region">Portugal · Alentejo</div></div>
+        <div class="comenda"><div class="comenda-seal"><b>2026</b><i>◆</i></div><div class="comenda-name">Cavaliere del Tartufo e dei Vini di Alba</div><div class="comenda-region">Itália · Alba</div></div>
+      </div></div>
 
   </div>
 </div>
@@ -721,12 +699,12 @@ footer a{color:var(--gold);text-decoration:none}
 <script>
 (function(){
   var T={
-    pt:{back:'← Voltar',back_brasil:'← Brasil',back_todos:'← Todos os Países',srch:'Buscar restaurante, culinária, bairro…',sr:'Restaurantes',sc:'Cidades',sh:'Hotéis',se:'Estados',sm:'Michelin',m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',grn:'Estrela Verde',mich:'Michelin',acc:'Hospedagem',view:'Vista:',list:'Lista',map:'Mapa',type:'Tipo:',all:'✦ Todos',rest:'🍽 Restaurantes',hot:'🛏 Hotéis',waze:'Navegar com Waze',gmaps:'Abrir no Google Maps',apple:'Abrir no Apple Maps',cancel:'Cancelar',call:'Todas',nm:' Perto de Mim',guide_personal:'Guia Gastronómico Pessoal',choose_state:'Escolha um estado',about_pre:'sobre o curador',countries_guide:'Países no Guia',trips_year:'Voltas ao Mundo Voadas',wine_distinctions:'Distinções do Mundo do Vinho'},
-    en:{back:'← Back',back_brasil:'← Brazil',back_todos:'← All Countries',srch:'Search restaurant, cuisine, neighbourhood…',sr:'Restaurants',sc:'Cities',sh:'Hotels',se:'States',sm:'Michelin',m3:'★★★ 3 Stars',m2:'★★ 2 Stars',m1:'★ 1 Star',bib:'Bib Gourmand',grn:'Green Star',mich:'Michelin',acc:'Accommodation',view:'View:',list:'List',map:'Map',type:'Type:',all:'✦ All',rest:'🍽 Restaurants',hot:'🛏 Hotels',waze:'Navigate with Waze',gmaps:'Open in Google Maps',apple:'Open in Apple Maps',cancel:'Cancel',call:'All',nm:' Near Me',guide_personal:'Personal Gastronomic Guide',choose_state:'Choose a state',about_pre:'about the curator',countries_guide:'Countries in Guide',trips_year:'Times Around the World Flown',wine_distinctions:'Wine World Distinctions'}
+    pt:{back:'← Voltar',back_brasil:'← Brasil',back_todos:'← Todos os Países',srch:'Buscar restaurante, culinária, bairro…',sr:'Restaurantes',sc:'Cidades',sh:'Hotéis',se:'Estados',sm:'Michelin',m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',grn:'Estrela Verde',mich:'Michelin',acc:'Hospedagem',view:'Vista:',list:'Lista',map:'Mapa',type:'Tipo:',all:'✦ Todos',rest:'🍽 Restaurantes',hot:'🛏 Hotéis',waze:'Navegar com Waze',gmaps:'Abrir no Google Maps',apple:'Abrir no Apple Maps',cancel:'Cancelar',call:'Todas',nm:' Perto de Mim',guide_personal:'Guia Gastronómico Pessoal',choose_state:'Escolha um estado',about_pre:'sobre o curador',countries_guide:'Países no Guia',trips_year:'Voltas ao Mundo Voadas',wine_distinctions:'Comendas do Mundo do Vinho'},
+    en:{back:'← Back',back_brasil:'← Brazil',back_todos:'← All Countries',srch:'Search restaurant, cuisine, neighbourhood…',sr:'Restaurants',sc:'Cities',sh:'Hotels',se:'States',sm:'Michelin',m3:'★★★ 3 Stars',m2:'★★ 2 Stars',m1:'★ 1 Star',bib:'Bib Gourmand',grn:'Green Star',mich:'Michelin',acc:'Accommodation',view:'View:',list:'List',map:'Map',type:'Type:',all:'✦ All',rest:'🍽 Restaurants',hot:'🛏 Hotels',waze:'Navigate with Waze',gmaps:'Open in Google Maps',apple:'Open in Apple Maps',cancel:'Cancel',call:'All',nm:' Near Me',guide_personal:'Personal Gastronomic Guide',choose_state:'Choose a state',about_pre:'about the curator',countries_guide:'Countries in Guide',trips_year:'Times Around the World Flown',wine_distinctions:'Wine World Honours'}
   };
   var LANG=localStorage.getItem('ld-lang')||'pt';
   var t=function(k){return (T[LANG]&&T[LANG][k])||T.pt[k]||k;};
-  T.fr={back:'← Retour',back_brasil:'← Brésil',back_todos:'← Tous les pays',srch:'Rechercher un restaurant, une cuisine, un quartier…',sr:'Restaurants',sc:'Villes',sh:'Hôtels',se:'États',sm:'Michelin',m3:'★★★ 3 Étoiles',m2:'★★ 2 Étoiles',m1:'★ 1 Étoile',bib:'Bib Gourmand',grn:'Étoile Verte',mich:'Michelin',acc:'Hébergement',view:'Vue :',list:'Liste',map:'Carte',type:'Type :',all:'✦ Tous',rest:'🍽 Restaurants',hot:'🛏 Hôtels',waze:'Naviguer avec Waze',gmaps:'Ouvrir dans Google Maps',apple:'Ouvrir dans Apple Maps',cancel:'Annuler',call:'Tous',nm:' Près de moi',guide_personal:'Guide gastronomique personnel',choose_state:'Choisissez un état',about_pre:'sur le curateur',countries_guide:'Pays du guide',trips_year:'Voyages/an',wine_distinctions:'Distinctions du monde du vin'};
+  T.fr={back:'← Retour',back_brasil:'← Brésil',back_todos:'← Tous les pays',srch:'Rechercher un restaurant, une cuisine, un quartier…',sr:'Restaurants',sc:'Villes',sh:'Hôtels',se:'États',sm:'Michelin',m3:'★★★ 3 Étoiles',m2:'★★ 2 Étoiles',m1:'★ 1 Étoile',bib:'Bib Gourmand',grn:'Étoile Verte',mich:'Michelin',acc:'Hébergement',view:'Vue :',list:'Liste',map:'Carte',type:'Type :',all:'✦ Tous',rest:'🍽 Restaurants',hot:'🛏 Hôtels',waze:'Naviguer avec Waze',gmaps:'Ouvrir dans Google Maps',apple:'Ouvrir dans Apple Maps',cancel:'Annuler',call:'Tous',nm:' Près de moi',guide_personal:'Guide gastronomique personnel',choose_state:'Choisissez un état',about_pre:'sur le curateur',countries_guide:'Pays du guide',trips_year:'Voyages/an',wine_distinctions:'Ordres du monde du vin'};
   function apply(){
     document.querySelectorAll('.card-desc').forEach(function(el){if(el.dataset.pt===undefined)el.dataset.pt=el.textContent;el.textContent=LANG==='fr'?(el.dataset.fr||el.dataset.en||el.dataset.pt):LANG==='en'?(el.dataset.en||el.dataset.pt):el.dataset.pt;});
     document.querySelectorAll('.lang-pt').forEach(function(el){el.style.display=LANG==='pt'?'':'none';});
