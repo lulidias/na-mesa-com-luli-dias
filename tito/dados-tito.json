@@ -1,0 +1,274 @@
+{
+  "gerado": "2026-07-18",
+  "nota": "Restaurantes do Tito Dias, removidos do guia do Luli para futuro guia próprio.",
+  "total": 13,
+  "restaurantes": [
+    {
+      "country": "eua",
+      "city": "Yountville",
+      "region": "Yountville",
+      "entry": {
+        "n": "Bouchon Bistrot",
+        "c": "tito",
+        "q": "Bistrot Francês",
+        "a": "6534 Washington Street, Yountville, CA 94599",
+        "p": "+1 707 944-8037",
+        "w": "thomaskeller.com/bouchonbistro",
+        "ig": "bouchonbistro",
+        "note": "Reconhecido pelo Guia Michelin",
+        "d": "Bistrot francês clássico do chef Thomas Keller, inaugurado em 1998 no coração de Napa Valley. Menu com coq au vin, moules marinières, croque madame e raw bar de ostras e mariscos. Ambiente descontraído inspirado nos bistrots lioneses, com bar de zinco e terraço exterior.",
+        "df": "Bistrot français classique du chef Thomas Keller, inauguré en 1998 au cœur de la Napa Valley. Menu avec coq au vin, moules marinières, croque madame et raw bar d'huîtres et de fruits de mer. Ambiance décontractée inspirée des bouchons lyonnais, avec comptoir en zinc et terrasse extérieure.",
+        "de": "Chef Thomas Keller's classic French bistro, opened in 1998 at the heart of Napa Valley. The menu features coq au vin, moules marinières, croque madame, and a raw bar of oysters and shellfish. The relaxed setting is inspired by Lyon's traditional bistrots, with a zinc bar and outdoor terrace.",
+        "pr": 3,
+        "m": "rec",
+        "pending": true
+      }
+    },
+    {
+      "country": "eua",
+      "city": "Yountville",
+      "region": "Yountville",
+      "entry": {
+        "n": "Bistro Jeanty",
+        "c": "tito",
+        "q": "Bistrot Francês Clássico",
+        "a": "6510 Washington Street, Yountville, CA 94599",
+        "p": "+1 707 944-0103",
+        "w": "bistrotjeanty.com",
+        "ig": "bistrotjeanty",
+        "note": "Ícone de Yountville desde 1998",
+        "d": "Bistrot francês tradicional fundado pelo chef Philippe Jeanty em 1998, instalado numa antiga casa no coração de Yountville. Especialidades incluem tomate farci, coq au vin, daube de boeuf e a icónica tomato soup servida em lata de conserva. Ambiente autêntico de bistrot parisiense com azulejos de metrô, espelhos e cartazes vintage.",
+        "df": "Bistrot français traditionnel fondé par le chef Philippe Jeanty en 1998, installé dans une ancienne maison au cœur de Yountville. Les spécialités incluent la tomate farcie, le coq au vin, la daube de bœuf et l'iconique tomato soup servie dans une boîte de conserve. Ambiance authentique de bistrot parisien avec carrelage métro, miroirs et affiches vintage.",
+        "de": "A traditional French bistro founded by chef Philippe Jeanty in 1998, housed in a historic cottage at the heart of Yountville. Specialties include tomate farci, coq au vin, daube de boeuf, and the iconic tomato soup served in a tin can. The authentic Parisian bistro atmosphere features subway tiles, mirrors, and vintage posters.",
+        "pr": 3,
+        "pending": true
+      }
+    },
+    {
+      "country": "eua",
+      "city": "california",
+      "region": "california",
+      "entry": {
+        "n": "the charter oak",
+        "c": "tito",
+        "q": "Californiana de Autor",
+        "a": "1050 Charter Oak Avenue, St. Helena, CA 94574",
+        "p": "+1 707 302 6996",
+        "w": "thecharteroak.com",
+        "ig": "thecharteroak",
+        "note": "1 Estrela Michelin",
+        "d": "Restaurante dos chefs Christopher Kostow (The Restaurant at Meadowood) e Nathaniel Dorn em St. Helena, no Napa Valley. Cozinha californiana centrada na lareira e grelha a lenha, com vegetais de quinta local, carnes e frutos do mar. Ambiente casual e convívio em torno da bancada central, num espaço rústico-elegante que celebra a simplicidade e o produto.",
+        "df": "Restaurant des chefs Christopher Kostow (The Restaurant at Meadowood) et Nathaniel Dorn à St. Helena, dans la Napa Valley. Cuisine californienne centrée sur la cheminée et le grill au feu de bois, avec légumes de ferme locale, viandes et fruits de mer. Ambiance décontractée et convivialité autour du comptoir central, dans un espace rustique-élégant qui célèbre la simplicité et le produit.",
+        "de": "The restaurant from chefs Christopher Kostow (The Restaurant at Meadowood) and Nathaniel Dorn in St. Helena, Napa Valley. California cuisine built around the hearth and wood-fire grill, with local farm vegetables, meats, and seafood. A casual, communal atmosphere centered on the central counter, in a rustic-elegant space that celebrates simplicity and the quality of ingredients.",
+        "pr": 3,
+        "m": "m1",
+        "pending": true
+      }
+    },
+    {
+      "country": "eua",
+      "city": "california",
+      "region": "california",
+      "entry": {
+        "n": "bottega",
+        "c": "tito",
+        "q": "Italiana Contemporânea",
+        "a": "6525 Washington Street, Yountville, CA 94599",
+        "p": "+1 707 945-1050",
+        "w": "botteganapavalley.com",
+        "ig": "botteganapavalley",
+        "note": "1 Estrela Michelin",
+        "d": "Restaurante italiano do chef Michael Chiarello em Yountville, Napa Valley, com uma estrela Michelin. Cozinha italiana contemporânea que privilegia ingredientes locais da Califórnia, com massas frescas artesanais e pratos como o polvo grelhado e os agnolotti. Ambiente rústico-elegante com pátio interior rodeado por oliveiras centenárias.",
+        "df": "Restaurant italien du chef Michael Chiarello à Yountville, Napa Valley, avec une étoile Michelin. Cuisine italienne contemporaine qui privilégie les ingrédients locaux de Californie, avec pâtes fraîches artisanales et plats comme le poulpe grillé et les agnolotti. Ambiance rustique-élégante avec patio intérieur entouré d'oliviers centenaires.",
+        "de": "Chef Michael Chiarello's one-Michelin-star Italian restaurant in Yountville, Napa Valley. The contemporary Italian kitchen privileges local California ingredients, with house-made fresh pastas and dishes such as grilled octopus and agnolotti. The rustic-elegant space features an interior courtyard surrounded by centuries-old olive trees.",
+        "pr": 4,
+        "m": "m1",
+        "pending": true
+      }
+    },
+    {
+      "country": "eua",
+      "city": "california",
+      "region": "california",
+      "entry": {
+        "n": "joseph phelps",
+        "c": "tito",
+        "q": "Vinícola · Napa Valley",
+        "a": "200 Taplin Road, St. Helena, CA 94574",
+        "p": "+1 707 963-2745",
+        "w": "josephphelps.com",
+        "ig": "josephphelpsvineyard",
+        "note": "Produtora do icónico Insignia",
+        "d": "Vinícola fundada em 1973 por Joseph Phelps, pioneira dos blends bordaleses no Napa Valley. Conhecida mundialmente pelo Insignia, considerado um dos primeiros e melhores blends proprietários da Califórnia. Oferece provas e experiências gastronómicas na propriedade com vistas para os vinhedos em St. Helena.",
+        "df": "Domaine viticole fondé en 1973 par Joseph Phelps, pionnier des assemblages bordelais dans la Napa Valley. Connu dans le monde entier pour l'Insignia, considéré comme l'un des premiers et des meilleurs assemblages propriétaires de Californie. Propose des dégustations et des expériences gastronomiques sur la propriété avec vues sur les vignobles à St. Helena.",
+        "de": "A winery founded in 1973 by Joseph Phelps, a pioneer of Bordeaux-style blends in Napa Valley. Internationally renowned for Insignia, considered one of California's first and finest proprietary blends. The estate offers tastings and culinary experiences with views over the vineyards in St. Helena.",
+        "pr": 4,
+        "pending": true
+      }
+    },
+    {
+      "country": "eua",
+      "city": "calistoga",
+      "region": "calistoga",
+      "entry": {
+        "n": "sol bar",
+        "c": "tito",
+        "q": "American Comfort Food · Wine Country",
+        "a": "755 Silverado Trail, Calistoga, CA 94515",
+        "p": "+1 707 942-7969",
+        "w": "solbarcalistoga.com",
+        "ig": "solbarcalistoga",
+        "note": "Casual dining no coração de Calistoga",
+        "d": "Restaurante casual no centro de Calistoga, conhecido pelo ambiente descontraído e menu de conforto americano. Destaca-se pelos hambúrgueres, tacos e pratos para partilhar, com ênfase em ingredientes locais do Napa Valley. Esplanada popular entre locais e visitantes das termas da região.",
+        "df": "Restaurant décontracté au centre de Calistoga, connu pour son ambiance détendue et son menu de comfort food américaine. Il se distingue par ses hamburgers, ses tacos et ses plats à partager, avec un accent sur les ingrédients locaux de la Napa Valley. Terrasse populaire auprès des habitants et des visiteurs des sources thermales de la région.",
+        "de": "A casual restaurant in the center of Calistoga, known for its relaxed atmosphere and American comfort food menu. Standouts include burgers, tacos, and sharing plates, with an emphasis on local Napa Valley ingredients. A popular outdoor terrace frequented by locals and visitors to the region's hot springs.",
+        "pr": 2,
+        "pending": true
+      }
+    },
+    {
+      "country": "eua",
+      "city": "borgonha",
+      "region": "borgonha",
+      "entry": {
+        "n": "loiseau des ducs",
+        "c": "tito",
+        "q": "Francesa Gastronómica",
+        "a": "7 Rue de la Chouette, 21000 Dijon",
+        "p": "+33 3 80 50 88 88",
+        "w": "loiseaudesducs.com",
+        "note": "Casa gastronómica de Bernard Loiseau em Dijon",
+        "d": "Extensão urbana do legado de Bernard Loiseau no coração de Dijon, junto à Place de la Libération. Cozinha borguinhã clássica com produtos regionais: caracóis da Borgonha, ovos meurette, boeuf bourguignon. Cave com vinhos locais de Côte-d'Or e Chablis.",
+        "df": "Extension urbaine de l'héritage de Bernard Loiseau au cœur de Dijon, près de la Place de la Libération. Cuisine bourguignonne classique avec produits régionaux : escargots de Bourgogne, œufs meurette, bœuf bourguignon. Cave avec vins locaux de la Côte-d'Or et de Chablis.",
+        "de": "The urban extension of Bernard Loiseau's legacy at the heart of Dijon, near the Place de la Libération. Classic Burgundian cuisine with regional produce: Burgundy snails, oeufs en meurette, and boeuf bourguignon. Wine cellar featuring local bottles from the Côte-d'Or and Chablis.",
+        "pr": 3,
+        "pending": true
+      }
+    },
+    {
+      "country": "eua",
+      "city": "borgonha",
+      "region": "borgonha",
+      "entry": {
+        "n": "premnord restaurant",
+        "c": "tito",
+        "q": "Francesa Tradicional",
+        "a": "6 Route Départementale 974, 21700 Prémeaux-Prissey, France",
+        "p": "+33 3 80 21 51 16",
+        "w": "premnord.fr",
+        "d": "Restaurante familiar em Bligny-lès-Beaune, no coração da Borgonha vinícola. Cozinha francesa tradicional com produtos regionais e especialidades borguinhãs como ovos meurette e boeuf bourguignon. Ambiente acolhedor frequentado por locais e visitantes das caves da região.",
+        "df": "Restaurant familial à Bligny-lès-Beaune, au cœur de la Bourgogne viticole. Cuisine française traditionnelle avec produits régionaux et spécialités bourguignonnes comme les œufs meurette et le bœuf bourguignon. Cadre chaleureux fréquenté par les habitants et les visiteurs des caves de la région.",
+        "de": "A family restaurant in Bligny-lès-Beaune, at the heart of wine-country Burgundy. Traditional French cooking with regional produce and Burgundian specialties such as oeufs en meurette and boeuf bourguignon. A welcoming atmosphere frequented by locals and visitors to the area's wine cellars.",
+        "pr": 2,
+        "pending": true
+      }
+    },
+    {
+      "country": "eua",
+      "city": "Montpellier",
+      "region": "Montpellier",
+      "entry": {
+        "n": "Jardin des Sens",
+        "c": "tito",
+        "q": "Francesa Gastronómica · 3 Estrelas Michelin",
+        "a": "Hôtel Richer de Belleval, Place de la Canourgue, 34000 Montpellier, France",
+        "p": "+33 4 99 58 38 38",
+        "w": "jardinsens.com",
+        "note": "3 Estrelas Michelin (1998-2020)",
+        "d": "Fundado pelos irmãos gémeos Jacques e Laurent Pourcel em 1989, conquistou três estrelas Michelin em 1998. Cozinha mediterrânica de alta precisão técnica com influências do sul de França. O restaurante encerrou em Montpellier em 2020, mantendo apenas operações hoteleiras.",
+        "df": "Fondé par les frères jumeaux Jacques et Laurent Pourcel en 1989, il a décroché trois étoiles Michelin en 1998. Cuisine méditerranéenne d'une grande précision technique avec des influences du sud de la France. Le restaurant a fermé à Montpellier en 2020, ne conservant que ses activités hôtelières.",
+        "de": "Founded by twin brothers Jacques and Laurent Pourcel in 1989, the restaurant earned three Michelin stars in 1998. Mediterranean cuisine of exceptional technical precision with influences from the south of France. The Montpellier restaurant closed in 2020, with only hotel operations continuing.",
+        "pr": 4,
+        "m": "m3",
+        "pending": true
+      }
+    },
+    {
+      "country": "franca",
+      "city": "Beaune",
+      "region": "Borgonha",
+      "entry": {
+        "n": "La Table du Square",
+        "c": "tito",
+        "q": "Bistrô Francês Contemporâneo",
+        "a": "22 Rue d'Alsace, 21200 Beaune",
+        "p": "+33 3 80 24 03 82",
+        "w": "latabledusquare.com",
+        "note": "Restaurante gastronómico no centro histórico de Beaune",
+        "d": "Bistrô contemporâneo no coração de Beaune, a poucos passos dos Hospices. Cozinha francesa sazonal baseada em produtos locais da Borgonha, com carta de vinhos focada nas denominações regionais. Ambiente intimista numa casa burguesa tradicional com jardim interior.",
+        "df": "Bistrot contemporain au coeur de Beaune, à quelques pas des Hospices. Cuisine française de saison fondée sur les produits locaux de Bourgogne, avec une carte des vins axée sur les appellations régionales. Cadre intimiste dans une maison bourgeoise traditionnelle avec jardin intérieur.",
+        "de": "Contemporary bistro in the heart of Beaune, steps from the Hospices. Seasonal French cuisine based on local Burgundy produce, with a wine list focused on regional appellations. An intimate atmosphere in a traditional bourgeois townhouse with an interior garden.",
+        "pr": 3,
+        "pending": true
+      }
+    },
+    {
+      "country": "franca",
+      "city": "Dijon",
+      "region": "Borgonha",
+      "entry": {
+        "n": "Le Soufflot",
+        "c": "tito",
+        "q": "Brasserie Tradicional Francesa",
+        "a": "16 Rue Pierre Joubert, 21000 Dijon",
+        "p": "+33 3 80 50 82 82",
+        "w": "lesoufflot.fr",
+        "d": "Brasserie clássica no centro histórico de Dijon, capital da Borgonha. Cozinha burguinhota tradicional com destaque para os escargots à la bourguignonne, boeuf bourguignon e ovos meurette. Ambiente descontraído frequentado por locais e turistas que exploram a rota dos vinhos.",
+        "df": "Brasserie classique dans le centre historique de Dijon, capitale de la Bourgogne. Cuisine bourguignonne traditionnelle avec en vedette les escargots à la bourguignonne, le boeuf bourguignon et les oeufs meurette. Ambiance décontractée fréquentée par les habitants et les touristes qui parcourent la route des vins.",
+        "de": "Classic brasserie in the historic centre of Dijon, capital of Burgundy. Traditional Burgundian cuisine with a focus on escargots à la bourguignonne, boeuf bourguignon and oeufs meurette. A relaxed atmosphere frequented by locals and tourists exploring the wine route.",
+        "pr": 2,
+        "pending": true
+      }
+    },
+    {
+      "country": "franca",
+      "city": "Levernois",
+      "region": "Borgonha",
+      "entry": {
+        "n": "Table de Levernois",
+        "c": "tito",
+        "q": "Gastronomia Francesa · Relais & Châteaux",
+        "a": "Rue du Golf, 21200 Levernois, Beaune",
+        "p": "+33 3 80 24 73 58",
+        "w": "levernois.com",
+        "ig": "maison_lameloise",
+        "e": "lameloise@relaischateaux.com",
+        "note": "2 Estrelas Michelin · 3 Chaves Michelin",
+        "d": "Relais & Châteaux nos arredores de Beaune, na Côte-d'Or, com duas estrelas Michelin desde 1979. O chef Louis-Stéphane Petit propõe cozinha borgonhesa refinada com ênfase em produtos regionais e vinhos locais. O hotel dispõe de 22 quartos e suites, spa, piscina exterior e jardins elegantes numa propriedade do século XIX.",
+        "df": "Relais & Châteaux aux environs de Beaune, en Côte-d'Or, deux étoiles Michelin depuis 1979. Le chef Louis-Stéphane Petit propose une cuisine bourguignonne raffinée, avec une attention particulière aux produits régionaux et aux vins locaux. L'hôtel dispose de 22 chambres et suites, d'un spa, d'une piscine extérieure et de jardins élégants dans une propriété du XIXe siècle.",
+        "de": "Relais & Châteaux on the outskirts of Beaune, in the Côte-d'Or, holding two Michelin Stars since 1979. Chef Louis-Stéphane Petit offers refined Burgundian cuisine with an emphasis on regional produce and local wines. The hotel has 22 rooms and suites, a spa, outdoor pool and elegant gardens on a 19th-century estate.",
+        "pr": 4,
+        "m": "m2",
+        "pending": true
+      }
+    },
+    {
+      "country": "franca",
+      "city": "Vermenton",
+      "region": "Borgonha",
+      "entry": {
+        "n": "Bistrot du Bord de l'Eau",
+        "c": "tito",
+        "q": "Bistrot Borgonhês à Beira-Água",
+        "a": "Quai de l'Yonne, 89270 Vermenton",
+        "p": "+33 3 86 81 52 09",
+        "w": "bistrotduborddleau.com",
+        "d": "Bistrot tradicional às margens do rio Yonne, em Vermenton, entre Auxerre e Vézelay. Cozinha borgonhesa clássica com produtos regionais, terraço à beira-água muito procurado no verão. Ambiente familiar num edifício de pedra típico da região.",
+        "df": "Bistrot traditionnel au bord de l'Yonne, à Vermenton, entre Auxerre et Vézelay. Cuisine bourguignonne classique avec des produits régionaux, terrasse au bord de l'eau très prisée en été. Ambiance familiale dans une bâtisse en pierre typique de la région.",
+        "de": "Traditional bistro on the banks of the Yonne river in Vermenton, between Auxerre and Vézelay. Classic Burgundian cuisine with regional produce, a waterside terrace much sought-after in summer. A family atmosphere in a typical stone building of the region.",
+        "pr": 2,
+        "pending": true
+      },
+      "fotos": [
+        "bistrot-du-bord-de-l-eau-2.jpeg",
+        "bistrot-du-bord-de-l-eau-3.jpeg",
+        "bistrot-du-bord-de-l-eau-4.jpeg",
+        "bistrot-du-bord-de-l-eau-5.jpeg",
+        "bistrot-du-bord-de-l-eau-7.jpeg",
+        "bistrot-du-bord-de-l-eau-8.jpeg",
+        "bistrot-du-bord-de-l-eau-9.jpeg",
+        "bistrot-du-bord-de-l-eau.jpeg"
+      ]
+    }
+  ]
+}
