@@ -205,31 +205,7 @@ footer a{color:var(--gold);text-decoration:none}
 
 
     </div>
-      <div style="grid-column:1/-1">      <!-- STATS — números dinâmicos via counts.json -->
-      <div class="stats">
-        <div class="stat"><div class="stat-num" data-stat="countries">—</div><div class="stat-lbl" data-i18n="countries_guide">Países no Guia</div></div>
-        <div class="stat"><div class="stat-num" data-stat="restaurants">—</div><div class="stat-lbl" data-i18n="sr">Restaurantes</div></div>
-        <div class="stat"><div class="stat-num" data-stat="voltas">44</div><div class="stat-lbl" data-i18n="trips_year">Voltas ao Mundo Voadas</div></div>
-      </div>
-      <script>
-        // Auto-loaded from counts.json (single source of truth)
-        fetch('counts.json?v=' + Date.now()).then(r => r.ok ? r.json() : null).then(d => {
-          if (!d) return;
-          const set = (k, v) => { const el = document.querySelector('[data-stat="' + k + '"]'); if (el) el.textContent = v; };
-          set('countries', d.totals.countries);
-          set('restaurants', d.totals.restaurants);
-          if(d.totals.voltas) set('voltas', d.totals.voltas);
-        }).catch(() => {});
-        // voltas ao mundo: lidas da linha Total da tabela da pesquisa (fonte única, auto-atualiza)
-        document.addEventListener('DOMContentLoaded', function(){
-          var tot = document.querySelector('#pesquisa tr.tot');
-          if (tot && tot.cells[3]) {
-            var v = parseFloat(tot.cells[3].textContent.replace(',', '.'));
-            if (v) { var el = document.querySelector('[data-stat="voltas"]'); if (el) el.textContent = Math.round(v); }
-          }
-        });
-      </script>
-
+      <div style="grid-column:1/-1">
       <!-- COMENDAS -->
       <div class="distinctions-title" data-i18n="wine_distinctions">Comendas do Mundo do Vinho</div>
       <div class="comendas-sub lang-pt">Sete das mais prestigiadas confrarias e ordens enófilas da Europa acolheram Luli Dias entre os seus — um reconhecimento raro no mundo do vinho.</div>
@@ -678,6 +654,27 @@ footer a{color:var(--gold);text-decoration:none}
 <div class="visited-section" id="pesquisa" style="border-top:1px solid var(--border)">
   <div style="max-width:1004px;margin:0 auto;text-align:left">
     <div class="distinctions-title" style="text-align:center">A Pesquisa por Trás do Guia</div>
+      <div class="stats" style="margin:28px auto 36px;max-width:760px">
+        <div class="stat"><div class="stat-num" data-stat="countries">—</div><div class="stat-lbl" data-i18n="countries_guide">Países no Guia</div></div>
+        <div class="stat"><div class="stat-num" data-stat="restaurants">—</div><div class="stat-lbl" data-i18n="sr">Restaurantes</div></div>
+        <div class="stat"><div class="stat-num" data-stat="voltas">44</div><div class="stat-lbl" data-i18n="trips_year">Voltas ao Mundo Voadas</div></div>
+      </div>
+      <script>
+        fetch('counts.json?v=' + Date.now()).then(r => r.ok ? r.json() : null).then(d => {
+          if (!d) return;
+          const set = (k, v) => { const el = document.querySelector('[data-stat="' + k + '"]'); if (el) el.textContent = v; };
+          set('countries', d.totals.countries);
+          set('restaurants', d.totals.restaurants);
+          if(d.totals.voltas) set('voltas', d.totals.voltas);
+        }).catch(() => {});
+        document.addEventListener('DOMContentLoaded', function(){
+          var tot = document.querySelector('#pesquisa tr.tot');
+          if (tot && tot.cells[3]) {
+            var v = parseFloat(tot.cells[3].textContent.replace(',', '.'));
+            if (v) { var el = document.querySelector('[data-stat="voltas"]'); if (el) el.textContent = Math.round(v); }
+          }
+        });
+      </script>
     <div class="intro">
   <p>Um guia só vale o que o autor viu com os próprios olhos. Cada recomendação nestas páginas nasceu de uma viagem real — <strong>e viagens deixam rasto</strong>: cartões de embarque, confirmações de hotel, fotografias com hora e lugar.</p>
   <p>Viajo com frequência desde 2002 — e intensamente desde 2005, quando me mudei para São Paulo. Os registos digitais só alcançam parte dessa história: os números abaixo são <strong>mínimos verificáveis</strong>, apurados ano a ano a partir das confirmações de reserva e do arquivo fotográfico. O real é maior.</p>
