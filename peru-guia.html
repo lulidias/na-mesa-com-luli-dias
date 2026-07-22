@@ -370,6 +370,11 @@ function render(){
 function normCuisine(q){
   if(!q)return null;
   const s=q.toLowerCase();
+   const f0=s.split('\u00b7')[0].trim();
+   if(/loja de vinho|garrafeira|wine shop/.test(s))return 'Loja de Vinho';
+   if(/wine bar|bar de vinho/.test(f0))return 'Wine Bar';
+   if(/padaria|boulanger|panific/.test(f0))return 'Padaria';
+   if(/mercado|market|food hall|food court/.test(f0)&&!/^(bistr|sushi|restaurante|izakaya)/.test(f0))return 'Mercado';
   if(/itali/.test(s))return 'Italiana';
   if(/japon|sushi|omakase|nikkei|gyukatsu|izakaya/.test(s))return 'Japonesa';
   if(/coreana|korean/.test(s))return 'Coreana';
