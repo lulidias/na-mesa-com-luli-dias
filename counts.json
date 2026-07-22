@@ -1,7 +1,7 @@
 {
   "totals": {
-    "restaurants": 1049,
-    "hotels": 163,
+    "restaurants": 1054,
+    "hotels": 164,
     "markets": 13,
     "m1": 44,
     "m2": 13,
@@ -172,7 +172,7 @@
       "keysEntries": 0
     },
     "copenhague": {
-      "restaurants": 5,
+      "restaurants": 7,
       "hotels": 1,
       "markets": 0,
       "cities": 1,
@@ -571,10 +571,10 @@
       "keysEntries": 1
     },
     "noruega": {
-      "restaurants": 0,
-      "hotels": 0,
+      "restaurants": 3,
+      "hotels": 1,
       "markets": 0,
-      "cities": 0,
+      "cities": 1,
       "m1": 0,
       "m2": 0,
       "m3": 0,
