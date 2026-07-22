@@ -343,6 +343,7 @@ function normCuisine(q){
    if(/wine bar|bar de vinho/.test(f0))return 'Wine Bar';
    if(/padaria|boulanger|panific/.test(f0))return 'Padaria';
    if(/mercado|market|food hall|food court/.test(f0)&&!/^(bistr|sushi|restaurante|izakaya)/.test(f0))return 'Mercado';
+   if(/^(bar\b|boteco|botequim|pub\b|gastropub|gastr[\u00f4o]bar|gastro bar|cervejaria|brewery|taproom|sky bar|coquetel(aria|eria)?)/.test(f0))return 'Bar';
   if(/itali/.test(s))return 'Italiana';
   if(/japon|sushi|omakase|nikkei|gyukatsu|izakaya/.test(s))return 'Japonesa';
   if(/coreana|korean/.test(s))return 'Coreana';
