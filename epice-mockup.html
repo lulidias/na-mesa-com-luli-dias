@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Épice — 2 versões (mockup)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-dk:#8B6914;--gold-bg:#FAF5EB;--border:#E8E0D5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;padding:0 0 80px}
+.mock-note{background:#2b2b2b;color:#e9dfb8;font-size:12px;letter-spacing:1px;text-align:center;padding:10px;text-transform:uppercase}
+.wrap{max-width:680px;margin:0 auto;padding:0 24px}
+.vlabel{max-width:680px;margin:54px auto 0;padding:0 24px}
+.vlabel span{display:inline-block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dk);background:var(--gold-bg);border:1px solid var(--gold-lt);border-radius:20px;padding:6px 14px}
+.vlabel small{display:block;color:var(--ink-xs);font-size:11px;margin-top:8px;letter-spacing:.5px}
+
+/* ---- estilo partilhado com o site ---- */
+.epice-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:var(--ink);text-align:center;margin:0 0 6px}
+.epice-kicker{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dk);text-align:center;font-weight:600;margin-bottom:16px}
+.epice-kicker::before,.epice-kicker::after{content:'\25C6';font-size:7px;color:var(--gold);margin:0 9px;vertical-align:middle}
+.epice-p{font-family:'Montserrat',sans-serif;font-weight:300;font-size:15px;line-height:1.75;color:var(--ink-lt);text-align:center;max-width:600px;margin:0 auto}
+.epice-p b{font-weight:500;color:var(--ink)}
+.indep{font-style:italic;font-size:12.5px;color:var(--ink-xs);text-align:center;margin-top:18px;line-height:1.6}
+
+/* stats (iguais aos do site) */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:26px auto 4px;max-width:560px}
+.stat{background:var(--white);padding:22px 12px;text-align:center;border:1px solid var(--border);border-radius:12px}
+.stat-num{font-family:'Playfair Display',serif;font-size:34px;color:var(--gold);font-weight:600;line-height:1}
+.stat-lbl{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-lt);margin-top:7px}
+
+/* faixa de regiões */
+.regions{margin:22px auto 0;text-align:center;max-width:600px}
+.regions .rlbl{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:10px}
+.regions .rlist{font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:var(--ink);line-height:1.9}
+.regions .rlist span::after{content:'\2009\00B7\2009';color:var(--gold);font-style:normal}
+.regions .rlist span:last-child::after{content:''}
+
+/* card contentor para o mockup */
+.demo{background:var(--cream);padding:40px 26px;border:1px dashed var(--gold-lt);border-radius:16px;margin-top:14px}
+.demo.alt{background:var(--white);border-style:solid;border-color:var(--border)}
+
+/* versão A — integrada na bio */
+.bioA{font-family:'Montserrat',sans-serif;font-weight:300;font-size:16px;line-height:1.85;color:var(--ink);text-align:left}
+.bioA b{font-weight:500}
+.bioA .kick{display:inline-block;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="mock-note">Mockup · 2 versões da secção Épice · não está publicado no site · números a confirmar</div>
+
+<!-- ============ VERSÃO A ============ -->
+<div class="vlabel"><span>Versão A · integrada na bio</span><small>Discreta — um parágrafo no fio da narrativa, logo a seguir à tua história. Reforça autoridade sem parecer institucional.</small></div>
+<div class="wrap">
+  <div class="demo alt">
+    <p class="bioA">
+      <span class="kick">◆ No mundo do vinho</span><br>
+      Fora das mesas, Luli está à frente da <b>Épice</b>, importadora que desde <b>1989</b> representa no Brasil mais de <b>75 produtores</b> de algumas das regiões mais respeitadas da Europa — de Bordeaux ao Piemonte, do Douro à Borgonha. É essa convivência diária com o vinho e com quem o faz que afina o paladar por trás deste guia.
+    </p>
+    <p class="indep">As recomendações do guia são independentes da atividade da Épice — nenhum lugar paga para estar aqui.</p>
+  </div>
+</div>
+
+<!-- ============ VERSÃO B ============ -->
+<div class="vlabel"><span>Versão B · mini-secção com números</span><small>Dedicada — título próprio, 3 números em destaque (estilo dos "55 países") e uma faixa de regiões. Dá mais peso e "prova".</small></div>
+<div class="wrap">
+  <div class="demo">
+    <div class="epice-kicker">No mundo do vinho</div>
+    <h2 class="epice-title">Épice · desde 1989</h2>
+    <p class="epice-p">À frente da <b>Épice</b>, Luli representa no Brasil uma seleção de produtores das grandes regiões vinícolas da Europa — o trabalho que sustenta, todos os dias, o olhar por trás deste guia.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">75+</div><div class="stat-lbl">Produtores</div></div>
+      <div class="stat"><div class="stat-num">373</div><div class="stat-lbl">Rótulos</div></div>
+      <div class="stat"><div class="stat-num">6</div><div class="stat-lbl">Países de origem</div></div>
+    </div>
+    <div class="regions">
+      <div class="rlbl">Regiões representadas</div>
+      <div class="rlist"><span>Bordeaux</span><span>Borgonha</span><span>Champagne</span><span>Rhône</span><span>Piemonte</span><span>Toscana</span><span>Douro</span><span>Alentejo</span><span>Rioja</span></div>
+    </div>
+    <p class="indep">As recomendações do guia são independentes da atividade da Épice — nenhum lugar paga para estar aqui.</p>
+  </div>
+</div>
+
+</body>
+</html>
