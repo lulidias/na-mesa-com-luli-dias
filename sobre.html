@@ -83,6 +83,17 @@ body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-seri
 .comenda-name{font-family:'Playfair Display',serif;font-size:15.5px;font-weight:500;color:var(--ink);line-height:1.3;text-wrap:balance;min-height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:11px}
 .comenda-region{font-family:'Montserrat',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-xs)}
 .comenda-region::before{content:'\25C6';color:var(--gold);font-size:7px;margin-right:6px}
+.mestre{max-width:620px;margin:0 auto 34px;border:1px solid var(--gold-lt);border-radius:16px;overflow:hidden;text-align:center;background:linear-gradient(180deg,var(--gold-bg),var(--white) 58%);box-shadow:0 14px 42px rgba(150,110,30,.14)}
+.mestre-photo{display:none;width:100%;height:300px;object-fit:cover;object-position:center 40%}
+.mestre.has-photo .mestre-photo{display:block}
+.mestre-inner{padding:32px 30px 34px}
+.mestre.has-photo .mestre-inner{padding-top:28px}
+.mestre-kicker{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:15px;font-weight:600}
+.mestre-kicker::before,.mestre-kicker::after{content:'\25C6';font-size:7px;color:var(--gold);margin:0 9px;vertical-align:middle}
+.mestre-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:10px;text-wrap:balance}
+.mestre-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:var(--gold-dk);margin-bottom:16px}
+.mestre-detail{font-family:'Montserrat',sans-serif;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-xs);line-height:1.9}
+.mestre-detail span{color:var(--ink-lt)}
 
 
 /* MAPA VISITADOS */
@@ -211,6 +222,17 @@ footer a{color:var(--gold);text-decoration:none}
       <div class="distinctions-title" data-i18n="wine_distinctions">Comendas do Mundo do Vinho</div>
       <div class="comendas-sub lang-pt">Sete das mais prestigiadas confrarias e ordens enófilas da Europa acolheram Luli Dias entre os seus — um reconhecimento raro no mundo do vinho.</div>
       <div class="comendas-sub lang-en" style="display:none">Seven of Europe's most prestigious wine confraternities and orders have welcomed Luli Dias into their ranks — a rare distinction in the world of wine.</div>
+      <div class="mestre">
+        <img class="mestre-photo" alt="" src="fotos/comendas/mestre-bordeaux.jpeg" onload="this.closest('.mestre').classList.add('has-photo')" onerror="this.remove()">
+        <div class="mestre-inner">
+          <div class="mestre-kicker lang-pt">O grau mais alto</div>
+          <div class="mestre-kicker lang-en" style="display:none">The highest rank</div>
+          <div class="mestre-title">Mestre da Commanderie de Bordeaux</div>
+          <div class="mestre-sub">São Paulo</div>
+          <div class="mestre-detail lang-pt">Elevação de grau · 19 de abril de 2026<br><span>Château Bellefont-Belcier · Saint-Émilion</span></div>
+          <div class="mestre-detail lang-en" style="display:none">Elevated · 19 April 2026<br><span>Château Bellefont-Belcier · Saint-Émilion</span></div>
+        </div>
+      </div>
       <div class="comendas-grid">
         <div class="comenda"><img class="comenda-photo" alt="" src="fotos/comendas/porto.jpeg" onload="this.closest('.comenda').classList.add('has-photo')" onerror="this.remove()"><div class="comenda-seal"><b>2022</b><i>◆</i></div><div class="comenda-name">Cavaleiro do Vinho do Porto</div><div class="comenda-region">Portugal · Porto</div></div>
         <div class="comenda"><img class="comenda-photo" alt="" src="fotos/comendas/saint-emilion.jpeg" onload="this.closest('.comenda').classList.add('has-photo')" onerror="this.remove()"><div class="comenda-seal"><b>2023</b><i>◆</i></div><div class="comenda-name">Jurade de Saint-Émilion</div><div class="comenda-region">França · Saint-Émilion</div></div>
