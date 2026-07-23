@@ -802,7 +802,7 @@
       "restaurants": 501,
       "hotels": 59,
       "markets": 0,
-      "cities": 50,
+      "cities": 51,
       "m1": 10,
       "m2": 3,
       "m3": 2,
@@ -859,7 +859,7 @@
       "restaurants": 305,
       "hotels": 30,
       "markets": 0,
-      "cities": 18,
+      "cities": 19,
       "m1": 10,
       "m2": 3,
       "m3": 2,
@@ -943,7 +943,7 @@
     "São Paulo": {
       "restaurants": 486,
       "hotels": 32,
-      "cities": 26
+      "cities": 28
     },
     "Minas Gerais": {
       "restaurants": 16,
