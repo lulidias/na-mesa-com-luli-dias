@@ -1,7 +1,7 @@
 {
   "totals": {
-    "restaurants": 1078,
-    "hotels": 167,
+    "restaurants": 1081,
+    "hotels": 171,
     "markets": 13,
     "m1": 44,
     "m2": 13,
@@ -799,10 +799,10 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 497,
-      "hotels": 55,
+      "restaurants": 500,
+      "hotels": 59,
       "markets": 0,
-      "cities": 46,
+      "cities": 50,
       "m1": 10,
       "m2": 3,
       "m3": 2,
@@ -856,10 +856,10 @@
       "keysEntries": 3
     },
     "brasil-sudeste": {
-      "restaurants": 301,
-      "hotels": 26,
+      "restaurants": 304,
+      "hotels": 30,
       "markets": 0,
-      "cities": 14,
+      "cities": 18,
       "m1": 10,
       "m2": 3,
       "m3": 2,
@@ -941,9 +941,9 @@
       "cities": 8
     },
     "São Paulo": {
-      "restaurants": 478,
-      "hotels": 24,
-      "cities": 18
+      "restaurants": 484,
+      "hotels": 32,
+      "cities": 26
     },
     "Minas Gerais": {
       "restaurants": 16,
