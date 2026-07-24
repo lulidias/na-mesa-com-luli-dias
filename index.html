@@ -189,11 +189,13 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 <div class="curator-orn"><div class="co-line"></div><div class="co-diamond">◆</div><div class="co-line"></div></div>
 <div class="global-stats" id="globalStats">
   <div class="gstat"><div class="gstat-num" data-stat="countries">—</div><div class="gstat-lbl" data-i18n="countries">Países</div></div>
+  <div class="gstat"><div class="gstat-num" data-stat="cities">—</div><div class="gstat-lbl" data-i18n="cities">Cidades</div></div>
+  <div class="gstat"><div class="gstat-num" data-stat="total">—</div><div class="gstat-lbl" data-i18n="establishments">Estabelecimentos</div></div>
   <div class="gstat"><div class="gstat-num" data-stat="restaurants">—</div><div class="gstat-lbl" data-i18n="restaurants">Restaurantes</div></div>
   <div class="gstat"><div class="gstat-num" data-stat="hotels">—</div><div class="gstat-lbl" data-i18n="hotels">Hotéis</div></div>
-  <div class="gstat"><div class="gstat-num" data-stat="stars">—</div><div class="gstat-lbl" data-i18n="michelinStars">Estrelas Michelin</div></div>
-  <div class="gstat"><div class="gstat-num" data-stat="bib">—</div><div class="gstat-lbl" data-i18n="bibGourmand">Bib Gourmand</div></div>
-  <div class="gstat"><div class="gstat-num" data-stat="keys">—</div><div class="gstat-lbl" data-i18n="michelinKeys">Chaves Michelin</div></div>
+  <div class="gstat"><div class="gstat-num" data-stat="lojaVinho">—</div><div class="gstat-lbl" data-i18n="wineShops">Lojas de Vinho</div></div>
+  <div class="gstat"><div class="gstat-num" data-stat="wineBar">—</div><div class="gstat-lbl" data-i18n="wineBars">Wine Bar</div></div>
+  <div class="gstat"><div class="gstat-num" data-stat="mercado">—</div><div class="gstat-lbl" data-i18n="markets">Mercados</div></div>
 </div>
 <div class="type-bar-idx">
   <button class="type-btn-idx active" id="idxAll" onclick="setIdxType('all',this)" data-i18n="filterAll">✦ Todos</button>
@@ -245,7 +247,7 @@ const LANG = localStorage.getItem('ld-lang') || 'pt';
 const T = {
   pt: {
     countries:'Países', restaurants:'Restaurantes', hotels:'Hotéis',
-    michelinStars:'Estrelas Michelin', bibGourmand:'Bib Gourmand', michelinKeys:'Chaves Michelin',
+    michelinStars:'Estrelas Michelin', bibGourmand:'Bib Gourmand', michelinKeys:'Chaves Michelin',cities:'Cidades',establishments:'Estabelecimentos',wineShops:'Lojas de Vinho',wineBars:'Wine Bar',markets:'Mercados',
     filterAll:'✦ Todos', filterR:'🍽 Restaurantes', filterH:'🛏 Hotéis',
     continent:'Continente:', allContinents:'Todos',
     restaurant:'restaurante', restaurantPlural:'restaurantes',
@@ -261,7 +263,7 @@ const T = {
   },
   en: {
     countries:'Countries', restaurants:'Restaurants', hotels:'Hotels',
-    michelinStars:'Michelin Stars', bibGourmand:'Bib Gourmand', michelinKeys:'Michelin Keys',
+    michelinStars:'Michelin Stars', bibGourmand:'Bib Gourmand', michelinKeys:'Michelin Keys',cities:'Cities',establishments:'Establishments',wineShops:'Wine Shops',wineBars:'Wine Bar',markets:'Markets',
     filterAll:'✦ All', filterR:'🍽 Restaurants', filterH:'🛏 Hotels',
     continent:'Continent:', allContinents:'All',
     restaurant:'restaurant', restaurantPlural:'restaurants',
@@ -277,7 +279,7 @@ const T = {
   },
   fr: {
     countries:'Pays', restaurants:'Restaurants', hotels:'Hôtels',
-    michelinStars:'Étoiles Michelin', bibGourmand:'Bib Gourmand', michelinKeys:'Clés Michelin',
+    michelinStars:'Étoiles Michelin', bibGourmand:'Bib Gourmand', michelinKeys:'Clés Michelin',cities:'Villes',establishments:'Établissements',wineShops:'Cavistes',wineBars:'Bar à Vin',markets:'Marchés',
     filterAll:'✦ Tous', filterR:'🍽 Restaurants', filterH:'🛏 Hôtels',
     continent:'Continent :', allContinents:'Tous',
     restaurant:'restaurant', restaurantPlural:'restaurants',
@@ -416,11 +418,13 @@ fetch('counts.json?v=' + Date.now()).then(r => r.ok ? r.json() : null).then(data
     if (el) el.textContent = value;
   };
   update('countries', t.countries);
+  update('cities', t.cities);
+  update('total', t.total);
   update('restaurants', t.restaurants);
   update('hotels', t.hotels);
-  update('stars', t.totalStars + ' ★');
-  update('bib', t.bib);
-  update('keys', t.totalKeys + ' 🗝');
+  update('lojaVinho', t.lojaVinho);
+  update('wineBar', t.wineBar);
+  update('mercado', t.mercado);
   // Merge per-country counts into REGIONS (key = file slug without -guia.html)
   for (const region of REGIONS) {
     for (const country of (region.countries || [])) {

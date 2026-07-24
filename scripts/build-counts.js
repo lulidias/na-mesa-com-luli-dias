@@ -15,6 +15,11 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
+function catOf(q){ if(!q) return null; const t=String(q).toLowerCase(); const f0=t.split('·')[0].trim();
+  if(/loja de vinho|garrafeira|wine shop/.test(t)) return 'lojaVinho';
+  if(/wine bar|bar de vinho/.test(f0)) return 'wineBar';
+  if(/mercado|market|food hall|food court/.test(f0) && !/^(bistr|sushi|restaurante|izakaya)/.test(f0)) return 'mercado';
+  return null; }
 // Standard guides: *-guia.html
 // Special case Brasil: split across brasil-sudeste/nordeste/sul/centroeste/norte.html
 const standardGuides = fs.readdirSync(ROOT)
@@ -34,7 +39,7 @@ if (brasilFiles.length > 0) {
   }
 }
 
-const totals = { restaurants: 0, hotels: 0, markets: 0, m1: 0, m2: 0, m3: 0, bib: 0, green: 0, rec: 0, keys1: 0, keys2: 0, keys3: 0, countries: 0 };
+const totals = { restaurants: 0, hotels: 0, markets: 0, cities: 0, lojaVinho: 0, wineBar: 0, mercado: 0, m1: 0, m2: 0, m3: 0, bib: 0, green: 0, rec: 0, keys1: 0, keys2: 0, keys3: 0, countries: 0 };
 const countries = {};
 const states = {}; // Per-state breakdown for Brasil cards in brasil-index.html
 
@@ -74,7 +79,7 @@ for (const source of guideSources) {
   if (allCities.length === 0) continue;
   const CITIES = allCities;
 
-  const country = { restaurants: 0, hotels: 0, markets: 0, cities: 0, m1: 0, m2: 0, m3: 0, bib: 0, green: 0, rec: 0, keys1: 0, keys2: 0, keys3: 0 };
+  const country = { restaurants: 0, hotels: 0, markets: 0, cities: 0, lojaVinho: 0, wineBar: 0, mercado: 0, m1: 0, m2: 0, m3: 0, bib: 0, green: 0, rec: 0, keys1: 0, keys2: 0, keys3: 0 };
   let hasContent = false;
 
   for (const city of CITIES) {
@@ -92,6 +97,7 @@ for (const source of guideSources) {
       if (!r) continue;
       if (r.pending) continue;  // pending entries don't count toward stats
       hasContent = true;
+      { const _cat = catOf(r.q); if (_cat) country[_cat]++; }
       if (r.t === 'h') {
         country.hotels++;
         if (r.k === 1) country.keys1++;
@@ -124,7 +130,7 @@ for (const source of guideSources) {
   if (!source.brasilRegion) {
     totals.countries++;
     if (hasContent) {
-      for (const k of ['restaurants', 'hotels', 'markets', 'm1', 'm2', 'm3', 'bib', 'green', 'rec', 'keys1', 'keys2', 'keys3']) {
+      for (const k of ['restaurants', 'hotels', 'markets', 'cities', 'lojaVinho', 'wineBar', 'mercado', 'm1', 'm2', 'm3', 'bib', 'green', 'rec', 'keys1', 'keys2', 'keys3']) {
         totals[k] += country[k];
       }
     }
@@ -133,6 +139,7 @@ for (const source of guideSources) {
 
 totals.totalStars = totals.m1 + totals.m2 * 2 + totals.m3 * 3;
 totals.totalKeys = totals.keys1 + totals.keys2 * 2 + totals.keys3 * 3;
+totals.total = totals.restaurants + totals.hotels;
 totals.michelin = totals.m1 + totals.m2 + totals.m3 + totals.bib + totals.green;
 totals.keysEntries = totals.keys1 + totals.keys2 + totals.keys3;
 
