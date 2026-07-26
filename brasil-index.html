@@ -575,5 +575,25 @@ document.addEventListener('click', function(e) {
   window.addEventListener('load',apply);
 })();
 </script>
+<style>
+a.card,a.country-card{position:relative}
+.card-share{position:absolute;top:10px;right:10px;z-index:6;width:34px;height:34px;border-radius:50%;border:1px solid var(--border,#e8e0d5);background:rgba(255,255,255,.94);color:var(--gold,#b8922a);font-size:15px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.10);transition:all .15s;padding:0}
+.card-share:hover{background:var(--gold,#b8922a);color:#fff;border-color:var(--gold,#b8922a);transform:scale(1.06)}
+.share-toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1a1a;color:#fff;padding:11px 20px;border-radius:24px;font-family:'Montserrat',sans-serif;font-size:13px;letter-spacing:.5px;z-index:100000;opacity:0;pointer-events:none;transition:all .25s}
+.share-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+<script>
+(function(){
+  var SUF=' — Luli Dias · Restaurants & Hotels', tEl;
+  function toast(m){if(!tEl){tEl=document.createElement('div');tEl.className='share-toast';document.body.appendChild(tEl);}tEl.textContent=m;tEl.classList.add('show');clearTimeout(tEl._t);tEl._t=setTimeout(function(){tEl.classList.remove('show');},1900);}
+  function share(name,url){var full=(name||'Guia')+SUF;if(navigator.share){navigator.share({title:full,text:full,url:url}).catch(function(){});}else if(navigator.clipboard){navigator.clipboard.writeText(url).then(function(){toast('Link copiado ✓');},function(){prompt('Copiar link:',url);});}else{prompt('Copiar link:',url);}}
+  document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.card-share');if(!b)return;e.preventDefault();e.stopPropagation();share(b.getAttribute('data-name'),b.getAttribute('data-url'));},true);
+  function add(){document.querySelectorAll('a.card[href],a.country-card[href]').forEach(function(card){if(card.querySelector(':scope>.card-share'))return;var href=card.getAttribute('href');if(!href||href==='#')return;var url;try{url=new URL(href,location.href).href;}catch(_){return;}var nm=card.querySelector('.card-name');var b=document.createElement('button');b.className='card-share';b.type='button';b.setAttribute('aria-label','Compartilhar');b.setAttribute('data-url',url);b.setAttribute('data-name',(nm?nm.textContent:'').trim());b.textContent='⤴';card.appendChild(b);});}
+  var pend=false;function sched(){if(pend)return;pend=true;setTimeout(function(){pend=false;add();},80);}
+  if(document.readyState!=='loading')add();else document.addEventListener('DOMContentLoaded',add);[300,900,2000].forEach(function(ms){setTimeout(add,ms);});
+  new MutationObserver(sched).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
+
 </body>
 </html>
