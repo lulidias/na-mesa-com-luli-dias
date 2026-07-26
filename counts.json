@@ -1,16 +1,16 @@
 {
   "totals": {
-    "restaurants": 1090,
-    "hotels": 180,
+    "restaurants": 1098,
+    "hotels": 181,
     "markets": 13,
-    "cities": 215,
+    "cities": 216,
     "lojaVinho": 2,
-    "wineBar": 11,
-    "mercado": 20,
+    "wineBar": 12,
+    "mercado": 21,
     "m1": 44,
     "m2": 13,
     "m3": 4,
-    "bib": 28,
+    "bib": 29,
     "green": 1,
     "rec": 62,
     "keys1": 52,
@@ -19,8 +19,8 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 108,
-    "total": 1270,
-    "michelin": 90,
+    "total": 1279,
+    "michelin": 91,
     "keysEntries": 79
   },
   "countries": {
@@ -201,8 +201,8 @@
       "keysEntries": 0
     },
     "copenhague": {
-      "restaurants": 7,
-      "hotels": 1,
+      "restaurants": 11,
+      "hotels": 2,
       "markets": 0,
       "cities": 1,
       "lojaVinho": 0,
@@ -211,7 +211,7 @@
       "m1": 1,
       "m2": 0,
       "m3": 0,
-      "bib": 0,
+      "bib": 1,
       "green": 0,
       "rec": 0,
       "keys1": 0,
@@ -219,7 +219,7 @@
       "keys3": 0,
       "totalStars": 1,
       "totalKeys": 0,
-      "michelin": 1,
+      "michelin": 2,
       "keysEntries": 0
     },
     "coreia": {
@@ -795,13 +795,13 @@
       "keysEntries": 0
     },
     "suecia": {
-      "restaurants": 0,
+      "restaurants": 4,
       "hotels": 0,
       "markets": 0,
-      "cities": 0,
+      "cities": 1,
       "lojaVinho": 0,
-      "wineBar": 0,
-      "mercado": 0,
+      "wineBar": 1,
+      "mercado": 1,
       "m1": 0,
       "m2": 0,
       "m3": 0,
