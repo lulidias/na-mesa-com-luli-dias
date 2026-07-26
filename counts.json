@@ -1,9 +1,9 @@
 {
   "totals": {
     "restaurants": 1090,
-    "hotels": 174,
+    "hotels": 180,
     "markets": 13,
-    "cities": 214,
+    "cities": 215,
     "lojaVinho": 2,
     "wineBar": 11,
     "mercado": 20,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 108,
-    "total": 1264,
+    "total": 1270,
     "michelin": 90,
     "keysEntries": 79
   },
@@ -928,9 +928,9 @@
     },
     "brasil": {
       "restaurants": 506,
-      "hotels": 62,
+      "hotels": 68,
       "markets": 0,
-      "cities": 55,
+      "cities": 56,
       "lojaVinho": 0,
       "wineBar": 6,
       "mercado": 0,
@@ -950,7 +950,7 @@
     },
     "brasil-centroeste": {
       "restaurants": 39,
-      "hotels": 5,
+      "hotels": 6,
       "markets": 0,
       "cities": 4,
       "lojaVinho": 0,
@@ -994,9 +994,9 @@
     },
     "brasil-sudeste": {
       "restaurants": 310,
-      "hotels": 33,
+      "hotels": 35,
       "markets": 0,
-      "cities": 23,
+      "cities": 24,
       "lojaVinho": 0,
       "wineBar": 5,
       "mercado": 0,
@@ -1016,7 +1016,7 @@
     },
     "brasil-sul": {
       "restaurants": 73,
-      "hotels": 8,
+      "hotels": 11,
       "markets": 0,
       "cities": 12,
       "lojaVinho": 0,
@@ -1050,7 +1050,7 @@
     },
     "Goiás": {
       "restaurants": 24,
-      "hotels": 2,
+      "hotels": 4,
       "cities": 2
     },
     "Ceará": {
@@ -1085,8 +1085,8 @@
     },
     "São Paulo": {
       "restaurants": 496,
-      "hotels": 38,
-      "cities": 36
+      "hotels": 42,
+      "cities": 38
     },
     "Minas Gerais": {
       "restaurants": 16,
@@ -1105,12 +1105,12 @@
     },
     "Paraná": {
       "restaurants": 48,
-      "hotels": 4,
+      "hotels": 8,
       "cities": 8
     },
     "Santa Catarina": {
       "restaurants": 50,
-      "hotels": 4,
+      "hotels": 6,
       "cities": 8
     },
     "Rio Grande do Sul": {
