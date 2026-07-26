@@ -13,15 +13,15 @@
     "bib": 29,
     "green": 1,
     "rec": 62,
-    "keys1": 53,
-    "keys2": 26,
-    "keys3": 3,
+    "keys1": 25,
+    "keys2": 10,
+    "keys3": 6,
     "countries": 42,
     "totalStars": 82,
-    "totalKeys": 114,
+    "totalKeys": 63,
     "total": 1280,
     "michelin": 91,
-    "keysEntries": 82
+    "keysEntries": 41
   },
   "countries": {
     "alemanha": {
@@ -171,12 +171,12 @@
       "green": 0,
       "rec": 1,
       "keys1": 1,
-      "keys2": 1,
+      "keys2": 0,
       "keys3": 0,
       "totalStars": 1,
-      "totalKeys": 3,
+      "totalKeys": 1,
       "michelin": 2,
-      "keysEntries": 2
+      "keysEntries": 1
     },
     "colombia": {
       "restaurants": 2,
@@ -303,12 +303,12 @@
       "green": 0,
       "rec": 1,
       "keys1": 0,
-      "keys2": 1,
+      "keys2": 0,
       "keys3": 0,
       "totalStars": 0,
-      "totalKeys": 2,
+      "totalKeys": 0,
       "michelin": 0,
-      "keysEntries": 1
+      "keysEntries": 0
     },
     "escocia": {
       "restaurants": 6,
@@ -324,13 +324,13 @@
       "bib": 0,
       "green": 0,
       "rec": 0,
-      "keys1": 1,
+      "keys1": 0,
       "keys2": 0,
       "keys3": 0,
       "totalStars": 0,
-      "totalKeys": 1,
+      "totalKeys": 0,
       "michelin": 0,
-      "keysEntries": 1
+      "keysEntries": 0
     },
     "espanha": {
       "restaurants": 49,
@@ -368,13 +368,13 @@
       "bib": 0,
       "green": 0,
       "rec": 0,
-      "keys1": 3,
-      "keys2": 2,
+      "keys1": 0,
+      "keys2": 0,
       "keys3": 0,
       "totalStars": 1,
-      "totalKeys": 7,
+      "totalKeys": 0,
       "michelin": 1,
-      "keysEntries": 5
+      "keysEntries": 0
     },
     "franca": {
       "restaurants": 127,
@@ -390,13 +390,13 @@
       "bib": 2,
       "green": 0,
       "rec": 8,
-      "keys1": 4,
-      "keys2": 2,
-      "keys3": 1,
+      "keys1": 1,
+      "keys2": 0,
+      "keys3": 2,
       "totalStars": 20,
-      "totalKeys": 11,
+      "totalKeys": 7,
       "michelin": 17,
-      "keysEntries": 7
+      "keysEntries": 3
     },
     "grecia": {
       "restaurants": 4,
@@ -434,13 +434,13 @@
       "bib": 1,
       "green": 0,
       "rec": 0,
-      "keys1": 2,
+      "keys1": 0,
       "keys2": 0,
       "keys3": 0,
       "totalStars": 5,
-      "totalKeys": 2,
+      "totalKeys": 0,
       "michelin": 5,
-      "keysEntries": 2
+      "keysEntries": 0
     },
     "hongkong": {
       "restaurants": 2,
@@ -456,13 +456,13 @@
       "bib": 1,
       "green": 0,
       "rec": 1,
-      "keys1": 1,
+      "keys1": 0,
       "keys2": 0,
       "keys3": 0,
       "totalStars": 0,
-      "totalKeys": 1,
+      "totalKeys": 0,
       "michelin": 1,
-      "keysEntries": 1
+      "keysEntries": 0
     },
     "inglaterra": {
       "restaurants": 6,
@@ -500,13 +500,13 @@
       "bib": 1,
       "green": 0,
       "rec": 0,
-      "keys1": 2,
+      "keys1": 1,
       "keys2": 1,
       "keys3": 0,
       "totalStars": 0,
-      "totalKeys": 4,
+      "totalKeys": 3,
       "michelin": 1,
-      "keysEntries": 3
+      "keysEntries": 2
     },
     "irlanda-norte": {
       "restaurants": 3,
@@ -544,13 +544,13 @@
       "bib": 0,
       "green": 0,
       "rec": 2,
-      "keys1": 1,
+      "keys1": 0,
       "keys2": 1,
       "keys3": 0,
       "totalStars": 6,
-      "totalKeys": 3,
+      "totalKeys": 2,
       "michelin": 4,
-      "keysEntries": 2
+      "keysEntries": 1
     },
     "japao": {
       "restaurants": 32,
@@ -589,12 +589,12 @@
       "green": 0,
       "rec": 0,
       "keys1": 0,
-      "keys2": 1,
+      "keys2": 0,
       "keys3": 0,
       "totalStars": 1,
-      "totalKeys": 2,
+      "totalKeys": 0,
       "michelin": 1,
-      "keysEntries": 1
+      "keysEntries": 0
     },
     "luxemburgo": {
       "restaurants": 5,
@@ -654,13 +654,13 @@
       "bib": 0,
       "green": 0,
       "rec": 1,
-      "keys1": 1,
+      "keys1": 0,
       "keys2": 0,
       "keys3": 0,
       "totalStars": 2,
-      "totalKeys": 1,
+      "totalKeys": 0,
       "michelin": 1,
-      "keysEntries": 1
+      "keysEntries": 0
     },
     "noruega": {
       "restaurants": 6,
@@ -720,13 +720,13 @@
       "bib": 0,
       "green": 0,
       "rec": 0,
-      "keys1": 4,
+      "keys1": 1,
       "keys2": 1,
       "keys3": 0,
       "totalStars": 0,
-      "totalKeys": 6,
+      "totalKeys": 3,
       "michelin": 0,
-      "keysEntries": 5
+      "keysEntries": 2
     },
     "portugal": {
       "restaurants": 108,
@@ -742,13 +742,13 @@
       "bib": 2,
       "green": 1,
       "rec": 12,
-      "keys1": 9,
-      "keys2": 5,
+      "keys1": 5,
+      "keys2": 2,
       "keys3": 1,
       "totalStars": 7,
-      "totalKeys": 22,
+      "totalKeys": 12,
       "michelin": 8,
-      "keysEntries": 15
+      "keysEntries": 8
     },
     "qatar": {
       "restaurants": 3,
@@ -764,11 +764,11 @@
       "bib": 0,
       "green": 0,
       "rec": 2,
-      "keys1": 0,
-      "keys2": 1,
+      "keys1": 1,
+      "keys2": 0,
       "keys3": 0,
       "totalStars": 0,
-      "totalKeys": 2,
+      "totalKeys": 1,
       "michelin": 0,
       "keysEntries": 1
     },
@@ -918,11 +918,11 @@
       "bib": 0,
       "green": 0,
       "rec": 0,
-      "keys1": 0,
-      "keys2": 1,
+      "keys1": 1,
+      "keys2": 0,
       "keys3": 0,
       "totalStars": 1,
-      "totalKeys": 2,
+      "totalKeys": 1,
       "michelin": 1,
       "keysEntries": 1
     },
@@ -940,13 +940,13 @@
       "bib": 16,
       "green": 0,
       "rec": 19,
-      "keys1": 18,
-      "keys2": 6,
-      "keys3": 0,
+      "keys1": 8,
+      "keys2": 2,
+      "keys3": 2,
       "totalStars": 22,
-      "totalKeys": 30,
+      "totalKeys": 18,
       "michelin": 31,
-      "keysEntries": 24
+      "keysEntries": 12
     },
     "brasil-centroeste": {
       "restaurants": 39,
@@ -984,13 +984,13 @@
       "bib": 0,
       "green": 0,
       "rec": 0,
-      "keys1": 3,
+      "keys1": 2,
       "keys2": 0,
       "keys3": 0,
       "totalStars": 0,
-      "totalKeys": 3,
+      "totalKeys": 2,
       "michelin": 0,
-      "keysEntries": 3
+      "keysEntries": 2
     },
     "brasil-sudeste": {
       "restaurants": 310,
@@ -1006,13 +1006,13 @@
       "bib": 16,
       "green": 0,
       "rec": 18,
-      "keys1": 11,
-      "keys2": 5,
-      "keys3": 0,
+      "keys1": 4,
+      "keys2": 2,
+      "keys3": 1,
       "totalStars": 22,
-      "totalKeys": 21,
+      "totalKeys": 11,
       "michelin": 31,
-      "keysEntries": 16
+      "keysEntries": 7
     },
     "brasil-sul": {
       "restaurants": 73,
@@ -1028,13 +1028,13 @@
       "bib": 0,
       "green": 0,
       "rec": 1,
-      "keys1": 3,
-      "keys2": 1,
-      "keys3": 0,
+      "keys1": 1,
+      "keys2": 0,
+      "keys3": 1,
       "totalStars": 0,
-      "totalKeys": 5,
+      "totalKeys": 4,
       "michelin": 0,
-      "keysEntries": 4
+      "keysEntries": 2
     }
   },
   "states": {
