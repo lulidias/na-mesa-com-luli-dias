@@ -13,15 +13,15 @@
     "bib": 29,
     "green": 1,
     "rec": 62,
-    "keys1": 51,
+    "keys1": 53,
     "keys2": 26,
-    "keys3": 2,
+    "keys3": 3,
     "countries": 42,
     "totalStars": 82,
-    "totalKeys": 109,
+    "totalKeys": 114,
     "total": 1280,
     "michelin": 91,
-    "keysEntries": 79
+    "keysEntries": 82
   },
   "countries": {
     "alemanha": {
@@ -60,11 +60,11 @@
       "bib": 0,
       "green": 0,
       "rec": 8,
-      "keys1": 0,
-      "keys2": 1,
+      "keys1": 1,
+      "keys2": 0,
       "keys3": 0,
       "totalStars": 3,
-      "totalKeys": 2,
+      "totalKeys": 1,
       "michelin": 3,
       "keysEntries": 1
     },
@@ -214,13 +214,13 @@
       "bib": 1,
       "green": 0,
       "rec": 0,
-      "keys1": 0,
+      "keys1": 1,
       "keys2": 0,
       "keys3": 0,
       "totalStars": 1,
-      "totalKeys": 0,
+      "totalKeys": 1,
       "michelin": 2,
-      "keysEntries": 0
+      "keysEntries": 1
     },
     "coreia": {
       "restaurants": 23,
@@ -500,13 +500,13 @@
       "bib": 1,
       "green": 0,
       "rec": 0,
-      "keys1": 1,
+      "keys1": 2,
       "keys2": 1,
       "keys3": 0,
       "totalStars": 0,
-      "totalKeys": 3,
+      "totalKeys": 4,
       "michelin": 1,
-      "keysEntries": 2
+      "keysEntries": 3
     },
     "irlanda-norte": {
       "restaurants": 3,
@@ -633,12 +633,12 @@
       "green": 0,
       "rec": 0,
       "keys1": 0,
-      "keys2": 0,
+      "keys2": 1,
       "keys3": 0,
       "totalStars": 0,
-      "totalKeys": 0,
+      "totalKeys": 2,
       "michelin": 0,
-      "keysEntries": 0
+      "keysEntries": 1
     },
     "monaco": {
       "restaurants": 4,
@@ -743,10 +743,10 @@
       "green": 1,
       "rec": 12,
       "keys1": 9,
-      "keys2": 6,
-      "keys3": 0,
+      "keys2": 5,
+      "keys3": 1,
       "totalStars": 7,
-      "totalKeys": 21,
+      "totalKeys": 22,
       "michelin": 8,
       "keysEntries": 15
     },
@@ -830,11 +830,11 @@
       "bib": 0,
       "green": 0,
       "rec": 0,
-      "keys1": 1,
-      "keys2": 0,
+      "keys1": 0,
+      "keys2": 1,
       "keys3": 0,
       "totalStars": 0,
-      "totalKeys": 1,
+      "totalKeys": 2,
       "michelin": 0,
       "keysEntries": 1
     },
