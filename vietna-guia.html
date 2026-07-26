@@ -101,6 +101,7 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 .card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
 .card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;margin-top:2px}
 .badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.bsel{font-size:8px;padding:3px 10px;border-radius:20px;background:#FBF6EC;color:#9A7B33;border:1px solid #D8BE7E;letter-spacing:.6px;font-weight:600}
 .card-meta-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .card-cuisine{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
 .card-price{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:1px}
@@ -258,6 +259,7 @@ const CITIES=[{"city": "Hanói", "region": "Vietnã", "entries": [{"n":"Le Club 
 
 const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Michelin',beach:'Beach Club'};
 const KEYS={1:'🗝 1 Chave',2:'🗝🗝 2 Chaves',3:'🗝🗝🗝 3 Chaves'};
+const SEL={slh:'✦ Small Luxury',lhw:'✦ Leading Hotels',rc:'✦ Relais & Châteaux',pref:'✦ Preferred',dh:'✦ Design Hotels',belmond:'✦ Belmond',aman:'✦ Aman',rosewood:'✦ Rosewood',sixsenses:'✦ Six Senses',oetker:'✦ Oetker Collection'};
 function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.repeat(pr)+'<span style="color:var(--border)">'+'$'.repeat(4-pr)+'</span></span>';}
 function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe')||q.includes('Sushi'))?'🦞':q&&(q.includes('Carne')||q.includes('Grelhado')||q.includes('Parrilla'))?'🥩':q&&(q.includes('Japan')||q.includes('Sushi'))?'🍣':q&&q.includes('Praia')?'🏖':q&&q.includes('Mercado')?'🛒':'🍽';}
@@ -324,6 +326,7 @@ function render(){
         const em=emoji(r.q||'');
         const badges=(r.t==='h'&&r.k?`<span class="badge bkeys${r.k}">${KEYS[r.k]}</span>`:'')+
                      (r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
+                     (r.sel?r.sel.split(' ').map(function(x){return '<span class="badge bsel">'+(SEL[x]||x)+'</span>';}).join(''):'')+
                      (r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
                      (r.h?'<span class="badge" data-i18n="acc">Hospedagem</span>':'')+(r.beach?'<span class="badge">Beach Club</span>':'');
         card.innerHTML=`<div class="card-photo-wrap"><img class="card-photo" loading="lazy" decoding="async" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'','${em}')"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc"${r.de?' data-en="'+r.de.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.df?' data-fr="'+r.df.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}>${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}${r.c?`<div class="curator-badge ${r.c}">✦ por ${r.c==="shared"?"Luli & Tito":(r.c==="tito"?"Tito":"Luli")}</div>`:""}</div>`;

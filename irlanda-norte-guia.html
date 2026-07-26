@@ -129,6 +129,7 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 .card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
 .card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;margin-top:2px}
 .badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.bsel{font-size:8px;padding:3px 10px;border-radius:20px;background:#FBF6EC;color:#9A7B33;border:1px solid #D8BE7E;letter-spacing:.6px;font-weight:600}
 .bm2,.bm1,.bbib,.bgreen,.brec,.bhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
 
 .card-meta-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
@@ -308,6 +309,7 @@ const CITIES=[
 
 const ML={m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};
 const KEYS={1:'🗝 1 Chave',2:'🗝🗝 2 Chaves',3:'🗝🗝🗝 3 Chaves'};
+const SEL={slh:'✦ Small Luxury',lhw:'✦ Leading Hotels',rc:'✦ Relais & Châteaux',pref:'✦ Preferred',dh:'✦ Design Hotels',belmond:'✦ Belmond',aman:'✦ Aman',rosewood:'✦ Rosewood',sixsenses:'✦ Six Senses',oetker:'✦ Oetker Collection'};
 const MBADGE={m2:'bm2',m1:'bm1',bib:'bbib',green:'bgreen',rec:'brec',award:'baward'};
 const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes':'#f7ede8','Italiana':'#f5f0e8','Japonesa':'#f0f0f5','default':'#f2ede8'};
 function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
