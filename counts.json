@@ -1,7 +1,7 @@
 {
   "totals": {
     "restaurants": 1098,
-    "hotels": 181,
+    "hotels": 182,
     "markets": 13,
     "cities": 216,
     "lojaVinho": 2,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 108,
-    "total": 1279,
+    "total": 1280,
     "michelin": 91,
     "keysEntries": 79
   },
@@ -884,7 +884,7 @@
     },
     "uruguai": {
       "restaurants": 10,
-      "hotels": 1,
+      "hotels": 2,
       "markets": 0,
       "cities": 2,
       "lojaVinho": 0,
