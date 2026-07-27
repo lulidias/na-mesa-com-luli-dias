@@ -355,7 +355,7 @@ function render(){
                      (r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
                      (r.sel?r.sel.split(' ').map(function(x){return '<span class="badge bsel">'+(SEL[x]||x)+'</span>';}).join(''):'')+
                      (r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
-                     (r.h?'<span class="badge" data-i18n="acc">Hospedagem</span>':'');
+                     (r.h||r.t==='h'?'<span class="badge" data-i18n="acc">Hospedagem</span>':'');
         card.innerHTML=`<div class="card-photo-wrap"><img class="card-photo" loading="lazy" decoding="async" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'','${em}')"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc"${r.de?' data-en="'+r.de.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.df?' data-fr="'+r.df.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}>${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}${r.c?`<div class="curator-badge ${r.c}">✦ por ${r.c==="shared"?"Luli & Tito":(r.c==="tito"?"Tito":"Luli")}</div>`:""}</div>`;
         grid.appendChild(card);
       });

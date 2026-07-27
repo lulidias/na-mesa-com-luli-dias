@@ -434,7 +434,7 @@ function render(){
                      (r.sel?r.sel.split(' ').map(function(x){return '<span class="badge bsel">'+(SEL[x]||x)+'</span>';}).join(''):'')+
                      (r.t==='m'?`<span class="badge bmarket">🛒 Mercado</span>`:'')+
                      (r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
-                     (r.h?'<span class="badge" data-i18n="acc">Hospedagem</span>':'');
+                     (r.h||r.t==='h'?'<span class="badge" data-i18n="acc">Hospedagem</span>':'');
         card.innerHTML=`
           <div class="card-photo-wrap"><img class="card-photo" loading="lazy" decoding="async" src="${'fotos/espanha/'+slug(r.n)+'.jpeg'}" alt="${r.n}" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'${bg}','${em}')"></div>
           <div class="card-body">

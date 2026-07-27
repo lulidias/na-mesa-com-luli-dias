@@ -403,7 +403,7 @@ function render(){
                      (r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
                      (r.sel?r.sel.split(' ').map(function(x){return '<span class="badge bsel">'+(SEL[x]||x)+'</span>';}).join(''):'')+
                      (r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
-                     (r.h?'<span class="badge bhotel" data-i18n="acc">Hospedagem</span>':'');
+                     (r.h||r.t==='h'?'<span class="badge bhotel" data-i18n="acc">Hospedagem</span>':'');
         card.innerHTML=`
           <div class="card-photo-wrap"><img class="card-photo" loading="lazy" decoding="async" src="fotos/aruba/${slug(r.n)}.jpeg" alt="${r.n}" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\' style=\\'background:${bg}\\'>${em}</div>'"></div>
           <div class="card-body">
