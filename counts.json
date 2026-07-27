@@ -1,7 +1,7 @@
 {
   "totals": {
-    "restaurants": 1098,
-    "hotels": 182,
+    "restaurants": 1099,
+    "hotels": 183,
     "markets": 13,
     "cities": 216,
     "lojaVinho": 2,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 63,
-    "total": 1280,
+    "total": 1282,
     "michelin": 91,
     "keysEntries": 41
   },
@@ -773,8 +773,8 @@
       "keysEntries": 1
     },
     "romenia": {
-      "restaurants": 5,
-      "hotels": 1,
+      "restaurants": 6,
+      "hotels": 2,
       "markets": 1,
       "cities": 1,
       "lojaVinho": 0,
