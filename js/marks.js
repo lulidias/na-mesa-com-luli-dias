@@ -784,6 +784,8 @@
         .observe(document.body,{childList:true,subtree:true});
     }).catch(function(){});
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',iniciar);
-  else iniciar();
+  // Selo de estadias ("✦ Dormi aqui" / "↺ Voltei N×") DESATIVADO a pedido do Luli (2026-07-27):
+  // o guia já pressupõe que ele esteve pessoalmente em todos os lugares, então mostrar o selo
+  // em só alguns hotéis dava a impressão errada de que nos outros ele não dormiu.
+  // (iniciar() não é mais chamado; código mantido caso se queira reativar só o "Voltei N×" no futuro.)
 })();
