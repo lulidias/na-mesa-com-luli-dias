@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" id="html-root">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,11 +21,19 @@ body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-seri
 .top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:8px 24px;display:flex;align-items:center;gap:14px;position:fixed;top:0;left:0;right:0;z-index:1000;box-shadow:0 1px 8px rgba(0,0,0,.04);min-height:60px}
 .back-link{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;background:var(--gold-bg);border:1px solid var(--gold-lt);padding:6px 12px;border-radius:24px;flex-shrink:0;transition:all .2s}
 .back-link:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
-.nav-brand{font-family:'Playfair Display',serif;font-size:18px;letter-spacing:5px;color:var(--ink);text-decoration:none;font-weight:400}
-.nav-brand:hover{color:var(--gold)}
+.nav-brand{display:flex;flex-direction:column;align-items:flex-start;text-decoration:none;line-height:1;gap:3px}
+.nav-brand-name{font-family:'Playfair Display',serif;font-size:16px;letter-spacing:5px;color:var(--ink);font-weight:400}
+.nav-brand-tag{font-size:6px;letter-spacing:2px;color:var(--ink-lt);text-transform:uppercase}
+.nav-brand:hover .nav-brand-name{color:var(--gold)}
 .nav-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);font-weight:500;margin-left:auto}
+.util-link{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt);font-weight:500;background:none;border:none;cursor:pointer;font-family:'Montserrat',sans-serif}
+.util-link:hover{color:var(--gold)}
 .nav-clear{font-size:9px;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid var(--border);color:var(--ink-xs);padding:5px 12px;border-radius:20px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s}
 .nav-clear:hover{border-color:#c00;color:#c00}
+#ld-lang-menu{position:fixed;display:none;flex-direction:column;background:#fff;border:1px solid #e6ddcf;border-radius:10px;box-shadow:0 10px 34px rgba(0,0,0,.14);z-index:99999;overflow:hidden;min-width:150px}
+#ld-lang-menu.open{display:flex}
+#ld-lang-menu button{background:none;border:none;text-align:left;padding:11px 16px;font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:1px;color:var(--ink);cursor:pointer}
+#ld-lang-menu button:hover{background:var(--gold-bg);color:var(--gold)}
 @media(max-width:600px){.nav-brand{display:none}.nav-title{margin-left:0}}
 /* ── Header ── */
 .page-header{text-align:center;padding:44px 24px 28px;border-bottom:1px solid var(--border);background:var(--white)}
@@ -67,117 +75,103 @@ body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-seri
 <body>
 
 <nav class="top-nav">
-  <a href="index.html" class="back-link">← Voltar</a>
-  <a href="index.html" class="nav-brand">LULI DIAS</a>
-  <span class="nav-title">Minha Lista</span>
-  <button class="nav-clear" onclick="clearAll()">Limpar tudo</button>
+  <a href="index.html" class="back-link" id="ml-back">← Voltar</a>
+  <a href="index.html" class="nav-brand"><span class="nav-brand-name">LULI DIAS</span><span class="nav-brand-tag">RESTAURANTS &amp; HOTELS</span></a>
+  <span class="nav-title" id="ml-title">Minha Lista</span>
+  <button id="lang-toggle" class="util-link" onclick="toggleLang()">🌐 PT</button>
+  <button class="nav-clear" id="ml-clear" onclick="clearAll()">Limpar tudo</button>
 </nav>
 
 <div class="page-header">
-  <div class="page-header-title">Minha Lista</div>
-  <div class="page-header-sub">Os lugares que marcou nos guias</div>
+  <div class="page-header-title" id="ml-htitle">Minha Lista</div>
+  <div class="page-header-sub" id="ml-hsub">Os lugares que marcou nos guias</div>
 </div>
 
 <div class="tabs">
   <button class="tab on" id="tab-fui" onclick="setTab('fui')">
-    ✓ Já fui <span class="tab-count" id="cnt-fui">0</span>
+    <span id="lbl-fui">✓ Já fui</span> <span class="tab-count" id="cnt-fui">0</span>
   </button>
   <button class="tab" id="tab-quero" onclick="setTab('quero')">
-    ♡ Quero ir <span class="tab-count" id="cnt-quero">0</span>
+    <span id="lbl-quero">♡ Quero ir</span> <span class="tab-count" id="cnt-quero">0</span>
   </button>
 </div>
 
 <div class="list-wrap" id="listWrap"></div>
 
 <script>
+var LANG = localStorage.getItem('ld-lang') || 'pt';
+var T = {
+ pt:{back:'← Voltar',title:'Minha Lista',sub:'Os lugares que marcou nos guias',clear:'Limpar tudo',fui:'✓ Já fui',quero:'♡ Quero ir',empty:'Nenhum lugar aqui',mfui:'lugares que já visitou',mquero:'lugares que quer visitar',markPre:'Marque ',markPos:'<br>diretamente nos cards dos guias',explore:'Explorar guias →',goto:'Ver no guia →',confirm:'Apagar toda a lista?'},
+ en:{back:'← Back',title:'My List',sub:'The places you saved in the guides',clear:'Clear all',fui:'✓ Been there',quero:'♡ Want to go',empty:'Nothing here yet',mfui:'places you have visited',mquero:'places you want to visit',markPre:'Save ',markPos:'<br>directly on the guide cards',explore:'Explore guides →',goto:'View in guide →',confirm:'Clear the whole list?'},
+ fr:{back:'← Retour',title:'Ma liste',sub:'Les adresses enregistrées dans les guides',clear:'Tout effacer',fui:'✓ J’y suis allé',quero:'♡ À visiter',empty:'Rien ici pour l’instant',mfui:'les adresses que vous avez visitées',mquero:'les adresses que vous voulez visiter',markPre:'Enregistrez ',markPos:'<br>directement sur les fiches des guides',explore:'Explorer les guides →',goto:'Voir dans le guide →',confirm:'Effacer toute la liste ?'},
+ es:{back:'← Volver',title:'Mi lista',sub:'Los lugares que guardaste en las guías',clear:'Borrar todo',fui:'✓ Ya fui',quero:'♡ Quiero ir',empty:'Aún no hay nada aquí',mfui:'lugares que ya visitaste',mquero:'lugares que quieres visitar',markPre:'Guarda ',markPos:'<br>directamente en las tarjetas de las guías',explore:'Explorar guías →',goto:'Ver en la guía →',confirm:'¿Borrar toda la lista?'},
+ it:{back:'← Indietro',title:'La mia lista',sub:'I luoghi salvati nelle guide',clear:'Cancella tutto',fui:'✓ Ci sono stato',quero:'♡ Da visitare',empty:'Qui non c’è ancora nulla',mfui:'i luoghi che hai visitato',mquero:'i luoghi che vuoi visitare',markPre:'Salva ',markPos:'<br>direttamente sulle schede delle guide',explore:'Esplora le guide →',goto:'Vedi nella guida →',confirm:'Cancellare tutta la lista?'},
+ de:{back:'← Zurück',title:'Meine Liste',sub:'Die in den Guides gespeicherten Orte',clear:'Alles löschen',fui:'✓ War ich',quero:'♡ Will ich hin',empty:'Hier ist noch nichts',mfui:'Orte, die du besucht hast',mquero:'Orte, die du besuchen möchtest',markPre:'Speichere ',markPos:'<br>direkt auf den Guide-Karten',explore:'Guides entdecken →',goto:'Im Guide ansehen →',confirm:'Die ganze Liste löschen?'}
+};
+function t(k){ return (T[LANG] && T[LANG][k]) || T.pt[k] || k; }
+
+function applyLang(){
+  document.getElementById('html-root').lang = LANG==='pt'?'pt-BR':LANG;
+  document.getElementById('ml-back').textContent = t('back');
+  document.getElementById('ml-title').textContent = t('title');
+  document.getElementById('ml-htitle').textContent = t('title');
+  document.getElementById('ml-hsub').textContent = t('sub');
+  document.getElementById('ml-clear').textContent = t('clear');
+  document.getElementById('lbl-fui').textContent = t('fui');
+  document.getElementById('lbl-quero').textContent = t('quero');
+  var tg = document.getElementById('lang-toggle');
+  tg.textContent = '🌐 ' + LANG.toUpperCase();
+  tg.style.color = 'var(--gold)';
+}
+
+window.setLang = function(l){ LANG=l; try{localStorage.setItem('ld-lang',l);}catch(e){} applyLang(); render(); var m=document.getElementById('ld-lang-menu'); if(m)m.classList.remove('open'); };
+window.toggleLang = function(){
+  var m=document.getElementById('ld-lang-menu');
+  if(!m){
+    m=document.createElement('div'); m.id='ld-lang-menu';
+    m.innerHTML="<button type=button onclick=\"setLang('pt')\">Português</button><button type=button onclick=\"setLang('en')\">English</button><button type=button onclick=\"setLang('fr')\">Français</button><button type=button onclick=\"setLang('es')\">Español</button><button type=button onclick=\"setLang('it')\">Italiano</button><button type=button onclick=\"setLang('de')\">Deutsch</button>";
+    document.body.appendChild(m);
+  }
+  var b=document.getElementById('lang-toggle'), r=b.getBoundingClientRect();
+  m.style.top=(r.bottom+6)+'px'; m.style.right=(window.innerWidth-r.right)+'px'; m.style.left='auto';
+  m.classList.toggle('open');
+};
+document.addEventListener('click',function(e){ var m=document.getElementById('ld-lang-menu'); if(m&&m.classList.contains('open')&&!m.contains(e.target)&&e.target.id!=='lang-toggle') m.classList.remove('open'); });
+
 var activeTab = 'fui';
-
-function getMarks(){
-  try{ return JSON.parse(localStorage.getItem('ld-marks')||'{}'); }catch(e){ return {}; }
-}
-
-function removeMark(key){
-  var m = getMarks(); delete m[key];
-  localStorage.setItem('ld-marks', JSON.stringify(m));
-  render();
-}
-
-function clearAll(){
-  if(!confirm('Apagar toda a lista?')) return;
-  localStorage.removeItem('ld-marks');
-  render();
-}
-
-function setTab(t){
-  activeTab = t;
-  document.getElementById('tab-fui').classList.toggle('on', t==='fui');
-  document.getElementById('tab-quero').classList.toggle('on', t==='quero');
-  render();
-}
+function getMarks(){ try{ return JSON.parse(localStorage.getItem('ld-marks')||'{}'); }catch(e){ return {}; } }
+function removeMark(key){ var m=getMarks(); delete m[key]; localStorage.setItem('ld-marks', JSON.stringify(m)); render(); }
+function clearAll(){ if(!confirm(t('confirm'))) return; localStorage.removeItem('ld-marks'); render(); }
+function setTab(t2){ activeTab=t2; document.getElementById('tab-fui').classList.toggle('on', t2==='fui'); document.getElementById('tab-quero').classList.toggle('on', t2==='quero'); render(); }
 
 function render(){
-  var marks = getMarks();
-  var all   = Object.entries(marks);
-  var fui   = all.filter(function(e){ return e[1].type==='fui'; });
-  var quero = all.filter(function(e){ return e[1].type==='quero'; });
-
-  document.getElementById('cnt-fui').textContent   = fui.length;
-  document.getElementById('cnt-quero').textContent = quero.length;
-
-  var items = activeTab === 'fui' ? fui : quero;
-  var wrap  = document.getElementById('listWrap');
-
+  var marks=getMarks(), all=Object.entries(marks);
+  var fui=all.filter(function(e){return e[1].type==='fui';});
+  var quero=all.filter(function(e){return e[1].type==='quero';});
+  document.getElementById('cnt-fui').textContent=fui.length;
+  document.getElementById('cnt-quero').textContent=quero.length;
+  var items=activeTab==='fui'?fui:quero, wrap=document.getElementById('listWrap');
   if(!items.length){
-    var label = activeTab==='fui' ? 'lugares que já visitou' : 'lugares que quer visitar';
-    wrap.innerHTML =
-      '<div class="empty">' +
-        '<div class="empty-icon">' + (activeTab==='fui'?'✓':'♡') + '</div>' +
-        '<div class="empty-title">Nenhum lugar aqui</div>' +
-        '<div class="empty-msg">Marque ' + label + '<br>diretamente nos cards dos guias</div>' +
-        '<a href="index.html" class="empty-link">Explorar guias →</a>' +
-      '</div>';
+    var label=activeTab==='fui'?t('mfui'):t('mquero');
+    wrap.innerHTML='<div class="empty"><div class="empty-icon">'+(activeTab==='fui'?'✓':'♡')+'</div><div class="empty-title">'+t('empty')+'</div><div class="empty-msg">'+t('markPre')+label+t('markPos')+'</div><a href="index.html" class="empty-link">'+t('explore')+'</a></div>';
     return;
   }
-
-  // Sort by country then name
-  items.sort(function(a,b){
-    var ca = (a[1].country||''), cb = (b[1].country||'');
-    if(ca!==cb) return ca.localeCompare(cb,'pt');
-    return (a[1].name||'').localeCompare(b[1].name||'','pt');
-  });
-
-  // Group by country
-  var groups = {};
-  items.forEach(function(pair){
-    var m = pair[1];
-    var c = m.country||'';
-    if(!groups[c]) groups[c] = { flag: m.flag||'', items: [] };
-    groups[c].items.push({ key: pair[0], mark: m });
-  });
-
-  var html = '';
+  items.sort(function(a,b){ var ca=(a[1].country||''),cb=(b[1].country||''); if(ca!==cb) return ca.localeCompare(cb,'pt'); return (a[1].name||'').localeCompare(b[1].name||'','pt'); });
+  var groups={};
+  items.forEach(function(pair){ var m=pair[1],c=m.country||''; if(!groups[c])groups[c]={flag:m.flag||'',items:[]}; groups[c].items.push({key:pair[0],mark:m}); });
+  var html='';
   Object.keys(groups).sort(function(a,b){return a.localeCompare(b,'pt');}).forEach(function(country){
-    var g = groups[country];
-    html += '<div class="section-label">' + g.flag + ' ' + country + '</div>';
+    var g=groups[country];
+    html+='<div class="section-label">'+g.flag+' '+country+'</div>';
     g.items.forEach(function(it){
-      var guide = (it.mark.guide||'').replace(/\.html$/,'');
-      var url   = (it.mark.guide||'#') + '?q=' + encodeURIComponent(it.mark.name||'');
-      html += '<div class="item">' +
-        '<div class="item-flag">' + (it.mark.flag||'🏳️') + '</div>' +
-        '<div class="item-body">' +
-          '<div class="item-name">' + (it.mark.name||'') + '</div>' +
-          '<div class="item-meta"><span class="item-country">' + country + '</span></div>' +
-        '</div>' +
-        '<div class="item-actions">' +
-          '<a class="item-goto" href="' + url + '">Ver no guia →</a>' +
-          '<button class="item-del" onclick="removeMark(' + JSON.stringify(it.key) + ')" title="Remover">✕</button>' +
-        '</div>' +
-        '</div>';
+      var url=(it.mark.guide||'#')+'?q='+encodeURIComponent(it.mark.name||'');
+      html+='<div class="item"><div class="item-flag">'+(it.mark.flag||'🏳️')+'</div><div class="item-body"><div class="item-name">'+(it.mark.name||'')+'</div><div class="item-meta"><span class="item-country">'+country+'</span></div></div><div class="item-actions"><a class="item-goto" href="'+url+'">'+t('goto')+'</a><button class="item-del" onclick="removeMark('+JSON.stringify(it.key)+')" title="✕">✕</button></div></div>';
     });
   });
-  wrap.innerHTML = html;
+  wrap.innerHTML=html;
 }
 
+applyLang();
 render();
 </script>
 </body>
