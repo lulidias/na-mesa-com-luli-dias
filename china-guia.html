@@ -99,7 +99,7 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 .card-body{padding:20px 22px 18px}
 .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
 .card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
-.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;margin-top:2px}
+.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:1;max-width:60%;margin-top:2px}
 .badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
 .bsel{font-size:8px;padding:3px 10px;border-radius:20px;background:#FBF6EC;color:#9A7B33;border:1px solid #D8BE7E;letter-spacing:.6px;font-weight:600}
 .card-meta-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
@@ -344,7 +344,7 @@ function render(){
                      (r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
                      (r.sel?r.sel.split(' ').map(function(x){return '<span class="badge bsel">'+(SEL[x]||x)+'</span>';}).join(''):'')+
                      (r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
-                     (r.h||r.t==='h'?'<span class="badge" data-i18n="acc">Hospedagem</span>':'')+(r.beach?'<span class="badge">Beach Club</span>':'');
+                     ''+(r.beach?'<span class="badge">Beach Club</span>':'');
         card.innerHTML=`<div class="card-photo-wrap"><img class="card-photo" loading="lazy" decoding="async" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'','${em}')"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc"${r.de?' data-en="'+r.de.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.df?' data-fr="'+r.df.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.des?' data-es="'+r.des.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.dit?' data-it="'+r.dit.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.dde?' data-de="'+r.dde.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}>${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}${r.c?`<div class="curator-badge ${r.c}">✦ por ${r.c==="shared"?"Luli & Tito":(r.c==="tito"?"Tito":"Luli")}</div>`:""}</div>`;
         grid.appendChild(card);
       });

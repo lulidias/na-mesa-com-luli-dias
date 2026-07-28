@@ -127,7 +127,7 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 .card-body{padding:20px 22px 18px}
 .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
 .card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
-.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0;margin-top:2px}
+.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:1;max-width:60%;margin-top:2px}
 .badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
 .bsel{font-size:8px;padding:3px 10px;border-radius:20px;background:#FBF6EC;color:#9A7B33;border:1px solid #D8BE7E;letter-spacing:.6px;font-weight:600}
 .bm2,.bm1,.bbib,.bgreen,.brec,.bhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
@@ -403,7 +403,7 @@ function render(){
                      (r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
                      (r.sel?r.sel.split(' ').map(function(x){return '<span class="badge bsel">'+(SEL[x]||x)+'</span>';}).join(''):'')+
                      (r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
-                     (r.h||r.t==='h'?'<span class="badge bhotel" data-i18n="acc">Hospedagem</span>':'');
+                     '';
         card.innerHTML=`
           <div class="card-photo-wrap"><img class="card-photo" loading="lazy" decoding="async" src="fotos/aruba/${slug(r.n)}.jpeg" alt="${r.n}" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\' style=\\'background:${bg}\\'>${em}</div>'"></div>
           <div class="card-body">
