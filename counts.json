@@ -1,12 +1,12 @@
 {
   "totals": {
-    "restaurants": 1100,
+    "restaurants": 1065,
     "hotels": 183,
-    "markets": 13,
+    "markets": 23,
     "cities": 216,
     "lojaVinho": 2,
     "wineBar": 12,
-    "mercado": 21,
+    "mercado": 23,
     "m1": 44,
     "m2": 13,
     "m3": 4,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 63,
-    "total": 1283,
+    "total": 1285,
     "michelin": 91,
     "keysEntries": 41
   },
@@ -135,7 +135,7 @@
       "keysEntries": 0
     },
     "chile": {
-      "restaurants": 17,
+      "restaurants": 16,
       "hotels": 3,
       "markets": 0,
       "cities": 1,
@@ -201,9 +201,9 @@
       "keysEntries": 0
     },
     "copenhague": {
-      "restaurants": 11,
+      "restaurants": 10,
       "hotels": 2,
-      "markets": 0,
+      "markets": 1,
       "cities": 1,
       "lojaVinho": 0,
       "wineBar": 0,
@@ -223,9 +223,9 @@
       "keysEntries": 1
     },
     "coreia": {
-      "restaurants": 23,
+      "restaurants": 19,
       "hotels": 4,
-      "markets": 0,
+      "markets": 4,
       "cities": 4,
       "lojaVinho": 0,
       "wineBar": 0,
@@ -333,7 +333,7 @@
       "keysEntries": 0
     },
     "espanha": {
-      "restaurants": 49,
+      "restaurants": 45,
       "hotels": 5,
       "markets": 4,
       "cities": 12,
@@ -377,9 +377,9 @@
       "keysEntries": 0
     },
     "franca": {
-      "restaurants": 128,
+      "restaurants": 124,
       "hotels": 17,
-      "markets": 0,
+      "markets": 2,
       "cities": 38,
       "lojaVinho": 2,
       "wineBar": 0,
@@ -465,7 +465,7 @@
       "keysEntries": 0
     },
     "inglaterra": {
-      "restaurants": 6,
+      "restaurants": 5,
       "hotels": 0,
       "markets": 1,
       "cities": 1,
@@ -531,7 +531,7 @@
       "keysEntries": 0
     },
     "italia": {
-      "restaurants": 32,
+      "restaurants": 30,
       "hotels": 4,
       "markets": 0,
       "cities": 10,
@@ -553,13 +553,13 @@
       "keysEntries": 1
     },
     "japao": {
-      "restaurants": 32,
+      "restaurants": 25,
       "hotels": 2,
       "markets": 6,
       "cities": 7,
       "lojaVinho": 0,
       "wineBar": 1,
-      "mercado": 5,
+      "mercado": 6,
       "m1": 0,
       "m2": 0,
       "m3": 0,
@@ -729,7 +729,7 @@
       "keysEntries": 2
     },
     "portugal": {
-      "restaurants": 108,
+      "restaurants": 106,
       "hotels": 33,
       "markets": 1,
       "cities": 33,
@@ -773,13 +773,13 @@
       "keysEntries": 1
     },
     "romenia": {
-      "restaurants": 6,
+      "restaurants": 5,
       "hotels": 2,
       "markets": 1,
       "cities": 1,
       "lojaVinho": 0,
       "wineBar": 0,
-      "mercado": 0,
+      "mercado": 1,
       "m1": 0,
       "m2": 0,
       "m3": 0,
@@ -795,9 +795,9 @@
       "keysEntries": 0
     },
     "suecia": {
-      "restaurants": 4,
+      "restaurants": 2,
       "hotels": 0,
-      "markets": 0,
+      "markets": 1,
       "cities": 1,
       "lojaVinho": 0,
       "wineBar": 1,
@@ -817,9 +817,9 @@
       "keysEntries": 0
     },
     "tailandia": {
-      "restaurants": 8,
+      "restaurants": 7,
       "hotels": 1,
-      "markets": 0,
+      "markets": 1,
       "cities": 2,
       "lojaVinho": 0,
       "wineBar": 0,
@@ -839,9 +839,9 @@
       "keysEntries": 1
     },
     "taiwan": {
-      "restaurants": 6,
+      "restaurants": 5,
       "hotels": 1,
-      "markets": 0,
+      "markets": 1,
       "cities": 2,
       "lojaVinho": 0,
       "wineBar": 0,
@@ -927,7 +927,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 506,
+      "restaurants": 502,
       "hotels": 68,
       "markets": 0,
       "cities": 56,
@@ -971,7 +971,7 @@
       "keysEntries": 1
     },
     "brasil-nordeste": {
-      "restaurants": 84,
+      "restaurants": 83,
       "hotels": 16,
       "markets": 0,
       "cities": 16,
@@ -993,7 +993,7 @@
       "keysEntries": 2
     },
     "brasil-sudeste": {
-      "restaurants": 310,
+      "restaurants": 307,
       "hotels": 35,
       "markets": 0,
       "cities": 24,
@@ -1074,7 +1074,7 @@
       "cities": 6
     },
     "Pernambuco": {
-      "restaurants": 82,
+      "restaurants": 80,
       "hotels": 10,
       "cities": 12
     },
@@ -1084,7 +1084,7 @@
       "cities": 8
     },
     "São Paulo": {
-      "restaurants": 496,
+      "restaurants": 494,
       "hotels": 42,
       "cities": 38
     },
@@ -1094,7 +1094,7 @@
       "cities": 2
     },
     "Rio de Janeiro": {
-      "restaurants": 88,
+      "restaurants": 84,
       "hotels": 24,
       "cities": 6
     },

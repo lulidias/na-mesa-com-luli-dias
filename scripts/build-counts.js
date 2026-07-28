@@ -97,20 +97,24 @@ for (const source of guideSources) {
       if (!r) continue;
       if (r.pending) continue;  // pending entries don't count toward stats
       hasContent = true;
-      { const _cat = catOf(r.q); if (_cat) country[_cat]++; }
       if (r.t === 'h') {
         country.hotels++;
         if (r.k === 1) country.keys1++;
         else if (r.k === 2) country.keys2++;
         else if (r.k === 3) country.keys3++;
         if (city.region && source.files.some(f => f.startsWith('brasil-'))) states[city.region].hotels = (states[city.region].hotels || 0) + 1;
-      } else if (r.t === 'm') {
-        country.markets++;
-        country.restaurants++;
-        if (city.region && source.files.some(f => f.startsWith('brasil-'))) states[city.region].restaurants = (states[city.region].restaurants || 0) + 1;
       } else {
-        country.restaurants++;
-        if (city.region && source.files.some(f => f.startsWith('brasil-'))) states[city.region].restaurants = (states[city.region].restaurants || 0) + 1;
+        // Categorias DISJUNTAS: loja de vinho / wine bar / mercado contam no proprio
+        // balde e NAO em restaurantes, para o total nao sobrepor categorias.
+        let _cat = catOf(r.q);
+        if (!_cat && r.t === 'm') _cat = 'mercado';
+        if (_cat) {
+          country[_cat]++;
+          if (_cat === 'mercado') country.markets++;
+        } else {
+          country.restaurants++;
+          if (city.region && source.files.some(f => f.startsWith('brasil-'))) states[city.region].restaurants = (states[city.region].restaurants || 0) + 1;
+        }
       }
       if (r.m === 'm1') country.m1++;
       else if (r.m === 'm2') country.m2++;
@@ -139,7 +143,7 @@ for (const source of guideSources) {
 
 totals.totalStars = totals.m1 + totals.m2 * 2 + totals.m3 * 3;
 totals.totalKeys = totals.keys1 + totals.keys2 * 2 + totals.keys3 * 3;
-totals.total = totals.restaurants + totals.hotels;
+totals.total = totals.restaurants + totals.hotels + totals.lojaVinho + totals.wineBar + totals.mercado;
 totals.michelin = totals.m1 + totals.m2 + totals.m3 + totals.bib + totals.green;
 totals.keysEntries = totals.keys1 + totals.keys2 + totals.keys3;
 
