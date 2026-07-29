@@ -1,7 +1,7 @@
 {
   "totals": {
-    "restaurants": 1067,
-    "hotels": 185,
+    "restaurants": 1066,
+    "hotels": 184,
     "markets": 23,
     "cities": 216,
     "lojaVinho": 2,
@@ -13,15 +13,15 @@
     "bib": 29,
     "green": 1,
     "rec": 62,
-    "keys1": 25,
+    "keys1": 24,
     "keys2": 10,
     "keys3": 6,
     "countries": 42,
     "totalStars": 82,
-    "totalKeys": 63,
-    "total": 1289,
+    "totalKeys": 62,
+    "total": 1287,
     "michelin": 91,
-    "keysEntries": 41
+    "keysEntries": 40
   },
   "countries": {
     "alemanha": {
@@ -927,8 +927,8 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 504,
-      "hotels": 70,
+      "restaurants": 503,
+      "hotels": 69,
       "markets": 0,
       "cities": 56,
       "lojaVinho": 0,
@@ -940,13 +940,13 @@
       "bib": 16,
       "green": 0,
       "rec": 19,
-      "keys1": 8,
+      "keys1": 7,
       "keys2": 2,
       "keys3": 2,
       "totalStars": 22,
-      "totalKeys": 18,
+      "totalKeys": 17,
       "michelin": 31,
-      "keysEntries": 12
+      "keysEntries": 11
     },
     "brasil-centroeste": {
       "restaurants": 39,
@@ -1015,8 +1015,8 @@
       "keysEntries": 7
     },
     "brasil-sul": {
-      "restaurants": 73,
-      "hotels": 11,
+      "restaurants": 72,
+      "hotels": 10,
       "markets": 0,
       "cities": 12,
       "lojaVinho": 0,
@@ -1028,13 +1028,13 @@
       "bib": 0,
       "green": 0,
       "rec": 1,
-      "keys1": 1,
+      "keys1": 0,
       "keys2": 0,
       "keys3": 1,
       "totalStars": 0,
-      "totalKeys": 4,
+      "totalKeys": 3,
       "michelin": 0,
-      "keysEntries": 2
+      "keysEntries": 1
     }
   },
   "states": {
@@ -1104,13 +1104,13 @@
       "cities": 2
     },
     "Paraná": {
-      "restaurants": 48,
+      "restaurants": 46,
       "hotels": 8,
       "cities": 8
     },
     "Santa Catarina": {
       "restaurants": 50,
-      "hotels": 6,
+      "hotels": 4,
       "cities": 8
     },
     "Rio Grande do Sul": {
