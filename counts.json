@@ -1,9 +1,9 @@
 {
   "totals": {
-    "restaurants": 1074,
+    "restaurants": 1076,
     "hotels": 186,
     "markets": 27,
-    "cities": 217,
+    "cities": 218,
     "lojaVinho": 2,
     "wineBar": 12,
     "mercado": 27,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 62,
-    "total": 1301,
+    "total": 1303,
     "michelin": 91,
     "keysEntries": 40
   },
@@ -927,10 +927,10 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 511,
+      "restaurants": 513,
       "hotels": 71,
       "markets": 4,
-      "cities": 57,
+      "cities": 58,
       "lojaVinho": 0,
       "wineBar": 6,
       "mercado": 4,
@@ -971,10 +971,10 @@
       "keysEntries": 1
     },
     "brasil-nordeste": {
-      "restaurants": 86,
+      "restaurants": 88,
       "hotels": 16,
       "markets": 0,
-      "cities": 17,
+      "cities": 18,
       "lojaVinho": 0,
       "wineBar": 1,
       "mercado": 0,
@@ -1053,13 +1053,18 @@
       "hotels": 4,
       "cities": 2
     },
+    "Pará": {
+      "restaurants": 2,
+      "hotels": 0,
+      "cities": 2
+    },
     "Maranhão": {
       "restaurants": 8,
       "hotels": 0,
       "cities": 2
     },
     "Ceará": {
-      "restaurants": 18,
+      "restaurants": 20,
       "hotels": 2,
       "cities": 2
     },
