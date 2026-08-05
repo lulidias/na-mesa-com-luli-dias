@@ -1,12 +1,12 @@
 {
   "totals": {
-    "restaurants": 1069,
-    "hotels": 184,
-    "markets": 23,
+    "restaurants": 1070,
+    "hotels": 185,
+    "markets": 25,
     "cities": 216,
     "lojaVinho": 2,
     "wineBar": 12,
-    "mercado": 23,
+    "mercado": 25,
     "m1": 44,
     "m2": 13,
     "m3": 4,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 62,
-    "total": 1290,
+    "total": 1294,
     "michelin": 91,
     "keysEntries": 40
   },
@@ -927,13 +927,13 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 506,
-      "hotels": 69,
-      "markets": 0,
+      "restaurants": 507,
+      "hotels": 70,
+      "markets": 2,
       "cities": 56,
       "lojaVinho": 0,
       "wineBar": 6,
-      "mercado": 0,
+      "mercado": 2,
       "m1": 10,
       "m2": 3,
       "m3": 2,
@@ -1015,13 +1015,13 @@
       "keysEntries": 7
     },
     "brasil-sul": {
-      "restaurants": 74,
-      "hotels": 10,
-      "markets": 0,
+      "restaurants": 75,
+      "hotels": 11,
+      "markets": 2,
       "cities": 12,
       "lojaVinho": 0,
       "wineBar": 0,
-      "mercado": 0,
+      "mercado": 2,
       "m1": 0,
       "m2": 0,
       "m3": 0,
@@ -1104,8 +1104,8 @@
       "cities": 2
     },
     "Paraná": {
-      "restaurants": 44,
-      "hotels": 8,
+      "restaurants": 46,
+      "hotels": 10,
       "cities": 8
     },
     "Santa Catarina": {
