@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1068,
+    "restaurants": 1069,
     "hotels": 184,
     "markets": 23,
     "cities": 216,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 62,
-    "total": 1289,
+    "total": 1290,
     "michelin": 91,
     "keysEntries": 40
   },
@@ -927,7 +927,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 505,
+      "restaurants": 506,
       "hotels": 69,
       "markets": 0,
       "cities": 56,
@@ -1015,7 +1015,7 @@
       "keysEntries": 7
     },
     "brasil-sul": {
-      "restaurants": 73,
+      "restaurants": 74,
       "hotels": 10,
       "markets": 0,
       "cities": 12,
@@ -1109,7 +1109,7 @@
       "cities": 8
     },
     "Santa Catarina": {
-      "restaurants": 54,
+      "restaurants": 56,
       "hotels": 4,
       "cities": 8
     },
