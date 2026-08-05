@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+  <meta property="og:title" content="Brasil · Norte — Luli Dias · Restaurants &amp; Hotels">
+  <meta property="og:description" content="Um guia dos meus restaurantes e hotéis favoritos — São Paulo, Rio, Lisboa, Paris, Tóquio e mais.">
+  <meta property="og:url" content="https://lulidias.com/brasil-norte.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Luli Dias · Restaurants &amp; Hotels">
+  <meta property="og:image" content="https://lulidias.com/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Luli Dias · Restaurants &amp; Hotels">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://lulidias.com/og-image.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brasil · Norte — Luli Dias · Restaurants &amp; Hotels</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5;--card-bg:#FFF;
+  --m2:#E4002B;--m2bg:#FFF0F0;--m1:#C0001F;--m1bg:#FFF5F5;
+  --bib:#E8700A;--bibbg:#FFF5EE;--green:#2D7A3A;--greenbg:#F0F7F1;--rec:#4A6FA5;--recbg:#F0F4FA;
+  --hotel:#7B5EA7;--hotelbg:#F5F0FF;
+}
+html,body{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;}
+
+.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:8px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:fixed;top:0;left:0;right:0;z-index:1000;box-shadow:0 1px 8px rgba(0,0,0,.04);min-height:60px}
+body{padding-top:72px}
+@media(max-width:640px){body{padding-top:62px}}
+.top-nav-left{display:flex;align-items:center;gap:18px}
+.back-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;background:var(--gold-bg);border:1px solid var(--gold-lt);padding:7px 13px;border-radius:24px;display:inline-flex;align-items:center;gap:6px;transition:all .2s;flex-shrink:0}
+.back-link:hover{background:var(--gold);color:var(--white);border-color:var(--gold);transform:translateX(-2px)}
+.top-nav-brand{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;padding-left:6px;line-height:1}
+.top-nav-brand-name{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:20px;letter-spacing:8px;color:var(--ink);font-weight:400;padding-left:8px}
+.top-nav-brand-tag{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:8px;letter-spacing:3px;color:var(--ink-lt);font-weight:400}
+.top-nav-brand:hover .top-nav-brand-name{color:var(--gold)}
+.nav-sep{color:var(--border)}
+.nav-current{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);font-weight:500}
+@media(max-width:640px){
+  .top-nav{padding:8px 14px;min-height:52px;gap:10px}
+  .top-nav-left{gap:10px}
+  .top-nav-brand-name{font-size:14px;letter-spacing:5px;padding-left:5px}
+  .top-nav-brand-tag{font-size:6px;letter-spacing:1.8px}
+  .back-link{font-size:10px;padding:6px 10px;letter-spacing:1.5px}
+  .nav-current{font-size:8px;letter-spacing:2px}
+}
+@media(max-width:380px){
+  .top-nav-brand{display:none}
+}
+
+/* HEADER — brand redesign */
+header{background:var(--white);border-bottom:1px solid var(--border);padding:44px 48px 32px}
+.brand-mast{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:13px;letter-spacing:7px;padding-left:7px;color:var(--ink-lt);font-weight:400;margin-bottom:14px}
+.brand-country{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:48px;font-weight:400;color:var(--ink);font-style:italic;margin-bottom:18px}
+.header-orn{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.orn-line{height:1px;width:48px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+.header-meta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.header-meta{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs)}
+.header-edition{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+
+/* REGION FILTER */
+
+/* STATS — só restaurantes + cidades */
+.stats-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;flex-wrap:wrap}
+.stat{padding:0 28px;border-right:1px solid var(--border);text-align:center}
+.stat:first-child{padding-left:0}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);font-weight:600}
+.stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:2px}
+
+/* MICHELIN LEGEND — subtitle below stats */
+.michelin-legend{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.legend-title{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt)}
+.lbadge{font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.lm2,.lm1,.lbib,.lgreen,.lrec,.lhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+
+main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
+
+.city-sec{margin-bottom:64px}
+.city-hdr{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:24px}
+.city-hdr-left{display:flex;flex-direction:column;gap:6px}
+.city-region-lbl{font-size:8px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;display:flex;align-items:center;gap:10px}
+.city-region-lbl::before{content:'';display:inline-block;width:20px;height:1px;background:var(--gold)}
+.city-name{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--ink);letter-spacing:-1px;line-height:1}
+.city-count-block{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.city-count-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--gold);opacity:.25;line-height:1}
+.city-count-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-xs);margin-top:2px}
+.city-michelin{font-size:9px;color:var(--m2);font-weight:600;letter-spacing:1px;opacity:.85}
+
+.restaurants-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;background:transparent}
+
+.restaurant-card{background:var(--card-bg);overflow:hidden;border-left:3px solid var(--gold-lt);transition:box-shadow .3s;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.restaurant-card:hover{box-shadow:0 4px 24px rgba(184,146,42,.12);z-index:1;position:relative}
+
+.card-photo-wrap{width:100%;height:300px;overflow:hidden;background:var(--border)}
+.card-photo{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.restaurant-card:hover .card-photo{transform:scale(1.04)}
+.card-photo-placeholder{width:100%;height:300px;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3}
+
+.card-body{padding:20px 22px 18px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px}
+.card-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);line-height:1.2}
+.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:1;max-width:60%;margin-top:2px}
+.badge{font-size:7px;letter-spacing:1px;font-weight:600;padding:3px 7px;border-radius:10px;white-space:nowrap;background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+.bsel{font-size:8px;padding:3px 10px;border-radius:20px;background:#FBF6EC;color:#9A7B33;border:1px solid #D8BE7E;letter-spacing:.6px;font-weight:600}
+.bm2,.bm1,.bbib,.bgreen,.brec,.bhotel{background:var(--gold-bg);color:var(--gold-dk);border:1px solid var(--gold-lt)}
+
+.card-meta-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.card-cuisine{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:500}
+.card-price{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:1px}
+
+.card-desc{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--ink-lt);line-height:1.65;margin-bottom:12px}
+
+.card-contact{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.c-row{display:flex;align-items:flex-start;gap:8px}
+.c-icon{font-size:10px;color:var(--gold);min-width:16px;flex-shrink:0;margin-top:1px}
+.c-addr{font-size:10px;color:var(--ink-lt);cursor:pointer;line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-addr:hover{color:var(--gold)}
+.c-phone{font-size:10px;color:var(--ink-lt);line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-phone:hover{color:var(--gold)}
+.card-note{font-size:9px;color:var(--gold);font-style:italic;margin-top:8px}
+
+/* MAP MODAL */
+.map-modal{display:none;position:fixed;inset:0;z-index:1000;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.45)}
+.map-modal.open{display:flex}
+.map-sheet{background:var(--white);border-radius:16px 16px 0 0;padding:28px 24px 44px;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(0,0,0,.18)}
+.map-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);margin-bottom:4px}
+.map-addr-txt{font-size:10px;color:var(--ink-lt);margin-bottom:22px;line-height:1.5}
+.map-options{display:flex;flex-direction:column;gap:10px}
+.map-btn{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:10px;border:1px solid var(--border);background:var(--white);cursor:pointer;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:500;color:var(--ink);transition:background .15s}
+.map-btn:hover{background:var(--gold-bg)}
+.map-btn-icon{font-size:24px;width:32px;text-align:center;flex-shrink:0}
+.map-btn-sub{font-size:9px;color:var(--ink-xs);font-weight:400;display:block;margin-top:2px}
+.map-cancel{margin-top:16px;width:100%;padding:12px;border:none;background:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer}
+
+footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
+footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
+footer a{color:var(--gold);text-decoration:none}
+.filters{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.view-toggle{background:var(--white);border-bottom:1px solid var(--border);padding:14px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end}
+.view-toggle-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:auto}
+.view-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 18px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.view-btn:hover{border-color:var(--gold);color:var(--gold)}
+.view-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.cuisine-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.cuisine-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
+.cuisine-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;padding:5px 12px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.cuisine-btn:hover{border-color:var(--gold);color:var(--gold)}
+.cuisine-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+#map{height:70vh;width:100%;max-width:1400px;margin:24px auto;border-radius:4px;border:1px solid var(--border)}
+.leaflet-popup-content{margin:14px 18px;line-height:1.4}
+.leaflet-popup-content-wrapper{border-radius:6px}
+.leaflet-tooltip.custom-tooltip{background:#fff;border:1px solid #E8E0D5;border-radius:6px;padding:8px 12px;box-shadow:0 4px 12px rgba(0,0,0,.08);font-family:'Montserrat',sans-serif}
+.leaflet-tooltip.custom-tooltip:before{display:none}
+.type-bar{background:var(--gold-bg);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.type-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-right:12px}
+.type-btn{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:7px 18px;border:1px solid var(--border);border-radius:20px;background:var(--white);color:var(--ink-lt);cursor:pointer;transition:all .2s}
+.type-btn:hover{border-color:var(--gold);color:var(--gold)}
+.type-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.hotel-stars{color:var(--gold);font-size:11px;letter-spacing:1px}
+.bstars{font-size:8px;padding:3px 10px;border-radius:20px;background:#FFF8E8;color:#B87820;border:1px solid #E8C870;letter-spacing:1px}
+.curator-badge{display:block;font-size:8px;letter-spacing:2px;text-transform:uppercase;font-weight:600;font-style:italic;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border);word-break:break-word;overflow-wrap:anywhere;line-height:1.4}
+@media(max-width:480px){.curator-badge{font-size:7px;letter-spacing:1px}}
+.curator-badge.luli{color:#B8922A}
+.curator-badge.tito{color:#A85020}
+.curator-badge.shared{background:linear-gradient(90deg,#B8922A 0%,#A85020 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.bkeys1{background:#FFE9D9;color:#A85020;border:1px solid #E89060;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.bkeys2{background:#FFD4B5;color:#883E10;border:1px solid #D88040;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.bkeys3{background:#E8B98A;color:#6A2E08;border:1px solid #B86F2C;font-size:8px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.5px}
+
+.gallery-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:20px}
+.gallery-modal.open{display:flex}
+.gallery-img{max-width:95vw;max-height:90vh;object-fit:contain;border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+.gallery-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s}
+.gallery-close:hover{background:rgba(255,255,255,.3)}
+.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:52px;height:52px;border-radius:50%;font-size:24px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s}
+.gallery-arrow:hover{background:rgba(255,255,255,.3)}
+.gallery-arrow.prev{left:24px}
+.gallery-arrow.next{right:24px}
+.gallery-counter{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:#fff;font-size:13px;letter-spacing:2px;background:rgba(0,0,0,.5);padding:8px 16px;border-radius:20px;backdrop-filter:blur(8px)}
+.card-photo-wrap{position:relative;cursor:pointer}
+.photo-count-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.65);color:#fff;font-size:10px;letter-spacing:1px;padding:5px 10px;border-radius:14px;font-weight:600;backdrop-filter:blur(8px);display:flex;align-items:center;gap:4px}
+
+.card-photo-wrap{position:relative;cursor:pointer}
+.photo-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);color:#1A1A1A;border:none;width:32px;height:32px;border-radius:50%;font-size:18px;font-weight:600;cursor:pointer;opacity:0;transition:opacity .25s,background .15s;backdrop-filter:blur(4px);box-shadow:0 2px 8px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+.card-photo-wrap:hover .photo-nav{opacity:1}
+.photo-nav:hover{background:#fff}
+.photo-nav.prev{left:8px}
+.photo-nav.next{right:8px}
+.photo-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2;opacity:0;transition:opacity .25s}
+.card-photo-wrap:hover .photo-dots{opacity:1}
+.photo-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.photo-dot.active{background:#fff;width:18px;border-radius:3px}
+.photo-count-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;letter-spacing:1px;padding:4px 8px;border-radius:12px;font-weight:600;backdrop-filter:blur(4px);z-index:2;display:flex;align-items:center;gap:3px}
+
+/* SEARCH */
+#searchBar{display:none;padding:9px 28px;background:#f5f0e8;border-bottom:1px solid #d4c9b0;position:sticky;top:61px;z-index:998;align-items:center;gap:10px;}
+#searchBar.open{display:flex;}
+#searchInput{flex:1;border:none;background:transparent;font-size:15px;font-family:inherit;color:#1a1a1a;outline:none;}
+#searchInput::placeholder{color:#aaa;}
+#searchClose{background:none;border:none;cursor:pointer;font-size:18px;color:#aaa;line-height:1;padding:0 4px;}
+.search-toggle{background:none;border:none;cursor:pointer;padding:6px;opacity:.6;display:flex;align-items:center;margin-left:8px;}
+.search-toggle:hover{opacity:1;}
+
+</style>
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "267deca0f25fd78caf5c7d0264c49431"}'></script><!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="top-nav-left">
+    <a href="brasil-index.html" class="back-link" data-i18n="back_brasil">← Brasil</a>
+    <a href="index.html" class="top-nav-brand">
+      <span class="top-nav-brand-name">LULI DIAS</span>
+      <span class="top-nav-brand-tag">RESTAURANTS &amp; HOTELS</span>
+    </a>
+  </div>
+  <span class="nav-current">Brasil · Norte</span>
+    <button id="lang-toggle" onclick="toggleLang()" style="background:none;border:1px solid var(--border);color:var(--ink-lt);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;font-weight:600;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;text-transform:uppercase;flex-shrink:0">EN</button>
+  <button class="search-toggle" onclick="toggleSearch()" title="Buscar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  </button>
+</nav>
+<div id="searchBar">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  <input id="searchInput" type="search" placeholder="Buscar restaurante, culinária, bairro…" data-i18n="srch" oninput="doSearch()" autocomplete="off">
+  <button id="searchClose" onclick="doCloseSearch()" title="Fechar">✕</button>
+</div>
+<header>
+  <div class="brand-mast">LULI DIAS<br><span style="font-size:.6em;letter-spacing:4px">RESTAURANTS &amp; HOTELS</span></div>
+  <div class="brand-country" id="brandCountry">Brasil · Norte</div>
+  <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+  <div class="header-meta-row">
+    <span class="header-meta" id="headerMeta">Fortaleza · Recife · Salvador · + 6 cidades</span>
+    <span class="header-edition">Abril 2026</span>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">71</div><div class="stat-lbl" data-i18n="sr">Restaurantes</div></div>
+  <div class="stat"><div class="stat-num">13</div><div class="stat-lbl" data-i18n="sc">Cidades</div></div>
+  <div class="stat"><div class="stat-num">13</div><div class="stat-lbl" data-i18n="sh">Hotéis</div></div>
+  <div class="stat"></div>
+</div>
+
+<div class="michelin-legend">
+  <span class="lbadge bm3" data-i18n="m3">★★★ 3 Estrelas</span>
+  <span class="lbadge lm2" data-i18n="m2">★★ 2 Estrelas</span>
+  <span class="lbadge lm1" data-i18n="m1">★ 1 Estrela</span>
+  <span class="lbadge lbib" data-i18n="bib">Bib Gourmand</span>
+  <span class="lbadge lgreen" data-i18n="grn">Estrela Verde</span>
+  <span class="lbadge lrec" data-i18n="mich">Michelin</span>
+  <span class="lbadge lhotel" data-i18n="acc">Hospedagem</span>
+  <span class="lbadge" style="background:#FFF8E8;color:#B87820;border:1px solid #E8C870">🏆 Premiado</span>
+</div>
+
+
+<div class="map-modal" id="mapModal" onclick="if(event.target===this)closeMap()">
+  <div class="map-sheet">
+    <div class="map-title" id="mapName"></div>
+    <div class="map-addr-txt" id="mapAddr"></div>
+    <div class="map-options">
+      <a class="map-btn" id="btnWaze" href="#" target="_blank">
+        <span class="map-btn-icon">🗺</span><div><strong>Waze</strong><span class="map-btn-sub" data-i18n="waze">Navegar com Waze</span></div>
+      </a>
+      <a class="map-btn" id="btnGoogle" href="#" target="_blank">
+        <span class="map-btn-icon">📍</span><div><strong>Google Maps</strong><span class="map-btn-sub" data-i18n="gmaps">Abrir no Google Maps</span></div>
+      </a>
+      <a class="map-btn" id="btnApple" href="#" target="_blank">
+        <span class="map-btn-icon">🍎</span><div><strong>Apple Maps</strong><span class="map-btn-sub" data-i18n="apple">Abrir no Apple Maps</span></div>
+      </a>
+    </div>
+    <button class="map-cancel" onclick="closeMap()" data-i18n="cancel">Cancelar</button>
+  </div>
+</div>
+
+<div class="view-toggle">
+  <span class="view-toggle-lbl" data-i18n="view">Vista:</span>
+  <button class="view-btn active" id="btnList" onclick="showView('list')" data-i18n="list">Lista</button>
+  <button class="view-btn" id="btnMap" onclick="showView('map')" data-i18n="map">Mapa</button>
+</div>
+<div class="type-bar">
+  <span class="type-lbl" data-i18n="type">Tipo:</span>
+  <button class="type-btn active" id="typeAll" onclick="setType('all',this)" data-i18n="all">✦ Todos</button>
+  <button class="type-btn" id="typeR" onclick="setType('r',this)" data-i18n="rest">🍽 Restaurantes</button>
+  <button class="type-btn" id="typeH" onclick="setType('h',this)" data-i18n="hot">🛏 Hotéis</button>
+</div>
+<div class="filters" id="filters"></div>
+<div class="filters" id="cityFilter"></div>
+<div class="cuisine-bar" id="cuisineBar"></div>
+<main id="main"></main>
+<div id="map" style="display:none"></div>
+<footer><p><a href="index.html" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}" data-i18n="back">← Voltar</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels &nbsp;·&nbsp; <a href="https://instagram.com/lulidias" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none">@lulidias</a></p></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+function openMap(name,addr){
+  const q=encodeURIComponent(name+' '+addr);
+  document.getElementById('mapName').textContent=name;
+  document.getElementById('mapAddr').textContent=addr;
+  document.getElementById('btnWaze').href='https://waze.com/ul?q='+q+'&navigate=yes';
+  document.getElementById('btnGoogle').href='https://www.google.com/maps/search/?api=1&query='+q;
+  document.getElementById('btnApple').href='https://maps.apple.com/?q='+q;
+  document.getElementById('mapModal').classList.add('open');
+}
+function closeMap(){document.getElementById('mapModal').classList.remove('open');}
+
+// m: michelin badge, h: tem hospedagem, pr: preço 1-4
+const FOLDER='brasil';
+const PHOTO_FOLDER='fotos/brasil-norte/';
+const CITIES=[
+  {city:"Belém",region:"Pará",entries:[
+    {n:"Remanso do Peixe",c:"luli",q:"Peixe · Paraense",a:"Travessa Barão do Triunfo, 2590, casa 64 — Marco, Belém — PA",p:"+55 91 3228-2477",ig:"remansodopeixe",pr:2,d:"A peixaria da família Castanho em Belém, no Marco — comida paraense de raiz: moquecas, caldeiradas e peixes amazônicos como o pirarucu fresco, temperados com ingredientes da região. Uma residência que virou uma das cozinhas mais afetivas da cidade.",df:"La poissonnerie de la famille Castanho à Belém, dans le Marco — cuisine du Pará authentique : moquecas, caldeiradas et poissons amazoniens comme le pirarucu frais, relevés d'ingrédients de la région. Une maison devenue l'une des cuisines les plus attachantes de la ville.","de":"The Castanho family's fish house in Belém, in Marco — deep-rooted Pará cooking: moquecas, caldeiradas and Amazonian fish like fresh pirarucu, seasoned with regional ingredients. A home turned into one of the city's most heartfelt kitchens.",des:"La pescadería de la familia Castanho en Belém, en Marco — cocina paraense de raíz: moquecas, caldeiradas y pescados amazónicos como el pirarucu fresco, con ingredientes de la región. Una residencia que se volvió una de las cocinas más entrañables de la ciudad.",dit:"La pescheria della famiglia Castanho a Belém, nel Marco — cucina del Pará autentica: moquecas, caldeiradas e pesci amazzonici come il pirarucu fresco, con ingredienti della regione. Una residenza diventata una delle cucine più affettuose della città.",dde:"Das Fischhaus der Familie Castanho in Belém, im Marco — bodenständige Pará-Küche: Moquecas, Caldeiradas und amazonische Fische wie frischer Pirarucu, gewürzt mit regionalen Zutaten. Ein Wohnhaus, das zu einer der herzlichsten Küchen der Stadt wurde."},
+  ]},
+  ];
+const ML={m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',green:'Estrela Verde',rec:'Guia Michelin',award:'Premiado'};
+const KEYS={1:'🗝 1 Chave',2:'🗝🗝 2 Chaves',3:'🗝🗝🗝 3 Chaves'};
+const SEL={slh:'✦ Small Luxury',lhw:'✦ Leading Hotels',rc:'✦ Relais & Châteaux',pref:'✦ Preferred',dh:'✦ Design Hotels',belmond:'✦ Belmond',aman:'✦ Aman',rosewood:'✦ Rosewood',sixsenses:'✦ Six Senses',oetker:'✦ Oetker Collection'};
+const MBADGE={m3:'bm3',m2:'bm2',m1:'bm1',bib:'bbib',green:'bgreen',rec:'brec',award:'baward'};
+const BG={'Mariscos':'#e8f4f8','Peixe':'#e8f4f8','Portuguesa':'#f5f0e8','Carnes':'#f7ede8','Italiana':'#f5f0e8','Japonesa':'#f0f0f5','Asiática':'#f0f4f0','Contemporânea':'#f2f0ee','Café':'#f7f0e0','default':'#f2ede8'};
+function cardBg(q){const k=Object.keys(BG).find(k=>q&&q.includes(k));return BG[k]||BG.default;}
+function slug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function emoji(q,t){if(t==='h')return '🛏';return q&&(q.includes('Mar')||q.includes('Peixe'))?'🦞':q&&(q.includes('Carne')||q.includes('Leitão'))?'🥩':q&&q.includes('Japon')?'🍣':q&&q.includes('Café')?'☕':q&&q.includes('Enoturismo')?'🍷':'🍽';}
+function priceTag(pr){if(!pr)return '';return '<span class="card-price">'+'$'.repeat(pr)+'<span style="color:var(--border)">'+'$'.repeat(4-pr)+'</span></span>';}
+
+
+// ── Filtros Estado → Cidade ───────────────────────────────────────
+const _CAPS={'São Paulo':'São Paulo','Rio de Janeiro':'Rio de Janeiro','Minas Gerais':'Belo Horizonte','Espírito Santo':'Vitória','Paraná':'Curitiba','Santa Catarina':'Florianópolis','Rio Grande do Sul':'Porto Alegre','Bahia':'Salvador','Pernambuco':'Recife','Ceará':'Fortaleza','Alagoas':'Maceió','Paraíba':'João Pessoa','Rio Grande do Norte':'Natal','Distrito Federal':'Brasília','Mato Grosso':'Cuiabá','Goiás':'Goiânia'};
+const _ESTADO_LIST=[...new Set(CITIES.map(c=>c.region).filter(Boolean))];
+const _stateParam=new URLSearchParams(location.search).get('state')||new URLSearchParams(location.search).get('city');
+let activeState=(_stateParam&&_ESTADO_LIST.includes(_stateParam))?_stateParam:_ESTADO_LIST[0];
+let activeCity='Todas';
+let activeType='all';
+let activeCuisine='Todas';
+const filtersEl=document.getElementById('filters');
+const cityFilterEl=document.getElementById('cityFilter');
+
+function buildStateFilter(){
+  if(!filtersEl)return;
+  filtersEl.innerHTML='<span class="filter-lbl">Estado:</span>'+
+    _ESTADO_LIST.map(s=>`<button class="filter-btn${s===activeState?' active':''}" onclick="setStateFilter('${s.replace(/'/g,"\\'")}',this)">${s}</button>`).join('');
+}
+function buildCityFilter(){
+  if(!cityFilterEl)return;
+  const _p=r=>!(activeType==='r'&&r.t==='h')&&!(activeType==='h'&&r.t!=='h');
+  const inState=CITIES.filter(c=>c.region===activeState&&c.entries.some(_p));
+  const cap=_CAPS[activeState]||'';
+  inState.sort((a,b)=>{if(a.city===cap)return -1;if(b.city===cap)return 1;return a.city.localeCompare(b.city,'pt');});
+  if(inState.length<=1){cityFilterEl.innerHTML='';return;}
+  const opts=['Todas',...inState.map(c=>c.city)];
+  cityFilterEl.innerHTML='<span class="filter-lbl">Cidade:</span>'+
+    opts.map(c=>`<button class="filter-btn${c===activeCuisine?' active':''}" onclick="setCityFilter('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+}
+function updateHeader(){
+  const bc=document.getElementById('brandCountry');
+  if(bc)bc.textContent=activeState;
+  const hm=document.getElementById('headerMeta');
+  if(hm){
+    const cap=_CAPS[activeState]||'';
+    const cs=CITIES.filter(c=>c.region===activeState).map(c=>c.city)
+      .sort((a,b)=>{if(a===cap)return -1;if(b===cap)return 1;return a.localeCompare(b,'pt');});
+    hm.textContent=cs.length>3?cs.slice(0,3).join(' · ')+' · + '+(cs.length-3)+' cidades':cs.join(' · ');
+  }
+  const nc=document.querySelector('.nav-current');
+  if(nc)nc.textContent='Brasil · '+activeState;
+}
+function updateStats(){
+  if(typeof CITIES==='undefined'||typeof activeState==='undefined')return;
+  let r=0,h=0,mk=0,cities=0,m1=0,m2=0,m3=0,bib=0,k1=0,k2=0,k3=0;
+  for(const city of CITIES.filter(c=>c.region===activeState)){
+    if(!city||!city.entries||city.entries.length===0)continue;
+    cities++;
+    for(const e of city.entries){
+      if(!e||e.pending)continue;
+      if(e.t==='h'){h++;if(e.k===1)k1++;else if(e.k===2)k2++;else if(e.k===3)k3++;}
+      else if(e.t==='m'){mk++;r++;}else r++;
+      if(e.m==='m1')m1++;else if(e.m==='m2')m2++;else if(e.m==='m3')m3++;else if(e.m==='bib')bib++;
+    }
+  }
+  const stars=m1+m2*2+m3*3;const keys=k1+k2*2+k3*3;
+  const statsBar=document.querySelector('.stats-bar');
+  if(!statsBar)return;
+  statsBar.querySelectorAll('.stat').forEach(stat=>{
+    const lbl=((stat.querySelector('.stat-lbl')||{}).textContent||'').toLowerCase().trim();
+    const num=stat.querySelector('.stat-num');
+    if(!num)return;
+    if(lbl.includes('restaurante'))num.textContent=r;
+    else if(lbl.includes('cidade')||lbl.includes('estado'))num.textContent=cities;
+    else if(lbl.includes('hotel')||lbl.includes('hotéis'))num.textContent=h;
+    else if(lbl.includes('michelin')||lbl.includes('estrela'))num.textContent=stars>0?stars+' ★':'0';
+    else if(lbl.includes('chave'))num.textContent=keys>0?keys+' 🗝':'0';
+    else if(lbl.includes('bib'))num.textContent=bib;
+  });
+}
+function setStateFilter(s,btn){
+  activeState=s;activeCity='Todas';
+  history.replaceState(null,'',location.pathname+'?state='+encodeURIComponent(s));
+  buildStateFilter();buildCityFilter();updateHeader();updateStats();buildCuisineBar();render();
+}
+function setCityFilter(c,btn){
+  activeCity=c;buildCityFilter();render();
+}
+buildStateFilter();buildCityFilter();updateHeader();updateStats();
+
+
+// Try multiple photo extensions before falling back to placeholder
+function tryPhoto(img, slug, isHotel, bg, em){
+  const exts = ['.jpg', '.jpeg', '.JPG', '.JPEG', '.png', '.PNG', '.heic', '.HEIC'];
+  const folder = PHOTO_FOLDER;
+  let attempt = parseInt(img.dataset.attempt || '0', 10);
+  attempt++;
+  if (attempt < exts.length) {
+    img.dataset.attempt = attempt;
+    img.src = folder + slug + exts[attempt];
+  } else {
+    img.parentElement.innerHTML = '<div class="card-photo-placeholder" style="background:' + bg + '">' + em + '</div>';
+  }
+}
+
+function render(){
+  const main=document.getElementById('main');
+  main.innerHTML='';
+  let filtered=CITIES.filter(c=>c.region===activeState);
+  const _cap=_CAPS[activeState]||'';
+  filtered.sort((a,b)=>{if(a.city===_cap)return -1;if(b.city===_cap)return 1;return a.city.localeCompare(b.city,'pt');});
+  if(activeCity!=='Todas')filtered=filtered.filter(c=>c.city===activeCity);
+  const _passes=r=>!(activeType==='r'&&r.t==='h')&&!(activeType==='h'&&r.t!=='h')&&!(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine);
+  filtered.forEach(({city,entries})=>{
+      const _visible=entries.filter(_passes);
+      if(_visible.length===0)return;
+      const _lbl=activeType==='h'?'hotel':activeType==='r'?'restaurante':'estabelecimento';
+
+      // Count Michelin distinctions for this city
+      const michelinCount=entries.filter(r=>r.m&&(r.m==='m2'||r.m==='m1'||r.m==='bib'||r.m==='green')).length;
+      const starCount=entries.filter(r=>r.m==='m2').length*2+entries.filter(r=>r.m==='m1').length;
+      let michelinHtml='';
+      if(starCount>0) michelinHtml=`<div class="city-michelin">${'★'.repeat(Math.min(starCount,4))} Michelin</div>`;
+      else if(michelinCount>0) michelinHtml=`<div class="city-michelin" style="color:var(--bib)">Michelin</div>`;
+
+      const sec=document.createElement('div');sec.className='city-sec';
+      sec.dataset.region=city;
+      sec.innerHTML=`<div class="city-hdr">
+        <div class="city-hdr-left">
+          <div class="city-name">${city}</div>
+        </div>
+        <div class="city-count-block">
+          <div class="city-count-num">${_visible.length}</div>
+          <div class="city-count-lbl">${_lbl}${_visible.length!==1?'s':''}</div>
+        </div>
+      </div>
+      <div class="restaurants-grid" id="g-${city.replace(/\s/g,'-')}"></div>`;
+      main.appendChild(sec);
+
+      const grid=sec.querySelector('.restaurants-grid');
+      [...entries].sort((a,b)=>{if(activeType==='all'){if(a.t==='h'&&b.t!=='h')return 1;if(a.t!=='h'&&b.t==='h')return -1;}return a.n.localeCompare(b.n,'pt',{sensitivity:'base'});}).forEach(r=>{if(r.pending)return;if(activeType==='r'&&r.t==='h')return;if(activeType==='h'&&r.t!=='h')return;if(activeCuisine!=='Todas'&&normCuisine(r.q)!==activeCuisine)return;
+        const card=document.createElement('div');card.className='restaurant-card';
+        const bg=cardBg(r.q);
+        const nm=r.n.replace(/'/g,"\\'");
+        const ad=(r.a&&r.a!==city&&r.a!=='')?r.a.replace(/'/g,"\\'"):'';
+        const addrHtml=ad?`<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap('${nm}','${ad}')">${r.a}</span></div>`:'';
+        const phoneHtml=r.p?`<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:${r.p.replace(/\s/g,'')}">${r.p}</a></div>`:'';
+        const webHtml=r.w?`<div class=\"c-row\"><span class=\"c-icon\">🌐</span><a class=\"c-phone\" href=\"${r.w.startsWith('http')?r.w:'https://'+r.w}\" target=\"_blank\" rel=\"noopener\">${r.w.replace(/^https?:\/\//,'').replace(/\/$/,'')}</a></div>`:'';
+        const igHtml=r.ig?`<div class=\"c-row\"><span class=\"c-icon\">📷</span><a class=\"c-phone\" href=\"https://instagram.com/${r.ig.replace('@','')}\" target=\"_blank\" rel=\"noopener\">@${r.ig.replace('@','')}</a></div>`:'';
+        const contact=(addrHtml||phoneHtml||webHtml||igHtml)?`<div class=\"card-contact\">${addrHtml}${phoneHtml}${webHtml}${igHtml}</div>`:'';
+        const em=emoji(r.q,r.t);
+        const badges=(r.t==='h'&&r.k?`<span class="badge bkeys${r.k}">${KEYS[r.k]}</span>`:'')+
+                     (r.t==='h'&&r.s?`<span class="badge bstars">${'★'.repeat(r.s)}</span>`:'')+
+                     (r.sel?r.sel.split(' ').map(function(x){return '<span class="badge bsel">'+(SEL[x]||x)+'</span>';}).join(''):'')+
+                     (r.m?`<span class="badge ${MBADGE[r.m]}">${ML[r.m]}</span>`:'')+
+                     '';
+        card.innerHTML=`
+          <div class="card-photo-wrap"><img class="card-photo" loading="lazy" decoding="async" src="${PHOTO_FOLDER+slug(r.n)+'.jpeg'}" alt="${r.n}" onerror="tryPhoto(this,'${slug(r.n)}',${r.t==='h'},'${bg}','${em}')"></div>
+          <div class="card-body">
+            <div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div>
+            <div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div>
+            <div class="card-desc"${r.de?' data-en="'+r.de.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.df?' data-fr="'+r.df.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.des?' data-es="'+r.des.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.dit?' data-it="'+r.dit.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.dde?' data-de="'+r.dde.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}>${r.d||''}</div>
+            ${contact}
+            ${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}
+          </div>`;
+        grid.appendChild(card);
+      });
+    });
+}
+
+
+function normCuisine(q){
+  if(!q)return null;
+  const s=q.toLowerCase();
+   const f0=s.split('\u00b7')[0].trim();
+   if(/loja de vinho|garrafeira|wine shop/.test(s))return 'Loja de Vinho';
+   if(/wine bar|bar de vinho/.test(f0))return 'Wine Bar';
+   if(/padaria|boulanger|panific/.test(f0))return 'Padaria';
+   if(/mercado|market|food hall|food court/.test(f0)&&!/^(bistr|sushi|restaurante|izakaya)/.test(f0))return 'Mercado';
+   if(/^(bar\b|boteco|botequim|pub\b|gastropub|gastr[\u00f4o]bar|gastro bar|cervejaria|brewery|taproom|sky bar|coquetel(aria|eria)?)/.test(f0))return 'Bar';
+  if(/itali/.test(s))return 'Italiana';
+  if(/japon|sushi|omakase|nikkei|gyukatsu|izakaya/.test(s))return 'Japonesa';
+  if(/coreana|korean/.test(s))return 'Coreana';
+  if(/chinesa|chines|dim sum|cantonesa/.test(s))return 'Chinesa';
+  if(/tailand|thai/.test(s))return 'Tailandesa';
+  if(/indian|indiana/.test(s))return 'Indiana';
+  if(/vietnam/.test(s))return 'Vietnamita';
+  if(/asia|asiática|fusion asiática/.test(s))return 'Asiática';
+  if(/francesa|bistr|brasserie|cr[eê]perie|provença/.test(s))return 'Francesa';
+  if(/portuguesa|portugues|alentejana|bairrada|leit[ãa]o/.test(s))return 'Portuguesa';
+  if(/espanhola|espanhol|basca|catalã|catala|tapas|paella|pintxo/.test(s))return 'Espanhola';
+  if(/alemã|alema|alemão|cervejaria.*alemã|francônica/.test(s))return 'Alemã';
+  if(/holandesa/.test(s))return 'Holandesa';
+  if(/dinamarquesa|dinamarq|nova nórdica|nordic/.test(s))return 'Nórdica';
+  if(/grega/.test(s))return 'Grega';
+  if(/turca/.test(s))return 'Turca';
+  if(/libanesa|árabe|lebanese|arab/.test(s))return 'Libanesa';
+  if(/marroquina/.test(s))return 'Marroquina';
+  if(/argentina|argentino|parrilla/.test(s))return 'Argentina';
+  if(/peruana|nikkei|cebicheria|cevicheria|arequipeñ|andina/.test(s))return 'Peruana';
+  if(/uruguaia|uruguai/.test(s))return 'Uruguaia';
+  if(/mexicana|mexican/.test(s))return 'Mexicana';
+  if(/brasileira|brasilian|brasil|carioca|paulista|açoriana|baiana|nordestin|mineira/.test(s))return 'Brasileira';
+  if(/peixe|marisco|frutos do mar|seafood|polvo|bacalhau|cevichería/.test(s))return 'Frutos do Mar';
+  if(/carnes|carne|steak|churrasco|grelhado|bife|cortes nobres|wagyu/.test(s))return 'Carnes';
+  if(/pizza|pizzeria/.test(s))return 'Pizzeria';
+  if(/vinho|wine bar|enoteca|enot/.test(s))return 'Vinhos';
+  if(/café|cafe|pâtisserie|patisserie|confeit/.test(s))return 'Café & Pâtisserie';
+  if(/rooftop|cocktail|coquetel/.test(s))return 'Rooftop & Bar';
+  if(/mercado|food hall|street food|tasca|petisco|taverna|tasc|taska/.test(s))return 'Tasca & Street Food';
+  if(/contempor|autor|moderna|criativ|alta cozinha|de alta/.test(s))return 'Contemporânea';
+  if(/tradicion|caseira|cozinha caseira/.test(s))return 'Tradicional';
+  if(/mediterrân|mediterrane/.test(s))return 'Mediterrânea';
+  if(/internaciona|fusion|fusão/.test(s))return 'Internacional';
+  if(/beach club|praia/.test(s))return 'Beach Club';
+  if(/hotel|pousada|hospedagem/.test(s))return 'Hotel';
+  return q.split(/[·\-,]/)[0].trim();
+}
+function buildCuisineBar(){
+  const set=new Set();
+  CITIES.filter(c=>c.region===activeState).forEach(c=>{if(!c.entries)return;c.entries.forEach(r=>{const n=normCuisine(r.q);if(n)set.add(n);});});
+  const cuisines=['Todas',...[...set].sort((a,b)=>a.localeCompare(b,'pt'))];
+  const bar=document.getElementById('cuisineBar');
+  if(!bar)return;
+  bar.innerHTML='<span class="cuisine-lbl">Cuisine:</span>'+cuisines.map(c=>`<button class="cuisine-btn${c===activeCuisine?' active':''}" onclick="setCuisine('${c.replace(/'/g,"\\'")}',this)">${c}</button>`).join('');
+}
+
+
+// Rebuild filter buttons based on active type (Restaurantes/Hotéis/Todos)
+function rebuildFilters(){
+  buildCityFilter();
+}
+
+
+// Aplica filtro inicial vindo de ?type= na URL (vindo do index)
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get('type');
+  if (t === 'r' || t === 'h') {
+    activeType = t;
+    setTimeout(() => {
+      document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+      const btn = document.getElementById('type' + (t==='r'?'R':'H'));
+      if (btn) btn.classList.add('active');
+      rebuildFilters();
+      render();
+    }, 0);
+  }
+})();
+function setType(t,btn){
+  activeType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  rebuildFilters();
+  render();
+}
+
+function setCuisine(c,btn){
+  activeCuisine=c;
+  document.querySelectorAll('.cuisine-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+buildCuisineBar();
+render();
+
+let mapInstance=null;
+const COORDS={"brasil/tivoli-ecoresort-praia-do-forte":{"name":"Tivoli Ecoresort Praia do Forte","address":"Av. do Farol, Praia do Forte — Mata de São João — BA","country":"brasil","lat":-12.58,"lng":-38.0},"brasil/aroma":{"name":"Aroma","address":"Brasília — DF","country":"brasil","lat":-15.7871046,"lng":-47.8844814},"brasil/bloco-c":{"name":"Bloco C","address":"Brasília — DF","country":"brasil","lat":-15.7446183,"lng":-47.8992985},"brasil/don-francisco":{"name":"Don Francisco","address":"Brasília — DF","country":"brasil","lat":-15.7939869,"lng":-47.8828},"brasil/fogo-de-chao":{"name":"Fogo de Chão","address":"Brasília — DF","country":"brasil","lat":-15.7927747,"lng":-47.8922809},"brasil/kawa":{"name":"Kawa","address":"Brasília — DF","country":"brasil","lat":-15.7939869,"lng":-47.8828},"brasil/lago":{"name":"Lago","address":"Brasília — DF","country":"brasil","lat":-15.7968464,"lng":-47.8114062},"brasil/marie":{"name":"Marie","address":"Brasília — DF","country":"brasil","lat":-15.7939869,"lng":-47.8828},"brasil/new-koto":{"name":"New Koto","address":"Brasília — DF","country":"brasil","lat":-15.8274013,"lng":-47.9103281},"brasil/noru":{"name":"Noru","address":"Brasília — DF","country":"brasil","lat":-15.7939869,"lng":-47.8828},"brasil/piselli":{"name":"Piselli","address":"São Paulo — SP","country":"brasil","lat":-22.6921991,"lng":-47.6497281},"brasil/taypa":{"name":"Taypá","address":"Brasília — DF","country":"brasil","lat":-15.860605,"lng":-47.8723015},"brasil/tratoria-da-rosario":{"name":"Tratoria da Rosário","address":"Brasília — DF","country":"brasil","lat":-15.7939869,"lng":-47.8828},"brasil/aragon":{"name":"Aragon","address":"Cuiabá — MT","country":"brasil","lat":-15.5986686,"lng":-56.0991301},"brasil/azuri":{"name":"Azuri","address":"Cuiabá — MT","country":"brasil","lat":-15.5915444,"lng":-56.1024857},"brasil/canto-restaurante":{"name":"Canto Restaurante","address":"Cuiabá — MT","country":"brasil","lat":-15.5913293,"lng":-56.1035026},"brasil/due-ladroni":{"name":"Due Ladroni","address":"Cuiabá — MT","country":"brasil","lat":-15.5943592,"lng":-56.1064277},"brasil/lelis":{"name":"Lelis","address":"Cuiabá — MT","country":"brasil","lat":-15.5886344,"lng":-56.1093383},"brasil/okado-peixaria":{"name":"Okado Peixaria","address":"Cuiabá — MT","country":"brasil","lat":-15.5986686,"lng":-56.0991301},"brasil/1929-trattoria":{"name":"1929 Trattoria","address":"Goiânia — GO","country":"brasil","lat":-16.680882,"lng":-49.2532691},"brasil/black-sushi":{"name":"Black Sushi","address":"Goiânia — GO","country":"brasil","lat":-16.680882,"lng":-49.2532691},"brasil/ciao-ciao-cucina":{"name":"Ciao Ciao Cucina","address":"Goiânia — GO","country":"brasil","lat":-16.680882,"lng":-49.2532691},"brasil/famu":{"name":"Famu","address":"Goiânia — GO","country":"brasil","lat":-16.680882,"lng":-49.2532691},"brasil/fulles-kitchen":{"name":"Fulles Kitchen","address":"Goiânia — GO","country":"brasil","lat":-16.680882,"lng":-49.2532691},"brasil/gra-bistro":{"name":"Grá Bistro","address":"Goiânia — GO","country":"brasil","lat":-16.680882,"lng":-49.2532691},"brasil/iz-restaurante":{"name":"Iz Restaurante","address":"Goiânia — GO","country":"brasil","lat":-16.680882,"lng":-49.2532691},"brasil/jua":{"name":"Juá","address":"Goiânia — GO","country":"brasil","lat":-16.680882,"lng":-49.2532691},"brasil/porto-cave":{"name":"Porto Cave","address":"Goiânia — GO","country":"brasil","lat":-16.680882,"lng":-49.2532691},"brasil/doc-cucina-pizza-vino":{"name":"DOC Cucina, Pizza & Vino","address":"Rua Ana Bilhar, 1173 — Varjota, Fortaleza — CE","country":"brasil","lat":-3.7327,"lng":-38.4936},"brasil/cabana-del-primo":{"name":"Cabaña del Primo","address":"Fortaleza — CE","country":"brasil","lat":-3.7351457,"lng":-38.4977437},"brasil/marcel":{"name":"Marcel","address":"Fortaleza — CE","country":"brasil","lat":-3.7222918,"lng":-38.5087118},"brasil/marques-da-varjota":{"name":"Marquês da Varjota","address":"Rua Frederico Borges, 426 — Varjota, Fortaleza — CE","country":"brasil","lat":-3.7345,"lng":-38.4945},"brasil/moleskine-gastrobar":{"name":"Moleskine Gastrôbar","address":"Fortaleza — CE","country":"brasil","lat":-3.7304512,"lng":-38.5217989},"brasil/ponza-frutos-do-mar":{"name":"Ponza Frutos do Mar","address":"Av. Beira Mar, Fortaleza — CE","country":"brasil","lat":-3.7257066,"lng":-38.4968337},"brasil/ryori":{"name":"Ryori","address":"Fortaleza — CE","country":"brasil","lat":-3.7348923,"lng":-38.4911273},"brasil/zio-cucina-bs":{"name":"Zio Cucina BS","address":"Fortaleza — CE","country":"brasil","lat":-3.7304512,"lng":-38.5217989},"brasil/reserve-garden":{"name":"Reserve Garden","address":"João Pessoa — PB","country":"brasil","lat":-7.1215981,"lng":-34.882028},"brasil/759-parrilla":{"name":"759 Parrilla","address":"Maceió — AL","country":"brasil","lat":-9.6476843,"lng":-35.7339264},"brasil/akuaba":{"name":"Akuaba","address":"Maceió — AL","country":"brasil","lat":-9.6450721,"lng":-35.7014486},"brasil/le-corbu":{"name":"Le Corbu","address":"Maceió — AL","country":"brasil","lat":-9.6633638,"lng":-35.698606},"brasil/maria-antonieta":{"name":"Maria Antonieta","address":"Maceió — AL","country":"brasil","lat":-9.630228,"lng":-35.6972104},"brasil/massarella":{"name":"Massarella","address":"Maceió — AL","country":"brasil","lat":-9.6476843,"lng":-35.7339264},"brasil/veni-parrilla":{"name":"Vení Parrilla","address":"Maceió — AL","country":"brasil","lat":-9.6476843,"lng":-35.7339264},"brasil/wanchako":{"name":"Wanchako","address":"Maceió — AL","country":"brasil","lat":-9.6559706,"lng":-35.6999379},"brasil/cardume":{"name":"Cardume","address":"Natal — RN","country":"brasil","lat":-5.7871718,"lng":-35.2032234},"brasil/adega-do-futuro":{"name":"Adega do Futuro","address":"Rua do Futuro, 634 — Graças, Recife — PE","country":"brasil","lat":-8.0394271,"lng":-34.9010269},"brasil/alphaiate":{"name":"Alphaiate","address":"Rua Artur Muniz, 82 — Boa Viagem, Recife — PE","country":"brasil","lat":-8.1046166,"lng":-34.8873057},"brasil/bar-do-luna":{"name":"Bar do Luna","address":"Rua da Hora, 348 — Espinheiro, Recife — PE","country":"brasil","lat":-8.0444376,"lng":-34.8933046},"brasil/bar-do-neno":{"name":"Bar do Neno","address":"Rua Padre Roma, 722 — Parnamirim, Recife — PE, 52050-150","country":"brasil","lat":-8.0479601,"lng":-34.9011774},"brasil/black-angus":{"name":"Black Angus","address":"Recife — PE","country":"brasil","lat":-8.119296,"lng":-34.9037335},"brasil/boteco-porto-ferreiro":{"name":"Boteco Porto Ferreiro","address":"Av. Rui Barbosa, 458 — Graças, Recife — PE","country":"brasil","lat":-8.0400897,"lng":-34.9038635},"brasil/licinio-1926":{"name":"Licínio 1926","address":"Rua Francisco da Cunha, 165 — Boa Viagem, Recife — PE","country":"brasil","lat":-8.1148315,"lng":-34.8964511},"brasil/nez-bistro":{"name":"Nez Bistro","address":"Praça de Casa Forte, 314 — Casa Forte, Recife — PE","country":"brasil","lat":-8.0331338,"lng":-34.9189566},"brasil/ohra-sushi":{"name":"Ohra Marina Sushi by 777","address":"Recife — PE","country":"brasil","lat":-8.0584933,"lng":-34.8848193},"brasil/pobre-juan":{"name":"Pobre Juan","address":"São Paulo — SP","country":"brasil","lat":-23.5402331,"lng":-46.6635802},"brasil/ponte-nova":{"name":"Ponte Nova","address":"Rua do Cupim, 172 — Graças, Recife — PE","country":"brasil","lat":-8.0463518,"lng":-34.8977997},"brasil/restaurante-leite":{"name":"Restaurante Leite","address":"Praça Joaquim Nabuco, 147 — Santo Antônio, Recife — PE","country":"brasil","lat":-8.06444,"lng":-34.88135},"brasil/ruizito":{"name":"Ruizito","address":"Rua das Graças, Recife — PE","country":"brasil","lat":-8.0479601,"lng":-34.9011774},"brasil/tetsu":{"name":"Tetsu","address":"Av. Eng. Domingos Ferreira, 1097 — Boa Viagem, Recife — PE","country":"brasil","lat":-8.120358,"lng":-34.8982822},"brasil/tio-armenio":{"name":"Tio Armênio","address":"Shopping RioMar — Av. República do Líbano, Pina, Recife — PE","country":"brasil","lat":-8.0860101,"lng":-34.8945623},"brasil/voar":{"name":"Voar","address":"Rua Baltazar Pereira, 130 — Boa Viagem, Recife — PE","country":"brasil","lat":-8.1009624,"lng":-34.8864081},"brasil/zio":{"name":"Zio","address":"Shopping RioMar — Av. República do Líbano, Pina, Recife — PE","country":"brasil","lat":-8.0860101,"lng":-34.8945623},"brasil/lafayette":{"name":"Lafayette","address":"Salvador — BA","country":"brasil","lat":-12.9710272,"lng":-38.5101325},"brasil/mistura-itapua":{"name":"Mistura Itapuã","address":"Rua Professor Souza Brito, 41 — Itapuã, Salvador — BA","country":"brasil","lat":-12.9497,"lng":-38.3583},"brasil/mistura-contorno":{"name":"Mistura Contorno","address":"Ladeira do Gabriel, 334 — Av. Contorno, Salvador — BA","country":"brasil","lat":-12.9819301,"lng":-38.5194393},"brasil/ori":{"name":"Ori","address":"Salvador — BA","country":"brasil","lat":-13.0009938,"lng":-38.4863054},"brasil/origem":{"name":"Origem","address":"Salvador — BA","country":"brasil","lat":-12.9887937,"lng":-38.4554845},"brasil/vona-ristorante":{"name":"Vona Ristorante","address":"Rua Flórida, 41 — Graça, Salvador — BA","country":"brasil","lat":-13.0033,"lng":-38.5236},"brasil/preta":{"name":"Preta","address":"Praia de Ponta de Nossa Senhora — Ilha dos Frades, Salvador — BA","country":"brasil","lat":-12.8130986,"lng":-38.6404057},"brasil/soho-bahia-marina":{"name":"Soho Bahia Marina","address":"Av. Lafayete Coutinho, 1010 — Bahia Marina, Salvador — BA","country":"brasil","lat":-12.9790896,"lng":-38.5183839},"brasil/soho-paseo":{"name":"Soho Paseo","address":"Rua Rubens Guelli, 135 — Itaigara, Salvador — BA","country":"brasil","lat":-12.9962,"lng":-38.4636},"brasil/a-taberna":{"name":"A Taberna","address":"Salvador — BA","country":"brasil","lat":-12.9805367,"lng":-38.4974168},"brasil/a-casa-vidal":{"name":"A Casa Vidal","address":"Alameda das Cajazeiras, 417 — Caminho das Árvores, Salvador — BA, 41820-470","country":"brasil","lat":-13.0106,"lng":-38.5326},"brasil/casa-piacere":{"name":"Casa Piacere","address":"Rua Bernardo Guimarães, 577 — Funcionários, Belo Horizonte — MG","country":"brasil","lat":-19.9325077,"lng":-43.9266527},"brasil/d":{"name":"D","address":"Rua Tomás Gonzaga, 593 — Lourdes, Belo Horizonte — MG","country":"brasil","lat":-19.9317144,"lng":-43.9460336},"brasil/geraldinho-conceito-da-carne":{"name":"Geraldinho Conceito da Carne","address":"Rua Francisco Deslandes, 1038 — Anchieta, Belo Horizonte — MG","country":"brasil","lat":-19.9522629,"lng":-43.9271345},"brasil/pizzaria-olegario":{"name":"Pizzaria Olegário","address":"Av. Olegário Maciel, 1748 — Lourdes, Belo Horizonte — MG","country":"brasil","lat":-19.9295987,"lng":-43.9473151},"brasil/taste-vin":{"name":"Taste Vin","address":"Rua Curitiba, 2105 — Lourdes, Belo Horizonte — MG","country":"brasil","lat":-19.9354861,"lng":-43.9459271},"brasil/udon":{"name":"Udon","address":"Av. do Contorno, 7315 — Lourdes, Belo Horizonte — MG","country":"brasil","lat":-19.9374978,"lng":-43.945012},"brasil/xapuri":{"name":"Xapuri","address":"Rua Mandacarú, 260 — Trevo/Pampulha, Belo Horizonte — MG","country":"brasil","lat":-19.8417395,"lng":-44.0036428},"brasil/74-restaurante":{"name":"74 Restaurante","address":"Búzios — RJ","country":"brasil","lat":-22.7758651,"lng":-41.9454561},"brasil/rocka":{"name":"Rocka","address":"Búzios — RJ","country":"brasil","lat":-22.7546701,"lng":-41.8729667},"brasil/bellini":{"name":"Bellini","address":"Campinas — SP","country":"brasil","lat":-22.8989981,"lng":-47.0711624},"brasil/cantina-fellini":{"name":"Cantina Fellini","address":"Campinas — SP","country":"brasil","lat":-22.9056391,"lng":-47.059564},"brasil/lume":{"name":"Lume","address":"Campinas — SP","country":"brasil","lat":-22.8923131,"lng":-47.0548502},"brasil/olivetto":{"name":"Olivetto","address":"Campinas — SP","country":"brasil","lat":-22.9056391,"lng":-47.059564},"brasil/seo-rosa":{"name":"Seo Rosa","address":"Campinas — SP","country":"brasil","lat":-22.8995526,"lng":-47.0501781},"brasil/confraria-do-sabor":{"name":"Confraria do Sabor","address":"Campos do Jordão — SP","country":"brasil","lat":-22.7200031,"lng":-45.5688669},"brasil/la-galia":{"name":"La Galia","address":"Campos do Jordão — SP","country":"brasil","lat":-22.7201592,"lng":-45.5682602},"brasil/libertango":{"name":"Libertango","address":"Campos do Jordão — SP","country":"brasil","lat":-22.738299,"lng":-45.5903769},"brasil/so-queijos":{"name":"Só Queijos","address":"Campos do Jordão — SP","country":"brasil","lat":-22.738299,"lng":-45.5903769},"brasil/toribinha":{"name":"Toribinha","address":"Campos do Jordão — SP","country":"brasil","lat":-22.738299,"lng":-45.5903769},"brasil/tres-rios":{"name":"Três Rios","address":"Campos do Jordão — SP","country":"brasil","lat":-22.738299,"lng":-45.5903769},"brasil/vila-cha":{"name":"Vila Chã","address":"Campos do Jordão — SP","country":"brasil","lat":-22.718111,"lng":-45.5658804},"brasil/acqua":{"name":"Acqua","address":"Camburi — SP","country":"brasil","lat":-23.7742146,"lng":-45.6437259},"brasil/famiglia-mazoli":{"name":"Famiglia Mazoli","address":"Ilhabela — SP","country":"brasil","lat":-23.816628,"lng":-45.368685},"brasil/gaudi":{"name":"Gaudí","address":"Ilhabela — SP","country":"brasil","lat":-23.8107158,"lng":-45.3662291},"brasil/ilha-deck":{"name":"Ilha Deck","address":"Ilhabela — SP","country":"brasil","lat":-23.816628,"lng":-45.368685},"brasil/ilha-sul":{"name":"Ilha Sul","address":"Ilhabela — SP","country":"brasil","lat":-23.816628,"lng":-45.368685},"brasil/manaca":{"name":"Manacá","address":"Camburi — SP","country":"brasil","lat":-23.773459,"lng":-45.6429759},"brasil/viana":{"name":"Viana","address":"Ilhabela — SP","country":"brasil","lat":-23.7585373,"lng":-45.3471658},"brasil/aprazivel":{"name":"Aprazivel","address":"Rua Aprazível, 62 — Santa Teresa, Rio de Janeiro — RJ","country":"brasil","lat":-22.9249078,"lng":-43.1873419},"brasil/assador":{"name":"Assador","address":"Rio de Janeiro — RJ","country":"brasil","lat":-22.9368678,"lng":-43.1693546},"brasil/cipriani":{"name":"Cipriani","address":"Copacabana Palace, Av. Atlântica, 1702 — Copacabana, Rio de Janeiro — RJ","country":"brasil","lat":-22.9670132,"lng":-43.1791849},"brasil/cla-bbq":{"name":"Clã BBQ","address":"Rio de Janeiro — RJ","country":"brasil","lat":-22.9110137,"lng":-43.2093727},"brasil/esplanada-grill":{"name":"Esplanada Grill","address":"Rio de Janeiro — RJ","country":"brasil","lat":-22.9110137,"lng":-43.2093727},"brasil/gajos-d":{"name":"Gajos D","address":"Rio de Janeiro — RJ","country":"brasil","lat":-22.9110137,"lng":-43.2093727},"brasil/haru":{"name":"Haru","address":"Rio de Janeiro — RJ","country":"brasil","lat":-22.8423349,"lng":-43.3117395},"brasil/malta-beef-club":{"name":"Malta Beef Club","address":"Rio de Janeiro — RJ","country":"brasil","lat":-22.9110137,"lng":-43.2093727},"brasil/mee":{"name":"Mee","address":"Copacabana Palace, Rio de Janeiro — RJ","country":"brasil","lat":-22.9670132,"lng":-43.1791849},"brasil/mr-lan":{"name":"Mr. Lan","address":"Rio de Janeiro — RJ","country":"brasil","lat":-22.8874919,"lng":-43.4110087},"brasil/oia":{"name":"Oia","address":"Rio de Janeiro — RJ","country":"brasil","lat":-22.9110137,"lng":-43.2093727},"brasil/oteque":{"name":"Oteque","address":"Rua Conde de Irajá, 581 — Botafogo, Rio de Janeiro — RJ","country":"brasil","lat":-22.957473,"lng":-43.1943143},"brasil/picci":{"name":"Picci","address":"Rio de Janeiro — RJ","country":"brasil","lat":-22.9110137,"lng":-43.2093727},"brasil/posi":{"name":"Posi","address":"Rio de Janeiro — RJ","country":"brasil","lat":-22.9110137,"lng":-43.2093727},"brasil/rancho-portugues":{"name":"Rancho Português","address":"São Paulo — SP","country":"brasil","lat":-23.5270759,"lng":-45.8217072},"brasil/rubaiyat":{"name":"Rubaiyat","address":"Rio de Janeiro — RJ","country":"brasil","lat":-22.9704246,"lng":-43.2224074},"brasil/satyricon":{"name":"Satyricon","address":"Rua Barão da Torre, 192 — Ipanema, Rio de Janeiro — RJ","country":"brasil","lat":-22.9831446,"lng":-43.2053723},"brasil/spicy-fish":{"name":"Spicy Fish","address":"Rio de Janeiro — RJ","country":"brasil","lat":-22.9832046,"lng":-43.207207},"brasil/tereze":{"name":"Térèze","address":"Hotel Santa Teresa, Rio de Janeiro — RJ","country":"brasil","lat":-22.9216906,"lng":-43.1880122},"brasil/348-mario-ferraz":{"name":"348 Mario Ferraz","address":"Rua Mario Ferraz, 348 — Itaim Bibi, São Paulo — SP","country":"brasil","lat":-23.5837865,"lng":-46.6859119},"brasil/a-bela-sintra":{"name":"A Bela Sintra","address":"São Paulo — SP","country":"brasil","lat":-23.5644474,"lng":-46.6701513},"brasil/a-casa-do-porco":{"name":"A Casa do Porco","address":"Rua Araújo, 124 — República, São Paulo — SP","country":"brasil","lat":-23.5448637,"lng":-46.6447698},"brasil/adega-santiago":{"name":"Adega Santiago","address":"São Paulo — SP","country":"brasil","lat":-23.5712021,"lng":-46.6890745},"brasil/balaio-ims":{"name":"Balaio IMS","address":"Av. Paulista, 2424 — Bela Vista, São Paulo — SP","country":"brasil","lat":-23.5681514,"lng":-46.6482451},"brasil/barbacoa":{"name":"Barbacoa","address":"Rua Dr. Renato Paes de Barros, 65 — Itaim Bibi, São Paulo — SP","country":"brasil","lat":-23.5791808,"lng":-46.67498},"brasil/bicol-korean-cuisine":{"name":"Bicol Korean Cuisine","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/bistro-de-paris":{"name":"Bistro de Paris","address":"São Paulo — SP","country":"brasil","lat":-23.5631029,"lng":-46.6661445},"brasil/borgo-mocca":{"name":"Borgo Mocca","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/borgomoca":{"name":"Borgomoca","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/bottega-bernacca":{"name":"Bottega Bernacca","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/brasserie-victoria":{"name":"Brasserie Victoria","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/braz":{"name":"Bráz","address":"São Paulo — SP","country":"brasil","lat":-22.9003707,"lng":-47.0535425},"brasil/carlota":{"name":"Carlota","address":"Rua Sergipe, 753 — Higienópolis, São Paulo — SP","country":"brasil","lat":-23.5495562,"lng":-46.6552383},"brasil/chef-rouge":{"name":"Chef Rouge","address":"São Paulo — SP","country":"brasil","lat":-23.563629,"lng":-46.6698194},"brasil/chez-claude":{"name":"Chez Claude","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/cristal":{"name":"Cristal","address":"São Paulo — SP","country":"brasil","lat":-24.1452592,"lng":-48.3849415},"brasil/cor-gastronomia":{"name":"Cór Gastronomia","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/d-o-m":{"name":"D.O.M","address":"Rua Barão de Capanema, 549 — Jardins, São Paulo — SP","country":"brasil","lat":-23.5662205,"lng":-46.6674763},"brasil/da-marino":{"name":"Da Marino","address":"São Paulo — SP","country":"brasil","lat":-22.8436426,"lng":-47.6069228},"brasil/di-paolo":{"name":"Di Paolo","address":"São Paulo — SP","country":"brasil","lat":-23.5452804,"lng":-46.6386378},"brasil/due-cuochi":{"name":"Due Cuochi","address":"São Paulo — SP","country":"brasil","lat":-23.6249778,"lng":-46.7015119},"brasil/ecculy-gastronomia":{"name":"Ecculy Gastronomia","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/ema":{"name":"Ema","address":"São Paulo — SP","country":"brasil","lat":-20.8298289,"lng":-49.3861608},"brasil/emiliano":{"name":"Emiliano","address":"Rua Oscar Freire, 384 — Jardins, São Paulo — SP","country":"brasil","lat":-23.5660349,"lng":-46.6652554},"brasil/evvai":{"name":"Evvai","address":"Rua Joaquim Antunes, 108 — Pinheiros, São Paulo — SP","country":"brasil","lat":-23.5671114,"lng":-46.6790509},"brasil/fasano":{"name":"Fasano","address":"Rua Vittorio Fasano, 88 — Cerqueira César, São Paulo — SP","country":"brasil","lat":-23.564534,"lng":-46.6694481},"brasil/fazenda-churrascada":{"name":"Fazenda Churrascada","address":"São Paulo — SP","country":"brasil","lat":-23.6128742,"lng":-46.7137196},"brasil/figueirinha":{"name":"Figueirinha","address":"São Paulo — SP","country":"brasil","lat":-21.7560915,"lng":-47.7629677},"brasil/hira":{"name":"Hirá","address":"São Paulo — SP","country":"brasil","lat":-23.5567757,"lng":-46.6908441},"brasil/huto":{"name":"Hutô","address":"São Paulo — SP","country":"brasil","lat":-23.6095803,"lng":-46.6590482},"brasil/hwang-to-gil":{"name":"Hwang To Gil","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/ici-bistro":{"name":"ICI Bistro","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/il-capitale":{"name":"Il Capitale","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/izakaya-matsu":{"name":"Izakaya Matsu","address":"São Paulo — SP","country":"brasil","lat":-23.5663637,"lng":-46.6897745},"brasil/jean-georges":{"name":"Jean-Georges","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/jiquitaia":{"name":"Jiquitaia","address":"São Paulo — SP","country":"brasil","lat":-23.5567961,"lng":-46.6575305},"brasil/jun-sakamoto":{"name":"Jun Sakamoto","address":"Rua Lisboa, 55 — Pinheiros, São Paulo — SP","country":"brasil","lat":-23.5632851,"lng":-46.6771478},"brasil/kaifu":{"name":"Kaifu","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/kansuke":{"name":"Kansuke","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/kazuo":{"name":"Kazuo","address":"São Paulo — SP","country":"brasil","lat":-23.4587984,"lng":-46.6037419},"brasil/kenzo":{"name":"Kenzo","address":"São Paulo — SP","country":"brasil","lat":-23.6899594,"lng":-46.5606898},"brasil/kitchin":{"name":"Kitchin","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/komah":{"name":"Komah","address":"São Paulo — SP","country":"brasil","lat":-23.5266807,"lng":-46.6518485},"brasil/kotori":{"name":"Kotori","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/kuro":{"name":"Kuro","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/kuromoon":{"name":"Kuromoon","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/la-piana":{"name":"La Piana","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/la-tambouille":{"name":"La Tambouille","address":"Av. Nove de Julho, 5925 — Jardim Europa, São Paulo — SP","country":"brasil","lat":-23.579527,"lng":-46.6773805},"brasil/lassu":{"name":"Lassu","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/le-jazz":{"name":"Le Jazz","address":"São Paulo — SP","country":"brasil","lat":-23.5643727,"lng":-46.6817595},"brasil/le-napoleon":{"name":"Le Napoleon","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/loup":{"name":"Loup","address":"São Paulo — SP","country":"brasil","lat":-23.7924175,"lng":-45.5573201},"brasil/mago":{"name":"Magô","address":"São Paulo — SP","country":"brasil","lat":-23.5829585,"lng":-46.6816134},"brasil/makoto":{"name":"Makoto","address":"São Paulo — SP","country":"brasil","lat":-23.5481885,"lng":-46.8031158},"brasil/makoto-san":{"name":"Makoto San","address":"São Paulo — SP","country":"brasil","lat":-23.5481885,"lng":-46.8031158},"brasil/manioca":{"name":"Manioca","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/mani":{"name":"Maní","address":"Rua Joaquim Antunes, 210 — Pinheiros, São Paulo — SP","country":"brasil","lat":-23.5663802,"lng":-46.6797289},"brasil/mocoto":{"name":"Mocotó","address":"Av. Nossa Senhora do Loreto, 1100 — Vila Medeiros, São Paulo — SP","country":"brasil","lat":-23.4867214,"lng":-46.5815741},"brasil/moma":{"name":"Moma","address":"São Paulo — SP","country":"brasil","lat":-23.6051918,"lng":-46.6642539},"brasil/murakami":{"name":"Murakami","address":"São Paulo — SP","country":"brasil","lat":-21.1965882,"lng":-47.8402973},"brasil/myk":{"name":"Myk","address":"São Paulo — SP","country":"brasil","lat":-23.5682942,"lng":-46.6648343},"brasil/nakka":{"name":"Nakka","address":"São Paulo — SP","country":"brasil","lat":-23.5644194,"lng":-46.6647671},"brasil/nino":{"name":"Nino","address":"São Paulo — SP","country":"brasil","lat":-22.8062688,"lng":-45.2090284},"brasil/ohka":{"name":"Ohka","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/osaka":{"name":"Osaka","address":"São Paulo — SP","country":"brasil","lat":-23.4731223,"lng":-46.8629291},"brasil/osso":{"name":"Osso","address":"São Paulo — SP","country":"brasil","lat":-20.3614826,"lng":-48.0425325},"brasil/otoshi":{"name":"Otóshi","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/parigi":{"name":"Parigi","address":"Alameda Itú, 1386 — Jardins, São Paulo — SP","country":"brasil","lat":-23.5666844,"lng":-46.6562973},"brasil/picchi":{"name":"Picchi","address":"Parque Estadual Alberto Löfgren, São Paulo — SP","country":"brasil","lat":-23.4648808,"lng":-46.6424325},"brasil/ping-yang":{"name":"Ping Yang","address":"São Paulo — SP","country":"brasil","lat":-23.5633214,"lng":-46.6728148},"brasil/pub-keito":{"name":"Pub Keito","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/ristorantino":{"name":"Ristorantino","address":"São Paulo — SP","country":"brasil","lat":-23.5626535,"lng":-46.6723202},"brasil/roi":{"name":"ROI","address":"São Paulo — SP","country":"brasil","lat":-23.6555364,"lng":-46.6757866},"brasil/ruffinos":{"name":"Ruffinos","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/saiko-sando":{"name":"Saiko Sando","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/saint-marie-gastronomia":{"name":"Saint Marie Gastronomia","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/saj":{"name":"Saj","address":"São Paulo — SP","country":"brasil","lat":-23.5544228,"lng":-46.6900223},"brasil/shin-zushi":{"name":"Shin Zushi","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/sushi-vaz":{"name":"Sushi Vaz","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/taberna-474":{"name":"Taberna 474","address":"São Paulo — SP","country":"brasil","lat":-23.5412612,"lng":-46.6364648},"brasil/tan-tan":{"name":"Tan Tan","address":"R. Fradique Coutinho 153, Pinheiros, São Paulo — SP","country":"brasil","lat":-23.561,"lng":-46.6906},"brasil/tanit":{"name":"Tanit","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/taraz":{"name":"Taraz","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/tasca-da-esquina":{"name":"Tasca da Esquina","address":"São Paulo — SP","country":"brasil","lat":-23.5665209,"lng":-46.6798461},"brasil/tasca-do-ze-e-da-maria":{"name":"Tasca do Zé e da Maria","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/templo-da-carne":{"name":"Templo da Carne","address":"São Paulo — SP","country":"brasil","lat":-23.5590875,"lng":-46.6465017},"brasil/tordesilhas":{"name":"Tordesilhas","address":"Rua Bela Cintra, 465 — Consolação, São Paulo — SP","country":"brasil","lat":-23.5531353,"lng":-46.6570048},"brasil/tuju":{"name":"Tuju","address":"Rua Fradique Coutinho, 1406 — Pinheiros, São Paulo, SP","country":"brasil","lat":-23.555502,"lng":-46.6917784},"brasil/tuy":{"name":"Tuy","address":"São Paulo — SP","country":"brasil","lat":-23.2110918,"lng":-45.8998644},"brasil/toki":{"name":"Tōki","address":"São Paulo — SP","country":"brasil","lat":-22.9498301,"lng":-47.1160979},"brasil/varanda":{"name":"Varanda","address":"São Paulo — SP","country":"brasil","lat":-23.5864191,"lng":-46.6935458},"brasil/vecchio-torino":{"name":"Vecchio Torino","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/veridiana":{"name":"Veridiana","address":"Rua Veridiana, 661 — Higienópolis, São Paulo — SP","country":"brasil","lat":-23.542023,"lng":-46.6509497},"brasil/vinheria-percussi":{"name":"Vinheria Percussi","address":"Rua Cônego Eugênio Leite, 523 — Pinheiros, São Paulo — SP","country":"brasil","lat":-23.5642461,"lng":-46.6804756},"brasil/yorimichi":{"name":"Yorimichi","address":"São Paulo — SP","country":"brasil","lat":-23.5731239,"lng":-46.6501577},"brasil/yu":{"name":"Yu","address":"São Paulo — SP","country":"brasil","lat":-22.0702705,"lng":-48.4333875},"brasil/zena-cucina":{"name":"Zena Cucina","address":"São Paulo — SP","country":"brasil","lat":-23.5506507,"lng":-46.6333824},"brasil/bar-do-alemao":{"name":"Bar do Alemão","address":"Curitiba — PR","country":"brasil","lat":-25.4497634,"lng":-49.2753883},"brasil/barolo":{"name":"Barolo","address":"Curitiba — PR","country":"brasil","lat":-25.446362,"lng":-49.2842177},"brasil/ernesto":{"name":"Ernesto","address":"Curitiba — PR","country":"brasil","lat":-25.4146793,"lng":-49.255813},"brasil/ernesto-music-hall":{"name":"Ernesto Music Hall","address":"Curitiba — PR","country":"brasil","lat":-25.4295963,"lng":-49.2712724},"brasil/ile-de-france":{"name":"Ilê de France","address":"Curitiba — PR","country":"brasil","lat":-25.4423188,"lng":-49.2877708},"brasil/l":{"name":"L","address":"Curitiba — PR","country":"brasil","lat":-25.3845186,"lng":-49.2883567},"brasil/la-varenne":{"name":"La Varenne","address":"Curitiba — PR","country":"brasil","lat":-25.4295963,"lng":-49.2712724},"brasil/lupita":{"name":"Lupita","address":"Curitiba — PR","country":"brasil","lat":-25.4314239,"lng":-49.2751963},"brasil/madero-premium":{"name":"Madero Premium","address":"Curitiba — PR","country":"brasil","lat":-25.4295963,"lng":-49.2712724},"brasil/mercearia-avenida":{"name":"Mercearia Avenida","address":"Curitiba — PR","country":"brasil","lat":-25.4482568,"lng":-49.2938119},"brasil/mercearia-avenida-shopping-barigui":{"name":"Mercearia Avenida Shopping Barigui","address":"Shopping Barigui, Curitiba — PR","country":"brasil","lat":-25.432204,"lng":-49.3163274},"brasil/mercearia-do-portugues":{"name":"Mercearia do Português","address":"Curitiba — PR","country":"brasil","lat":-25.4295963,"lng":-49.2712724},"brasil/300-cosmo-beach-club":{"name":"300 Cosmo Beach Club","address":"Florianópolis — SC","country":"brasil","lat":-27.5973002,"lng":-48.5496098},"brasil/ammo-beach":{"name":"Ammo Beach","address":"Florianópolis — SC","country":"brasil","lat":-27.5973002,"lng":-48.5496098},"brasil/aqua-plage":{"name":"Aqua Plage","address":"Florianópolis — SC","country":"brasil","lat":-27.5973002,"lng":-48.5496098},"brasil/artusi":{"name":"Artusi","address":"Florianópolis — SC","country":"brasil","lat":-27.5973002,"lng":-48.5496098},"brasil/cafe-de-la-musique":{"name":"Café de Lá Musique","address":"Florianópolis — SC","country":"brasil","lat":-27.4375454,"lng":-48.4996497},"brasil/delicias-portuguesas":{"name":"Delícias Portuguesas","address":"Florianópolis — SC","country":"brasil","lat":-27.5922501,"lng":-48.5469546},"brasil/devito":{"name":"Devito","address":"Florianópolis — SC","country":"brasil","lat":-27.5973002,"lng":-48.5496098},"brasil/el-senor":{"name":"El Señor","address":"Florianópolis — SC","country":"brasil","lat":-27.5973002,"lng":-48.5496098},"brasil/folha":{"name":"Folha","address":"Florianópolis — SC","country":"brasil","lat":-27.5973002,"lng":-48.5496098},"brasil/fuego-argentino":{"name":"Fuego Argentino","address":"Florianópolis — SC","country":"brasil","lat":-27.5973002,"lng":-48.5496098},"brasil/mar-massas":{"name":"Mar Massas","address":"Florianópolis — SC","country":"brasil","lat":-27.6217057,"lng":-48.4787856},"brasil/marisqueira-sintra":{"name":"Marisqueira Sintra","address":"Florianópolis — SC","country":"brasil","lat":-27.5973002,"lng":-48.5496098},"brasil/nipo-vista":{"name":"Nipô Vista","address":"Florianópolis — SC","country":"brasil","lat":-27.5444258,"lng":-48.5003914},"brasil/noma":{"name":"Noma","address":"Florianópolis — SC","country":"brasil","lat":-27.5973002,"lng":-48.5496098},"brasil/ostradamus":{"name":"Ostradamus","address":"Florianópolis — SC","country":"brasil","lat":-27.720099,"lng":-48.564204},"brasil/piedoro":{"name":"Piedoro","address":"Florianópolis — SC","country":"brasil","lat":-27.5973002,"lng":-48.5496098},"brasil/rosso":{"name":"Rosso","address":"Florianópolis — SC","country":"brasil","lat":-27.5059376,"lng":-48.5220069},"brasil/1835":{"name":"1835","address":"Canela — RS","country":"brasil","lat":-29.3636094,"lng":-50.8096844},"brasil/abbiamo-fatto":{"name":"Abbiamo Fatto","address":"Canela — RS","country":"brasil","lat":-29.3636094,"lng":-50.8096844},"brasil/belle-du-valais":{"name":"Belle du Valais","address":"Gramado — RS","country":"brasil","lat":-29.381609,"lng":-50.8762248},"brasil/bistro-da-lu":{"name":"Bistro da Lu","address":"Canela — RS","country":"brasil","lat":-29.3636094,"lng":-50.8096844},"brasil/galangau":{"name":"Galangau","address":"Canela — RS","country":"brasil","lat":-29.3636094,"lng":-50.8096844},"brasil/la-braise":{"name":"La Braise","address":"Gramado — RS","country":"brasil","lat":-29.3792858,"lng":-50.8737019},"brasil/nonno-mio":{"name":"Nonno Mio","address":"Gramado — RS","country":"brasil","lat":-29.3839428,"lng":-50.8722325},"brasil/vatel":{"name":"Vatel","address":"Gramado — RS","country":"brasil","lat":-29.3792858,"lng":-50.8737019},"brasil/velha-laje":{"name":"Velha Laje","address":"Canela — RS","country":"brasil","lat":-29.3636094,"lng":-50.8096844}};
+function showView(mode){
+  const main=document.getElementById('main');
+  const map=document.getElementById('map');
+  const btnList=document.getElementById('btnList');
+  const btnMap=document.getElementById('btnMap');
+  if(mode==='map'){
+    main.style.display='none';
+    map.style.display='block';
+    btnMap.classList.add('active');btnList.classList.remove('active');
+    initMap();
+  }else{
+    main.style.display='';
+    map.style.display='none';
+    btnList.classList.add('active');btnMap.classList.remove('active');
+  }
+}
+function initMap(){
+  if(mapInstance){setTimeout(()=>mapInstance.invalidateSize(),50);return;}
+  const coords=COORDS;
+  mapInstance=L.map('map',{scrollWheelZoom:true});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(mapInstance);
+  const goldIcon=L.divIcon({className:'gold-marker',html:'<div style="background:#B8922A;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #B8922A,0 2px 4px rgba(0,0,0,.3)"></div>',iconSize:[18,18],iconAnchor:[9,9],popupAnchor:[0,-9]});
+  const markers=[];
+  CITIES.forEach(city=>{
+    city.entries.forEach(r=>{
+      const key=`${FOLDER}/${slug(r.n)}`;
+      const c=coords[key];
+      if(c&&c.lat&&c.lng){
+        const m=L.marker([c.lat,c.lng],{icon:goldIcon}).addTo(mapInstance);
+        const phoneHtml=r.p?`<div style="font-size:11px;margin-top:4px"><a href="tel:${r.p.replace(/\s/g,'')}" style="color:#B8922A;text-decoration:none">${r.p}</a></div>`:'';
+        const priceStr=r.pr?'€'.repeat(r.pr):'';
+        m.bindPopup(`<div style="font-family:Montserrat,sans-serif;min-width:220px"><div style="font-family:'Playfair Display',serif;font-size:17px;color:#1A1A1A;margin-bottom:4px">${r.n}</div><div style="font-size:8px;letter-spacing:2px;color:#B8922A;text-transform:uppercase;font-weight:500;margin-bottom:6px">${r.q||''} ${priceStr?'· '+priceStr:''}</div><div style="font-size:11px;color:#5A5A5A;line-height:1.4">${r.a||''}</div>${phoneHtml}<div style="font-size:11px;margin-top:8px"><a href="javascript:void(0)" onclick="openMap('${r.n.replace(/'/g,"\\'")}','${(r.a||'').replace(/'/g,"\\'")}');document.querySelectorAll('.leaflet-popup-close-button').forEach(b=>b.click())" style="color:#B8922A;text-decoration:underline">Abrir em Maps →</a></div></div>`);
+        m.bindTooltip(`<div style="font-family:'Playfair Display',serif;font-size:13px;color:#1A1A1A;font-weight:500">${r.n}</div><div style="font-size:8px;letter-spacing:1.5px;color:#B8922A;text-transform:uppercase;margin-top:2px">${r.q||''}</div>`,{direction:'top',offset:[0,-8],opacity:0.95,className:'custom-tooltip'});
+        markers.push(m);
+      }
+    });
+  });
+  if(markers.length){
+    const group=L.featureGroup(markers);
+    mapInstance.fitBounds(group.getBounds().pad(0.15));
+  }else{
+    mapInstance.setView([0,0],2);
+  }
+  setTimeout(()=>mapInstance.invalidateSize(),100);
+}
+
+
+
+
+
+/* SEARCH */
+function toggleSearch(){
+  var b=document.getElementById('searchBar');
+  if(!b)return;
+  if(b.classList.contains('open')){ doCloseSearch(); }
+  else { b.classList.add('open'); document.getElementById('searchInput').focus(); }
+}
+function doSearch(){
+  var q=(document.getElementById('searchInput').value||'').toLowerCase().trim();
+  document.querySelectorAll('.restaurant-card').forEach(function(card){
+    if(!q){ card.style.display=''; return; }
+    var t=(card.innerText||card.textContent||'').toLowerCase();
+    card.style.display=t.indexOf(q)>=0?'':'none';
+  });
+}
+function doCloseSearch(){
+  var i=document.getElementById('searchInput'); if(i) i.value='';
+  var b=document.getElementById('searchBar'); if(b) b.classList.remove('open');
+  document.querySelectorAll('.restaurant-card').forEach(function(c){c.style.display='';});
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')doCloseSearch();});
+</script>
+<footer><p><a href="brasil-index.html" data-i18n="back_brasil">← Brasil</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels &nbsp;·&nbsp; <a href="https://instagram.com/lulidias" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none">@lulidias</a></p></footer>
+
+<script>
+
+// === Setas in-line + indicador "tem mais fotos" ===
+async function _setupGallery(wrap) {
+  if (wrap.dataset.galleryReady) return;
+  wrap.dataset.galleryReady = '1';
+  const img = wrap.querySelector('.card-photo');
+  if (!img) return;
+  const src = img.getAttribute('src') || '';
+  const m = src.match(/fotos\/([^/]+)\/(.+?)(?:-\d+)?\.[a-zA-Z]+$/);
+  if (!m) return;
+  const folder = m[1], slug = m[2];
+  const exts = ['.jpeg','.jpg','.JPG','.JPEG','.png','.PNG'];
+  const urls = [src];
+  for (let i = 2; i <= 20; i++) {
+    let found = null;
+    for (const ext of exts) {
+      const url = `fotos/${folder}/${slug}-${i}${ext}`;
+      const exists = await new Promise(r => {
+        const im = new Image();
+        im.onload = () => r(true);
+        im.onerror = () => r(false);
+        im.src = url;
+      });
+      if (exists) { found = url; break; }
+    }
+    if (found) urls.push(found);
+  }
+  if (urls.length < 2) return;
+  // Setup
+  let idx = 0;
+  wrap.dataset.urls = JSON.stringify(urls);
+  wrap.dataset.idx = '0';
+  // Badge
+  const badge = document.createElement('div');
+  badge.className = 'photo-count-badge';
+  badge.innerHTML = `📷 ${urls.length}`;
+  wrap.appendChild(badge);
+  // Prev arrow
+  const prev = document.createElement('button');
+  prev.className = 'photo-nav prev';
+  prev.innerHTML = '‹';
+  prev.setAttribute('aria-label','Foto anterior');
+  prev.onclick = (e) => { e.stopPropagation(); idx = (idx - 1 + urls.length) % urls.length; img.src = urls[idx]; updateDots(); };
+  wrap.appendChild(prev);
+  // Next arrow
+  const next = document.createElement('button');
+  next.className = 'photo-nav next';
+  next.innerHTML = '›';
+  next.setAttribute('aria-label','Próxima foto');
+  next.onclick = (e) => { e.stopPropagation(); idx = (idx + 1) % urls.length; img.src = urls[idx]; updateDots(); };
+  wrap.appendChild(next);
+  // Dots
+  const dots = document.createElement('div');
+  dots.className = 'photo-dots';
+  for (let i = 0; i < urls.length; i++) {
+    const d = document.createElement('span');
+    d.className = 'photo-dot' + (i === 0 ? ' active' : '');
+    dots.appendChild(d);
+  }
+  wrap.appendChild(dots);
+  function updateDots() {
+    dots.querySelectorAll('.photo-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === idx);
+    });
+  }
+}
+
+// Observer: quando renderiza cards, configura galeria
+function _scanGalleries() {
+  document.querySelectorAll('.card-photo-wrap').forEach(_setupGallery);
+}
+// Rodar após render
+const _origScan = setInterval(() => {
+  if (document.querySelector('.card-photo')) {
+    _scanGalleries();
+  }
+}, 800);
+// MutationObserver para novos cards (após filtros)
+const _galleryObserver = new MutationObserver(() => _scanGalleries());
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(_scanGalleries, 500);
+  const main = document.getElementById('main');
+  if (main) _galleryObserver.observe(main, { childList: true, subtree: true });
+});
+
+// === LIGHTBOX (fotos múltiplas: slug.jpeg, slug-2.jpeg, slug-3.jpeg...) ===
+let _galleryImages = [];
+let _galleryIdx = 0;
+
+async function openGallery(slug, folder) {
+  const exts = ['.jpeg','.jpg','.JPG','.JPEG','.png','.PNG'];
+  _galleryImages = [];
+  for (let i = 1; i <= 10; i++) {
+    const suffix = i === 1 ? '' : '-' + i;
+    let found = false;
+    for (const ext of exts) {
+      const url = `fotos/${folder}/${slug}${suffix}${ext}`;
+      const exists = await new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+      });
+      if (exists) {
+        _galleryImages.push(url);
+        found = true;
+        break;
+      }
+    }
+    if (!found && i > 1) break;
+    if (!found && i === 1) return;
+  }
+  if (_galleryImages.length === 0) return;
+  _galleryIdx = 0;
+  showGalleryImage();
+  document.getElementById('galleryModal').classList.add('open');
+}
+function showGalleryImage() {
+  document.getElementById('galleryImg').src = _galleryImages[_galleryIdx];
+  document.getElementById('galleryCounter').textContent = `${_galleryIdx+1} / ${_galleryImages.length}`;
+}
+function galleryNext() { _galleryIdx = (_galleryIdx + 1) % _galleryImages.length; showGalleryImage(); }
+function galleryPrev() { _galleryIdx = (_galleryIdx - 1 + _galleryImages.length) % _galleryImages.length; showGalleryImage(); }
+function closeGallery() { document.getElementById('galleryModal').classList.remove('open'); }
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('galleryModal')?.classList.contains('open')) return;
+  if (e.key === 'Escape') closeGallery();
+  else if (e.key === 'ArrowRight') galleryNext();
+  else if (e.key === 'ArrowLeft') galleryPrev();
+});
+// Auto-bind: clicar em qualquer foto do card abre lightbox (single .card-photo OU galeria inline)
+document.addEventListener('click', function(e) {
+  // Ignorar cliques em controlos de navegação/dots
+  if (e.target.closest('.card-nav, .photo-nav, .card-dots, .photo-dots, .photo-count-badge')) return;
+  const img = e.target.closest('.card-photo, .card-gallery img');
+  if (!img) return;
+  const src = img.getAttribute('src') || '';
+  const m = src.match(/fotos\/([^/]+)\/(.+?)(?:-\d+)?\.[a-zA-Z]+$/);
+  if (m) {
+    e.preventDefault();
+    e.stopPropagation();
+    openGallery(m[2], m[1]);
+  }
+});
+</script>
+<div class="gallery-modal" id="galleryModal" onclick="if(event.target===this)closeGallery()">
+  <button class="gallery-close" onclick="closeGallery()" aria-label="Fechar">&times;</button>
+  <button class="gallery-arrow prev" onclick="galleryPrev()" aria-label="Anterior">‹</button>
+  <img class="gallery-img" id="galleryImg" alt="">
+  <button class="gallery-arrow next" onclick="galleryNext()" aria-label="Próxima">›</button>
+  <div class="gallery-counter" id="galleryCounter">1 / 1</div>
+</div>
+<script>
+(function(){
+  var T={
+    pt:{back:'← Voltar',back_brasil:'← Brasil',back_todos:'← Todos os Países',srch:'Buscar restaurante, culinária, bairro…',sr:'Restaurantes',sc:'Cidades',sh:'Hotéis',se:'Estados',sm:'Michelin',m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',grn:'Estrela Verde',mich:'Michelin',acc:'Hospedagem',view:'Vista:',list:'Lista',map:'Mapa',type:'Tipo:',all:'✦ Todos',rest:'🍽 Restaurantes',hot:'🛏 Hotéis',waze:'Navegar com Waze',gmaps:'Abrir no Google Maps',apple:'Abrir no Apple Maps',cancel:'Cancelar',call:'Todas',nm:' Perto de Mim',guide_personal:'Guia Gastronómico Pessoal',choose_state:'Escolha um estado',about_pre:'sobre o curador',countries_guide:'Países no Guia',trips_year:'Viagens/Ano',wine_distinctions:'Distinções do Mundo do Vinho'},
+    en:{back:'← Back',back_brasil:'← Brazil',back_todos:'← All Countries',srch:'Search restaurant, cuisine, neighbourhood…',sr:'Restaurants',sc:'Cities',sh:'Hotels',se:'States',sm:'Michelin',m3:'★★★ 3 Stars',m2:'★★ 2 Stars',m1:'★ 1 Star',bib:'Bib Gourmand',grn:'Green Star',mich:'Michelin',acc:'Accommodation',view:'View:',list:'List',map:'Map',type:'Type:',all:'✦ All',rest:'🍽 Restaurants',hot:'🛏 Hotels',waze:'Navigate with Waze',gmaps:'Open in Google Maps',apple:'Open in Apple Maps',cancel:'Cancel',call:'All',nm:' Near Me',guide_personal:'Personal Gastronomic Guide',choose_state:'Choose a state',about_pre:'about the curator',countries_guide:'Countries in Guide',trips_year:'Trips/Year',wine_distinctions:'Wine World Distinctions'}
+  };
+  var LANG=localStorage.getItem('ld-lang')||'pt';
+  var t=function(k){return (T[LANG]&&T[LANG][k])||T.pt[k]||k;};
+  T.fr={back:'← Retour',back_brasil:'← Brésil',back_todos:'← Tous les pays',srch:'Rechercher un restaurant, une cuisine, un quartier…',sr:'Restaurants',sc:'Villes',sh:'Hôtels',se:'États',sm:'Michelin',m3:'★★★ 3 Étoiles',m2:'★★ 2 Étoiles',m1:'★ 1 Étoile',bib:'Bib Gourmand',grn:'Étoile Verte',mich:'Michelin',acc:'Hébergement',view:'Vue :',list:'Liste',map:'Carte',type:'Type :',all:'✦ Tous',rest:'🍽 Restaurants',hot:'🛏 Hôtels',waze:'Naviguer avec Waze',gmaps:'Ouvrir dans Google Maps',apple:'Ouvrir dans Apple Maps',cancel:'Annuler',call:'Tous',nm:' Près de moi',guide_personal:'Guide gastronomique personnel',choose_state:'Choisissez un état',about_pre:'sur le curateur',countries_guide:'Pays du guide',trips_year:'Voyages/an',wine_distinctions:'Distinctions du monde du vin'};
+T.es={back:'← Volver',back_brasil:'← Brasil',back_todos:'← Todos los países',srch:'Buscar restaurante, cocina, barrio…',sr:'Restaurantes',sc:'Ciudades',sh:'Hoteles',se:'Estados',sm:'Michelin',m3:'★★★ 3 Estrellas',m2:'★★ 2 Estrellas',m1:'★ 1 Estrella',bib:'Bib Gourmand',grn:'Estrella Verde',mich:'Michelin',acc:'Alojamiento',view:'Vista:',list:'Lista',map:'Mapa',type:'Tipo:',all:'✦ Todos',rest:'🍽 Restaurantes',hot:'🛏 Hoteles',waze:'Navegar con Waze',gmaps:'Abrir en Google Maps',apple:'Abrir en Apple Maps',cancel:'Cancelar',call:'Todas',nm:' Cerca de mí',guide_personal:'Guía Gastronómica Personal',choose_state:'Elige un estado',about_pre:'sobre el curador',countries_guide:'Países en la Guía',trips_year:'Vueltas al Mundo Voladas',wine_distinctions:'Distinciones del Mundo del Vino'};T.it={back:'← Indietro',back_brasil:'← Brasile',back_todos:'← Tutti i paesi',srch:'Cerca ristorante, cucina, quartiere…',sr:'Ristoranti',sc:'Città',sh:'Hotel',se:'Stati',sm:'Michelin',m3:'★★★ 3 Stelle',m2:'★★ 2 Stelle',m1:'★ 1 Stella',bib:'Bib Gourmand',grn:'Stella Verde',mich:'Michelin',acc:'Alloggio',view:'Vista:',list:'Elenco',map:'Mappa',type:'Tipo:',all:'✦ Tutti',rest:'🍽 Ristoranti',hot:'🛏 Hotel',waze:'Naviga con Waze',gmaps:'Apri in Google Maps',apple:'Apri in Apple Maps',cancel:'Annulla',call:'Tutte',nm:' Vicino a me',guide_personal:'Guida Gastronomica Personale',choose_state:'Scegli uno stato',about_pre:'sul curatore',countries_guide:'Paesi nella Guida',trips_year:'Giri del Mondo Volati',wine_distinctions:'Onorificenze del Mondo del Vino'};T.de={back:'← Zurück',back_brasil:'← Brasilien',back_todos:'← Alle Länder',srch:'Restaurant, Küche, Viertel suchen…',sr:'Restaurants',sc:'Städte',sh:'Hotels',se:'Bundesstaaten',sm:'Michelin',m3:'★★★ 3 Sterne',m2:'★★ 2 Sterne',m1:'★ 1 Stern',bib:'Bib Gourmand',grn:'Grüner Stern',mich:'Michelin',acc:'Unterkunft',view:'Ansicht:',list:'Liste',map:'Karte',type:'Typ:',all:'✦ Alle',rest:'🍽 Restaurants',hot:'🛏 Hotels',waze:'Mit Waze navigieren',gmaps:'In Google Maps öffnen',apple:'In Apple Maps öffnen',cancel:'Abbrechen',call:'Alle',nm:' In meiner Nähe',guide_personal:'Persönlicher Gastronomieführer',choose_state:'Bundesstaat wählen',about_pre:'über den Kurator',countries_guide:'Länder im Guide',trips_year:'Geflogene Weltumrundungen',wine_distinctions:'Auszeichnungen der Weinwelt'};
+  function apply(){
+    document.querySelectorAll('.card-desc').forEach(function(el){if(el.dataset.pt===undefined)el.dataset.pt=el.textContent;el.textContent=(LANG==='pt'?el.dataset.pt:(el.dataset[LANG]||el.dataset.en||el.dataset.pt));});
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.dataset.i18n;
+      if(el.tagName==='INPUT')el.placeholder=t(k);
+      else el.textContent=t(k);
+    });
+    document.querySelectorAll('.cuisine-btn').forEach(function(btn){
+      if(btn.textContent.trim()==='Todas'||btn.textContent.trim()==='All')btn.textContent=t('call');
+    });
+    document.querySelectorAll('.filter-btn').forEach(function(btn){
+      if(btn.textContent.trim()==='Todas'||btn.textContent.trim()==='All')btn.textContent=t('call');
+    });
+    document.documentElement.lang=LANG==='fr'?'fr':LANG==='en'?'en':LANG==='es'?'es':LANG==='it'?'it':LANG==='de'?'de':'pt-BR';
+    var btn=document.getElementById('lang-toggle');
+    if(btn)btn.textContent='🌐 '+LANG.toUpperCase();btn.style.color=LANG==='pt'?'':'var(--gold)';
+  }
+  if(typeof window.rebuildFilters==='function'){var _rb=window.rebuildFilters;window.rebuildFilters=function(){_rb();apply();};}
+  if(typeof window.buildCuisineBar==='function'){var _bc=window.buildCuisineBar;window.buildCuisineBar=function(){_bc();apply();};}
+  if(typeof window.render==='function'){var _rndr=window.render;window.render=function(){_rndr.apply(this,arguments);apply();};}
+  window.setLang=function(l){LANG=l;try{localStorage.setItem('ld-lang',l);}catch(e){}apply();var m=document.getElementById('ld-lang-menu');if(m)m.classList.remove('open');};window.toggleLang=function(){var m=document.getElementById('ld-lang-menu');if(!m){m=document.createElement('div');m.id='ld-lang-menu';m.innerHTML="<button type=button data-l=pt onclick=\"setLang('pt')\">Português</button><button type=button data-l=en onclick=\"setLang('en')\">English</button><button type=button data-l=fr onclick=\"setLang('fr')\">Français</button><button type=button data-l=es onclick=\"setLang('es')\">Español</button><button type=button data-l=it onclick=\"setLang('it')\">Italiano</button><button type=button data-l=de onclick=\"setLang('de')\">Deutsch</button>";document.body.appendChild(m);var st=document.createElement('style');st.textContent="#ld-lang-menu{position:fixed;display:none;flex-direction:column;background:#fff;border:1px solid #e6ddcf;border-radius:10px;box-shadow:0 10px 34px rgba(0,0,0,.14);z-index:99999;overflow:hidden;min-width:160px}#ld-lang-menu.open{display:flex}#ld-lang-menu button{background:none;border:0;text-align:left;padding:11px 15px;font-family:'Montserrat',sans-serif;font-size:12.5px;letter-spacing:.5px;color:#1a1a1a;cursor:pointer}#ld-lang-menu button:hover{background:#faf5eb;color:#b8922a}#ld-lang-menu button.act{color:#b8922a;font-weight:600}";document.head.appendChild(st);document.addEventListener('click',function(e){var b=document.getElementById('lang-toggle');if(m.classList.contains('open')&&b&&e.target!==b&&!b.contains(e.target)&&!m.contains(e.target))m.classList.remove('open');});}m.querySelectorAll('button').forEach(function(x){x.classList.toggle('act',x.getAttribute('data-l')===LANG);});var b=document.getElementById('lang-toggle');if(b){var r=b.getBoundingClientRect();m.style.top=(r.bottom+8)+'px';m.style.right=Math.max(8,(window.innerWidth-r.right))+'px';m.style.left='auto';}m.classList.toggle('open');};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);
+  else apply();
+  window.addEventListener('load',apply);
+})();
+</script>
+<script src="js/marks.js"></script>
+</body>
+</html>
