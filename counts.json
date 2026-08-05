@@ -1,7 +1,7 @@
 {
   "totals": {
-    "restaurants": 1070,
-    "hotels": 185,
+    "restaurants": 1072,
+    "hotels": 186,
     "markets": 27,
     "cities": 216,
     "lojaVinho": 2,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 62,
-    "total": 1296,
+    "total": 1299,
     "michelin": 91,
     "keysEntries": 40
   },
@@ -927,8 +927,8 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 507,
-      "hotels": 70,
+      "restaurants": 509,
+      "hotels": 71,
       "markets": 4,
       "cities": 56,
       "lojaVinho": 0,
@@ -993,8 +993,8 @@
       "keysEntries": 2
     },
     "brasil-sudeste": {
-      "restaurants": 310,
-      "hotels": 37,
+      "restaurants": 312,
+      "hotels": 38,
       "markets": 0,
       "cities": 24,
       "lojaVinho": 0,
@@ -1089,8 +1089,8 @@
       "cities": 38
     },
     "Minas Gerais": {
-      "restaurants": 16,
-      "hotels": 2,
+      "restaurants": 20,
+      "hotels": 4,
       "cities": 2
     },
     "Rio de Janeiro": {
