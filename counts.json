@@ -1,9 +1,9 @@
 {
   "totals": {
-    "restaurants": 1077,
+    "restaurants": 1078,
     "hotels": 186,
     "markets": 27,
-    "cities": 218,
+    "cities": 219,
     "lojaVinho": 2,
     "wineBar": 12,
     "mercado": 27,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 62,
-    "total": 1304,
+    "total": 1305,
     "michelin": 91,
     "keysEntries": 40
   },
@@ -927,10 +927,10 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 514,
+      "restaurants": 515,
       "hotels": 71,
       "markets": 4,
-      "cities": 58,
+      "cities": 59,
       "lojaVinho": 0,
       "wineBar": 6,
       "mercado": 4,
@@ -971,10 +971,10 @@
       "keysEntries": 1
     },
     "brasil-nordeste": {
-      "restaurants": 89,
+      "restaurants": 90,
       "hotels": 16,
       "markets": 0,
-      "cities": 18,
+      "cities": 19,
       "lojaVinho": 0,
       "wineBar": 1,
       "mercado": 0,
@@ -1051,6 +1051,11 @@
     "Goiás": {
       "restaurants": 24,
       "hotels": 4,
+      "cities": 2
+    },
+    "Sergipe": {
+      "restaurants": 2,
+      "hotels": 0,
       "cities": 2
     },
     "Pará": {
