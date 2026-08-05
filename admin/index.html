@@ -1452,6 +1452,33 @@ let _leadsFiltered = []; // after search
 const _LEADS_PAGE = 50;
 let _leadsOffset = 0;
 
+async function saveLeadName(el) {
+  const email = el.dataset.email;
+  const nome = el.textContent.trim();
+  if (nome === (el.dataset.orig || '')) return;
+  const WORKER = STATE.workerUrl || 'https://luli-admin.lulidias.workers.dev';
+  const key = STATE.workerKey || 'lulidias-admin-2026';
+  el.style.opacity = '0.5';
+  try {
+    const res = await fetch(WORKER + '/update-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key },
+      body: JSON.stringify({ email, nome })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    el.dataset.orig = nome;
+    const m = _leadsData.find(x => x.email === email);
+    if (m) { m.fname = nome; m.lname = ''; }
+    el.style.opacity = '1';
+    el.style.background = 'rgba(150,190,120,.3)';
+    setTimeout(() => { el.style.background = ''; }, 700);
+  } catch (_) {
+    el.style.opacity = '1';
+    el.style.background = 'rgba(200,120,120,.3)';
+    setTimeout(() => { el.style.background = ''; }, 1500);
+  }
+}
+
 async function syncMailchimp(btn) {
   const WORKER = STATE.workerUrl || 'https://luli-admin.lulidias.workers.dev';
   const key = STATE.workerKey || 'lulidias-admin-2026';
@@ -1530,7 +1557,7 @@ function renderLeadsPage() {
   }
 
   // Table header
-  let html = `<table style="width:100%;border-collapse:collapse">
+  let html = `<style>.lead-name{border-bottom:1px dashed transparent;cursor:text;outline:none;display:inline-block;min-width:60px;padding:1px 3px;border-radius:3px;transition:background .3s}.lead-name:hover{border-bottom-color:var(--border)}.lead-name:focus{border-bottom-color:var(--gold);background:var(--cream)}.lead-name:empty:before{content:'✎ adicionar';color:var(--ink-xs);font-style:italic}</style><table style="width:100%;border-collapse:collapse">
     <thead>
       <tr style="border-bottom:2px solid var(--border)">
         <th style="padding:12px 20px;text-align:left;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs);font-weight:600">Nome</th>
@@ -1548,7 +1575,7 @@ function renderLeadsPage() {
     const statusLabel = m.status === 'subscribed' ? 'Subscrito' : m.status === 'unsubscribed' ? 'Removido' : m.status;
     const bg = i % 2 === 0 ? 'var(--white)' : 'var(--cream)';
     html += `<tr style="background:${bg};border-bottom:1px solid var(--border)">
-      <td style="padding:13px 20px;font-size:13px;color:var(--ink);font-weight:500">${escHtml(nome)}</td>
+      <td style="padding:13px 20px;font-size:13px;color:var(--ink);font-weight:500"><span class="lead-name" contenteditable="true" data-email="${escHtml(m.email)}" data-orig="${escHtml(nome==='—'?'':nome)}" onblur="saveLeadName(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}" title="Clique para editar o nome">${escHtml(nome==='—'?'':nome)}</span></td>
       <td style="padding:13px 20px;font-size:12px;color:var(--ink-lt)">${escHtml(m.email)}</td>
       <td style="padding:13px 20px;font-size:11px;color:var(--ink-xs)">${dt}</td>
       <td style="padding:13px 20px"><span style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${statusColor}">${statusLabel}</span></td>

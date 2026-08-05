@@ -60,6 +60,9 @@ export default {
       if (url.pathname === '/sync-mailchimp' && request.method === 'POST') {
         return await handleSyncMailchimp(env);
       }
+      if (url.pathname === '/update-lead' && request.method === 'POST') {
+        return await handleUpdateLead(request, env);
+      }
       if (url.pathname === '/viagens' && request.method === 'GET') {
         const row = await env.DB.prepare("SELECT v FROM viagens_kv WHERE k='dados'").first();
         if (!row) return jsonResponse({ error: 'sem_dados' }, 404);
@@ -706,6 +709,41 @@ async function handleRegister(request, env) {
   ).bind(email, nome, new Date().toISOString()).run();
   const row = await env.DB.prepare("SELECT COUNT(*) AS n FROM leads").first();
   return jsonResponse({ ok: true, total: row ? row.n : null });
+}
+
+// Editar o nome de um cadastro (admin) — grava no D1 E no Mailchimp (FNAME/LNAME),
+// para o nome aparecer também nos e-mails marketing (merge tag *|FNAME|*).
+async function handleUpdateLead(request, env) {
+  let body;
+  try { body = await request.json(); } catch (_) { return jsonResponse({ error: 'json inválido' }, 400); }
+  const email = String(body.email || '').trim().toLowerCase();
+  const nome = String(body.nome || '').trim().slice(0, 120);
+  if (!email) return jsonResponse({ error: 'email obrigatório' }, 400);
+  await ensureLeadsTable(env);
+  await env.DB.prepare("UPDATE leads SET nome = ?1 WHERE email = ?2").bind(nome, email).run();
+
+  // Espelha no Mailchimp (via batch subscribe com update_existing — casa por e-mail, sem precisar de hash)
+  let mailchimp = 'sem_key';
+  const key = env.MAILCHIMP_API_KEY;
+  if (key) {
+    try {
+      const dc = key.split('-')[1] || 'us12';
+      const auth = 'Basic ' + btoa('any:' + key);
+      const lr = await fetch(`https://${dc}.api.mailchimp.com/3.0/lists?count=1&fields=lists.id`, { headers: { Authorization: auth } });
+      const lists = lr.ok ? ((await lr.json()).lists || []) : [];
+      if (!lists.length) { mailchimp = 'sem_lista'; }
+      else {
+        const fname = nome.split(' ')[0] || '';
+        const lname = nome.split(' ').slice(1).join(' ');
+        const pr = await fetch(`https://${dc}.api.mailchimp.com/3.0/lists/${lists[0].id}`, {
+          method: 'POST', headers: { Authorization: auth, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ members: [{ email_address: email, merge_fields: { FNAME: fname, LNAME: lname } }], update_existing: true })
+        });
+        mailchimp = pr.ok ? 'ok' : ('erro ' + pr.status);
+      }
+    } catch (e) { mailchimp = 'erro'; }
+  }
+  return jsonResponse({ ok: true, mailchimp });
 }
 
 // Lista de cadastros para o admin — lê do D1 (fonte de verdade própria)
