@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1066,
+    "restaurants": 1068,
     "hotels": 184,
     "markets": 23,
     "cities": 216,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 62,
-    "total": 1287,
+    "total": 1289,
     "michelin": 91,
     "keysEntries": 40
   },
@@ -927,7 +927,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 503,
+      "restaurants": 505,
       "hotels": 69,
       "markets": 0,
       "cities": 56,
@@ -993,7 +993,7 @@
       "keysEntries": 2
     },
     "brasil-sudeste": {
-      "restaurants": 309,
+      "restaurants": 310,
       "hotels": 37,
       "markets": 0,
       "cities": 24,
@@ -1015,7 +1015,7 @@
       "keysEntries": 7
     },
     "brasil-sul": {
-      "restaurants": 72,
+      "restaurants": 73,
       "hotels": 10,
       "markets": 0,
       "cities": 12,
@@ -1084,7 +1084,7 @@
       "cities": 8
     },
     "São Paulo": {
-      "restaurants": 498,
+      "restaurants": 500,
       "hotels": 46,
       "cities": 38
     },
@@ -1104,12 +1104,12 @@
       "cities": 2
     },
     "Paraná": {
-      "restaurants": 46,
+      "restaurants": 44,
       "hotels": 8,
       "cities": 8
     },
     "Santa Catarina": {
-      "restaurants": 50,
+      "restaurants": 54,
       "hotels": 4,
       "cities": 8
     },
