@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1072,
+    "restaurants": 1071,
     "hotels": 186,
     "markets": 27,
     "cities": 216,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 62,
-    "total": 1299,
+    "total": 1298,
     "michelin": 91,
     "keysEntries": 40
   },
@@ -927,7 +927,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 509,
+      "restaurants": 508,
       "hotels": 71,
       "markets": 4,
       "cities": 56,
@@ -993,7 +993,7 @@
       "keysEntries": 2
     },
     "brasil-sudeste": {
-      "restaurants": 312,
+      "restaurants": 311,
       "hotels": 38,
       "markets": 0,
       "cities": 24,
@@ -1089,7 +1089,7 @@
       "cities": 38
     },
     "Minas Gerais": {
-      "restaurants": 20,
+      "restaurants": 18,
       "hotels": 4,
       "cities": 2
     },

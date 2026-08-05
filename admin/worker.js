@@ -665,7 +665,7 @@ async function handleSyncMailchimp(env) {
   for (const list of lists) {
     let offset = 0;
     for (;;) {
-      const mr = await fetch(`https://${dc}.api.mailchimp.com/3.0/lists/${list.id}/members?count=1000&offset=${offset}&status=subscribed&fields=members.email_address,members.merge_fields,members.timestamp_opt,members.timestamp_signup`, { headers: { Authorization: auth } });
+      const mr = await fetch(`https://${dc}.api.mailchimp.com/3.0/lists/${list.id}/members?count=1000&offset=${offset}&status=subscribed`, { headers: { Authorization: auth } });
       if (!mr.ok) break;
       const members = (await mr.json()).members || [];
       if (!members.length) break;
