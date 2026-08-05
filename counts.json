@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1076,
+    "restaurants": 1077,
     "hotels": 186,
     "markets": 27,
     "cities": 218,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 62,
-    "total": 1303,
+    "total": 1304,
     "michelin": 91,
     "keysEntries": 40
   },
@@ -927,7 +927,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 513,
+      "restaurants": 514,
       "hotels": 71,
       "markets": 4,
       "cities": 58,
@@ -971,7 +971,7 @@
       "keysEntries": 1
     },
     "brasil-nordeste": {
-      "restaurants": 88,
+      "restaurants": 89,
       "hotels": 16,
       "markets": 0,
       "cities": 18,
@@ -1074,7 +1074,7 @@
       "cities": 2
     },
     "Alagoas": {
-      "restaurants": 14,
+      "restaurants": 16,
       "hotels": 0,
       "cities": 2
     },
