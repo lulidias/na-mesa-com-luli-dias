@@ -735,9 +735,20 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
   if (!nome) { err.textContent = 'Por favor preencha o seu nome.'; return; }
   if (!email || !email.includes('@')) { err.textContent = 'Por favor introduza um e-mail válido.'; return; }
   btn.disabled = true; btn.textContent = 'A guardar…'; err.textContent = '';
-  _regSave(nome, email);
-  _mcSubscribe(nome, email, true).catch(()=>{});
-  document.getElementById('reg-modal').classList.remove('open');
+  try {
+    const res = await fetch('https://luli-admin.lulidias.workers.dev/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, email })
+    });
+    if (!res.ok) throw new Error('save failed');
+    _regSave(nome, email);
+    _mcSubscribe(nome, email, true).catch(()=>{});
+    document.getElementById('reg-modal').classList.remove('open');
+  } catch (_) {
+    err.textContent = 'Não foi possível guardar agora. Tente novamente.';
+    btn.disabled = false; btn.textContent = 'Entrar no Guia →';
+  }
 });
 </script>
 <script>

@@ -27,13 +27,19 @@ export default {
       return new Response(null, { headers: CORS_HEADERS });
     }
 
-    // Auth check
+    const url = new URL(request.url);
+
+    // Endpoint PÚBLICO: cadastro pelo formulário do site (sem X-Admin-Key)
+    if (url.pathname === '/register' && request.method === 'POST') {
+      try { return await handleRegister(request, env); }
+      catch (err) { return jsonResponse({ error: err.message }, 500); }
+    }
+
+    // Auth check (todos os outros endpoints exigem a chave)
     const adminKey = request.headers.get('X-Admin-Key');
     if (adminKey !== env.ADMIN_KEY) {
       return jsonResponse({ error: 'unauthorized' }, 401);
     }
-
-    const url = new URL(request.url);
 
     try {
       if (url.pathname === '/enrich' && request.method === 'POST') {
@@ -628,33 +634,45 @@ async function handleAnalytics(url, env) {
 
 // ===================== LEADS =====================
 
+async function ensureLeadsTable(env) {
+  await env.DB.prepare(
+    "CREATE TABLE IF NOT EXISTS leads (email TEXT PRIMARY KEY, nome TEXT, created_at TEXT NOT NULL, source TEXT DEFAULT 'form')"
+  ).run();
+}
+
+// Cadastro público vindo do formulário do site → grava no D1 (fonte de verdade própria, sempre atualizada)
+async function handleRegister(request, env) {
+  let body;
+  try { body = await request.json(); } catch (_) { return jsonResponse({ error: 'json inválido' }, 400); }
+  const email = String(body.email || '').trim().toLowerCase();
+  const nome = String(body.nome || body.name || '').trim().slice(0, 120);
+  if (!email || email.length > 160 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    return jsonResponse({ error: 'email inválido' }, 400);
+  }
+  await ensureLeadsTable(env);
+  await env.DB.prepare(
+    "INSERT INTO leads (email, nome, created_at, source) VALUES (?1, ?2, ?3, 'form') " +
+    "ON CONFLICT(email) DO UPDATE SET nome = COALESCE(NULLIF(?2, ''), nome)"
+  ).bind(email, nome, new Date().toISOString()).run();
+  const row = await env.DB.prepare("SELECT COUNT(*) AS n FROM leads").first();
+  return jsonResponse({ ok: true, total: row ? row.n : null });
+}
+
+// Lista de cadastros para o admin — lê do D1 (fonte de verdade própria)
 async function handleLeads(url, env) {
-  const secret = env.BROADCAST_SECRET;
-  if (!secret) {
-    return jsonResponse({ error: 'BROADCAST_SECRET not configured in Cloudflare Worker' }, 500);
-  }
-
-  const supabaseUrl = 'https://saotncritqxuchsvvnzi.supabase.co/functions/v1/guia-broadcast';
-  const resp = await fetch(supabaseUrl, {
-    method: 'GET',
-    headers: { 'Authorization': `Bearer ${secret}` },
-  });
-
-  if (!resp.ok) {
-    const detail = await resp.text();
-    return jsonResponse({ error: 'Supabase error', status: resp.status, detail }, 500);
-  }
-
-  const data = await resp.json();
+  await ensureLeadsTable(env);
+  const { results } = await env.DB.prepare(
+    "SELECT email, nome, created_at FROM leads ORDER BY created_at DESC"
+  ).all();
   return jsonResponse({
-    total: data.total || 0,
-    members: (data.members || []).map(m => ({
+    total: results.length,
+    members: (results || []).map(m => ({
       email: m.email,
-      fname: '',
+      fname: m.nome || '',
       lname: '',
       status: 'subscribed',
       signed_up: m.created_at,
-    }))
+    })),
   });
 }
 
