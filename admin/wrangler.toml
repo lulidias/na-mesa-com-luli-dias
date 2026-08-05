@@ -19,6 +19,10 @@ binding = "DB"
 database_name = "lulidias-db"
 database_id = "174f85c4-40ee-4209-b15d-1ec1d31ed9b2"
 
+# Cron: sincroniza Mailchimp → D1 diariamente às 09:00 UTC (mantém a base de cadastros sempre completa)
+[triggers]
+crons = ["0 9 * * *"]
+
 # Os secrets seguintes são configurados separadamente via:
 #   wrangler secret put ANTHROPIC_API_KEY
 #   wrangler secret put GITHUB_TOKEN

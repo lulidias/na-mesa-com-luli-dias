@@ -57,6 +57,9 @@ export default {
       if (url.pathname === '/leads' && request.method === 'GET') {
         return await handleLeads(url, env);
       }
+      if (url.pathname === '/sync-mailchimp' && request.method === 'POST') {
+        return await handleSyncMailchimp(env);
+      }
       if (url.pathname === '/viagens' && request.method === 'GET') {
         const row = await env.DB.prepare("SELECT v FROM viagens_kv WHERE k='dados'").first();
         if (!row) return jsonResponse({ error: 'sem_dados' }, 404);
@@ -77,6 +80,13 @@ export default {
     }
 
     return jsonResponse({ error: 'not found' }, 404);
+  },
+
+  // Cron: sincroniza Mailchimp → D1 (mantém a base sempre completa, mesmo p/ cadastros que só foram ao Mailchimp)
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil((async () => {
+      try { await handleSyncMailchimp(env); } catch (_) { /* silencioso */ }
+    })());
   }
 };
 
@@ -638,6 +648,46 @@ async function ensureLeadsTable(env) {
   await env.DB.prepare(
     "CREATE TABLE IF NOT EXISTS leads (email TEXT PRIMARY KEY, nome TEXT, created_at TEXT NOT NULL, source TEXT DEFAULT 'form')"
   ).run();
+}
+
+// Sincroniza a audiência do Mailchimp → D1 (recupera quem entrou por lá e mantém a base completa).
+// Requer o secret MAILCHIMP_API_KEY (formato "xxxxxxxx-us12"). Chamado sob demanda (/sync-mailchimp) e pelo cron.
+async function handleSyncMailchimp(env) {
+  const key = env.MAILCHIMP_API_KEY;
+  if (!key) return jsonResponse({ error: 'MAILCHIMP_API_KEY não configurada no worker' }, 400);
+  const dc = key.split('-')[1] || 'us12';
+  const auth = 'Basic ' + btoa('any:' + key);
+  await ensureLeadsTable(env);
+  const lr = await fetch(`https://${dc}.api.mailchimp.com/3.0/lists?count=100&fields=lists.id`, { headers: { Authorization: auth } });
+  if (!lr.ok) return jsonResponse({ error: 'mailchimp lists ' + lr.status, detail: await lr.text() }, 502);
+  const lists = (await lr.json()).lists || [];
+  let seen = 0, novos = 0;
+  for (const list of lists) {
+    let offset = 0;
+    for (;;) {
+      const mr = await fetch(`https://${dc}.api.mailchimp.com/3.0/lists/${list.id}/members?count=1000&offset=${offset}&status=subscribed&fields=members.email_address,members.merge_fields,members.timestamp_opt,members.timestamp_signup`, { headers: { Authorization: auth } });
+      if (!mr.ok) break;
+      const members = (await mr.json()).members || [];
+      if (!members.length) break;
+      for (const m of members) {
+        seen++;
+        const email = String(m.email_address || '').trim().toLowerCase();
+        if (!email) continue;
+        const mf = m.merge_fields || {};
+        const nome = ((mf.FNAME || '') + ' ' + (mf.LNAME || '')).trim();
+        const ca = m.timestamp_opt || m.timestamp_signup || new Date().toISOString();
+        const res = await env.DB.prepare(
+          "INSERT INTO leads (email, nome, created_at, source) VALUES (?1, ?2, ?3, 'mailchimp') " +
+          "ON CONFLICT(email) DO UPDATE SET nome = COALESCE(NULLIF(?2, ''), nome)"
+        ).bind(email, nome, ca).run();
+        if (res.meta && res.meta.changes) novos++;
+      }
+      offset += members.length;
+      if (members.length < 1000) break;
+    }
+  }
+  const row = await env.DB.prepare("SELECT COUNT(*) AS n FROM leads").first();
+  return jsonResponse({ ok: true, vistos: seen, novos, total: row ? row.n : null });
 }
 
 // Cadastro público vindo do formulário do site → grava no D1 (fonte de verdade própria, sempre atualizada)
