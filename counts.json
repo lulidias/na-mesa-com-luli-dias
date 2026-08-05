@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1069,
+    "restaurants": 1070,
     "hotels": 186,
     "markets": 27,
     "cities": 216,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 62,
-    "total": 1296,
+    "total": 1297,
     "michelin": 91,
     "keysEntries": 40
   },
@@ -927,7 +927,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 506,
+      "restaurants": 507,
       "hotels": 71,
       "markets": 4,
       "cities": 56,
@@ -971,7 +971,7 @@
       "keysEntries": 1
     },
     "brasil-nordeste": {
-      "restaurants": 81,
+      "restaurants": 82,
       "hotels": 16,
       "markets": 0,
       "cities": 16,
@@ -1069,7 +1069,7 @@
       "cities": 2
     },
     "Rio Grande do Norte": {
-      "restaurants": 4,
+      "restaurants": 6,
       "hotels": 6,
       "cities": 6
     },
