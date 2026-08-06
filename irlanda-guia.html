@@ -140,10 +140,10 @@ main{max-width:1200px;margin:0 auto;padding:48px 32px 80px}
 
 .card-contact{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
 .c-row{display:flex;align-items:flex-start;gap:8px}
-.c-icon{font-size:10px;color:var(--gold);min-width:16px;flex-shrink:0;margin-top:1px}
-.c-addr{font-size:10px;color:var(--ink-lt);cursor:pointer;line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-icon{font-size:10px;color:var(--gold);min-width:16px;flex-shrink:0;margin-top:1px}.c-icon svg{width:12px;height:12px;stroke:var(--gold);fill:none;stroke-width:1.6;display:block;margin-top:1px}
+.c-addr{font-size:10px;color:var(--ink-lt);cursor:pointer;line-height:1.5;text-decoration:none;transition:color .2s}
 .c-addr:hover{color:var(--gold)}
-.c-phone{font-size:10px;color:var(--ink-lt);line-height:1.5;text-decoration:underline;text-decoration-color:var(--gold-lt);text-underline-offset:3px;transition:color .2s}
+.c-phone{font-size:10px;color:var(--ink-lt);line-height:1.5;text-decoration:none;transition:color .2s}
 .c-phone:hover{color:var(--gold)}
 .card-note{font-size:9px;color:var(--gold);font-style:italic;margin-top:8px}
 
@@ -399,9 +399,9 @@ function render(){
                    (r.sel ? r.sel.split(' ').map(function(x){return '<span class="badge bsel">'+(SEL[x]||x)+'</span>';}).join('') : '') +
                    (r.m ? '<span class="badge '+MBADGE[r.m]+'">'+ML[r.m]+'</span>' : '') +
                    '';
-      var addrHtml = r.a ? '<div class="c-row"><span class="c-icon">📍</span><span class="c-addr" onclick="openMap(\'' + (r.n||'').replace(/'/g,"\\'") + '\',\'' + (r.a||'').replace(/'/g,"\\'") + '\')">'+r.a+'</span></div>' : '';
+      var addrHtml = r.a ? '<div class="c-row"><span class="c-icon"><svg viewBox='0 0 24 24'><path d='M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11z'/><circle cx='12' cy='10' r='2.5'/></svg></span><span class="c-addr" onclick="openMap(\'' + (r.n||'').replace(/'/g,"\\'") + '\',\'' + (r.a||'').replace(/'/g,"\\'") + '\')">'+r.a+'</span></div>' : '';
       var tel = r.p ? r.p.replace(/[\s()]/g,'').replace(/-/g,'') : '';
-      var phoneHtml = r.p ? '<div class="c-row"><span class="c-icon">📞</span><a class="c-phone" href="tel:'+tel+'">'+r.p+'</a></div>' : '';
+      var phoneHtml = r.p ? '<div class="c-row"><span class="c-icon"><svg viewBox='0 0 24 24'><path d='M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.18 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z'/></svg></span><a class="c-phone" href="tel:'+tel+'">'+r.p+'</a></div>' : '';
       var contact = (addrHtml||phoneHtml) ? '<div class="card-contact">'+addrHtml+phoneHtml+'</div>' : '';
       var noteHtml = r.note ? '<div class="card-note">✦ '+r.note+'</div>' : '';
       var folder = 'fotos/irlanda/';
