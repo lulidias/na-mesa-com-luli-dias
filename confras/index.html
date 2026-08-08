@@ -386,6 +386,18 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   </div>
 </section>
 
+<!-- ═══ VOTAÇÃO (anúncio) ═══ -->
+<section class="sec" id="vot-teaser" style="background:var(--wine);max-width:none;color:var(--cream)">
+  <div style="max-width:1000px;margin:0 auto;text-align:center">
+    <div class="sec-kicker" style="color:var(--gold-lt)">No dia da festa</div>
+    <h2 class="sec-title" style="color:var(--cream)">A grande votação</h2>
+    <p class="sec-sub" style="color:rgba(247,243,238,.85)">Durante o almoço, cada confrade vota pelo celular nos melhores vinhos da mesa — um voto por categoria. A urna fecha às 17h e o resultado sai no telão.</p>
+    <div id="teaser-cats" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:8px"></div>
+    <div class="orn" style="margin-top:34px"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--gold-lt);margin-top:6px">Haverá prêmios para o pódio do Melhor Vinho da Festa. 🥇🥈🥉</p>
+  </div>
+</section>
+
 <!-- ═══ PRÊMIOS ═══ -->
 <section class="sec hidden" id="premios-sec" style="padding-top:0;padding-bottom:30px">
   <div class="sec-kicker">A disputa</div>
@@ -931,6 +943,51 @@ function renderResultados() {
 }
 
 // ── init ─────────────────────────────────────────────────────────────────
+// ── placas das categorias (medalhões) ───────────────────────────────────
+var PLACA_ICONES = {
+  'Tinto': '<circle cx="90" cy="52" r="9" fill="#7A1F2B" stroke="#D4AE5C" stroke-width="1"/>',
+  'Branco': '<circle cx="90" cy="52" r="9" fill="#F0E6C8" stroke="#D4AE5C" stroke-width="1"/>',
+  'Rosé': '<circle cx="90" cy="52" r="9" fill="#E8A0A8" stroke="#D4AE5C" stroke-width="1"/>',
+  'Espumante': '<circle cx="83" cy="55" r="4.5" fill="none" stroke="#D4AE5C" stroke-width="1.2"/><circle cx="94" cy="49" r="3.5" fill="none" stroke="#D4AE5C" stroke-width="1.2"/><circle cx="97" cy="58" r="2.5" fill="none" stroke="#D4AE5C" stroke-width="1.2"/>',
+  'festa': '<path d="M90 43 L93 50 L100 50 L94.5 54.5 L96.5 61.5 L90 57 L83.5 61.5 L85.5 54.5 L80 50 L87 50 Z" fill="#D4AE5C"/>'
+};
+function placaSVG(nome, tipoFiltro) {
+  var eFesta = !tipoFiltro;
+  var icone = eFesta ? PLACA_ICONES['festa'] : (PLACA_ICONES[tipoFiltro] || '');
+  var palavra = eFesta ? ['VINHO', 'DA FESTA'] : [tipoFiltro.toUpperCase().replace(' / DOCE', '')];
+  var serif = "Didot,'Bodoni 72','Playfair Display',Georgia,serif";
+  var sans = "'Montserrat',Helvetica,sans-serif";
+  var linhas = palavra.length === 2
+    ? '<text x="90" y="94" text-anchor="middle" font-family="' + serif + '" font-size="21" letter-spacing="2" fill="#F7F3EE">' + palavra[0] + '</text>' +
+      '<text x="90" y="116" text-anchor="middle" font-family="' + serif + '" font-size="21" letter-spacing="2" fill="#F7F3EE">' + palavra[1] + '</text>'
+    : '<text x="90" y="106" text-anchor="middle" font-family="' + serif + '" font-size="' + (palavra[0].length > 7 ? 18 : 24) + '" letter-spacing="' + (palavra[0].length > 7 ? 2 : 3) + '" fill="#F7F3EE">' + palavra[0] + '</text>';
+  return '<svg viewBox="0 0 180 216" width="150" xmlns="http://www.w3.org/2000/svg">' +
+    '<circle cx="90" cy="88" r="72" fill="rgba(212,174,92,.06)" stroke="#D4AE5C" stroke-width="1.4"/>' +
+    '<circle cx="90" cy="88" r="65" fill="none" stroke="#D4AE5C" stroke-width=".6" opacity=".6"/>' +
+    icone +
+    '<text x="90" y="76" text-anchor="middle" font-family="' + sans + '" font-size="9" letter-spacing="4" fill="#D4AE5C">MELHOR</text>' +
+    linhas +
+    '<line x1="62" y1="128" x2="118" y2="128" stroke="#D4AE5C" stroke-width=".7" opacity=".7"/>' +
+    '<rect x="87.5" y="125.5" width="5" height="5" transform="rotate(45 90 128)" fill="#D4AE5C"/>' +
+    '<text x="90" y="176" text-anchor="middle" font-family="' + sans + '" font-size="7.5" letter-spacing="2.5" fill="rgba(247,243,238,.75)">CONFRA DAS CONFRAS</text>' +
+    '<text x="90" y="192" text-anchor="middle" font-family="' + serif + '" font-size="13" letter-spacing="5" fill="#D4AE5C">2026</text>' +
+    '</svg>';
+}
+function renderTeaser() {
+  var sec = document.getElementById('vot-teaser');
+  // quando a urna abre (ou o resultado sai), o anúncio dá lugar à urna/pódio
+  if (cfg && (cfg.votacao_aberta || cfg.resultados_publicos)) { sec.classList.add('hidden'); return; }
+  sec.classList.remove('hidden');
+  var box = document.getElementById('teaser-cats'); box.innerHTML = '';
+  // Melhor Vinho da Festa em destaque no meio
+  var ordenadas = catsCache.slice().sort(function (a, b) { return (a.tipo_filtro ? 1 : 0) - (b.tipo_filtro ? 1 : 0); });
+  ordenadas.forEach(function (c) {
+    var el = document.createElement('div');
+    el.innerHTML = placaSVG(c.nome, c.tipo_filtro);
+    if (!c.tipo_filtro) el.firstChild.setAttribute('width', '182');
+    box.appendChild(el);
+  });
+}
 function renderPremios() {
   var sec = document.getElementById('premios-sec');
   if (!cfg || !(cfg.premio1 || cfg.premio2 || cfg.premio3)) { sec.classList.add('hidden'); return; }
@@ -944,6 +1001,7 @@ Promise.all([
   loadCats()
 ]).then(function () {
   if (meu) renderPay();
+  renderTeaser();
   renderPremios();
   renderVotacao();
   renderResultados();
