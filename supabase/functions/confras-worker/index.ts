@@ -23,7 +23,7 @@ function shell(titulo: string, corpo: string, participanteId?: string) {
   const link = participanteId ? `${SITE}?id=${participanteId}#rsvp` : SITE;
   return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F7F3EE;font-family:Georgia,serif">
   <div style="max-width:560px;margin:0 auto;padding:24px 16px">
-    <div style="background:#101F38;color:#F7F3EE;text-align:center;padding:36px 24px;border:1px solid #B8922A">
+    <div style="background-color:#1A2F4E;background:linear-gradient(180deg,#2A4468 0%,#1A2F4E 45%,#101F38 100%);color:#F7F3EE;text-align:center;padding:36px 24px;border:1px solid #B8922A">
       <div style="font-size:10px;letter-spacing:5px;color:#D4AE5C;font-family:Helvetica,Arial,sans-serif">RECIFE · 18 DE NOVEMBRO DE 2026 · 13H</div>
       <div style="font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:normal;font-size:32px;letter-spacing:7px;margin-top:12px">CONFRA<br>DAS CONFRAS</div>
       <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-style:italic;color:#D4AE5C;margin-top:10px">O maior encontro de vinhos da história de Pernambuco</div>
