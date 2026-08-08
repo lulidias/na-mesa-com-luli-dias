@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Telão — A Confra das Confras 2026</title>
+<title>Telão — Confra das Confras 2026</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="../favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital@1&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 
 <div class="gate" id="gate">
   <div style="font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt)">Telão da festa</div>
-  <h1 style="font-family:'Playfair Display',serif;font-weight:400;font-size:22px;margin-top:10px">A Confra das Confras</h1>
+  <h1 style="font-family:'Playfair Display',serif;font-weight:400;font-size:22px;margin-top:10px">Confra das Confras</h1>
   <input type="password" id="tok" placeholder="Token de acesso">
   <button onclick="entrar()">Abrir telão</button>
 </div>
@@ -54,7 +54,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 <div id="app" class="hidden">
   <div class="clock" id="clock"></div>
   <div class="top">
-    <div class="k">A Confra das Confras · 2026</div>
+    <div class="k">Confra das Confras · 2026</div>
     <h1>Apuração ao vivo</h1>
     <div class="sub">Os melhores vinhos da festa, eleitos pelos confrades</div>
   </div>
@@ -62,6 +62,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
     <div class="st"><div class="n" id="s-conf">–</div><div class="l">confrades</div></div>
     <div class="st"><div class="n" id="s-gar">–</div><div class="l">garrafas</div></div>
     <div class="st"><div class="n" id="s-lit">–</div><div class="l">litros</div></div>
+    <div class="st"><div class="n" id="s-media">–</div><div class="l">L / confrade</div></div>
     <div class="st"><div class="n" id="s-votos">–</div><div class="l">votos</div></div>
   </div>
   <div class="grid" id="grid"></div>
@@ -104,6 +105,7 @@ function tick() {
     document.getElementById('s-conf').textContent = pessoas.length;
     document.getElementById('s-gar').textContent = vinhos.length;
     document.getElementById('s-lit').textContent = (Math.round(litros * 10) / 10).toLocaleString('pt-BR');
+    document.getElementById('s-media').textContent = pessoas.length ? (Math.round(litros / pessoas.length * 100) / 100).toLocaleString('pt-BR') : '–';
     document.getElementById('s-votos').textContent = totalVotos;
 
     var porCat = {}, ordem = [];

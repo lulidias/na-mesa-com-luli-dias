@@ -25,7 +25,7 @@ function shell(titulo: string, corpo: string, participanteId?: string) {
   <div style="max-width:560px;margin:0 auto;padding:24px 16px">
     <div style="background:#101F38;color:#F7F3EE;text-align:center;padding:36px 24px;border:1px solid #B8922A">
       <div style="font-size:10px;letter-spacing:5px;color:#D4AE5C;font-family:Helvetica,Arial,sans-serif">RECIFE · 18 DE NOVEMBRO DE 2026 · 13H</div>
-      <div style="font-size:30px;letter-spacing:6px;margin-top:12px">A CONFRA<br>DAS CONFRAS</div>
+      <div style="font-size:30px;letter-spacing:6px;margin-top:12px">CONFRA<br>DAS CONFRAS</div>
       <div style="font-size:13px;font-style:italic;color:#D4AE5C;margin-top:10px">O maior encontro de vinhos da história de Pernambuco</div>
     </div>
     <div style="background:#fff;border:1px solid #E8E0D5;border-top:none;padding:32px 28px;color:#1A1A1A;font-size:15px;line-height:1.7">
@@ -47,7 +47,7 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
   switch (tipo) {
     case "boas-vindas":
       return {
-        subject: "🥂 Presença confirmada — A Confra das Confras 2026",
+        subject: "🥂 Presença confirmada — Confra das Confras 2026",
         html: shell(`Presença confirmada, ${nome}!`, `
           <p>Que alegria ter você na mesa. Anote: <strong>quarta-feira, 18 de novembro, 13h</strong>, na <strong>Paris Saint-Germain Academy</strong>, Recife.</p>
           <p>Lembre da regra de ouro: cada confrade leva no mínimo <strong>1,5 litro</strong> de vinho — uma Magnum. Pode trazer formatos maiores sozinho, dividir com outros confrades e levar quantas garrafas quiser.</p>
@@ -56,7 +56,7 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
     case "garrafa-registrada": {
       const v = `${esc(dados.vinho)}${dados.safra ? " " + esc(dados.safra) : ""}`;
       return {
-        subject: `🍷 ${String(dados.vinho)} está na mesa — A Confra das Confras`,
+        subject: `🍷 ${String(dados.vinho)} está na mesa — Confra das Confras`,
         html: shell(`Grande escolha, ${nome}!`, `
           <p>Sua garrafa está registrada na carta da festa:</p>
           <p style="background:#FAF5EB;border:1px dashed #B8922A;padding:16px;text-align:center;font-size:17px">
@@ -75,7 +75,7 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
     }
     case "pagamento-confirmado":
       return {
-        subject: "✅ Pagamento confirmado — A Confra das Confras",
+        subject: "✅ Pagamento confirmado — Confra das Confras",
         html: shell(`Tudo certo, ${nome}!`, `
           <p>Seu pagamento do rateio foi <strong>confirmado</strong>. Obrigado!</p>
           <p>Agora é só aguardar o grande dia — 18 de novembro, 13h. 🥂</p>`, pid),
@@ -84,13 +84,13 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
       return {
         subject: "🗳️ A urna está aberta — vote nos melhores vinhos",
         html: shell(`${nome}, a votação começou!`, `
-          <p>A urna d'A Confra das Confras está aberta. Vote nos melhores vinhos da festa — um voto por categoria, e você pode mudar de ideia enquanto a urna estiver aberta.</p>`, pid),
+          <p>A urna da Confra das Confras está aberta. Vote nos melhores vinhos da festa — um voto por categoria, e você pode mudar de ideia enquanto a urna estiver aberta.</p>`, pid),
       };
     case "resultados":
       return {
         subject: "🏆 Saiu o resultado — os melhores vinhos da festa",
         html: shell(`${nome}, temos vencedores!`, `
-          <p>A apuração terminou e o pódio d'A Confra das Confras 2026 está publicado no site. Veja quem levou o título de Melhor Vinho da Festa.</p>`, pid),
+          <p>A apuração terminou e o pódio da Confra das Confras 2026 está publicado no site. Veja quem levou o título de Melhor Vinho da Festa.</p>`, pid),
       };
     case "lembrete": {
       const garrafas = Array.isArray(dados.garrafas) ? dados.garrafas as Record<string, unknown>[] : [];
@@ -103,10 +103,10 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
         : `<p>Rateio: <strong style="color:#B85C2A">pendente</strong> — pague pelo painel para garantir seu lugar.</p>`;
       const quando = String(dados.quando ?? "");
       const assunto = quando === "hoje"
-        ? "🍷 É HOJE — A Confra das Confras, 13h!"
+        ? "🍷 É HOJE — Confra das Confras, 13h!"
         : quando === "1-semana"
-          ? "📅 Falta 1 semana — A Confra das Confras"
-          : "📅 Falta 1 mês — A Confra das Confras";
+          ? "📅 Falta 1 semana — Confra das Confras"
+          : "📅 Falta 1 mês — Confra das Confras";
       const titulo = quando === "hoje"
         ? `${nome}, é hoje! 🥂`
         : quando === "1-semana"
@@ -122,7 +122,7 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
       };
     }
     default:
-      return { subject: "A Confra das Confras 2026", html: shell("Novidades", "<p>Acesse o site para ver as novidades.</p>", pid) };
+      return { subject: "Confra das Confras 2026", html: shell("Novidades", "<p>Acesse o site para ver as novidades.</p>", pid) };
   }
 }
 
