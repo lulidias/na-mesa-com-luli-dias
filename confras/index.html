@@ -831,7 +831,7 @@ function refreshPublic() {
               : '';
             var subt = [g.produtor, g.regiao].filter(Boolean).map(esc).join(' · ');
             d.innerHTML = '<div class="fmt">' + esc(g.formato) + ' · ' + fmtLitros(g.litros) + ' L</div>' +
-              (g.foto_url ? '<img src="' + esc(g.foto_url) + '" alt="" style="float:right;max-height:96px;max-width:64px;object-fit:contain;margin:14px 0 6px 10px" onerror="this.remove()">' : '') +
+              (g.foto_url ? '<img src="' + esc(g.foto_url) + '" alt="" style="float:right;height:96px;max-width:70px;object-fit:contain;margin:14px 0 6px 10px" onerror="this.remove()">' : '') +
               '<div class="nm">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
               (subt ? '<div class="pr">' + subt + '</div>' : '') +
               '<div class="who">🍷 ' + esc(g.membros.join(', ')) + '</div>' + vagasHtml;
