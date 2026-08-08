@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — A Confra das Confras 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#101F38;--wine-md:#1A2F4E;--cream:#F7F3EE;--white:#fff;--ink:#1A1A1A;--ink-lt:#5A5A5A;
+--gold:#B8922A;--gold-bg:#FAF5EB;--border:#E8E0D5;--ok:#2E7D4F;--warn:#B85C2A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;font-size:13px}
+.top{background:var(--wine);color:var(--cream);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.top h1{font-family:'Playfair Display',serif;font-weight:400;font-size:19px}
+.top .sub{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#D4AE5C}
+.wrap{max-width:1100px;margin:0 auto;padding:26px 20px 80px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:26px}
+.kpi{background:var(--white);border:1px solid var(--border);padding:18px;text-align:center}
+.kpi .n{font-family:'Playfair Display',serif;font-size:28px;color:var(--wine-md)}
+.kpi .k{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px}
+h2{font-family:'Playfair Display',serif;font-weight:400;font-size:19px;margin:30px 0 12px}
+table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--border)}
+th{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);text-align:left;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--gold-bg)}
+td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-block;font-size:8px;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--gold);color:var(--gold);padding:2px 7px;margin:1px 2px 1px 0}
+.pill{display:inline-block;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;cursor:pointer;border:none}
+.pill.ok{background:var(--ok);color:#fff}
+.pill.no{background:#E8E0D5;color:var(--ink-lt)}
+.btn{display:inline-block;padding:11px 24px;background:var(--wine-md);color:var(--cream);border:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
+.btn.gold{background:var(--gold)}
+.btn.ghost{background:none;border:1px solid var(--border);color:var(--ink-lt)}
+input,select{padding:10px 12px;border:1px solid var(--border);background:var(--white);font-family:'Montserrat',sans-serif;font-size:13px;outline:none;border-radius:0}
+input:focus{border-color:var(--gold)}
+.cfg{background:var(--white);border:1px solid var(--border);padding:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;align-items:end}
+.cfg label{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:6px}
+.cfg input{width:100%}
+.gate{max-width:360px;margin:14vh auto;background:var(--white);border:1px solid var(--border);padding:44px 36px;text-align:center}
+.gate h1{font-family:'Playfair Display',serif;font-weight:400;font-size:20px;margin-bottom:8px}
+.gate p{font-size:11px;color:var(--ink-lt);margin-bottom:22px}
+.gate input{width:100%;text-align:center;margin-bottom:14px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 24px;font-size:12px;opacity:0;transition:opacity .3s;z-index:99}
+.toast.on{opacity:1}.toast.err{background:#8A2A2A}
+.hidden{display:none!important}
+.tbl-wrap{overflow-x:auto}
+a{color:var(--wine-md)}
+.del{background:none;border:none;color:#B85C2A;cursor:pointer;font-size:10px;letter-spacing:1px;text-transform:uppercase;text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <h1>A Confra das Confras</h1>
+  <p>Painel de administração. Informe o token de acesso.</p>
+  <input type="password" id="tok-in" placeholder="Token">
+  <button class="btn" onclick="tryToken()">Entrar</button>
+</div>
+
+<div id="app" class="hidden">
+<div class="top">
+  <div><h1>A Confra das Confras 2026</h1><div class="sub">Painel de administração</div></div>
+  <div style="display:flex;gap:8px">
+    <a class="btn ghost" href="index.html" style="text-decoration:none">Ver site</a>
+    <button class="btn ghost" onclick="exportCSV()">Exportar CSV</button>
+    <button class="btn ghost" onclick="sair()">Sair</button>
+  </div>
+</div>
+<div class="wrap">
+
+  <div class="kpis">
+    <div class="kpi"><div class="n" id="k-conf">—</div><div class="k">confirmados</div></div>
+    <div class="kpi"><div class="n" id="k-pagos">—</div><div class="k">pagos</div></div>
+    <div class="kpi"><div class="n" id="k-arrec">—</div><div class="k">arrecadado</div></div>
+    <div class="kpi"><div class="n" id="k-gar">—</div><div class="k">garrafas</div></div>
+    <div class="kpi"><div class="n" id="k-lit">—</div><div class="k">litros</div></div>
+  </div>
+
+  <h2>Configuração</h2>
+  <div class="cfg">
+    <div><label>Chave Pix</label><input id="c-chave" placeholder="chave@pix.com"></div>
+    <div><label>Nome do recebedor</label><input id="c-nome" placeholder="Luiz Ignacio"></div>
+    <div><label>Valor do rateio (R$)</label><input id="c-valor" inputmode="decimal" placeholder="ex.: 180"></div>
+    <div><label>RSVP</label><select id="c-aberto"><option value="true">Aberto</option><option value="false">Encerrado</option></select></div>
+    <div><label>Votação</label><select id="c-votacao"><option value="false">Urna fechada</option><option value="true">Urna aberta</option></select></div>
+    <div><label>Resultados</label><select id="c-resultados"><option value="false">Ocultos</option><option value="true">Públicos</option></select></div>
+    <div><button class="btn gold" id="c-save" onclick="saveCfg()">Salvar</button></div>
+  </div>
+
+  <h2>Participantes <span id="p-filtros" style="font-size:11px;font-family:Montserrat;color:var(--ink-lt)"></span></h2>
+  <div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap" id="filter-row">
+    <input id="p-busca" placeholder="Buscar nome…" oninput="renderParts()">
+    <select id="p-conf" onchange="renderParts()"><option value="">Todas as confrarias</option></select>
+    <select id="p-pago" onchange="renderParts()"><option value="">Pagos e pendentes</option><option value="sim">Só pagos</option><option value="nao">Só pendentes</option></select>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Nome</th><th>WhatsApp</th><th>E-mail</th><th>Confrarias</th><th>Obs</th><th>Comprovante</th><th>Pago</th><th></th></tr></thead>
+    <tbody id="p-body"></tbody>
+  </table>
+  </div>
+
+  <h2>Garrafas</h2>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Vinho</th><th>Produtor</th><th>Safra</th><th>Tipo</th><th>País</th><th>Formato</th><th>Litros</th><th>Confrades</th><th>Vagas</th></tr></thead>
+    <tbody id="g-body"></tbody>
+  </table>
+  </div>
+
+  <h2>Votação — categorias</h2>
+  <div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap">
+    <input id="cat-nome" placeholder="Nova categoria (ex.: Melhor Rosé)">
+    <select id="cat-tipo">
+      <option value="">Todos os vinhos concorrem</option>
+      <option>Tinto</option><option>Branco</option><option>Espumante</option><option>Rosé</option><option>Fortificado / Doce</option>
+    </select>
+    <button class="btn gold" onclick="addCat()">Adicionar</button>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Categoria</th><th>Concorrem</th><th></th></tr></thead>
+    <tbody id="cat-body"></tbody>
+  </table>
+  </div>
+
+  <h2>Votação — apuração</h2>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Categoria</th><th>Vinho</th><th>Trazido por</th><th>Votos</th></tr></thead>
+    <tbody id="r-body"></tbody>
+  </table>
+  </div>
+
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var CONFRARIAS = {
+  'commanderie': 'Commanderie', 'porquinho': 'Porquinho', 'wine-lovers': 'Wine Lovers',
+  'confra-wine': 'Confra Wine', 'over20': 'Over 20'
+};
+var TOKEN = localStorage.getItem('confras_admin_token') || '';
+var parts = [], garrafas = [], cfg = null;
+
+function toast(m, err) { var t = document.getElementById('toast'); t.textContent = m; t.className = 'toast on' + (err ? ' err' : ''); clearTimeout(t._h); t._h = setTimeout(function () { t.className = 'toast'; }, 3200); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, { method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(args || {}) })
+    .then(function (r) { return r.text().then(function (tx) { var d = null; try { d = tx ? JSON.parse(tx) : null; } catch (e) { } if (!r.ok) throw new Error((d && d.message) || 'Erro ' + r.status); return d; }); });
+}
+function view(name) { return fetch(SB + '/rest/v1/' + name + '?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }); }
+
+function tryToken() {
+  var t = document.getElementById('tok-in').value.trim();
+  if (!t) return;
+  rpc('confras_admin_lista', { p_token: t }).then(function (rows) {
+    TOKEN = t; localStorage.setItem('confras_admin_token', t);
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    parts = rows || []; boot();
+  }).catch(function () { toast('Token inválido.', true); });
+}
+function sair() { localStorage.removeItem('confras_admin_token'); location.reload(); }
+
+function boot() {
+  var sel = document.getElementById('p-conf');
+  Object.keys(CONFRARIAS).forEach(function (k) { var o = document.createElement('option'); o.value = k; o.textContent = CONFRARIAS[k]; sel.appendChild(o); });
+  refresh();
+}
+function refresh() {
+  return Promise.all([
+    rpc('confras_admin_lista', { p_token: TOKEN }),
+    view('confras_vinhos_publico'),
+    view('confras_config_publica'),
+    view('confras_categorias_publicas'),
+    rpc('confras_admin_resultados', { p_token: TOKEN })
+  ]).then(function (res) {
+    parts = res[0] || []; garrafas = res[1] || []; cfg = (res[2] || [])[0] || {};
+    cats = res[3] || []; resultados = res[4] || [];
+    document.getElementById('c-chave').value = cfg.chave_pix || '';
+    document.getElementById('c-nome').value = cfg.nome_pix || '';
+    document.getElementById('c-valor').value = cfg.valor_rateio != null ? cfg.valor_rateio : '';
+    document.getElementById('c-aberto').value = String(cfg.rsvp_aberto !== false);
+    document.getElementById('c-votacao').value = String(cfg.votacao_aberta === true);
+    document.getElementById('c-resultados').value = String(cfg.resultados_publicos === true);
+    renderKPIs(); renderParts(); renderGarrafas(); renderCats(); renderResultados();
+  }).catch(function (e) { toast(e.message, true); });
+}
+var cats = [], resultados = [];
+function renderCats() {
+  var body = document.getElementById('cat-body'); body.innerHTML = '';
+  cats.forEach(function (c) {
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td><strong>' + esc(c.nome) + '</strong></td><td>' + esc(c.tipo_filtro || 'Todos') + '</td>' +
+      '<td><button class="del" onclick="delCat(\'' + c.id + '\',\'' + esc(c.nome).replace(/'/g, "\\'") + '\')">remover</button></td>';
+    body.appendChild(tr);
+  });
+}
+function addCat() {
+  var nome = document.getElementById('cat-nome').value.trim();
+  if (!nome) return toast('Informe o nome da categoria.', true);
+  rpc('confras_admin_categoria_add', { p_token: TOKEN, p_nome: nome, p_tipo: document.getElementById('cat-tipo').value, p_ordem: 10 + cats.length })
+    .then(function () { document.getElementById('cat-nome').value = ''; toast('Categoria adicionada.'); return refresh(); })
+    .catch(function (e) { toast(e.message, true); });
+}
+function delCat(id, nome) {
+  if (!confirm('Remover a categoria "' + nome + '" e seus votos?')) return;
+  rpc('confras_admin_categoria_del', { p_token: TOKEN, p_id: id })
+    .then(function () { toast('Removida.'); return refresh(); })
+    .catch(function (e) { toast(e.message, true); });
+}
+function renderResultados() {
+  var body = document.getElementById('r-body'); body.innerHTML = '';
+  if (!resultados.length) { body.innerHTML = '<tr><td colspan="4" style="color:var(--ink-lt)">Nenhum voto ainda.</td></tr>'; return; }
+  resultados.forEach(function (r) {
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + esc(r.categoria) + '</td><td><strong>' + esc(r.vinho) + '</strong>' + (r.safra ? ' ' + esc(r.safra) : '') + '</td>' +
+      '<td style="font-size:11px">' + esc((r.membros || []).join(', ')) + '</td><td><strong>' + r.votos + '</strong></td>';
+    body.appendChild(tr);
+  });
+}
+function renderKPIs() {
+  var pagos = parts.filter(function (p) { return p.pago; }).length;
+  var litros = 0; garrafas.forEach(function (g) { litros += Number(g.litros); });
+  var valor = Number(cfg.valor_rateio || 0);
+  document.getElementById('k-conf').textContent = parts.length;
+  document.getElementById('k-pagos').textContent = pagos + '/' + parts.length;
+  document.getElementById('k-arrec').textContent = valor ? (pagos * valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '—';
+  document.getElementById('k-gar').textContent = garrafas.length;
+  document.getElementById('k-lit').textContent = (Math.round(litros * 100) / 100).toLocaleString('pt-BR');
+}
+function renderParts() {
+  var q = (document.getElementById('p-busca').value || '').toLowerCase();
+  var fc = document.getElementById('p-conf').value;
+  var fp = document.getElementById('p-pago').value;
+  var body = document.getElementById('p-body'); body.innerHTML = '';
+  var shown = 0;
+  parts.forEach(function (p) {
+    if (q && p.nome.toLowerCase().indexOf(q) < 0) return;
+    if (fc && (p.confrarias || []).indexOf(fc) < 0) return;
+    if (fp === 'sim' && !p.pago) return;
+    if (fp === 'nao' && p.pago) return;
+    shown++;
+    var tr = document.createElement('tr');
+    var zap = (p.whatsapp || '').replace(/\D/g, '');
+    tr.innerHTML =
+      '<td><strong>' + esc(p.nome) + '</strong></td>' +
+      '<td>' + (zap ? '<a href="https://wa.me/55' + zap.replace(/^55/, '') + '" target="_blank">' + esc(p.whatsapp) + '</a>' : '') + '</td>' +
+      '<td>' + esc(p.email || '') + '</td>' +
+      '<td>' + (p.confrarias || []).map(function (c) { return '<span class="badge">' + esc(CONFRARIAS[c] || c) + '</span>'; }).join('') + '</td>' +
+      '<td style="max-width:160px;font-size:11px;color:var(--ink-lt)">' + esc(p.obs || '') + '</td>' +
+      '<td>' + (p.comprovante_url ? '<a href="' + esc(p.comprovante_url) + '" target="_blank">ver</a>' : '—') + '</td>' +
+      '<td><button class="pill ' + (p.pago ? 'ok' : 'no') + '" onclick="togglePago(\'' + p.id + '\',' + !p.pago + ')">' + (p.pago ? '✓ Pago' : 'Pendente') + '</button></td>' +
+      '<td><button class="del" onclick="removeP(\'' + p.id + '\',\'' + esc(p.nome).replace(/'/g, "\\'") + '\')">remover</button></td>';
+    body.appendChild(tr);
+  });
+  document.getElementById('p-filtros').textContent = '— ' + shown + ' de ' + parts.length;
+}
+function renderGarrafas() {
+  var body = document.getElementById('g-body'); body.innerHTML = '';
+  garrafas.forEach(function (g) {
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td><strong>' + esc(g.vinho) + '</strong></td><td>' + esc(g.produtor || '') + '</td><td>' + esc(g.safra || '') + '</td>' +
+      '<td>' + esc(g.tipo || '') + '</td><td>' + esc(g.pais || '') + '</td>' +
+      '<td>' + esc(g.formato) + '</td><td>' + g.litros + '</td><td style="font-size:11px">' + esc((g.membros || []).join(', ')) + '</td>' +
+      '<td>' + (g.vagas_restantes > 0 ? '<span style="color:var(--warn)">' + g.vagas_restantes + ' aberta(s)</span>' : '<span style="color:var(--ok)">completa</span>') + '</td>';
+    body.appendChild(tr);
+  });
+}
+function togglePago(id, pago) {
+  rpc('confras_admin_marca_pago', { p_token: TOKEN, p_participante: id, p_pago: pago })
+    .then(function () { toast(pago ? 'Marcado como pago.' : 'Marcado como pendente.'); return refresh(); })
+    .catch(function (e) { toast(e.message, true); });
+}
+function removeP(id, nome) {
+  if (!confirm('Remover ' + nome + ' e suas garrafas?')) return;
+  rpc('confras_admin_remove', { p_token: TOKEN, p_participante: id })
+    .then(function () { toast('Removido.'); return refresh(); })
+    .catch(function (e) { toast(e.message, true); });
+}
+function saveCfg() {
+  var btn = document.getElementById('c-save'); btn.disabled = true; btn.textContent = 'Salvando…';
+  var valor = parseFloat((document.getElementById('c-valor').value || '').replace(',', '.'));
+  rpc('confras_admin_config', {
+    p_token: TOKEN,
+    p_chave_pix: document.getElementById('c-chave').value.trim() || null,
+    p_nome_pix: document.getElementById('c-nome').value.trim() || null,
+    p_valor: isNaN(valor) ? null : valor,
+    p_aberto: document.getElementById('c-aberto').value === 'true',
+    p_votacao: document.getElementById('c-votacao').value === 'true',
+    p_resultados: document.getElementById('c-resultados').value === 'true'
+  }).then(function () { toast('Configuração salva.'); return refresh(); })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { btn.disabled = false; btn.textContent = 'Salvar'; });
+}
+function exportCSV() {
+  var rows = [['Nome', 'WhatsApp', 'Email', 'Confrarias', 'Pago', 'Obs']];
+  parts.forEach(function (p) {
+    rows.push([p.nome, p.whatsapp, p.email || '', (p.confrarias || []).map(function (c) { return CONFRARIAS[c] || c; }).join(' / '), p.pago ? 'sim' : 'não', p.obs || '']);
+  });
+  var csv = rows.map(function (r) { return r.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(';'); }).join('\n');
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = 'confra-das-confras-participantes.csv'; a.click();
+}
+
+if (TOKEN) {
+  document.getElementById('tok-in').value = TOKEN;
+  tryToken();
+}
+document.getElementById('tok-in').addEventListener('keydown', function (e) { if (e.key === 'Enter') tryToken(); });
+setInterval(function () { if (TOKEN && !document.getElementById('app').classList.contains('hidden')) refresh(); }, 60000);
+</script>
+</body>
+</html>

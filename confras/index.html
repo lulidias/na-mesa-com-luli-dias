@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Confra das Confras 2026 — O maior encontro de vinhos da história de Pernambuco</title>
+<meta name="description" content="Pela primeira vez, as mais importantes confrarias do Recife reunidas em uma única mesa. 18 de novembro de 2026, 13h.">
+<meta property="og:title" content="A Confra das Confras 2026">
+<meta property="og:description" content="O maior encontro de vinhos da história de Pernambuco. Grandes vinhos, grandes garrafas, grandes amigos.">
+<link rel="icon" href="../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wine:#101F38;--wine-md:#1A2F4E;--wine-lt:#2A4468;
+  --cream:#F7F3EE;--white:#FFFFFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-bg:#FAF5EB;--border:#E8E0D5;
+  --ok:#2E7D4F;--warn:#B85C2A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.serif{font-family:'Playfair Display',Georgia,serif}
+.didot{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif}
+
+/* ── Hero ── */
+.hero{background:radial-gradient(120% 120% at 50% -10%,var(--wine-lt) 0%,var(--wine-md) 45%,var(--wine) 100%);color:var(--cream);text-align:center;padding:72px 24px 64px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:14px;border:1px solid rgba(212,174,92,.35);pointer-events:none}
+.hero-kicker{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt);margin-bottom:34px}
+.hero-emblem{margin:0 auto 26px;width:120px;height:120px}
+.hero h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(34px,7vw,64px);letter-spacing:8px;line-height:1.15;text-transform:uppercase}
+.hero h1 .a{display:block;font-size:.38em;letter-spacing:12px;color:var(--gold-lt);margin-bottom:10px}
+.hero-year{font-family:Didot,'Playfair Display',serif;font-size:20px;letter-spacing:14px;color:var(--gold-lt);margin-top:14px}
+.hero-tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(17px,3vw,22px);color:rgba(247,243,238,.9);margin:26px auto 0;max-width:520px;line-height:1.5}
+.orn{display:flex;align-items:center;justify-content:center;gap:12px;margin:30px 0}
+.orn .l{height:1px;width:56px;background:linear-gradient(90deg,transparent,var(--gold-lt))}
+.orn .r{height:1px;width:56px;background:linear-gradient(90deg,var(--gold-lt),transparent)}
+.orn .d{width:5px;height:5px;background:var(--gold-lt);transform:rotate(45deg)}
+.hero-when{margin-top:4px}
+.hw-dow{font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--gold-lt);margin-bottom:10px}
+.hw-date{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:clamp(26px,5vw,42px);color:var(--cream);letter-spacing:2px}
+.hw-date .hw-dot{color:var(--gold-lt);padding:0 8px}
+.hw-place{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:rgba(247,243,238,.85);margin-top:10px}
+.count{display:flex;justify-content:center;gap:clamp(10px,3vw,26px);margin-top:38px}
+.cnt{min-width:64px}
+.cnt .n{font-family:Didot,'Playfair Display',serif;font-size:clamp(28px,5vw,40px);color:var(--cream)}
+.cnt .l2{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(247,243,238,.55);margin-top:4px}
+.cta{display:inline-block;margin-top:42px;padding:16px 46px;border:1px solid var(--gold-lt);color:var(--cream);text-decoration:none;font-size:11px;letter-spacing:4px;text-transform:uppercase;transition:all .3s;background:rgba(212,174,92,.08)}
+.cta:hover{background:var(--gold-lt);color:var(--wine)}
+
+/* ── Confrarias strip ── */
+.strip{background:var(--white);border-bottom:1px solid var(--border);padding:38px 24px}
+.strip-title{text-align:center;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:26px}
+.strip-row{display:flex;justify-content:center;align-items:center;gap:clamp(20px,4vw,52px);flex-wrap:wrap;max-width:1000px;margin:0 auto}
+.strip-logo{height:76px;display:flex;align-items:center;justify-content:center;filter:grayscale(15%);transition:filter .3s}
+.strip-logo:hover{filter:none}
+.strip-logo img{max-height:76px;max-width:120px;object-fit:contain}
+.logo-fallback{font-family:'Playfair Display',serif;font-size:14px;color:var(--wine-md);border:1px solid var(--border);padding:14px 18px;text-align:center;line-height:1.3;background:var(--gold-bg)}
+.logo-fallback small{display:block;font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-top:5px}
+
+/* ── Sections ── */
+.sec{max-width:1000px;margin:0 auto;padding:72px 24px}
+.sec-kicker{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:12px}
+.sec-title{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(24px,4vw,34px);text-align:center;margin-bottom:14px}
+.sec-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:var(--ink-lt);text-align:center;max-width:560px;margin:0 auto 44px;line-height:1.6}
+
+/* regra das garrafas */
+.rule-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-top:8px}
+.rule-card{background:var(--white);border:1px solid var(--border);padding:26px 20px;text-align:center}
+.rule-card .fmt{font-family:'Playfair Display',serif;font-size:19px;color:var(--wine-md)}
+.rule-card .lt{font-family:Didot,'Playfair Display',serif;font-size:30px;color:var(--gold);margin:8px 0 2px}
+.rule-card .pp{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt)}
+.rule-note{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--ink-lt);margin-top:28px}
+
+/* ── Forms ── */
+.panel{background:var(--white);border:1px solid var(--border);padding:clamp(26px,5vw,52px);max-width:720px;margin:0 auto}
+.f-label{display:block;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin:22px 0 8px}
+.f-input,.f-select,textarea.f-input{width:100%;padding:13px 14px;border:1px solid var(--border);background:var(--cream);font-family:'Montserrat',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:border .2s;border-radius:0;-webkit-appearance:none}
+.f-input:focus,.f-select:focus{border-color:var(--gold)}
+.conf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.conf-opt{border:1px solid var(--border);background:var(--cream);padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.conf-opt img{max-height:52px;max-width:90px;object-fit:contain;display:block;margin:0 auto 10px}
+.conf-opt .nm{font-size:11px;font-weight:500;letter-spacing:.5px}
+.conf-opt .tick{position:absolute;top:8px;right:8px;width:18px;height:18px;border:1px solid var(--border);border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent}
+.conf-opt.sel{border-color:var(--gold);background:var(--gold-bg);box-shadow:0 4px 18px rgba(184,146,42,.15)}
+.conf-opt.sel .tick{background:var(--gold);border-color:var(--gold);color:#fff}
+.btn{display:inline-block;padding:15px 40px;background:var(--wine-md);color:var(--cream);border:none;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background .3s}
+.btn:hover{background:var(--wine)}
+.btn.gold{background:var(--gold);color:#fff}
+.btn.gold:hover{background:#A07E20}
+.btn.ghost{background:none;border:1px solid var(--border);color:var(--ink-lt)}
+.btn:disabled{opacity:.5;cursor:default}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:13px 26px;font-size:12px;letter-spacing:1px;opacity:0;transition:all .35s;z-index:2000;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:#8A2A2A}
+
+/* painel do confrade */
+.me-hello{font-family:'Playfair Display',serif;font-size:22px;text-align:center;margin-bottom:6px}
+.me-badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+.badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--gold);color:var(--gold);padding:4px 10px}
+.cover{margin:26px 0 6px}
+.cover-bar{height:6px;background:var(--border);position:relative;overflow:hidden}
+.cover-fill{position:absolute;inset:0;right:auto;background:linear-gradient(90deg,var(--gold),var(--gold-lt));transition:width .5s}
+.cover-txt{font-size:11px;color:var(--ink-lt);margin-top:8px;text-align:center}
+.gr-card{border:1px solid var(--border);background:var(--cream);padding:18px;margin-top:12px;display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}
+.gr-card .w{font-family:'Playfair Display',serif;font-size:17px}
+.gr-card .m{font-size:11px;color:var(--ink-lt);margin-top:4px;line-height:1.5}
+.gr-fmt{font-size:9px;letter-spacing:2px;text-transform:uppercase;background:var(--wine-md);color:var(--cream);padding:4px 9px;white-space:nowrap}
+.linklike{background:none;border:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);cursor:pointer;text-decoration:underline;font-family:'Montserrat',sans-serif}
+
+/* pagamento */
+.pix-box{border:1px dashed var(--gold);background:var(--gold-bg);padding:26px;text-align:center;margin-top:18px}
+.pix-val{font-family:Didot,'Playfair Display',serif;font-size:38px;color:var(--wine-md)}
+.pix-key{font-size:13px;margin:12px 0 4px;word-break:break-all}
+#pix-qr{margin:16px auto 4px;display:block;background:#fff;padding:8px}
+.copy-area{background:#fff;border:1px solid var(--border);font-size:10px;padding:10px;word-break:break-all;max-height:64px;overflow:auto;text-align:left;margin:12px 0;color:var(--ink-lt)}
+.paid-badge{display:inline-block;background:var(--ok);color:#fff;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;margin-top:8px}
+
+/* lista de vinhos */
+.wine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.wine-card{background:var(--white);border:1px solid var(--border);padding:22px;position:relative;transition:box-shadow .3s}
+.wine-card:hover{box-shadow:0 10px 30px rgba(0,0,0,.07)}
+.wine-card .nm{font-family:'Playfair Display',serif;font-size:18px;line-height:1.3;padding-right:70px}
+.wine-card .pr{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--ink-lt);margin-top:3px}
+.wine-card .fmt{position:absolute;top:0;right:16px;background:var(--wine-md);color:var(--cream);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:6px 10px}
+.wine-card .who{font-size:11px;color:var(--ink-lt);margin-top:12px;line-height:1.6}
+.wine-card .join{margin-top:12px}
+.vac{color:var(--gold);font-weight:600}
+.wine-stats{display:flex;justify-content:center;gap:clamp(20px,6vw,64px);margin-bottom:38px;flex-wrap:wrap}
+.ws .n{font-family:Didot,'Playfair Display',serif;font-size:36px;color:var(--wine-md);text-align:center}
+.ws .k{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);text-align:center;margin-top:4px}
+
+/* confirmados */
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.person{background:var(--white);border:1px solid var(--border);padding:16px 18px}
+.person .pn{font-family:'Playfair Display',serif;font-size:16px;display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.person .paid{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ok);white-space:nowrap}
+.person .pc{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-top:6px;line-height:1.7}
+.person .pw{font-size:11px;color:var(--ink-lt);margin-top:8px;line-height:1.6;font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic}
+
+/* carta agrupada */
+.wg-tipo{display:flex;align-items:center;gap:16px;margin:40px 0 6px}
+.wg-tipo:first-child{margin-top:0}
+.wg-tipo .t{font-family:'Playfair Display',serif;font-size:22px;color:var(--wine-md);white-space:nowrap}
+.wg-tipo .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.wg-pais{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:20px 0 12px}
+/* votação e pódio */
+.vote-cat{margin-bottom:26px}
+.vote-cat .cn{font-family:'Playfair Display',serif;font-size:18px;color:var(--wine-md);margin-bottom:4px}
+.vote-cat .ct{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:10px}
+.vote-cat .voted{font-size:11px;color:var(--ok);margin-top:7px}
+.podium{background:var(--cream);border:1px solid var(--border);padding:26px;margin-bottom:18px}
+.podium .cn{font-family:'Playfair Display',serif;font-size:20px;color:var(--wine-md);text-align:center;margin-bottom:16px}
+.podium .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px dashed var(--border);flex-wrap:wrap}
+.podium .row:last-child{border-bottom:none}
+.podium .w{font-family:'Playfair Display',serif;font-size:16px}
+.podium .med{font-size:18px;margin-right:6px}
+.podium .v{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.podium .mm{font-size:11px;color:var(--ink-lt);width:100%}
+footer{background:var(--wine);color:rgba(247,243,238,.75);text-align:center;padding:54px 24px}
+footer .quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--cream);margin-bottom:18px}
+footer .org{font-size:9px;letter-spacing:3px;text-transform:uppercase}
+footer .org a{color:var(--gold-lt);text-decoration:none}
+.hidden{display:none !important}
+@media(max-width:600px){.hero{padding:56px 16px 48px}.sec{padding:52px 18px}}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero">
+  <div class="hero-kicker">Recife · Pernambuco · Brasil</div>
+  <svg class="hero-emblem" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Emblema — cinco taças, uma mesa">
+    <circle cx="60" cy="60" r="57" stroke="#D4AE5C" stroke-width="1" opacity=".5"/>
+    <circle cx="60" cy="60" r="52" stroke="#D4AE5C" stroke-width=".5" opacity=".35"/>
+    <g stroke="#D4AE5C" stroke-width="1.4">
+      <circle cx="60" cy="38" r="15" fill="rgba(212,174,92,.07)"/>
+      <circle cx="81" cy="53" r="15" fill="rgba(212,174,92,.07)"/>
+      <circle cx="73" cy="78" r="15" fill="rgba(212,174,92,.07)"/>
+      <circle cx="47" cy="78" r="15" fill="rgba(212,174,92,.07)"/>
+      <circle cx="39" cy="53" r="15" fill="rgba(212,174,92,.07)"/>
+    </g>
+    <rect x="57" y="57" width="6" height="6" transform="rotate(45 60 60)" fill="#D4AE5C"/>
+  </svg>
+  <h1><span class="a">A</span>Confra<br>das Confras</h1>
+  <div class="hero-year">2026</div>
+  <p class="hero-tag">O maior encontro de vinhos da história de Pernambuco. Pela primeira vez, as mais importantes confrarias do Recife reunidas em uma única mesa.</p>
+  <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+  <div class="hero-when">
+    <div class="hw-dow">Quarta-feira</div>
+    <div class="hw-date">18 de novembro <span class="hw-dot">·</span> 13h</div>
+    <div class="hw-place">Paris Saint-Germain Academy · Recife</div>
+  </div>
+  <div class="count" id="countdown">
+    <div class="cnt"><div class="n" id="cd-d">—</div><div class="l2">dias</div></div>
+    <div class="cnt"><div class="n" id="cd-h">—</div><div class="l2">horas</div></div>
+    <div class="cnt"><div class="n" id="cd-m">—</div><div class="l2">min</div></div>
+    <div class="cnt"><div class="n" id="cd-s">—</div><div class="l2">seg</div></div>
+  </div>
+  <a class="cta" href="#rsvp" id="cta-btn">Confirmar presença</a>
+</header>
+
+<!-- ═══ CONFRARIAS ═══ -->
+<div class="strip">
+  <div class="strip-title">As cinco confrarias</div>
+  <div class="strip-row" id="strip-row"></div>
+</div>
+
+<!-- ═══ A REGRA ═══ -->
+<section class="sec">
+  <div class="sec-kicker">Como participar</div>
+  <h2 class="sec-title">Grandes vinhos pedem grandes garrafas</h2>
+  <p class="sec-sub">Cada confrade leva, no mínimo, 1,5 litro de vinho — uma Magnum. Confrades podem se unir para trazer formatos maiores: dois numa Double Magnum, quatro numa Jeroboam, e assim por diante.</p>
+  <div class="rule-grid">
+    <div class="rule-card"><div class="fmt">Magnum</div><div class="lt">1,5 L</div><div class="pp">1 confrade</div></div>
+    <div class="rule-card"><div class="fmt">Double Magnum</div><div class="lt">3 L</div><div class="pp">2 confrades</div></div>
+    <div class="rule-card"><div class="fmt">Jeroboam</div><div class="lt">6 L</div><div class="pp">4 confrades</div></div>
+    <div class="rule-card"><div class="fmt">Salmanazar</div><div class="lt">9 L</div><div class="pp">6 confrades</div></div>
+  </div>
+  <p class="rule-note">Pode levar quantas garrafas quiser, e um confrade pode trazer sozinho qualquer formato acima de 1,5 L — dividir é opcional. O custo do churrasco será rateado igualmente entre todos.</p>
+  <div class="orn" style="margin:34px 0 26px"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+  <p class="rule-note" style="margin-top:0"><strong style="font-style:normal;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)">Serviço</strong><br>
+  Todos os vinhos serão abertos ao mesmo tempo e ficarão em uma grande mesa, em sistema self-service — circule, prove e volte quantas vezes quiser.</p>
+</section>
+
+<!-- ═══ RSVP ═══ -->
+<section class="sec" id="rsvp" style="padding-top:20px">
+  <div class="sec-kicker">RSVP</div>
+  <h2 class="sec-title" id="rsvp-title">Confirme a sua presença</h2>
+  <p class="sec-sub" id="rsvp-sub">Diga-nos quem você é e a que confraria — ou confrarias — pertence.</p>
+
+  <!-- formulário -->
+  <div class="panel" id="form-panel">
+    <label class="f-label">Nome completo *</label>
+    <input class="f-input" id="f-nome" placeholder="Seu nome" autocomplete="name">
+    <label class="f-label">WhatsApp *</label>
+    <input class="f-input" id="f-zap" placeholder="(81) 9 0000-0000" inputmode="tel" autocomplete="tel">
+    <label class="f-label">E-mail</label>
+    <input class="f-input" id="f-email" placeholder="voce@email.com" inputmode="email" autocomplete="email">
+    <label class="f-label">Suas confrarias * <span style="text-transform:none;letter-spacing:0;font-size:10px">(marque todas a que pertence)</span></label>
+    <div class="conf-grid" id="conf-grid"></div>
+    <label class="f-label">Restrições alimentares</label>
+    <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;margin-bottom:10px">
+      <input type="checkbox" id="f-semrestricao" style="width:16px;height:16px;accent-color:var(--gold)" onchange="document.getElementById('f-obs').classList.toggle('hidden', this.checked)">
+      Não tenho restrições alimentares
+    </label>
+    <textarea class="f-input" id="f-obs" rows="2" placeholder="Quais? (ex.: alergia a frutos do mar, vegetariano...) — e outras observações"></textarea>
+    <div style="text-align:center;margin-top:32px">
+      <button class="btn" id="f-send" onclick="doRSVP()">Confirmar presença</button>
+    </div>
+  </div>
+
+  <!-- painel do confrade -->
+  <div class="panel hidden" id="me-panel">
+    <div class="me-hello">Presença confirmada, <span id="me-nome"></span> 🥂</div>
+    <div class="me-badges" id="me-badges"></div>
+    <div class="cover">
+      <div class="cover-bar"><div class="cover-fill" id="cover-fill" style="width:0%"></div></div>
+      <div class="cover-txt" id="cover-txt">Você ainda não registrou nenhuma garrafa.</div>
+    </div>
+
+    <div id="me-garrafas"></div>
+
+    <label class="f-label" style="margin-top:34px">Registrar uma garrafa</label>
+    <input class="f-input" id="g-vinho" placeholder="Vinho (ex.: Château Léoville Barton)">
+    <div style="display:grid;grid-template-columns:1fr 1fr 90px;gap:10px;margin-top:10px">
+      <input class="f-input" id="g-produtor" placeholder="Produtor">
+      <input class="f-input" id="g-regiao" placeholder="Região (ex.: Pauillac)">
+      <input class="f-input" id="g-safra" placeholder="Safra" inputmode="numeric">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+      <select class="f-select" id="g-tipo">
+        <option value="Tinto">Tinto</option>
+        <option value="Branco">Branco</option>
+        <option value="Espumante">Espumante</option>
+        <option value="Rosé">Rosé</option>
+        <option value="Fortificado / Doce">Fortificado / Doce</option>
+      </select>
+      <input class="f-input" id="g-pais" list="paises" placeholder="País">
+      <datalist id="paises">
+        <option>França</option><option>Itália</option><option>Espanha</option><option>Portugal</option>
+        <option>Chile</option><option>Argentina</option><option>Brasil</option><option>Uruguai</option>
+        <option>Estados Unidos</option><option>Alemanha</option><option>África do Sul</option>
+        <option>Austrália</option><option>Nova Zelândia</option><option>Áustria</option><option>Líbano</option>
+      </datalist>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 130px;gap:10px;margin-top:10px">
+      <select class="f-select" id="g-formato" onchange="fmtChange()">
+        <option value="Magnum|1.5|1">Magnum — 1,5 L</option>
+        <option value="Double Magnum|3|2">Double Magnum — 3 L</option>
+        <option value="Jeroboam|6|4">Jeroboam — 6 L</option>
+        <option value="Salmanazar|9|6">Salmanazar — 9 L</option>
+        <option value="outro">Outro formato…</option>
+      </select>
+      <select class="f-select" id="g-vagas" title="Quantos confrades dividem esta garrafa"></select>
+    </div>
+    <div id="g-outro-row" class="hidden" style="margin-top:10px">
+      <input class="f-input" id="g-litros" placeholder="Litros (ex.: 4,5)" inputmode="decimal">
+    </div>
+    <div style="text-align:center;margin-top:22px">
+      <button class="btn gold" id="g-add" onclick="addGarrafa()">Adicionar garrafa</button>
+    </div>
+
+    <!-- pagamento -->
+    <div id="pay-sec" style="margin-top:44px">
+      <label class="f-label">Rateio do churrasco</label>
+      <div class="pix-box" id="pix-box">
+        <div id="pix-pending" class="hidden" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--ink-lt)">O valor do rateio será anunciado assim que fecharmos o número de confrades. Você será avisado.</div>
+        <div id="pix-ready" class="hidden">
+          <div class="pix-val" id="pix-val"></div>
+          <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)">por confrade</div>
+          <div style="display:flex;justify-content:center;gap:22px;margin:18px 0 4px;flex-wrap:wrap;font-size:10px;letter-spacing:1px;color:var(--ink-lt)">
+            <span><strong style="color:var(--gold)">1.</strong> Escaneie o QR ou copie o código</span>
+            <span><strong style="color:var(--gold)">2.</strong> Pague no app do seu banco</span>
+            <span><strong style="color:var(--gold)">3.</strong> Envie o comprovante abaixo</span>
+          </div>
+          <canvas id="pix-qr" width="180" height="180"></canvas>
+          <div class="pix-key">Pix: <strong id="pix-chave"></strong> <span id="pix-nome" style="color:var(--ink-lt)"></span></div>
+          <div class="copy-area" id="pix-payload"></div>
+          <button class="btn gold" onclick="copyPix()">Copiar Pix copia-e-cola</button>
+          <div style="margin-top:22px">
+            <label class="f-label" style="margin-top:0">Enviar comprovante</label>
+            <input type="file" id="f-comprovante" accept="image/*,.pdf" style="font-size:12px" onchange="uploadComprovante(this)">
+            <div id="comp-status" style="font-size:11px;color:var(--ink-lt);margin-top:8px"></div>
+          </div>
+        </div>
+        <div id="pix-paid" class="hidden">
+          <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--ok)">Pagamento confirmado</div>
+          <div class="paid-badge">✓ Pago</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:36px">
+      <button class="linklike" onclick="logoutMe()">Não é você? Fazer outra confirmação</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LISTA DE VINHOS ═══ -->
+<section class="sec" id="vinhos" style="background:var(--white);max-width:none;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div style="max-width:1000px;margin:0 auto">
+    <div class="sec-kicker">A mesa</div>
+    <h2 class="sec-title">Os vinhos confirmados</h2>
+    <p class="sec-sub">A lista cresce a cada confirmação. Garrafas com vagas abertas aguardam confrades para completar o grupo.</p>
+    <div class="wine-stats">
+      <div class="ws"><div class="n" id="st-conf">0</div><div class="k">confrades</div></div>
+      <div class="ws"><div class="n" id="st-gar">0</div><div class="k">garrafas</div></div>
+      <div class="ws"><div class="n" id="st-lit">0</div><div class="k">litros</div></div>
+    </div>
+    <div id="wine-groups"></div>
+    <p id="wine-empty" class="rule-note hidden">Seja o primeiro a registrar uma garrafa.</p>
+  </div>
+</section>
+
+<!-- ═══ VOTAÇÃO ═══ -->
+<section class="sec hidden" id="votacao">
+  <div class="sec-kicker">A urna</div>
+  <h2 class="sec-title">Vote nos melhores vinhos</h2>
+  <p class="sec-sub">Um voto por categoria. Você pode mudar o seu voto enquanto a urna estiver aberta.</p>
+  <div class="panel" id="vote-panel"></div>
+</section>
+
+<!-- ═══ RESULTADOS ═══ -->
+<section class="sec hidden" id="resultados" style="background:var(--white);max-width:none;border-top:1px solid var(--border)">
+  <div style="max-width:1000px;margin:0 auto">
+    <div class="sec-kicker">O veredicto</div>
+    <h2 class="sec-title">Os melhores vinhos da festa</h2>
+    <p class="sec-sub">Eleitos pelos próprios confrades.</p>
+    <div id="podios"></div>
+  </div>
+</section>
+
+<!-- ═══ CONFIRMADOS ═══ -->
+<section class="sec" id="confirmados">
+  <div class="sec-kicker">Quem já vem</div>
+  <h2 class="sec-title">Confrades confirmados</h2>
+  <p class="sec-sub" id="conf-count-sub">&nbsp;</p>
+  <div class="people" id="people"></div>
+</section>
+
+<footer>
+  <div class="quote">"Grandes vinhos, grandes garrafas, grandes amigos."</div>
+  <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+  <div class="org">Organização <a href="https://lulidias.com">Luli Dias</a> · Recife · 2026</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+
+var CONFRARIAS = [
+  { slug: 'commanderie', nome: 'Commanderie de Bordeaux', curto: 'Commanderie', logo: 'logos/commanderie.png',      cor: '#7A1F2B' },
+  { slug: 'porquinho',   nome: 'Confraria do Porquinho',  curto: 'Porquinho',   logo: 'logos/porquinho.png',        cor: '#C97B84' },
+  { slug: 'wine-lovers', nome: 'Wine Lovers Recife',      curto: 'Wine Lovers', logo: 'logos/wine-lovers-recife.png', cor: '#6B2158' },
+  { slug: 'confra-wine', nome: 'Confra Wine Recife',      curto: 'Confra Wine', logo: 'logos/confra-wine-recife.png', cor: '#4A1420' },
+  { slug: 'over20',      nome: 'Over 20',                 curto: 'Over 20',     logo: 'logos/over20.svg',           cor: '#B8922A' }
+];
+var LOGO_OK = { 'commanderie': true, 'wine-lovers': true, 'confra-wine': true, 'porquinho': true, 'over20': true };
+
+// link pessoal (?id=... vindo do e-mail) restaura a sessão do confrade
+var _urlId = new URLSearchParams(location.search).get('id');
+if (_urlId) localStorage.setItem('confras_id', _urlId);
+var meuId = localStorage.getItem('confras_id') || null;
+var meu = null;
+var cfg = null;
+
+// ── helpers ──────────────────────────────────────────────────────────────
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function toast(msg, err) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast on' + (err ? ' err' : '');
+  clearTimeout(t._h); t._h = setTimeout(function () { t.className = 'toast'; }, 3500);
+}
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, {
+    method: 'POST',
+    headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(args || {})
+  }).then(function (r) {
+    return r.text().then(function (tx) {
+      var data = null; try { data = tx ? JSON.parse(tx) : null; } catch (e) { }
+      if (!r.ok) throw new Error((data && (data.message || data.hint)) || 'Erro (' + r.status + ')');
+      return data;
+    });
+  });
+}
+function view(name, q) {
+  return fetch(SB + '/rest/v1/' + name + '?select=*' + (q || ''), {
+    headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
+  }).then(function (r) { if (!r.ok) throw new Error('Erro ao carregar ' + name); return r.json(); });
+}
+function confObj(slug) { for (var i = 0; i < CONFRARIAS.length; i++) if (CONFRARIAS[i].slug === slug) return CONFRARIAS[i]; return null; }
+function fmtLitros(n) { return (Math.round(n * 100) / 100).toLocaleString('pt-BR'); }
+
+// ── countdown ────────────────────────────────────────────────────────────
+var EVENTO = new Date('2026-11-18T13:00:00-03:00').getTime();
+setInterval(function () {
+  var d = Math.max(0, EVENTO - Date.now());
+  document.getElementById('cd-d').textContent = Math.floor(d / 864e5);
+  document.getElementById('cd-h').textContent = Math.floor(d / 36e5) % 24;
+  document.getElementById('cd-m').textContent = Math.floor(d / 6e4) % 60;
+  document.getElementById('cd-s').textContent = Math.floor(d / 1e3) % 60;
+}, 1000);
+
+// ── strip + form de confrarias ───────────────────────────────────────────
+(function buildConfrarias() {
+  var strip = document.getElementById('strip-row'), grid = document.getElementById('conf-grid');
+  CONFRARIAS.forEach(function (c) {
+    var s = document.createElement('div'); s.className = 'strip-logo';
+    s.innerHTML = LOGO_OK[c.slug]
+      ? '<img src="' + c.logo + '" alt="' + esc(c.nome) + '">'
+      : '<div class="logo-fallback">' + esc(c.curto) + '<small>Recife</small></div>';
+    strip.appendChild(s);
+    var o = document.createElement('div'); o.className = 'conf-opt'; o.dataset.slug = c.slug;
+    o.innerHTML = (LOGO_OK[c.slug] ? '<img src="' + c.logo + '" alt="">' : '') +
+      '<div class="nm">' + esc(c.nome) + '</div><div class="tick">✓</div>';
+    o.onclick = function () { o.classList.toggle('sel'); };
+    grid.appendChild(o);
+  });
+})();
+
+// ── RSVP ─────────────────────────────────────────────────────────────────
+function doRSVP() {
+  var nome = document.getElementById('f-nome').value.trim();
+  var zap = document.getElementById('f-zap').value.trim();
+  var email = document.getElementById('f-email').value.trim();
+  var obs = document.getElementById('f-semrestricao').checked
+    ? 'Sem restrições alimentares'
+    : document.getElementById('f-obs').value.trim();
+  var sels = [].slice.call(document.querySelectorAll('.conf-opt.sel')).map(function (o) { return o.dataset.slug; });
+  if (!nome) return toast('Informe o seu nome.', true);
+  if (!zap) return toast('Informe o seu WhatsApp.', true);
+  if (!sels.length) return toast('Marque pelo menos uma confraria.', true);
+  var btn = document.getElementById('f-send'); btn.disabled = true; btn.textContent = 'Confirmando…';
+  rpc('confras_rsvp', { p_nome: nome, p_whatsapp: zap, p_email: email, p_confrarias: sels, p_obs: obs })
+    .then(function (id) {
+      meuId = id; localStorage.setItem('confras_id', id);
+      toast('Presença confirmada! 🥂');
+      return loadMe().then(refreshPublic);
+    })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { btn.disabled = false; btn.textContent = 'Confirmar presença'; });
+}
+
+function logoutMe() {
+  localStorage.removeItem('confras_id'); meuId = null; meu = null;
+  document.getElementById('me-panel').classList.add('hidden');
+  document.getElementById('form-panel').classList.remove('hidden');
+  document.getElementById('rsvp-title').textContent = 'Confirme a sua presença';
+}
+
+// ── painel do confrade ───────────────────────────────────────────────────
+function loadMe() {
+  if (!meuId) return Promise.resolve();
+  return rpc('confras_meu', { p_id: meuId }).then(function (rows) {
+    if (!rows || !rows.length) { logoutMe(); return; }
+    meu = rows[0];
+    document.getElementById('form-panel').classList.add('hidden');
+    document.getElementById('me-panel').classList.remove('hidden');
+    document.getElementById('rsvp-title').textContent = 'Seu painel de confrade';
+    document.getElementById('rsvp-sub').textContent = 'Registre suas garrafas e acompanhe o rateio.';
+    document.getElementById('me-nome').textContent = meu.nome.split(' ')[0];
+    var b = document.getElementById('me-badges'); b.innerHTML = '';
+    (meu.confrarias || []).forEach(function (slug) {
+      var c = confObj(slug); if (!c) return;
+      var el = document.createElement('span'); el.className = 'badge'; el.textContent = c.curto; b.appendChild(el);
+    });
+    renderPay();
+    return loadMinhasGarrafas();
+  });
+}
+
+function loadMinhasGarrafas() {
+  return rpc('confras_minhas_garrafas', { p_participante: meuId }).then(function (rows) {
+    rows = rows || [];
+    var box = document.getElementById('me-garrafas'); box.innerHTML = '';
+    var share = 0;
+    rows.forEach(function (g) {
+      share += Number(g.litros) / Math.max(1, g.membros.length);
+      var d = document.createElement('div'); d.className = 'gr-card';
+      d.innerHTML = '<div><div class="w">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
+        '<div class="m">' + (g.produtor ? esc(g.produtor) + ' · ' : '') + (g.regiao ? esc(g.regiao) + ' · ' : '') + esc(g.formato) + ' (' + fmtLitros(g.litros) + ' L) — com ' + esc(g.membros.join(', ')) + '</div></div>' +
+        '<div style="display:flex;gap:10px;align-items:center"><span class="gr-fmt">' + esc(g.formato) + '</span>' +
+        '<button class="linklike" onclick="leaveGarrafa(\'' + g.id + '\')">' + (g.sou_criador ? 'Remover' : 'Sair') + '</button></div>';
+      box.appendChild(d);
+    });
+    var need = 1.5;
+    var pct = Math.min(100, Math.round(share / need * 100));
+    document.getElementById('cover-fill').style.width = pct + '%';
+    document.getElementById('cover-txt').innerHTML = rows.length
+      ? 'Sua contribuição: <strong>' + fmtLitros(share) + ' L</strong> de ' + fmtLitros(need) + ' L mínimos' + (share >= need ? ' — <span style="color:var(--ok)">✓ completa</span>' : ' — falta ' + fmtLitros(need - share) + ' L')
+      : 'Você ainda não registrou nenhuma garrafa — o mínimo é 1,5 L (uma Magnum) por confrade.';
+  });
+}
+
+function fmtChange() {
+  var v = document.getElementById('g-formato').value;
+  var outro = v === 'outro';
+  document.getElementById('g-outro-row').classList.toggle('hidden', !outro);
+  var vagas = document.getElementById('g-vagas'); vagas.innerHTML = '';
+  // dividir é opcional: o padrão é levar sozinho, qualquer que seja o formato
+  for (var i = 1; i <= 12; i++) {
+    var o = document.createElement('option'); o.value = i;
+    o.textContent = i === 1 ? 'Sozinho' : 'Dividir entre ' + i;
+    if (i === 1) o.selected = true; vagas.appendChild(o);
+  }
+}
+fmtChange();
+
+function addGarrafa() {
+  var vinho = document.getElementById('g-vinho').value.trim();
+  if (!vinho) return toast('Informe o vinho.', true);
+  var fsel = document.getElementById('g-formato').value;
+  var formato, litros;
+  if (fsel === 'outro') {
+    formato = 'Outro formato';
+    litros = parseFloat((document.getElementById('g-litros').value || '').replace(',', '.'));
+    if (!litros || litros <= 0) return toast('Informe os litros da garrafa.', true);
+  } else {
+    var p = fsel.split('|'); formato = p[0]; litros = parseFloat(p[1]);
+  }
+  var vagas = parseInt(document.getElementById('g-vagas').value, 10) || 1;
+  var btn = document.getElementById('g-add'); btn.disabled = true; btn.textContent = 'Adicionando…';
+  rpc('confras_add_garrafa', {
+    p_participante: meuId, p_vinho: vinho,
+    p_produtor: document.getElementById('g-produtor').value.trim(),
+    p_safra: document.getElementById('g-safra').value.trim(),
+    p_formato: formato, p_litros: litros, p_vagas: vagas,
+    p_tipo: document.getElementById('g-tipo').value,
+    p_pais: document.getElementById('g-pais').value.trim(),
+    p_regiao: document.getElementById('g-regiao').value.trim()
+  }).then(function () {
+    toast('Garrafa registrada! 🍷');
+    document.getElementById('g-vinho').value = ''; document.getElementById('g-produtor').value = '';
+    document.getElementById('g-regiao').value = ''; document.getElementById('g-pais').value = '';
+    document.getElementById('g-safra').value = ''; document.getElementById('g-litros').value = '';
+    return Promise.all([loadMinhasGarrafas(), refreshPublic()]);
+  }).catch(function (e) { toast(e.message, true); })
+    .then(function () { btn.disabled = false; btn.textContent = 'Adicionar garrafa'; });
+}
+
+function joinGarrafa(id) {
+  if (!meuId) { toast('Confirme a sua presença primeiro.', true); location.hash = '#rsvp'; return; }
+  rpc('confras_join_garrafa', { p_participante: meuId, p_garrafa: id })
+    .then(function () { toast('Você entrou na garrafa! 🍷'); return Promise.all([loadMinhasGarrafas(), refreshPublic()]); })
+    .catch(function (e) { toast(e.message, true); });
+}
+function leaveGarrafa(id) {
+  rpc('confras_leave_garrafa', { p_participante: meuId, p_garrafa: id })
+    .then(function () { toast('Feito.'); return Promise.all([loadMinhasGarrafas(), refreshPublic()]); })
+    .catch(function (e) { toast(e.message, true); });
+}
+
+// ── Pix ──────────────────────────────────────────────────────────────────
+function emv(id, value) { var v = String(value); return id + ('0' + v.length).slice(-2) + v; }
+function crc16(s) {
+  var crc = 0xFFFF;
+  for (var i = 0; i < s.length; i++) {
+    crc ^= s.charCodeAt(i) << 8;
+    for (var j = 0; j < 8; j++) crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) & 0xFFFF : (crc << 1) & 0xFFFF;
+  }
+  return ('000' + crc.toString(16).toUpperCase()).slice(-4);
+}
+function pixPayload(chave, nome, cidade, valor, txid) {
+  var mai = emv('00', 'br.gov.bcb.pix') + emv('01', chave);
+  var p = emv('00', '01') + emv('26', mai) + emv('52', '0000') + emv('53', '986');
+  if (valor) p += emv('54', valor.toFixed(2));
+  p += emv('58', 'BR') + emv('59', (nome || 'CONFRA DAS CONFRAS').substring(0, 25)) +
+       emv('60', (cidade || 'RECIFE').substring(0, 15)) + emv('62', emv('05', (txid || 'CONFRAS2026').substring(0, 25)));
+  p += '6304';
+  return p + crc16(p);
+}
+var pixCopiaECola = '';
+function renderPay() {
+  if (!meu) return;
+  var pend = document.getElementById('pix-pending'), ready = document.getElementById('pix-ready'), paid = document.getElementById('pix-paid');
+  pend.classList.add('hidden'); ready.classList.add('hidden'); paid.classList.add('hidden');
+  if (meu.pago) { paid.classList.remove('hidden'); return; }
+  if (!cfg || !cfg.chave_pix || !cfg.valor_rateio) { pend.classList.remove('hidden'); return; }
+  ready.classList.remove('hidden');
+  var valor = Number(cfg.valor_rateio);
+  document.getElementById('pix-val').textContent = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  document.getElementById('pix-chave').textContent = cfg.chave_pix;
+  document.getElementById('pix-nome').textContent = cfg.nome_pix ? '(' + cfg.nome_pix + ')' : '';
+  pixCopiaECola = pixPayload(cfg.chave_pix, cfg.nome_pix, 'RECIFE', valor, 'CONFRAS2026');
+  document.getElementById('pix-payload').textContent = pixCopiaECola;
+  if (window.QRCode) QRCode.toCanvas(document.getElementById('pix-qr'), pixCopiaECola, { width: 180, margin: 1, color: { dark: '#101F38' } }, function () { });
+  if (meu.comprovante_url) document.getElementById('comp-status').innerHTML = '✓ Comprovante enviado — <a href="' + esc(meu.comprovante_url) + '" target="_blank">ver</a>. Aguardando confirmação.';
+}
+function copyPix() {
+  (navigator.clipboard ? navigator.clipboard.writeText(pixCopiaECola) : Promise.reject())
+    .then(function () { toast('Pix copiado! Cole no app do seu banco.'); })
+    .catch(function () { toast('Selecione e copie o código acima.', true); });
+}
+function uploadComprovante(input) {
+  var f = input.files && input.files[0]; if (!f) return;
+  if (f.size > 8 * 1024 * 1024) return toast('Arquivo muito grande (máx. 8 MB).', true);
+  var st = document.getElementById('comp-status'); st.textContent = 'Enviando…';
+  var ext = (f.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+  var path = 'comprovantes/' + meuId + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+  fetch(SB + '/storage/v1/object/confras/' + path, {
+    method: 'POST',
+    headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': f.type || 'application/octet-stream' },
+    body: f
+  }).then(function (r) {
+    if (!r.ok) return r.text().then(function (t) { throw new Error('Falha no envio (' + r.status + ')'); });
+    var url = SB + '/storage/v1/object/public/confras/' + path;
+    return rpc('confras_set_comprovante', { p_participante: meuId, p_url: url }).then(function () {
+      meu.comprovante_url = url;
+      st.innerHTML = '✓ Comprovante enviado — aguardando confirmação.';
+      toast('Comprovante recebido! Obrigado. 🥂');
+    });
+  }).catch(function (e) { st.textContent = ''; toast(e.message, true); });
+}
+
+// ── público: vinhos + confirmados ────────────────────────────────────────
+function refreshPublic() {
+  return Promise.all([view('confras_vinhos_publico'), view('confras_confirmados')]).then(function (res) {
+    var vinhos = res[0] || [], pessoas = res[1] || [];
+    // stats
+    var litros = 0; vinhos.forEach(function (g) { litros += Number(g.litros); });
+    document.getElementById('st-conf').textContent = pessoas.length;
+    document.getElementById('st-gar').textContent = vinhos.length;
+    document.getElementById('st-lit').textContent = fmtLitros(litros);
+    // vinhos — carta agrupada por categoria (ordem de degustação) e país
+    vinhosCache = vinhos;
+    var groups = document.getElementById('wine-groups'); groups.innerHTML = '';
+    document.getElementById('wine-empty').classList.toggle('hidden', vinhos.length > 0);
+    var TIPO_ORDEM = ['Espumante', 'Branco', 'Rosé', 'Tinto', 'Fortificado / Doce'];
+    var TIPO_PLURAL = { 'Espumante': 'Espumantes', 'Branco': 'Brancos', 'Rosé': 'Rosés', 'Tinto': 'Tintos', 'Fortificado / Doce': 'Fortificados & Doces' };
+    var porTipo = {};
+    vinhos.forEach(function (g) { var t = g.tipo || 'Tinto'; (porTipo[t] = porTipo[t] || []).push(g); });
+    var tipos = TIPO_ORDEM.filter(function (t) { return porTipo[t]; })
+      .concat(Object.keys(porTipo).filter(function (t) { return TIPO_ORDEM.indexOf(t) < 0; }).sort());
+    tipos.forEach(function (t) {
+      var h = document.createElement('div'); h.className = 'wg-tipo';
+      h.innerHTML = '<span class="t">' + esc(TIPO_PLURAL[t] || t) + '</span><span class="ln"></span>';
+      groups.appendChild(h);
+      var porPais = {};
+      porTipo[t].forEach(function (g) { var p = g.pais || 'Outros'; (porPais[p] = porPais[p] || []).push(g); });
+      Object.keys(porPais).sort(function (a, b) { return a === 'Outros' ? 1 : b === 'Outros' ? -1 : a.localeCompare(b, 'pt'); })
+        .forEach(function (pais) {
+          var ph = document.createElement('div'); ph.className = 'wg-pais'; ph.textContent = pais;
+          groups.appendChild(ph);
+          var grid = document.createElement('div'); grid.className = 'wine-grid';
+          porPais[pais].forEach(function (g) {
+            var d = document.createElement('div'); d.className = 'wine-card';
+            var vagasHtml = g.vagas_restantes > 0
+              ? '<div class="join"><span class="vac">' + g.vagas_restantes + ' vaga' + (g.vagas_restantes > 1 ? 's' : '') + '</span> — <button class="linklike" onclick="joinGarrafa(\'' + g.id + '\')">juntar-se a esta garrafa</button></div>'
+              : '';
+            d.innerHTML = '<div class="fmt">' + esc(g.formato) + ' · ' + fmtLitros(g.litros) + ' L</div>' +
+              '<div class="nm">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
+              (g.produtor ? '<div class="pr">' + esc(g.produtor) + '</div>' : '') +
+              '<div class="who">🍷 ' + esc(g.membros.join(', ')) + '</div>' + vagasHtml;
+            grid.appendChild(d);
+          });
+          groups.appendChild(grid);
+        });
+    });
+    renderVotacao();
+    // confirmados
+    var pp = document.getElementById('people'); pp.innerHTML = '';
+    document.getElementById('conf-count-sub').textContent = pessoas.length
+      ? pessoas.length + ' confrade' + (pessoas.length > 1 ? 's' : '') + ' já ' + (pessoas.length > 1 ? 'confirmaram' : 'confirmou') + ' presença.'
+      : 'Seja o primeiro a confirmar presença.';
+    pessoas.forEach(function (p) {
+      var confs = (p.confrarias || []).map(function (slug) {
+        var c = confObj(slug); return c ? esc(c.curto) : '';
+      }).filter(Boolean).join(' · ');
+      var meusVinhos = vinhos.filter(function (g) { return (g.membros || []).indexOf(p.nome) >= 0; })
+        .map(function (g) { return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : '') + ' (' + esc(g.formato) + ')'; });
+      var d = document.createElement('div'); d.className = 'person';
+      d.innerHTML = '<div class="pn"><span>' + esc(p.nome) + '</span>' + (p.pago ? '<span class="paid">✓ pago</span>' : '') + '</div>' +
+        '<div class="pc">' + confs + '</div>' +
+        (meusVinhos.length ? '<div class="pw">🍷 ' + meusVinhos.join(' · ') + '</div>' : '');
+      pp.appendChild(d);
+    });
+  }).catch(function (e) { console.error(e); });
+}
+
+// ── votação ──────────────────────────────────────────────────────────────
+var vinhosCache = [];
+var catsCache = [];
+var meusVotos = {};
+function loadCats() {
+  return view('confras_categorias_publicas').then(function (rows) { catsCache = rows || []; })
+    .catch(function () { catsCache = []; });
+}
+function renderVotacao() {
+  var sec = document.getElementById('votacao');
+  if (!cfg || !cfg.votacao_aberta || !meuId || !catsCache.length) { sec.classList.add('hidden'); return; }
+  rpc('confras_meus_votos', { p_participante: meuId }).then(function (votos) {
+    meusVotos = {};
+    (votos || []).forEach(function (v) { meusVotos[v.categoria_id] = v.garrafa_id; });
+    sec.classList.remove('hidden');
+    var panel = document.getElementById('vote-panel'); panel.innerHTML = '';
+    catsCache.forEach(function (c) {
+      var elegiveis = vinhosCache.filter(function (g) { return !c.tipo_filtro || g.tipo === c.tipo_filtro; });
+      var div = document.createElement('div'); div.className = 'vote-cat';
+      var opts = '<option value="">— escolha o seu voto —</option>' + elegiveis.map(function (g) {
+        return '<option value="' + g.id + '"' + (meusVotos[c.id] === g.id ? ' selected' : '') + '>' +
+          esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : '') + ' · ' + esc(g.formato) + ' (' + esc(g.membros.join(', ')) + ')</option>';
+      }).join('');
+      div.innerHTML = '<div class="cn">' + esc(c.nome) + '</div>' +
+        (c.tipo_filtro ? '<div class="ct">só ' + esc(c.tipo_filtro).toLowerCase() + 's concorrem</div>' : '') +
+        '<select class="f-select" data-cat="' + c.id + '" onchange="votar(this)">' + opts + '</select>' +
+        '<div class="voted" id="voted-' + c.id + '">' + (meusVotos[c.id] ? '✓ Voto registrado' : '') + '</div>';
+      panel.appendChild(div);
+    });
+  }).catch(function () { });
+}
+function votar(sel) {
+  var cat = sel.dataset.cat, gar = sel.value;
+  if (!gar) return;
+  rpc('confras_votar', { p_participante: meuId, p_categoria: cat, p_garrafa: gar })
+    .then(function () {
+      document.getElementById('voted-' + cat).textContent = '✓ Voto registrado';
+      toast('Voto registrado! 🗳️');
+    })
+    .catch(function (e) { toast(e.message, true); });
+}
+function renderResultados() {
+  var sec = document.getElementById('resultados');
+  if (!cfg || !cfg.resultados_publicos) { sec.classList.add('hidden'); return; }
+  rpc('confras_resultados').then(function (rows) {
+    if (!rows || !rows.length) { sec.classList.add('hidden'); return; }
+    sec.classList.remove('hidden');
+    var box = document.getElementById('podios'); box.innerHTML = '';
+    var MEDAL = ['🥇', '🥈', '🥉'];
+    var porCat = {};
+    var ordemCats = [];
+    rows.forEach(function (r) {
+      if (!porCat[r.categoria_id]) { porCat[r.categoria_id] = { nome: r.categoria, itens: [] }; ordemCats.push(r.categoria_id); }
+      porCat[r.categoria_id].itens.push(r);
+    });
+    ordemCats.forEach(function (cid) {
+      var c = porCat[cid];
+      var d = document.createElement('div'); d.className = 'podium';
+      d.innerHTML = '<div class="cn">' + esc(c.nome) + '</div>' + c.itens.slice(0, 3).map(function (r, i) {
+        return '<div class="row"><div><span class="med">' + MEDAL[i] + '</span><span class="w">' + esc(r.vinho) +
+          (r.safra ? ' <span style="color:var(--gold)">' + esc(r.safra) + '</span>' : '') + '</span></div>' +
+          '<span class="v">' + r.votos + ' voto' + (r.votos > 1 ? 's' : '') + '</span>' +
+          '<div class="mm">' + esc(r.formato) + ' — trazido por ' + esc((r.membros || []).join(', ')) + '</div></div>';
+      }).join('');
+      box.appendChild(d);
+    });
+  }).catch(function () { sec.classList.add('hidden'); });
+}
+
+// ── init ─────────────────────────────────────────────────────────────────
+Promise.all([
+  view('confras_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : null; }).catch(function () { }),
+  loadCats()
+]).then(function () {
+  if (meu) renderPay();
+  renderVotacao();
+  renderResultados();
+});
+loadMe();
+refreshPublic();
+setInterval(function () { refreshPublic(); renderResultados(); }, 60000);
+</script>
+</body>
+</html>
