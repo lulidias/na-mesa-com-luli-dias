@@ -7,6 +7,12 @@
 <meta name="description" content="Pela primeira vez, as mais importantes confrarias do Recife reunidas em uma única mesa. 18 de novembro de 2026, 13h.">
 <meta property="og:title" content="A Confra das Confras 2026">
 <meta property="og:description" content="O maior encontro de vinhos da história de Pernambuco. Grandes vinhos, grandes garrafas, grandes amigos.">
+<meta property="og:image" content="https://lulidias.com/confras/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://lulidias.com/confras/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -164,7 +170,24 @@ footer .quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size
 footer .org{font-size:9px;letter-spacing:3px;text-transform:uppercase}
 footer .org a{color:var(--gold-lt);text-decoration:none}
 .hidden{display:none !important}
-@media(max-width:600px){.hero{padding:56px 16px 48px}.sec{padding:52px 18px}}
+.g-row3{display:grid;grid-template-columns:1fr 1fr 90px;gap:10px}
+.g-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g-row2b{display:grid;grid-template-columns:1fr 130px;gap:10px}
+@media(max-width:600px){
+  .hero{padding:56px 16px 48px}
+  .sec{padding:52px 18px}
+  .panel{padding:24px 18px}
+  .g-row3{grid-template-columns:1fr 1fr}
+  .g-row3 #g-safra{grid-column:span 2}
+  .conf-grid{grid-template-columns:1fr 1fr}
+  .wine-grid{grid-template-columns:1fr}
+  .people{grid-template-columns:1fr}
+  .gr-card{flex-direction:column;align-items:flex-start}
+  .strip-logo{height:60px}
+  .strip-logo img{max-height:60px;max-width:96px}
+  .pix-box{padding:18px 12px}
+  .copy-area{font-size:9px}
+}
 </style>
 </head>
 <body>
@@ -191,7 +214,10 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   <div class="hero-when">
     <div class="hw-dow">Quarta-feira</div>
     <div class="hw-date">18 de novembro <span class="hw-dot">·</span> 13h</div>
-    <div class="hw-place">Paris Saint-Germain Academy · Recife</div>
+    <div class="hw-place">
+      <img src="logos/psg.svg" alt="Paris Saint-Germain Academy" style="height:74px;display:block;margin:14px auto 8px">
+      <span style="font-size:10px;letter-spacing:4px;text-transform:uppercase;font-style:normal;font-family:'Montserrat',sans-serif;color:var(--gold-lt)">Academy · Recife</span>
+    </div>
   </div>
   <div class="count" id="countdown">
     <div class="cnt"><div class="n" id="cd-d">—</div><div class="l2">dias</div></div>
@@ -265,12 +291,12 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 
     <label class="f-label" style="margin-top:34px">Registrar uma garrafa</label>
     <input class="f-input" id="g-vinho" placeholder="Vinho (ex.: Château Léoville Barton)">
-    <div style="display:grid;grid-template-columns:1fr 1fr 90px;gap:10px;margin-top:10px">
+    <div class="g-row3" style="margin-top:10px">
       <input class="f-input" id="g-produtor" placeholder="Produtor">
       <input class="f-input" id="g-regiao" placeholder="Região (ex.: Pauillac)">
       <input class="f-input" id="g-safra" placeholder="Safra" inputmode="numeric">
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+    <div class="g-row2" style="margin-top:10px">
       <select class="f-select" id="g-tipo">
         <option value="Tinto">Tinto</option>
         <option value="Branco">Branco</option>
@@ -286,7 +312,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
         <option>Austrália</option><option>Nova Zelândia</option><option>Áustria</option><option>Líbano</option>
       </datalist>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 130px;gap:10px;margin-top:10px">
+    <div class="g-row2b" style="margin-top:10px">
       <select class="f-select" id="g-formato" onchange="fmtChange()">
         <option value="Magnum|1.5|1">Magnum — 1,5 L</option>
         <option value="Double Magnum|3|2">Double Magnum — 3 L</option>
@@ -299,8 +325,12 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <div id="g-outro-row" class="hidden" style="margin-top:10px">
       <input class="f-input" id="g-litros" placeholder="Litros (ex.: 4,5)" inputmode="decimal">
     </div>
+    <label class="f-label">Foto da garrafa (opcional)</label>
+    <input type="file" id="g-foto" accept="image/*" style="font-size:12px">
+    <div style="font-size:10px;color:var(--ink-lt);margin-top:6px">Sem foto? Sem problema — o sistema busca automaticamente e você só confirma.</div>
     <div style="text-align:center;margin-top:22px">
       <button class="btn gold" id="g-add" onclick="addGarrafa()">Adicionar garrafa</button>
+      <button class="linklike hidden" id="g-cancel" onclick="cancelarEdicao()" style="margin-left:14px">Cancelar edição</button>
     </div>
 
     <!-- pagamento -->
@@ -355,11 +385,23 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   </div>
 </section>
 
+<!-- ═══ PRÊMIOS ═══ -->
+<section class="sec hidden" id="premios-sec" style="padding-top:0;padding-bottom:30px">
+  <div class="sec-kicker">A disputa</div>
+  <h2 class="sec-title">Prêmios do Melhor Vinho da Festa</h2>
+  <div class="rule-grid" style="max-width:760px;margin:26px auto 0">
+    <div class="rule-card"><div class="lt" style="margin-top:0">🥇</div><div class="fmt" id="premio1"></div></div>
+    <div class="rule-card"><div class="lt" style="margin-top:0">🥈</div><div class="fmt" id="premio2"></div></div>
+    <div class="rule-card"><div class="lt" style="margin-top:0">🥉</div><div class="fmt" id="premio3"></div></div>
+  </div>
+</section>
+
 <!-- ═══ VOTAÇÃO ═══ -->
 <section class="sec hidden" id="votacao">
   <div class="sec-kicker">A urna</div>
   <h2 class="sec-title">Vote nos melhores vinhos</h2>
   <p class="sec-sub">Um voto por categoria. Você pode mudar o seu voto enquanto a urna estiver aberta.</p>
+  <p style="text-align:center;margin:-24px 0 34px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--wine-lt)">A urna fecha às 17h · <strong id="urna-count" style="color:var(--gold)"></strong></p>
   <div class="panel" id="vote-panel"></div>
 </section>
 
@@ -441,6 +483,15 @@ function fmtLitros(n) { return (Math.round(n * 100) / 100).toLocaleString('pt-BR
 
 // ── countdown ────────────────────────────────────────────────────────────
 var EVENTO = new Date('2026-11-18T13:00:00-03:00').getTime();
+var URNA_FECHA = new Date('2026-11-18T17:00:00-03:00').getTime();
+setInterval(function () {
+  var el = document.getElementById('urna-count');
+  if (!el || document.getElementById('votacao').classList.contains('hidden')) return;
+  var d = URNA_FECHA - Date.now();
+  if (d <= 0) { el.textContent = 'encerrada'; return; }
+  var h = Math.floor(d / 36e5), m = Math.floor(d / 6e4) % 60, s = Math.floor(d / 1e3) % 60;
+  el.textContent = 'faltam ' + (h > 48 ? Math.floor(h / 24) + ' dias' : (h > 0 ? h + 'h ' : '') + m + 'min ' + s + 's');
+}, 1000);
 setInterval(function () {
   var d = Math.max(0, EVENTO - Date.now());
   document.getElementById('cd-d').textContent = Math.floor(d / 864e5);
@@ -517,18 +568,32 @@ function loadMe() {
   });
 }
 
+var minhasGarrafas = [];
 function loadMinhasGarrafas() {
   return rpc('confras_minhas_garrafas', { p_participante: meuId }).then(function (rows) {
     rows = rows || [];
+    minhasGarrafas = rows;
     var box = document.getElementById('me-garrafas'); box.innerHTML = '';
     var share = 0;
     rows.forEach(function (g) {
       share += Number(g.litros) / Math.max(1, g.membros.length);
       var d = document.createElement('div'); d.className = 'gr-card';
+      var fotoHtml = '';
+      if (g.foto_url && g.foto_ok === null) {
+        fotoHtml = '<div style="width:100%;display:flex;gap:14px;align-items:center;border-top:1px dashed var(--border);padding-top:12px;margin-top:4px">' +
+          '<img src="' + esc(g.foto_url) + '" style="max-height:72px;max-width:48px;object-fit:contain" onerror="this.remove()">' +
+          '<div style="font-size:11px">Encontramos esta foto — está certa?<br>' +
+          '<button class="linklike" onclick="avaliaFoto(\'' + g.id + '\', true)">✓ Sim, é essa</button> &nbsp; ' +
+          '<button class="linklike" onclick="avaliaFoto(\'' + g.id + '\', false)">✗ Não é essa</button></div></div>';
+      } else if (g.foto_ok === false) {
+        fotoHtml = '<div style="width:100%;font-size:11px;border-top:1px dashed var(--border);padding-top:12px;margin-top:4px">Envie a foto certa da garrafa: ' +
+          '<input type="file" accept="image/*" style="font-size:11px" onchange="uploadFotoGarrafa(this, \'' + g.id + '\')"></div>';
+      }
       d.innerHTML = '<div><div class="w">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
         '<div class="m">' + (g.produtor ? esc(g.produtor) + ' · ' : '') + (g.regiao ? esc(g.regiao) + ' · ' : '') + esc(g.formato) + ' (' + fmtLitros(g.litros) + ' L) — com ' + esc(g.membros.join(', ')) + '</div></div>' +
         '<div style="display:flex;gap:10px;align-items:center"><span class="gr-fmt">' + esc(g.formato) + '</span>' +
-        '<button class="linklike" onclick="leaveGarrafa(\'' + g.id + '\')">' + (g.sou_criador ? 'Remover' : 'Sair') + '</button></div>';
+        (g.sou_criador ? '<button class="linklike" onclick="editarGarrafa(\'' + g.id + '\')">Editar</button>' : '') +
+        '<button class="linklike" onclick="leaveGarrafa(\'' + g.id + '\')">' + (g.sou_criador ? 'Remover' : 'Sair') + '</button></div>' + fotoHtml;
       box.appendChild(d);
     });
     var need = 1.5;
@@ -554,6 +619,35 @@ function fmtChange() {
 }
 fmtChange();
 
+var editandoId = null;
+function editarGarrafa(id) {
+  var g = null;
+  minhasGarrafas.forEach(function (x) { if (x.id === id) g = x; });
+  if (!g) return;
+  editandoId = id;
+  document.getElementById('g-vinho').value = g.vinho;
+  document.getElementById('g-produtor').value = g.produtor || '';
+  document.getElementById('g-regiao').value = g.regiao || '';
+  document.getElementById('g-safra').value = g.safra || '';
+  var fsel = document.getElementById('g-formato'), achou = false;
+  [].slice.call(fsel.options).forEach(function (o) {
+    if (o.value !== 'outro' && o.value.split('|')[0] === g.formato) { fsel.value = o.value; achou = true; }
+  });
+  if (!achou) { fsel.value = 'outro'; }
+  fmtChange();
+  if (!achou) document.getElementById('g-litros').value = String(g.litros).replace('.', ',');
+  document.getElementById('g-vagas').value = g.vagas;
+  document.getElementById('g-add').textContent = 'Salvar alterações';
+  document.getElementById('g-cancel').classList.remove('hidden');
+  document.getElementById('g-vinho').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function cancelarEdicao() {
+  editandoId = null;
+  ['g-vinho', 'g-produtor', 'g-regiao', 'g-pais', 'g-safra', 'g-litros'].forEach(function (i) { document.getElementById(i).value = ''; });
+  fmtChange();
+  document.getElementById('g-add').textContent = 'Adicionar garrafa';
+  document.getElementById('g-cancel').classList.add('hidden');
+}
 function addGarrafa() {
   var vinho = document.getElementById('g-vinho').value.trim();
   if (!vinho) return toast('Informe o vinho.', true);
@@ -567,8 +661,8 @@ function addGarrafa() {
     var p = fsel.split('|'); formato = p[0]; litros = parseFloat(p[1]);
   }
   var vagas = parseInt(document.getElementById('g-vagas').value, 10) || 1;
-  var btn = document.getElementById('g-add'); btn.disabled = true; btn.textContent = 'Adicionando…';
-  rpc('confras_add_garrafa', {
+  var btn = document.getElementById('g-add'); btn.disabled = true; btn.textContent = editandoId ? 'Salvando…' : 'Adicionando…';
+  var args = {
     p_participante: meuId, p_vinho: vinho,
     p_produtor: document.getElementById('g-produtor').value.trim(),
     p_safra: document.getElementById('g-safra').value.trim(),
@@ -576,16 +670,54 @@ function addGarrafa() {
     p_tipo: document.getElementById('g-tipo').value,
     p_pais: document.getElementById('g-pais').value.trim(),
     p_regiao: document.getElementById('g-regiao').value.trim()
-  }).then(function () {
-    toast('Garrafa registrada! 🍷');
-    document.getElementById('g-vinho').value = ''; document.getElementById('g-produtor').value = '';
-    document.getElementById('g-regiao').value = ''; document.getElementById('g-pais').value = '';
-    document.getElementById('g-safra').value = ''; document.getElementById('g-litros').value = '';
-    return Promise.all([loadMinhasGarrafas(), refreshPublic()]);
+  };
+  var chamada;
+  if (editandoId) { args.p_garrafa = editandoId; chamada = rpc('confras_edit_garrafa', args).then(function () { return editandoId; }); }
+  else { chamada = rpc('confras_add_garrafa', args); }
+  chamada.then(function (garrafaId) {
+    var f = document.getElementById('g-foto').files[0];
+    var upload = Promise.resolve();
+    if (f && garrafaId) upload = enviarFotoGarrafa(f, garrafaId);
+    return upload.then(function () {
+      toast(editandoId ? 'Garrafa atualizada! 🍷' : 'Garrafa registrada! 🍷');
+      cancelarEdicao();
+      document.getElementById('g-foto').value = '';
+      return Promise.all([loadMinhasGarrafas(), refreshPublic()]);
+    });
   }).catch(function (e) { toast(e.message, true); })
-    .then(function () { btn.disabled = false; btn.textContent = 'Adicionar garrafa'; });
+    .then(function () { btn.disabled = false; btn.textContent = editandoId ? 'Salvar alterações' : 'Adicionar garrafa'; });
 }
 
+function enviarFotoGarrafa(f, garrafaId) {
+  if (f.size > 10 * 1024 * 1024) { toast('Foto muito grande (máx. 10 MB).', true); return Promise.resolve(); }
+  var ext = (f.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+  var path = 'fotos-vinhos/' + garrafaId + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+  return fetch(SB + '/storage/v1/object/confras/' + path, {
+    method: 'POST',
+    headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': f.type || 'image/jpeg' },
+    body: f
+  }).then(function (r) {
+    if (!r.ok) throw new Error('Falha ao enviar a foto');
+    return rpc('confras_set_foto_garrafa', {
+      p_participante: meuId, p_garrafa: garrafaId,
+      p_url: SB + '/storage/v1/object/public/confras/' + path
+    });
+  });
+}
+function uploadFotoGarrafa(input, garrafaId) {
+  var f = input.files && input.files[0]; if (!f) return;
+  enviarFotoGarrafa(f, garrafaId).then(function () {
+    toast('Foto da garrafa atualizada! 📷');
+    return Promise.all([loadMinhasGarrafas(), refreshPublic()]);
+  }).catch(function (e) { toast(e.message, true); });
+}
+function avaliaFoto(garrafaId, ok) {
+  rpc('confras_avalia_foto', { p_participante: meuId, p_garrafa: garrafaId, p_ok: ok })
+    .then(function () {
+      toast(ok ? 'Foto confirmada!' : 'Certo — envie a foto certa ou o organizador buscará outra.');
+      return Promise.all([loadMinhasGarrafas(), refreshPublic()]);
+    }).catch(function (e) { toast(e.message, true); });
+}
 function joinGarrafa(id) {
   if (!meuId) { toast('Confirme a sua presença primeiro.', true); location.hash = '#rsvp'; return; }
   rpc('confras_join_garrafa', { p_participante: meuId, p_garrafa: id })
@@ -695,9 +827,11 @@ function refreshPublic() {
             var vagasHtml = g.vagas_restantes > 0
               ? '<div class="join"><span class="vac">' + g.vagas_restantes + ' vaga' + (g.vagas_restantes > 1 ? 's' : '') + '</span> — <button class="linklike" onclick="joinGarrafa(\'' + g.id + '\')">juntar-se a esta garrafa</button></div>'
               : '';
+            var subt = [g.produtor, g.regiao].filter(Boolean).map(esc).join(' · ');
             d.innerHTML = '<div class="fmt">' + esc(g.formato) + ' · ' + fmtLitros(g.litros) + ' L</div>' +
+              (g.foto_url ? '<img src="' + esc(g.foto_url) + '" alt="" style="float:right;max-height:96px;max-width:64px;object-fit:contain;margin:14px 0 6px 10px" onerror="this.remove()">' : '') +
               '<div class="nm">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
-              (g.produtor ? '<div class="pr">' + esc(g.produtor) + '</div>' : '') +
+              (subt ? '<div class="pr">' + subt + '</div>' : '') +
               '<div class="who">🍷 ' + esc(g.membros.join(', ')) + '</div>' + vagasHtml;
             grid.appendChild(d);
           });
@@ -795,11 +929,20 @@ function renderResultados() {
 }
 
 // ── init ─────────────────────────────────────────────────────────────────
+function renderPremios() {
+  var sec = document.getElementById('premios-sec');
+  if (!cfg || !(cfg.premio1 || cfg.premio2 || cfg.premio3)) { sec.classList.add('hidden'); return; }
+  sec.classList.remove('hidden');
+  document.getElementById('premio1').textContent = cfg.premio1 || '—';
+  document.getElementById('premio2').textContent = cfg.premio2 || '—';
+  document.getElementById('premio3').textContent = cfg.premio3 || '—';
+}
 Promise.all([
   view('confras_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : null; }).catch(function () { }),
   loadCats()
 ]).then(function () {
   if (meu) renderPay();
+  renderPremios();
   renderVotacao();
   renderResultados();
 });

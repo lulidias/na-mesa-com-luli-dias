@@ -85,6 +85,9 @@ a{color:var(--wine-md)}
     <div><label>RSVP</label><select id="c-aberto"><option value="true">Aberto</option><option value="false">Encerrado</option></select></div>
     <div><label>Votação</label><select id="c-votacao"><option value="false">Urna fechada</option><option value="true">Urna aberta</option></select></div>
     <div><label>Resultados</label><select id="c-resultados"><option value="false">Ocultos</option><option value="true">Públicos</option></select></div>
+    <div><label>🥇 Prêmio 1º lugar</label><input id="c-premio1" placeholder="ex.: Magnum de Champagne"></div>
+    <div><label>🥈 Prêmio 2º lugar</label><input id="c-premio2"></div>
+    <div><label>🥉 Prêmio 3º lugar</label><input id="c-premio3"></div>
     <div><button class="btn gold" id="c-save" onclick="saveCfg()">Salvar</button></div>
   </div>
 
@@ -104,7 +107,7 @@ a{color:var(--wine-md)}
   <h2>Garrafas</h2>
   <div class="tbl-wrap">
   <table>
-    <thead><tr><th>Vinho</th><th>Produtor</th><th>Safra</th><th>Tipo</th><th>País</th><th>Formato</th><th>Litros</th><th>Confrades</th><th>Vagas</th></tr></thead>
+    <thead><tr><th>Vinho</th><th>Produtor</th><th>Região</th><th>Safra</th><th>Tipo</th><th>País</th><th>Formato</th><th>Litros</th><th>Confrades</th><th>Vagas</th><th>Foto</th></tr></thead>
     <tbody id="g-body"></tbody>
   </table>
   </div>
@@ -189,6 +192,9 @@ function refresh() {
     document.getElementById('c-aberto').value = String(cfg.rsvp_aberto !== false);
     document.getElementById('c-votacao').value = String(cfg.votacao_aberta === true);
     document.getElementById('c-resultados').value = String(cfg.resultados_publicos === true);
+    document.getElementById('c-premio1').value = cfg.premio1 || '';
+    document.getElementById('c-premio2').value = cfg.premio2 || '';
+    document.getElementById('c-premio3').value = cfg.premio3 || '';
     renderKPIs(); renderParts(); renderGarrafas(); renderCats(); renderResultados();
   }).catch(function (e) { toast(e.message, true); });
 }
@@ -248,6 +254,7 @@ function renderParts() {
     if (fp === 'nao' && p.pago) return;
     shown++;
     var tr = document.createElement('tr');
+    if (p.comprovante_url && !p.pago) tr.style.background = '#FFF6E0';  // comprovante aguardando confirmação
     var zap = (p.whatsapp || '').replace(/\D/g, '');
     tr.innerHTML =
       '<td><strong>' + esc(p.nome) + '</strong></td>' +
@@ -256,7 +263,7 @@ function renderParts() {
       '<td>' + (p.confrarias || []).map(function (c) { return '<span class="badge">' + esc(CONFRARIAS[c] || c) + '</span>'; }).join('') + '</td>' +
       '<td style="max-width:160px;font-size:11px;color:var(--ink-lt)">' + esc(p.obs || '') + '</td>' +
       '<td>' + (p.comprovante_url ? '<a href="' + esc(p.comprovante_url) + '" target="_blank">ver</a>' : '—') + '</td>' +
-      '<td><button class="pill ' + (p.pago ? 'ok' : 'no') + '" onclick="togglePago(\'' + p.id + '\',' + !p.pago + ')">' + (p.pago ? '✓ Pago' : 'Pendente') + '</button></td>' +
+      '<td><button class="pill ' + (p.pago ? 'ok' : 'no') + '"' + (p.comprovante_url && !p.pago ? ' style="background:#B8922A;color:#fff"' : '') + ' onclick="togglePago(\'' + p.id + '\',' + !p.pago + ')">' + (p.pago ? '✓ Pago' : (p.comprovante_url ? 'Confirmar' : 'Pendente')) + '</button></td>' +
       '<td><button class="del" onclick="removeP(\'' + p.id + '\',\'' + esc(p.nome).replace(/'/g, "\\'") + '\')">remover</button></td>';
     body.appendChild(tr);
   });
@@ -266,10 +273,11 @@ function renderGarrafas() {
   var body = document.getElementById('g-body'); body.innerHTML = '';
   garrafas.forEach(function (g) {
     var tr = document.createElement('tr');
-    tr.innerHTML = '<td><strong>' + esc(g.vinho) + '</strong></td><td>' + esc(g.produtor || '') + '</td><td>' + esc(g.safra || '') + '</td>' +
+    tr.innerHTML = '<td><strong>' + esc(g.vinho) + '</strong></td><td>' + esc(g.produtor || '') + '</td><td>' + esc(g.regiao || '') + '</td><td>' + esc(g.safra || '') + '</td>' +
       '<td>' + esc(g.tipo || '') + '</td><td>' + esc(g.pais || '') + '</td>' +
       '<td>' + esc(g.formato) + '</td><td>' + g.litros + '</td><td style="font-size:11px">' + esc((g.membros || []).join(', ')) + '</td>' +
-      '<td>' + (g.vagas_restantes > 0 ? '<span style="color:var(--warn)">' + g.vagas_restantes + ' aberta(s)</span>' : '<span style="color:var(--ok)">completa</span>') + '</td>';
+      '<td>' + (g.vagas_restantes > 0 ? '<span style="color:var(--warn)">' + g.vagas_restantes + ' aberta(s)</span>' : '<span style="color:var(--ok)">completa</span>') + '</td>' +
+      '<td>' + (g.foto_url ? '<a href="' + esc(g.foto_url) + '" target="_blank">ver</a> · ' : '') + '<button class="del" style="color:var(--wine-md)" onclick="setFoto(\'' + g.id + '\')">' + (g.foto_url ? 'trocar' : 'definir') + '</button></td>';
     body.appendChild(tr);
   });
 }
@@ -294,10 +302,20 @@ function saveCfg() {
     p_valor: isNaN(valor) ? null : valor,
     p_aberto: document.getElementById('c-aberto').value === 'true',
     p_votacao: document.getElementById('c-votacao').value === 'true',
-    p_resultados: document.getElementById('c-resultados').value === 'true'
+    p_resultados: document.getElementById('c-resultados').value === 'true',
+    p_premio1: document.getElementById('c-premio1').value.trim(),
+    p_premio2: document.getElementById('c-premio2').value.trim(),
+    p_premio3: document.getElementById('c-premio3').value.trim()
   }).then(function () { toast('Configuração salva.'); return refresh(); })
     .catch(function (e) { toast(e.message, true); })
     .then(function () { btn.disabled = false; btn.textContent = 'Salvar'; });
+}
+function setFoto(id) {
+  var url = prompt('URL da foto da garrafa (deixe vazio para remover):');
+  if (url === null) return;
+  rpc('confras_admin_set_foto', { p_token: TOKEN, p_garrafa: id, p_url: url.trim() })
+    .then(function () { toast('Foto atualizada.'); return refresh(); })
+    .catch(function (e) { toast(e.message, true); });
 }
 function exportCSV() {
   var rows = [['Nome', 'WhatsApp', 'Email', 'Confrarias', 'Pago', 'Obs']];

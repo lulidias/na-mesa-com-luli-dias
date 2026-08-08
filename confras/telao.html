@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telão — A Confra das Confras 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital@1&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#101F38;--wine-md:#1A2F4E;--wine-lt:#2A4468;--cream:#F7F3EE;--gold:#B8922A;--gold-lt:#D4AE5C}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wine-md) 45%,var(--wine) 100%);min-height:100vh;color:var(--cream);font-family:'Montserrat',sans-serif;padding:40px 48px}
+.top{text-align:center;margin-bottom:38px}
+.top .k{font-size:12px;letter-spacing:6px;text-transform:uppercase;color:var(--gold-lt)}
+.top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(30px,4.5vw,54px);letter-spacing:6px;text-transform:uppercase;margin-top:8px}
+.top .sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,2vw,22px);color:rgba(247,243,238,.85);margin-top:8px}
+.stats{display:flex;justify-content:center;gap:clamp(28px,6vw,90px);margin:26px 0 40px}
+.st{text-align:center}
+.st .n{font-family:Didot,'Playfair Display',serif;font-size:clamp(34px,4.5vw,58px);color:var(--gold-lt)}
+.st .l{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(247,243,238,.65);margin-top:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:26px;max-width:1700px;margin:0 auto}
+.cat{border:1px solid rgba(212,174,92,.4);background:rgba(0,0,0,.18);padding:30px 32px}
+.cat h2{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(20px,2vw,27px);color:var(--gold-lt);margin-bottom:22px;text-align:center}
+.row{margin-bottom:18px}
+.row .l1{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.row .w{font-family:'Playfair Display',serif;font-size:clamp(16px,1.6vw,21px)}
+.row .w .med{margin-right:8px}
+.row .v{font-size:clamp(13px,1.2vw,16px);color:var(--gold-lt);white-space:nowrap}
+.row .who{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(13px,1.2vw,16px);color:rgba(247,243,238,.7);margin-top:2px}
+.bar{height:5px;background:rgba(247,243,238,.14);margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-lt));transition:width 1s ease}
+.premios{display:flex;justify-content:center;gap:clamp(20px,4vw,60px);margin-top:44px;flex-wrap:wrap}
+.pr{text-align:center;border:1px solid rgba(212,174,92,.4);padding:18px 30px;min-width:200px}
+.pr .m{font-size:26px}
+.pr .t{font-family:'Playfair Display',serif;font-size:17px;margin-top:6px}
+.empty{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:24px;color:rgba(247,243,238,.7);margin-top:60px}
+.gate{max-width:380px;margin:20vh auto;text-align:center;background:rgba(0,0,0,.25);border:1px solid rgba(212,174,92,.4);padding:48px 40px}
+.gate input{width:100%;padding:13px;border:1px solid rgba(212,174,92,.5);background:rgba(255,255,255,.06);color:var(--cream);font-family:'Montserrat',sans-serif;text-align:center;margin:18px 0;outline:none}
+.gate button{padding:13px 34px;background:var(--gold);border:none;color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
+.hidden{display:none!important}
+.clock{position:fixed;top:18px;right:26px;font-size:12px;letter-spacing:2px;color:rgba(247,243,238,.5)}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div style="font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt)">Telão da festa</div>
+  <h1 style="font-family:'Playfair Display',serif;font-weight:400;font-size:22px;margin-top:10px">A Confra das Confras</h1>
+  <input type="password" id="tok" placeholder="Token de acesso">
+  <button onclick="entrar()">Abrir telão</button>
+</div>
+
+<div id="app" class="hidden">
+  <div class="clock" id="clock"></div>
+  <div class="top">
+    <div class="k">A Confra das Confras · 2026</div>
+    <h1>Apuração ao vivo</h1>
+    <div class="sub">Os melhores vinhos da festa, eleitos pelos confrades</div>
+  </div>
+  <div class="stats">
+    <div class="st"><div class="n" id="s-conf">–</div><div class="l">confrades</div></div>
+    <div class="st"><div class="n" id="s-gar">–</div><div class="l">garrafas</div></div>
+    <div class="st"><div class="n" id="s-lit">–</div><div class="l">litros</div></div>
+    <div class="st"><div class="n" id="s-votos">–</div><div class="l">votos</div></div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="empty hidden" id="empty">A urna está aberta — os primeiros votos aparecem aqui. 🗳️</p>
+  <div class="premios" id="premios"></div>
+</div>
+
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var TOKEN = localStorage.getItem('confras_admin_token') || '';
+var MEDAL = ['🥇', '🥈', '🥉', '', ''];
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, { method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(args || {}) })
+    .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error((d && d.message) || 'erro'); return d; }); });
+}
+function view(name) { return fetch(SB + '/rest/v1/' + name + '?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }); }
+
+function entrar() {
+  var t = document.getElementById('tok').value.trim();
+  rpc('confras_admin_resultados', { p_token: t }).then(function () {
+    TOKEN = t; localStorage.setItem('confras_admin_token', t);
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    tick();
+  }).catch(function () { alert('Token inválido'); });
+}
+
+function tick() {
+  Promise.all([
+    rpc('confras_admin_resultados', { p_token: TOKEN }),
+    view('confras_confirmados'), view('confras_vinhos_publico'), view('confras_config_publica')
+  ]).then(function (res) {
+    var rows = res[0] || [], pessoas = res[1] || [], vinhos = res[2] || [], cfg = (res[3] || [])[0] || {};
+    var litros = 0; vinhos.forEach(function (g) { litros += Number(g.litros); });
+    var totalVotos = 0; rows.forEach(function (r) { totalVotos += Number(r.votos); });
+    document.getElementById('s-conf').textContent = pessoas.length;
+    document.getElementById('s-gar').textContent = vinhos.length;
+    document.getElementById('s-lit').textContent = (Math.round(litros * 10) / 10).toLocaleString('pt-BR');
+    document.getElementById('s-votos').textContent = totalVotos;
+
+    var porCat = {}, ordem = [];
+    rows.forEach(function (r) {
+      if (!porCat[r.categoria_id]) { porCat[r.categoria_id] = { nome: r.categoria, itens: [] }; ordem.push(r.categoria_id); }
+      porCat[r.categoria_id].itens.push(r);
+    });
+    var grid = document.getElementById('grid'); grid.innerHTML = '';
+    document.getElementById('empty').classList.toggle('hidden', ordem.length > 0);
+    ordem.forEach(function (cid) {
+      var c = porCat[cid];
+      var max = Math.max.apply(null, c.itens.map(function (r) { return Number(r.votos); }));
+      var d = document.createElement('div'); d.className = 'cat';
+      d.innerHTML = '<h2>' + esc(c.nome) + '</h2>' + c.itens.slice(0, 5).map(function (r, i) {
+        var pct = max ? Math.round(Number(r.votos) / max * 100) : 0;
+        return '<div class="row"><div class="l1"><span class="w"><span class="med">' + (MEDAL[i] || '') + '</span>' + esc(r.vinho) +
+          (r.safra ? ' <span style="color:var(--gold-lt)">' + esc(r.safra) + '</span>' : '') + '</span>' +
+          '<span class="v">' + r.votos + ' voto' + (r.votos > 1 ? 's' : '') + '</span></div>' +
+          '<div class="who">' + esc((r.membros || []).join(', ')) + ' · ' + esc(r.formato) + '</div>' +
+          '<div class="bar"><i style="width:' + pct + '%"></i></div></div>';
+      }).join('');
+      grid.appendChild(d);
+    });
+
+    var pr = document.getElementById('premios'); pr.innerHTML = '';
+    [['🥇', cfg.premio1], ['🥈', cfg.premio2], ['🥉', cfg.premio3]].forEach(function (p) {
+      if (!p[1]) return;
+      var d = document.createElement('div'); d.className = 'pr';
+      d.innerHTML = '<div class="m">' + p[0] + '</div><div class="t">' + esc(p[1]) + '</div>';
+      pr.appendChild(d);
+    });
+  }).catch(function () { });
+}
+setInterval(function () {
+  var d = new Date();
+  document.getElementById('clock').textContent = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+}, 1000);
+setInterval(function () { if (TOKEN && !document.getElementById('app').classList.contains('hidden')) tick(); }, 15000);
+if (TOKEN) { document.getElementById('tok').value = TOKEN; entrar(); }
+document.getElementById('tok').addEventListener('keydown', function (e) { if (e.key === 'Enter') entrar(); });
+</script>
+</body>
+</html>
