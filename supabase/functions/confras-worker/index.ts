@@ -25,11 +25,11 @@ function shell(titulo: string, corpo: string, participanteId?: string) {
   <div style="max-width:560px;margin:0 auto;padding:24px 16px">
     <div style="background:#101F38;color:#F7F3EE;text-align:center;padding:36px 24px;border:1px solid #B8922A">
       <div style="font-size:10px;letter-spacing:5px;color:#D4AE5C;font-family:Helvetica,Arial,sans-serif">RECIFE · 18 DE NOVEMBRO DE 2026 · 13H</div>
-      <div style="font-size:30px;letter-spacing:6px;margin-top:12px">CONFRA<br>DAS CONFRAS</div>
-      <div style="font-size:13px;font-style:italic;color:#D4AE5C;margin-top:10px">O maior encontro de vinhos da história de Pernambuco</div>
+      <div style="font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:normal;font-size:32px;letter-spacing:7px;margin-top:12px">CONFRA<br>DAS CONFRAS</div>
+      <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-style:italic;color:#D4AE5C;margin-top:10px">O maior encontro de vinhos da história de Pernambuco</div>
     </div>
     <div style="background:#fff;border:1px solid #E8E0D5;border-top:none;padding:32px 28px;color:#1A1A1A;font-size:15px;line-height:1.7">
-      <h1 style="font-size:21px;font-weight:normal;margin:0 0 16px">${titulo}</h1>
+      <h1 style="font-family:'Playfair Display',Didot,Georgia,serif;font-size:21px;font-weight:normal;margin:0 0 16px">${titulo}</h1>
       ${corpo}
       <p style="text-align:center;margin:28px 0 8px">
         <a href="${link}" style="background:#B8922A;color:#fff;text-decoration:none;padding:13px 30px;font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2px">ABRIR MEU PAINEL</a>
