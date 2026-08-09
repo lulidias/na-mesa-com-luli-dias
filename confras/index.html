@@ -957,20 +957,25 @@ function placaSVG(nome, tipoFiltro) {
   var palavra = eFesta ? ['VINHO', 'DA FESTA'] : [tipoFiltro.toUpperCase().replace(' / DOCE', '')];
   var serif = "Didot,'Bodoni 72','Playfair Display',Georgia,serif";
   var sans = "'Montserrat',Helvetica,sans-serif";
+  var emblema =
+    '<g stroke="#D4AE5C" stroke-width="1" fill="rgba(212,174,92,.07)">' +
+    '<circle cx="85" cy="34" r="8"/><circle cx="96" cy="42" r="8"/><circle cx="92" cy="55" r="8"/>' +
+    '<circle cx="78" cy="55" r="8"/><circle cx="74" cy="42" r="8"/></g>' +
+    '<rect x="83" y="42.5" width="4" height="4" transform="rotate(45 85 44.5)" fill="#D4AE5C"/>';
   var linhas = palavra.length === 2
-    ? '<text x="90" y="94" text-anchor="middle" font-family="' + serif + '" font-size="21" letter-spacing="2" fill="#F7F3EE">' + palavra[0] + '</text>' +
-      '<text x="90" y="116" text-anchor="middle" font-family="' + serif + '" font-size="21" letter-spacing="2" fill="#F7F3EE">' + palavra[1] + '</text>'
-    : '<text x="90" y="106" text-anchor="middle" font-family="' + serif + '" font-size="' + (palavra[0].length > 7 ? 18 : 24) + '" letter-spacing="' + (palavra[0].length > 7 ? 2 : 3) + '" fill="#F7F3EE">' + palavra[0] + '</text>';
-  return '<svg viewBox="0 0 180 216" width="150" xmlns="http://www.w3.org/2000/svg">' +
-    '<circle cx="90" cy="88" r="72" fill="rgba(212,174,92,.06)" stroke="#D4AE5C" stroke-width="1.4"/>' +
-    '<circle cx="90" cy="88" r="65" fill="none" stroke="#D4AE5C" stroke-width=".6" opacity=".6"/>' +
-    icone +
-    '<text x="90" y="76" text-anchor="middle" font-family="' + sans + '" font-size="9" letter-spacing="4" fill="#D4AE5C">MELHOR</text>' +
+    ? '<text x="85" y="128" text-anchor="middle" font-family="' + serif + '" font-size="19" letter-spacing="2" fill="#F7F3EE">' + palavra[0] + '</text>' +
+      '<text x="85" y="149" text-anchor="middle" font-family="' + serif + '" font-size="19" letter-spacing="2" fill="#F7F3EE">' + palavra[1] + '</text>'
+    : '<text x="85" y="140" text-anchor="middle" font-family="' + serif + '" font-size="' + (palavra[0].length > 7 ? 17 : 22) + '" letter-spacing="' + (palavra[0].length > 7 ? 1.5 : 3) + '" fill="#F7F3EE">' + palavra[0] + '</text>';
+  return '<svg viewBox="0 0 170 220" width="145" xmlns="http://www.w3.org/2000/svg">' +
+    '<rect x="3" y="3" width="164" height="214" fill="rgba(212,174,92,.05)" stroke="#D4AE5C" stroke-width="1.4"/>' +
+    '<rect x="9" y="9" width="152" height="202" fill="none" stroke="#D4AE5C" stroke-width=".6" opacity=".6"/>' +
+    emblema +
+    '<text x="85" y="78" text-anchor="middle" font-family="' + serif + '" font-size="9" letter-spacing="2.5" fill="#F7F3EE">CONFRA DAS CONFRAS</text>' +
+    '<line x1="55" y1="88" x2="115" y2="88" stroke="#D4AE5C" stroke-width=".7" opacity=".7"/>' +
+    '<text x="85" y="108" text-anchor="middle" font-family="' + sans + '" font-size="9" letter-spacing="4" fill="#D4AE5C">MELHOR</text>' +
     linhas +
-    '<line x1="62" y1="128" x2="118" y2="128" stroke="#D4AE5C" stroke-width=".7" opacity=".7"/>' +
-    '<rect x="87.5" y="125.5" width="5" height="5" transform="rotate(45 90 128)" fill="#D4AE5C"/>' +
-    '<text x="90" y="176" text-anchor="middle" font-family="' + sans + '" font-size="7.5" letter-spacing="2.5" fill="rgba(247,243,238,.75)">CONFRA DAS CONFRAS</text>' +
-    '<text x="90" y="192" text-anchor="middle" font-family="' + serif + '" font-size="13" letter-spacing="5" fill="#D4AE5C">2026</text>' +
+    '<g transform="translate(-5,108)">' + icone + '</g>' +
+    '<text x="85" y="200" text-anchor="middle" font-family="' + serif + '" font-size="13" letter-spacing="5" fill="#D4AE5C">2026</text>' +
     '</svg>';
 }
 function renderTeaser() {

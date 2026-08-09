@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Placa — Confra das Confras 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Cormorant+Garamond:ital@0;1&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+@page{size:150mm 200mm;margin:0}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:150mm;height:200mm}
+body{background:#101F38;color:#F7F3EE;font-family:'Montserrat',Helvetica,sans-serif;position:relative;overflow:hidden}
+.frame{position:absolute;inset:5mm;border:0.6mm solid #D4AE5C}
+.frame2{position:absolute;inset:8mm;border:0.2mm solid rgba(212,174,92,.65)}
+.inner{position:absolute;inset:0;text-align:center;padding-top:13mm}
+.emblema{width:30mm;height:30mm;display:block;margin:0 auto 4mm}
+.marca{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:8.4mm;letter-spacing:2.6mm;padding-left:2.6mm;color:#F7F3EE}
+.rule{width:52mm;height:0.25mm;background:#D4AE5C;opacity:.75;margin:5mm auto}
+.melhor{font-size:4.2mm;letter-spacing:2.4mm;padding-left:2.4mm;color:#D4AE5C;font-weight:500}
+.categoria{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:15mm;letter-spacing:1.6mm;line-height:1.12;margin-top:4mm;color:#F7F3EE}
+.categoria.longa{font-size:12.5mm}
+.icone{margin:3.5mm auto 0;height:7mm}
+.gravacao{margin-top:5mm}
+.grav-label{font-size:2.8mm;letter-spacing:1.6mm;color:rgba(212,174,92,.9)}
+.grav-linha{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:6mm;color:rgba(247,243,238,.45);border-bottom:0.2mm solid rgba(212,174,92,.55);width:92mm;margin:1mm auto 4mm;padding-bottom:1mm}
+.rodape{position:absolute;bottom:10mm;left:0;right:0;text-align:center}
+.rodape .data{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:4.4mm;color:rgba(247,243,238,.85)}
+.rodape .ano{font-family:Didot,'Playfair Display',Georgia,serif;font-size:6.5mm;letter-spacing:3mm;padding-left:3mm;color:#D4AE5C;margin-top:2mm}
+.diamond{width:2.2mm;height:2.2mm;background:#D4AE5C;transform:rotate(45deg);margin:3mm auto 0}
+</style>
+</head>
+<body>
+<div class="frame"></div>
+<div class="frame2"></div>
+<div class="inner">
+  <svg class="emblema" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="60" r="57" stroke="#D4AE5C" stroke-width="1" opacity=".55"/>
+    <circle cx="60" cy="60" r="52" stroke="#D4AE5C" stroke-width=".5" opacity=".4"/>
+    <g stroke="#D4AE5C" stroke-width="1.4">
+      <circle cx="60" cy="38" r="15" fill="rgba(212,174,92,.07)"/>
+      <circle cx="81" cy="53" r="15" fill="rgba(212,174,92,.07)"/>
+      <circle cx="73" cy="78" r="15" fill="rgba(212,174,92,.07)"/>
+      <circle cx="47" cy="78" r="15" fill="rgba(212,174,92,.07)"/>
+      <circle cx="39" cy="53" r="15" fill="rgba(212,174,92,.07)"/>
+    </g>
+    <rect x="57" y="57" width="6" height="6" transform="rotate(45 60 60)" fill="#D4AE5C"/>
+  </svg>
+  <div class="marca">CONFRA<br>DAS CONFRAS</div>
+  <div class="rule"></div>
+  <div class="melhor">MELHOR</div>
+  <div class="categoria" id="categoria">TINTO</div>
+  <svg class="icone" id="icone" viewBox="0 0 40 16" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div class="gravacao">
+    <div class="grav-label">VINHO VENCEDOR</div>
+    <div class="grav-linha" id="l-vinho">&nbsp;</div>
+    <div class="grav-label">CONFRADE</div>
+    <div class="grav-linha" id="l-confrade">&nbsp;</div>
+  </div>
+</div>
+<div class="rodape">
+  <div class="data">Recife · 18 de novembro de 2026 · Paris Saint-Germain Academy</div>
+  <div class="ano">2026</div>
+  <div class="diamond"></div>
+</div>
+<script>
+var CATS = {
+  'festa':     { txt: 'VINHO<br>DA FESTA', longa: true,  icone: '<path d="M20 1 L22.4 6.6 L28 6.6 L23.6 10.2 L25.2 15.8 L20 12.2 L14.8 15.8 L16.4 10.2 L12 6.6 L17.6 6.6 Z" fill="#D4AE5C"/>' },
+  'tinto':     { txt: 'TINTO',     icone: '<circle cx="20" cy="8" r="6" fill="#7A1F2B" stroke="#D4AE5C" stroke-width="0.8"/>' },
+  'branco':    { txt: 'BRANCO',    icone: '<circle cx="20" cy="8" r="6" fill="#F0E6C8" stroke="#D4AE5C" stroke-width="0.8"/>' },
+  'rose':      { txt: 'ROSÉ',      icone: '<circle cx="20" cy="8" r="6" fill="#E8A0A8" stroke="#D4AE5C" stroke-width="0.8"/>' },
+  'espumante': { txt: 'ESPUMANTE', longa: true, icone: '<circle cx="15" cy="9" r="3.4" fill="none" stroke="#D4AE5C"/><circle cx="23" cy="5" r="2.6" fill="none" stroke="#D4AE5C"/><circle cx="25.5" cy="11" r="1.9" fill="none" stroke="#D4AE5C"/>' }
+};
+var p = new URLSearchParams(location.search);
+var c = CATS[p.get('cat')] || CATS['tinto'];
+document.getElementById('categoria').innerHTML = c.txt;
+document.getElementById('categoria').className = 'categoria' + (c.longa ? ' longa' : '');
+document.getElementById('icone').innerHTML = c.icone;
+if (p.get('vinho')) { document.getElementById('l-vinho').textContent = p.get('vinho'); document.getElementById('l-vinho').style.color = '#F7F3EE'; }
+if (p.get('confrade')) { document.getElementById('l-confrade').textContent = p.get('confrade'); document.getElementById('l-confrade').style.color = '#F7F3EE'; }
+</script>
+</body>
+</html>
