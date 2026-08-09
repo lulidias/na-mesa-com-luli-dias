@@ -78,6 +78,8 @@ a{color:inherit}
 .rule-card .fmt{font-family:'Playfair Display',serif;font-size:19px;color:var(--wine-md)}
 .rule-card .lt{font-family:Didot,'Playfair Display',serif;font-size:30px;color:var(--gold);margin:8px 0 2px}
 .rule-card .pp{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt)}
+.passos-grid{grid-template-columns:repeat(3,1fr)}
+@media(max-width:700px){.passos-grid{grid-template-columns:1fr}}
 .rule-note{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--ink-lt);margin-top:28px}
 
 /* ── Forms ── */
@@ -242,7 +244,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 <section class="sec">
   <div class="sec-kicker">Como participar</div>
   <h2 class="sec-title">Três passos para estar na mesa</h2>
-  <div class="rule-grid" style="max-width:900px;margin:34px auto">
+  <div class="rule-grid passos-grid" style="max-width:900px;margin:34px auto">
     <div class="rule-card"><div class="lt" style="margin-top:0">1</div><div class="fmt">Confirme a presença</div><div class="pp" style="margin-top:10px;text-transform:none;letter-spacing:.5px;line-height:1.7">Um minuto no formulário abaixo, marcando suas confrarias.</div></div>
     <div class="rule-card"><div class="lt" style="margin-top:0">2</div><div class="fmt">Registre sua garrafa</div><div class="pp" style="margin-top:10px;text-transform:none;letter-spacing:.5px;line-height:1.7">Mínimo de 1,5 L (uma Magnum) por confrade. Formatos maiores: sozinho ou dividindo — e quantas garrafas quiser.</div></div>
     <div class="rule-card"><div class="lt" style="margin-top:0">3</div><div class="fmt">Pague o rateio</div><div class="pp" style="margin-top:10px;text-transform:none;letter-spacing:.5px;line-height:1.7"><span id="passo-rateio">O churrasco é rateado igualmente</span> — Pix com QR code no seu painel, comprovante ali mesmo.</div></div>
