@@ -241,15 +241,20 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 <!-- ═══ A REGRA ═══ -->
 <section class="sec">
   <div class="sec-kicker">Como participar</div>
-  <h2 class="sec-title">Grandes vinhos pedem grandes garrafas</h2>
-  <p class="sec-sub">Cada confrade leva, no mínimo, 1,5 litro de vinho — uma Magnum. Confrades podem se unir para trazer formatos maiores: dois numa Double Magnum, quatro numa Jeroboam, e assim por diante.</p>
+  <h2 class="sec-title">Três passos para estar na mesa</h2>
+  <div class="rule-grid" style="max-width:900px;margin:34px auto">
+    <div class="rule-card"><div class="lt" style="margin-top:0">1</div><div class="fmt">Confirme a presença</div><div class="pp" style="margin-top:10px;text-transform:none;letter-spacing:.5px;line-height:1.7">Um minuto no formulário abaixo, marcando suas confrarias.</div></div>
+    <div class="rule-card"><div class="lt" style="margin-top:0">2</div><div class="fmt">Registre sua garrafa</div><div class="pp" style="margin-top:10px;text-transform:none;letter-spacing:.5px;line-height:1.7">Mínimo de 1,5 L (uma Magnum) por confrade. Formatos maiores: sozinho ou dividindo — e quantas garrafas quiser.</div></div>
+    <div class="rule-card"><div class="lt" style="margin-top:0">3</div><div class="fmt">Pague o rateio</div><div class="pp" style="margin-top:10px;text-transform:none;letter-spacing:.5px;line-height:1.7"><span id="passo-rateio">O churrasco é rateado igualmente</span> — Pix com QR code no seu painel, comprovante ali mesmo.</div></div>
+  </div>
+  <p class="sec-sub" style="margin-bottom:20px">Os formatos da casa — grandes vinhos pedem grandes garrafas:</p>
   <div class="rule-grid">
     <div class="rule-card"><div class="fmt">Magnum</div><div class="lt">1,5 L</div><div class="pp">1 confrade</div></div>
     <div class="rule-card"><div class="fmt">Double Magnum</div><div class="lt">3 L</div><div class="pp">2 confrades</div></div>
     <div class="rule-card"><div class="fmt">Jeroboam</div><div class="lt">6 L</div><div class="pp">4 confrades</div></div>
     <div class="rule-card"><div class="fmt">Salmanazar</div><div class="lt">9 L</div><div class="pp">6 confrades</div></div>
   </div>
-  <p class="rule-note">Pode levar quantas garrafas quiser, e um confrade pode trazer sozinho qualquer formato acima de 1,5 L — dividir é opcional. O custo do churrasco será rateado igualmente entre todos<span id="rateio-publico"></span>.</p>
+  <p class="rule-note">Todos os vinhos serão abertos ao mesmo tempo, numa grande mesa self-service. Grandes vinhos, grandes garrafas, grandes amigos.</p>
   <div class="orn" style="margin:34px 0 26px"><span class="l"></span><span class="d"></span><span class="r"></span></div>
   <p class="rule-note" style="margin-top:0"><strong style="font-style:normal;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)">Serviço</strong><br>
   Todos os vinhos serão abertos ao mesmo tempo e ficarão em uma grande mesa, em sistema self-service — circule, prove e volte quantas vezes quiser.</p>
@@ -436,24 +441,6 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   <h2 class="sec-title">Confrades confirmados</h2>
   <p class="sec-sub" id="conf-count-sub">&nbsp;</p>
   <div class="people" id="people"></div>
-</section>
-
-<!-- ═══ PAGAMENTO (público) ═══ -->
-<section class="sec hidden" id="pagamento">
-  <div class="sec-kicker">O rateio</div>
-  <h2 class="sec-title">Pagamento do churrasco</h2>
-  <p class="sec-sub">Rateado igualmente entre todos os confrades. Pague por Pix e envie o comprovante pelo seu painel.</p>
-  <div class="panel" style="max-width:520px">
-    <div class="pix-box" style="margin-top:0">
-      <div class="pix-val" id="pub-pix-val"></div>
-      <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)">por confrade</div>
-      <div style="font-size:11px;color:var(--ink-lt);margin-top:14px"><strong style="color:var(--ink)">1.</strong> Escaneie o QR ou copie o código &nbsp; <strong style="color:var(--ink)">2.</strong> Pague no app do seu banco &nbsp; <strong style="color:var(--ink)">3.</strong> Envie o comprovante no seu painel</div>
-      <canvas id="pub-pix-qr" width="180" height="180" style="margin:16px auto 4px;display:block;background:#fff;padding:8px"></canvas>
-      <div class="pix-key">Pix: <strong id="pub-pix-chave"></strong> <span id="pub-pix-nome" style="color:var(--ink-lt)"></span></div>
-      <button class="btn gold" onclick="copyPixPub()">Copiar Pix copia-e-cola</button>
-      <div style="font-size:11px;color:var(--ink-lt);margin-top:14px">Confirmou presença? O envio do comprovante fica no <a href="#rsvp" style="color:var(--gold)">seu painel</a>.</div>
-    </div>
-  </div>
 </section>
 
 <footer>
@@ -1014,28 +1001,10 @@ function renderTeaser() {
     box.appendChild(el);
   });
 }
-var pixPubPayload = '';
-function renderPagamentoPublico() {
-  var sec = document.getElementById('pagamento');
-  if (!cfg || !cfg.chave_pix || !cfg.valor_rateio) { sec.classList.add('hidden'); return; }
-  sec.classList.remove('hidden');
-  var valor = Number(cfg.valor_rateio);
-  document.getElementById('pub-pix-val').textContent = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-  document.getElementById('pub-pix-chave').textContent = cfg.chave_pix;
-  document.getElementById('pub-pix-nome').textContent = cfg.nome_pix ? '(' + cfg.nome_pix + ')' : '';
-  pixPubPayload = pixPayload(cfg.chave_pix, cfg.nome_pix, 'RECIFE', valor, 'CONFRAS2026');
-  if (window.QRious) new QRious({ element: document.getElementById('pub-pix-qr'), value: pixPubPayload, size: 180, background: '#FFFFFF', foreground: '#101F38', level: 'M' });
-}
-function copyPixPub() {
-  (navigator.clipboard ? navigator.clipboard.writeText(pixPubPayload) : Promise.reject())
-    .then(function () { toast('Pix copiado! Cole no app do seu banco.'); })
-    .catch(function () { toast('Não consegui copiar — use o QR.', true); });
-}
 function renderRateioPublico() {
-  var el = document.getElementById('rateio-publico');
+  var el = document.getElementById('passo-rateio');
   if (el && cfg && cfg.valor_rateio) {
-    el.innerHTML = ' — <strong>' + Number(cfg.valor_rateio).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) +
-      ' por confrade</strong>, pago por Pix direto no seu painel após a confirmação';
+    el.innerHTML = '<strong>' + Number(cfg.valor_rateio).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) + ' por confrade</strong>';
   }
 }
 function renderPremios() {
@@ -1052,7 +1021,6 @@ Promise.all([
   renderTeaser();
   renderPremios();
   renderRateioPublico();
-  renderPagamentoPublico();
   renderVotacao();
   renderResultados();
 });
