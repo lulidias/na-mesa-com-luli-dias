@@ -30,6 +30,7 @@ h1{font-family:'Playfair Display',serif;font-weight:400;font-size:30px;text-alig
 .cia{display:flex;align-items:center;gap:9px;font-size:11px}
 .cia img{width:30px;height:30px;object-fit:contain;flex:none}.cia.nolabel img{width:74px;height:20px}
 .cia .nm{width:110px;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#cModelos .nm,#cModelosKm .nm{width:150px}
 .cia .bar{height:12px;background:var(--gold);border-radius:2px;flex:none;min-width:2px}
 .cia .val{color:var(--ink-lt);font-size:10px}
 #tVoo img{width:66px;height:20px;object-fit:contain;vertical-align:middle}
@@ -109,6 +110,11 @@ tr:hover td{background:var(--gold-bg)}
   <div class="grid2">
     <div class="card"><h3>🏨 Bandeiras de hotéis por estadias <span id="marcaAno" style="color:var(--ink-xs)"></span></h3><div class="cialist" id="cMarcas"></div></div>
     <div class="card"><h3>Bandeiras de hotéis por noites</h3><div class="cialist" id="cMarcasN"></div></div>
+  </div>
+
+  <div class="grid2" id="cardModelos" style="display:none">
+    <div class="card"><h3>🛩️ Modelos de avião por voos <span id="modAno" style="color:var(--ink-xs)"></span></h3><div class="cialist" id="cModelos"></div></div>
+    <div class="card"><h3>Modelos de avião por km</h3><div class="cialist" id="cModelosKm"></div></div>
   </div>
 
   <div class="grid2">
@@ -237,7 +243,7 @@ function graficos(){
   chart('cCidades',{type:'bar',data:{labels:tc.map(x=>{const a=AERO_CIDADE[x[0].toLowerCase()];return a?x[0]+' · '+a:x[0];}),datasets:[{label:'estadias',data:tc.map(x=>x[1]),backgroundColor:OURO2}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
   const th=top(s=>s.hotel.split('—')[0].split('(')[0].trim(),s=>1,12,stSemCasa);
   chart('cHoteis',{type:'bar',data:{labels:th.map(x=>x[0].slice(0,28)),datasets:[{data:th.map(x=>x[1]),backgroundColor:OURO}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
-  companhias(); marcas();
+  companhias(); marcas(); modelos();
 }
 
 const CIA_IATA={'LATAM':'LA','TAM':'LA','GOL':'G3','Azul':'AD','TAP':'TP','Air France':'AF','KLM':'KL','Iberia':'IB','British Airways':'BA','Lufthansa':'LH','Swiss':'LX','Turkish':'TK','Qatar':'QR','Emirates':'EK','Cathay Pacific':'CX','Korean Air':'KE','SAS':'SK','Aegean':'A3','ITA':'AZ','Alitalia':'AZ','United':'UA','American':'AA','Delta':'DL','Avianca':'AV','Avianca Brasil':'O6','Copa':'CM','Sky':'H2','Aerolíneas':'AR','Webjet':'WH','Oceanair':'O6','easyJet':'U2','Ryanair':'FR','Vueling':'VY','Aer Lingus':'EI','Aeroméxico':'AM','Air Berlin':'AB','Passaredo':'2Z','Vietnam Airlines':'VN','ANA':'NH','Singapore Airlines':'SQ','EVA Air':'BR','Thai Airways':'TG','Royal Air Maroc':'AT'};
@@ -285,6 +291,17 @@ function marcas(){
   const E=ren(e), NN=ren(nn);
   barrasCia('cMarcas', Object.entries(E).sort((a,b)=>b[1]-a[1]).slice(0,14), x=>x+'×', logoHotel);
   barrasCia('cMarcasN', Object.entries(NN).sort((a,b)=>b[1]-a[1]).slice(0,14), x=>x+' noites', logoHotel);
+}
+function modelos(){
+  const sg=sgF().filter(s=>s.aviao||s.aircraft);
+  const card=document.getElementById('cardModelos');
+  if(!sg.length){ card.style.display='none'; return; }
+  card.style.display='';
+  document.getElementById('modAno').textContent=ANO==='todos'?'(todos os anos)':'('+ANO+')';
+  const v={}, km={};
+  sg.forEach(s=>{const m=s.aviao||s.aircraft; v[m]=(v[m]||0)+1; km[m]=(km[m]||0)+kmSeg(s.from,s.to);});
+  barrasCia('cModelos', Object.entries(v).sort((a,b)=>b[1]-a[1]).slice(0,14), x=>x+'×', ()=>'', false);
+  barrasCia('cModelosKm', Object.entries(km).sort((a,b)=>b[1]-a[1]).slice(0,14), x=>fmt(x)+' km', ()=>'', false);
 }
 
 const REDE_DOMINIO={'Four Seasons':'fourseasons.com','Novotel':'novotel.com','Sofitel':'sofitel.com','Mercure':'mercure.com','ibis':'ibis.com','Pullman':'pullmanhotels.com','Fasano':'fasano.com.br','Sheraton':'sheraton.com','Radisson':'radissonhotels.com','Hilton':'hilton.com','Hyatt':'hyatt.com','JW Marriott':'marriott.com','Marriott':'marriott.com','Renaissance':'marriott.com','Le Méridien':'marriott.com','Westin':'westin.com','W Hotels':'marriott.com','St. Regis':'marriott.com','Ritz-Carlton':'ritzcarlton.com','Autograph Collection':'marriott.com','AC Hotels':'marriott.com','InterContinental':'ihg.com','Holiday Inn':'ihg.com','Crowne Plaza':'ihg.com','Meliá':'melia.com','TRYP':'melia.com','NH':'nh-hotels.com','Best Western':'bestwestern.com','Kempinski':'kempinski.com','Jumeirah':'jumeirah.com','Mandarin Oriental':'mandarinoriental.com','Lotte':'lottehotel.com','Fairmont':'fairmont.com','Belmond':'belmond.com','Rocco Forte':'roccofortehotels.com','Oetker Collection':'oetkercollection.com','Tivoli':'tivolihotels.com','PortoBay':'portobay.com','Pestana':'pestana.com','Iberostar':'iberostar.com','Eurostars':'eurostarshotels.com','Golden Tulip':'goldentulip.com','Transamerica':'transamericagroup.com.br','Deville':'deville.com.br','Windsor':'windsorhoteis.com','Bourbon':'bourbon.com.br','Intercity':'intercityhoteis.com.br','Bugan':'buganhotel.com.br','Corinthia':'corinthia.com','SANA':'sanahotels.com','Laghetto':'hoteislaghetto.com.br','Blue Tree':'bluetree.com.br','B Hotel Brasília':'bhotelbrasilia.com.br','Nomaa Hotel':'nomaa.com.br','Fera Palace Hotel':'ferapalace.com.br','Wish':'wishhoteis.com.br'};
