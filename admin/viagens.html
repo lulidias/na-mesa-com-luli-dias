@@ -28,11 +28,11 @@ h1{font-family:'Playfair Display',serif;font-weight:400;font-size:30px;text-alig
 .kpi i b{display:inline;font-size:9px;font-family:inherit;color:var(--gold)}
 .cialist{display:flex;flex-direction:column;gap:7px;margin-top:6px}
 .cia{display:flex;align-items:center;gap:9px;font-size:11px}
-.cia img{width:30px;height:30px;object-fit:contain;flex:none}.cia.nolabel img{width:76px;height:26px}
+.cia img{width:30px;height:30px;object-fit:contain;flex:none}.cia.nolabel img{width:74px;height:20px}
 .cia .nm{width:110px;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cia .bar{height:12px;background:var(--gold);border-radius:2px;flex:none;min-width:2px}
 .cia .val{color:var(--ink-lt);font-size:10px}
-#tVoo img{width:18px;height:18px;object-fit:contain;vertical-align:-4px;margin-right:5px}
+#tVoo img{width:66px;height:20px;object-fit:contain;vertical-align:middle}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:26px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;margin-bottom:26px}
 @media(max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
@@ -378,7 +378,7 @@ function renderVoos(){
   });
   document.getElementById('nVoo').textContent=`(${sg.length})`;
   document.getElementById('tVoo').innerHTML='<tr><th>Data</th><th>De</th><th>Para</th><th>Companhia</th><th>Avião</th><th>~km</th><th>Fonte</th></tr>'+
-    sg.map(s=>`<tr><td>${s.date}</td><td>${aero(s.from)}</td><td>${aero(s.to)}</td><td style="white-space:nowrap">${s.cia&&s.cia!=='?'?logoCia(s.cia)+s.cia:'<span style="color:var(--ink-xs)">—</span>'}</td><td>${s.aviao||'<span style="color:var(--ink-xs)">—</span>'}</td><td>${fmt(kmSeg(s.from,s.to))}</td><td style="color:var(--ink-xs)">${(s.source||'').slice(0,18)}</td></tr>`).join('');
+    sg.map(s=>`<tr><td>${s.date}</td><td>${aero(s.from)}</td><td>${aero(s.to)}</td><td style="white-space:nowrap">${s.cia&&s.cia!=='?'?logoCiaBig(s.cia):'<span style="color:var(--ink-xs)">—</span>'}</td><td>${s.aviao||'<span style="color:var(--ink-xs)">—</span>'}</td><td>${fmt(kmSeg(s.from,s.to))}</td><td style="color:var(--ink-xs)">${(s.source||'').slice(0,18)}</td></tr>`).join('');
 }
 
 const MESES_PT=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
