@@ -394,18 +394,16 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <p class="sec-sub" style="color:rgba(247,243,238,.85)">Durante o almoço, cada confrade vota pelo celular nos melhores vinhos da mesa — um voto por categoria. A urna fecha às 17h e o resultado sai no telão.</p>
     <div id="teaser-cats" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:8px"></div>
     <div class="orn" style="margin-top:34px"><span class="l"></span><span class="d"></span><span class="r"></span></div>
-    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--gold-lt);margin-top:6px">Haverá prêmios para o pódio do Melhor Vinho da Festa. 🥇🥈🥉</p>
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--gold-lt);margin-top:6px">Um vencedor por categoria — cada um leva a sua placa. 🏆</p>
   </div>
 </section>
 
-<!-- ═══ PRÊMIOS ═══ -->
+<!-- ═══ PRÊMIO ═══ -->
 <section class="sec hidden" id="premios-sec" style="padding-top:0;padding-bottom:30px">
   <div class="sec-kicker">A disputa</div>
-  <h2 class="sec-title">Prêmios do Melhor Vinho da Festa</h2>
-  <div class="rule-grid" style="max-width:760px;margin:26px auto 0">
-    <div class="rule-card"><div class="lt" style="margin-top:0">🥇</div><div class="fmt" id="premio1"></div></div>
-    <div class="rule-card"><div class="lt" style="margin-top:0">🥈</div><div class="fmt" id="premio2"></div></div>
-    <div class="rule-card"><div class="lt" style="margin-top:0">🥉</div><div class="fmt" id="premio3"></div></div>
+  <h2 class="sec-title">O prêmio de cada vencedor</h2>
+  <div class="rule-grid" style="max-width:420px;margin:26px auto 0">
+    <div class="rule-card"><div class="lt" style="margin-top:0">🏆</div><div class="fmt" id="premio1"></div></div>
   </div>
 </section>
 
@@ -921,7 +919,6 @@ function renderResultados() {
     if (!rows || !rows.length) { sec.classList.add('hidden'); return; }
     sec.classList.remove('hidden');
     var box = document.getElementById('podios'); box.innerHTML = '';
-    var MEDAL = ['🥇', '🥈', '🥉'];
     var porCat = {};
     var ordemCats = [];
     rows.forEach(function (r) {
@@ -930,13 +927,13 @@ function renderResultados() {
     });
     ordemCats.forEach(function (cid) {
       var c = porCat[cid];
+      var r = c.itens[0];  // um único vencedor por categoria
       var d = document.createElement('div'); d.className = 'podium';
-      d.innerHTML = '<div class="cn">' + esc(c.nome) + '</div>' + c.itens.slice(0, 3).map(function (r, i) {
-        return '<div class="row"><div><span class="med">' + MEDAL[i] + '</span><span class="w">' + esc(r.vinho) +
-          (r.safra ? ' <span style="color:var(--gold)">' + esc(r.safra) + '</span>' : '') + '</span></div>' +
-          '<span class="v">' + r.votos + ' voto' + (r.votos > 1 ? 's' : '') + '</span>' +
-          '<div class="mm">' + esc(r.formato) + ' — trazido por ' + esc((r.membros || []).join(', ')) + '</div></div>';
-      }).join('');
+      d.innerHTML = '<div class="cn">' + esc(c.nome) + '</div>' +
+        '<div class="row"><div><span class="med">🏆</span><span class="w">' + esc(r.vinho) +
+        (r.safra ? ' <span style="color:var(--gold)">' + esc(r.safra) + '</span>' : '') + '</span></div>' +
+        '<span class="v">' + r.votos + ' voto' + (r.votos > 1 ? 's' : '') + '</span>' +
+        '<div class="mm">' + esc(r.formato) + ' — trazido por ' + esc((r.membros || []).join(', ')) + '</div></div>';
       box.appendChild(d);
     });
   }).catch(function () { sec.classList.add('hidden'); });
@@ -963,18 +960,19 @@ function placaSVG(nome, tipoFiltro) {
     '<circle cx="78" cy="55" r="8"/><circle cx="74" cy="42" r="8"/></g>' +
     '<rect x="83" y="42.5" width="4" height="4" transform="rotate(45 85 44.5)" fill="#D4AE5C"/>';
   var linhas = palavra.length === 2
-    ? '<text x="85" y="128" text-anchor="middle" font-family="' + serif + '" font-size="19" letter-spacing="2" fill="#F7F3EE">' + palavra[0] + '</text>' +
-      '<text x="85" y="149" text-anchor="middle" font-family="' + serif + '" font-size="19" letter-spacing="2" fill="#F7F3EE">' + palavra[1] + '</text>'
-    : '<text x="85" y="140" text-anchor="middle" font-family="' + serif + '" font-size="' + (palavra[0].length > 7 ? 17 : 22) + '" letter-spacing="' + (palavra[0].length > 7 ? 1.5 : 3) + '" fill="#F7F3EE">' + palavra[0] + '</text>';
+    ? '<text x="85" y="136" text-anchor="middle" font-family="' + serif + '" font-size="19" letter-spacing="2" fill="#F7F3EE">' + palavra[0] + '</text>' +
+      '<text x="85" y="157" text-anchor="middle" font-family="' + serif + '" font-size="19" letter-spacing="2" fill="#F7F3EE">' + palavra[1] + '</text>'
+    : '<text x="85" y="150" text-anchor="middle" font-family="' + serif + '" font-size="' + (palavra[0].length > 7 ? 17 : 22) + '" letter-spacing="' + (palavra[0].length > 7 ? 1.5 : 3) + '" fill="#F7F3EE">' + palavra[0] + '</text>';
   return '<svg viewBox="0 0 170 220" width="145" xmlns="http://www.w3.org/2000/svg">' +
     '<rect x="3" y="3" width="164" height="214" fill="rgba(212,174,92,.05)" stroke="#D4AE5C" stroke-width="1.4"/>' +
     '<rect x="9" y="9" width="152" height="202" fill="none" stroke="#D4AE5C" stroke-width=".6" opacity=".6"/>' +
     emblema +
-    '<text x="85" y="78" text-anchor="middle" font-family="' + serif + '" font-size="9" letter-spacing="2.5" fill="#F7F3EE">CONFRA DAS CONFRAS</text>' +
-    '<line x1="55" y1="88" x2="115" y2="88" stroke="#D4AE5C" stroke-width=".7" opacity=".7"/>' +
-    '<text x="85" y="108" text-anchor="middle" font-family="' + sans + '" font-size="9" letter-spacing="4" fill="#D4AE5C">MELHOR</text>' +
+    '<text x="85" y="80" text-anchor="middle" font-family="' + serif + '" font-size="10" letter-spacing="2.5" fill="#F7F3EE">CONFRA</text>' +
+    '<text x="85" y="93" text-anchor="middle" font-family="' + serif + '" font-size="10" letter-spacing="2.5" fill="#F7F3EE">DAS CONFRAS</text>' +
+    '<line x1="55" y1="103" x2="115" y2="103" stroke="#D4AE5C" stroke-width=".7" opacity=".7"/>' +
+    '<text x="85" y="120" text-anchor="middle" font-family="' + sans + '" font-size="9" letter-spacing="4" fill="#D4AE5C">MELHOR</text>' +
     linhas +
-    '<g transform="translate(-5,108)">' + icone + '</g>' +
+    (eFesta ? '<g transform="translate(-5,120)">' + icone + '</g>' : '') +
     '<text x="85" y="200" text-anchor="middle" font-family="' + serif + '" font-size="13" letter-spacing="5" fill="#D4AE5C">2026</text>' +
     '</svg>';
 }
@@ -989,17 +987,14 @@ function renderTeaser() {
   ordenadas.forEach(function (c) {
     var el = document.createElement('div');
     el.innerHTML = placaSVG(c.nome, c.tipo_filtro);
-    if (!c.tipo_filtro) el.firstChild.setAttribute('width', '182');
     box.appendChild(el);
   });
 }
 function renderPremios() {
   var sec = document.getElementById('premios-sec');
-  if (!cfg || !(cfg.premio1 || cfg.premio2 || cfg.premio3)) { sec.classList.add('hidden'); return; }
+  if (!cfg || !cfg.premio1) { sec.classList.add('hidden'); return; }
   sec.classList.remove('hidden');
-  document.getElementById('premio1').textContent = cfg.premio1 || '—';
-  document.getElementById('premio2').textContent = cfg.premio2 || '—';
-  document.getElementById('premio3').textContent = cfg.premio3 || '—';
+  document.getElementById('premio1').textContent = cfg.premio1;
 }
 Promise.all([
   view('confras_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : null; }).catch(function () { }),

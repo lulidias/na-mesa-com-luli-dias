@@ -85,9 +85,7 @@ a{color:var(--wine-md)}
     <div><label>RSVP</label><select id="c-aberto"><option value="true">Aberto</option><option value="false">Encerrado</option></select></div>
     <div><label>Votação</label><select id="c-votacao"><option value="false">Urna fechada</option><option value="true">Urna aberta</option></select></div>
     <div><label>Resultados</label><select id="c-resultados"><option value="false">Ocultos</option><option value="true">Públicos</option></select></div>
-    <div><label>🥇 Prêmio 1º lugar</label><input id="c-premio1" placeholder="ex.: Magnum de Champagne"></div>
-    <div><label>🥈 Prêmio 2º lugar</label><input id="c-premio2"></div>
-    <div><label>🥉 Prêmio 3º lugar</label><input id="c-premio3"></div>
+    <div><label>🏆 Prêmio do vencedor (por categoria)</label><input id="c-premio1" placeholder="ex.: placa + Magnum de Champagne"></div>
     <div><button class="btn gold" id="c-save" onclick="saveCfg()">Salvar</button></div>
   </div>
 
@@ -193,8 +191,6 @@ function refresh() {
     document.getElementById('c-votacao').value = String(cfg.votacao_aberta === true);
     document.getElementById('c-resultados').value = String(cfg.resultados_publicos === true);
     document.getElementById('c-premio1').value = cfg.premio1 || '';
-    document.getElementById('c-premio2').value = cfg.premio2 || '';
-    document.getElementById('c-premio3').value = cfg.premio3 || '';
     renderKPIs(); renderParts(); renderGarrafas(); renderCats(); renderResultados();
   }).catch(function (e) { toast(e.message, true); });
 }
@@ -304,8 +300,8 @@ function saveCfg() {
     p_votacao: document.getElementById('c-votacao').value === 'true',
     p_resultados: document.getElementById('c-resultados').value === 'true',
     p_premio1: document.getElementById('c-premio1').value.trim(),
-    p_premio2: document.getElementById('c-premio2').value.trim(),
-    p_premio3: document.getElementById('c-premio3').value.trim()
+    p_premio2: '',
+    p_premio3: ''
   }).then(function () { toast('Configuração salva.'); return refresh(); })
     .catch(function (e) { toast(e.message, true); })
     .then(function () { btn.disabled = false; btn.textContent = 'Salvar'; });

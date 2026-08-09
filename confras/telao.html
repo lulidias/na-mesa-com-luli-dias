@@ -75,7 +75,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
 var TOKEN = localStorage.getItem('confras_admin_token') || '';
-var MEDAL = ['🥇', '🥈', '🥉', '', ''];
+var MEDAL = ['🏆', '', '', '', ''];
 
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 function rpc(fn, args) {
@@ -131,7 +131,7 @@ function tick() {
     });
 
     var pr = document.getElementById('premios'); pr.innerHTML = '';
-    [['🥇', cfg.premio1], ['🥈', cfg.premio2], ['🥉', cfg.premio3]].forEach(function (p) {
+    [['🏆', cfg.premio1]].forEach(function (p) {
       if (!p[1]) return;
       var d = document.createElement('div'); d.className = 'pr';
       d.innerHTML = '<div class="m">' + p[0] + '</div><div class="t">' + esc(p[1]) + '</div>';
