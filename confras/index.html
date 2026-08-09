@@ -587,7 +587,8 @@ function loadMinhasGarrafas() {
     var box = document.getElementById('me-garrafas'); box.innerHTML = '';
     var share = 0;
     rows.forEach(function (g) {
-      share += Number(g.litros) / Math.max(1, g.membros.length);
+      // divide pelos lugares da garrafa (vagas), não por quem já entrou
+      share += Number(g.litros) / Math.max(1, g.vagas || g.membros.length);
       var d = document.createElement('div'); d.className = 'gr-card';
       var fotoHtml = '';
       if (g.foto_url && g.foto_ok === null) {
