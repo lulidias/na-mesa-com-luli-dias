@@ -170,6 +170,8 @@ footer .quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size
 footer .org{font-size:9px;letter-spacing:3px;text-transform:uppercase}
 footer .org a{color:var(--gold-lt);text-decoration:none}
 .hidden{display:none !important}
+.painel-btn{position:fixed;top:16px;right:16px;z-index:1500;background:var(--wine-md);color:var(--cream);border:1px solid var(--gold-lt);padding:11px 20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-family:'Montserrat',sans-serif;transition:all .3s;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.painel-btn:hover{background:var(--gold);border-color:var(--gold)}
 .g-row3{display:grid;grid-template-columns:1fr 1fr 90px;gap:10px}
 .g-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .g-row2b{display:grid;grid-template-columns:1fr 130px;gap:10px}
@@ -191,6 +193,8 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 </style>
 </head>
 <body>
+
+<a class="painel-btn" href="#rsvp" id="painel-btn">Meu Painel</a>
 
 <!-- ═══ HERO ═══ -->
 <header class="hero">
@@ -273,7 +277,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 <section class="sec" id="rsvp" style="padding-top:20px">
   <div class="sec-kicker">RSVP</div>
   <h2 class="sec-title" id="rsvp-title">Confirme a sua presença</h2>
-  <p class="sec-sub" id="rsvp-sub">Diga-nos quem você é e a que confraria — ou confrarias — pertence.</p>
+  <p class="sec-sub" id="rsvp-sub">Diga-nos quem você é e a que confraria — ou confrarias — pertence. <br><span style="font-size:15px">Já confirmou em outro aparelho? Preencha com o <strong>mesmo WhatsApp</strong> que o seu painel volta — nada se perde.</span></p>
 
   <!-- formulário -->
   <div class="panel" id="form-panel">
@@ -586,6 +590,7 @@ function loadMe() {
     document.getElementById('me-panel').classList.remove('hidden');
     document.getElementById('rsvp-title').textContent = 'Seu painel de confrade';
     document.getElementById('rsvp-sub').textContent = 'Registre suas garrafas e acompanhe o rateio.';
+    document.getElementById('cta-btn').textContent = 'Meu painel';
     document.getElementById('me-nome').textContent = meu.nome.split(' ')[0];
     var b = document.getElementById('me-badges'); b.innerHTML = '';
     (meu.confrarias || []).forEach(function (slug) {
