@@ -251,6 +251,24 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   Todos os vinhos serão abertos ao mesmo tempo e ficarão em uma grande mesa, em sistema self-service — circule, prove e volte quantas vezes quiser.</p>
 </section>
 
+<!-- ═══ PAGAMENTO (público) ═══ -->
+<section class="sec hidden" id="pagamento" style="padding-top:0">
+  <div class="sec-kicker">O rateio</div>
+  <h2 class="sec-title">Pagamento do churrasco</h2>
+  <p class="sec-sub">Rateado igualmente entre todos os confrades. Pague por Pix e envie o comprovante pelo seu painel.</p>
+  <div class="panel" style="max-width:520px">
+    <div class="pix-box" style="margin-top:0">
+      <div class="pix-val" id="pub-pix-val"></div>
+      <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)">por confrade</div>
+      <div style="font-size:11px;color:var(--ink-lt);margin-top:14px"><strong style="color:var(--ink)">1.</strong> Escaneie o QR ou copie o código &nbsp; <strong style="color:var(--ink)">2.</strong> Pague no app do seu banco &nbsp; <strong style="color:var(--ink)">3.</strong> Envie o comprovante no seu painel</div>
+      <canvas id="pub-pix-qr" width="180" height="180" style="margin:16px auto 4px;display:block;background:#fff;padding:8px"></canvas>
+      <div class="pix-key">Pix: <strong id="pub-pix-chave"></strong> <span id="pub-pix-nome" style="color:var(--ink-lt)"></span></div>
+      <button class="btn gold" onclick="copyPixPub()">Copiar Pix copia-e-cola</button>
+      <div style="font-size:11px;color:var(--ink-lt);margin-top:14px">Confirmou presença? O envio do comprovante fica no <a href="#rsvp" style="color:var(--gold)">seu painel</a>.</div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ RSVP ═══ -->
 <section class="sec" id="rsvp" style="padding-top:20px">
   <div class="sec-kicker">RSVP</div>
@@ -991,6 +1009,23 @@ function renderTeaser() {
     box.appendChild(el);
   });
 }
+var pixPubPayload = '';
+function renderPagamentoPublico() {
+  var sec = document.getElementById('pagamento');
+  if (!cfg || !cfg.chave_pix || !cfg.valor_rateio) { sec.classList.add('hidden'); return; }
+  sec.classList.remove('hidden');
+  var valor = Number(cfg.valor_rateio);
+  document.getElementById('pub-pix-val').textContent = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  document.getElementById('pub-pix-chave').textContent = cfg.chave_pix;
+  document.getElementById('pub-pix-nome').textContent = cfg.nome_pix ? '(' + cfg.nome_pix + ')' : '';
+  pixPubPayload = pixPayload(cfg.chave_pix, cfg.nome_pix, 'RECIFE', valor, 'CONFRAS2026');
+  if (window.QRious) new QRious({ element: document.getElementById('pub-pix-qr'), value: pixPubPayload, size: 180, background: '#FFFFFF', foreground: '#101F38', level: 'M' });
+}
+function copyPixPub() {
+  (navigator.clipboard ? navigator.clipboard.writeText(pixPubPayload) : Promise.reject())
+    .then(function () { toast('Pix copiado! Cole no app do seu banco.'); })
+    .catch(function () { toast('Não consegui copiar — use o QR.', true); });
+}
 function renderRateioPublico() {
   var el = document.getElementById('rateio-publico');
   if (el && cfg && cfg.valor_rateio) {
@@ -1012,6 +1047,7 @@ Promise.all([
   renderTeaser();
   renderPremios();
   renderRateioPublico();
+  renderPagamentoPublico();
   renderVotacao();
   renderResultados();
 });
