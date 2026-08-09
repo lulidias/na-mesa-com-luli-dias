@@ -28,7 +28,7 @@ h1{font-family:'Playfair Display',serif;font-weight:400;font-size:30px;text-alig
 .kpi i b{display:inline;font-size:9px;font-family:inherit;color:var(--gold)}
 .cialist{display:flex;flex-direction:column;gap:7px;margin-top:6px}
 .cia{display:flex;align-items:center;gap:9px;font-size:11px}
-.cia img{width:30px;height:30px;object-fit:contain;flex:none}
+.cia img{width:30px;height:30px;object-fit:contain;flex:none}.cia.nolabel img{width:76px;height:26px}
 .cia .nm{width:110px;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cia .bar{height:12px;background:var(--gold);border-radius:2px;flex:none;min-width:2px}
 .cia .val{color:var(--ink-lt);font-size:10px}
@@ -245,10 +245,14 @@ function logoCia(nome){
   const c=CIA_IATA[nome];
   return c?`<img src="https://pics.avs.io/80/80/${c}@2x.png" alt="" onerror="this.outerHTML='<span style=&quot;width:20px;text-align:center&quot;>✈️</span>'">`:'<span style="width:20px;text-align:center">✈️</span>';
 }
-function barrasCia(id, pares, fmtV, logoFn){
+function logoCiaBig(nome){
+  const c=CIA_IATA[nome];
+  return c?`<img src="https://pics.avs.io/120/40/${c}@2x.png" alt="" onerror="this.outerHTML='<span style=&quot;width:76px;text-align:center&quot;>✈️</span>'">`:'<span style="width:76px;text-align:center">✈️</span>';
+}
+function barrasCia(id, pares, fmtV, logoFn, hideName){
   const max=pares[0][1], lf=logoFn||logoCia;
   document.getElementById(id).innerHTML=pares.map(([n,v])=>
-    `<div class="cia">${lf(n)}<span class="nm" title="${n}">${n}</span><div class="bar" style="width:${Math.round(v/max*46)}%"></div><span class="val">${fmtV(v)}</span></div>`).join('');
+    `<div class="cia${hideName?' nolabel':''}">${lf(n)}${hideName?'':`<span class="nm" title="${n}">${n}</span>`}<div class="bar" style="width:${Math.round(v/max*46)}%"></div><span class="val">${fmtV(v)}</span></div>`).join('');
 }
 function companhias(){
   const sg=sgF().filter(s=>s.cia&&s.cia!=='?');
@@ -257,8 +261,8 @@ function companhias(){
   document.getElementById('ciaAno').textContent=ANO==='todos'?'(todos os anos)':'('+ANO+')';
   const v={}, km={};
   sg.forEach(s=>{v[s.cia]=(v[s.cia]||0)+1;km[s.cia]=(km[s.cia]||0)+kmSeg(s.from,s.to);});
-  barrasCia('cCias', Object.entries(v).sort((a,b)=>b[1]-a[1]).slice(0,12), x=>x+'×');
-  barrasCia('cCiasKm', Object.entries(km).sort((a,b)=>b[1]-a[1]).slice(0,12), x=>fmt(x)+' km');
+  barrasCia('cCias', Object.entries(v).sort((a,b)=>b[1]-a[1]).slice(0,12), x=>x+'×', logoCiaBig, true);
+  barrasCia('cCiasKm', Object.entries(km).sort((a,b)=>b[1]-a[1]).slice(0,12), x=>fmt(x)+' km', logoCiaBig, true);
 }
 
 // bandeiras de hotéis: redes consolidadas; independentes pelo próprio nome
