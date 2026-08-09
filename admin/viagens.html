@@ -369,14 +369,14 @@ function recordes(){
   const hNTop=Object.entries(hNoites).sort((a,b)=>b[1]-a[1])[0];
   const primeiro=[...sg].sort((a,b)=>a.date<b.date?-1:1)[0];
   const R=[
-    ['Voo mais longo', voosKm[0]?`${aeroTxt(voosKm[0].from)} → ${aeroTxt(voosKm[0].to)} · ${fmt(voosKm[0].km)} km (${voosKm[0].date})`:'—'],
-    ['Voo mais curto', curto?`${aeroTxt(curto.from)} → ${aeroTxt(curto.to)} · ${fmt(curto.km)} km (${curto.date})`:'—'],
+    ['Voo mais longo', voosKm[0]?`${aeroTxt(voosKm[0].from)} → ${aeroTxt(voosKm[0].to)} · ${fmt(voosKm[0].km)} km (${dataBR(voosKm[0].date)})`:'—'],
+    ['Voo mais curto', curto?`${aeroTxt(curto.from)} → ${aeroTxt(curto.to)} · ${fmt(curto.km)} km (${dataBR(curto.date)})`:'—'],
     ['Dia com mais voos', diaTop?`${diaTop[0]} · ${diaTop[1]} decolagens`:'—'],
     ['Mês mais intenso', mesTop?`${mesTop[0]} · ${mesTop[1]} decolagens`:'—'],
     ['Ano recorde', anoKm?`${anoKm[0]} · ${fmt(anoKm[1].km)} km (${(anoKm[1].km/40075).toFixed(1)} voltas)`:'—'],
     ['Companhia favorita', ciaTop?`${ciaTop[0]} · ${ciaTop[1]} voos`:'—'],
     ['Aeroporto favorito', aeroTop?`${aeroTxt(aeroTop[0])} · ${aeroTop[1]} passagens`:'—'],
-    ['Estadia mais longa', estLonga?`${estLonga.hotel} · ${estLonga.nights} noites (${estLonga.checkin})`:'—'],
+    ['Estadia mais longa', estLonga?`${estLonga.hotel} · ${estLonga.nights} noites (${dataBR(estLonga.checkin)})`:'—'],
     ['Hotel mais repetido', hTop?`${hTop[0]} · ${hTop[1]}×`:'—'],
     ['Mais noites num hotel', hNTop?`${hNTop[0]} · ${hNTop[1]} noites`:'—'],
     ['País favorito (fora o Brasil)', paisTop?`${paisTop[0]} · ${paisTop[1]} noites`:'—'],
@@ -417,7 +417,7 @@ function renderEstadias(){
   });
   document.getElementById('nEst').textContent=`(${st.length} · ${st.reduce((a,s)=>a+s.nights,0)} noites)`;
   document.getElementById('tEst').innerHTML='<tr><th>Check-in</th><th>Hotel</th><th>Cidade</th><th>País</th><th>Noites</th></tr>'+
-    st.map(s=>`<tr><td>${s.checkin}</td><td>${s.tipo==='casa'?'🏠 ':''}${s.hotel}</td><td>${s.city}</td><td>${flagP(s.country)}</td><td>${s.nights}</td></tr>`).join('');
+    st.map(s=>`<tr><td>${dataBR(s.checkin)}</td><td>${s.tipo==='casa'?'🏠 ':''}${s.hotel}</td><td>${s.city}</td><td>${flagP(s.country)}</td><td>${s.nights}</td></tr>`).join('');
 }
 function renderVoos(){
   const q=(document.getElementById('bVoo').value||'').toLowerCase();
@@ -430,9 +430,10 @@ function renderVoos(){
   });
   document.getElementById('nVoo').textContent=`(${sg.length})`;
   document.getElementById('tVoo').innerHTML='<tr><th>Data</th><th>De</th><th>Para</th><th>Companhia</th><th>Avião</th><th>~km</th><th>Fonte</th></tr>'+
-    sg.map(s=>`<tr><td>${s.date}</td><td>${aero(s.from)}</td><td>${aero(s.to)}</td><td style="white-space:nowrap">${s.cia&&s.cia!=='?'?logoCiaBig(s.cia):'<span style="color:var(--ink-xs)">—</span>'}</td><td>${s.aviao||'<span style="color:var(--ink-xs)">—</span>'}</td><td>${fmt(kmSeg(s.from,s.to))}</td><td style="color:var(--ink-xs)">${(s.source||'').slice(0,18)}</td></tr>`).join('');
+    sg.map(s=>`<tr><td>${dataBR(s.date)}</td><td>${aero(s.from)}</td><td>${aero(s.to)}</td><td style="white-space:nowrap">${s.cia&&s.cia!=='?'?logoCiaBig(s.cia):'<span style="color:var(--ink-xs)">—</span>'}</td><td>${s.aviao||'<span style="color:var(--ink-xs)">—</span>'}</td><td>${fmt(kmSeg(s.from,s.to))}</td><td style="color:var(--ink-xs)">${(s.source||'').slice(0,18)}</td></tr>`).join('');
 }
 
+function dataBR(d){if(!d)return d||'';var x=String(d).split('-');return x.length>=3?x[2]+'/'+x[1]+'/'+x[0]:d;}
 const MESES_PT=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 function fdata(d){const x=new Date(d+'T12:00');return x.getDate()+' '+MESES_PT[x.getMonth()]+(x.getFullYear()!==new Date().getFullYear()?' '+x.getFullYear():'');}
 function copiar(t,el){navigator.clipboard.writeText(t).then(()=>{const o=el.textContent;el.textContent='✓ copiado';setTimeout(()=>el.textContent=o,1200);});}
