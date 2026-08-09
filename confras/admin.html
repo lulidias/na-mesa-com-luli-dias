@@ -47,6 +47,8 @@ input:focus{border-color:var(--gold)}
 .tbl-wrap{overflow-x:auto}
 a{color:var(--wine-md)}
 .del{background:none;border:none;color:#B85C2A;cursor:pointer;font-size:10px;letter-spacing:1px;text-transform:uppercase;text-decoration:underline}
+.zap{display:inline-block;font-size:9px;letter-spacing:1px;text-transform:uppercase;border:1px solid #25D366;color:#1DA851;padding:4px 9px;text-decoration:none;margin:1px 0;white-space:nowrap}
+.zap:hover{background:#25D366;color:#fff}
 </style>
 </head>
 <body>
@@ -243,6 +245,8 @@ function renderParts() {
   var fp = document.getElementById('p-pago').value;
   var body = document.getElementById('p-body'); body.innerHTML = '';
   var shown = 0;
+  var temGarrafa = {};
+  garrafas.forEach(function (g) { (g.membros || []).forEach(function (n) { temGarrafa[n] = true; }); });
   parts.forEach(function (p) {
     if (q && p.nome.toLowerCase().indexOf(q) < 0) return;
     if (fc && (p.confrarias || []).indexOf(fc) < 0) return;
@@ -260,7 +264,10 @@ function renderParts() {
       '<td style="max-width:160px;font-size:11px;color:var(--ink-lt)">' + esc(p.obs || '') + '</td>' +
       '<td>' + (p.comprovante_url ? '<a href="' + esc(p.comprovante_url) + '" target="_blank">ver</a>' : '—') + '</td>' +
       '<td><button class="pill ' + (p.pago ? 'ok' : 'no') + '"' + (p.comprovante_url && !p.pago ? ' style="background:#B8922A;color:#fff"' : '') + ' onclick="togglePago(\'' + p.id + '\',' + !p.pago + ')">' + (p.pago ? '✓ Pago' : (p.comprovante_url ? 'Confirmar' : 'Pendente')) + '</button></td>' +
-      '<td><button class="del" onclick="removeP(\'' + p.id + '\',\'' + esc(p.nome).replace(/'/g, "\\'") + '\')">remover</button></td>';
+      '<td style="white-space:nowrap">' +
+      (!p.pago && zap ? '<a class="zap" target="_blank" href="' + zapCobranca(p) + '">💬 Cobrar</a><br>' : '') +
+      (!temGarrafa[p.nome] && zap ? '<a class="zap" target="_blank" href="' + zapGarrafa(p) + '">🍾 Vinho</a><br>' : '') +
+      '<button class="del" onclick="removeP(\'' + p.id + '\',\'' + esc(p.nome).replace(/'/g, "\\'") + '\')">remover</button></td>';
     body.appendChild(tr);
   });
   document.getElementById('p-filtros').textContent = '— ' + shown + ' de ' + parts.length;
@@ -276,6 +283,22 @@ function renderGarrafas() {
       '<td>' + (g.foto_url ? '<a href="' + esc(g.foto_url) + '" target="_blank">ver</a> · ' : '') + '<button class="del" style="color:var(--wine-md)" onclick="setFoto(\'' + g.id + '\')">' + (g.foto_url ? 'trocar' : 'definir') + '</button></td>';
     body.appendChild(tr);
   });
+}
+function zapNum(p) { var z = (p.whatsapp || '').replace(/\D/g, '').replace(/^55/, ''); return z ? '55' + z : ''; }
+function zapCobranca(p) {
+  var nome = p.nome.split(' ')[0];
+  var valor = cfg && cfg.valor_rateio ? Number(cfg.valor_rateio).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'o valor do rateio';
+  var msg = 'Olá, ' + nome + '! 🍷 Tudo pronto para a Confra das Confras — falta só o rateio do churrasco: *' + valor + '*. ' +
+    'Pague por Pix em 30 segundos pelo seu painel (QR code e copia-e-cola prontos):\n\nhttps://lulidias.com/confras/?id=' + p.id + '\n\n' +
+    'O comprovante você envia ali mesmo. Até 18 de novembro! 🥂';
+  return 'https://wa.me/' + zapNum(p) + '?text=' + encodeURIComponent(msg);
+}
+function zapGarrafa(p) {
+  var nome = p.nome.split(' ')[0];
+  var msg = 'Olá, ' + nome + '! 🍷 Sua presença na Confra das Confras está confirmada, mas ainda não vi sua garrafa na mesa! ' +
+    'Registre o vinho que você vai levar (mínimo 1,5 L — uma Magnum) pelo seu painel:\n\nhttps://lulidias.com/confras/?id=' + p.id + '\n\n' +
+    'A carta da festa está crescendo — vem ver o que os confrades já colocaram. 🥂';
+  return 'https://wa.me/' + zapNum(p) + '?text=' + encodeURIComponent(msg);
 }
 function togglePago(id, pago) {
   rpc('confras_admin_marca_pago', { p_token: TOKEN, p_participante: id, p_pago: pago })
