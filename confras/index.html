@@ -245,7 +245,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <div class="rule-card"><div class="fmt">Jeroboam</div><div class="lt">6 L</div><div class="pp">4 confrades</div></div>
     <div class="rule-card"><div class="fmt">Salmanazar</div><div class="lt">9 L</div><div class="pp">6 confrades</div></div>
   </div>
-  <p class="rule-note">Pode levar quantas garrafas quiser, e um confrade pode trazer sozinho qualquer formato acima de 1,5 L — dividir é opcional. O custo do churrasco será rateado igualmente entre todos.</p>
+  <p class="rule-note">Pode levar quantas garrafas quiser, e um confrade pode trazer sozinho qualquer formato acima de 1,5 L — dividir é opcional. O custo do churrasco será rateado igualmente entre todos<span id="rateio-publico"></span>.</p>
   <div class="orn" style="margin:34px 0 26px"><span class="l"></span><span class="d"></span><span class="r"></span></div>
   <p class="rule-note" style="margin-top:0"><strong style="font-style:normal;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)">Serviço</strong><br>
   Todos os vinhos serão abertos ao mesmo tempo e ficarão em uma grande mesa, em sistema self-service — circule, prove e volte quantas vezes quiser.</p>
@@ -442,7 +442,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 
 <div class="toast" id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 <script>
 'use strict';
 var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
@@ -774,7 +774,7 @@ function renderPay() {
   document.getElementById('pix-nome').textContent = cfg.nome_pix ? '(' + cfg.nome_pix + ')' : '';
   pixCopiaECola = pixPayload(cfg.chave_pix, cfg.nome_pix, 'RECIFE', valor, 'CONFRAS2026');
   document.getElementById('pix-payload').textContent = pixCopiaECola;
-  if (window.QRCode) QRCode.toCanvas(document.getElementById('pix-qr'), pixCopiaECola, { width: 180, margin: 1, color: { dark: '#101F38' } }, function () { });
+  if (window.QRious) new QRious({ element: document.getElementById('pix-qr'), value: pixCopiaECola, size: 180, background: '#FFFFFF', foreground: '#101F38', level: 'M' });
   if (meu.comprovante_url) document.getElementById('comp-status').innerHTML = '✓ Comprovante enviado — <a href="' + esc(meu.comprovante_url) + '" target="_blank">ver</a>. Aguardando confirmação.';
 }
 function copyPix() {
@@ -990,6 +990,13 @@ function renderTeaser() {
     box.appendChild(el);
   });
 }
+function renderRateioPublico() {
+  var el = document.getElementById('rateio-publico');
+  if (el && cfg && cfg.valor_rateio) {
+    el.innerHTML = ' — <strong>' + Number(cfg.valor_rateio).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) +
+      ' por confrade</strong>, pago por Pix direto no seu painel após a confirmação';
+  }
+}
 function renderPremios() {
   var sec = document.getElementById('premios-sec');
   if (!cfg || !cfg.premio1) { sec.classList.add('hidden'); return; }
@@ -1003,6 +1010,7 @@ Promise.all([
   if (meu) renderPay();
   renderTeaser();
   renderPremios();
+  renderRateioPublico();
   renderVotacao();
   renderResultados();
 });
