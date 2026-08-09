@@ -381,15 +381,10 @@ const MESES_PT=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov
 function fdata(d){const x=new Date(d+'T12:00');return x.getDate()+' '+MESES_PT[x.getMonth()]+(x.getFullYear()!==new Date().getFullYear()?' '+x.getFullYear():'');}
 function copiar(t,el){navigator.clipboard.writeText(t).then(()=>{const o=el.textContent;el.textContent='✓ copiado';setTimeout(()=>el.textContent=o,1200);});}
 function logoVoo(f){
-  var c=((f.flight||'').replace(/[^A-Za-z0-9]/g,'').slice(0,2)).toUpperCase();
-  if(!/^[A-Z0-9]{2}$/.test(c)) c=CIA_IATA[f.airline]||'';
+  // regra: usar quem OPERA o voo (f.op = IATA da operadora), não o número comprado (codeshare)
+  var c=(f.op||'').toUpperCase();
+  if(!/^[A-Z0-9]{2}$/.test(c)){ c=((f.flight||'').replace(/[^A-Za-z0-9]/g,'').slice(0,2)).toUpperCase(); if(!/^[A-Z0-9]{2}$/.test(c)) c=CIA_IATA[f.airline]||''; }
   return c?`<img src="https://pics.avs.io/120/40/${c}@2x.png" alt="" onerror="this.outerHTML='✈️'">`:'✈️';
-}
-var HOTEL_BRAND={'novotel':'novotel.com','sofitel':'sofitel.com','pullman':'pullman.com','mgallery':'mgallery.com','mercure':'mercure.com','ibis':'ibis.com','fairmont':'fairmont.com','raffles':'raffles.com','swissotel':'swissotel.com','grand hyatt':'hyatt.com','park hyatt':'hyatt.com','hyatt':'hyatt.com','sheraton':'marriott.com','the westin':'marriott.com','westin':'marriott.com','st. regis':'marriott.com','st regis':'marriott.com','ritz-carlton':'ritzcarlton.com','ritz carlton':'ritzcarlton.com','luxury collection':'marriott.com','marriott':'marriott.com','conrad':'hilton.com','waldorf':'hilton.com','hilton':'hilton.com','intercontinental':'ihg.com','holiday inn':'ihg.com','kimpton':'ihg.com','kempinski':'kempinski.com','shangri':'shangri-la.com','mandarin oriental':'mandarinoriental.com','four seasons':'fourseasons.com','peninsula':'peninsula.com','rosewood':'rosewood.com','six senses':'sixsenses.com','aman':'aman.com','belmond':'belmond.com','fasano':'fasano.com','tivoli':'tivolihotels.com','pestana':'pestana.com','melia':'melia.com','iberostar':'iberostar.com','radisson':'radissonhotels.com','accor':'accor.com'};
-function logoHotel(name){
-  var n=(name||'').toLowerCase();
-  for(var k in HOTEL_BRAND){ if(HOTEL_BRAND[k] && n.indexOf(k)>=0) return `<img src="https://logo.clearbit.com/${HOTEL_BRAND[k]}" alt="" onerror="this.outerHTML='🏨'">`; }
-  return '🏨';
 }
 function proximas(){
   const up=D.upcoming||{}; const hoje=new Date().toISOString().slice(0,10);
@@ -413,7 +408,7 @@ function proximas(){
       if(e.tipo==='voo'){const f=e.item;
         html+=`<div class="trip-row"><span class="ico">${logoVoo(f)}</span><span class="quando">${fdata(f.date)}${f.dep?' · '+f.dep:''}</span><b>${flag(f.from)}${f.from} → ${flag(f.to)}${f.to}</b><span>${f.airline||''} ${f.flight||''}</span>${f.pnr?`<span class="pnr" onclick="copiar('${f.pnr}',this)">${f.pnr}</span>`:''}<span class="trip-det">${[f.class,f.seat?'assento '+f.seat:'',f.arr?'chega '+f.arr:''].filter(Boolean).join(' · ')}</span></div>`;
       } else {const h=e.item;
-        html+=`<div class="trip-row"><span class="ico">${logoHotel(h.hotel)}</span><span class="quando">${fdata(h.checkin)} → ${fdata(h.checkout)}</span><b>${h.hotel}</b>${h.conf?`<span class="pnr" onclick="copiar('${h.conf}',this)">${h.conf}</span>`:''}<span class="trip-det">${[h.room,h.address].filter(Boolean).join(' · ')}</span></div>`;
+        html+=`<div class="trip-row"><span class="ico">${logoHotel(redeDe(h.hotel))}</span><span class="quando">${fdata(h.checkin)} → ${fdata(h.checkout)}</span><b>${h.hotel}</b>${h.conf?`<span class="pnr" onclick="copiar('${h.conf}',this)">${h.conf}</span>`:''}<span class="trip-det">${[h.room,h.address].filter(Boolean).join(' · ')}</span></div>`;
       }
     }
     html+='</div>';
