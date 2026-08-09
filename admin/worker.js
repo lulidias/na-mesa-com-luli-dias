@@ -35,6 +35,16 @@ export default {
       catch (err) { return jsonResponse({ error: err.message }, 500); }
     }
 
+    // Endpoint PÚBLICO: resumo de viagens por ano (só agregados, sem PII) — a tabela da sobre.html lê daqui
+    if (url.pathname === '/viagens-resumo' && request.method === 'GET') {
+      try {
+        const row = await env.DB.prepare("SELECT v FROM viagens_kv WHERE k='dados'").first();
+        if (!row) return jsonResponse({ error: 'sem_dados' }, 404);
+        const d = JSON.parse(row.v);
+        return jsonResponse({ atualizado: d.atualizado || null, metricas: d.metricas || {} });
+      } catch (err) { return jsonResponse({ error: err.message }, 500); }
+    }
+
     // Auth check (todos os outros endpoints exigem a chave)
     const adminKey = request.headers.get('X-Admin-Key');
     if (adminKey !== env.ADMIN_KEY) {

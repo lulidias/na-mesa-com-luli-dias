@@ -151,7 +151,7 @@ footer a{color:var(--gold);text-decoration:none}
 .top-nav-brand:hover .top-nav-brand-name{color:var(--gold)}
 @media(max-width:640px){.top-nav-brand{display:none}}
 /* ===== tabela da pesquisa ===== */
-#pesquisa .tbl-wrap{overflow-x:auto;margin:28px 0 10px}
+#pesquisa .tbl-wrap{overflow-x:auto;margin:28px auto 10px;width:fit-content;max-width:100%}
 #pesquisa table{width:100%;border-collapse:collapse;font-family:'Montserrat',sans-serif;font-size:13px}
 #pesquisa th{font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-lt);font-weight:600;padding:8px 7px;border-bottom:2px solid var(--gold);text-align:right;white-space:normal;line-height:1.25;vertical-align:bottom}
 #pesquisa th:first-child{text-align:left}
@@ -777,7 +777,7 @@ footer a{color:var(--gold);text-decoration:none}
 </div>
 
     <div class="anchor">Menos de 4% da humanidade apanha um voo internacional por ano. O 1% que mais voa percorre, em média, 56 mil km anuais.<br><b>A pesquisa deste guia percorreu 203 mil km só em 2022 — 5 voltas ao mundo.</b></div>
-    <div class="tbl-wrap"><table>
+    <div class="tbl-wrap"><table id="pqTable">
 <tr><th></th><th>Decolagens</th><th>km voados</th><th>🌍 Voltas ao mundo</th><th>Dias fora do Brasil</th><th>Noites de hotel</th><th>Refeições fora</th></tr>
 <tr><td class="pq-ano">2010</td><td>63</td><td>129.476</td><td>3.2</td><td>39</td><td>22</td><td>~670</td></tr>
 <tr><td class="pq-ano">2011</td><td>57</td><td>111.739</td><td>2.8</td><td>57</td><td>12</td><td>~760</td></tr>
@@ -800,6 +800,30 @@ footer a{color:var(--gold);text-decoration:none}
 </table></div>
   </div>
 </div>
+<script>
+/* Tabela "A Pesquisa" — lê os agregados por ano do mesmo dado do dashboard (D1), pra nunca desatualizar.
+   Se o fetch falhar, a tabela estática acima permanece como fallback. */
+(function(){
+  fetch('https://luli-admin.lulidias.workers.dev/viagens-resumo').then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d||!d.metricas) return;
+    var m=d.metricas, anos=Object.keys(m).filter(function(y){return +y>=2010;}).sort();
+    if(!anos.length) return;
+    var nf=function(n){return Number(n||0).toLocaleString('pt-BR');};
+    var hoje=new Date(), atual=hoje.getFullYear(), MES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+    var html='<tr><th></th><th>Decolagens</th><th>km voados</th><th>🌍 Voltas ao mundo</th><th>Dias fora do Brasil</th><th>Noites de hotel</th><th>Refeições fora</th></tr>';
+    var T={dec:0,km:0,dias_fora:0,noites:0,ref:0};
+    anos.forEach(function(y){
+      var a=m[y]||{}, lbl=y;
+      if(y==='2020') lbl+=' <span class="pq-ytd">(pandemia)</span>';
+      else if(+y===atual) lbl+=' <span class="pq-ytd">(até '+hoje.getDate()+' '+MES[hoje.getMonth()]+')</span>';
+      html+='<tr><td class="pq-ano">'+lbl+'</td><td>'+nf(a.dec)+'</td><td>'+nf(a.km)+'</td><td>'+Number(a.voltas||0).toFixed(1)+'</td><td>'+nf(a.dias_fora)+'</td><td>'+nf(a.noites)+'</td><td>~'+nf(a.ref)+'</td></tr>';
+      T.dec+=a.dec||0; T.km+=a.km||0; T.dias_fora+=a.dias_fora||0; T.noites+=a.noites||0; T.ref+=a.ref||0;
+    });
+    html+='<tr class="tot"><td class="pq-ano">Total</td><td>'+nf(T.dec)+'</td><td>'+nf(T.km)+'</td><td>'+(T.km/40075).toFixed(1)+'</td><td>'+nf(T.dias_fora)+'</td><td>'+nf(T.noites)+'</td><td>~'+nf(T.ref)+'</td></tr>';
+    var t=document.getElementById('pqTable'); if(t) t.innerHTML=html;
+  }).catch(function(){});
+})();
+</script>
 
 
 <!-- CITAÇÃO -->
