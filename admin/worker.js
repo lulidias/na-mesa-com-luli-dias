@@ -85,8 +85,11 @@ export default {
         await env.DB.prepare("INSERT INTO viagens_kv (k,v) VALUES ('dados',?1) ON CONFLICT(k) DO UPDATE SET v=?1").bind(body).run();
         return jsonResponse({ ok: true, bytes: body.length });
       }
+      if (url.pathname === '/viagens-promover' && request.method === 'POST') {
+        return jsonResponse(await promoteUpcoming(env));
+      }
       if (url.pathname === '/' || url.pathname === '/health') {
-        return jsonResponse({ ok: true, version: '1.2' });
+        return jsonResponse({ ok: true, version: '1.3' });
       }
     } catch (err) {
       return jsonResponse({ error: err.message, stack: err.stack }, 500);
@@ -99,9 +102,48 @@ export default {
   async scheduled(event, env, ctx) {
     ctx.waitUntil((async () => {
       try { await handleSyncMailchimp(env); } catch (_) { /* silencioso */ }
+      try { await promoteUpcoming(env); } catch (_) { /* silencioso — promove viagens vencidas */ }
     })());
   }
 };
+
+// ===================== PROMOÇÃO AUTOMÁTICA DE VIAGENS (cron) =====================
+const COORD_CRON={CGH:[-23.63,-46.66],GRU:[-23.43,-46.47],SAO:[-23.5,-46.6],VCP:[-23.01,-47.13],REC:[-8.13,-34.92],EZE:[-34.82,-58.54],LIS:[38.77,-9.13],PTY:[9.07,-79.38],GYN:[-16.63,-49.22],FLN:[-27.67,-48.55],CWB:[-25.53,-49.18],BSB:[-15.87,-47.92],SDU:[-22.91,-43.16],RIO:[-22.9,-43.2],GIG:[-22.81,-43.25],SSA:[-12.91,-38.33],POA:[-29.99,-51.17],AJU:[-10.98,-37.07],MDZ:[-32.83,-68.79],SCL:[-33.39,-70.79],BOG:[4.7,-74.15],JFK:[40.64,-73.78],FOR:[-3.78,-38.53],CNF:[-19.62,-43.97],IGU:[-25.6,-54.49],CGB:[-15.65,-56.12],ORY:[48.72,2.38],PAR:[48.85,2.35],LYS:[45.73,5.08],OPO:[41.25,-8.68],MAD:[40.47,-3.57],MXP:[45.63,8.72],MIL:[45.63,8.72],DOH:[25.27,51.61],OTP:[44.57,26.09],FRA:[50.03,8.57],CDG:[49.01,2.55],NCE:[43.66,7.22],MVD:[-34.84,-56.03],LIM:[-12.02,-77.11],CUZ:[-13.54,-71.94],AQP:[-16.34,-71.57],CPH:[55.62,12.65],BOD:[44.83,-0.72],AMS:[52.31,4.76],ZRH:[47.46,8.55],DUB:[53.43,-6.24],DUS:[51.29,6.77],NAT:[-5.9,-35.25],MCZ:[-9.51,-35.79],SLZ:[-2.59,-44.23],LDB:[-23.33,-51.13],NVT:[-26.88,-48.65],PVG:[31.14,121.81],SHA:[31.14,121.81],HKG:[22.31,113.91],MGF:[-23.48,-52.01],UDI:[-18.88,-48.23],MIA:[25.79,-80.29],BCN:[41.3,2.08],EDI:[55.95,-3.36],MPL:[43.58,3.96],BEL:[-1.38,-48.48],LHR:[51.47,-0.45],IST:[41.26,28.74],KIX:[34.43,135.24],ICN:[37.46,126.44],PEK:[40.08,116.58],HND:[35.55,139.78],BKK:[13.68,100.75],HAN:[21.22,105.81],MUC:[48.35,11.79],TPE:[25.08,121.23],DXB:[25.25,55.36],SIN:[1.36,103.99],NRT:[35.77,140.39],CMN:[33.37,-7.59],ATH:[37.94,23.94],AEP:[-34.56,-58.42],BPS:[-16.44,-39.08],BVB:[2.85,-60.69],CUN:[21.04,-86.87],FEN:[-3.85,-32.42],IOS:[-14.82,-39.03],MAO:[-3.04,-60.05],MEX:[19.44,-99.07],MRS:[43.44,5.22],RAO:[-21.14,-47.77],SJP:[-20.82,-49.4],THE:[-5.06,-42.82],VIX:[-20.26,-40.29],XAP:[-27.13,-52.66]};
+function kmSegCron(a,b){a=COORD_CRON[a];b=COORD_CRON[b];if(!a||!b)return 0;const p=Math.PI/180,la1=a[0],lo1=a[1],la2=b[0],lo2=b[1];const x=.5-Math.cos((la2-la1)*p)/2+Math.cos(la1*p)*Math.cos(la2*p)*(1-Math.cos((lo2-lo1)*p))/2;return 12742*Math.asin(Math.sqrt(x));}
+function nightsBetween(ci,co){try{return Math.max(0,Math.round((new Date(co)-new Date(ci))/864e5));}catch(_){return 0;}}
+async function promoteUpcoming(env){
+  const row = await env.DB.prepare("SELECT v FROM viagens_kv WHERE k='dados'").first();
+  if(!row) return { promoted:0, reason:'sem_dados' };
+  const d = JSON.parse(row.v);
+  const today = new Date().toISOString().slice(0,10);
+  const up = d.upcoming || {};
+  const segs = d.segments || (d.segments=[]);
+  const stays = d.stays || (d.stays=[]);
+  const m = d.metricas || (d.metricas={});
+  const hasSeg = s => segs.some(x=>x.date===s.date && x.from===s.from && x.to===s.to);
+  const hasStay = s => stays.some(x=>x.checkin===s.checkin && (x.hotel||'')===(s.hotel||''));
+  const ensureY = y => (m[y] = m[y] || {dec:0,km:0,voltas:0,paises:0,estadias:0,noites:0,ref:0,dias_fora:0,noites_fora:0});
+  let promoted=0; const touched=new Set(); const log=[];
+  const keepF=[];
+  for(const f of (up.flights||[])){
+    if(f.date && f.date<=today){
+      const seg={date:f.date,from:f.from,to:f.to,cia:f.cia||null,op:f.op||null,airline:f.airline||null,flight:f.flight||null,pnr:f.pnr||null,pax:'Luiz Ignacio',source:'cron-promote'};
+      if(!hasSeg(seg)){ segs.push(seg); const y=f.date.slice(0,4); const a=ensureY(y); a.dec=(a.dec||0)+1; a.km=(a.km||0)+Math.round(kmSegCron(f.from,f.to)); touched.add(y); promoted++; log.push('voo '+f.date+' '+f.from+'->'+f.to); }
+    } else keepF.push(f);
+  }
+  const keepH=[];
+  for(const h of (up.hotels||[])){
+    if(h.checkout && h.checkout<=today){
+      const st={hotel:h.hotel,city:h.city||null,country:h.country||'Brazil',checkin:h.checkin,checkout:h.checkout,nights:h.nights||nightsBetween(h.checkin,h.checkout),guest:'Luiz Ignacio',source:'cron-promote'};
+      if(!hasStay(st)){ stays.push(st); const y=(h.checkin||'').slice(0,4); const a=ensureY(y); a.estadias=(a.estadias||0)+1; a.noites=(a.noites||0)+st.nights; a.noites_fora=(a.noites_fora||0)+st.nights; touched.add(y); promoted++; log.push('hotel '+h.checkin+' '+(h.hotel||'')); }
+    } else keepH.push(h);
+  }
+  if(!promoted) return { promoted:0 };
+  for(const y of touched){ const a=m[y]; a.voltas=Math.round((a.km/40075)*10)/10; }
+  up.flights=keepF; up.hotels=keepH; d.upcoming=up; d.atualizado=today;
+  await env.DB.prepare("INSERT INTO viagens_kv (k,v) VALUES ('dados',?1) ON CONFLICT(k) DO UPDATE SET v=?1").bind(JSON.stringify(d)).run();
+  return { promoted, touched:[...touched], log };
+}
 
 // ===================== ENRICH =====================
 
