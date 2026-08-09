@@ -820,6 +820,7 @@ function uploadComprovante(input) {
 function refreshPublic() {
   return Promise.all([view('confras_vinhos_publico'), view('confras_confirmados')]).then(function (res) {
     var vinhos = res[0] || [], pessoas = res[1] || [];
+    pessoas.sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt'); });
     // stats
     var litros = 0; vinhos.forEach(function (g) { litros += Number(g.litros); });
     document.getElementById('st-conf').textContent = pessoas.length;
