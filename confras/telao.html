@@ -100,7 +100,11 @@ function tick() {
     view('confras_confirmados'), view('confras_vinhos_publico'), view('confras_config_publica')
   ]).then(function (res) {
     var rows = res[0] || [], pessoas = res[1] || [], vinhos = res[2] || [], cfg = (res[3] || [])[0] || {};
-    var litros = 0; vinhos.forEach(function (g) { litros += Number(g.litros); });
+    var litros = 0;
+    vinhos.forEach(function (g) {
+      var vagas = Math.max(1, g.vagas || 1);
+      litros += Number(g.litros) * (Math.min((g.membros || []).length, vagas) / vagas);
+    });
     var totalVotos = 0; rows.forEach(function (r) { totalVotos += Number(r.votos); });
     document.getElementById('s-conf').textContent = pessoas.length;
     document.getElementById('s-gar').textContent = vinhos.length;
