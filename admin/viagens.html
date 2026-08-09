@@ -28,7 +28,7 @@ h1{font-family:'Playfair Display',serif;font-weight:400;font-size:30px;text-alig
 .kpi i b{display:inline;font-size:9px;font-family:inherit;color:var(--gold)}
 .cialist{display:flex;flex-direction:column;gap:7px;margin-top:6px}
 .cia{display:flex;align-items:center;gap:9px;font-size:11px}
-.cia img{width:20px;height:20px;object-fit:contain;flex:none}
+.cia img{width:30px;height:30px;object-fit:contain;flex:none}
 .cia .nm{width:110px;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cia .bar{height:12px;background:var(--gold);border-radius:2px;flex:none;min-width:2px}
 .cia .val{color:var(--ink-lt);font-size:10px}
@@ -44,7 +44,7 @@ th{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt)
 td{padding:6px 8px;border-bottom:1px solid var(--border)}
 tr:hover td{background:var(--gold-bg)}
 .busca{width:100%;border:1px solid var(--border);padding:9px 12px;font-family:Montserrat;font-size:12px;margin-bottom:10px}
-.rec{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--border)}
+.rec{display:flex;gap:16px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--border)}.rec>b{flex:0 0 210px}@media(max-width:600px){.rec>b{flex-basis:150px}}
 .rec b{font-family:'Playfair Display',serif;color:var(--gold);min-width:110px;text-align:right}
 .rec span{color:var(--ink-lt)}
 #login{max-width:380px;margin:110px auto;background:var(--white);border:1px solid var(--border);padding:36px;text-align:center}
@@ -53,7 +53,7 @@ tr:hover td{background:var(--gold-bg)}
 .trip-tit{font-family:'Playfair Display',serif;font-size:16px}
 .trip-count{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600}
 .trip-row{display:flex;gap:10px;padding:8px 14px;border-top:1px solid var(--border);font-size:12px;align-items:baseline;flex-wrap:wrap}
-.trip-row .ico{width:18px;text-align:center}
+.trip-row .ico{width:32px;text-align:center;flex-shrink:0;align-self:center}.ico img{max-width:30px;max-height:24px;object-fit:contain;vertical-align:middle;border-radius:2px}
 .trip-row .quando{color:var(--ink-lt);min-width:130px}
 .trip-row b{font-weight:600}
 .pnr{font-family:ui-monospace,Menlo,monospace;font-size:11px;background:var(--gold-bg);border:1px solid var(--gold-lt);color:var(--gold);padding:1px 7px;border-radius:4px;cursor:pointer;letter-spacing:1px}
@@ -380,6 +380,17 @@ function renderVoos(){
 const MESES_PT=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 function fdata(d){const x=new Date(d+'T12:00');return x.getDate()+' '+MESES_PT[x.getMonth()]+(x.getFullYear()!==new Date().getFullYear()?' '+x.getFullYear():'');}
 function copiar(t,el){navigator.clipboard.writeText(t).then(()=>{const o=el.textContent;el.textContent='✓ copiado';setTimeout(()=>el.textContent=o,1200);});}
+function logoVoo(f){
+  var c=((f.flight||'').replace(/[^A-Za-z0-9]/g,'').slice(0,2)).toUpperCase();
+  if(!/^[A-Z0-9]{2}$/.test(c)) c=CIA_IATA[f.airline]||'';
+  return c?`<img src="https://pics.avs.io/80/80/${c}@2x.png" alt="" onerror="this.outerHTML='✈️'">`:'✈️';
+}
+var HOTEL_BRAND={'novotel':'novotel.com','sofitel':'sofitel.com','pullman':'pullman.com','mgallery':'mgallery.com','mercure':'mercure.com','ibis':'ibis.com','fairmont':'fairmont.com','raffles':'raffles.com','swissotel':'swissotel.com','grand hyatt':'hyatt.com','park hyatt':'hyatt.com','hyatt':'hyatt.com','sheraton':'marriott.com','the westin':'marriott.com','westin':'marriott.com','st. regis':'marriott.com','st regis':'marriott.com','ritz-carlton':'ritzcarlton.com','ritz carlton':'ritzcarlton.com','luxury collection':'marriott.com','marriott':'marriott.com','conrad':'hilton.com','waldorf':'hilton.com','hilton':'hilton.com','intercontinental':'ihg.com','holiday inn':'ihg.com','kimpton':'ihg.com','kempinski':'kempinski.com','shangri':'shangri-la.com','mandarin oriental':'mandarinoriental.com','four seasons':'fourseasons.com','peninsula':'peninsula.com','rosewood':'rosewood.com','six senses':'sixsenses.com','aman':'aman.com','belmond':'belmond.com','fasano':'fasano.com','tivoli':'tivolihotels.com','pestana':'pestana.com','melia':'melia.com','iberostar':'iberostar.com','radisson':'radissonhotels.com','accor':'accor.com'};
+function logoHotel(name){
+  var n=(name||'').toLowerCase();
+  for(var k in HOTEL_BRAND){ if(HOTEL_BRAND[k] && n.indexOf(k)>=0) return `<img src="https://logo.clearbit.com/${HOTEL_BRAND[k]}" alt="" onerror="this.outerHTML='🏨'">`; }
+  return '🏨';
+}
 function proximas(){
   const up=D.upcoming||{}; const hoje=new Date().toISOString().slice(0,10);
   const voos=(up.flights||[]).filter(f=>f.date>=hoje).map(f=>({tipo:'voo',data:f.date,item:f}));
@@ -400,9 +411,9 @@ function proximas(){
     html+=`<div class="trip"><div class="trip-head"><span class="trip-tit">${fdata(t.ini)} → ${fdata(t.fim)}</span><span class="trip-count">${dd<=0?'EM CURSO':'em '+dd+' dias'}</span></div>`;
     for(const e of t.itens){
       if(e.tipo==='voo'){const f=e.item;
-        html+=`<div class="trip-row"><span class="ico">✈️</span><span class="quando">${fdata(f.date)}${f.dep?' · '+f.dep:''}</span><b>${flag(f.from)}${f.from} → ${flag(f.to)}${f.to}</b><span>${f.airline||''} ${f.flight||''}</span>${f.pnr?`<span class="pnr" onclick="copiar('${f.pnr}',this)">${f.pnr}</span>`:''}<span class="trip-det">${[f.class,f.seat?'assento '+f.seat:'',f.arr?'chega '+f.arr:''].filter(Boolean).join(' · ')}</span></div>`;
+        html+=`<div class="trip-row"><span class="ico">${logoVoo(f)}</span><span class="quando">${fdata(f.date)}${f.dep?' · '+f.dep:''}</span><b>${flag(f.from)}${f.from} → ${flag(f.to)}${f.to}</b><span>${f.airline||''} ${f.flight||''}</span>${f.pnr?`<span class="pnr" onclick="copiar('${f.pnr}',this)">${f.pnr}</span>`:''}<span class="trip-det">${[f.class,f.seat?'assento '+f.seat:'',f.arr?'chega '+f.arr:''].filter(Boolean).join(' · ')}</span></div>`;
       } else {const h=e.item;
-        html+=`<div class="trip-row"><span class="ico">🏨</span><span class="quando">${fdata(h.checkin)} → ${fdata(h.checkout)}</span><b>${h.hotel}</b>${h.conf?`<span class="pnr" onclick="copiar('${h.conf}',this)">${h.conf}</span>`:''}<span class="trip-det">${[h.room,h.address].filter(Boolean).join(' · ')}</span></div>`;
+        html+=`<div class="trip-row"><span class="ico">${logoHotel(h.hotel)}</span><span class="quando">${fdata(h.checkin)} → ${fdata(h.checkout)}</span><b>${h.hotel}</b>${h.conf?`<span class="pnr" onclick="copiar('${h.conf}',this)">${h.conf}</span>`:''}<span class="trip-det">${[h.room,h.address].filter(Boolean).join(' · ')}</span></div>`;
       }
     }
     html+='</div>';
