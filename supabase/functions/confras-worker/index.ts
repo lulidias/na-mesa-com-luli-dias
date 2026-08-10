@@ -102,16 +102,16 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
         ? `<p>Rateio: <strong style="color:#2E7D4F">✓ pago</strong>. Obrigado!</p>`
         : `<p>Rateio: <strong style="color:#B85C2A">pendente</strong> — pague pelo painel para garantir seu lugar.</p>`;
       const quando = String(dados.quando ?? "");
-      const assunto = quando === "hoje"
-        ? "🍷 É HOJE — Confra das Confras, 13h!"
-        : quando === "1-semana"
-          ? "📅 Falta 1 semana — Confra das Confras"
-          : "📅 Falta 1 mês — Confra das Confras";
-      const titulo = quando === "hoje"
-        ? `${nome}, é hoje! 🥂`
-        : quando === "1-semana"
-          ? `${nome}, falta só uma semana`
-          : `${nome}, falta um mês para o grande dia`;
+      const MARCOS: Record<string, { assunto: string; titulo: string }> = {
+        "100-dias": { assunto: "💯 Faltam 100 dias — Confra das Confras", titulo: `${nome}, faltam 100 dias!` },
+        "50-dias": { assunto: "🍷 Faltam 50 dias — Confra das Confras", titulo: `${nome}, faltam só 50 dias` },
+        "1-mes": { assunto: "📅 Falta 1 mês — Confra das Confras", titulo: `${nome}, falta um mês para o grande dia` },
+        "1-semana": { assunto: "📅 Falta 1 semana — Confra das Confras", titulo: `${nome}, falta só uma semana` },
+        "hoje": { assunto: "🍷 É HOJE — Confra das Confras, 13h!", titulo: `${nome}, é hoje! 🥂` },
+      };
+      const marco = MARCOS[quando] ?? MARCOS["1-mes"];
+      const assunto = marco.assunto;
+      const titulo = marco.titulo;
       const abertura = quando === "hoje"
         ? `<p><strong>Hoje, 13h</strong> — Paris Saint-Germain Academy, Recife. Não esqueça as suas garrafas!</p>`
         : `<p><strong>Quarta-feira, 18 de novembro, 13h</strong> — Paris Saint-Germain Academy, Recife.</p>`;
