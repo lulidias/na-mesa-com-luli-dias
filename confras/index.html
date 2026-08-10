@@ -312,6 +312,9 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <div class="me-hello">Presença confirmada, <span id="me-nome"></span> 🥂</div>
     <div class="me-badges" id="me-badges"></div>
     <div id="me-chips" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 4px"></div>
+    <div style="text-align:center;margin:16px 0 4px">
+      <a class="btn gold" id="btn-cartao" href="cartao.html" style="text-decoration:none">📸 Meu cartão "Eu vou!"</a>
+    </div>
     <div class="cover">
       <div class="cover-bar"><div class="cover-fill" id="cover-fill" style="width:0%"></div></div>
       <div class="cover-txt" id="cover-txt">Você ainda não registrou nenhuma garrafa.</div>
@@ -648,6 +651,7 @@ function loadMe() {
     document.getElementById('rsvp-sub').textContent = 'Registre suas garrafas e acompanhe o rateio.';
     document.getElementById('cta-btn').textContent = 'Meu painel';
     document.getElementById('me-nome').textContent = meu.nome.split(' ')[0];
+    document.getElementById('btn-cartao').href = 'cartao.html?id=' + meuId;
     var b = document.getElementById('me-badges'); b.innerHTML = '';
     (meu.confrarias || []).forEach(function (slug) {
       var c = confObj(slug); if (!c) return;

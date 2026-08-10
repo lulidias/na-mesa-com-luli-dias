@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu cartão — Confra das Confras 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#101F38;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px;font-family:'Montserrat',sans-serif}
+canvas{max-width:min(92vw,460px);height:auto;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.acoes{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn{padding:14px 30px;background:#B8922A;color:#fff;border:none;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
+.btn.ghost{background:none;border:1px solid rgba(212,174,92,.6);color:#D4AE5C}
+.aviso{color:rgba(247,243,238,.6);font-size:11px;text-align:center;max-width:420px;line-height:1.6}
+body.foto{padding:0;gap:0}
+body.foto .acoes,body.foto .aviso{display:none}
+body.foto canvas{max-width:none;width:1080px;box-shadow:none}
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1350"></canvas>
+<div class="acoes">
+  <button class="btn" onclick="compartilhar()">📲 Compartilhar</button>
+  <button class="btn ghost" onclick="baixar()">Baixar imagem</button>
+</div>
+<p class="aviso">Poste nos grupos das suas confrarias e chame os amigos para a mesa. 🥂</p>
+
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var CONFRARIAS = {
+  'commanderie': 'COMMANDERIE DE BORDEAUX', 'porquinho': 'CONFRARIA DO PORQUINHO',
+  'wine-lovers': 'WINE LOVERS RECIFE', 'confra-wine': 'CONFRA WINE RECIFE', 'over20': 'OVER 20'
+};
+var params = new URLSearchParams(location.search);
+if (params.get('foto')) document.body.classList.add('foto');
+var meuId = params.get('id') || localStorage.getItem('confras_id');
+
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, {
+    method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(args || {})
+  }).then(function (r) { return r.json(); });
+}
+
+function desenha(nome, confrarias) {
+  var c = document.getElementById('c'), x = c.getContext('2d');
+  var W = 1080, H = 1350, CX = W / 2;
+  // fundo
+  var g = x.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#2A4468'); g.addColorStop(.45, '#1A2F4E'); g.addColorStop(1, '#101F38');
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  // molduras
+  x.strokeStyle = '#D4AE5C'; x.lineWidth = 4; x.strokeRect(36, 36, W - 72, H - 72);
+  x.strokeStyle = 'rgba(212,174,92,.55)'; x.lineWidth = 1.5; x.strokeRect(58, 58, W - 116, H - 116);
+  // kicker
+  x.fillStyle = '#D4AE5C'; x.font = '500 25px Montserrat'; x.textAlign = 'center';
+  try { x.letterSpacing = '9px'; } catch (e) { }
+  x.fillText('RECIFE · 18 DE NOVEMBRO · 13H', CX, 130);
+  // emblema — cinco taças
+  var EC = 306, R = 44, RR = 74;
+  x.strokeStyle = '#D4AE5C'; x.lineWidth = 3; x.fillStyle = 'rgba(212,174,92,.10)';
+  for (var i = 0; i < 5; i++) {
+    var ang = -Math.PI / 2 + i * (2 * Math.PI / 5);
+    x.beginPath(); x.arc(CX + RR * Math.cos(ang), EC + RR * Math.sin(ang), R, 0, 7); x.fill(); x.stroke();
+  }
+  x.save(); x.translate(CX, EC); x.rotate(Math.PI / 4); x.fillStyle = '#D4AE5C'; x.fillRect(-8, -8, 16, 16); x.restore();
+  // marca
+  x.fillStyle = '#F7F3EE';
+  try { x.letterSpacing = '15px'; } catch (e) { }
+  x.font = '400 64px "Playfair Display", Didot, serif';
+  x.fillText('CONFRA', CX + 8, 486);
+  x.fillText('DAS CONFRAS', CX + 8, 564);
+  try { x.letterSpacing = '0px'; } catch (e) { }
+  // linha
+  x.strokeStyle = 'rgba(212,174,92,.8)'; x.lineWidth = 2;
+  x.beginPath(); x.moveTo(CX - 120, 622); x.lineTo(CX + 120, 622); x.stroke();
+  // eu vou (menor, dourado) — o nome é a estrela
+  x.fillStyle = '#D4AE5C'; x.font = 'italic 400 58px "Playfair Display", Georgia, serif';
+  x.fillText('Eu vou!', CX, 706);
+  // nome em evidência
+  x.fillStyle = '#F7F3EE';
+  var n = nome, tam = 96;
+  x.font = 'italic 600 ' + tam + 'px "Playfair Display", Georgia, serif';
+  while (x.measureText(n).width > 900 && tam > 52) {
+    tam -= 6;
+    x.font = 'italic 600 ' + tam + 'px "Playfair Display", Georgia, serif';
+  }
+  x.fillText(n, CX, 838);
+  // selos das confrarias
+  x.font = '500 22px Montserrat';
+  try { x.letterSpacing = '3.5px'; } catch (e) { }
+  var y = 928, pad = 22, hh = 48, gap = 14, linhaMax = W - 200;
+  var linhas = [[]], lw = 0;
+  confrarias.forEach(function (s) {
+    var t = CONFRARIAS[s] || s.toUpperCase();
+    var w = x.measureText(t).width + pad * 2;
+    if (lw + w + gap > linhaMax && linhas[linhas.length - 1].length) { linhas.push([]); lw = 0; }
+    linhas[linhas.length - 1].push({ t: t, w: w }); lw += w + gap;
+  });
+  linhas.forEach(function (linha) {
+    var tot = linha.reduce(function (s, i) { return s + i.w; }, 0) + gap * (linha.length - 1);
+    var px = CX - tot / 2;
+    linha.forEach(function (item) {
+      x.strokeStyle = 'rgba(212,174,92,.85)'; x.lineWidth = 2;
+      x.strokeRect(px, y, item.w, hh);
+      x.fillStyle = '#D4AE5C'; x.textAlign = 'left';
+      x.fillText(item.t, px + pad, y + 32);
+      px += item.w + gap;
+    });
+    x.textAlign = 'center';
+    y += hh + 12;
+  });
+  // rodapé
+  x.fillStyle = 'rgba(247,243,238,.85)'; x.font = 'italic 400 32px "Cormorant Garamond", Georgia, serif';
+  try { x.letterSpacing = '0px'; } catch (e) { }
+  x.fillText('Grandes vinhos, grandes garrafas, grandes amigos.', CX, 1198);
+  x.fillStyle = '#D4AE5C'; x.font = '600 28px Montserrat';
+  try { x.letterSpacing = '5px'; } catch (e) { }
+  x.fillText('LULIDIAS.COM/CONFRAS', CX, 1252);
+}
+
+function baixar() {
+  var a = document.createElement('a');
+  a.download = 'confra-das-confras-eu-vou.png';
+  a.href = document.getElementById('c').toDataURL('image/png');
+  a.click();
+}
+function compartilhar() {
+  document.getElementById('c').toBlob(function (blob) {
+    var file = new File([blob], 'confra-das-confras-eu-vou.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], text: 'Eu vou! 🍷 Confra das Confras — 18 de novembro. Confirme você também: https://lulidias.com/confras/rsvp' });
+    } else { baixar(); }
+  });
+}
+
+Promise.all([
+  document.fonts.load('400 76px "Playfair Display"'),
+  document.fonts.load('italic 600 118px "Playfair Display"'),
+  document.fonts.load('500 27px Montserrat')
+]).then(function () {
+  if (!meuId) { desenha('Confrade', ['commanderie']); return; }
+  rpc('confras_meu', { p_id: meuId }).then(function (rows) {
+    var p = rows && rows[0];
+    if (p) desenha(p.nome, p.confrarias || []);
+    else desenha('Confrade', []);
+    document.title = 'pronto';
+  });
+});
+</script>
+</body>
+</html>
