@@ -188,14 +188,22 @@ async function buscaFotos() {
 }
 
 async function resumoSemanal(apenas?: string) {
-  let { data: parts } = await sb.from("confras_participantes").select("id, nome, email, criado_em");
-  if (apenas) parts = (parts ?? []).filter((p) => p.email === apenas);
+  const { data: parts } = await sb.from("confras_participantes").select("id, nome, email, criado_em");
+  // o filtro "apenas" vale SÓ para quem recebe — as estatísticas são sempre da mesa inteira
+  const destinatarios = apenas ? (parts ?? []).filter((p) => p.email === apenas) : (parts ?? []);
   const { data: garrafas } = await sb.from("confras_garrafas")
-    .select("vinho, safra, formato, tipo, pais, litros, criado_em").order("tipo").order("pais");
+    .select("id, vinho, safra, formato, tipo, pais, litros, vagas, criado_em").order("tipo").order("pais");
+  const { data: membros } = await sb.from("confras_garrafa_membros").select("garrafa_id");
+  const ocupadas: Record<string, number> = {};
+  for (const m of membros ?? []) ocupadas[m.garrafa_id] = (ocupadas[m.garrafa_id] ?? 0) + 1;
   const semana = Date.now() - 7 * 864e5;
   const novasG = (garrafas ?? []).filter((g) => new Date(g.criado_em).getTime() > semana);
   const novosP = (parts ?? []).filter((p) => new Date(p.criado_em).getTime() > semana);
-  const litros = (garrafas ?? []).reduce((s, g) => s + Number(g.litros), 0);
+  // litros comprometidos: proporcional às vagas ocupadas (mesma conta do site)
+  const litros = Math.round((garrafas ?? []).reduce((s, g) => {
+    const vagas = Math.max(1, Number(g.vagas ?? 1));
+    return s + Number(g.litros) * (Math.min(ocupadas[g.id] ?? 0, vagas) / vagas);
+  }, 0) * 10) / 10;
 
   const ordem = ["Espumante", "Branco", "Rosé", "Tinto", "Fortificado / Doce"];
   const porTipo: Record<string, typeof novasG> = {};
@@ -218,7 +226,7 @@ async function resumoSemanal(apenas?: string) {
     <h2 style="font-size:18px;font-weight:normal">A carta até agora</h2>${carta}`;
 
   let enviados = 0;
-  for (const p of parts ?? []) {
+  for (const p of destinatarios) {
     if (!p.email) continue;
     try {
       await enviar(p.email, "🍷 A carta da Confra das Confras — resumo da semana",
