@@ -329,6 +329,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
       <div class="cover-txt" id="cover-txt">Você ainda não registrou nenhuma garrafa.</div>
     </div>
 
+    <div id="me-pedidos"></div>
     <div id="me-garrafas"></div>
 
     <label class="f-label" style="margin-top:34px">Registrar uma garrafa</label>
@@ -681,7 +682,7 @@ function loadMe() {
       var el = document.createElement('span'); el.className = 'badge'; el.textContent = c.curto; b.appendChild(el);
     });
     renderPay();
-    return loadMinhasGarrafas();
+    return Promise.all([loadMinhasGarrafas(), loadMeusPedidos().then(refreshPublic), loadPedidosRecebidos()]);
   });
 }
 
@@ -838,10 +839,47 @@ function avaliaFoto(garrafaId, ok) {
       return Promise.all([loadMinhasGarrafas(), refreshPublic()]);
     }).catch(function (e) { toast(e.message, true); });
 }
-function joinGarrafa(id) {
+var meusPedidosMap = {};
+function pedirGarrafa(id) {
   if (!meuId) { toast('Confirme a sua presença primeiro.', true); location.hash = '#rsvp'; return; }
-  rpc('confras_join_garrafa', { p_participante: meuId, p_garrafa: id })
-    .then(function () { toast('Você entrou na garrafa! 🍷'); return Promise.all([loadMinhasGarrafas(), refreshPublic()]); })
+  rpc('confras_pedir_garrafa', { p_participante: meuId, p_garrafa: id })
+    .then(function () {
+      meusPedidosMap[id] = 'pendente';
+      toast('Pedido enviado! O dono da garrafa vai combinar com você. 🤝');
+      return refreshPublic();
+    })
+    .catch(function (e) { toast(e.message, true); });
+}
+function loadMeusPedidos() {
+  if (!meuId) return Promise.resolve();
+  return rpc('confras_meus_pedidos', { p_participante: meuId }).then(function (rows) {
+    meusPedidosMap = {};
+    (rows || []).forEach(function (p) { meusPedidosMap[p.garrafa_id] = p.status; });
+  }).catch(function () { });
+}
+function loadPedidosRecebidos() {
+  if (!meuId) return Promise.resolve();
+  return rpc('confras_pedidos_recebidos', { p_participante: meuId }).then(function (rows) {
+    var box = document.getElementById('me-pedidos');
+    if (!rows || !rows.length) { box.innerHTML = ''; return; }
+    box.innerHTML = rows.map(function (p) {
+      var zap = String(p.whatsapp || '').replace(/\D/g, '').replace(/^55/, '');
+      return '<div style="border:1px dashed var(--gold);background:var(--gold-bg);padding:16px;margin-top:12px;font-size:13px">' +
+        '✋ <strong>' + esc(p.solicitante) + '</strong> quer dividir seu <em>' + esc(p.vinho) + '</em>' +
+        '<div style="margin-top:10px;display:flex;gap:14px;flex-wrap:wrap;align-items:center">' +
+        '<a href="https://wa.me/55' + zap + '" target="_blank" style="color:#1DA851;font-size:11px;letter-spacing:1px;text-transform:uppercase">💬 Combinar no WhatsApp</a>' +
+        '<button class="linklike" style="color:var(--ok)" onclick="responderPedido(\'' + p.garrafa_id + '\',\'' + p.solicitante_id + '\', true)">✓ Aceitar</button>' +
+        '<button class="linklike" style="color:var(--warn)" onclick="responderPedido(\'' + p.garrafa_id + '\',\'' + p.solicitante_id + '\', false)">✗ Recusar</button>' +
+        '</div></div>';
+    }).join('');
+  }).catch(function () { });
+}
+function responderPedido(garrafa, solicitante, aceitar) {
+  rpc('confras_responder_pedido', { p_criador: meuId, p_garrafa: garrafa, p_solicitante: solicitante, p_aceitar: aceitar })
+    .then(function () {
+      toast(aceitar ? 'Sociedade fechada! 🥂' : 'Pedido recusado — a vaga segue aberta.');
+      return Promise.all([loadPedidosRecebidos(), loadMinhasGarrafas(), refreshPublic()]);
+    })
     .catch(function (e) { toast(e.message, true); });
 }
 function leaveGarrafa(id) {
@@ -957,9 +995,13 @@ function refreshPublic() {
           var grid = document.createElement('div'); grid.className = 'wine-grid';
           porPais[pais].forEach(function (g) {
             var d = document.createElement('div'); d.className = 'wine-card';
-            var vagasHtml = g.vagas_restantes > 0
-              ? '<div class="join"><span class="vac">' + g.vagas_restantes + ' vaga' + (g.vagas_restantes > 1 ? 's' : '') + '</span> — <button class="linklike" onclick="joinGarrafa(\'' + g.id + '\')">juntar-se a esta garrafa</button></div>'
-              : '';
+            var souMembro = meu && (g.membros || []).indexOf(meu.nome) >= 0;
+            var vagasHtml = '';
+            if (g.vagas_restantes > 0 && !souMembro) {
+              vagasHtml = meusPedidosMap[g.id] === 'pendente'
+                ? '<div class="join"><span class="vac">✋ pedido enviado</span> — aguardando o dono da garrafa</div>'
+                : '<div class="join"><span class="vac">' + g.vagas_restantes + ' vaga' + (g.vagas_restantes > 1 ? 's' : '') + '</span> — <button class="linklike" onclick="pedirGarrafa(\'' + g.id + '\')">✋ pedir para dividir</button></div>';
+            }
             var subt = [g.produtor, g.regiao].filter(Boolean).map(esc).join(' · ');
             d.innerHTML = '<div class="fmt">' + esc(g.formato) + ' · ' + fmtLitros(g.litros) + ' L</div>' +
               (g.foto_url ? '<img src="' + esc(g.foto_url) + '" alt="" style="float:right;height:96px;max-width:70px;object-fit:contain;margin:14px 0 6px 10px" onerror="this.remove()">' : '') +

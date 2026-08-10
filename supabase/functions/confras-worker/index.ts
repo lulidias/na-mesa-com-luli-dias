@@ -114,6 +114,33 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
           undefined, { href: "", label: "" }),
       };
     }
+    case "pedido-garrafa": {
+      const sol = esc(String(dados.solicitante ?? ""));
+      const zap = String(dados.solicitante_zap ?? "").replace(/\D/g, "").replace(/^55/, "");
+      const vinho = `${esc(dados.vinho)}${dados.safra ? " " + esc(dados.safra) : ""} (${esc(dados.formato)})`;
+      return {
+        subject: `🤝 ${String(dados.solicitante)} quer dividir seu ${String(dados.vinho)}`,
+        html: shell(`${nome}, você tem um pedido de sociedade`, `
+          <p><strong>${sol}</strong> pediu para dividir a sua garrafa de <strong>${vinho}</strong>.</p>
+          <p>Combine com ele os detalhes (valor, acerto entre vocês) direto no WhatsApp — isso fica entre os confrades, fora do site:</p>
+          <p style="text-align:center"><a href="https://wa.me/55${zap}" style="background:#2E7D4F;color:#fff;text-decoration:none;padding:12px 26px;font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2px">💬 CHAMAR ${sol.split(" ")[0].toUpperCase()} NO WHATSAPP</a></p>
+          <p>Depois de combinar, entre no seu painel e clique em <strong>✓ Aceitar</strong> (ou ✗ Recusar) no pedido.</p>`, pid),
+      };
+    }
+    case "pedido-aceito":
+      return {
+        subject: `🍷 Você está dentro: ${String(dados.vinho)}`,
+        html: shell(`${nome}, sociedade fechada!`, `
+          <p>O dono da garrafa aceitou seu pedido: você agora divide o <strong>${esc(dados.vinho)}${dados.safra ? " " + esc(dados.safra) : ""}</strong> (${esc(dados.formato)}).</p>
+          <p>Seu nome já aparece na carta da festa junto da garrafa. 🥂</p>`, pid),
+      };
+    case "pedido-recusado":
+      return {
+        subject: `Sobre o ${String(dados.vinho)} — o grupo se organizou de outra forma`,
+        html: shell(`${nome}, esta garrafa não deu certo`, `
+          <p>O grupo do <strong>${esc(dados.vinho)}</strong> acabou se organizando de outra forma — acontece nas melhores confrarias.</p>
+          <p>Que tal olhar outras garrafas com vagas abertas na carta, ou registrar uma Magnum sua? A mesa agradece. 🍷</p>`, pid),
+      };
     case "lembrete": {
       const garrafas = Array.isArray(dados.garrafas) ? dados.garrafas as Record<string, unknown>[] : [];
       const lista = garrafas.length
