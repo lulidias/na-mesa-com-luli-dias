@@ -133,7 +133,7 @@ function compartilhar() {
   document.getElementById('c').toBlob(function (blob) {
     var file = new File([blob], 'confra-das-confras-eu-vou.png', { type: 'image/png' });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      navigator.share({ files: [file], text: 'Eu vou! 🍷 Confra das Confras — 18 de novembro. Confirme você também: https://lulidias.com/confras/rsvp' });
+      navigator.share({ files: [file] });
     } else { baixar(); }
   });
 }
