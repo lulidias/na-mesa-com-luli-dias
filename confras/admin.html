@@ -96,10 +96,11 @@ a{color:var(--wine-md)}
     <input id="p-busca" placeholder="Buscar nome…" oninput="renderParts()">
     <select id="p-conf" onchange="renderParts()"><option value="">Todas as confrarias</option></select>
     <select id="p-pago" onchange="renderParts()"><option value="">Pagos e pendentes</option><option value="sim">Só pagos</option><option value="nao">Só pendentes</option></select>
+    <select id="p-garrafa" onchange="renderParts()"><option value="">Com e sem garrafa</option><option value="sem">Sem garrafa</option><option value="com">Com garrafa</option></select>
   </div>
   <div class="tbl-wrap">
   <table>
-    <thead><tr><th>Nome</th><th>WhatsApp</th><th>E-mail</th><th>Confrarias</th><th>Obs</th><th>Comprovante</th><th>Pago</th><th></th></tr></thead>
+    <thead><tr><th>Nome</th><th>Situação</th><th>WhatsApp</th><th>E-mail</th><th>Confrarias</th><th>Obs</th><th>Comprovante</th><th>Pago</th><th></th></tr></thead>
     <tbody id="p-body"></tbody>
   </table>
   </div>
@@ -247,17 +248,23 @@ function renderParts() {
   var shown = 0;
   var temGarrafa = {};
   garrafas.forEach(function (g) { (g.membros || []).forEach(function (n) { temGarrafa[n] = true; }); });
+  var fg = document.getElementById('p-garrafa').value;
   parts.forEach(function (p) {
     if (q && p.nome.toLowerCase().indexOf(q) < 0) return;
     if (fc && (p.confrarias || []).indexOf(fc) < 0) return;
     if (fp === 'sim' && !p.pago) return;
     if (fp === 'nao' && p.pago) return;
+    if (fg === 'sem' && temGarrafa[p.nome]) return;
+    if (fg === 'com' && !temGarrafa[p.nome]) return;
     shown++;
     var tr = document.createElement('tr');
     if (p.comprovante_url && !p.pago) tr.style.background = '#FFF6E0';  // comprovante aguardando confirmação
     var zap = (p.whatsapp || '').replace(/\D/g, '');
+    var sit = (temGarrafa[p.nome] ? '🍾<span style="color:var(--ok)">✓</span>' : '🍾<span style="color:var(--warn)">✗</span>') + ' &nbsp;' +
+      (p.pago ? '💰<span style="color:var(--ok)">✓</span>' : (p.comprovante_url ? '💰<span title="comprovante enviado">⏳</span>' : '💰<span style="color:var(--warn)">✗</span>'));
     tr.innerHTML =
       '<td><strong>' + esc(p.nome) + '</strong></td>' +
+      '<td style="white-space:nowrap;font-size:13px">' + sit + '</td>' +
       '<td>' + (zap ? '<a href="https://wa.me/55' + zap.replace(/^55/, '') + '" target="_blank">' + esc(p.whatsapp) + '</a>' : '') + '</td>' +
       '<td>' + esc(p.email || '') + '</td>' +
       '<td>' + (p.confrarias || []).map(function (c) { return '<span class="badge">' + esc(CONFRARIAS[c] || c) + '</span>'; }).join('') + '</td>' +

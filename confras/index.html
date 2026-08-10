@@ -174,6 +174,9 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 .hidden{display:none !important}
 .painel-btn{position:fixed;top:16px;right:16px;z-index:1500;background:var(--wine-md);color:var(--cream);border:1px solid var(--gold-lt);padding:11px 20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-family:'Montserrat',sans-serif;transition:all .3s;box-shadow:0 4px 18px rgba(0,0,0,.25)}
 .painel-btn:hover{background:var(--gold);border-color:var(--gold)}
+.chip{font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:7px 13px;border:1px solid var(--border);background:var(--cream);color:var(--ink-lt)}
+.chip.ok{border-color:var(--ok);color:var(--ok);background:#F0F7F2}
+.chip.warn{border-color:var(--warn);color:var(--warn);background:#FBF3ED}
 .g-row3{display:grid;grid-template-columns:1fr 1fr 90px;gap:10px}
 .g-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .g-row2b{display:grid;grid-template-columns:1fr 130px;gap:10px}
@@ -196,7 +199,18 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 </head>
 <body>
 
-<a class="painel-btn" href="#rsvp" id="painel-btn">Meu Painel</a>
+<a class="painel-btn" href="#rsvp" id="painel-btn" onclick="painelClick(event)">Meu Painel</a>
+
+<div id="entrar-modal" class="hidden" style="position:fixed;inset:0;z-index:3000;background:rgba(16,31,56,.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px" onclick="if(event.target===this)this.classList.add('hidden')">
+  <div style="background:var(--white);max-width:380px;width:100%;padding:40px 34px;text-align:center">
+    <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Confra das Confras</div>
+    <h3 class="serif" style="font-weight:400;font-size:21px;margin-bottom:8px">Entrar no meu painel</h3>
+    <p style="font-size:12px;color:var(--ink-lt);margin-bottom:22px;line-height:1.6">Digite o WhatsApp que você usou na confirmação.</p>
+    <input class="f-input" id="entrar-zap" placeholder="(81) 9 0000-0000" inputmode="tel" style="text-align:center" onkeydown="if(event.key==='Enter')entrarPainel()">
+    <button class="btn" style="width:100%;margin-top:14px" id="entrar-btn" onclick="entrarPainel()">Entrar</button>
+    <button class="linklike" style="margin-top:16px" onclick="document.getElementById('entrar-modal').classList.add('hidden');location.hash='#rsvp'">Ainda não confirmei presença</button>
+  </div>
+</div>
 
 <!-- ═══ HERO ═══ -->
 <header class="hero">
@@ -293,6 +307,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   <div class="panel hidden" id="me-panel">
     <div class="me-hello">Presença confirmada, <span id="me-nome"></span> 🥂</div>
     <div class="me-badges" id="me-badges"></div>
+    <div id="me-chips" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 4px"></div>
     <div class="cover">
       <div class="cover-bar"><div class="cover-fill" id="cover-fill" style="width:0%"></div></div>
       <div class="cover-txt" id="cover-txt">Você ainda não registrou nenhuma garrafa.</div>
@@ -562,6 +577,41 @@ function doRSVP() {
     .then(function () { btn.disabled = false; btn.textContent = 'Confirmar presença'; });
 }
 
+function painelClick(e) {
+  if (!meuId) {
+    e.preventDefault();
+    document.getElementById('entrar-modal').classList.remove('hidden');
+    setTimeout(function () { document.getElementById('entrar-zap').focus(); }, 100);
+  }
+  // com meuId, o href #rsvp leva direto ao painel
+}
+function entrarPainel() {
+  var zap = document.getElementById('entrar-zap').value.trim();
+  if (!zap) return toast('Digite o seu WhatsApp.', true);
+  var btn = document.getElementById('entrar-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
+  rpc('confras_entrar', { p_whatsapp: zap })
+    .then(function (id) {
+      meuId = id; localStorage.setItem('confras_id', id);
+      document.getElementById('entrar-modal').classList.add('hidden');
+      toast('Bem-vindo de volta! 🥂');
+      return loadMe().then(function () { location.hash = '#rsvp'; });
+    })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { btn.disabled = false; btn.textContent = 'Entrar'; });
+}
+var minhasCount = 0;
+function renderChips() {
+  var box = document.getElementById('me-chips');
+  if (!box || !meu) return;
+  var pago = meu.pago
+    ? '<span class="chip ok">💰 Rateio pago ✓</span>'
+    : (meu.comprovante_url
+      ? '<span class="chip">💰 Comprovante em análise</span>'
+      : '<span class="chip warn">💰 Rateio pendente</span>');
+  box.innerHTML = '<span class="chip ok">✓ Presença confirmada</span>' +
+    (minhasCount > 0 ? '<span class="chip ok">🍾 Garrafa registrada ✓</span>' : '<span class="chip warn">🍾 Falta a sua garrafa</span>') +
+    pago;
+}
 function logoutMe() {
   localStorage.removeItem('confras_id'); meuId = null; meu = null;
   document.getElementById('me-panel').classList.add('hidden');
@@ -620,6 +670,8 @@ function loadMinhasGarrafas() {
         '<button class="linklike" onclick="leaveGarrafa(\'' + g.id + '\')">' + (g.sou_criador ? 'Remover' : 'Sair') + '</button></div>' + fotoHtml;
       box.appendChild(d);
     });
+    minhasCount = rows.length;
+    renderChips();
     var need = 1.5;
     var pct = Math.min(100, Math.round(share / need * 100));
     document.getElementById('cover-fill').style.width = pct + '%';
@@ -776,6 +828,7 @@ function pixPayload(chave, nome, cidade, valor, txid) {
 var pixCopiaECola = '';
 function renderPay() {
   if (!meu) return;
+  renderChips();
   var pend = document.getElementById('pix-pending'), ready = document.getElementById('pix-ready'), paid = document.getElementById('pix-paid');
   pend.classList.add('hidden'); ready.classList.add('hidden'); paid.classList.add('hidden');
   if (meu.pago) { paid.classList.remove('hidden'); return; }
@@ -980,9 +1033,9 @@ function placaSVG(nome, tipoFiltro) {
     '<circle cx="78" cy="55" r="8"/><circle cx="74" cy="42" r="8"/></g>' +
     '<rect x="83" y="42.5" width="4" height="4" transform="rotate(45 85 44.5)" fill="#D4AE5C"/>';
   var linhas = palavra.length === 2
-    ? '<text x="85" y="136" text-anchor="middle" font-family="' + serif + '" font-size="19" letter-spacing="2" fill="#F7F3EE">' + palavra[0] + '</text>' +
-      '<text x="85" y="157" text-anchor="middle" font-family="' + serif + '" font-size="19" letter-spacing="2" fill="#F7F3EE">' + palavra[1] + '</text>'
-    : '<text x="85" y="150" text-anchor="middle" font-family="' + serif + '" font-size="' + (palavra[0].length > 7 ? 17 : 22) + '" letter-spacing="' + (palavra[0].length > 7 ? 1.5 : 3) + '" fill="#F7F3EE">' + palavra[0] + '</text>';
+    ? '<text x="85" y="144" text-anchor="middle" font-family="' + serif + '" font-size="19" letter-spacing="2" fill="#F7F3EE">' + palavra[0] + '</text>' +
+      '<text x="85" y="166" text-anchor="middle" font-family="' + serif + '" font-size="19" letter-spacing="2" fill="#F7F3EE">' + palavra[1] + '</text>'
+    : '<text x="85" y="152" text-anchor="middle" font-family="' + serif + '" font-size="' + (palavra[0].length > 7 ? 17 : 22) + '" letter-spacing="' + (palavra[0].length > 7 ? 1.5 : 3) + '" fill="#F7F3EE">' + palavra[0] + '</text>';
   return '<svg viewBox="0 0 170 220" width="145" xmlns="http://www.w3.org/2000/svg">' +
     '<rect x="3" y="3" width="164" height="214" fill="rgba(212,174,92,.05)" stroke="#D4AE5C" stroke-width="1.4"/>' +
     '<rect x="9" y="9" width="152" height="202" fill="none" stroke="#D4AE5C" stroke-width=".6" opacity=".6"/>' +
@@ -992,7 +1045,7 @@ function placaSVG(nome, tipoFiltro) {
     '<line x1="55" y1="103" x2="115" y2="103" stroke="#D4AE5C" stroke-width=".7" opacity=".7"/>' +
     '<text x="85" y="120" text-anchor="middle" font-family="' + sans + '" font-size="9" letter-spacing="4" fill="#D4AE5C">MELHOR</text>' +
     linhas +
-    (eFesta ? '<g transform="translate(-5,120)">' + icone + '</g>' : '') +
+    (eFesta ? '<g transform="translate(65,170) scale(0.5)">' + icone + '</g>' : '') +
     '<text x="85" y="200" text-anchor="middle" font-family="' + serif + '" font-size="13" letter-spacing="5" fill="#D4AE5C">2026</text>' +
     '</svg>';
 }
