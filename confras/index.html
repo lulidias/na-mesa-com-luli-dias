@@ -437,6 +437,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <div class="num-card"><h3>Por categoria</h3><div id="num-tipos"></div></div>
     <div class="num-card"><h3>Por país</h3><div id="num-paises"></div></div>
     <div class="num-card"><h3>Por formato</h3><div id="num-formatos"></div></div>
+    <div class="num-card"><h3>Por safra</h3><div id="num-safras"></div></div>
   </div>
 </section>
 
@@ -1015,6 +1016,17 @@ function renderNumeros(vinhos) {
   numBars('num-tipos', numConta(vinhos, 'tipo'));
   numBars('num-paises', numConta(vinhos, 'pais', function (k) { return (FLAGS[k] ? FLAGS[k] + ' ' : '') + k; }));
   numBars('num-formatos', numConta(vinhos, 'formato'));
+  // safras em ordem cronológica; o que não é ano (multi-safra) vira NV
+  var safras = {};
+  vinhos.forEach(function (g) {
+    var s = String(g.safra || '').trim();
+    var k = /^(19|20)\d{2}$/.test(s) ? s : 'NV';
+    safras[k] = (safras[k] || 0) + 1;
+  });
+  numBars('num-safras', Object.keys(safras).sort(function (a, b) {
+    if (a === 'NV') return 1; if (b === 'NV') return -1;
+    return Number(a) - Number(b);
+  }).map(function (k) { return { label: k, value: safras[k] }; }));
 }
 
 // ── votação ──────────────────────────────────────────────────────────────
