@@ -21,6 +21,20 @@ body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-seri
 .kpi .n{font-family:'Playfair Display',serif;font-size:28px;color:var(--wine-md)}
 .kpi .k{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px}
 h2{font-family:'Playfair Display',serif;font-weight:400;font-size:19px;margin:30px 0 12px}
+.bi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.bi-card{background:var(--white);border:1px solid var(--border);padding:18px 18px 14px}
+.bi-card h3{font-family:'Playfair Display',serif;font-weight:400;font-size:15px;margin-bottom:14px;color:var(--ink)}
+.bi-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bi-row .lb{flex:0 0 118px;font-size:11px;color:var(--ink);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bi-row .tr{flex:1;height:12px;position:relative}
+.bi-row .fl{position:absolute;left:0;top:0;bottom:0;background:var(--gold);border-radius:0 3px 3px 0;min-width:2px}
+.bi-row .vl{flex:0 0 34px;font-size:11px;color:var(--ink-lt)}
+.bi-stack{display:flex;height:16px;border-radius:3px;overflow:hidden;gap:2px;background:none}
+.bi-stack i{display:block;height:100%}
+.bi-leg{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:11px;color:var(--ink-lt)}
+.bi-leg b{color:var(--ink);font-weight:600}
+.bi-dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.bi-empty{font-size:11px;color:var(--ink-lt);font-style:italic}
 table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--border)}
 th{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);text-align:left;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--gold-bg)}
 td{padding:12px 10px;border-bottom:1px solid var(--border);vertical-align:top}
@@ -78,6 +92,17 @@ a{color:var(--wine-md)}
     <div class="kpi"><div class="n" id="k-arrec">—</div><div class="k">arrecadado</div></div>
     <div class="kpi"><div class="n" id="k-gar">—</div><div class="k">garrafas</div></div>
     <div class="kpi"><div class="n" id="k-lit">—</div><div class="k">litros</div></div>
+  </div>
+
+  <h2>BI do evento</h2>
+  <div class="bi-grid">
+    <div class="bi-card" style="grid-column:1/-1"><h3>Confirmações acumuladas por dia</h3><div id="bi-linha"></div></div>
+    <div class="bi-card"><h3>Rateio — funil de pagamento</h3><div id="bi-rateio"></div></div>
+    <div class="bi-card"><h3>Confrades por confraria</h3><div id="bi-confrarias"></div></div>
+    <div class="bi-card"><h3>Vinhos por categoria</h3><div id="bi-tipos"></div></div>
+    <div class="bi-card"><h3>Vinhos por país</h3><div id="bi-paises"></div></div>
+    <div class="bi-card"><h3>Garrafas por formato</h3><div id="bi-formatos"></div></div>
+    <div class="bi-card hidden" id="bi-acessos-card"><h3>Acessos por dia (só você vê)</h3><div id="bi-acessos"></div></div>
   </div>
 
   <h2>Configuração</h2>
@@ -206,6 +231,7 @@ function refresh() {
     document.getElementById('c-resultados').value = String(cfg.resultados_publicos === true);
     document.getElementById('c-premio1').value = cfg.premio1 || '';
     renderKPIs(); renderParts(); renderGarrafas(); renderCats(); renderResultados();
+    renderBI();
     carregaAcessos();
   }).catch(function (e) { toast(e.message, true); });
 }
@@ -217,6 +243,15 @@ function carregaAcessos() {
   ]).then(function (res) {
     var rows = res[0] || [], r = (res[1] || [])[0] || {};
     document.getElementById('ac-sec').classList.remove('hidden');
+    // gráfico de acessos por dia (últimos 7)
+    var porDia = {};
+    rows.forEach(function (a) {
+      var d = new Date(a.quando).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+      porDia[d] = (porDia[d] || 0) + 1;
+    });
+    var dias = Object.keys(porDia).slice(0, 7).reverse();
+    document.getElementById('bi-acessos-card').classList.remove('hidden');
+    biBars('bi-acessos', dias.map(function (d) { return { label: d, value: porDia[d] }; }));
     document.getElementById('ac-resumo').textContent =
       '— hoje: ' + r.hoje + ' · 7 dias: ' + r.semana + ' · total: ' + r.total + ' (' + r.identificados + ' de confrades)';
     var body = document.getElementById('ac-body'); body.innerHTML = '';
@@ -271,6 +306,89 @@ function renderKPIs() {
   document.getElementById('k-arrec').textContent = valor ? (pagos * valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '—';
   document.getElementById('k-gar').textContent = garrafas.length;
   document.getElementById('k-lit').textContent = (Math.round(litros * 100) / 100).toLocaleString('pt-BR');
+}
+function biBars(elId, data) {
+  var el = document.getElementById(elId);
+  if (!data.length) { el.innerHTML = '<div class="bi-empty">Sem dados ainda.</div>'; return; }
+  var max = Math.max.apply(null, data.map(function (d) { return d.value; }));
+  el.innerHTML = data.map(function (d) {
+    return '<div class="bi-row" title="' + esc(d.label) + ': ' + d.value + '">' +
+      '<span class="lb">' + esc(d.label) + '</span>' +
+      '<span class="tr"><span class="fl" style="width:' + Math.round(d.value / max * 100) + '%"></span></span>' +
+      '<span class="vl">' + d.value + '</span></div>';
+  }).join('');
+}
+function biConta(lista, chave) {
+  var c = {};
+  lista.forEach(function (x) { var k = x[chave] || '—'; c[k] = (c[k] || 0) + 1; });
+  return Object.keys(c).map(function (k) { return { label: k, value: c[k] }; })
+    .sort(function (a, b) { return b.value - a.value; });
+}
+function renderBI() {
+  // linha acumulada de confirmações
+  var porDia = {};
+  parts.forEach(function (p) { var d = String(p.criado_em).slice(0, 10); porDia[d] = (porDia[d] || 0) + 1; });
+  var dias = Object.keys(porDia).sort();
+  var acum = [], t = 0;
+  dias.forEach(function (d) { t += porDia[d]; acum.push({ dia: d, total: t }); });
+  var el = document.getElementById('bi-linha');
+  if (!acum.length) { el.innerHTML = '<div class="bi-empty">Sem dados.</div>'; }
+  else {
+    var W = 760, H = 160, P = 30;
+    var maxY = acum[acum.length - 1].total;
+    var pts = acum.map(function (a, i) {
+      var x = P + (acum.length === 1 ? (W - 2 * P) / 2 : i / (acum.length - 1) * (W - 2 * P));
+      var y = H - P - (a.total / maxY) * (H - 2 * P);
+      return { x: x, y: y, a: a };
+    });
+    var dd = function (s) { return s.slice(8, 10) + '/' + s.slice(5, 7); };
+    var linha = pts.map(function (p) { return p.x + ',' + p.y; }).join(' ');
+    var area = 'M' + pts[0].x + ',' + (H - P) + ' ' + pts.map(function (p) { return 'L' + p.x + ',' + p.y; }).join(' ') + ' L' + pts[pts.length - 1].x + ',' + (H - P) + ' Z';
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;height:auto">' +
+      '<line x1="' + P + '" y1="' + (H - P) + '" x2="' + (W - P) + '" y2="' + (H - P) + '" stroke="#E8E0D5" stroke-width="1"/>' +
+      '<line x1="' + P + '" y1="' + P + '" x2="' + (W - P) + '" y2="' + P + '" stroke="#F1EBE2" stroke-width="1"/>' +
+      '<text x="' + (P - 6) + '" y="' + (P + 4) + '" text-anchor="end" font-size="10" fill="#9A9A9A">' + maxY + '</text>' +
+      '<path d="' + area + '" fill="rgba(184,146,42,.12)"/>' +
+      '<polyline points="' + linha + '" fill="none" stroke="#1A2F4E" stroke-width="2"/>' +
+      pts.map(function (p) {
+        return '<circle cx="' + p.x + '" cy="' + p.y + '" r="4" fill="#1A2F4E"><title>' + dd(p.a.dia) + ': ' + p.a.total + ' confirmados</title></circle>';
+      }).join('') +
+      '<text x="' + pts[0].x + '" y="' + (H - P + 14) + '" text-anchor="middle" font-size="10" fill="#5A5A5A">' + dd(acum[0].dia) + '</text>' +
+      (acum.length > 1 ? '<text x="' + pts[pts.length - 1].x + '" y="' + (H - P + 14) + '" text-anchor="middle" font-size="10" fill="#5A5A5A">' + dd(acum[acum.length - 1].dia) + '</text>' : '') +
+      '<text x="' + (pts[pts.length - 1].x + 8) + '" y="' + (pts[pts.length - 1].y + 4) + '" font-size="11" font-weight="600" fill="#1A1A1A">' + maxY + '</text>' +
+      '</svg>';
+  }
+  // funil do rateio (cores de status, com rótulo e ícone — nunca só cor)
+  var nPag = parts.filter(function (p) { return p.pago; }).length;
+  var nAna = parts.filter(function (p) { return !p.pago && p.comprovante_url; }).length;
+  var nPen = parts.length - nPag - nAna;
+  var tot = Math.max(1, parts.length);
+  var valor = Number(cfg.valor_rateio || 0);
+  document.getElementById('bi-rateio').innerHTML =
+    '<div class="bi-stack">' +
+    (nPag ? '<i style="background:#2E7D4F;flex:' + nPag + '" title="Pagos: ' + nPag + '"></i>' : '') +
+    (nAna ? '<i style="background:#B8922A;flex:' + nAna + '" title="Comprovante em análise: ' + nAna + '"></i>' : '') +
+    (nPen ? '<i style="background:#D9CDBB;flex:' + nPen + '" title="Pendentes: ' + nPen + '"></i>' : '') +
+    '</div>' +
+    '<div class="bi-leg">' +
+    '<span><span class="bi-dot" style="background:#2E7D4F"></span>✓ Pagos <b>' + nPag + '</b></span>' +
+    '<span><span class="bi-dot" style="background:#B8922A"></span>⏳ Em análise <b>' + nAna + '</b></span>' +
+    '<span><span class="bi-dot" style="background:#D9CDBB"></span>— Pendentes <b>' + nPen + '</b></span>' +
+    '</div>' +
+    (valor ? '<div class="bi-leg" style="margin-top:6px"><span>Arrecadado <b>' + (nPag * valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) + '</b> de <b>' + (tot * valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) + '</b> (' + Math.round(nPag / tot * 100) + '%)</span></div>' : '');
+  // confrarias (multi-pertencimento conta em cada uma)
+  var porConf = {};
+  parts.forEach(function (p) { (p.confrarias || []).forEach(function (s) { porConf[s] = (porConf[s] || 0) + 1; }); });
+  biBars('bi-confrarias', Object.keys(porConf).map(function (s) {
+    return { label: CONFRARIAS[s] || s, value: porConf[s] };
+  }).sort(function (a, b) { return b.value - a.value; }));
+  // vinhos
+  biBars('bi-tipos', biConta(garrafas, 'tipo'));
+  var FLAGS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Uruguai': '🇺🇾', 'Estados Unidos': '🇺🇸', 'Alemanha': '🇩🇪' };
+  biBars('bi-paises', biConta(garrafas, 'pais').map(function (d) {
+    return { label: (FLAGS[d.label] ? FLAGS[d.label] + ' ' : '') + d.label, value: d.value };
+  }));
+  biBars('bi-formatos', biConta(garrafas, 'formato'));
 }
 function renderParts() {
   var q = (document.getElementById('p-busca').value || '').toLowerCase();

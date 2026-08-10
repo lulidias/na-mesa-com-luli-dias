@@ -900,7 +900,11 @@ function refreshPublic() {
     document.getElementById('st-conf').textContent = pessoas.length;
     document.getElementById('st-gar').textContent = vinhos.length;
     document.getElementById('st-lit').textContent = fmtLitros(Math.round(litros * 100) / 100);
-    document.getElementById('st-media').textContent = pessoas.length ? fmtLitros(Math.round(litros / pessoas.length * 100) / 100) : '—';
+    // média por confrade COM garrafa (o vinho é obrigatório; quem ainda não registrou não entra na conta)
+    var comGarrafa = {};
+    vinhos.forEach(function (g) { (g.membros || []).forEach(function (n) { comGarrafa[n] = true; }); });
+    var nCom = Object.keys(comGarrafa).length;
+    document.getElementById('st-media').textContent = nCom ? fmtLitros(Math.round(litros / nCom * 100) / 100) : '—';
     // vinhos — carta agrupada por categoria (ordem de degustação) e país
     vinhosCache = vinhos;
     var groups = document.getElementById('wine-groups'); groups.innerHTML = '';

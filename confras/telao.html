@@ -109,7 +109,10 @@ function tick() {
     document.getElementById('s-conf').textContent = pessoas.length;
     document.getElementById('s-gar').textContent = vinhos.length;
     document.getElementById('s-lit').textContent = (Math.round(litros * 10) / 10).toLocaleString('pt-BR');
-    document.getElementById('s-media').textContent = pessoas.length ? (Math.round(litros / pessoas.length * 100) / 100).toLocaleString('pt-BR') : '–';
+    var comGarrafa = {};
+    vinhos.forEach(function (g) { (g.membros || []).forEach(function (n) { comGarrafa[n] = true; }); });
+    var nCom = Object.keys(comGarrafa).length;
+    document.getElementById('s-media').textContent = nCom ? (Math.round(litros / nCom * 100) / 100).toLocaleString('pt-BR') : '–';
     document.getElementById('s-votos').textContent = totalVotos;
 
     var porCat = {}, ordem = [];
