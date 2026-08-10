@@ -1103,6 +1103,11 @@ Promise.all([
   renderVotacao();
   renderResultados();
 });
+// registra o acesso (1x por sessão do navegador; nome se o confrade for conhecido)
+if (!sessionStorage.getItem('confras_ping')) {
+  sessionStorage.setItem('confras_ping', '1');
+  rpc('confras_ping', { p_participante: meuId || null }).catch(function () { });
+}
 loadMe();
 refreshPublic();
 setInterval(function () { refreshPublic(); renderResultados(); }, 60000);

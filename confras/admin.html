@@ -114,6 +114,16 @@ a{color:var(--wine-md)}
   </table>
   </div>
 
+  <div id="ac-sec" class="hidden">
+  <h2>Acessos à página <span id="ac-resumo" style="font-size:11px;font-family:Montserrat;color:var(--ink-lt)"></span></h2>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Quem</th><th>Quando</th></tr></thead>
+    <tbody id="ac-body"></tbody>
+  </table>
+  </div>
+  </div>
+
   <h2>Votação — categorias</h2>
   <div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap">
     <input id="cat-nome" placeholder="Nova categoria (ex.: Melhor Rosé)">
@@ -196,7 +206,28 @@ function refresh() {
     document.getElementById('c-resultados').value = String(cfg.resultados_publicos === true);
     document.getElementById('c-premio1').value = cfg.premio1 || '';
     renderKPIs(); renderParts(); renderGarrafas(); renderCats(); renderResultados();
+    carregaAcessos();
   }).catch(function (e) { toast(e.message, true); });
+}
+function carregaAcessos() {
+  // visível só para o token do organizador — para os demais, falha em silêncio
+  Promise.all([
+    rpc('confras_admin_acessos', { p_token: TOKEN }),
+    rpc('confras_admin_acessos_resumo', { p_token: TOKEN })
+  ]).then(function (res) {
+    var rows = res[0] || [], r = (res[1] || [])[0] || {};
+    document.getElementById('ac-sec').classList.remove('hidden');
+    document.getElementById('ac-resumo').textContent =
+      '— hoje: ' + r.hoje + ' · 7 dias: ' + r.semana + ' · total: ' + r.total + ' (' + r.identificados + ' de confrades)';
+    var body = document.getElementById('ac-body'); body.innerHTML = '';
+    rows.forEach(function (a) {
+      var tr = document.createElement('tr');
+      var d = new Date(a.quando);
+      tr.innerHTML = '<td>' + (a.nome === 'Visitante' ? '<span style="color:var(--ink-lt)">Visitante</span>' : '<strong>' + esc(a.nome) + '</strong>') + '</td>' +
+        '<td>' + d.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) + '</td>';
+      body.appendChild(tr);
+    });
+  }).catch(function () { document.getElementById('ac-sec').classList.add('hidden'); });
 }
 var cats = [], resultados = [];
 function renderCats() {
