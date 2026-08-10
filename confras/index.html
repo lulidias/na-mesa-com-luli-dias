@@ -849,7 +849,9 @@ function refreshPublic() {
       porTipo[t].forEach(function (g) { var p = g.pais || 'Outros'; (porPais[p] = porPais[p] || []).push(g); });
       Object.keys(porPais).sort(function (a, b) { return a === 'Outros' ? 1 : b === 'Outros' ? -1 : a.localeCompare(b, 'pt'); })
         .forEach(function (pais) {
-          var ph = document.createElement('div'); ph.className = 'wg-pais'; ph.textContent = pais;
+          var BANDEIRAS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Uruguai': '🇺🇾', 'Estados Unidos': '🇺🇸', 'Alemanha': '🇩🇪', 'África do Sul': '🇿🇦', 'Austrália': '🇦🇺', 'Nova Zelândia': '🇳🇿', 'Áustria': '🇦🇹', 'Líbano': '🇱🇧', 'Outros': '🌍' };
+          var ph = document.createElement('div'); ph.className = 'wg-pais';
+          ph.textContent = (BANDEIRAS[pais] ? BANDEIRAS[pais] + ' ' : '') + pais;
           groups.appendChild(ph);
           var grid = document.createElement('div'); grid.className = 'wine-grid';
           porPais[pais].forEach(function (g) {
