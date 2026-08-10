@@ -709,7 +709,9 @@ function loadMinhasGarrafas() {
           '<input type="file" accept="image/*" style="font-size:11px" onchange="uploadFotoGarrafa(this, \'' + g.id + '\')"></div>';
       }
       d.innerHTML = '<div><div class="w">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
-        '<div class="m">' + (g.produtor ? esc(g.produtor) + ' · ' : '') + (g.regiao ? esc(g.regiao) + ' · ' : '') + esc(g.formato) + ' (' + fmtLitros(g.litros) + ' L) — com ' + esc(g.membros.join(', ')) + '</div></div>' +
+        '<div class="m">' + (g.produtor ? esc(g.produtor) + ' · ' : '') + (g.regiao ? esc(g.regiao) + ' · ' : '') + esc(g.formato) + ' (' + fmtLitros(g.litros) + ' L)' +
+        ((g.vagas || 1) > 1 ? ' — sua parte: 1/' + g.vagas + ' (' + fmtLitros(Math.round(g.litros / g.vagas * 100) / 100) + ' L)' : '') +
+        ' — com ' + esc(g.membros.join(', ')) + '</div></div>' +
         '<div style="display:flex;gap:10px;align-items:center"><span class="gr-fmt">' + esc(g.formato) + '</span>' +
         (g.sou_criador ? '<button class="linklike" onclick="editarGarrafa(\'' + g.id + '\')">Editar</button>' : '') +
         '<button class="linklike" onclick="leaveGarrafa(\'' + g.id + '\')">' + (g.sou_criador ? 'Remover' : 'Sair') + '</button></div>' + fotoHtml;
@@ -1025,7 +1027,10 @@ function refreshPublic() {
         var c = confObj(slug); return c ? esc(c.curto) : '';
       }).filter(Boolean).join(' · ');
       var meusVinhos = vinhos.filter(function (g) { return (g.membros || []).indexOf(p.nome) >= 0; })
-        .map(function (g) { return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : '') + ' (' + esc(g.formato) + ')'; });
+        .map(function (g) {
+          var fracao = (g.vagas || 1) > 1 ? ' · 1/' + g.vagas + ' da garrafa' : '';
+          return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : '') + ' (' + esc(g.formato) + fracao + ')';
+        });
       var d = document.createElement('div'); d.className = 'person';
       d.innerHTML = '<div class="pn"><span>' + esc(p.nome) + '</span>' + (p.pago ? '<span class="paid">✓ pago</span>' : '') + '</div>' +
         '<div class="pc">' + confs + '</div>' +
