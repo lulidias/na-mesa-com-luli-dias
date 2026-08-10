@@ -22,10 +22,12 @@ body.foto canvas{max-width:none;width:1080px;box-shadow:none}
 <body>
 <canvas id="c" width="1080" height="1350"></canvas>
 <div class="acoes">
-  <button class="btn" onclick="compartilhar()">📲 Compartilhar</button>
-  <button class="btn ghost" onclick="baixar()">Baixar imagem</button>
+  <button class="btn" id="b-share" onclick="compartilhar()">📲 Compartilhar</button>
+  <button class="btn" id="b-copy" onclick="copiar()">📋 Copiar imagem</button>
+  <button class="btn ghost" onclick="baixar()">Baixar</button>
 </div>
-<p class="aviso">Poste nos grupos das suas confrarias e chame os amigos para a mesa. 🥂</p>
+<p class="aviso" id="aviso">Poste nos grupos das suas confrarias e chame os amigos para a mesa. 🥂</p>
+<div id="toast" style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#2E7D4F;color:#fff;padding:13px 26px;font-size:12px;letter-spacing:1px;opacity:0;transition:opacity .3s;pointer-events:none">Imagem copiada!</div>
 
 <script>
 'use strict';
@@ -38,6 +40,14 @@ var CONFRARIAS = {
 var params = new URLSearchParams(location.search);
 if (params.get('foto')) document.body.classList.add('foto');
 var meuId = params.get('id') || localStorage.getItem('confras_id');
+// em desktop a folha de compartilhar raramente tem WhatsApp — o caminho é Copiar
+window.addEventListener('DOMContentLoaded', function () {
+  var mobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+  if (!mobile) {
+    document.getElementById('b-share').style.display = 'none';
+    document.getElementById('aviso').textContent = 'Clique em Copiar imagem e cole (Cmd+V) direto na conversa do WhatsApp. 🥂';
+  }
+});
 
 function rpc(fn, args) {
   return fetch(SB + '/rest/v1/rpc/' + fn, {
@@ -123,6 +133,20 @@ function desenha(nome, confrarias) {
   x.fillText('LULIDIAS.COM/CONFRAS', CX, 1252);
 }
 
+function avisa(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.style.opacity = '1';
+  clearTimeout(t._h); t._h = setTimeout(function () { t.style.opacity = '0'; }, 3500);
+}
+function copiar() {
+  document.getElementById('c').toBlob(function (blob) {
+    if (navigator.clipboard && window.ClipboardItem) {
+      navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+        .then(function () { avisa('✓ Imagem copiada! Agora é só Cmd+V (colar) na conversa do WhatsApp.'); })
+        .catch(function () { baixar(); });
+    } else { baixar(); }
+  });
+}
 function baixar() {
   var a = document.createElement('a');
   a.download = 'confra-das-confras-eu-vou.png';
