@@ -1,20 +1,20 @@
 name: Purge Cloudflare Cache
 
-# Dispara DEPOIS que o deploy do GitHub Pages termina — purgar no push
-# perdia a corrida (o Cloudflare recacheava a versão antiga por 4h).
+# Espera o deploy do Pages concluir antes de purgar. (Gatilho workflow_run
+# não funciona com o workflow interno "pages build and deployment" do GitHub,
+# então o jeito confiável é aguardar tempo suficiente após o push.)
 on:
-  workflow_run:
-    workflows: ["pages build and deployment"]
-    types: [completed]
+  push:
+    branches: [main]
 
 jobs:
   purge:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
+      - name: Aguardar o deploy do Pages
+        run: sleep 150
       - name: Purge Cloudflare Cache
         run: |
-          sleep 20   # margem para a propagação do deploy
           curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \
             -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
             -H "Content-Type: application/json" \
