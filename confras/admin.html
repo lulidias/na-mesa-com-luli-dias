@@ -295,7 +295,8 @@ function renderParts() {
     var sit = (temGarrafa[p.nome] ? '🍾<span style="color:var(--ok)">✓</span>' : '🍾<span style="color:var(--warn)">✗</span>') + ' &nbsp;' +
       (p.pago ? '💰<span style="color:var(--ok)">✓</span>' : (p.comprovante_url ? '💰<span title="comprovante enviado">⏳</span>' : '💰<span style="color:var(--warn)">✗</span>'));
     tr.innerHTML =
-      '<td><strong>' + esc(p.nome) + '</strong></td>' +
+      '<td><strong>' + esc(p.nome) + '</strong>' +
+      (p.aprovado ? '' : ' <span title="aguardando aprovação de um presidente" style="color:var(--warn);cursor:help">🛡️⏳</span>') + '</td>' +
       '<td style="white-space:nowrap;font-size:13px">' + sit + '</td>' +
       '<td>' + (zap ? '<a href="https://wa.me/55' + zap.replace(/^55/, '') + '" target="_blank">' + esc(p.whatsapp) + '</a>' : '') + '</td>' +
       '<td class="email" title="' + esc(p.email || '') + '">' + esc(p.email || '') + '</td>' +

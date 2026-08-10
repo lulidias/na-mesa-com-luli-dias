@@ -1103,6 +1103,20 @@ Promise.all([
   renderVotacao();
   renderResultados();
 });
+// aprovação/negação de cadastro pelo presidente (via link do e-mail)
+(function () {
+  var q = new URLSearchParams(location.search);
+  var ap = q.get('aprovar'), ng = q.get('negar');
+  if (!ap && !ng) return;
+  rpc(ap ? 'confras_aprovar' : 'confras_negar', {
+    p_participante: ap || ng, p_confraria: q.get('conf'), p_chave: q.get('chave')
+  }).then(function (msg) {
+    toast(ap ? '✓ ' + msg + ' aprovado! Obrigado, presidente. 🥂' : '✓ ' + msg + '.');
+    refreshPublic();
+  }).catch(function (e) { toast(e.message, true); });
+  history.replaceState({}, '', location.pathname);
+})();
+
 // registra o acesso (1x por sessão do navegador; nome se o confrade for conhecido)
 if (!sessionStorage.getItem('confras_ping')) {
   sessionStorage.setItem('confras_ping', '1');

@@ -19,8 +19,10 @@ const esc = (s: unknown) =>
   String(s ?? "").replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] ?? c));
 
-function shell(titulo: string, corpo: string, participanteId?: string) {
-  const link = participanteId ? `${SITE}?id=${participanteId}#rsvp` : SITE;
+function shell(titulo: string, corpo: string, participanteId?: string, botao?: { href: string; label: string }) {
+  const link = botao ? botao.href : (participanteId ? `${SITE}?id=${participanteId}#rsvp` : SITE);
+  const rotulo = botao ? botao.label : "ABRIR MEU PAINEL";
+  const semBotao = botao && !botao.href;
   return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F7F3EE;font-family:Georgia,serif">
   <div style="max-width:560px;margin:0 auto;padding:24px 16px">
     <div style="background-color:#1A2F4E;background:linear-gradient(180deg,#2A4468 0%,#1A2F4E 45%,#101F38 100%);color:#F7F3EE;text-align:center;padding:36px 24px;border:1px solid #B8922A">
@@ -31,9 +33,9 @@ function shell(titulo: string, corpo: string, participanteId?: string) {
     <div style="background:#fff;border:1px solid #E8E0D5;border-top:none;padding:32px 28px;color:#1A1A1A;font-size:15px;line-height:1.7">
       <h1 style="font-family:'Playfair Display',Didot,Georgia,serif;font-size:21px;font-weight:normal;margin:0 0 16px">${titulo}</h1>
       ${corpo}
-      <p style="text-align:center;margin:28px 0 8px">
-        <a href="${link}" style="background:#B8922A;color:#fff;text-decoration:none;padding:13px 30px;font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2px">ABRIR MEU PAINEL</a>
-      </p>
+      ${semBotao ? "" : `<p style="text-align:center;margin:28px 0 8px">
+        <a href="${link}" style="background:#B8922A;color:#fff;text-decoration:none;padding:13px 30px;font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2px">${rotulo}</a>
+      </p>`}
     </div>
     <p style="text-align:center;font-size:11px;color:#9A9A9A;font-family:Helvetica,Arial,sans-serif;margin-top:16px">
       Grandes vinhos, grandes garrafas, grandes amigos. · Organização <a href="https://lulidias.com" style="color:#B8922A">Luli Dias</a>
@@ -92,6 +94,26 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
         html: shell(`${nome}, temos vencedores!`, `
           <p>A apuração terminou e os vencedores de cada categoria estão publicados no site. Veja quem levou o título de Melhor Vinho da Festa.</p>`, pid),
       };
+    case "aprovacao": {
+      const presidente = esc(String(dados.presidente ?? "presidente").split(" ")[0]);
+      const novato = esc(String(dados.novato ?? ""));
+      const confraria = esc(String(dados.confraria ?? ""));
+      const aprovarUrl = `${SITE}?aprovar=${dados.participante_id}&conf=${dados.slug}&chave=${dados.chave}`;
+      const negarUrl = `${SITE}?negar=${dados.participante_id}&conf=${dados.slug}&chave=${dados.chave}`;
+      return {
+        subject: `🛡️ ${String(dados.novato)} diz ser da ${String(dados.confraria)} — você confirma?`,
+        html: shell(`${presidente}, um novo confrade pede entrada`, `
+          <p><strong>${novato}</strong> acabou de confirmar presença na Confra das Confras dizendo pertencer à <strong>${confraria}</strong>.</p>
+          <p>Como presidente, você confirma que ${novato} é de fato da confraria?</p>
+          <p style="text-align:center;margin:28px 0 8px">
+            <a href="${aprovarUrl}" style="background:#2E7D4F;color:#fff;text-decoration:none;padding:13px 30px;font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2px">✓ APROVO</a>
+            &nbsp;&nbsp;
+            <a href="${negarUrl}" style="background:#8A2A2A;color:#fff;text-decoration:none;padding:13px 30px;font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2px">✗ NÃO CONHEÇO</a>
+          </p>
+          <p style="font-size:12px;color:#5A5A5A">Um clique basta. Se a pessoa marcou mais de uma confraria, a aprovação de qualquer presidente vale; a negativa exclui o cadastro (salvo se outro presidente já tiver aprovado).</p>`,
+          undefined, { href: "", label: "" }),
+      };
+    }
     case "lembrete": {
       const garrafas = Array.isArray(dados.garrafas) ? dados.garrafas as Record<string, unknown>[] : [];
       const lista = garrafas.length
