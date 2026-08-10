@@ -90,7 +90,7 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
       return {
         subject: "🏆 Saiu o resultado — os melhores vinhos da festa",
         html: shell(`${nome}, temos vencedores!`, `
-          <p>A apuração terminou e o pódio da Confra das Confras 2026 está publicado no site. Veja quem levou o título de Melhor Vinho da Festa.</p>`, pid),
+          <p>A apuração terminou e os vencedores de cada categoria estão publicados no site. Veja quem levou o título de Melhor Vinho da Festa.</p>`, pid),
       };
     case "lembrete": {
       const garrafas = Array.isArray(dados.garrafas) ? dados.garrafas as Record<string, unknown>[] : [];
@@ -187,8 +187,9 @@ async function buscaFotos() {
   return { tentadas: (garrafas ?? []).length, achadas };
 }
 
-async function resumoSemanal() {
-  const { data: parts } = await sb.from("confras_participantes").select("id, nome, email, criado_em");
+async function resumoSemanal(apenas?: string) {
+  let { data: parts } = await sb.from("confras_participantes").select("id, nome, email, criado_em");
+  if (apenas) parts = (parts ?? []).filter((p) => p.email === apenas);
   const { data: garrafas } = await sb.from("confras_garrafas")
     .select("vinho, safra, formato, tipo, pais, litros, criado_em").order("tipo").order("pais");
   const semana = Date.now() - 7 * 864e5;
@@ -237,7 +238,7 @@ Deno.serve(async (req) => {
   const task = body.task ?? "fila";
   try {
     let out: unknown;
-    if (task === "resumo-semanal") out = await resumoSemanal();
+    if (task === "resumo-semanal") out = await resumoSemanal(body.apenas);
     else out = { fila: await processaFila(), fotos: await buscaFotos() };
     return new Response(JSON.stringify({ ok: true, task, out }), { headers: { "Content-Type": "application/json" } });
   } catch (e) {
