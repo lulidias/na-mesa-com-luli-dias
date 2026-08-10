@@ -153,7 +153,7 @@ a{color:inherit}
 .wg-tipo:first-child{margin-top:0}
 .wg-tipo .t{font-family:'Playfair Display',serif;font-size:22px;color:var(--wine-md);white-space:nowrap}
 .wg-tipo .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
-.wg-pais{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:20px 0 12px}
+.wg-pais{font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin:24px 0 14px;font-weight:500}
 /* votação e pódio */
 .vote-cat{margin-bottom:26px}
 .vote-cat .cn{font-family:'Playfair Display',serif;font-size:18px;color:var(--wine-md);margin-bottom:4px}
@@ -515,6 +515,19 @@ function view(name, q) {
     headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
   }).then(function (r) { if (!r.ok) throw new Error('Erro ao carregar ' + name); return r.json(); });
 }
+function normalizaPais(p) {
+  p = String(p || '').trim();
+  if (!p) return '';
+  var MAPA = { 'france': 'França', 'franca': 'França', 'frança': 'França', 'spain': 'Espanha', 'espanha': 'Espanha',
+    'italy': 'Itália', 'italia': 'Itália', 'itália': 'Itália', 'germany': 'Alemanha', 'alemanha': 'Alemanha',
+    'portugal': 'Portugal', 'chile': 'Chile', 'argentina': 'Argentina', 'brazil': 'Brasil', 'brasil': 'Brasil',
+    'uruguay': 'Uruguai', 'uruguai': 'Uruguai', 'usa': 'Estados Unidos', 'us': 'Estados Unidos', 'eua': 'Estados Unidos',
+    'united states': 'Estados Unidos', 'estados unidos': 'Estados Unidos', 'south africa': 'África do Sul',
+    'africa do sul': 'África do Sul', 'áfrica do sul': 'África do Sul', 'australia': 'Austrália', 'austrália': 'Austrália',
+    'new zealand': 'Nova Zelândia', 'nova zelandia': 'Nova Zelândia', 'nova zelândia': 'Nova Zelândia',
+    'austria': 'Áustria', 'áustria': 'Áustria', 'lebanon': 'Líbano', 'libano': 'Líbano', 'líbano': 'Líbano' };
+  return MAPA[p.toLowerCase()] || (p.charAt(0).toUpperCase() + p.slice(1));
+}
 function confObj(slug) { for (var i = 0; i < CONFRARIAS.length; i++) if (CONFRARIAS[i].slug === slug) return CONFRARIAS[i]; return null; }
 function fmtLitros(n) { return (Math.round(n * 100) / 100).toLocaleString('pt-BR'); }
 
@@ -744,7 +757,7 @@ function addGarrafa() {
     p_safra: document.getElementById('g-safra').value.trim(),
     p_formato: formato, p_litros: litros, p_vagas: vagas,
     p_tipo: document.getElementById('g-tipo').value,
-    p_pais: document.getElementById('g-pais').value.trim(),
+    p_pais: normalizaPais(document.getElementById('g-pais').value),
     p_regiao: document.getElementById('g-regiao').value.trim()
   };
   var chamada;
