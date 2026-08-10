@@ -154,6 +154,15 @@ a{color:inherit}
 .wg-tipo .t{font-family:'Playfair Display',serif;font-size:22px;color:var(--wine-md);white-space:nowrap}
 .wg-tipo .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
 .wg-pais{font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin:24px 0 14px;font-weight:500}
+/* números da mesa (BI público dos vinhos) */
+.num-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;max-width:1000px;margin:0 auto}
+.num-card{background:var(--white);border:1px solid var(--border);padding:22px 20px 16px}
+.num-card h3{font-family:'Playfair Display',serif;font-weight:400;font-size:17px;margin-bottom:16px;text-align:center}
+.num-row{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.num-row .lb{flex:0 0 118px;font-size:11px;color:var(--ink);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.num-row .tr{flex:1;height:12px;position:relative}
+.num-row .fl{position:absolute;left:0;top:0;bottom:0;background:var(--gold);border-radius:0 3px 3px 0;min-width:2px}
+.num-row .vl{flex:0 0 26px;font-size:11px;color:var(--ink-lt)}
 /* votação e pódio */
 .vote-cat{margin-bottom:26px}
 .vote-cat .cn{font-family:'Playfair Display',serif;font-size:18px;color:var(--wine-md);margin-bottom:4px}
@@ -437,6 +446,18 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   <h2 class="sec-title">O prêmio de cada vencedor</h2>
   <div class="rule-grid" style="max-width:420px;margin:26px auto 0">
     <div class="rule-card"><div class="lt" style="margin-top:0">🏆</div><div class="fmt" id="premio1"></div></div>
+  </div>
+</section>
+
+<!-- ═══ NÚMEROS DA MESA ═══ -->
+<section class="sec" id="numeros">
+  <div class="sec-kicker">A disputa das nações</div>
+  <h2 class="sec-title">Os números da mesa</h2>
+  <p class="sec-sub">Qual categoria vai dominar? Qual país vai colocar mais garrafas na mesa? A cada confirmação, o placar muda.</p>
+  <div class="num-grid">
+    <div class="num-card"><h3>Por categoria</h3><div id="num-tipos"></div></div>
+    <div class="num-card"><h3>Por país</h3><div id="num-paises"></div></div>
+    <div class="num-card"><h3>Por formato</h3><div id="num-formatos"></div></div>
   </div>
 </section>
 
@@ -948,6 +969,7 @@ function refreshPublic() {
           groups.appendChild(grid);
         });
     });
+    renderNumeros(vinhos);
     renderVotacao();
     // confirmados
     var pp = document.getElementById('people'); pp.innerHTML = '';
@@ -967,6 +989,31 @@ function refreshPublic() {
       pp.appendChild(d);
     });
   }).catch(function (e) { console.error(e); });
+}
+
+// ── números da mesa (BI público dos vinhos) ──────────────────────────────
+function numBars(elId, data) {
+  var el = document.getElementById(elId);
+  if (!data.length) { el.innerHTML = '<div style="font-size:11px;color:var(--ink-lt);font-style:italic;text-align:center">Aguardando as primeiras garrafas…</div>'; return; }
+  var max = Math.max.apply(null, data.map(function (d) { return d.value; }));
+  el.innerHTML = data.map(function (d) {
+    return '<div class="num-row" title="' + esc(d.label) + ': ' + d.value + '">' +
+      '<span class="lb">' + esc(d.label) + '</span>' +
+      '<span class="tr"><span class="fl" style="width:' + Math.round(d.value / max * 100) + '%"></span></span>' +
+      '<span class="vl">' + d.value + '</span></div>';
+  }).join('');
+}
+function numConta(lista, chave, rotulo) {
+  var c = {};
+  lista.forEach(function (x) { var k = x[chave] || '—'; c[k] = (c[k] || 0) + 1; });
+  return Object.keys(c).map(function (k) { return { label: rotulo ? rotulo(k) : k, value: c[k] }; })
+    .sort(function (a, b) { return b.value - a.value; });
+}
+function renderNumeros(vinhos) {
+  var FLAGS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Uruguai': '🇺🇾', 'Estados Unidos': '🇺🇸', 'Alemanha': '🇩🇪', 'África do Sul': '🇿🇦', 'Austrália': '🇦🇺', 'Nova Zelândia': '🇳🇿', 'Áustria': '🇦🇹', 'Líbano': '🇱🇧' };
+  numBars('num-tipos', numConta(vinhos, 'tipo'));
+  numBars('num-paises', numConta(vinhos, 'pais', function (k) { return (FLAGS[k] ? FLAGS[k] + ' ' : '') + k; }));
+  numBars('num-formatos', numConta(vinhos, 'formato'));
 }
 
 // ── votação ──────────────────────────────────────────────────────────────
