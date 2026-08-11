@@ -37,7 +37,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .hidden{display:none!important}
 .clock{position:fixed;top:18px;right:26px;font-size:12px;letter-spacing:2px;color:rgba(247,243,238,.5)}
 .revela{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(14px,1.6vw,19px);color:var(--gold-lt);margin-top:26px}
-#qr-votar{position:fixed;right:26px;top:64px;background:#fff;padding:12px 12px 7px;text-align:center;border:2px solid #D4AE5C;z-index:50}
+#qr-votar{background:#fff;padding:12px 12px 7px;text-align:center;border:2px solid #D4AE5C;align-self:center}
 </style>
 </head>
 <body>
@@ -52,10 +52,6 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 
 <div id="app" class="hidden">
   <div class="clock" id="clock"></div>
-  <div id="qr-votar" class="hidden">
-    <canvas id="qr-canvas" width="170" height="170"></canvas>
-    <div style="font-size:9px;letter-spacing:2px;color:#101F38;font-weight:600;margin-top:5px">APONTE A CÂMERA<br>E VOTE 🗳️</div>
-  </div>
   <div class="top">
     <div class="k">Confra das Confras · 2026</div>
     <h1>Quem já votou?</h1>
@@ -63,6 +59,10 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
   </div>
   <div class="placar">
     <div class="pl sim"><div class="n" id="n-sim">–</div><div class="l">já votaram</div></div>
+    <div id="qr-votar" class="hidden">
+      <canvas id="qr-canvas" width="150" height="150"></canvas>
+      <div style="font-size:9px;letter-spacing:2px;color:#101F38;font-weight:600;margin-top:5px">APONTE A CÂMERA<br>E VOTE 🗳️</div>
+    </div>
     <div class="pl nao"><div class="n" id="n-nao">–</div><div class="l">ainda faltam</div></div>
   </div>
   <div class="cols">
@@ -92,7 +92,7 @@ function mostraQR(aberta) {
   if (!aberta) { box.classList.add('hidden'); return; }
   box.classList.remove('hidden');
   if (!qrFeito && window.QRious) {
-    new QRious({ element: document.getElementById('qr-canvas'), value: 'https://lulidias.com/confras/votar/', size: 170, background: '#FFFFFF', foreground: '#101F38', level: 'M' });
+    new QRious({ element: document.getElementById('qr-canvas'), value: 'https://lulidias.com/confras/votar/', size: 150, background: '#FFFFFF', foreground: '#101F38', level: 'M' });
     qrFeito = true;
   }
 }
