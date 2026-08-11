@@ -141,6 +141,10 @@ a{color:inherit}
 .ws .k{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);text-align:center;margin-top:4px}
 
 /* confirmados */
+.fbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}
+.fpill{border:1px solid var(--border);background:var(--white);padding:8px 16px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;color:var(--ink-lt);border-radius:20px;transition:all .2s}
+.fpill:hover{border-color:var(--gold);color:var(--gold)}
+.fpill.on{background:var(--wine-md);color:var(--cream);border-color:var(--wine-md)}
 .people{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));grid-auto-rows:1fr;gap:12px}
 .person{background:var(--white);border:1px solid var(--border);padding:16px 18px}
 .person .pn{font-family:'Playfair Display',serif;font-size:16px;display:flex;align-items:baseline;justify-content:space-between;gap:8px}
@@ -448,6 +452,9 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   <div class="sec-kicker">Quem já vem</div>
   <h2 class="sec-title">Confrades confirmados</h2>
   <p class="sec-sub" id="conf-count-sub">&nbsp;</p>
+  <div class="fbar" id="f-confrarias"></div>
+  <div class="fbar" id="f-paises"></div>
+  <div class="fbar" id="f-ordem" style="margin-bottom:26px"></div>
   <div class="people" id="people"></div>
 </section>
 
@@ -1030,26 +1037,75 @@ function refreshPublic() {
     renderNumeros(vinhos);
     renderVotacao();
     // confirmados
-    var pp = document.getElementById('people'); pp.innerHTML = '';
+    pessoasCache = pessoas;
     document.getElementById('conf-count-sub').textContent = pessoas.length
       ? pessoas.length + ' confrade' + (pessoas.length > 1 ? 's' : '') + ' já ' + (pessoas.length > 1 ? 'confirmaram' : 'confirmou') + ' presença.'
       : 'Seja o primeiro a confirmar presença.';
-    pessoas.forEach(function (p) {
-      var confs = (p.confrarias || []).map(function (slug) {
-        var c = confObj(slug); return c ? esc(c.curto) : '';
-      }).filter(Boolean).join(' · ');
-      var meusVinhos = vinhos.filter(function (g) { return (g.membros || []).indexOf(p.nome) >= 0; })
-        .map(function (g) {
-          var fracao = (g.vagas || 1) > 1 ? ' · 1/' + g.vagas + ' da garrafa' : '';
-          return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : '') + ' (' + esc(g.formato) + fracao + ')';
-        });
-      var d = document.createElement('div'); d.className = 'person';
-      d.innerHTML = '<div class="pn"><span>' + esc(p.nome) + '</span>' + (p.pago ? '<span class="paid">✓ pago</span>' : '') + '</div>' +
-        '<div class="pc">' + confs + '</div>' +
-        (meusVinhos.length ? '<div class="pw">🍷 ' + meusVinhos.join(' · ') + '</div>' : '');
-      pp.appendChild(d);
-    });
+    renderConfirmados();
   }).catch(function (e) { console.error(e); });
+}
+
+// ── confirmados: filtros em pílulas ──────────────────────────────────────
+var pessoasCache = [];
+var fConf = '', fPais = '', fOrdem = 'az';
+function fpill(rotulo, ativo, onclick) {
+  return '<button class="fpill' + (ativo ? ' on' : '') + '" onclick="' + onclick + '">' + rotulo + '</button>';
+}
+function setFiltro(tipo, valor) {
+  if (tipo === 'conf') fConf = (fConf === valor ? '' : valor);
+  if (tipo === 'pais') fPais = (fPais === valor ? '' : valor);
+  if (tipo === 'ordem') fOrdem = valor;
+  renderConfirmados();
+}
+function renderConfirmados() {
+  var pessoas = pessoasCache.slice();
+  var vinhos = vinhosCache;
+  // países presentes na mesa + mapa pessoa→países
+  var FLAGS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Uruguai': '🇺🇾', 'Estados Unidos': '🇺🇸', 'Alemanha': '🇩🇪' };
+  var paisesPessoa = {}, paisesMesa = {};
+  vinhos.forEach(function (g) {
+    if (!g.pais) return;
+    paisesMesa[g.pais] = true;
+    (g.membros || []).forEach(function (n) { (paisesPessoa[n] = paisesPessoa[n] || {})[g.pais] = true; });
+  });
+  // pílulas
+  document.getElementById('f-confrarias').innerHTML =
+    fpill('Todas', fConf === '', "setFiltro('conf','')") +
+    CONFRARIAS.map(function (c) { return fpill(esc(c.curto), fConf === c.slug, "setFiltro('conf','" + c.slug + "')"); }).join('');
+  document.getElementById('f-paises').innerHTML =
+    Object.keys(paisesMesa).sort().map(function (p) {
+      return fpill((FLAGS[p] || '') + ' ' + esc(p), fPais === p, "setFiltro('pais','" + p.replace(/'/g, "\\'") + "')");
+    }).join('') + fpill('🍾 sem garrafa ainda', fPais === '__sem__', "setFiltro('pais','__sem__')");
+  document.getElementById('f-ordem').innerHTML =
+    fpill('A–Z', fOrdem === 'az', "setFiltro('ordem','az')") +
+    fpill('Recentes', fOrdem === 'novo', "setFiltro('ordem','novo')");
+  // filtros
+  if (fConf) pessoas = pessoas.filter(function (p) { return (p.confrarias || []).indexOf(fConf) >= 0; });
+  if (fPais === '__sem__') pessoas = pessoas.filter(function (p) { return !paisesPessoa[p.nome]; });
+  else if (fPais) pessoas = pessoas.filter(function (p) { return paisesPessoa[p.nome] && paisesPessoa[p.nome][fPais]; });
+  // ordem
+  if (fOrdem === 'novo') pessoas.sort(function (a, b) { return new Date(b.criado_em) - new Date(a.criado_em); });
+  else pessoas.sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt'); });
+  // cards
+  var pp = document.getElementById('people'); pp.innerHTML = '';
+  if (!pessoas.length) {
+    pp.innerHTML = '<div style="grid-column:1/-1;text-align:center;font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:17px;color:var(--ink-lt)">Nenhum confrade neste filtro — ainda. 🍷</div>';
+  }
+  pessoas.forEach(function (p) {
+    var confs = (p.confrarias || []).map(function (slug) {
+      var c = confObj(slug); return c ? esc(c.curto) : '';
+    }).filter(Boolean).join(' · ');
+    var meusVinhos = vinhos.filter(function (g) { return (g.membros || []).indexOf(p.nome) >= 0; })
+      .map(function (g) {
+        var fracao = (g.vagas || 1) > 1 ? ' · 1/' + g.vagas + ' da garrafa' : '';
+        return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : '') + ' (' + esc(g.formato) + fracao + ')';
+      });
+    var d = document.createElement('div'); d.className = 'person';
+    d.innerHTML = '<div class="pn"><span>' + esc(p.nome) + '</span>' + (p.pago ? '<span class="paid">✓ pago</span>' : '') + '</div>' +
+      '<div class="pc">' + confs + '</div>' +
+      (meusVinhos.length ? '<div class="pw">🍷 ' + meusVinhos.join(' · ') + '</div>' : '');
+    pp.appendChild(d);
+  });
 }
 
 // ── números da mesa (BI público dos vinhos) ──────────────────────────────
