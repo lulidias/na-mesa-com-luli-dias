@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telão 2 — Quem já votou · Confra das Confras 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital@1&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#101F38;--wine-md:#1A2F4E;--wine-lt:#2A4468;--cream:#F7F3EE;--gold:#B8922A;--gold-lt:#D4AE5C;--ok:#2E7D4F}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wine-md) 45%,var(--wine) 100%);color:var(--cream);font-family:'Montserrat',sans-serif;padding:34px 44px}
+.top{text-align:center;margin-bottom:24px}
+.top .k{font-size:12px;letter-spacing:6px;text-transform:uppercase;color:var(--gold-lt)}
+.top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(28px,4vw,50px);letter-spacing:5px;text-transform:uppercase;margin-top:8px}
+.top .sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(15px,1.8vw,21px);color:rgba(247,243,238,.85);margin-top:6px}
+.placar{display:flex;justify-content:center;gap:clamp(30px,6vw,90px);margin:18px 0 30px}
+.pl{text-align:center}
+.pl .n{font-family:Didot,'Playfair Display',serif;font-size:clamp(40px,5vw,64px)}
+.pl.sim .n{color:var(--gold-lt)}
+.pl.nao .n{color:rgba(247,243,238,.45)}
+.pl .l{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(247,243,238,.65);margin-top:4px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1500px;margin:0 auto}
+.col{border:1px solid rgba(212,174,92,.4);background:rgba(0,0,0,.18);padding:24px 28px}
+.col h2{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(17px,1.8vw,23px);margin-bottom:16px;text-align:center}
+.col.sim h2{color:var(--gold-lt)}
+.col.nao h2{color:rgba(247,243,238,.6)}
+.nomes{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.nome{font-family:'Cormorant Garamond',serif;font-size:clamp(14px,1.4vw,19px);padding:6px 14px;border:1px solid rgba(212,174,92,.35)}
+.col.sim .nome{color:var(--cream);border-color:rgba(212,174,92,.6);background:rgba(212,174,92,.1)}
+.col.nao .nome{color:rgba(247,243,238,.55);font-style:italic}
+.gate{max-width:380px;margin:20vh auto;text-align:center;background:rgba(0,0,0,.25);border:1px solid rgba(212,174,92,.4);padding:48px 40px}
+.gate input{width:100%;padding:13px;border:1px solid rgba(212,174,92,.5);background:rgba(255,255,255,.06);color:var(--cream);font-family:'Montserrat',sans-serif;text-align:center;margin:18px 0;outline:none}
+.gate button{padding:13px 34px;background:var(--gold);border:none;color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
+.hidden{display:none!important}
+.clock{position:fixed;top:18px;right:26px;font-size:12px;letter-spacing:2px;color:rgba(247,243,238,.5)}
+.revela{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(14px,1.6vw,19px);color:var(--gold-lt);margin-top:26px}
+#qr-votar{position:fixed;right:26px;top:64px;background:#fff;padding:12px 12px 7px;text-align:center;border:2px solid #D4AE5C;z-index:50}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div style="font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt)">Telão 2 · Quem já votou</div>
+  <h1 style="font-family:'Playfair Display',serif;font-weight:400;font-size:22px;margin-top:10px">Confra das Confras</h1>
+  <input type="password" id="tok" placeholder="Token de acesso">
+  <button onclick="entrar()">Abrir telão</button>
+  <p style="margin-top:26px;font-size:12px;color:rgba(247,243,238,.75);line-height:1.7">Veio <strong>votar</strong>? É aqui:<br><a href="/confras/votar/" style="color:#D4AE5C;font-size:14px">lulidias.com/confras/votar</a></p>
+</div>
+
+<div id="app" class="hidden">
+  <div class="clock" id="clock"></div>
+  <div id="qr-votar" class="hidden">
+    <canvas id="qr-canvas" width="170" height="170"></canvas>
+    <div style="font-size:9px;letter-spacing:2px;color:#101F38;font-weight:600;margin-top:5px">APONTE A CÂMERA<br>E VOTE 🗳️</div>
+  </div>
+  <div class="top">
+    <div class="k">Confra das Confras · 2026</div>
+    <h1>Quem já votou?</h1>
+    <div class="sub">Um voto por categoria — a urna fecha às 17h</div>
+  </div>
+  <div class="placar">
+    <div class="pl sim"><div class="n" id="n-sim">–</div><div class="l">já votaram</div></div>
+    <div class="pl nao"><div class="n" id="n-nao">–</div><div class="l">ainda faltam</div></div>
+  </div>
+  <div class="cols">
+    <div class="col sim"><h2>✓ Já votaram</h2><div class="nomes" id="l-sim"></div></div>
+    <div class="col nao"><h2>Ainda não votaram</h2><div class="nomes" id="l-nao"></div></div>
+  </div>
+  <p class="revela">O ranking dos vencedores será revelado às 17h. 🏆</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var TOKEN = localStorage.getItem('confras_admin_token') || '';
+var qrFeito = false;
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, { method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(args || {}) })
+    .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error((d && d.message) || 'erro'); return d; }); });
+}
+function view(n) { return fetch(SB + '/rest/v1/' + n + '?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }); }
+
+function mostraQR(aberta) {
+  var box = document.getElementById('qr-votar');
+  if (!aberta) { box.classList.add('hidden'); return; }
+  box.classList.remove('hidden');
+  if (!qrFeito && window.QRious) {
+    new QRious({ element: document.getElementById('qr-canvas'), value: 'https://lulidias.com/confras/votar/', size: 170, background: '#FFFFFF', foreground: '#101F38', level: 'M' });
+    qrFeito = true;
+  }
+}
+
+function entrar() {
+  var t = document.getElementById('tok').value.trim();
+  rpc('confras_admin_quem_votou', { p_token: t }).then(function () {
+    TOKEN = t; localStorage.setItem('confras_admin_token', t);
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    tick();
+  }).catch(function () { alert('Token inválido'); });
+}
+
+function tick() {
+  Promise.all([
+    rpc('confras_admin_quem_votou', { p_token: TOKEN }),
+    view('confras_confirmados'),
+    view('confras_config_publica')
+  ]).then(function (res) {
+    var votaram = (res[0] || []).map(function (r) { return r.nome; });
+    var todos = (res[1] || []).map(function (p) { return p.nome; });
+    var cfg = (res[2] || [])[0] || {};
+    mostraQR(cfg.votacao_aberta === true);
+    var vSet = {};
+    votaram.forEach(function (n) { vSet[n] = true; });
+    var faltam = todos.filter(function (n) { return !vSet[n]; }).sort(function (a, b) { return a.localeCompare(b, 'pt'); });
+    document.getElementById('n-sim').textContent = votaram.length;
+    document.getElementById('n-nao').textContent = faltam.length;
+    document.getElementById('l-sim').innerHTML = votaram.map(function (n) { return '<span class="nome">' + esc(n) + '</span>'; }).join('') || '<span class="nome" style="opacity:.5">— seja o primeiro! —</span>';
+    document.getElementById('l-nao').innerHTML = faltam.map(function (n) { return '<span class="nome">' + esc(n) + '</span>'; }).join('') || '<span class="nome">todos votaram! 🎉</span>';
+    ajustaEscala();
+  }).catch(function () { });
+}
+
+function ajustaEscala() {
+  var app = document.getElementById('app');
+  app.style.transform = 'none';
+  var s = Math.min(1, (window.innerHeight - 40) / app.scrollHeight);
+  app.style.transformOrigin = 'top center';
+  app.style.transform = 'scale(' + s + ')';
+}
+window.addEventListener('resize', ajustaEscala);
+
+setInterval(function () {
+  var d = new Date();
+  document.getElementById('clock').textContent = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+}, 1000);
+setInterval(function () { if (TOKEN && !document.getElementById('app').classList.contains('hidden')) tick(); }, 15000);
+
+if (TOKEN) {
+  document.getElementById('tok').value = TOKEN;
+  entrar();
+}
+document.getElementById('tok').addEventListener('keydown', function (e) { if (e.key === 'Enter') entrar(); });
+</script>
+</body>
+</html>
