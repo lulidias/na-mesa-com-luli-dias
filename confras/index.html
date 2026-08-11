@@ -145,9 +145,13 @@ a{color:inherit}
 .vlista{background:var(--white);border:1px solid var(--border)}
 .vrow{display:flex;gap:14px;align-items:baseline;padding:11px 18px;border-bottom:1px solid var(--border);font-size:12px;flex-wrap:wrap}
 .vrow:last-child{border-bottom:none}
-.vrow .vn{font-family:'Playfair Display',serif;font-size:15px;flex:0 0 240px}
-.vrow .vf{font-size:9px;letter-spacing:1px;text-transform:uppercase;background:var(--wine-md);color:var(--cream);padding:3px 9px;white-space:nowrap}
-.vrow .vq{color:var(--ink-lt);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px}
+.vrow .vn{font-family:'Playfair Display',serif;font-size:17px;flex:0 0 280px}
+.vrow .vf{font-size:9px;letter-spacing:1px;text-transform:uppercase;background:var(--wine-md);color:var(--cream);padding:3px 9px;white-space:nowrap;flex:0 0 auto}
+.vrow .vq{color:var(--ink-lt);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px}
+.vrow .cl-p{flex:0 0 230px}
+.vrow .cl-q{flex:1;min-width:160px}
+.vrow .cl-c{flex:0 0 250px}
+@media(max-width:700px){.vrow .vn,.vrow .cl-p,.vrow .cl-c{flex:1 1 100%}}
 .fpill{border:1px solid var(--border);background:var(--white);padding:8px 16px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;color:var(--ink-lt);border-radius:20px;transition:all .2s}
 .fpill:hover{border-color:var(--gold);color:var(--gold)}
 .fpill.on{background:var(--wine-md);color:var(--cream);border-color:var(--wine-md)}
@@ -1017,26 +1021,33 @@ function refreshPublic() {
         var h = document.createElement('div'); h.className = 'wg-tipo';
         h.innerHTML = '<span class="t">' + esc(TIPO_PLURAL[t] || t) + '</span><span class="ln"></span>';
         groups.appendChild(h);
+        var porPaisL = {};
+        porTipo[t].forEach(function (g) { var p = g.pais || 'Outros'; (porPaisL[p] = porPaisL[p] || []).push(g); });
+        Object.keys(porPaisL).sort(function (a, b) { return a === 'Outros' ? 1 : b === 'Outros' ? -1 : a.localeCompare(b, 'pt'); })
+          .forEach(function (paisL) {
+        var ph = document.createElement('div'); ph.className = 'wg-pais';
+        ph.textContent = (FLAGS_V[paisL] ? FLAGS_V[paisL] + ' ' : '') + paisL;
+        groups.appendChild(ph);
         var lw = document.createElement('div'); lw.className = 'vlista';
-        porTipo[t].slice().sort(function (a, b) {
-          return String(a.pais || 'zz').localeCompare(String(b.pais || 'zz'), 'pt') || a.vinho.localeCompare(b.vinho, 'pt');
+        porPaisL[paisL].slice().sort(function (a, b) {
+          return a.vinho.localeCompare(b.vinho, 'pt');
         }).forEach(function (g) {
           var souMembroL = meu && (g.membros || []).indexOf(meu.nome) >= 0;
           var acao = '';
           if (g.vagas_restantes > 0 && !souMembroL) {
             acao = meusPedidosMap[g.id] === 'pendente'
-              ? '<span class="vac" style="font-size:10px">✋ aguardando</span>'
-              : '<button class="linklike" onclick="pedirGarrafa(\'' + g.id + '\')">✋ pedir para dividir</button>';
+              ? '<span class="vac" style="font-size:10px">aguardando</span>'
+              : '<button class="linklike" onclick="pedirGarrafa(\'' + g.id + '\')">pedir para dividir</button>';
           }
           var r = document.createElement('div'); r.className = 'vrow';
-          r.innerHTML = '<span class="vn">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</span>' +
-            '<span class="vq">' + esc([g.produtor, g.regiao].filter(Boolean).join(' · ')) + '</span>' +
-            '<span>' + (FLAGS_V[g.pais] || '') + ' ' + esc(g.pais || '') + '</span>' +
+          r.innerHTML = '<span class="vn cl-n">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</span>' +
+            '<span class="vq cl-p">' + esc([g.produtor, g.regiao].filter(Boolean).join(' · ')) + '</span>' +
             '<span class="vf">' + esc(g.formato) + ' · ' + fmtLitros(g.litros) + ' L</span>' +
-            '<span class="vq">🍷 ' + esc(g.membros.join(', ')) + '</span>' + acao;
+            '<span class="vq cl-q">' + esc(g.membros.join(', ')) + '</span>' + acao;
           lw.appendChild(r);
         });
         groups.appendChild(lw);
+          });
       });
     } else tipos.forEach(function (t) {
       var h = document.createElement('div'); h.className = 'wg-tipo';
@@ -1146,9 +1157,9 @@ function renderConfirmados() {
       var vs = vinhos.filter(function (g) { return (g.membros || []).indexOf(p.nome) >= 0; })
         .map(function (g) { return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : ''); }).join(' · ');
       var r = document.createElement('div'); r.className = 'vrow';
-      r.innerHTML = '<span class="vn">' + esc(p.nome) + (p.pago ? ' <span class="paid" style="font-size:9px">✓</span>' : '') + '</span>' +
-        '<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)">' + confs + '</span>' +
-        (vs ? '<span class="vq">🍷 ' + vs + '</span>' : '<span class="vq" style="color:var(--warn)">🍾 sem garrafa ainda</span>');
+      r.innerHTML = '<span class="vn cl-n">' + esc(p.nome) + (p.pago ? ' <span class="paid" style="font-size:9px">✓</span>' : '') + '</span>' +
+        '<span class="cl-c" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)">' + confs + '</span>' +
+        (vs ? '<span class="vq cl-q">' + vs + '</span>' : '<span class="vq cl-q" style="color:var(--warn)">sem garrafa ainda</span>');
       lw.appendChild(r);
     });
     pp.appendChild(lw);
