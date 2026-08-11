@@ -1073,6 +1073,7 @@ function renderConfirmados() {
     fpill('Todas', fConf === '', "setFiltro('conf','')") +
     CONFRARIAS.map(function (c) { return fpill(esc(c.curto), fConf === c.slug, "setFiltro('conf','" + c.slug + "')"); }).join('');
   document.getElementById('f-paises').innerHTML =
+    fpill('Todas as nacionalidades', fPais === '', "setFiltro('pais','')") +
     Object.keys(paisesMesa).sort().map(function (p) {
       return fpill((FLAGS[p] || '') + ' ' + esc(p), fPais === p, "setFiltro('pais','" + p.replace(/'/g, "\\'") + "')");
     }).join('') + fpill('🍾 sem garrafa ainda', fPais === '__sem__', "setFiltro('pais','__sem__')");
