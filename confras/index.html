@@ -789,9 +789,9 @@ function addGarrafa() {
   var fsel = document.getElementById('g-formato').value;
   var formato, litros;
   if (fsel === 'outro') {
-    formato = 'Outro formato';
     litros = parseFloat((document.getElementById('g-litros').value || '').replace(',', '.'));
     if (!litros || litros <= 0) return toast('Informe os litros da garrafa.', true);
+    formato = fmtLitros(litros) + ' litros';
   } else {
     var p = fsel.split('|'); formato = p[0]; litros = parseFloat(p[1]);
   }
