@@ -58,6 +58,10 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
     <h1>Apuração ao vivo</h1>
     <div class="sub">Os melhores vinhos da festa, eleitos pelos confrades</div>
   </div>
+  <div id="qr-votar" class="hidden" style="position:fixed;right:26px;top:70px;background:#fff;padding:14px 14px 8px;text-align:center;border:2px solid #D4AE5C;z-index:50">
+    <canvas id="qr-canvas" width="150" height="150"></canvas>
+    <div style="font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;color:#101F38;font-weight:600;margin-top:6px">APONTE A CÂMERA<br>E VOTE 🗳️</div>
+  </div>
   <div class="stats">
     <div class="st"><div class="n" id="s-conf">–</div><div class="l">confrades</div></div>
     <div class="st"><div class="n" id="s-gar">–</div><div class="l">garrafas</div></div>
@@ -70,9 +74,20 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
   <div class="premios" id="premios"></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 <script>
 'use strict';
 var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var qrFeito = false;
+function mostraQR(aberta) {
+  var box = document.getElementById('qr-votar');
+  if (!aberta) { box.classList.add('hidden'); return; }
+  box.classList.remove('hidden');
+  if (!qrFeito && window.QRious) {
+    new QRious({ element: document.getElementById('qr-canvas'), value: 'https://lulidias.com/confras/#votacao', size: 150, background: '#FFFFFF', foreground: '#101F38', level: 'M' });
+    qrFeito = true;
+  }
+}
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
 var TOKEN = localStorage.getItem('confras_admin_token') || '';
 var MEDAL = ['🏆', '', '', '', ''];
@@ -100,6 +115,7 @@ function tick() {
     view('confras_confirmados'), view('confras_vinhos_publico'), view('confras_config_publica')
   ]).then(function (res) {
     var rows = res[0] || [], pessoas = res[1] || [], vinhos = res[2] || [], cfg = (res[3] || [])[0] || {};
+    mostraQR(cfg.votacao_aberta === true);
     var litros = 0;
     vinhos.forEach(function (g) {
       var vagas = Math.max(1, g.vagas || 1);
