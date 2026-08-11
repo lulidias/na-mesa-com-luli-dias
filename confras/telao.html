@@ -59,15 +59,11 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
     <div class="sub">Os melhores vinhos da festa, eleitos pelos confrades</div>
   </div>
   <div id="qr-votar" class="hidden" style="position:fixed;right:26px;top:70px;background:#fff;padding:14px 14px 8px;text-align:center;border:2px solid #D4AE5C;z-index:50">
-    <canvas id="qr-canvas" width="150" height="150"></canvas>
+    <canvas id="qr-canvas" width="190" height="190"></canvas>
     <div style="font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;color:#101F38;font-weight:600;margin-top:6px">APONTE A CÂMERA<br>E VOTE 🗳️</div>
   </div>
   <div class="stats">
-    <div class="st"><div class="n" id="s-conf">–</div><div class="l">confrades</div></div>
-    <div class="st"><div class="n" id="s-gar">–</div><div class="l">garrafas</div></div>
-    <div class="st"><div class="n" id="s-lit">–</div><div class="l">litros</div></div>
-    <div class="st"><div class="n" id="s-media">–</div><div class="l">L / confrade</div></div>
-    <div class="st"><div class="n" id="s-votos">–</div><div class="l">votos</div></div>
+    <div class="st"><div class="n" id="s-votantes">–</div><div class="l">confrades já votaram</div></div>
   </div>
   <div class="grid" id="grid"></div>
   <p class="empty hidden" id="empty">A urna está aberta — os primeiros votos aparecem aqui. 🗳️</p>
@@ -84,7 +80,7 @@ function mostraQR(aberta) {
   if (!aberta) { box.classList.add('hidden'); return; }
   box.classList.remove('hidden');
   if (!qrFeito && window.QRious) {
-    new QRious({ element: document.getElementById('qr-canvas'), value: 'https://lulidias.com/confras/#votacao', size: 150, background: '#FFFFFF', foreground: '#101F38', level: 'M' });
+    new QRious({ element: document.getElementById('qr-canvas'), value: 'https://lulidias.com/confras/votar/', size: 190, background: '#FFFFFF', foreground: '#101F38', level: 'M' });
     qrFeito = true;
   }
 }
@@ -112,24 +108,12 @@ function entrar() {
 function tick() {
   Promise.all([
     rpc('confras_admin_resultados', { p_token: TOKEN }),
-    view('confras_confirmados'), view('confras_vinhos_publico'), view('confras_config_publica')
+    view('confras_config_publica'),
+    rpc('confras_admin_votantes', { p_token: TOKEN })
   ]).then(function (res) {
-    var rows = res[0] || [], pessoas = res[1] || [], vinhos = res[2] || [], cfg = (res[3] || [])[0] || {};
+    var rows = res[0] || [], cfg = (res[1] || [])[0] || {}, votantes = res[2] || 0;
     mostraQR(cfg.votacao_aberta === true);
-    var litros = 0;
-    vinhos.forEach(function (g) {
-      var vagas = Math.max(1, g.vagas || 1);
-      litros += Number(g.litros) * (Math.min((g.membros || []).length, vagas) / vagas);
-    });
-    var totalVotos = 0; rows.forEach(function (r) { totalVotos += Number(r.votos); });
-    document.getElementById('s-conf').textContent = pessoas.length;
-    document.getElementById('s-gar').textContent = vinhos.length;
-    document.getElementById('s-lit').textContent = (Math.round(litros * 10) / 10).toLocaleString('pt-BR');
-    var comGarrafa = {};
-    vinhos.forEach(function (g) { (g.membros || []).forEach(function (n) { comGarrafa[n] = true; }); });
-    var nCom = Object.keys(comGarrafa).length;
-    document.getElementById('s-media').textContent = nCom ? (Math.round(litros / nCom * 100) / 100).toLocaleString('pt-BR') : '–';
-    document.getElementById('s-votos').textContent = totalVotos;
+    document.getElementById('s-votantes').textContent = votantes;
 
     var porCat = {}, ordem = [];
     rows.forEach(function (r) {
@@ -142,9 +126,9 @@ function tick() {
       var c = porCat[cid];
       var max = Math.max.apply(null, c.itens.map(function (r) { return Number(r.votos); }));
       var d = document.createElement('div'); d.className = 'cat';
-      d.innerHTML = '<h2>' + esc(c.nome) + '</h2>' + c.itens.slice(0, 5).map(function (r, i) {
+      d.innerHTML = '<h2>' + esc(c.nome) + '</h2>' + c.itens.slice(0, 3).map(function (r, i) {
         var pct = max ? Math.round(Number(r.votos) / max * 100) : 0;
-        return '<div class="row"><div class="l1"><span class="w"><span class="med">' + (MEDAL[i] || '') + '</span>' + esc(r.vinho) +
+        return '<div class="row"><div class="l1"><span class="w"><span class="med" style="color:var(--gold-lt)">' + (i + 1) + 'º</span> ' + esc(r.vinho) +
           (r.safra ? ' <span style="color:var(--gold-lt)">' + esc(r.safra) + '</span>' : '') + '</span>' +
           '<span class="v">' + r.votos + ' voto' + (r.votos > 1 ? 's' : '') + '</span></div>' +
           '<div class="who">' + esc((r.membros || []).join(', ')) + ' · ' + esc(r.formato) + '</div>' +

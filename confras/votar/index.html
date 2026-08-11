@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Votar — Confra das Confras 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../../favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Cormorant+Garamond:ital@1&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#101F38;--wine-md:#1A2F4E;--cream:#F7F3EE;--gold:#B8922A;--gold-lt:#D4AE5C;--ok:#2E7D4F}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:linear-gradient(180deg,#1A2F4E 0%,#101F38 100%);min-height:100vh;color:var(--cream);font-family:'Montserrat',sans-serif;padding:28px 18px 60px}
+.top{text-align:center;margin-bottom:26px}
+.top .k{font-size:10px;letter-spacing:4px;color:var(--gold-lt);text-transform:uppercase}
+.top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:26px;letter-spacing:3px;margin-top:6px}
+.top .sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:rgba(247,243,238,.8);margin-top:8px}
+.box{max-width:520px;margin:0 auto}
+.card{background:#fff;color:#1A1A1A;padding:22px 20px;margin-bottom:14px}
+.card h2{font-family:'Playfair Display',serif;font-weight:400;font-size:19px;color:var(--wine-md);margin-bottom:4px}
+.card .ct{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#5A5A5A;margin-bottom:12px}
+select{width:100%;padding:14px 12px;border:1px solid #E8E0D5;background:#F7F3EE;font-family:'Montserrat',sans-serif;font-size:14px;border-radius:0;-webkit-appearance:none;outline:none}
+select:focus{border-color:var(--gold)}
+.voted{font-size:11px;color:var(--ok);margin-top:8px;font-weight:600}
+input{width:100%;padding:15px;border:1px solid rgba(212,174,92,.6);background:rgba(255,255,255,.06);color:var(--cream);font-family:'Montserrat',sans-serif;font-size:16px;text-align:center;outline:none;border-radius:0}
+.btn{width:100%;padding:16px;background:var(--gold);color:#fff;border:none;font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;margin-top:12px}
+.aviso{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:rgba(247,243,238,.75);margin-top:18px;line-height:1.6}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;padding:13px 26px;font-size:12px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99;max-width:90vw;text-align:center}
+.hidden{display:none!important}
+.fechada{text-align:center;padding:60px 20px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="k">Confra das Confras · 2026</div>
+  <h1>A URNA</h1>
+  <div class="sub" id="sub">Um voto por categoria — você pode mudar até a urna fechar às 17h.</div>
+</div>
+
+<div class="box">
+  <div id="ident" class="hidden">
+    <div class="card" style="text-align:center">
+      <h2>Quem vota?</h2>
+      <div class="ct" style="margin-top:4px">Digite o WhatsApp que você usou na confirmação</div>
+      <input id="zap" placeholder="(81) 9 0000-0000" inputmode="tel" onkeydown="if(event.key==='Enter')entrar()">
+      <button class="btn" id="btn-entrar" onclick="entrar()">Entrar na urna</button>
+    </div>
+  </div>
+  <div id="urna" class="hidden"></div>
+  <div id="fechada" class="fechada hidden">A urna está fechada. 🗳️<br>Os resultados saem no telão!</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var meuId = localStorage.getItem('confras_id');
+var meuNome = '';
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function toast(m, err) {
+  var t = document.getElementById('toast');
+  t.textContent = m; t.style.background = err ? '#8A2A2A' : '#2E7D4F'; t.style.opacity = '1';
+  clearTimeout(t._h); t._h = setTimeout(function () { t.style.opacity = '0'; }, 3200);
+}
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, {
+    method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(args || {})
+  }).then(function (r) {
+    return r.text().then(function (tx) {
+      var d = null; try { d = tx ? JSON.parse(tx) : null; } catch (e) { }
+      if (!r.ok) throw new Error((d && d.message) || 'Erro ' + r.status);
+      return d;
+    });
+  });
+}
+function view(n) { return fetch(SB + '/rest/v1/' + n + '?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }); }
+
+function entrar() {
+  var z = document.getElementById('zap').value.trim();
+  if (!z) return toast('Digite o seu WhatsApp.', true);
+  var b = document.getElementById('btn-entrar'); b.disabled = true; b.textContent = 'Entrando…';
+  rpc('confras_entrar', { p_whatsapp: z })
+    .then(function (id) { meuId = id; localStorage.setItem('confras_id', id); carrega(); })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { b.disabled = false; b.textContent = 'Entrar na urna'; });
+}
+
+function carrega() {
+  Promise.all([
+    view('confras_config_publica'), view('confras_categorias_publicas'), view('confras_vinhos_publico'),
+    meuId ? rpc('confras_meu', { p_id: meuId }) : Promise.resolve(null)
+  ]).then(function (res) {
+    var cfg = (res[0] || [])[0] || {};
+    var cats = res[1] || [], vinhos = res[2] || [];
+    var eu = res[3] && res[3][0];
+    if (!cfg.votacao_aberta) {
+      document.getElementById('ident').classList.add('hidden');
+      document.getElementById('urna').classList.add('hidden');
+      document.getElementById('fechada').classList.remove('hidden');
+      return;
+    }
+    if (!eu) {
+      meuId = null; localStorage.removeItem('confras_id');
+      document.getElementById('ident').classList.remove('hidden');
+      return;
+    }
+    meuNome = eu.nome;
+    document.getElementById('sub').textContent = 'Olá, ' + meuNome.split(' ')[0] + '! Um voto por categoria — pode mudar até as 17h.';
+    document.getElementById('ident').classList.add('hidden');
+    rpc('confras_meus_votos', { p_participante: meuId }).then(function (votos) {
+      var meus = {};
+      (votos || []).forEach(function (v) { meus[v.categoria_id] = v.garrafa_id; });
+      var urna = document.getElementById('urna');
+      urna.classList.remove('hidden');
+      urna.innerHTML = cats.map(function (c) {
+        var eleg = vinhos.filter(function (g) { return !c.tipo_filtro || g.tipo === c.tipo_filtro; });
+        var opts = '<option value="">— escolha o seu voto —</option>' + eleg.map(function (g) {
+          return '<option value="' + g.id + '"' + (meus[c.id] === g.id ? ' selected' : '') + '>' +
+            esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : '') + ' — ' + esc(g.membros.join(', ')) + '</option>';
+        }).join('');
+        return '<div class="card"><h2>' + esc(c.nome) + '</h2>' +
+          (c.tipo_filtro ? '<div class="ct">só ' + esc(c.tipo_filtro).toLowerCase() + 's concorrem</div>' : '<div class="ct">todos os vinhos concorrem</div>') +
+          '<select data-cat="' + c.id + '" onchange="votar(this)">' + opts + '</select>' +
+          '<div class="voted" id="v-' + c.id + '">' + (meus[c.id] ? '✓ Voto registrado' : '') + '</div></div>';
+      }).join('');
+    });
+  }).catch(function (e) { toast(e.message, true); });
+}
+
+function votar(sel) {
+  if (!sel.value) return;
+  rpc('confras_votar', { p_participante: meuId, p_categoria: sel.dataset.cat, p_garrafa: sel.value })
+    .then(function () {
+      document.getElementById('v-' + sel.dataset.cat).textContent = '✓ Voto registrado';
+      toast('Voto registrado! 🗳️');
+    })
+    .catch(function (e) { toast(e.message, true); });
+}
+
+carrega();
+</script>
+</body>
+</html>
