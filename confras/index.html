@@ -321,8 +321,9 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <div class="me-hello">Presença confirmada, <span id="me-nome"></span> 🥂</div>
     <div class="me-badges" id="me-badges"></div>
     <div id="me-chips" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 4px"></div>
-    <div style="text-align:center;margin:16px 0 4px">
+    <div style="text-align:center;margin:16px 0 4px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
       <a class="btn gold" id="btn-cartao" href="cartao.html" style="text-decoration:none">📸 Meu cartão "Eu vou!"</a>
+      <button class="btn ghost" onclick="addCalendario()" style="border-color:var(--gold);color:var(--gold)">📅 Adicionar ao calendário</button>
     </div>
     <div class="cover">
       <div class="cover-bar"><div class="cover-fill" id="cover-fill" style="width:0%"></div></div>
@@ -621,6 +622,17 @@ function doRSVP() {
     .then(function () { btn.disabled = false; btn.textContent = 'Confirmar presença'; });
 }
 
+function addCalendario() {
+  // Apple (iPhone/iPad/Mac) abre o .ics no Calendário; Android/resto vai ao Google Agenda
+  var apple = /iPhone|iPad|Macintosh/i.test(navigator.userAgent);
+  if (apple) { window.location.href = 'evento.ics'; return; }
+  var g = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+    '&text=' + encodeURIComponent('🍷 Confra das Confras 2026') +
+    '&dates=20261118T160000Z/20261118T210000Z' +
+    '&details=' + encodeURIComponent('O maior encontro de vinhos da história de Pernambuco. Lembre da sua garrafa (mínimo 1,5 L)! Seu painel: https://lulidias.com/confras') +
+    '&location=' + encodeURIComponent('Paris Saint-Germain Academy, Recife - PE');
+  window.open(g, '_blank');
+}
 function painelClick(e) {
   if (!meuId) {
     e.preventDefault();
