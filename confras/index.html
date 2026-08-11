@@ -142,6 +142,12 @@ a{color:inherit}
 
 /* confirmados */
 .fbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}
+.vlista{background:var(--white);border:1px solid var(--border)}
+.vrow{display:flex;gap:14px;align-items:baseline;padding:11px 18px;border-bottom:1px solid var(--border);font-size:12px;flex-wrap:wrap}
+.vrow:last-child{border-bottom:none}
+.vrow .vn{font-family:'Playfair Display',serif;font-size:15px;flex:0 0 240px}
+.vrow .vf{font-size:9px;letter-spacing:1px;text-transform:uppercase;background:var(--wine-md);color:var(--cream);padding:3px 9px;white-space:nowrap}
+.vrow .vq{color:var(--ink-lt);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px}
 .fpill{border:1px solid var(--border);background:var(--white);padding:8px 16px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;color:var(--ink-lt);border-radius:20px;transition:all .2s}
 .fpill:hover{border-color:var(--gold);color:var(--gold)}
 .fpill.on{background:var(--wine-md);color:var(--cream);border-color:var(--wine-md)}
@@ -429,6 +435,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
       <div class="ws"><div class="n" id="st-lit">0</div><div class="k">litros</div></div>
       <div class="ws"><div class="n" id="st-media">0</div><div class="k">L por confrade</div></div>
     </div>
+    <div class="fbar" id="v-vista" style="margin-bottom:22px"></div>
     <div id="wine-groups"></div>
     <p id="wine-empty" class="rule-note hidden">Seja o primeiro a registrar uma garrafa.</p>
   </div>
@@ -1001,7 +1008,37 @@ function refreshPublic() {
     vinhos.forEach(function (g) { var t = g.tipo || 'Tinto'; (porTipo[t] = porTipo[t] || []).push(g); });
     var tipos = TIPO_ORDEM.filter(function (t) { return porTipo[t]; })
       .concat(Object.keys(porTipo).filter(function (t) { return TIPO_ORDEM.indexOf(t) < 0; }).sort());
-    tipos.forEach(function (t) {
+    document.getElementById('v-vista').innerHTML =
+      fpill('⊞ Cards', vistaVinhos === 'cards', "setVista('vinhos','cards')") +
+      fpill('☰ Lista', vistaVinhos === 'lista', "setVista('vinhos','lista')");
+    if (vistaVinhos === 'lista') {
+      var FLAGS_V = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Uruguai': '🇺🇾', 'Estados Unidos': '🇺🇸', 'Alemanha': '🇩🇪' };
+      tipos.forEach(function (t) {
+        var h = document.createElement('div'); h.className = 'wg-tipo';
+        h.innerHTML = '<span class="t">' + esc(TIPO_PLURAL[t] || t) + '</span><span class="ln"></span>';
+        groups.appendChild(h);
+        var lw = document.createElement('div'); lw.className = 'vlista';
+        porTipo[t].slice().sort(function (a, b) {
+          return String(a.pais || 'zz').localeCompare(String(b.pais || 'zz'), 'pt') || a.vinho.localeCompare(b.vinho, 'pt');
+        }).forEach(function (g) {
+          var souMembroL = meu && (g.membros || []).indexOf(meu.nome) >= 0;
+          var acao = '';
+          if (g.vagas_restantes > 0 && !souMembroL) {
+            acao = meusPedidosMap[g.id] === 'pendente'
+              ? '<span class="vac" style="font-size:10px">✋ aguardando</span>'
+              : '<button class="linklike" onclick="pedirGarrafa(\'' + g.id + '\')">✋ pedir para dividir</button>';
+          }
+          var r = document.createElement('div'); r.className = 'vrow';
+          r.innerHTML = '<span class="vn">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</span>' +
+            '<span class="vq">' + esc([g.produtor, g.regiao].filter(Boolean).join(' · ')) + '</span>' +
+            '<span>' + (FLAGS_V[g.pais] || '') + ' ' + esc(g.pais || '') + '</span>' +
+            '<span class="vf">' + esc(g.formato) + ' · ' + fmtLitros(g.litros) + ' L</span>' +
+            '<span class="vq">🍷 ' + esc(g.membros.join(', ')) + '</span>' + acao;
+          lw.appendChild(r);
+        });
+        groups.appendChild(lw);
+      });
+    } else tipos.forEach(function (t) {
       var h = document.createElement('div'); h.className = 'wg-tipo';
       h.innerHTML = '<span class="t">' + esc(TIPO_PLURAL[t] || t) + '</span><span class="ln"></span>';
       groups.appendChild(h);
@@ -1048,6 +1085,11 @@ function refreshPublic() {
 // ── confirmados: filtros em pílulas ──────────────────────────────────────
 var pessoasCache = [];
 var fConf = '', fPais = '', fOrdem = 'az';
+var vistaVinhos = 'cards', vistaPessoas = 'cards';
+function setVista(t, v) {
+  if (t === 'vinhos') { vistaVinhos = v; refreshPublic(); }
+  else { vistaPessoas = v; renderConfirmados(); }
+}
 function fpill(rotulo, ativo, onclick) {
   return '<button class="fpill' + (ativo ? ' on' : '') + '" onclick="' + onclick + '">' + rotulo + '</button>';
 }
@@ -1079,7 +1121,10 @@ function renderConfirmados() {
     }).join('') + fpill('🍾 sem garrafa ainda', fPais === '__sem__', "setFiltro('pais','__sem__')");
   document.getElementById('f-ordem').innerHTML =
     fpill('A–Z', fOrdem === 'az', "setFiltro('ordem','az')") +
-    fpill('Recentes', fOrdem === 'novo', "setFiltro('ordem','novo')");
+    fpill('Recentes', fOrdem === 'novo', "setFiltro('ordem','novo')") +
+    '<span style="width:14px"></span>' +
+    fpill('⊞ Cards', vistaPessoas === 'cards', "setVista('pessoas','cards')") +
+    fpill('☰ Lista', vistaPessoas === 'lista', "setVista('pessoas','lista')");
   // filtros
   if (fConf) pessoas = pessoas.filter(function (p) { return (p.confrarias || []).indexOf(fConf) >= 0; });
   if (fPais === '__sem__') pessoas = pessoas.filter(function (p) { return !paisesPessoa[p.nome]; });
@@ -1087,10 +1132,27 @@ function renderConfirmados() {
   // ordem
   if (fOrdem === 'novo') pessoas.sort(function (a, b) { return new Date(b.criado_em) - new Date(a.criado_em); });
   else pessoas.sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt'); });
-  // cards
+  // cards ou lista
   var pp = document.getElementById('people'); pp.innerHTML = '';
   if (!pessoas.length) {
     pp.innerHTML = '<div style="grid-column:1/-1;text-align:center;font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:17px;color:var(--ink-lt)">Nenhum confrade neste filtro — ainda. 🍷</div>';
+  }
+  if (vistaPessoas === 'lista' && pessoas.length) {
+    var lw = document.createElement('div'); lw.className = 'vlista'; lw.style.gridColumn = '1/-1';
+    pessoas.forEach(function (p) {
+      var confs = (p.confrarias || []).map(function (slug) {
+        var c = confObj(slug); return c ? esc(c.curto) : '';
+      }).filter(Boolean).join(' · ');
+      var vs = vinhos.filter(function (g) { return (g.membros || []).indexOf(p.nome) >= 0; })
+        .map(function (g) { return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : ''); }).join(' · ');
+      var r = document.createElement('div'); r.className = 'vrow';
+      r.innerHTML = '<span class="vn">' + esc(p.nome) + (p.pago ? ' <span class="paid" style="font-size:9px">✓</span>' : '') + '</span>' +
+        '<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)">' + confs + '</span>' +
+        (vs ? '<span class="vq">🍷 ' + vs + '</span>' : '<span class="vq" style="color:var(--warn)">🍾 sem garrafa ainda</span>');
+      lw.appendChild(r);
+    });
+    pp.appendChild(lw);
+    return;
   }
   pessoas.forEach(function (p) {
     var confs = (p.confrarias || []).map(function (slug) {
@@ -1131,7 +1193,16 @@ function renderNumeros(vinhos) {
   var FLAGS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Uruguai': '🇺🇾', 'Estados Unidos': '🇺🇸', 'Alemanha': '🇩🇪', 'África do Sul': '🇿🇦', 'Austrália': '🇦🇺', 'Nova Zelândia': '🇳🇿', 'Áustria': '🇦🇹', 'Líbano': '🇱🇧' };
   numBars('num-tipos', numConta(vinhos, 'tipo'));
   numBars('num-paises', numConta(vinhos, 'pais', function (k) { return (FLAGS[k] ? FLAGS[k] + ' ' : '') + k; }));
-  numBars('num-formatos', numConta(vinhos, 'formato'));
+  // formatos em ordem de tamanho (litros), não de quantidade
+  var LITROS_FORMATO = { 'Magnum': 1.5, 'Double Magnum': 3, 'Jeroboam': 6, 'Salmanazar': 9 };
+  function tamanhoFormato(f) {
+    if (LITROS_FORMATO[f]) return LITROS_FORMATO[f];
+    var m = String(f).match(/^([\d,.]+)\s*litros?/i);
+    return m ? parseFloat(m[1].replace(',', '.')) : 99;
+  }
+  numBars('num-formatos', numConta(vinhos, 'formato').sort(function (a, b) {
+    return tamanhoFormato(a.label) - tamanhoFormato(b.label);
+  }));
   // safras em ordem cronológica; o que não é ano (multi-safra) vira NV
   var safras = {};
   vinhos.forEach(function (g) {
