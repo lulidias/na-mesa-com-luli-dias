@@ -1237,7 +1237,9 @@ function loadCats() {
     .catch(function () { catsCache = []; });
 }
 function renderVotacao() {
+  // votação acontece só em /confras/votar (QR nas mesas) — a seção do site fica sempre oculta
   var sec = document.getElementById('votacao');
+  sec.classList.add('hidden'); return;
   if (!cfg || !cfg.votacao_aberta || !meuId || !catsCache.length) { sec.classList.add('hidden'); return; }
   rpc('confras_meus_votos', { p_participante: meuId }).then(function (votos) {
     meusVotos = {};
