@@ -114,6 +114,21 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
           undefined, { href: "", label: "" }),
       };
     }
+    case "comprovante-recebido":
+      return {
+        subject: "📄 Comprovante recebido — em análise",
+        html: shell(`${nome}, recebemos o seu comprovante`, `
+          <p>Seu comprovante do rateio chegou e está em análise. Assim que for confirmado, você recebe o aviso — e o selo <strong>✓ pago</strong> aparece no seu painel.</p>
+          <p>Obrigado! 🥂</p>`, pid),
+      };
+    case "comprovante-cris":
+      return {
+        subject: `💰 Pagamento recebido: ${String(dados.nome)} — confira no extrato`,
+        html: shell(`Cristiano, entrou pagamento`, `
+          <p><strong>${esc(dados.nome)}</strong> enviou o comprovante do rateio (R$ 350,00) no site.</p>
+          <p style="text-align:center"><a href="${esc(dados.url)}" style="background:#B8922A;color:#fff;text-decoration:none;padding:12px 26px;font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2px">VER COMPROVANTE</a></p>
+          <p>Vale conferir se o valor caiu no extrato do Santander. A confirmação no sistema é feita pelo robô ou pelo admin.</p>`, pid),
+      };
     case "pedido-garrafa": {
       const sol = esc(String(dados.solicitante ?? ""));
       const zap = String(dados.solicitante_zap ?? "").replace(/\D/g, "").replace(/^55/, "");
