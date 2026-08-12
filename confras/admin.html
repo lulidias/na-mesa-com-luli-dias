@@ -140,6 +140,16 @@ a{color:var(--wine-md)}
   </table>
   </div>
 
+  <h2>Censo das confrarias <span id="cs-resumo" style="font-size:11px;font-family:Montserrat;color:var(--ink-lt)"></span></h2>
+  <p style="font-size:11px;color:var(--ink-lt);margin-bottom:12px">Listas oficiais dos presidentes. Quem está em mais de uma confraria aparece destacado — o total de únicos é o número do termômetro.</p>
+  <div style="margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <input id="cs-nome" placeholder="Nome do confrade" style="max-width:230px">
+    <select id="cs-conf"></select>
+    <button class="btn gold" onclick="censoAdd()">Adicionar</button>
+  </div>
+  <div id="cs-cols" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:14px"></div>
+  <div id="cs-multi" style="font-size:12px;line-height:1.8;margin-bottom:26px"></div>
+
   <div id="ac-sec" class="hidden">
   <h2>Acessos à página <span id="ac-resumo" style="font-size:11px;font-family:Montserrat;color:var(--ink-lt)"></span></h2>
   <div class="tbl-wrap">
@@ -212,7 +222,63 @@ function sair() { localStorage.removeItem('confras_admin_token'); location.reloa
 function boot() {
   var sel = document.getElementById('p-conf');
   Object.keys(CONFRARIAS).forEach(function (k) { var o = document.createElement('option'); o.value = k; o.textContent = CONFRARIAS[k]; sel.appendChild(o); });
+  var cs = document.getElementById('cs-conf');
+  Object.keys(CONFRARIAS).forEach(function (k) { var o = document.createElement('option'); o.value = k; o.textContent = CONFRARIAS[k]; cs.appendChild(o); });
   refresh();
+}
+
+// ── censo das confrarias ──────────────────────────────────────────────────
+var censo = [];
+function loadCenso() {
+  return rpc('confras_admin_censo', { p_token: TOKEN }).then(function (rows) {
+    censo = rows || [];
+    renderCenso();
+  }).catch(function () { });
+}
+function renderCenso() {
+  var porConf = {}, porNome = {};
+  censo.forEach(function (r) {
+    (porConf[r.confraria] = porConf[r.confraria] || []).push(r);
+    (porNome[r.nome] = porNome[r.nome] || []).push(r.confraria);
+  });
+  var unicos = Object.keys(porNome).length;
+  var multi = Object.keys(porNome).filter(function (n) { return porNome[n].length > 1; }).sort();
+  var confsRecebidas = Object.keys(porConf).length;
+  document.getElementById('cs-resumo').textContent =
+    censo.length ? unicos + ' confrades únicos · ' + multi.length + ' em mais de uma confraria · ' + confsRecebidas + ' de 5 listas recebidas' : 'aguardando as listas';
+  var cols = document.getElementById('cs-cols'); cols.innerHTML = '';
+  Object.keys(CONFRARIAS).forEach(function (slug) {
+    var lista = (porConf[slug] || []).sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt'); });
+    var d = document.createElement('div');
+    d.style.cssText = 'background:var(--white);border:1px solid var(--border);padding:14px 14px 10px';
+    d.innerHTML = '<div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px">' +
+      esc(CONFRARIAS[slug]) + ' · ' + lista.length + '</div>' +
+      (lista.length ? lista.map(function (r) {
+        var m = porNome[r.nome].length > 1;
+        return '<div style="font-size:12px;padding:2.5px 0;display:flex;justify-content:space-between;gap:6px' + (m ? ';color:var(--gold);font-weight:600' : '') + '"' +
+          (r.obs ? ' title="' + esc(r.obs) + '"' : '') + '><span>' + esc(r.nome) + (r.obs ? ' <span style="color:var(--ink-lt);font-weight:400">*</span>' : '') + '</span>' +
+          '<button class="del" onclick="censoDel(\'' + r.nome.replace(/'/g, "\\'") + '\',\'' + slug + '\')">×</button></div>';
+      }).join('') : '<div style="font-size:11px;font-style:italic;color:var(--ink-lt)">lista ainda não enviada</div>');
+    cols.appendChild(d);
+  });
+  document.getElementById('cs-multi').innerHTML = multi.length
+    ? '<strong>Em mais de uma confraria:</strong> ' + multi.map(function (n) {
+        return esc(n) + ' <span style="color:var(--ink-lt)">(' + porNome[n].map(function (c) { return CONFRARIAS[c] || c; }).join(' + ') + ')</span>';
+      }).join(' · ')
+    : '';
+}
+function censoAdd() {
+  var nome = document.getElementById('cs-nome').value.trim();
+  if (!nome) return toast('Digite o nome.', true);
+  rpc('confras_admin_censo_add', { p_token: TOKEN, p_nome: nome, p_confraria: document.getElementById('cs-conf').value })
+    .then(function () { document.getElementById('cs-nome').value = ''; toast('Adicionado ao censo.'); return loadCenso(); })
+    .catch(function (e) { toast(e.message, true); });
+}
+function censoDel(nome, conf) {
+  if (!confirm('Remover ' + nome + ' da lista da ' + (CONFRARIAS[conf] || conf) + '?')) return;
+  rpc('confras_admin_censo_del', { p_token: TOKEN, p_nome: nome, p_confraria: conf })
+    .then(function () { toast('Removido.'); return loadCenso(); })
+    .catch(function (e) { toast(e.message, true); });
 }
 function refresh() {
   return Promise.all([
@@ -224,6 +290,7 @@ function refresh() {
   ]).then(function (res) {
     parts = res[0] || []; garrafas = res[1] || []; cfg = (res[2] || [])[0] || {};
     cats = res[3] || []; resultados = res[4] || [];
+    loadCenso();
     document.getElementById('c-chave').value = cfg.chave_pix || '';
     document.getElementById('c-nome').value = cfg.nome_pix || '';
     document.getElementById('c-valor').value = cfg.valor_rateio != null ? cfg.valor_rateio : '';
