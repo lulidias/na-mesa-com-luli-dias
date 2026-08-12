@@ -170,7 +170,14 @@ a{color:inherit}
 .wg-tipo .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
 .wg-pais{font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin:24px 0 14px;font-weight:500}
 /* números da mesa (BI público dos vinhos) */
-.num-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:16px;max-width:1200px;margin:0 auto}
+.num-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:16px;max-width:1200px;margin:0 auto;align-items:start}
+.num-card.safra{grid-column:1/-1}
+.num-cols{display:flex;align-items:flex-end;justify-content:center;gap:12px;padding-top:6px}
+.num-col{display:flex;flex-direction:column;align-items:center;flex:0 1 44px;min-width:0}
+.num-col .cv{font-size:11px;color:var(--ink-lt);margin-bottom:4px}
+.num-col .cb{width:100%;max-width:26px;background:var(--gold);border-radius:3px 3px 0 0}
+.num-col .cl{font-size:10px;color:var(--ink);margin-top:6px;letter-spacing:.5px;white-space:nowrap}
+@media (max-width:600px){.num-cols{gap:5px}.num-col .cl{font-size:7.5px;letter-spacing:0}.num-col .cv{font-size:9px}}
 .num-card{background:var(--white);border:1px solid var(--border);padding:22px 20px 16px}
 .num-card h3{font-family:'Playfair Display',serif;font-weight:400;font-size:17px;margin-bottom:16px;text-align:center}
 .num-row{display:flex;align-items:center;gap:8px;margin-bottom:9px}
@@ -455,7 +462,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <div class="num-card"><h3>Por categoria</h3><div id="num-tipos"></div></div>
     <div class="num-card"><h3>Por país</h3><div id="num-paises"></div></div>
     <div class="num-card"><h3>Por formato</h3><div id="num-formatos"></div></div>
-    <div class="num-card"><h3>Por safra</h3><div id="num-safras"></div></div>
+    <div class="num-card safra"><h3>Por safra</h3><div id="num-safras"></div></div>
   </div>
 </section>
 
@@ -1195,6 +1202,18 @@ function numBars(elId, data) {
       '<span class="vl">' + d.value + '</span></div>';
   }).join('');
 }
+function numCols(elId, data) {
+  var el = document.getElementById(elId);
+  if (!data.length) { el.innerHTML = '<div style="font-size:11px;color:var(--ink-lt);font-style:italic;text-align:center">Aguardando as primeiras garrafas…</div>'; return; }
+  var max = Math.max.apply(null, data.map(function (d) { return d.value; }));
+  el.innerHTML = '<div class="num-cols">' + data.map(function (d) {
+    var h = Math.round(4 + d.value / max * 76);
+    return '<div class="num-col" title="' + esc(d.label) + ': ' + d.value + '">' +
+      '<span class="cv">' + d.value + '</span>' +
+      '<span class="cb" style="height:' + h + 'px"></span>' +
+      '<span class="cl">' + esc(d.label) + '</span></div>';
+  }).join('') + '</div>';
+}
 function numConta(lista, chave, rotulo) {
   var c = {};
   lista.forEach(function (x) { var k = x[chave] || '—'; c[k] = (c[k] || 0) + 1; });
@@ -1222,7 +1241,7 @@ function renderNumeros(vinhos) {
     var k = /^(19|20)\d{2}$/.test(s) ? s : 'NV';
     safras[k] = (safras[k] || 0) + 1;
   });
-  numBars('num-safras', Object.keys(safras).sort(function (a, b) {
+  numCols('num-safras', Object.keys(safras).sort(function (a, b) {
     if (a === 'NV') return 1; if (b === 'NV') return -1;
     return Number(a) - Number(b);
   }).map(function (k) { return { label: k, value: safras[k] }; }));
