@@ -53,7 +53,10 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
         html: shell(`Presença confirmada, ${nome}!`, `
           <p>Que alegria ter você na mesa. Anote: <strong>quarta-feira, 18 de novembro, 13h</strong>, na <strong>Paris Saint-Germain Academy</strong>, Recife.</p>
           <p>Lembre da regra de ouro: cada confrade leva no mínimo <strong>1,5 litro</strong> de vinho — uma Magnum. Pode trazer formatos maiores sozinho, dividir com outros confrades e levar quantas garrafas quiser.</p>
-          <p>Registre sua garrafa no seu painel — a carta da festa cresce a cada dia.</p>`, pid),
+          <p>Registre sua garrafa no seu painel — a carta da festa cresce a cada dia.</p>
+          <p style="background:#FAF5EB;border:1px dashed #B8922A;padding:14px 16px;text-align:center">
+            📸 <strong>Seu cartão &ldquo;Eu vou!&rdquo; já está pronto.</strong><br>
+            <a href="${SITE}cartao.html?id=${pid}" style="color:#B8922A;font-weight:bold">Baixe aqui</a> e poste no grupo da sua confraria — chame os amigos para a mesa. 🥂</p>`, pid),
       };
     case "garrafa-registrada": {
       const v = `${esc(dados.vinho)}${dados.safra ? " " + esc(dados.safra) : ""}`;
