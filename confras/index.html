@@ -170,6 +170,11 @@ a{color:inherit}
 .wg-tipo .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
 .wg-pais{font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin:24px 0 14px;font-weight:500}
 /* números da mesa (BI público dos vinhos) */
+.meta-bar{width:130px;height:5px;background:var(--border);margin:9px auto 0;overflow:hidden}
+.meta-bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .8s ease}
+.meta-k{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-lt);margin-top:5px}
+.pwin{margin-top:8px}
+.pwin span{display:inline-block;background:var(--gold);color:#fff;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;margin:2px 4px 0 0}
 .num-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1100px;margin:0 auto;align-items:stretch}
 .num-stack{display:flex;flex-direction:column;gap:16px}
 .num-stack .num-card{flex:1;display:flex;flex-direction:column}
@@ -350,6 +355,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <div id="me-chips" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 4px"></div>
     <div style="text-align:center;margin:16px 0 4px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
       <a class="btn gold" id="btn-cartao" href="cartao.html" style="text-decoration:none">📸 Meu cartão "Eu vou!"</a>
+      <a class="btn gold hidden" id="btn-premio" href="premio.html" style="text-decoration:none">🏆 Cartão do meu prêmio</a>
       <button class="btn ghost" onclick="addCalendario()" style="border-color:var(--gold);color:var(--gold)">📅 Adicionar ao calendário</button>
     </div>
     <div class="cover">
@@ -446,12 +452,6 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <div class="sec-kicker">A mesa</div>
     <h2 class="sec-title">Os vinhos confirmados</h2>
     <p class="sec-sub">A lista cresce a cada confirmação. Garrafas com vagas abertas aguardam confrades para completar o grupo.</p>
-    <div class="wine-stats">
-      <div class="ws"><div class="n" id="st-conf">0</div><div class="k">confrades</div></div>
-      <div class="ws"><div class="n" id="st-gar">0</div><div class="k">garrafas</div></div>
-      <div class="ws"><div class="n" id="st-lit">0</div><div class="k">litros</div></div>
-      <div class="ws"><div class="n" id="st-media">0</div><div class="k">L por confrade</div></div>
-    </div>
     <div class="fbar" id="v-vista" style="margin-bottom:22px"></div>
     <div id="wine-groups"></div>
     <p id="wine-empty" class="rule-note hidden">Seja o primeiro a registrar uma garrafa.</p>
@@ -463,6 +463,15 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   <div class="sec-kicker">A disputa das nações</div>
   <h2 class="sec-title">Os números da mesa</h2>
   <p class="sec-sub">Qual categoria vai dominar? Qual país vai colocar mais garrafas na mesa? A cada confirmação, o placar muda.</p>
+  <div class="wine-stats">
+    <div class="ws"><div class="n" id="st-conf">0</div><div class="k">confrades</div>
+      <div class="meta-bar hidden" id="meta-bar"><i id="meta-fill"></i></div>
+      <div class="meta-k hidden" id="meta-k"></div>
+    </div>
+    <div class="ws"><div class="n" id="st-gar">0</div><div class="k">garrafas</div></div>
+    <div class="ws"><div class="n" id="st-lit">0</div><div class="k">litros</div></div>
+    <div class="ws"><div class="n" id="st-media">0</div><div class="k">L por confrade</div></div>
+  </div>
   <div class="num-grid">
     <div class="num-stack">
       <div class="num-card"><h3>Por categoria</h3><div id="num-tipos"></div></div>
@@ -721,6 +730,8 @@ function loadMe() {
     document.getElementById('cta-btn').textContent = 'Meu painel';
     document.getElementById('me-nome').textContent = meu.nome.split(' ')[0];
     document.getElementById('btn-cartao').href = 'cartao.html?id=' + meuId;
+    meuNomeCache = meu.nome;
+    atualizaPremioBtn();
     var b = document.getElementById('me-badges'); b.innerHTML = '';
     (meu.confrarias || []).forEach(function (slug) {
       var c = confObj(slug); if (!c) return;
@@ -1010,6 +1021,14 @@ function refreshPublic() {
       litros += Number(g.litros) * (Math.min(g.membros.length, vagas) / vagas);
     });
     document.getElementById('st-conf').textContent = pessoas.length;
+    // termômetro rumo à meta (configurável no admin; sem meta = sem barra)
+    var meta = cfg && cfg.meta_confrades;
+    var mb = document.getElementById('meta-bar'), mk = document.getElementById('meta-k');
+    if (meta > 0) {
+      mb.classList.remove('hidden'); mk.classList.remove('hidden');
+      document.getElementById('meta-fill').style.width = Math.min(100, Math.round(pessoas.length / meta * 100)) + '%';
+      mk.textContent = 'rumo a ' + meta;
+    } else { mb.classList.add('hidden'); mk.classList.add('hidden'); }
     document.getElementById('st-gar').textContent = vinhos.length;
     document.getElementById('st-lit').textContent = fmtLitros(Math.round(litros * 100) / 100);
     // média por confrade COM garrafa (o vinho é obrigatório; quem ainda não registrou não entra na conta)
@@ -1125,6 +1144,32 @@ function setFiltro(tipo, valor) {
   if (tipo === 'ordem') fOrdem = valor;
   renderConfirmados();
 }
+var vencedoresPorNome = {};
+var vencedoresCarregados = false;
+function loadVencedores() {
+  if (!cfg || !cfg.resultados_publicos || vencedoresCarregados) return;
+  vencedoresCarregados = true;
+  rpc('confras_resultados').then(function (rows) {
+    var vistos = {};
+    (rows || []).forEach(function (r) {
+      if (vistos[r.categoria_id]) return;   // 1º de cada categoria = vencedor
+      vistos[r.categoria_id] = true;
+      (r.membros || []).forEach(function (n) {
+        (vencedoresPorNome[n] = vencedoresPorNome[n] || []).push(r.categoria);
+      });
+    });
+    renderConfirmados();
+    atualizaPremioBtn();
+  }).catch(function () { vencedoresCarregados = false; });
+}
+function atualizaPremioBtn() {
+  var b = document.getElementById('btn-premio');
+  if (!b) return;
+  var ganhou = meuNomeCache && vencedoresPorNome[meuNomeCache];
+  b.classList.toggle('hidden', !ganhou);
+  if (ganhou && meuId) b.href = 'premio.html?id=' + meuId;
+}
+var meuNomeCache = '';
 function renderConfirmados() {
   var pessoas = pessoasCache.slice();
   var vinhos = vinhosCache;
@@ -1190,9 +1235,11 @@ function renderConfirmados() {
         return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : '') + ' (' + esc(g.formato) + fracao + ')';
       });
     var d = document.createElement('div'); d.className = 'person';
+    var premios = vencedoresPorNome[p.nome] || [];
     d.innerHTML = '<div class="pn"><span>' + esc(p.nome) + '</span>' + (p.pago ? '<span class="paid">✓ pago</span>' : '') + '</div>' +
       '<div class="pc">' + confs + '</div>' +
-      (meusVinhos.length ? '<div class="pw">🍷 ' + meusVinhos.join(' · ') + '</div>' : '');
+      (meusVinhos.length ? '<div class="pw">🍷 ' + meusVinhos.join(' · ') + '</div>' : '') +
+      (premios.length ? '<div class="pwin">' + premios.map(function (c) { return '<span>🏆 ' + esc(c) + '</span>'; }).join('') + '</div>' : '');
     pp.appendChild(d);
   });
 }
@@ -1397,6 +1444,8 @@ Promise.all([
   renderRateioPublico();
   renderVotacao();
   renderResultados();
+  loadVencedores();
+  refreshPublic();   // re-render com cfg carregada (termômetro da meta)
 });
 // aprovação/negação de cadastro pelo presidente (via link do e-mail)
 (function () {
@@ -1419,7 +1468,10 @@ if (!sessionStorage.getItem('confras_ping')) {
 }
 loadMe();
 refreshPublic();
-setInterval(function () { refreshPublic(); renderResultados(); }, 60000);
+setInterval(function () {
+  refreshPublic(); renderResultados();
+  view('confras_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : cfg; loadVencedores(); }).catch(function () { });
+}, 60000);
 </script>
 </body>
 </html>

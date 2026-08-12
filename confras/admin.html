@@ -114,6 +114,7 @@ a{color:var(--wine-md)}
     <div><label>Votação</label><select id="c-votacao"><option value="false">Urna fechada</option><option value="true">Urna aberta</option></select></div>
     <div><label>Resultados</label><select id="c-resultados"><option value="false">Ocultos</option><option value="true">Públicos</option></select></div>
     <div><label>🏆 Prêmio do vencedor (por categoria)</label><input id="c-premio1" placeholder="ex.: placa + Magnum de Champagne"></div>
+    <div><label>Meta de confrades (termômetro do site; 0 = ocultar)</label><input id="c-meta" inputmode="numeric" placeholder="ex.: 80"></div>
     <div><button class="btn gold" id="c-save" onclick="saveCfg()">Salvar</button></div>
   </div>
 
@@ -230,6 +231,7 @@ function refresh() {
     document.getElementById('c-votacao').value = String(cfg.votacao_aberta === true);
     document.getElementById('c-resultados').value = String(cfg.resultados_publicos === true);
     document.getElementById('c-premio1').value = cfg.premio1 || '';
+    document.getElementById('c-meta').value = cfg.meta_confrades != null ? cfg.meta_confrades : '';
     renderKPIs(); renderParts(); renderGarrafas(); renderCats(); renderResultados();
     renderBI();
     carregaAcessos();
@@ -482,7 +484,8 @@ function saveCfg() {
     p_resultados: document.getElementById('c-resultados').value === 'true',
     p_premio1: document.getElementById('c-premio1').value.trim(),
     p_premio2: '',
-    p_premio3: ''
+    p_premio3: '',
+    p_meta: (function () { var m = parseInt(document.getElementById('c-meta').value, 10); return isNaN(m) ? null : m; })()
   }).then(function () { toast('Configuração salva.'); return refresh(); })
     .catch(function (e) { toast(e.message, true); })
     .then(function () { btn.disabled = false; btn.textContent = 'Salvar'; });

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartão do prêmio — Confra das Confras 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Cormorant+Garamond:ital@1&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#101F38;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px;font-family:'Montserrat',sans-serif}
+canvas{max-width:min(92vw,460px);height:auto}
+.acoes{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn{padding:14px 30px;background:#B8922A;color:#fff;border:none;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
+.btn.ghost{background:none;border:1px solid rgba(212,174,92,.6);color:#D4AE5C}
+.cats{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.cats button{padding:9px 16px;background:none;border:1px solid rgba(212,174,92,.5);color:#D4AE5C;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
+.cats button.on{background:#B8922A;border-color:#B8922A;color:#fff}
+.aviso{color:rgba(247,243,238,.6);font-size:11px;text-align:center;max-width:420px;line-height:1.6}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="cats hidden" id="cats"></div>
+<canvas id="c" width="1080" height="1350"></canvas>
+<div class="acoes">
+  <button class="btn" id="b-share" onclick="compartilhar()">📲 Compartilhar</button>
+  <button class="btn" id="b-copy" onclick="copiar()">📋 Copiar imagem</button>
+  <button class="btn ghost" onclick="baixar()">Baixar</button>
+</div>
+<p class="aviso" id="aviso">Parabéns, campeão! Poste nos grupos — troféu se exibe. 🏆</p>
+<div id="toast" style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#2E7D4F;color:#fff;padding:13px 26px;font-size:12px;letter-spacing:1px;opacity:0;transition:opacity .3s;pointer-events:none">Imagem copiada!</div>
+
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var params = new URLSearchParams(location.search);
+var meuId = params.get('id') || localStorage.getItem('confras_id');
+var meusPremios = [];
+var atual = 0;
+
+window.addEventListener('DOMContentLoaded', function () {
+  var mobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+  if (!mobile) {
+    document.getElementById('b-share').style.display = 'none';
+    document.getElementById('aviso').textContent = 'Clique em Copiar imagem e cole (Cmd+V) direto na conversa do WhatsApp. 🏆';
+  }
+});
+
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, {
+    method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(args || {})
+  }).then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error((d && d.message) || 'erro'); return d; }); });
+}
+
+function desenha(pr) {
+  var c = document.getElementById('c'), x = c.getContext('2d');
+  var W = 1080, H = 1350, CX = W / 2;
+  var g = x.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#2A4468'); g.addColorStop(.45, '#1A2F4E'); g.addColorStop(1, '#101F38');
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  x.strokeStyle = '#D4AE5C'; x.lineWidth = 4; x.strokeRect(36, 36, W - 72, H - 72);
+  x.strokeStyle = 'rgba(212,174,92,.55)'; x.lineWidth = 1.5; x.strokeRect(58, 58, W - 116, H - 116);
+  // kicker
+  x.fillStyle = '#D4AE5C'; x.font = '500 25px Montserrat'; x.textAlign = 'center';
+  try { x.letterSpacing = '9px'; } catch (e) { }
+  x.fillText('CONFRA DAS CONFRAS · 2026', CX, 130);
+  // emblema — cinco taças
+  var EC = 286, R = 40, RR = 66;
+  x.strokeStyle = '#D4AE5C'; x.lineWidth = 3; x.fillStyle = 'rgba(212,174,92,.10)';
+  for (var i = 0; i < 5; i++) {
+    var ang = -Math.PI / 2 + i * (2 * Math.PI / 5);
+    x.beginPath(); x.arc(CX + RR * Math.cos(ang), EC + RR * Math.sin(ang), R, 0, 7); x.fill(); x.stroke();
+  }
+  x.save(); x.translate(CX, EC); x.rotate(Math.PI / 4); x.fillStyle = '#D4AE5C'; x.fillRect(-7, -7, 14, 14); x.restore();
+  // troféu
+  x.font = '86px serif';
+  x.fillText('🏆', CX, 478);
+  // categoria em destaque
+  var cat = String(pr.categoria || '').toUpperCase();
+  x.fillStyle = '#F7F3EE';
+  try { x.letterSpacing = '12px'; } catch (e) { }
+  var linhas = cat.length > 14 && cat.indexOf('VINHO DA FESTA') >= 0 ? ['MELHOR VINHO', 'DA FESTA'] : [cat];
+  var fs = 62;
+  x.font = '400 ' + fs + 'px "Playfair Display", Didot, serif';
+  while (Math.max.apply(null, linhas.map(function (l) { return x.measureText(l).width; })) > 900 && fs > 40) {
+    fs -= 4; x.font = '400 ' + fs + 'px "Playfair Display", Didot, serif';
+  }
+  var y0 = linhas.length > 1 ? 566 : 596;
+  linhas.forEach(function (l, i) { x.fillText(l, CX + 6, y0 + i * (fs + 16)); });
+  try { x.letterSpacing = '0px'; } catch (e) { }
+  // linha
+  x.strokeStyle = 'rgba(212,174,92,.8)'; x.lineWidth = 2;
+  x.beginPath(); x.moveTo(CX - 120, 700); x.lineTo(CX + 120, 700); x.stroke();
+  // eleito pelos confrades
+  x.fillStyle = '#D4AE5C'; x.font = 'italic 400 42px "Cormorant Garamond", Georgia, serif';
+  x.fillText('eleito pelos confrades', CX, 768);
+  // vinho em evidência
+  x.fillStyle = '#F7F3EE';
+  var nomeVinho = pr.vinho + (pr.safra ? ' ' + pr.safra : '');
+  var tam = 84;
+  x.font = 'italic 600 ' + tam + 'px "Playfair Display", Georgia, serif';
+  while (x.measureText(nomeVinho).width > 900 && tam > 44) {
+    tam -= 5; x.font = 'italic 600 ' + tam + 'px "Playfair Display", Georgia, serif';
+  }
+  x.fillText(nomeVinho, CX, 886);
+  // formato — selo
+  x.font = '500 22px Montserrat';
+  try { x.letterSpacing = '3.5px'; } catch (e) { }
+  var ft = String(pr.formato || '').toUpperCase();
+  var fw = x.measureText(ft).width + 44;
+  x.strokeStyle = 'rgba(212,174,92,.85)'; x.lineWidth = 2;
+  x.strokeRect(CX - fw / 2, 930, fw, 48);
+  x.fillStyle = '#D4AE5C';
+  x.fillText(ft, CX, 962);
+  // trazido por
+  try { x.letterSpacing = '0px'; } catch (e) { }
+  x.fillStyle = 'rgba(247,243,238,.9)';
+  var quem = 'Trazido por ' + (pr.membros || []).join(', ');
+  var tq = 36;
+  x.font = 'italic 400 ' + tq + 'px "Cormorant Garamond", Georgia, serif';
+  while (x.measureText(quem).width > 920 && tq > 22) {
+    tq -= 2; x.font = 'italic 400 ' + tq + 'px "Cormorant Garamond", Georgia, serif';
+  }
+  x.fillText(quem, CX, 1064);
+  // rodapé
+  x.fillStyle = 'rgba(247,243,238,.85)'; x.font = 'italic 400 32px "Cormorant Garamond", Georgia, serif';
+  x.fillText('Grandes vinhos, grandes garrafas, grandes amigos.', CX, 1198);
+  x.fillStyle = '#D4AE5C'; x.font = '600 28px Montserrat';
+  try { x.letterSpacing = '5px'; } catch (e) { }
+  x.fillText('LULIDIAS.COM/CONFRAS', CX, 1252);
+}
+
+function mostraCats() {
+  var box = document.getElementById('cats');
+  if (meusPremios.length < 2) { box.classList.add('hidden'); return; }
+  box.classList.remove('hidden');
+  box.innerHTML = meusPremios.map(function (p, i) {
+    return '<button class="' + (i === atual ? 'on' : '') + '" onclick="troca(' + i + ')">' + p.categoria + '</button>';
+  }).join('');
+}
+function troca(i) { atual = i; desenha(meusPremios[i]); mostraCats(); }
+
+function avisa(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.style.opacity = '1';
+  clearTimeout(t._h); t._h = setTimeout(function () { t.style.opacity = '0'; }, 3500);
+}
+function copiar() {
+  document.getElementById('c').toBlob(function (blob) {
+    if (navigator.clipboard && window.ClipboardItem) {
+      navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+        .then(function () { avisa('✓ Imagem copiada! Agora é só Cmd+V (colar) na conversa do WhatsApp.'); })
+        .catch(function () { baixar(); });
+    } else { baixar(); }
+  });
+}
+function baixar() {
+  var a = document.createElement('a');
+  a.download = 'confra-das-confras-premio.png';
+  a.href = document.getElementById('c').toDataURL('image/png');
+  a.click();
+}
+function compartilhar() {
+  document.getElementById('c').toBlob(function (blob) {
+    var file = new File([blob], 'confra-das-confras-premio.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file] });
+    } else { baixar(); }
+  });
+}
+
+function semPremio(msg) {
+  document.getElementById('aviso').textContent = msg;
+  document.querySelector('.acoes').classList.add('hidden');
+  document.getElementById('c').style.display = 'none';
+}
+
+Promise.all([
+  document.fonts.load('400 76px "Playfair Display"'),
+  document.fonts.load('italic 600 100px "Playfair Display"'),
+  document.fonts.load('italic 400 42px "Cormorant Garamond"'),
+  document.fonts.load('500 27px Montserrat')
+]).then(function () {
+  Promise.all([
+    meuId ? rpc('confras_meu', { p_id: meuId }) : Promise.resolve(null),
+    rpc('confras_resultados')
+  ]).then(function (res) {
+    var eu = res[0] && res[0][0];
+    if (!eu) { semPremio('Abra pelo seu painel em lulidias.com/confras para gerar o cartão.'); return; }
+    var vistos = {};
+    (res[1] || []).forEach(function (r) {
+      if (vistos[r.categoria_id]) return;   // 1º de cada categoria = vencedor
+      vistos[r.categoria_id] = true;
+      if ((r.membros || []).indexOf(eu.nome) >= 0) meusPremios.push(r);
+    });
+    if (!meusPremios.length) { semPremio('Sua garrafa não venceu desta vez — ano que vem tem mais. 🥂'); return; }
+    desenha(meusPremios[0]);
+    mostraCats();
+  }).catch(function (e) { semPremio(e.message || 'Os resultados ainda não foram divulgados.'); });
+});
+</script>
+</body>
+</html>
