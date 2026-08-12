@@ -173,8 +173,9 @@ a{color:inherit}
 .meta-bar{width:130px;height:5px;background:var(--border);margin:9px auto 0;overflow:hidden}
 .meta-bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .8s ease}
 .meta-k{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-lt);margin-top:5px}
-.pwin{margin-top:8px}
-.pwin span{display:inline-block;background:var(--gold);color:#fff;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;margin:2px 4px 0 0}
+.pwin{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.pwin .mp{display:inline-block;background:linear-gradient(180deg,#1A2F4E 0%,#101F38 100%);line-height:0;padding:6px}
+.pwin .mp svg{width:88px;height:auto}
 .num-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1100px;margin:0 auto;align-items:stretch}
 .num-stack{display:flex;flex-direction:column;gap:16px}
 .num-stack .num-card{flex:1;display:flex;flex-direction:column}
@@ -1154,8 +1155,10 @@ function loadVencedores() {
     (rows || []).forEach(function (r) {
       if (vistos[r.categoria_id]) return;   // 1º de cada categoria = vencedor
       vistos[r.categoria_id] = true;
+      var cat = null;
+      catsCache.forEach(function (c) { if (c.id === r.categoria_id) cat = c; });
       (r.membros || []).forEach(function (n) {
-        (vencedoresPorNome[n] = vencedoresPorNome[n] || []).push(r.categoria);
+        (vencedoresPorNome[n] = vencedoresPorNome[n] || []).push({ categoria: r.categoria, tf: cat ? cat.tipo_filtro : null });
       });
     });
     renderConfirmados();
@@ -1239,7 +1242,7 @@ function renderConfirmados() {
     d.innerHTML = '<div class="pn"><span>' + esc(p.nome) + '</span>' + (p.pago ? '<span class="paid">✓ pago</span>' : '') + '</div>' +
       '<div class="pc">' + confs + '</div>' +
       (meusVinhos.length ? '<div class="pw">🍷 ' + meusVinhos.join(' · ') + '</div>' : '') +
-      (premios.length ? '<div class="pwin">' + premios.map(function (c) { return '<span>🏆 ' + esc(c) + '</span>'; }).join('') + '</div>' : '');
+      (premios.length ? '<div class="pwin">' + premios.map(function (c) { return '<span class="mp" title="' + esc(c.categoria) + '">' + placaSVG(c.categoria, c.tf) + '</span>'; }).join('') + '</div>' : '');
     pp.appendChild(d);
   });
 }
