@@ -46,8 +46,12 @@ export default {
     }
 
     // Auth check (todos os outros endpoints exigem a chave)
+    // Aceita múltiplas chaves individuais e revogáveis: a principal (Luli/Tito)
+    // + chaves extras por pessoa (ex.: ADMIN_KEY_TECH para o sócio de tecnologia).
+    // Revogar alguém = apagar o segredo dele no Cloudflare, sem afetar os demais.
     const adminKey = request.headers.get('X-Admin-Key');
-    if (adminKey !== env.ADMIN_KEY) {
+    const validKeys = [env.ADMIN_KEY, env.ADMIN_KEY_TECH].filter(Boolean);
+    if (!adminKey || !validKeys.includes(adminKey)) {
       return jsonResponse({ error: 'unauthorized' }, 401);
     }
 
