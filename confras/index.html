@@ -45,6 +45,12 @@ a{color:inherit}
 .orn .r{height:1px;width:56px;background:linear-gradient(90deg,var(--gold-lt),transparent)}
 .orn .d{width:5px;height:5px;background:var(--gold-lt);transform:rotate(45deg)}
 .hero-when{margin-top:4px}
+.fh-t{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:clamp(26px,5vw,42px);letter-spacing:6px;text-transform:uppercase;margin-top:26px}
+.fh-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,2.6vw,20px);color:rgba(247,243,238,.9);margin-top:12px}
+.fh-prog{max-width:440px;margin:26px auto 4px;text-align:left}
+.fh-item{display:flex;gap:16px;align-items:baseline;padding:11px 4px;border-bottom:1px solid rgba(212,174,92,.28);font-size:13px}
+.fh-item:last-child{border-bottom:none}
+.fh-item .h{font-family:'Montserrat',sans-serif;color:var(--gold-lt);font-weight:600;letter-spacing:2px;white-space:nowrap;font-size:12px}
 .hw-dow{font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--gold-lt);margin-bottom:10px}
 .hw-date{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:clamp(26px,5vw,42px);color:var(--cream);letter-spacing:2px}
 .hw-date .hw-dot{color:var(--gold-lt);padding:0 8px}
@@ -288,6 +294,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <div class="cnt"><div class="n" id="cd-s">—</div><div class="l2">seg</div></div>
   </div>
   <a class="cta" href="#rsvp" id="cta-btn">Confirmar presença</a>
+  <div id="festa-hero" class="hidden" style="margin-top:8px"></div>
 </header>
 
 <!-- ═══ CONFRARIAS ═══ -->
@@ -605,6 +612,63 @@ function normalizaPais(p) {
 }
 function confObj(slug) { for (var i = 0; i < CONFRARIAS.length; i++) if (CONFRARIAS[i].slug === slug) return CONFRARIAS[i]; return null; }
 function fmtLitros(n) { return (Math.round(n * 100) / 100).toLocaleString('pt-BR'); }
+
+// ── modo festa (o hero acompanha o dia 18) ───────────────────────────────
+var FESTA_INI = new Date('2026-11-18T00:00:00-03:00').getTime();
+var FESTA_FIM = new Date('2026-11-19T00:00:00-03:00').getTime();
+function faseFesta() {
+  var sim = new URLSearchParams(location.search).get('simular');
+  if (sim) return sim;
+  var now = Date.now();
+  if (now < FESTA_INI) return '';
+  if (now >= FESTA_FIM) return 'memoria';
+  if (cfg && cfg.resultados_publicos) return 'resultados';
+  if (cfg && cfg.votacao_aberta) return 'urna';
+  return now >= URNA_FECHA ? 'apuracao' : 'hoje';
+}
+function modoFesta() {
+  var fase = faseFesta();
+  var fh = document.getElementById('festa-hero');
+  var cd = document.getElementById('countdown');
+  var cta = document.getElementById('cta-btn');
+  if (!fase) { fh.classList.add('hidden'); cd.classList.remove('hidden'); cta.classList.remove('hidden'); return; }
+  cd.classList.add('hidden'); cta.classList.add('hidden'); fh.classList.remove('hidden');
+  var html = '';
+  if (fase === 'hoje') {
+    html = '<div class="fh-t">É hoje! 🥂</div>' +
+      '<div class="fh-sub">Cinco confrarias, uma mesa — a primeira Confra das Confras da história.</div>' +
+      '<div class="fh-prog">' +
+      '<div class="fh-item"><span class="h">13H</span><span>Almoço — todas as garrafas abertas na grande mesa central, churrasco volante o dia inteiro</span></div>' +
+      '<div class="fh-item"><span class="h">🗳️ TARDE</span><span>Votação pelo celular — aponte a câmera para o QR das mesas e vote nos melhores vinhos</span></div>' +
+      '<div class="fh-item"><span class="h">17H</span><span>A urna fecha — revelação dos vencedores e entrega das placas 🏆</span></div>' +
+      '</div><a class="cta" href="#rsvp">Abrir meu painel</a>';
+  } else if (fase === 'urna') {
+    html = '<div class="fh-t">🗳️ A urna está aberta</div>' +
+      '<div class="fh-sub">Um voto por categoria — você pode mudar até as 17h.</div>' +
+      '<a class="cta" href="votar/" style="font-size:14px;padding:18px 46px">Votar agora</a>' +
+      '<div class="fh-sub" style="font-size:14px;margin-top:14px">A apuração corre ao vivo no telão. <span id="fh-urna"></span></div>';
+  } else if (fase === 'apuracao') {
+    html = '<div class="fh-t">🏆 A urna está fechada</div>' +
+      '<div class="fh-sub">Os votos estão sendo apurados — olhos no telão: a revelação dos vencedores vem aí. 👀</div>';
+  } else if (fase === 'resultados') {
+    html = '<div class="fh-t">🏆 Temos vencedores!</div>' +
+      '<div class="fh-sub">Os melhores vinhos da festa, eleitos pelos confrades.</div>' +
+      '<a class="cta" href="#resultados">Ver o pódio</a>';
+  } else if (fase === 'memoria') {
+    html = '<div class="fh-t">Foi histórico. 🥂</div>' +
+      '<div class="fh-sub">Em 18 de novembro de 2026, as cinco confrarias do Recife sentaram-se à mesma mesa pela primeira vez.' +
+      (cfg && cfg.resultados_publicos ? '' : ' Até 2027!') + '</div>' +
+      (cfg && cfg.resultados_publicos ? '<a class="cta" href="#resultados">Ver os vencedores</a>' : '');
+  }
+  if (fh.dataset.fase !== fase) { fh.innerHTML = html; fh.dataset.fase = fase; }
+}
+setInterval(modoFesta, 30000);
+setInterval(function () {
+  var el = document.getElementById('fh-urna');
+  if (!el) return;
+  var d = URNA_FECHA - Date.now();
+  el.textContent = d > 0 ? 'Faltam ' + Math.floor(d / 36e5) % 24 + 'h ' + Math.floor(d / 6e4) % 60 + 'min.' : '';
+}, 1000);
 
 // ── countdown ────────────────────────────────────────────────────────────
 var EVENTO = new Date('2026-11-18T13:00:00-03:00').getTime();
@@ -1438,7 +1502,7 @@ function renderPremios() {
   document.getElementById('premio1').textContent = cfg.premio1;
 }
 Promise.all([
-  view('confras_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : null; }).catch(function () { }),
+  view('confras_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : null; modoFesta(); }).catch(function () { }),
   loadCats()
 ]).then(function () {
   if (meu) renderPay();
@@ -1473,7 +1537,7 @@ loadMe();
 refreshPublic();
 setInterval(function () {
   refreshPublic(); renderResultados();
-  view('confras_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : cfg; loadVencedores(); }).catch(function () { });
+  view('confras_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : cfg; loadVencedores(); modoFesta(); }).catch(function () { });
 }, 60000);
 </script>
 </body>
