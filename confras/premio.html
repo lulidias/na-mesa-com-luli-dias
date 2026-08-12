@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cartão do prêmio — Confra das Confras 2026</title>
+<title>Meu prêmio — Confra das Confras 2026</title>
 <meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/confras/favicon.png"><link rel="apple-touch-icon" href="/confras/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Cormorant+Garamond:ital@1&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -15,20 +16,22 @@ canvas{max-width:min(92vw,460px);height:auto}
 .btn.ghost{background:none;border:1px solid rgba(212,174,92,.6);color:#D4AE5C}
 .cats{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .cats button{padding:9px 16px;background:none;border:1px solid rgba(212,174,92,.5);color:#D4AE5C;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
-.cats button.on{background:#B8922A;border-color:#B8922A;color:#fff}
+.cats button.on{background:#B8922A;color:#fff;border-color:#B8922A}
 .aviso{color:rgba(247,243,238,.6);font-size:11px;text-align:center;max-width:420px;line-height:1.6}
+.msg{color:#F7F3EE;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;text-align:center;max-width:420px;line-height:1.6}
 .hidden{display:none!important}
 </style>
 </head>
 <body>
 <div class="cats hidden" id="cats"></div>
-<canvas id="c" width="1080" height="1350"></canvas>
-<div class="acoes">
+<canvas id="c" width="1080" height="1350" class="hidden"></canvas>
+<div class="msg hidden" id="msg"></div>
+<div class="acoes hidden" id="acoes">
   <button class="btn" id="b-share" onclick="compartilhar()">📲 Compartilhar</button>
   <button class="btn" id="b-copy" onclick="copiar()">📋 Copiar imagem</button>
   <button class="btn ghost" onclick="baixar()">Baixar</button>
 </div>
-<p class="aviso" id="aviso">Parabéns, campeão! Poste nos grupos — troféu se exibe. 🏆</p>
+<p class="aviso hidden" id="aviso">Parabéns, campeão! Poste nos grupos — troféu é para ser exibido. 🏆</p>
 <div id="toast" style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#2E7D4F;color:#fff;padding:13px 26px;font-size:12px;letter-spacing:1px;opacity:0;transition:opacity .3s;pointer-events:none">Imagem copiada!</div>
 
 <script>
@@ -37,7 +40,7 @@ var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
 var params = new URLSearchParams(location.search);
 var meuId = params.get('id') || localStorage.getItem('confras_id');
-var meusPremios = [];
+var premios = [];
 var atual = 0;
 
 window.addEventListener('DOMContentLoaded', function () {
@@ -52,10 +55,16 @@ function rpc(fn, args) {
   return fetch(SB + '/rest/v1/rpc/' + fn, {
     method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify(args || {})
-  }).then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error((d && d.message) || 'erro'); return d; }); });
+  }).then(function (r) {
+    return r.text().then(function (tx) {
+      var d = null; try { d = tx ? JSON.parse(tx) : null; } catch (e) { }
+      if (!r.ok) throw new Error((d && d.message) || 'Erro ' + r.status);
+      return d;
+    });
+  });
 }
 
-function desenha(pr) {
+function desenha(p) {
   var c = document.getElementById('c'), x = c.getContext('2d');
   var W = 1080, H = 1350, CX = W / 2;
   var g = x.createLinearGradient(0, 0, 0, H);
@@ -68,63 +77,54 @@ function desenha(pr) {
   try { x.letterSpacing = '9px'; } catch (e) { }
   x.fillText('CONFRA DAS CONFRAS · 2026', CX, 130);
   // emblema — cinco taças
-  var EC = 286, R = 40, RR = 66;
+  var EC = 286, R = 40, RR = 67;
   x.strokeStyle = '#D4AE5C'; x.lineWidth = 3; x.fillStyle = 'rgba(212,174,92,.10)';
   for (var i = 0; i < 5; i++) {
     var ang = -Math.PI / 2 + i * (2 * Math.PI / 5);
     x.beginPath(); x.arc(CX + RR * Math.cos(ang), EC + RR * Math.sin(ang), R, 0, 7); x.fill(); x.stroke();
   }
   x.save(); x.translate(CX, EC); x.rotate(Math.PI / 4); x.fillStyle = '#D4AE5C'; x.fillRect(-7, -7, 14, 14); x.restore();
-  // troféu
-  x.font = '86px serif';
-  x.fillText('🏆', CX, 478);
-  // categoria em destaque
-  var cat = String(pr.categoria || '').toUpperCase();
-  x.fillStyle = '#F7F3EE';
+  // troféu + categoria
+  x.font = '400 74px serif'; x.fillText('🏆', CX, 468);
+  x.fillStyle = '#D4AE5C';
   try { x.letterSpacing = '12px'; } catch (e) { }
-  var linhas = cat.length > 14 && cat.indexOf('VINHO DA FESTA') >= 0 ? ['MELHOR VINHO', 'DA FESTA'] : [cat];
-  var fs = 62;
-  x.font = '400 ' + fs + 'px "Playfair Display", Didot, serif';
-  while (Math.max.apply(null, linhas.map(function (l) { return x.measureText(l).width; })) > 900 && fs > 40) {
-    fs -= 4; x.font = '400 ' + fs + 'px "Playfair Display", Didot, serif';
-  }
-  var y0 = linhas.length > 1 ? 566 : 596;
-  linhas.forEach(function (l, i) { x.fillText(l, CX + 6, y0 + i * (fs + 16)); });
-  try { x.letterSpacing = '0px'; } catch (e) { }
-  // linha
+  var cat = p.categoria.toUpperCase();
+  var linhas = cat.length > 18 ? [cat.replace(' DA FESTA', ''), 'DA FESTA'] : [cat];
+  var cy = linhas.length === 2 ? 552 : 576;
+  linhas.forEach(function (l, i) {
+    var tam = 56;
+    x.font = '400 ' + tam + 'px "Playfair Display", Didot, serif';
+    while (x.measureText(l).width > 880 && tam > 34) { tam -= 4; x.font = '400 ' + tam + 'px "Playfair Display", Didot, serif'; }
+    x.fillText(l, CX, cy + i * 68);
+  });
+  // linha + eleito
   x.strokeStyle = 'rgba(212,174,92,.8)'; x.lineWidth = 2;
-  x.beginPath(); x.moveTo(CX - 120, 700); x.lineTo(CX + 120, 700); x.stroke();
-  // eleito pelos confrades
-  x.fillStyle = '#D4AE5C'; x.font = 'italic 400 42px "Cormorant Garamond", Georgia, serif';
-  x.fillText('eleito pelos confrades', CX, 768);
+  x.beginPath(); x.moveTo(CX - 120, 668); x.lineTo(CX + 120, 668); x.stroke();
+  x.fillStyle = 'rgba(247,243,238,.9)'; x.font = 'italic 400 34px "Cormorant Garamond", Georgia, serif';
+  try { x.letterSpacing = '0px'; } catch (e) { }
+  x.fillText('eleito pelos confrades das cinco confrarias', CX, 726);
   // vinho em evidência
   x.fillStyle = '#F7F3EE';
-  var nomeVinho = pr.vinho + (pr.safra ? ' ' + pr.safra : '');
+  var v = p.vinho + (p.safra ? ' ' + p.safra : '');
   var tam = 84;
   x.font = 'italic 600 ' + tam + 'px "Playfair Display", Georgia, serif';
-  while (x.measureText(nomeVinho).width > 900 && tam > 44) {
-    tam -= 5; x.font = 'italic 600 ' + tam + 'px "Playfair Display", Georgia, serif';
-  }
-  x.fillText(nomeVinho, CX, 886);
-  // formato — selo
+  while (x.measureText(v).width > 900 && tam > 44) { tam -= 5; x.font = 'italic 600 ' + tam + 'px "Playfair Display", Georgia, serif'; }
+  x.fillText(v, CX, 848);
+  // formato
   x.font = '500 22px Montserrat';
   try { x.letterSpacing = '3.5px'; } catch (e) { }
-  var ft = String(pr.formato || '').toUpperCase();
-  var fw = x.measureText(ft).width + 44;
+  var f = p.formato.toUpperCase();
+  var fw = x.measureText(f).width + 48;
   x.strokeStyle = 'rgba(212,174,92,.85)'; x.lineWidth = 2;
-  x.strokeRect(CX - fw / 2, 930, fw, 48);
-  x.fillStyle = '#D4AE5C';
-  x.fillText(ft, CX, 962);
+  x.strokeRect(CX - fw / 2, 902, fw, 48);
+  x.fillStyle = '#D4AE5C'; x.fillText(f, CX, 934);
   // trazido por
+  x.fillStyle = 'rgba(247,243,238,.92)'; x.font = 'italic 400 30px "Cormorant Garamond", Georgia, serif';
   try { x.letterSpacing = '0px'; } catch (e) { }
-  x.fillStyle = 'rgba(247,243,238,.9)';
-  var quem = 'Trazido por ' + (pr.membros || []).join(', ');
-  var tq = 36;
-  x.font = 'italic 400 ' + tq + 'px "Cormorant Garamond", Georgia, serif';
-  while (x.measureText(quem).width > 920 && tq > 22) {
-    tq -= 2; x.font = 'italic 400 ' + tq + 'px "Cormorant Garamond", Georgia, serif';
-  }
-  x.fillText(quem, CX, 1064);
+  var quem = 'Trazido por ' + (p.membros || []).join(', ');
+  var t2 = 30;
+  while (x.measureText(quem).width > 920 && t2 > 20) { t2 -= 2; x.font = 'italic 400 ' + t2 + 'px "Cormorant Garamond", Georgia, serif'; }
+  x.fillText(quem, CX, 1030);
   // rodapé
   x.fillStyle = 'rgba(247,243,238,.85)'; x.font = 'italic 400 32px "Cormorant Garamond", Georgia, serif';
   x.fillText('Grandes vinhos, grandes garrafas, grandes amigos.', CX, 1198);
@@ -133,15 +133,19 @@ function desenha(pr) {
   x.fillText('LULIDIAS.COM/CONFRAS', CX, 1252);
 }
 
-function mostraCats() {
-  var box = document.getElementById('cats');
-  if (meusPremios.length < 2) { box.classList.add('hidden'); return; }
-  box.classList.remove('hidden');
-  box.innerHTML = meusPremios.map(function (p, i) {
-    return '<button class="' + (i === atual ? 'on' : '') + '" onclick="troca(' + i + ')">' + p.categoria + '</button>';
+function mostra(i) {
+  atual = i;
+  desenha(premios[i]);
+  var cats = document.getElementById('cats');
+  cats.classList.toggle('hidden', premios.length < 2);
+  cats.innerHTML = premios.map(function (p, j) {
+    return '<button class="' + (j === atual ? 'on' : '') + '" onclick="mostra(' + j + ')">' + p.categoria + '</button>';
   }).join('');
+  document.getElementById('c').classList.remove('hidden');
+  document.getElementById('acoes').classList.remove('hidden');
+  document.getElementById('aviso').classList.remove('hidden');
 }
-function troca(i) { atual = i; desenha(meusPremios[i]); mostraCats(); }
+function falha(m) { var el = document.getElementById('msg'); el.textContent = m; el.classList.remove('hidden'); }
 
 function avisa(msg) {
   var t = document.getElementById('toast');
@@ -172,34 +176,33 @@ function compartilhar() {
   });
 }
 
-function semPremio(msg) {
-  document.getElementById('aviso').textContent = msg;
-  document.querySelector('.acoes').classList.add('hidden');
-  document.getElementById('c').style.display = 'none';
-}
-
 Promise.all([
-  document.fonts.load('400 76px "Playfair Display"'),
-  document.fonts.load('italic 600 100px "Playfair Display"'),
-  document.fonts.load('italic 400 42px "Cormorant Garamond"'),
+  document.fonts.load('400 60px "Playfair Display"'),
+  document.fonts.load('italic 600 90px "Playfair Display"'),
+  document.fonts.load('italic 400 34px "Cormorant Garamond"'),
   document.fonts.load('500 27px Montserrat')
 ]).then(function () {
-  Promise.all([
-    meuId ? rpc('confras_meu', { p_id: meuId }) : Promise.resolve(null),
-    rpc('confras_resultados')
-  ]).then(function (res) {
+  if (params.get('demo')) {
+    premios = [{ categoria: 'Melhor Vinho da Festa', vinho: 'Fontalloro', safra: '1995', formato: 'Magnum', membros: ['Felipe Valenca de Sousa'] },
+               { categoria: 'Melhor Tinto', vinho: 'Malleolus', safra: '2019', formato: 'Salmanazar', membros: ['Alberto Porpino', 'Jorge Petribu'] }];
+    mostra(0); document.title = 'pronto'; return;
+  }
+  if (!meuId) { falha('Abra pelo botão "Cartão do meu prêmio" no seu painel. 🏆'); return; }
+  Promise.all([rpc('confras_meu', { p_id: meuId }), rpc('confras_resultados')]).then(function (res) {
     var eu = res[0] && res[0][0];
-    if (!eu) { semPremio('Abra pelo seu painel em lulidias.com/confras para gerar o cartão.'); return; }
+    var rows = res[1] || [];
+    if (!eu) { falha('Não encontramos o seu cadastro — abra pelo seu painel.'); return; }
     var vistos = {};
-    (res[1] || []).forEach(function (r) {
-      if (vistos[r.categoria_id]) return;   // 1º de cada categoria = vencedor
+    rows.forEach(function (r) {
+      if (vistos[r.categoria_id]) return;
       vistos[r.categoria_id] = true;
-      if ((r.membros || []).indexOf(eu.nome) >= 0) meusPremios.push(r);
+      if ((r.membros || []).indexOf(eu.nome) >= 0) {
+        premios.push({ categoria: r.categoria, vinho: r.vinho, safra: r.safra, formato: r.formato, membros: r.membros });
+      }
     });
-    if (!meusPremios.length) { semPremio('Sua garrafa não venceu desta vez — ano que vem tem mais. 🥂'); return; }
-    desenha(meusPremios[0]);
-    mostraCats();
-  }).catch(function (e) { semPremio(e.message || 'Os resultados ainda não foram divulgados.'); });
+    if (!premios.length) { falha('Nenhum prêmio no seu nome desta vez — 2027 vem aí. 🥂'); return; }
+    mostra(0); document.title = 'pronto';
+  }).catch(function (e) { falha(e.message); });
 });
 </script>
 </body>
