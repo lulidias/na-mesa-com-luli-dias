@@ -50,7 +50,7 @@
   const meta = GUIDE_META[GUIDE_SLUG] || { country: '', flag: '' };
 
   // slug idêntico ao das guias (para id do card e casar com novidades.json)
-  function ldSlug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+  function ldSlug(n){return n.toLowerCase().replace(/æ/g,'ae').replace(/ø/g,'o').replace(/å/g,'a').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
 
   // ── Selo NOVO: marca os cards que estão entre as últimas adições do guia ──
   var NOV_SLUGS = null;
