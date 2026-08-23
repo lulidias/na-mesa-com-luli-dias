@@ -1,9 +1,9 @@
 {
   "totals": {
-    "restaurants": 1079,
-    "hotels": 186,
+    "restaurants": 1088,
+    "hotels": 187,
     "markets": 27,
-    "cities": 220,
+    "cities": 221,
     "lojaVinho": 2,
     "wineBar": 12,
     "mercado": 27,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 62,
-    "total": 1306,
+    "total": 1316,
     "michelin": 91,
     "keysEntries": 40
   },
@@ -377,10 +377,10 @@
       "keysEntries": 0
     },
     "franca": {
-      "restaurants": 124,
+      "restaurants": 125,
       "hotels": 17,
       "markets": 2,
-      "cities": 38,
+      "cities": 39,
       "lojaVinho": 2,
       "wineBar": 0,
       "mercado": 2,
@@ -927,8 +927,8 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 516,
-      "hotels": 71,
+      "restaurants": 524,
+      "hotels": 72,
       "markets": 4,
       "cities": 60,
       "lojaVinho": 0,
@@ -1015,8 +1015,8 @@
       "keysEntries": 0
     },
     "brasil-sudeste": {
-      "restaurants": 312,
-      "hotels": 38,
+      "restaurants": 320,
+      "hotels": 39,
       "markets": 0,
       "cities": 25,
       "lojaVinho": 0,
@@ -1126,13 +1126,13 @@
       "cities": 4
     },
     "São Paulo": {
-      "restaurants": 500,
+      "restaurants": 504,
       "hotels": 46,
       "cities": 38
     },
     "Rio de Janeiro": {
-      "restaurants": 84,
-      "hotels": 24,
+      "restaurants": 96,
+      "hotels": 26,
       "cities": 6
     },
     "Espírito Santo": {

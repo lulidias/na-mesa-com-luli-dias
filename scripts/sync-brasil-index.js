@@ -84,27 +84,19 @@ const original = html;
 
 const changes = [];
 
-// Cada card tem href com state=<URLencoded> e dentro tem .card-meta
-// Pattern: captura href do card, depois card-meta logo abaixo
-const cardRe = /<a class="country-card"[^>]*href="[^"]*[?&]state=([^"&]+)"[^>]*>[\s\S]*?<div class="card-meta">([^<]*)<\/div>/g;
-let m;
-while ((m = cardRe.exec(html)) !== null) {
-  const stateName = decodeURIComponent(m[1]);
-  const currentMeta = m[2];
+// Cada card tem href com state=<URLencoded> e o .card-meta logo abaixo.
+// Passe ÚNICO com replacer de função — evita o loop infinito / OOM do
+// padrão antigo (while + lastIndex=0 + html.replace por conteúdo).
+const cardRe = /(<a class="country-card"[^>]*href="[^"]*[?&]state=([^"&]+)"[^>]*>[\s\S]*?<div class="card-meta">)([^<]*)(<\/div>)/g;
+html = html.replace(cardRe, (full, pre, stateEnc, meta, post) => {
+  let stateName;
+  try { stateName = decodeURIComponent(stateEnc); } catch (e) { return full; }
   const counts = stateCounts[stateName];
-  if (!counts) continue;
+  if (!counts) return full;
   const correct = metaStr(counts.r, counts.h);
-  if (currentMeta === correct) continue;
-  changes.push(`  ${stateName}: "${currentMeta}" → "${correct}"`);
-  if (!CHECK) {
-    html = html.replace(
-      `<div class="card-meta">${currentMeta}</div>`,
-      `<div class="card-meta">${correct}</div>`
-    );
-    // reset regex because string changed
-    cardRe.lastIndex = 0;
-  }
-}
+  if (meta !== correct) changes.push(`  ${stateName}: "${meta}" → "${correct}"`);
+  return pre + correct + post;
+});
 
 if (!CHECK && html !== original) {
   fs.writeFileSync(indexPath, html);
