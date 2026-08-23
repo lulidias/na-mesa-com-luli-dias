@@ -215,7 +215,7 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 .nov-photo{position:relative;height:160px;background:#f3ede1;flex-shrink:0}
 .nov-photo img{width:100%;height:100%;object-fit:cover;display:block}
 .nov-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,#f0e8d8,#e8dcc8)}
-.nov-flag{position:absolute;top:8px;left:8px;font-size:16px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4))}
+.nov-flag{font-size:14px;margin-right:6px;position:relative;top:1px}
 .nov-tag{position:absolute;top:8px;right:8px;background:#B8922A;color:#fff;font-size:8px;font-weight:700;letter-spacing:.5px;padding:3px 9px;border-radius:20px}
 .nov-body{padding:16px;flex:1}
 .nov-name{font-family:'Playfair Display',Georgia,serif;font-size:16px;line-height:1.25;color:#1A1A1A;margin-bottom:5px}
@@ -241,8 +241,8 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
       var emoji=x.t==='h'?'🏨':'🍽️';
       var img=x.photo?'<img loading="lazy" decoding="async" src="'+x.photo+'" alt="'+String(x.n).replace(/"/g,'&quot;')+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="nov-ph" style="display:none">'+emoji+'</div>':'<div class="nov-ph">'+emoji+'</div>';
       return '<a class="nov-card" href="'+href+'">'+
-        '<div class="nov-photo">'+img+'<span class="nov-flag">'+(x.flag||'')+'</span><span class="nov-tag">NOVO</span></div>'+
-        '<div class="nov-body"><div class="nov-name">'+x.n+'</div><div class="nov-meta">'+meta+'</div></div>'+
+        '<div class="nov-photo">'+img+'<span class="nov-tag">NOVO</span></div>'+
+        '<div class="nov-body"><div class="nov-name"><span class="nov-flag">'+(x.flag||'')+'</span>'+x.n+'</div><div class="nov-meta">'+meta+'</div></div>'+
       '</a>';
     }).join('');
     document.getElementById('nov-title-t').textContent=tt[0];
