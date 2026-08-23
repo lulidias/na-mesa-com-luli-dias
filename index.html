@@ -204,7 +204,7 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 </div>
 <div class="cont-bar" id="contBar"></div>
 <style>
-.nov-sec{max-width:1100px;margin:0 auto;padding:24px 24px 4px}
+.nov-sec{max-width:1100px;margin:0 auto;padding:0 24px 4px}
 .nov-head{display:flex;align-items:baseline;gap:12px;margin:0 0 16px;flex-wrap:wrap}
 .nov-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;color:#1A1A1A}
 .nov-title em{font-style:italic;color:#B8922A}
@@ -223,7 +223,7 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 @media(max-width:640px){.nov-sec{padding:16px 24px 4px}.nov-photo{height:140px}}
 </style>
 <section id="novidades-sec" class="nov-sec" style="display:none">
-  <div class="nov-head"><span class="nov-title">✨ <em id="nov-title-t">Novidades</em></span><span class="nov-sub" id="nov-sub-t">últimos lugares no guia</span></div>
+  <div class="region-div"><div class="rd-l"></div><span class="rd-name" id="nov-title-t">Novidades</span><div class="rd-r"></div></div>
   <div class="nov-rail" id="nov-rail"></div>
 </section>
 <script>
@@ -246,7 +246,6 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
       '</a>';
     }).join('');
     document.getElementById('nov-title-t').textContent=tt[0];
-    document.getElementById('nov-sub-t').textContent=tt[1];
     document.getElementById('novidades-sec').style.display='';
   }).catch(function(){});
 })();
