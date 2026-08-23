@@ -234,7 +234,8 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
   fetch('novidades.json',{cache:'no-cache'}).then(function(r){return r.json();}).then(function(list){
     if(!list||!list.length)return;
     var rail=document.getElementById('nov-rail');
-    rail.innerHTML=list.slice(0,30).map(function(x){
+    var n=Math.min(list.length,28); n-=n%4; // sempre múltiplo de 4 (fileiras cheias), máx 28
+    rail.innerHTML=list.slice(0,n).map(function(x){
       var stateQ=(x.guide&&x.guide.indexOf('brasil-')===0&&x.region)?('state='+encodeURIComponent(x.region)+'&'):'';
       var href=x.file+'?'+stateQ+'modal='+encodeURIComponent(x.slug);
       var meta=[x.city,x.q].filter(Boolean).join(' · ');
