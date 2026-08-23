@@ -47,6 +47,27 @@
   const GUIDE_SLUG = window.location.pathname.split('/').pop().replace(/\.html$/, '');
   const meta = GUIDE_META[GUIDE_SLUG] || { country: '', flag: '' };
 
+  // slug idêntico ao das guias (para id do card e casar com novidades.json)
+  function ldSlug(n){return n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+
+  // ── Selo NOVO: marca os cards que estão entre as últimas adições do guia ──
+  var NOV_SLUGS = null;
+  function markNovo(card){
+    if(!NOV_SLUGS||!card)return;
+    var nameEl=card.querySelector('.card-name'); if(!nameEl)return;
+    var sl=card.id?card.id.replace('card-',''):ldSlug(nameEl.textContent.trim());
+    if(!NOV_SLUGS.has(sl))return;
+    var badges=card.querySelector('.card-badges'); if(!badges||badges.querySelector('.bnovo'))return;
+    var b=document.createElement('span'); b.className='badge bnovo'; b.textContent='NOVO';
+    badges.insertBefore(b, badges.firstChild);
+  }
+  fetch('novidades.json',{cache:'no-cache'}).then(function(r){return r.json();}).then(function(list){
+    NOV_SLUGS=new Set(list.filter(function(x){return x.guide===GUIDE_SLUG;}).map(function(x){return x.slug;}));
+    if(!NOV_SLUGS.size)return;
+    if(!document.getElementById('bnovo-css')){var st=document.createElement('style');st.id='bnovo-css';st.textContent='.badge.bnovo{background:#B8922A;color:#fff;border:1px solid #B8922A;font-weight:700;letter-spacing:.5px}';document.head.appendChild(st);}
+    document.querySelectorAll('.restaurant-card').forEach(markNovo);
+  }).catch(function(){});
+
   // ── Notes do Supabase (por estabelecimento) ───────────────────────────
   var NOTES = {};
   var NOTES_LOADED = false;
@@ -400,6 +421,8 @@
     var nameEl = card.querySelector('.card-name');
     if (!nameEl) return;
     var name = nameEl.textContent.trim();
+    if (!card.id) card.id = 'card-' + ldSlug(name);
+    markNovo(card);
     var key  = GUIDE_SLUG + '|' + name;
     var eName = name.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
     var body  = card.querySelector('.card-body');

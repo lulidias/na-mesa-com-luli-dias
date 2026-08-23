@@ -203,6 +203,55 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
   <button class="type-btn-idx" id="idxH" onclick="setIdxType('h',this)" data-i18n="filterH">🛏 Hotéis</button>
 </div>
 <div class="cont-bar" id="contBar"></div>
+<style>
+.nov-sec{max-width:1200px;margin:0 auto 4px;padding:0 24px}
+.nov-head{display:flex;align-items:baseline;gap:12px;margin:6px 0 14px;flex-wrap:wrap}
+.nov-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;color:#1A1A1A}
+.nov-title em{font-style:italic;color:#B8922A}
+.nov-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#B8922A;opacity:.85}
+.nov-rail{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.nov-rail::-webkit-scrollbar{height:6px}.nov-rail::-webkit-scrollbar-thumb{background:#e0d6bf;border-radius:3px}
+.nov-card{flex:0 0 210px;scroll-snap-align:start;background:#fff;border-left:3px solid #D8BE7E;box-shadow:0 2px 8px rgba(0,0,0,.08);text-decoration:none;color:inherit;overflow:hidden;transition:box-shadow .2s,transform .2s}
+.nov-card:hover{box-shadow:0 6px 20px rgba(184,146,42,.18);transform:translateY(-2px)}
+.nov-photo{position:relative;height:130px;background:#f3ede1}
+.nov-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.nov-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:34px}
+.nov-flag{position:absolute;top:8px;left:8px;font-size:16px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4))}
+.nov-tag{position:absolute;top:8px;right:8px;background:#B8922A;color:#fff;font-size:8px;font-weight:700;letter-spacing:.5px;padding:3px 8px;border-radius:20px}
+.nov-body{padding:11px 13px 13px}
+.nov-name{font-family:'Playfair Display',Georgia,serif;font-size:15px;line-height:1.2;color:#1A1A1A;margin-bottom:4px}
+.nov-meta{font-size:10px;letter-spacing:.5px;color:#8a7d63;text-transform:uppercase}
+@media(max-width:640px){.nov-sec{padding:0 16px}.nov-card{flex-basis:160px}.nov-photo{height:105px}}
+</style>
+<section id="novidades-sec" class="nov-sec" style="display:none">
+  <div class="nov-head"><span class="nov-title">✨ <em id="nov-title-t">Novidades</em></span><span class="nov-sub" id="nov-sub-t">últimos lugares no guia</span></div>
+  <div class="nov-rail" id="nov-rail"></div>
+</section>
+<script>
+(function(){
+  var TT={pt:['Novidades','últimos lugares no guia'],en:['Just Added','latest places in the guide'],fr:['Nouveautés','derniers lieux du guide'],es:['Novedades','últimos lugares de la guía'],it:['Novità','ultimi luoghi della guida'],de:['Neu','neueste Orte im Guide']};
+  var lang=(localStorage.getItem('ld-lang')||localStorage.getItem('lang')||document.documentElement.lang||'pt').slice(0,2).toLowerCase();
+  var tt=TT[lang]||TT.pt;
+  fetch('novidades.json',{cache:'no-cache'}).then(function(r){return r.json();}).then(function(list){
+    if(!list||!list.length)return;
+    var rail=document.getElementById('nov-rail');
+    rail.innerHTML=list.map(function(x){
+      var stateQ=(x.guide&&x.guide.indexOf('brasil-')===0&&x.region)?('state='+encodeURIComponent(x.region)+'&'):'';
+      var href=x.file+'?'+stateQ+'modal='+encodeURIComponent(x.slug);
+      var meta=[x.city,x.q].filter(Boolean).join(' · ');
+      var emoji=x.t==='h'?'🏨':'🍽️';
+      var img=x.photo?'<img loading="lazy" decoding="async" src="'+x.photo+'" alt="'+String(x.n).replace(/"/g,'&quot;')+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="nov-ph" style="display:none">'+emoji+'</div>':'<div class="nov-ph">'+emoji+'</div>';
+      return '<a class="nov-card" href="'+href+'">'+
+        '<div class="nov-photo">'+img+'<span class="nov-flag">'+(x.flag||'')+'</span><span class="nov-tag">NOVO</span></div>'+
+        '<div class="nov-body"><div class="nov-name">'+x.n+'</div><div class="nov-meta">'+meta+'</div></div>'+
+      '</a>';
+    }).join('');
+    document.getElementById('nov-title-t').textContent=tt[0];
+    document.getElementById('nov-sub-t').textContent=tt[1];
+    document.getElementById('novidades-sec').style.display='';
+  }).catch(function(){});
+})();
+</script>
 <main id="main"></main>
 <footer style="text-align:center;padding:32px;font-size:11px;color:#bbb;letter-spacing:2px;text-transform:uppercase;border-top:1px solid var(--border)">
   <a href="sobre.html" style="color:var(--gold);text-decoration:none">Sobre o Curador</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels &nbsp;·&nbsp; <a href="https://instagram.com/lulidias" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none">@lulidias</a>
