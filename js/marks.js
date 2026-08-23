@@ -34,6 +34,8 @@
     'luxemburgo-guia':    { country: 'Luxemburgo',        flag: '🇱🇺' },
     'marrocos-guia':      { country: 'Marrocos',          flag: '🇲🇦' },
     'monaco-guia':        { country: 'Mónaco',           flag: '🇲🇨' },
+    'noruega-guia':       { country: 'Noruega',           flag: '🇳🇴' },
+    'suecia-guia':        { country: 'Suécia',            flag: '🇸🇪' },
     'panama-guia':        { country: 'Panamá',           flag: '🇵🇦' },
     'peru-guia':          { country: 'Peru',              flag: '🇵🇪' },
     'portugal-guia':      { country: 'Portugal',          flag: '🇵🇹' },
@@ -105,13 +107,13 @@
       var box = document.createElement('div');
       box.className = 'card-note-luli';
       var photoHtml = n.chef_photo_url
-        ? '<div class=”cln-media”><img src=”' + n.chef_photo_url + '” alt=”' + (n.chef_name || 'Proprietário') + '”></div>'
+        ? '<div class="cln-media"><img src="' + n.chef_photo_url + '" alt="' + (n.chef_name || 'Proprietário') + '"></div>'
         : '';
       box.innerHTML =
         photoHtml +
-        '<div class=”cln-body”>' +
-          '<div class=”cln-text”>“' + n.luli_note + '”</div>' +
-          '<span class=”cln-cta”>✦ Ver nota completa →</span>' +
+        '<div class="cln-body">' +
+          '<div class="cln-text">“' + n.luli_note + '”</div>' +
+          '<span class="cln-cta">✦ Ver nota completa →</span>' +
         '</div>';
       box.addEventListener('click', function (e) { e.stopPropagation(); openModal(card); });
       actions.parentNode.insertBefore(box, actions);
