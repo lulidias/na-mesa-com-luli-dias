@@ -83,6 +83,8 @@ main{max-width:1100px;margin:0 auto;padding:40px 24px 60px}
 .cont-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
 .cont-btn:hover{border-color:var(--gold);color:var(--gold)}
 .cont-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.cont-btn--nov{border-color:var(--gold);color:var(--gold)}
+.cont-btn--nov:hover{background:var(--gold);border-color:var(--gold);color:var(--white)}
 
 .rd-l,.rd-r{flex:1;height:1px;background:var(--border)}
 .rd-name{font-size:15px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);white-space:nowrap;font-weight:500;padding:0 8px}
@@ -204,7 +206,7 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 </div>
 <div class="cont-bar" id="contBar"></div>
 <style>
-.nov-sec{max-width:1100px;margin:0 auto;padding:0 24px 4px}
+.nov-sec{max-width:1100px;margin:0 auto;padding:0 24px 4px;scroll-margin-top:76px}
 .nov-head{display:flex;align-items:baseline;gap:12px;margin:0 0 16px;flex-wrap:wrap}
 .nov-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;color:#1A1A1A}
 .nov-title em{font-style:italic;color:#B8922A}
@@ -222,10 +224,7 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 .nov-meta{font-size:10px;letter-spacing:.5px;color:#8a7d63;text-transform:uppercase}
 @media(max-width:640px){.nov-sec{padding:16px 24px 4px}.nov-photo{height:140px}}
 </style>
-<section id="novidades-sec" class="nov-sec" style="display:none">
-  <div class="region-div"><div class="rd-l"></div><span class="rd-name" id="nov-title-t">Novidades</span><div class="rd-r"></div></div>
-  <div class="nov-rail" id="nov-rail"></div>
-</section>
+<!-- seção Novidades movida para o fim da página (antes do rodapé) -->
 <script>
 (function(){
   var TT={pt:['Novidades','últimos lugares no guia'],en:['Just Added','latest places in the guide'],fr:['Nouveautés','derniers lieux du guide'],es:['Novedades','últimos lugares de la guía'],it:['Novità','ultimi luoghi della guida'],de:['Neu','neueste Orte im Guide']};
@@ -252,6 +251,10 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
 })();
 </script>
 <main id="main"></main>
+<section id="novidades-sec" class="nov-sec" style="display:none">
+  <div class="region-div"><div class="rd-l"></div><span class="rd-name" id="nov-title-t">Novidades</span><div class="rd-r"></div></div>
+  <div class="nov-rail" id="nov-rail"></div>
+</section>
 <footer style="text-align:center;padding:32px;font-size:11px;color:#bbb;letter-spacing:2px;text-transform:uppercase;border-top:1px solid var(--border)">
   <a href="sobre.html" style="color:var(--gold);text-decoration:none">Sobre o Curador</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels &nbsp;·&nbsp; <a href="https://instagram.com/lulidias" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none">@lulidias</a>
 </footer>
@@ -507,11 +510,18 @@ function rebuildContinentBar(){
   if (typeof activeCont !== 'undefined' && activeCont !== 'Todos' && !visibleRegions.find(r => r.name === activeCont)) {
     activeCont = 'Todos';
   }
+  const NOVL={pt:'Novidades',en:'Just Added',fr:'Nouveautés',es:'Novedades',it:'Novità',de:'Neu'};
+  const novLabel=NOVL[LANG]||NOVL.pt;
   bar.innerHTML = '<span class="cont-lbl">' + t('continent') + '</span>' +
     continents.map(c => {
       const display = c==='Todos' ? t('allContinents') : regionName(c);
       return `<button class="cont-btn${c===activeCont?' active':''}" onclick="setContinent('${c}',this)">${display}</button>`;
-    }).join('');
+    }).join('') +
+    `<button class="cont-btn cont-btn--nov" onclick="scrollToNovidades()">${novLabel}</button>`;
+}
+function scrollToNovidades(){
+  var el=document.getElementById('novidades-sec');
+  if(el && el.style.display!=='none') el.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 
