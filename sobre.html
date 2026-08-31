@@ -783,7 +783,7 @@ footer a{color:var(--gold);text-decoration:none}
   <p>Viajo com frequência desde 2002 — e intensamente desde 2005, quando me mudei para São Paulo. Os registos digitais só alcançam parte dessa história: os números abaixo são <strong>mínimos verificáveis</strong>, apurados ano a ano a partir das confirmações de reserva e do arquivo fotográfico. O real é maior.</p>
 </div>
 
-    <div class="anchor">Menos de 4% da humanidade apanha um voo internacional por ano. O 1% que mais voa percorre, em média, 56 mil km anuais.<br><b>A pesquisa deste guia percorreu 203 mil km só em 2022 — 5 voltas ao mundo.</b></div>
+    <div class="anchor">Menos de 4% da humanidade apanha um voo internacional por ano. O 1% que mais voa percorre, em média, 56 mil km anuais.<br><b id="pqPeak">A pesquisa deste guia percorreu 232 mil km só em 2023 — 5,8 voltas ao mundo.</b></div>
     <div class="tbl-wrap"><table id="pqTable">
 <tr><th></th><th>Decolagens</th><th>km voados</th><th>🌍 Voltas ao mundo</th><th>Dias fora do Brasil</th><th>Noites de hotel</th><th>Refeições fora</th></tr>
 <tr><td class="pq-ano">2010</td><td>63</td><td>129.476</td><td>3.2</td><td>39</td><td>22</td><td>~670</td></tr>
@@ -828,6 +828,11 @@ footer a{color:var(--gold);text-decoration:none}
     });
     html+='<tr class="tot"><td class="pq-ano">Total</td><td>'+nf(T.dec)+'</td><td>'+nf(T.km)+'</td><td>'+(T.km/40075).toFixed(1)+'</td><td>'+nf(T.dias_fora)+'</td><td>'+nf(T.noites)+'</td><td>~'+nf(T.ref)+'</td></tr>';
     var t=document.getElementById('pqTable'); if(t) t.innerHTML=html;
+    // anchor dinâmico: destaca o ano de maior quilometragem
+    var peak=anos.reduce(function(b,y){return (m[y].km||0)>((m[b]||{}).km||0)?y:b;},anos[0]);
+    var pk=m[peak]||{}, kmMil=Math.round((pk.km||0)/1000), v=(pk.km||0)/40075;
+    var pe=document.getElementById('pqPeak');
+    if(pe && kmMil>0) pe.textContent='A pesquisa deste guia percorreu '+kmMil.toLocaleString('pt-BR')+' mil km só em '+peak+' — '+v.toFixed(1).replace('.',',')+' voltas ao mundo.';
   }).catch(function(){});
 })();
 </script>
