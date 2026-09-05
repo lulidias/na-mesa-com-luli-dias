@@ -205,7 +205,7 @@ footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-
   <div class="header-orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
   <div class="header-meta-row"><span class="header-meta" data-en="Grécia">Grécia</span><span class="header-edition" data-en="June 2026">Junho 2026</span></div>
 </header>
-<div class="stats-bar"><div class="stat"><div class="stat-num">3</div><div class="stat-lbl" data-i18n="sr">Restaurantes</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Hotel</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div></div>
+<div class="stats-bar"><div class="stat"><div class="stat-num">4</div><div class="stat-lbl" data-i18n="sr">Restaurantes</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Hotel</div></div><div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Cidade</div></div></div>
 <div class="michelin-legend"><span class="lbadge lm3" onclick="setMichelin('m3',this)" data-i18n="m3">★★★ 3 Estrelas</span><span class="lbadge lm2" onclick="setMichelin('m2',this)" data-i18n="m2">★★ 2 Estrelas</span><span class="lbadge lm1" onclick="setMichelin('m1',this)" data-i18n="m1">★ 1 Estrela</span><span class="lbadge lbib" onclick="setMichelin('bib',this)" data-i18n="bib">Bib Gourmand</span><span class="lbadge lrec" onclick="setMichelin('rec',this)" data-i18n="mich">Michelin</span><span class="lbadge lhotel" onclick="setMichelin('h',this)" data-i18n="acc">Hospedagem</span></div>
 <div class="view-toggle">
   <span class="view-toggle-lbl" data-i18n="view">Vista:</span>
@@ -490,6 +490,7 @@ function initMap(){
 // ─── AUTO-COUNT stats-bar ──────────────────────────────────────────────
 (function(){
   if (typeof CITIES === 'undefined') return;
+  function __catOf(q){if(!q)return null;var t=String(q).toLowerCase();var f0=t.split('\u00b7')[0].trim();if(/loja de vinho|garrafeira|wine shop/.test(t))return 'lojaVinho';if(/wine bar|bar de vinho/.test(f0))return 'wineBar';if(/mercado|market|food hall|food court/.test(f0)&&!/^(bistr|sushi|restaurante|izakaya)/.test(f0))return 'mercado';return null;}
   let r=0, h=0, mk=0, cities=0, m1=0, m2=0, m3=0, bib=0, k1=0, k2=0, k3=0;
   for (const city of CITIES) {
     if (!city || !city.entries || city.entries.length === 0) continue;
@@ -497,8 +498,7 @@ function initMap(){
     for (const e of city.entries) {
       if (!e || e.pending) continue;
       if (e.t === 'h') { h++; if (e.k===1) k1++; else if (e.k===2) k2++; else if (e.k===3) k3++; }
-      else if (e.t === 'm') { mk++; r++; }
-      else r++;
+      else { var _c=__catOf(e.q); if(!_c && e.t==='m') _c='mercado'; if(_c==='mercado'){ mk++; } else if(!_c){ r++; } }
       if (e.m === 'm1') m1++; else if (e.m === 'm2') m2++; else if (e.m === 'm3') m3++;
       else if (e.m === 'bib') bib++;
     }

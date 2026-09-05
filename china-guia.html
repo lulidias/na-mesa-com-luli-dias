@@ -532,6 +532,7 @@ function initMap(){
 // Não mexer manualmente nos valores HTML do stats-bar.
 (function(){
   if (typeof CITIES === 'undefined') return;
+  function __catOf(q){if(!q)return null;var t=String(q).toLowerCase();var f0=t.split('\u00b7')[0].trim();if(/loja de vinho|garrafeira|wine shop/.test(t))return 'lojaVinho';if(/wine bar|bar de vinho/.test(f0))return 'wineBar';if(/mercado|market|food hall|food court/.test(f0)&&!/^(bistr|sushi|restaurante|izakaya)/.test(f0))return 'mercado';return null;}
   let r=0, h=0, mk=0, cities=0, m1=0, m2=0, m3=0, bib=0, k1=0, k2=0, k3=0;
   for (const city of CITIES) {
     if (!city || !city.entries || city.entries.length === 0) continue;
@@ -539,8 +540,7 @@ function initMap(){
     for (const e of city.entries) {
       if (!e || e.pending) continue;
       if (e.t === 'h') { h++; if (e.k===1) k1++; else if (e.k===2) k2++; else if (e.k===3) k3++; }
-      else if (e.t === 'm') { mk++; r++; }
-      else r++;
+      else { var _c=__catOf(e.q); if(!_c && e.t==='m') _c='mercado'; if(_c==='mercado'){ mk++; } else if(!_c){ r++; } }
       if (e.m === 'm1') m1++; else if (e.m === 'm2') m2++; else if (e.m === 'm3') m3++;
       else if (e.m === 'bib') bib++;
     }

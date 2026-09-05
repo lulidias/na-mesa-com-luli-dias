@@ -48,6 +48,14 @@ function extractCities(text) {
   return all;
 }
 
+// Mesma categorização do build-counts.js: Wine Bar / Loja de Vinho / Mercado
+// NÃO contam como restaurante (têm categoria própria no home).
+function catOf(q){ if(!q) return null; const t=String(q).toLowerCase(); const f0=t.split('·')[0].trim();
+  if(/loja de vinho|garrafeira|wine shop/.test(t)) return 'lojaVinho';
+  if(/wine bar|bar de vinho/.test(f0)) return 'wineBar';
+  if(/mercado|market|food hall|food court/.test(f0) && !/^(bistr|sushi|restaurante|izakaya)/.test(f0)) return 'mercado';
+  return null; }
+
 function countCities(cities) {
   let r = 0, h = 0, mk = 0, c = 0, m1 = 0, m2 = 0, m3 = 0, bib = 0, k1 = 0, k2 = 0, k3 = 0;
   for (const city of cities) {
@@ -56,8 +64,7 @@ function countCities(cities) {
     for (const e of city.entries) {
       if (!e || e.pending) continue;
       if (e.t === 'h') { h++; if (e.k === 1) k1++; else if (e.k === 2) k2++; else if (e.k === 3) k3++; }
-      else if (e.t === 'm') { mk++; r++; }
-      else r++;
+      else { const _c = catOf(e.q) || (e.t === 'm' ? 'mercado' : null); if (_c === 'mercado') mk++; else if (!_c) r++; }
       if (e.m === 'm1') m1++; else if (e.m === 'm2') m2++; else if (e.m === 'm3') m3++;
       else if (e.m === 'bib') bib++;
     }
@@ -78,7 +85,7 @@ function valueForLabel(label, n) {
   return null; // label desconhecido — não toca
 }
 
-const STAT_RE = /(<div class="stat"><div class="stat-num">)([^<]*)(<\/div><div class="stat-lbl">)([^<]*)(<\/div><\/div>)/g;
+const STAT_RE = /(<div class="stat"><div class="stat-num">)([^<]*)(<\/div><div class="stat-lbl"[^>]*>)([^<]*)(<\/div><\/div>)/g;
 
 let changedFiles = 0;
 const report = [];
