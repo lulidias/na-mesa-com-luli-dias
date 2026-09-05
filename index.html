@@ -58,6 +58,10 @@ header{background:var(--white);border-bottom:1px solid var(--border);padding:48p
   header .ld-logo--home{height:auto;width:min(300px,80vw)}
   .brand-name{width:min(300px,80vw);margin:0 auto}
   .countries-grid{grid-template-columns:1fr;gap:14px}
+  #globalStats{display:grid;grid-template-columns:repeat(4,1fr);padding:16px 8px;gap:14px 0;align-items:start}
+  #globalStats .gstat{padding:0 2px;border-right:none;min-width:0}
+  #globalStats .gstat-num{font-size:18px}
+  #globalStats .gstat-lbl{font-size:6px;letter-spacing:.5px;line-height:1.25}
 }
 html,body{overflow-x:clip}
 .brand-tagline{font-family:Didot,'Playfair Display',Georgia,serif;font-size:11px;font-weight:400;color:var(--ink);letter-spacing:8px;padding-left:8px;margin-top:0}
@@ -393,7 +397,7 @@ function applyTranslations(){
     if(key) el.textContent=t(key);
   });
   const tgl=document.getElementById('lang-toggle');
-  if(tgl){ tgl.textContent='🌐 '+LANG.toUpperCase(); tgl.style.color=LANG==='pt'?'var(--ink-lt)':'var(--gold)'; }
+  if(tgl){ tgl.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'+LANG.toUpperCase(); tgl.style.color=LANG==='pt'?'var(--ink-lt)':'var(--gold)'; }
 }
 // ──────────────────────────────────────────────────────────────────────────
 

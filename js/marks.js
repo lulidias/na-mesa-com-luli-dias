@@ -537,7 +537,7 @@
       langBtn.className = 'util-link';
       langBtn.removeAttribute('style');
       var curLang = localStorage.getItem('ld-lang') || 'pt';
-      langBtn.textContent = '🌐 ' + curLang.toUpperCase();
+      langBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>' + curLang.toUpperCase();
       if (curLang !== 'pt') langBtn.style.color = 'var(--gold)';
       // NÃO envolver window.toggleLang: o dropdown inline é o dono canónico.
     }
