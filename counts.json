@@ -1,9 +1,9 @@
 {
   "totals": {
-    "restaurants": 1090,
+    "restaurants": 1089,
     "hotels": 187,
     "markets": 27,
-    "cities": 221,
+    "cities": 220,
     "lojaVinho": 2,
     "wineBar": 12,
     "mercado": 27,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 62,
-    "total": 1318,
+    "total": 1317,
     "michelin": 91,
     "keysEntries": 40
   },
@@ -927,10 +927,10 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 526,
+      "restaurants": 525,
       "hotels": 72,
       "markets": 4,
-      "cities": 60,
+      "cities": 59,
       "lojaVinho": 0,
       "wineBar": 6,
       "mercado": 4,
@@ -991,28 +991,6 @@
       "totalKeys": 2,
       "michelin": 0,
       "keysEntries": 2
-    },
-    "brasil-norte": {
-      "restaurants": 1,
-      "hotels": 0,
-      "markets": 0,
-      "cities": 1,
-      "lojaVinho": 0,
-      "wineBar": 0,
-      "mercado": 0,
-      "m1": 0,
-      "m2": 0,
-      "m3": 0,
-      "bib": 0,
-      "green": 0,
-      "rec": 0,
-      "keys1": 0,
-      "keys2": 0,
-      "keys3": 0,
-      "totalStars": 0,
-      "totalKeys": 0,
-      "michelin": 0,
-      "keysEntries": 0
     },
     "brasil-sudeste": {
       "restaurants": 322,
@@ -1114,11 +1092,6 @@
       "restaurants": 42,
       "hotels": 12,
       "cities": 8
-    },
-    "Pará": {
-      "restaurants": 2,
-      "hotels": 0,
-      "cities": 2
     },
     "Minas Gerais": {
       "restaurants": 20,
