@@ -83,6 +83,21 @@ header{background:var(--white);border-bottom:1px solid var(--border);padding:44p
 .view-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 18px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
 .view-btn:hover{border-color:var(--gold);color:var(--gold)}
 .view-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.dens-toggle{display:inline-flex;gap:5px;margin-left:14px;padding-left:14px;border-left:1px solid var(--border)}
+.dens-btn{width:34px;height:30px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s;padding:0}
+.dens-btn svg{width:15px;height:15px;display:block}
+.dens-btn:hover{border-color:var(--gold);color:var(--gold)}
+.dens-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+#main.view-list .restaurants-grid{grid-template-columns:1fr;gap:10px}
+#main.view-list .restaurant-card{display:grid!important;grid-template-columns:88px 1fr;align-items:stretch}
+#main.view-list .card-photo-wrap{width:88px;height:88px;min-height:88px}
+#main.view-list .card-gallery img{min-width:100%;width:100%}
+#main.view-list .card-nav,#main.view-list .card-dots{display:none!important}
+#main.view-list .card-body{padding:9px 14px;display:flex;flex-direction:column;justify-content:center}
+#main.view-list .card-name{font-size:16px}
+#main.view-list .card-meta-row{margin-bottom:0}
+#main.view-list .card-desc,#main.view-list .card-contact,#main.view-list .card-note{display:none!important}
+@media(max-width:640px){.dens-toggle{margin-left:10px;padding-left:10px}#main.view-list .restaurant-card{grid-template-columns:74px 1fr}#main.view-list .card-photo-wrap{width:74px;height:74px;min-height:74px}#main.view-list .card-name{font-size:15px}}
 .cuisine-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .cuisine-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
 .cuisine-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;padding:5px 12px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
@@ -227,6 +242,10 @@ footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-
   <span class="view-toggle-lbl" data-i18n="view">Vista:</span>
   <button class="view-btn active" id="btnList" onclick="showView('list')" data-i18n="list">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')" data-i18n="map">Mapa</button>
+  <span class="dens-toggle">
+    <button class="dens-btn active" id="densCards" onclick="setDensity('cards')" aria-label="Cards" title="Cards"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></button>
+    <button class="dens-btn" id="densList" onclick="setDensity('list')" aria-label="Lista" title="Lista"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="8.5" y1="6" x2="21" y2="6"/><line x1="8.5" y1="12" x2="21" y2="12"/><line x1="8.5" y1="18" x2="21" y2="18"/><circle cx="3.8" cy="6" r="1.2" fill="currentColor" stroke="none"/><circle cx="3.8" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="3.8" cy="18" r="1.2" fill="currentColor" stroke="none"/></svg></button>
+  </span>
 </div>
 <div class="type-bar">
   <span class="type-lbl" data-i18n="type">Tipo:</span>
@@ -472,9 +491,14 @@ function setMichelin(m,el){
 
 buildCuisineBar();
 render();
+applyDensity();
 
 let mapInstance=null;
 const COORDS={"coreia/grand-josun-busan":{"name": "Grand Josun Busan", "address": "292 Marine City 3-ro, Haeundae-gu, Busan", "country": "coreia", "lat": 35.1546, "lng": 129.1428},"coreia/grand-josun-jeju":{"name": "Grand Josun Jeju", "address": "114 Jungmun Gwangwang-ro, Seogwipo-si, Jeju", "country": "coreia", "lat": 33.2454, "lng": 126.4131},"coreia/signiel-seoul":{"name": "Signiel Seoul", "address": "300 Olympic-ro, Songpa-gu, Seul (Lotte World Tower)", "country": "coreia", "lat": 37.5125, "lng": 127.1025},"coreia/four-seasons-hotel-seoul":{"name": "Four Seasons Hotel Seoul", "address": "97 Saemunan-ro, Jongno-gu, Seul", "country": "coreia", "lat": 37.5697, "lng": 126.9707},"coreia/bom-pi-yang":{"name":"Bom Pi Yang","address":"Mapo-gu, Seul","country":"coreia","lat":37.566571,"lng":126.9015317},"coreia/han-ubang":{"name":"Han-ubang","address":"Gangnam-gu, Seul","country":"coreia","lat":37.5177,"lng":127.0473},"coreia/hwanggeummokjang-golden-farm":{"name":"Hwanggeummokjang — Golden Farm","address":"Seocho-gu, Seul","country":"coreia","lat":37.4835,"lng":127.0322},"coreia/ilpyeon-deungsim":{"name":"Ilpyeon Deungsim","address":"Hongik-ro 6-gil, Mapo-gu, Seul","country":"coreia","lat":37.5561301,"lng":126.9239469},"coreia/kyoyang-siksa":{"name":"Kyoyang Siksa","address":"Gangnam-gu, Seul","country":"coreia","lat":37.5177,"lng":127.0473},"coreia/samwon-garden":{"name":"Samwon Garden","address":"Gangnam, Seul","country":"coreia","lat":37.5249856,"lng":127.0324446},"coreia/wangbijip":{"name":"Wangbijip","address":"Myeongdong, Jung-gu, Seul","country":"coreia","lat":37.5608977,"lng":126.9863762},"coreia/woo-lae-oak":{"name":"Woo Lae Oak","address":"Seul","country":"coreia","lat":37.5680711,"lng":126.9987424},"coreia/food-avenue-lotte":{"name":"Food Avenue — Lotte","address":"Lotte Dept Store, 81 Namdaemun-ro, Jung-gu, Seul","country":"coreia","lat":37.5648557,"lng":126.9817065},"coreia/gwangjang-market":{"name":"Gwangjang Market","address":"Gwangjang Market, Jongno-gu, Seul","country":"coreia","lat":37.5697826,"lng":127.0006548},"coreia/myeongdong-night-market":{"name":"Myeongdong Night Market","address":"Myeongdong, Seul","country":"coreia","lat":37.5608977,"lng":126.9863762},"coreia/noryangjin-fish-market":{"name":"Noryangjin Fish Market","address":"Noryangjin, Seul","country":"coreia","lat":37.513453,"lng":126.9382027},"coreia/ilpum-hanwoo":{"name":"Ilpum Hanwoo","address":"Haeundae-gu, Busan","country":"coreia","lat":35.1629,"lng":129.1638},"coreia/haeundae-market":{"name":"Haeundae Market","address":"Haeundae, Busan","country":"coreia","lat":35.1615547,"lng":129.1624282},"coreia/dongmun-market":{"name":"Dongmun Market","address":"Jeju City","country":"coreia","lat":33.5120719,"lng":126.5264003}};
+var densityMode=(function(){try{return localStorage.getItem('ld_density')||'cards'}catch(e){return 'cards'}})();
+function setDensity(m){densityMode=m;try{localStorage.setItem('ld_density',m)}catch(e){}applyDensity();}
+function applyDensity(){var main=document.getElementById('main');if(main)main.classList.toggle('view-list',densityMode==='list');var c=document.getElementById('densCards'),l=document.getElementById('densList');if(c)c.classList.toggle('active',densityMode!=='list');if(l)l.classList.toggle('active',densityMode==='list');}
+applyDensity();
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');

@@ -87,6 +87,21 @@ header{background:var(--white);border-bottom:1px solid var(--border);padding:44p
 .view-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:500;padding:6px 18px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
 .view-btn:hover{border-color:var(--gold);color:var(--gold)}
 .view-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.dens-toggle{display:inline-flex;gap:5px;margin-left:14px;padding-left:14px;border-left:1px solid var(--border)}
+.dens-btn{width:34px;height:30px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s;padding:0}
+.dens-btn svg{width:15px;height:15px;display:block}
+.dens-btn:hover{border-color:var(--gold);color:var(--gold)}
+.dens-btn.active{background:var(--gold);border-color:var(--gold);color:var(--white)}
+#main.view-list .restaurants-grid{grid-template-columns:1fr;gap:10px}
+#main.view-list .restaurant-card{display:grid!important;grid-template-columns:88px 1fr;align-items:stretch}
+#main.view-list .card-photo-wrap{width:88px;height:88px;min-height:88px}
+#main.view-list .card-gallery img{min-width:100%;width:100%}
+#main.view-list .card-nav,#main.view-list .card-dots{display:none!important}
+#main.view-list .card-body{padding:9px 14px;display:flex;flex-direction:column;justify-content:center}
+#main.view-list .card-name{font-size:16px}
+#main.view-list .card-meta-row{margin-bottom:0}
+#main.view-list .card-desc,#main.view-list .card-contact,#main.view-list .card-note{display:none!important}
+@media(max-width:640px){.dens-toggle{margin-left:10px;padding-left:10px}#main.view-list .restaurant-card{grid-template-columns:74px 1fr}#main.view-list .card-photo-wrap{width:74px;height:74px;min-height:74px}#main.view-list .card-name{font-size:15px}}
 .cuisine-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 48px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .cuisine-lbl{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-lt);margin-right:4px}
 .cuisine-btn{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;padding:5px 12px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--ink-lt);cursor:pointer;transition:all .2s}
@@ -277,6 +292,10 @@ footer a{color:var(--gold);text-decoration:none}
   <span class="view-toggle-lbl" data-i18n="view">Vista:</span>
   <button class="view-btn active" id="btnList" onclick="showView('list')" data-i18n="list">Lista</button>
   <button class="view-btn" id="btnMap" onclick="showView('map')" data-i18n="map">Mapa</button>
+  <span class="dens-toggle">
+    <button class="dens-btn active" id="densCards" onclick="setDensity('cards')" aria-label="Cards" title="Cards"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></button>
+    <button class="dens-btn" id="densList" onclick="setDensity('list')" aria-label="Lista" title="Lista"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="8.5" y1="6" x2="21" y2="6"/><line x1="8.5" y1="12" x2="21" y2="12"/><line x1="8.5" y1="18" x2="21" y2="18"/><circle cx="3.8" cy="6" r="1.2" fill="currentColor" stroke="none"/><circle cx="3.8" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="3.8" cy="18" r="1.2" fill="currentColor" stroke="none"/></svg></button>
+  </span>
 </div>
 <div class="type-bar">
   <span class="type-lbl" data-i18n="type">Tipo:</span>
@@ -539,9 +558,14 @@ function setMichelin(m,el){
 
 buildCuisineBar();
 render();
+applyDensity();
 
 let mapInstance=null;
 const COORDS={"irlanda/ashford-castle":{"name": "Ashford Castle", "address": "Ashford Castle, Cong, Co. Mayo", "country": "irlanda", "lat": 53.5258, "lng": -9.2769},"irlanda/the-k-club":{"name": "The K Club", "address": "Straffan, Co. Kildare", "country": "irlanda", "lat": 53.3169, "lng": -6.6122},"irlanda/the-dungeon-bar":{"name":"The Dungeon Bar","address":"Ashford Castle, Cong, Co. Mayo","country":"irlanda","lat":53.5258,"lng":-9.2769},"irlanda/the-straffan-inn":{"name":"The Straffan Inn","address":"The K Club, Straffan, Co. Kildare","country":"irlanda","lat":53.3169,"lng":-6.6122},"irlanda/legends-restaurant":{"name":"Legends Restaurant","address":"Arnold Palmer Clubhouse, The K Club, Straffan, Co. Kildare","country":"irlanda","lat":53.3175,"lng":-6.6138},"irlanda/vaughan-s-anchor-inn":{"name":"Vaughan's Anchor Inn","address":"Main Street, Liscannor, V95 FN5R, Co. Clare","country":"irlanda","lat":52.9395,"lng":-9.3899},"irlanda/the-dylan-hotel":{"name": "The Dylan Hotel", "address": "Eastmoreland Place, Ballsbridge, Dublin 4", "country": "irlanda", "lat": 53.3293, "lng": -6.2387},"irlanda/the-davenport-hotel":{"name":"The Davenport Hotel","address":"8-10 Merrion Street Lower, Dublin 2, D02 TX65, Ireland","country":"irlanda","lat":53.3415933,"lng":-6.249794},"irlanda/big-fan-bao":{"name":"Big Fan Bao","address":"South Anne Street, Dublin 2","country":"irlanda","lat":53.3410452,"lng":-6.25891},"irlanda/la-gordita":{"name":"La Gordita","address":"1 Bath Avenue, Dublin 4","country":"irlanda","lat":53.3375324,"lng":-6.2306815},"irlanda/mcdaids":{"name":"McDaids","address":"3 Harry Street, Dublin 2","country":"irlanda","lat":53.3412245,"lng":-6.2610034},"irlanda/merchants-arch":{"name":"Merchants Arch","address":"49 Wellington Quay, Temple Bar, Dublin 2","country":"irlanda","lat":53.3459431,"lng":-6.2628187},"irlanda/pi-temple-bar":{"name":"PI Temple Bar","address":"23 Essex Street East, Temple Bar, Dublin 2, D02 WP71, Ireland","country":"irlanda","lat":53.3454784,"lng":-6.2646057},"irlanda/pichet":{"name":"Pichet","address":"14-15 Trinity Street, Dublin 2","country":"irlanda","lat":53.3438588,"lng":-6.2621329},"irlanda/searsons":{"name":"Searsons","address":"42 Upper Baggot Street, Dublin 4","country":"irlanda","lat":53.3333278,"lng":-6.2429012},"irlanda/the-brazen-head":{"name":"The Brazen Head","address":"20 Lower Bridge Street, Dublin 8","country":"irlanda","lat":53.3449368,"lng":-6.2763108},"irlanda/the-duke":{"name":"The Duke","address":"9 Duke Street, Dublin 2","country":"irlanda","lat":53.3419649,"lng":-6.258728},"irlanda/p-j-o":{"name":"P.J. O","address":"Tholsel Street, Carlingford, Co. Louth","country":"irlanda","lat":54.040306,"lng":-6.1862623}};
+var densityMode=(function(){try{return localStorage.getItem('ld_density')||'cards'}catch(e){return 'cards'}})();
+function setDensity(m){densityMode=m;try{localStorage.setItem('ld_density',m)}catch(e){}applyDensity();}
+function applyDensity(){var main=document.getElementById('main');if(main)main.classList.toggle('view-list',densityMode==='list');var c=document.getElementById('densCards'),l=document.getElementById('densList');if(c)c.classList.toggle('active',densityMode!=='list');if(l)l.classList.toggle('active',densityMode==='list');}
+applyDensity();
 function showView(mode){
   const main=document.getElementById('main');
   const map=document.getElementById('map');
