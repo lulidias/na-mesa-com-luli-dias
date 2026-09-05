@@ -57,8 +57,11 @@ body{padding-top:72px}
   .top-nav-brand{display:none}
   .nav-current,.nav-sep{display:none}
   .top-nav .util-link{padding:0 7px;font-size:8.5px;letter-spacing:1px;gap:5px}
-  .stats-bar{padding:18px 14px;row-gap:16px}
-  .stat{flex:0 0 50%;box-sizing:border-box;padding:0;border-right:none;text-align:center}
+  .stats-bar{flex-wrap:nowrap;padding:16px 6px}
+  .stats-bar .stat{flex:1 1 0;min-width:0;padding:0 3px;text-align:center}
+  .stats-bar .stat:last-child{border-right:none}
+  .stats-bar .stat-num{font-size:21px;white-space:nowrap}
+  .stats-bar .stat-lbl{font-size:6px;letter-spacing:.4px;white-space:nowrap}
 }
 
 /* HEADER — brand redesign */
