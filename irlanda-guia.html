@@ -53,6 +53,14 @@ body{padding-top:72px}
 @media(max-width:380px){
   .top-nav-brand{display:none}
 }
+/* ─── Mobile: topo limpo (esconde logo+breadcrumb, ações compactas) + big numbers 2×2 ─── */
+@media(max-width:640px){
+  .top-nav-brand{display:none}
+  .nav-current,.nav-sep{display:none}
+  .top-nav .util-link{padding:0 7px;font-size:8.5px;letter-spacing:1px;gap:5px}
+  .stats-bar{padding:18px 14px;row-gap:16px}
+  .stat{flex:0 0 50%;box-sizing:border-box;padding:0;border-right:none;text-align:center}
+}
 
 /* HEADER — brand redesign */
 header{background:var(--white);border-bottom:1px solid var(--border);padding:44px 48px 32px}
