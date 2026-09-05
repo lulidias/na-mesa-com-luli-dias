@@ -100,6 +100,8 @@ var DATA = [];
 var activeType = 'all';
 
 function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
+// mesmo slug dos guias (nórdico-aware) → casa com id="card-SLUG" p/ abrir o modal
+function slug(n){ return (n||'').toLowerCase().replace(/æ/g,'ae').replace(/ø/g,'o').replace(/å/g,'a').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
 
 var ML = { m3:'★★★', m2:'★★', m1:'★', bib:'Bib Gourmand', rec:'Recomendado' };
 
@@ -115,7 +117,8 @@ function badgesHTML(e){
 }
 
 function search(){
-  var q   = norm(document.getElementById('q').value.trim());
+  var raw = document.getElementById('q').value.trim();
+  var q   = norm(raw);
   var res = document.getElementById('results');
   var clearBtn = document.getElementById('clearBtn');
   var hint = document.getElementById('hint');
@@ -123,39 +126,55 @@ function search(){
 
   if(!q){
     res.innerHTML = '';
-    hint.textContent = '1 144 lugares em 40 guias';
+    hint.textContent = (DATA.length ? DATA.length + ' lugares no guia' : '');
     return;
   }
 
-  var filtered = DATA.filter(function(e){
-    if(activeType==='r'&&e.t==='h') return false;
-    if(activeType==='h'&&e.t!=='h') return false;
-    if(activeType==='m'&&!e.m) return false;
-    return norm(e.n).includes(q) || norm(e.q).includes(q) || norm(e.city).includes(q) || norm(e.country).includes(q);
-  });
+  // tokens: cada palavra tem de aparecer (AND), em qualquer ordem, em nome/cozinha/cidade/país
+  var toks = q.split(/\s+/).filter(Boolean);
+  var scored = [];
+  for(var i=0;i<DATA.length;i++){
+    var e = DATA[i];
+    if(activeType==='r'&&e.t==='h') continue;
+    if(activeType==='h'&&e.t!=='h') continue;
+    if(activeType==='m'&&!e.m) continue;
+    var en = e._n || (e._n = norm(e.n));
+    var es = e._s || (e._s = en + ' ' + norm(e.q) + ' ' + norm(e.city) + ' ' + norm(e.country));
+    var ok = true;
+    for(var t=0;t<toks.length;t++){ if(es.indexOf(toks[t]) < 0){ ok = false; break; } }
+    if(!ok) continue;
+    // relevância: nome exato > começa com > contém > tokens no nome
+    var sc = 0;
+    if(en === q) sc += 1000; else if(en.indexOf(q) === 0) sc += 500; else if(en.indexOf(q) >= 0) sc += 250;
+    for(var t2=0;t2<toks.length;t2++){ sc += (en.indexOf(toks[t2]) >= 0) ? 20 : 1; }
+    scored.push({ e:e, sc:sc });
+  }
 
-  hint.textContent = filtered.length + ' resultado' + (filtered.length!==1?'s':'') + ' para "' + document.getElementById('q').value.trim() + '"';
+  hint.textContent = scored.length + ' resultado' + (scored.length!==1?'s':'') + ' para "' + raw + '"';
 
-  if(!filtered.length){
+  if(!scored.length){
     res.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div><div class="empty-msg">Nenhum resultado encontrado</div></div>';
     return;
   }
 
-  // Group by country
-  var groups = {};
-  filtered.forEach(function(e){
-    if(!groups[e.country]) groups[e.country] = { flag: e.flag, entries: [] };
+  scored.sort(function(a,b){ return b.sc - a.sc || a.e.n.localeCompare(b.e.n, 'pt'); });
+
+  // agrupa por país preservando a ordem de relevância
+  var order = [], groups = {};
+  scored.forEach(function(x){
+    var e = x.e;
+    if(!groups[e.country]){ groups[e.country] = { flag: e.flag, entries: [] }; order.push(e.country); }
     groups[e.country].entries.push(e);
   });
 
   var html = '';
-  Object.keys(groups).forEach(function(country){
+  order.forEach(function(country){
     var g = groups[country];
     html += '<div class="country-group">';
     html += '<div class="country-hdr"><div class="country-hdr-inner">' + g.flag + ' ' + country + '</div></div>';
     g.entries.forEach(function(e){
-      var typeLabel = e.t==='h' ? 'Hotel' : 'Restaurante';
-      var guideUrl  = e.guide + '.html?q=' + encodeURIComponent(e.n);
+      var stateQ = (e.guide.indexOf('brasil-') === 0 && e.region) ? ('state=' + encodeURIComponent(e.region) + '&') : '';
+      var guideUrl = e.guide + '.html?' + stateQ + 'modal=' + slug(e.n);
       var badges    = badgesHTML(e);
       html += '<a class="r-card" href="' + guideUrl + '">' +
         '<div class="r-flag">' + e.flag + '</div>' +
@@ -179,7 +198,7 @@ function clearSearch(){
   document.getElementById('q').value = '';
   document.getElementById('clearBtn').classList.remove('vis');
   document.getElementById('results').innerHTML = '';
-  document.getElementById('hint').textContent = '1 144 lugares em 40 guias';
+  document.getElementById('hint').textContent = (DATA.length ? DATA.length + ' lugares no guia' : '');
   document.getElementById('q').focus();
 }
 

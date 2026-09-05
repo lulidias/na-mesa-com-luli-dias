@@ -108,6 +108,7 @@ for (const guide of GUIDES) {
         s: e.s || 0,
         k: e.k || 0,
         city: city.city || '',
+        region: city.region || '',
         guide: guide.slug,
         country: guide.country,
         flag: guide.flag,
