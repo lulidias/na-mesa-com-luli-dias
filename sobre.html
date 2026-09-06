@@ -162,6 +162,17 @@ footer a{color:var(--gold);text-decoration:none}
 #pesquisa .pq-ano{font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);font-weight:600}
 #pesquisa tr.tot .pq-ano{font-size:15px;letter-spacing:1px}
 #pesquisa .pq-ytd{font-family:'Montserrat',sans-serif;font-size:8px;color:var(--ink-xs,#9a9a9a);letter-spacing:1px;white-space:nowrap}
+@media(max-width:640px){
+  #pesquisa .tbl-wrap{width:auto;max-width:100%;margin:18px auto 8px;padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #pesquisa table{width:auto;min-width:100%;font-size:11px}
+  #pesquisa th{font-size:7px;padding:7px 6px;letter-spacing:.2px}
+  #pesquisa td{font-size:11px;padding:7px 6px}
+  #pesquisa th:first-child,#pesquisa td:first-child{position:sticky;left:0;background:var(--white);box-shadow:1px 0 0 var(--border)}
+  #pesquisa tbody tr:hover td:first-child{background:#FAF5EB}
+  #pesquisa tr.tot td:first-child{background:#FAF5EB}
+  #pesquisa .pq-ano{font-size:12px}
+  #pesquisa tr.tot .pq-ano{font-size:12px;letter-spacing:.5px}
+}
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "267deca0f25fd78caf5c7d0264c49431"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
