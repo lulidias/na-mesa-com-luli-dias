@@ -79,6 +79,18 @@ body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-seri
 footer{background:var(--white);border-top:1px solid var(--border);padding:26px 24px;text-align:center}
 footer p{font-size:11px;letter-spacing:1.4px;color:var(--ink-xs)}
 footer a{color:var(--gold);text-decoration:none}
+
+.aero-card[data-ed]{cursor:pointer}
+.aero-card[data-ed]:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.aero-read{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-top:11px}
+.aero-card:hover .aero-read{color:var(--gold-dk)}
+#aero-lb{position:fixed;inset:0;z-index:9999;background:rgba(15,15,18,.95);display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:58px 16px 64px}
+#aero-lb.open{display:block}
+#aero-lb .lb-inner{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+#aero-lb .lb-cap{text-align:center;color:#d8d1c4;font-size:10.5px;letter-spacing:2.4px;text-transform:uppercase;margin-bottom:2px}
+#aero-lb img{width:100%;height:auto;display:block;border-radius:3px;box-shadow:0 12px 44px rgba(0,0,0,.5);background:#fff}
+#aero-lb .lb-close{position:fixed;top:14px;right:16px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.34);color:#fff;font-size:20px;line-height:1;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;transition:background .2s}
+#aero-lb .lb-close:hover{background:rgba(255,255,255,.28)}
 </style>
 </head>
 <body>
@@ -124,7 +136,7 @@ footer a{color:var(--gold);text-decoration:none}
 
 <main class="grade">
 
-  <article class="aero-card">
+  <article class="aero-card" data-ed="383" role="button" tabindex="0">
     <div class="aero-capa"><img src="assets/aero/aero-383.jpg" alt="AERO Magazine Nº 383" loading="lazy"></div>
     <div class="aero-info">
       <div class="aero-ed">AERO Nº 383 · 2026</div>
@@ -140,10 +152,11 @@ footer a{color:var(--gold);text-decoration:none}
         <span class="lang-it">Un prodotto business ben strutturato, con la gastronomia come punto forte del volo.</span>
         <span class="lang-de">Ein gut strukturiertes Business-Produkt, mit der Gastronomie als Höhepunkt des Fluges.</span>
       </p>
+      <div class="aero-read" data-i18n="read">Ler a matéria →</div>
     </div>
   </article>
 
-  <article class="aero-card">
+  <article class="aero-card" data-ed="384" role="button" tabindex="0">
     <div class="aero-capa"><img src="assets/aero/aero-384.jpg" alt="AERO Magazine Nº 384" loading="lazy"></div>
     <div class="aero-info">
       <div class="aero-ed">AERO Nº 384 · 2026</div>
@@ -159,10 +172,11 @@ footer a{color:var(--gold);text-decoration:none}
         <span class="lang-it">Operazione precisa e il miglior pasto mai avuto a bordo — tra le mie preferite.</span>
         <span class="lang-de">Präziser Betrieb und das beste Essen, das ich an Bord hatte — einer meiner Favoriten.</span>
       </p>
+      <div class="aero-read" data-i18n="read">Ler a matéria →</div>
     </div>
   </article>
 
-  <article class="aero-card">
+  <article class="aero-card" data-ed="385" role="button" tabindex="0">
     <div class="aero-capa"><img src="assets/aero/aero-385.jpg" alt="AERO Magazine Nº 385" loading="lazy"></div>
     <div class="aero-info">
       <div class="aero-ed">AERO Nº 385 · 2026</div>
@@ -178,10 +192,11 @@ footer a{color:var(--gold);text-decoration:none}
         <span class="lang-it">La cabina è datata, ma il servizio impeccabile colloca ANA tra le migliori al mondo.</span>
         <span class="lang-de">Die Kabine ist in die Jahre gekommen, doch der tadellose Service zählt ANA zu den Weltbesten.</span>
       </p>
+      <div class="aero-read" data-i18n="read">Ler a matéria →</div>
     </div>
   </article>
 
-  <article class="aero-card">
+  <article class="aero-card" data-ed="386" role="button" tabindex="0">
     <div class="aero-capa"><img src="assets/aero/aero-386.jpg" alt="AERO Magazine Nº 386" loading="lazy"></div>
     <div class="aero-info">
       <div class="aero-ed">AERO Nº 386 · 2026</div>
@@ -197,6 +212,7 @@ footer a{color:var(--gold);text-decoration:none}
         <span class="lang-it">Servizio cordiale e pulizia esemplare, buon rapporto qualità-prezzo; la cabina chiede un aggiornamento.</span>
         <span class="lang-de">Herzlicher Service und vorbildliche Sauberkeit, gutes Preis-Leistungs-Verhältnis; die Kabine braucht ein Update.</span>
       </p>
+      <div class="aero-read" data-i18n="read">Ler a matéria →</div>
     </div>
   </article>
 
@@ -229,12 +245,12 @@ footer a{color:var(--gold);text-decoration:none}
 (function(){
   var LANG=localStorage.getItem('ld-lang')||'pt';
   var T={
-    pt:{back:'← Voltar',kicker:'Coluna mensal · Flight Check',cabin:'Classe Executiva',soon:'Em breve',n_ed:'Edições',n_cia:'Companhias',n_cort:'Cortesias'},
-    en:{back:'← Back',kicker:'Monthly column · Flight Check',cabin:'Business Class',soon:'Coming soon',n_ed:'Editions',n_cia:'Airlines',n_cort:'Courtesies'},
-    fr:{back:'← Retour',kicker:'Chronique mensuelle · Flight Check',cabin:'Classe Affaires',soon:'Bientôt',n_ed:'Éditions',n_cia:'Compagnies',n_cort:'Faveurs'},
-    es:{back:'← Volver',kicker:'Columna mensual · Flight Check',cabin:'Clase Ejecutiva',soon:'Próximamente',n_ed:'Ediciones',n_cia:'Compañías',n_cort:'Cortesías'},
-    it:{back:'← Indietro',kicker:'Rubrica mensile · Flight Check',cabin:'Classe Business',soon:'Prossimamente',n_ed:'Edizioni',n_cia:'Compagnie',n_cort:'Favori'},
-    de:{back:'← Zurück',kicker:'Monatliche Kolumne · Flight Check',cabin:'Business Class',soon:'Demnächst',n_ed:'Ausgaben',n_cia:'Airlines',n_cort:'Gefälligkeiten'}
+    pt:{back:'← Voltar',kicker:'Coluna mensal · Flight Check',cabin:'Classe Executiva',soon:'Em breve',n_ed:'Edições',n_cia:'Companhias',n_cort:'Cortesias',read:'Ler a matéria →'},
+    en:{back:'← Back',kicker:'Monthly column · Flight Check',cabin:'Business Class',soon:'Coming soon',n_ed:'Editions',n_cia:'Airlines',n_cort:'Courtesies',read:'Read the review →'},
+    fr:{back:'← Retour',kicker:'Chronique mensuelle · Flight Check',cabin:'Classe Affaires',soon:'Bientôt',n_ed:'Éditions',n_cia:'Compagnies',n_cort:'Faveurs',read:'Lire l\'article →'},
+    es:{back:'← Volver',kicker:'Columna mensual · Flight Check',cabin:'Clase Ejecutiva',soon:'Próximamente',n_ed:'Ediciones',n_cia:'Compañías',n_cort:'Cortesías',read:'Leer el artículo →'},
+    it:{back:'← Indietro',kicker:'Rubrica mensile · Flight Check',cabin:'Classe Business',soon:'Prossimamente',n_ed:'Edizioni',n_cia:'Compagnie',n_cort:'Favori',read:'Leggi l\'articolo →'},
+    de:{back:'← Zurück',kicker:'Monatliche Kolumne · Flight Check',cabin:'Business Class',soon:'Demnächst',n_ed:'Ausgaben',n_cia:'Airlines',n_cort:'Gefälligkeiten',read:'Zum Artikel →'}
   };
   function tr(k){return (T[LANG]&&T[LANG][k])||T.pt[k]||k;}
   window.apply=function(){
@@ -248,5 +264,19 @@ footer a{color:var(--gold);text-decoration:none}
   apply();
 })();
 </script>
+<div id="aero-lb" onclick="if(event.target===this)aeroCloseLB()">
+  <button class="lb-close" onclick="aeroCloseLB()" aria-label="Fechar">&#10005;</button>
+  <div class="lb-inner"></div>
+</div>
+<script>
+(function(){
+  var PAGES={'383':[2,3,4,5,6,7,8],'384':[2,3,4,5,6,7],'385':[2,3,4,5],'386':[2,3,4,5,6,7]};
+  window.aeroOpenLB=function(ed){var lb=document.getElementById('aero-lb');var inner=lb.querySelector('.lb-inner');inner.innerHTML='';var cap=document.createElement('div');cap.className='lb-cap';cap.textContent='AERO Magazine · N\u00ba '+ed;inner.appendChild(cap);(PAGES[ed]||[]).forEach(function(p){var im=new Image();im.src='assets/aero/mat-'+ed+'-'+p+'.jpg';im.alt='AERO Magazine N\u00ba '+ed+' — p\u00e1gina '+p;im.loading='lazy';inner.appendChild(im);});lb.classList.add('open');document.body.style.overflow='hidden';lb.scrollTop=0;};
+  window.aeroCloseLB=function(){document.getElementById('aero-lb').classList.remove('open');document.body.style.overflow='';};
+  document.querySelectorAll('.aero-card[data-ed]').forEach(function(c){var ed=c.getAttribute('data-ed');c.addEventListener('click',function(){aeroOpenLB(ed);});c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();aeroOpenLB(ed);}});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')aeroCloseLB();});
+})();
+</script>
+<script src="js/logo.js"></script>
 </body>
 </html>
