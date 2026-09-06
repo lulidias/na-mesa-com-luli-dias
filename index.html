@@ -79,6 +79,9 @@ html,body{overflow-x:clip}
 .curator-sign{font-family:'Playfair Display',serif;font-style:italic;font-size:19px;color:var(--gold);margin:0 0 16px}
 .curator-more{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px}
 .curator-more:hover{color:var(--ink)}
+.curator-links{display:flex;flex-wrap:wrap;gap:14px 26px}
+.curator-links--sec{margin-top:13px}
+.curator-links .curator-more{white-space:nowrap}
 .curator-orn{display:flex;align-items:center;justify-content:center;gap:10px;padding:0 0 34px}
 .curator-orn .co-line{width:110px;height:1px;background:var(--gold);opacity:.4}
 .curator-orn .co-diamond{color:var(--gold);font-size:9px}
@@ -199,9 +202,13 @@ footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
     <p class="curator-lead" data-i18n="curatorLead">Me chamo Luli Dias, nasci no Recife, mas moro em São Paulo há mais de vinte anos ao mesmo tempo que percorro o mundo entre mesas, hotéis e vinícolas há mais de trinta. Este guia reúne apenas lugares conhecidos pessoalmente por mim aos quais tenho muito carinho e, por isso, os recomendo aos meus amigos.</p>
     <p class="curator-sub" data-i18n="curatorSub">Curadoria independente: nenhum lugar paga para estar aqui. Sem comissões, sem publicidade — a escolha é sempre minha.</p>
     <p class="curator-sign">— Luli</p>
-    <a href="sobre.html" class="curator-more" id="curator-link" data-i18n="curatorMore">A minha história →</a>
-    <a href="som.html" class="curator-more" id="playlists-link" data-i18n="playlistsMore" style="margin-left:22px">As minhas playlists →</a>
-    <a href="aeromagazine.html" class="curator-more" id="aero-link" data-i18n="aeroMore" style="margin-left:22px">Na AERO Magazine →</a>
+    <div class="curator-links">
+      <a href="sobre.html" class="curator-more" id="curator-link" data-i18n="curatorMore">A minha história →</a>
+    </div>
+    <div class="curator-links curator-links--sec">
+      <a href="som.html" class="curator-more" id="playlists-link" data-i18n="playlistsMore">As minhas playlists →</a>
+      <a href="aeromagazine.html" class="curator-more" id="aero-link" data-i18n="aeroMore">Na AERO Magazine →</a>
+    </div>
   </div>
 </section>
 <div class="curator-orn"><div class="co-line"></div><div class="co-diamond">◆</div><div class="co-line"></div></div>
