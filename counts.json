@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1095,
+    "restaurants": 1096,
     "hotels": 187,
     "markets": 27,
     "cities": 220,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 82,
     "totalKeys": 62,
-    "total": 1323,
+    "total": 1324,
     "michelin": 91,
     "keysEntries": 40
   },
@@ -927,7 +927,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 531,
+      "restaurants": 532,
       "hotels": 72,
       "markets": 4,
       "cities": 59,
@@ -971,7 +971,7 @@
       "keysEntries": 1
     },
     "brasil-nordeste": {
-      "restaurants": 95,
+      "restaurants": 96,
       "hotels": 16,
       "markets": 0,
       "cities": 18,
@@ -1064,7 +1064,7 @@
       "cities": 2
     },
     "Ceará": {
-      "restaurants": 28,
+      "restaurants": 30,
       "hotels": 2,
       "cities": 2
     },
