@@ -173,6 +173,23 @@ footer a{color:var(--gold);text-decoration:none}
   #pesquisa .pq-ano{font-size:12px}
   #pesquisa tr.tot .pq-ano{font-size:12px;letter-spacing:.5px}
 }
+
+html{scroll-behavior:smooth}
+#historia,#comendas,#viagens{scroll-margin-top:76px}
+.indice{display:flex;flex-wrap:wrap;gap:8px 22px;margin:22px 0 2px}
+.indice a{font-size:9px;letter-spacing:2.4px;text-transform:uppercase;color:var(--ink-lt);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px;transition:color .2s,border-color .2s;white-space:nowrap}
+.indice a:hover{color:var(--gold);border-bottom-color:var(--gold-lt)}
+.faceta{box-sizing:border-box;max-width:1100px;margin:0 auto;padding:52px 48px;border-top:1px solid var(--border);display:flex;align-items:center;gap:44px;scroll-margin-top:76px;background:var(--white)}
+.faceta-media{flex-shrink:0;width:158px}
+.faceta-media img{width:100%;height:auto;display:block;border-radius:6px;box-shadow:0 14px 34px rgba(0,0,0,.18)}
+.faceta-body{flex:1;min-width:0}
+.faceta-kicker{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:13px}
+.faceta-title{font-family:'Playfair Display',serif;font-weight:400;font-size:27px;color:var(--ink);line-height:1.12}
+.faceta-title em{font-style:italic;color:var(--gold-dk)}
+.faceta-desc{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--ink-lt);line-height:1.55;margin-top:12px;max-width:54ch}
+.faceta-cta{display:inline-block;margin-top:17px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px}
+.faceta-cta:hover{color:var(--ink)}
+@media(max-width:768px){.faceta{flex-direction:column;text-align:center;padding:42px 24px;gap:26px}.faceta-media{width:140px}.faceta-desc{margin-left:auto;margin-right:auto}}
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "267deca0f25fd78caf5c7d0264c49431"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
@@ -205,7 +222,7 @@ footer a{color:var(--gold);text-decoration:none}
 
     <!-- CONTEÚDO -->
     <div class="content">
-      <div class="content-pre" data-i18n="about_pre">sobre o curador</div>
+      <div class="content-pre" data-i18n="about_pre" id="historia">sobre o curador</div>
       <div class="content-title lang-pt">Uma vida entre<br>vinhos e <em>mesas</em></div>
       <div class="content-title lang-en" style="display:none">A life between<br>wines and <em>tables</em></div>
         <div class="content-title lang-fr" style="display:none">Une vie entre<br>vins et <em>tables</em></div>
@@ -213,6 +230,7 @@ footer a{color:var(--gold);text-decoration:none}
         <div class="content-title lang-it" style="display:none">Una vita tra<br>vini e <em>tavole</em></div>
         <div class="content-title lang-de" style="display:none">Ein Leben zwischen<br>Wein und <em>Tafel</em></div>
       <div class="orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
+      <nav class="indice" aria-label="Seções"><a href="#historia"><span class="lang-pt">História</span><span class="lang-en" style="display:none">Story</span><span class="lang-fr" style="display:none">Histoire</span><span class="lang-es" style="display:none">Historia</span><span class="lang-it" style="display:none">Storia</span><span class="lang-de" style="display:none">Geschichte</span></a><a href="#comendas"><span class="lang-pt">Comendas</span><span class="lang-en" style="display:none">Honours</span><span class="lang-fr" style="display:none">Distinctions</span><span class="lang-es" style="display:none">Comendas</span><span class="lang-it" style="display:none">Onorificenze</span><span class="lang-de" style="display:none">Auszeichnungen</span></a><a href="#aero">AERO Magazine</a><a href="#playlists">Playlists</a><a href="#viagens"><span class="lang-pt">Viagens</span><span class="lang-en" style="display:none">Travels</span><span class="lang-fr" style="display:none">Voyages</span><span class="lang-es" style="display:none">Viajes</span><span class="lang-it" style="display:none">Viaggi</span><span class="lang-de" style="display:none">Reisen</span></a></nav>
 
       <div class="bio">
         <p class="lang-pt">Nasci em Recife, Pernambuco, numa família portuguesa de terceira geração com raízes profundas no comércio — e na boa mesa. Cresci num ambiente em que a gastronomia faz parte do cotidiano: em casa sempre se respirou comida, vinho e hospitalidade.</p>
@@ -267,7 +285,7 @@ footer a{color:var(--gold);text-decoration:none}
 
 
     </div>
-      <div style="grid-column:1/-1">
+      <div style="grid-column:1/-1" id="comendas">
       <!-- COMENDAS -->
       <div class="distinctions-title" data-i18n="wine_distinctions">Comendas do Mundo do Vinho</div>
       <div class="comendas-sub lang-pt">Sete das mais prestigiadas confrarias e ordens enófilas da Europa me acolheram entre os seus — um reconhecimento raro no mundo do vinho.</div>
@@ -318,8 +336,31 @@ footer a{color:var(--gold);text-decoration:none}
 </div>
 
 
+
+<!-- FACETA: AERO MAGAZINE -->
+<section class="faceta" id="aero">
+  <a class="faceta-media" href="aeromagazine.html"><img src="assets/aero/aero-386.jpg" alt="AERO Magazine" loading="lazy"></a>
+  <div class="faceta-body">
+    <div class="faceta-kicker"><span class="lang-pt">Nos ares</span><span class="lang-en" style="display:none">In the air</span><span class="lang-fr" style="display:none">Dans les airs</span><span class="lang-es" style="display:none">En el aire</span><span class="lang-it" style="display:none">In volo</span><span class="lang-de" style="display:none">In der Luft</span></div>
+    <div class="faceta-title">AERO Magazine <em>Flight Check</em></div>
+    <div class="faceta-desc"><span class="lang-pt">Assino a coluna Flight Check da AERO Magazine, a maior revista de aviação da América Latina — avaliações de cabine premium em voos de longo curso. Voos pagos, sem cortesias: o mesmo critério do guia.</span><span class="lang-en" style="display:none">I write the Flight Check column for AERO Magazine, Latin America’s largest aviation title — premium-cabin reviews on long-haul flights. Paid flights, no courtesies: the same rule as the guide.</span><span class="lang-fr" style="display:none">Je signe la chronique Flight Check d’AERO Magazine, le plus grand magazine d’aviation d’Amérique latine — des évaluations de cabines premium sur les vols long-courriers. Des vols payés, sans faveurs : la même règle que le guide.</span><span class="lang-es" style="display:none">Firmo la columna Flight Check de AERO Magazine, la mayor revista de aviación de América Latina — evaluaciones de cabina premium en vuelos de larga distancia. Vuelos pagados, sin cortesías: el mismo criterio de la guía.</span><span class="lang-it" style="display:none">Firmo la rubrica Flight Check di AERO Magazine, la più grande rivista di aviazione dell’America Latina — recensioni di cabine premium sui voli di lungo raggio. Voli pagati, senza favori: lo stesso criterio della guida.</span><span class="lang-de" style="display:none">Ich schreibe die Kolumne Flight Check für das AERO Magazine, das größte Luftfahrtmagazin Lateinamerikas — Bewertungen von Premium-Kabinen auf Langstreckenflügen. Bezahlte Flüge, keine Gefälligkeiten: dieselbe Regel wie im Guide.</span></div>
+    <a class="faceta-cta" href="aeromagazine.html"><span class="lang-pt">Ver as avaliações →</span><span class="lang-en" style="display:none">See the reviews →</span><span class="lang-fr" style="display:none">Voir les évaluations →</span><span class="lang-es" style="display:none">Ver las evaluaciones →</span><span class="lang-it" style="display:none">Vedi le recensioni →</span><span class="lang-de" style="display:none">Zu den Bewertungen →</span></a>
+  </div>
+</section>
+
+<!-- FACETA: PLAYLISTS -->
+<section class="faceta" id="playlists">
+  <a class="faceta-media" href="som.html"><img src="assets/som/ehs-2.jpg" alt="Épice House Sessions" loading="lazy"></a>
+  <div class="faceta-body">
+    <div class="faceta-kicker"><span class="lang-pt">A trilha</span><span class="lang-en" style="display:none">The soundtrack</span><span class="lang-fr" style="display:none">La bande-son</span><span class="lang-es" style="display:none">La banda sonora</span><span class="lang-it" style="display:none">La colonna sonora</span><span class="lang-de" style="display:none">Der Soundtrack</span></div>
+    <div class="faceta-title">Épice <em>House Sessions</em></div>
+    <div class="faceta-desc"><span class="lang-pt">Faço deep house melódico e vocal desde 2016 — oito edições, mais de quatrocentas faixas, cada uma com o nome de uma praia que vale a viagem. É a trilha que ouço enquanto escrevo o guia, provo vinho e janto.</span><span class="lang-en" style="display:none">I have made melodic vocal deep house since 2016 — eight editions, more than four hundred tracks, each named after a beach worth the journey. It is the soundtrack I listen to while writing the guide, tasting wine and dining.</span><span class="lang-fr" style="display:none">Je fais du deep house mélodique et vocal depuis 2016 — huit éditions, plus de quatre cents titres, chacun portant le nom d’une plage qui vaut le voyage. C’est la bande-son que j’écoute en écrivant le guide, en dégustant du vin et en dînant.</span><span class="lang-es" style="display:none">Hago deep house melódico y vocal desde 2016 — ocho ediciones, más de cuatrocientas pistas, cada una con el nombre de una playa que merece el viaje. Es la banda sonora que escucho mientras escribo la guía, cato vino y ceno.</span><span class="lang-it" style="display:none">Faccio deep house melodica e vocale dal 2016 — otto edizioni, più di quattrocento tracce, ognuna col nome di una spiaggia che vale il viaggio. È la colonna sonora che ascolto mentre scrivo la guida, assaggio vino e ceno.</span><span class="lang-de" style="display:none">Ich mache seit 2016 melodischen Vocal-Deep-House — acht Editionen, mehr als vierhundert Tracks, jeder nach einem Strand benannt, der die Reise wert ist. Es ist der Soundtrack, den ich höre, während ich den Guide schreibe, Wein verkoste und zu Abend esse.</span></div>
+    <a class="faceta-cta" href="som.html"><span class="lang-pt">Ouvir →</span><span class="lang-en" style="display:none">Listen →</span><span class="lang-fr" style="display:none">Écouter →</span><span class="lang-es" style="display:none">Escuchar →</span><span class="lang-it" style="display:none">Ascolta →</span><span class="lang-de" style="display:none">Anhören →</span></a>
+  </div>
+</section>
+
 <!-- MAPA DOS PAÍSES VISITADOS -->
-<div class="visited-section">
+<div class="visited-section" id="viagens">
   <div class="visited-kicker lang-pt">O mundo à mesa</div>
   <div class="visited-kicker lang-en" style="display:none">The world at the table</div>
         <div class="visited-kicker lang-fr" style="display:none">Le monde à table</div>
