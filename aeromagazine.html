@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Flight Check — as avaliações de cabine premium (classe executiva e primeira classe) que Luli Dias assina na AERO Magazine, a maior revista de aviação do Brasil. Voos pagos, sem cortesias — o mesmo critério do guia.">
+<meta property="og:title" content="AERO Magazine · Flight Check — Luli Dias">
+<meta property="og:description" content="As avaliações de cabine premium de Luli Dias na AERO Magazine — Turkish Airlines, EVA Air, ANA e Thai Airways. Voos pagos, sem cortesias.">
+<meta property="og:url" content="https://lulidias.com/aeromagazine.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Luli Dias · Restaurants &amp; Hotels">
+<meta property="og:image" content="https://lulidias.com/assets/aero/aero-383.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lulidias.com/assets/aero/aero-383.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AERO Magazine · Flight Check — Luli Dias · Restaurants &amp; Hotels</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-dk:#8B6914;--gold-bg:#FAF5EB;--border:#E8E0D5;
+}
+html,body{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif}
+
+.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:90;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+.top-nav-left{display:flex;align-items:center;gap:16px;flex:1;min-width:0}
+.back-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;background:var(--gold-bg);border:1px solid var(--gold-lt);padding:8px 14px;border-radius:24px;display:inline-flex;align-items:center;gap:6px;transition:all .2s;white-space:nowrap}
+.back-link:hover{background:var(--gold);color:var(--white);border-color:var(--gold);transform:translateX(-2px)}
+.top-nav-brand{text-decoration:none;display:flex;flex-direction:column;gap:2px;min-width:0}
+.top-nav-brand-name{font-family:'Playfair Display',serif;font-size:15px;letter-spacing:3px;color:var(--ink)}
+.top-nav-brand-tag{font-size:7.5px;letter-spacing:2.6px;color:var(--ink-xs)}
+.nav-current{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
+@media(max-width:640px){.top-nav{padding:10px 16px}.top-nav-brand,.nav-current{display:none}}
+
+.hero{max-width:1100px;margin:0 auto;padding:60px 48px 34px;text-align:center}
+.aero-logo{height:56px;width:auto;display:block;margin:0 auto 26px}
+.hero-pre{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.hero h1{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(34px,6vw,56px);line-height:1.08;letter-spacing:.5px}
+.hero h1 em{font-style:italic;color:var(--gold-dk)}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(17px,2.4vw,22px);color:var(--ink-lt);margin-top:15px;font-weight:300;max-width:60ch;margin-left:auto;margin-right:auto}
+.hero-txt{max-width:62ch;margin:28px auto 0;font-size:14.5px;line-height:1.85;color:var(--ink-lt);font-weight:300;text-align:left}
+.hero-txt p+p{margin-top:14px}
+.hero-num{display:flex;justify-content:center;gap:44px;flex-wrap:wrap;margin-top:36px;padding-top:32px;border-top:1px solid var(--border)}
+.hero-num div{text-align:center}
+.hero-num b{font-family:'Playfair Display',serif;font-size:30px;font-weight:400;display:block;line-height:1;color:var(--gold-dk);font-variant-numeric:tabular-nums}
+.hero-num span{font-size:8.5px;letter-spacing:2.4px;text-transform:uppercase;color:var(--ink-xs);display:block;margin-top:9px}
+@media(max-width:768px){.hero{padding:38px 22px 26px}.aero-logo{height:42px;margin-bottom:20px}.hero-num{gap:26px}}
+
+.grade{max-width:1100px;margin:0 auto;padding:20px 48px 60px;
+ display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:34px 26px}
+@media(max-width:768px){.grade{padding:12px 22px 44px;gap:26px 18px;grid-template-columns:repeat(auto-fill,minmax(154px,1fr))}}
+
+.aero-card{background:var(--white);border:1px solid var(--border);overflow:hidden;
+ display:flex;flex-direction:column;transition:box-shadow .25s,transform .25s}
+.aero-card:hover{box-shadow:0 12px 32px rgba(26,26,26,.12);transform:translateY(-3px)}
+.aero-capa{line-height:0;overflow:hidden;background:#0F0F12}
+.aero-capa img{width:100%;height:auto;display:block;transition:transform .5s}
+.aero-card:hover .aero-capa img{transform:scale(1.04)}
+.aero-info{padding:15px 17px 19px;display:flex;flex-direction:column;flex:1}
+.aero-ed{font-size:9.5px;letter-spacing:2.2px;text-transform:uppercase;color:var(--gold);font-weight:600}
+.aero-info h3{font-family:'Playfair Display',serif;font-weight:400;font-size:19px;color:var(--ink);line-height:1.15;margin-top:4px}
+.aero-cabine{font-size:9.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink-xs);margin-top:4px}
+.aero-rota{font-size:12.5px;color:var(--ink-lt);margin-top:5px;font-weight:500}
+.aero-titulo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--gold-dk);margin-top:9px;line-height:1.3}
+.aero-verdito{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.55;color:var(--ink-lt);margin-top:7px}
+.aero-card--soon{opacity:.7}
+.aero-capa--soon{aspect-ratio:.763;background:
+   repeating-linear-gradient(135deg,#141418,#141418 12px,#191920 12px,#191920 24px);
+   display:flex;align-items:center;justify-content:center;color:#6c6c78;font-size:44px}
+.aero-soon-badge{font-size:9.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);margin-top:4px;font-weight:600}
+
+.encerra{max-width:66ch;margin:0 auto;padding:6px 48px 70px;font-size:14px;line-height:1.85;
+ color:var(--ink-lt);font-weight:300;text-align:center}
+.encerra a{color:var(--gold);text-decoration:none;font-weight:500}
+.encerra a:hover{text-decoration:underline}
+@media(max-width:768px){.encerra{padding:6px 22px 50px}}
+
+footer{background:var(--white);border-top:1px solid var(--border);padding:26px 24px;text-align:center}
+footer p{font-size:11px;letter-spacing:1.4px;color:var(--ink-xs)}
+footer a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="top-nav-left">
+    <a href="index.html" class="back-link" data-i18n="back">← Voltar</a>
+    <a href="index.html" class="top-nav-brand">
+      <span class="top-nav-brand-name">LULI DIAS</span>
+      <span class="top-nav-brand-tag">RESTAURANTS &amp; HOTELS</span>
+    </a>
+  </div>
+  <span class="nav-current">AERO Magazine</span>
+  <button id="lang-toggle" onclick="toggleLang()" style="background:none;border:1px solid var(--border);color:var(--ink-lt);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;font-weight:600;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;text-transform:uppercase;flex-shrink:0">PT</button>
+</nav>
+
+<header class="hero">
+  <img class="aero-logo" src="assets/aero/aero-logo-black.png" alt="AERO Magazine">
+  <p class="hero-pre" data-i18n="kicker">Coluna mensal · Flight Check</p>
+  <h1>Flight <em>Check</em></h1>
+  <p class="hero-sub">
+    <span class="lang-pt">As minhas avaliações de classe executiva e primeira classe, mês a mês, na maior revista de aviação do Brasil.</span>
+    <span class="lang-en">My business- and first-class cabin reviews, month after month, in Brazil's largest aviation magazine.</span>
+    <span class="lang-fr">Mes évaluations de classe affaires et de première, mois après mois, dans le plus grand magazine d'aviation du Brésil.</span>
+    <span class="lang-es">Mis evaluaciones de clase ejecutiva y primera, mes a mes, en la mayor revista de aviación de Brasil.</span>
+    <span class="lang-it">Le mie recensioni di classe business e prima, mese dopo mese, nella più grande rivista di aviazione del Brasile.</span>
+    <span class="lang-de">Meine Bewertungen von Business- und First-Class-Kabinen, Monat für Monat, im größten Luftfahrtmagazin Brasiliens.</span>
+  </p>
+  <div class="hero-txt">
+    <div class="lang-pt"><p>Todo mês, a AERO Magazine publica o <em>Flight Check</em> — a avaliação de uma cabine premium que assino como colunista. A revista me apresenta como um globetrotter e conhecedor do universo dos vinhos e da alta gastronomia, e é esse mesmo olhar que levo para cada voo.</p><p>O critério é o do guia: independência total. Todos os voos avaliados são pagos — sem cortesias, convites ou upgrades. As companhias sequer sabem que estou a bordo. É por isso que, aqui como lá, a avaliação vale.</p></div>
+    <div class="lang-en"><p>Every month, AERO Magazine runs the <em>Flight Check</em> — a review of a premium cabin that I sign as a columnist. The magazine introduces me as a globetrotter and a connoisseur of wine and fine dining, and it is that same eye I bring to every flight.</p><p>The standard is the guide's: total independence. Every flight reviewed is paid for — no courtesies, invitations or upgrades. The airlines don't even know I'm on board. That is why, here as there, the verdict means something.</p></div>
+    <div class="lang-fr"><p>Chaque mois, AERO Magazine publie le <em>Flight Check</em> — l'évaluation d'une cabine premium que je signe en tant que chroniqueur. Le magazine me présente comme un globetrotter et un connaisseur du vin et de la haute gastronomie, et c'est ce même regard que je porte sur chaque vol.</p><p>Le critère est celui du guide : une indépendance totale. Tous les vols évalués sont payés — sans courtoisies, invitations ni surclassements. Les compagnies ignorent même que je suis à bord. C'est pourquoi, ici comme là, l'évaluation compte.</p></div>
+    <div class="lang-es"><p>Cada mes, AERO Magazine publica el <em>Flight Check</em> — la evaluación de una cabina premium que firmo como columnista. La revista me presenta como un globetrotter y conocedor del universo del vino y la alta gastronomía, y es esa misma mirada la que llevo a cada vuelo.</p><p>El criterio es el de la guía: independencia total. Todos los vuelos evaluados son pagados — sin cortesías, invitaciones ni upgrades. Las compañías ni siquiera saben que estoy a bordo. Por eso, aquí como allá, la evaluación vale.</p></div>
+    <div class="lang-it"><p>Ogni mese, AERO Magazine pubblica il <em>Flight Check</em> — la recensione di una cabina premium che firmo come editorialista. La rivista mi presenta come un globetrotter e un conoscitore del mondo del vino e dell'alta cucina, ed è lo stesso sguardo che porto in ogni volo.</p><p>Il criterio è quello della guida: indipendenza totale. Tutti i voli recensiti sono pagati — senza cortesie, inviti o upgrade. Le compagnie non sanno nemmeno che sono a bordo. È per questo che, qui come lì, il giudizio conta.</p></div>
+    <div class="lang-de"><p>Jeden Monat veröffentlicht AERO Magazine den <em>Flight Check</em> — die Bewertung einer Premium-Kabine, die ich als Kolumnist verantworte. Das Magazin stellt mich als Globetrotter und Kenner der Welt des Weins und der Spitzengastronomie vor, und mit demselben Blick gehe ich in jeden Flug.</p><p>Der Maßstab ist der des Guides: völlige Unabhängigkeit. Alle bewerteten Flüge werden bezahlt — ohne Gefälligkeiten, Einladungen oder Upgrades. Die Airlines wissen nicht einmal, dass ich an Bord bin. Deshalb hat das Urteil hier wie dort Gewicht.</p></div>
+  </div>
+  <div class="hero-num">
+    <div><b>4</b><span data-i18n="n_ed">Edições</span></div>
+    <div><b>4</b><span data-i18n="n_cia">Companhias</span></div>
+    <div><b>0</b><span data-i18n="n_cort">Cortesias</span></div>
+  </div>
+</header>
+
+<main class="grade">
+
+  <article class="aero-card">
+    <div class="aero-capa"><img src="assets/aero/aero-383.jpg" alt="AERO Magazine Nº 383" loading="lazy"></div>
+    <div class="aero-info">
+      <div class="aero-ed">AERO Nº 383 · 2026</div>
+      <h3>Turkish Airlines</h3>
+      <div class="aero-cabine" data-i18n="cabin">Classe Executiva</div>
+      <div class="aero-rota">São Paulo → Istambul</div>
+      <div class="aero-titulo">&ldquo;Entre Conforto e Boa Mesa&rdquo;</div>
+      <p class="aero-verdito">
+        <span class="lang-pt">Produto executivo bem estruturado, com a gastronomia como grande destaque do voo.</span>
+        <span class="lang-en">A well-structured business product, with gastronomy as the flight's standout.</span>
+        <span class="lang-fr">Un produit affaires bien construit, la gastronomie étant le point fort du vol.</span>
+        <span class="lang-es">Un producto ejecutivo bien estructurado, con la gastronomía como gran destaque del vuelo.</span>
+        <span class="lang-it">Un prodotto business ben strutturato, con la gastronomia come punto forte del volo.</span>
+        <span class="lang-de">Ein gut strukturiertes Business-Produkt, mit der Gastronomie als Höhepunkt des Fluges.</span>
+      </p>
+    </div>
+  </article>
+
+  <article class="aero-card">
+    <div class="aero-capa"><img src="assets/aero/aero-384.jpg" alt="AERO Magazine Nº 384" loading="lazy"></div>
+    <div class="aero-info">
+      <div class="aero-ed">AERO Nº 384 · 2026</div>
+      <h3>EVA Air</h3>
+      <div class="aero-cabine" data-i18n="cabin">Classe Executiva</div>
+      <div class="aero-rota">Osaka → Taipei</div>
+      <div class="aero-titulo">&ldquo;Eficiência Japonesa e Serviço Taiwanês&rdquo;</div>
+      <p class="aero-verdito">
+        <span class="lang-pt">Operação precisa e a melhor refeição que já tive a bordo — entrou nas minhas favoritas.</span>
+        <span class="lang-en">Precise operation and the best meal I've had on board — it joined my favourites.</span>
+        <span class="lang-fr">Une opération précise et le meilleur repas que j'aie eu à bord — parmi mes préférées.</span>
+        <span class="lang-es">Operación precisa y la mejor comida que he tenido a bordo — entró en mis favoritas.</span>
+        <span class="lang-it">Operazione precisa e il miglior pasto mai avuto a bordo — tra le mie preferite.</span>
+        <span class="lang-de">Präziser Betrieb und das beste Essen, das ich an Bord hatte — einer meiner Favoriten.</span>
+      </p>
+    </div>
+  </article>
+
+  <article class="aero-card">
+    <div class="aero-capa"><img src="assets/aero/aero-385.jpg" alt="AERO Magazine Nº 385" loading="lazy"></div>
+    <div class="aero-info">
+      <div class="aero-ed">AERO Nº 385 · 2026</div>
+      <h3>ANA</h3>
+      <div class="aero-cabine" data-i18n="cabin">Classe Executiva</div>
+      <div class="aero-rota">Seul → Tóquio</div>
+      <div class="aero-titulo">&ldquo;Quando o Serviço Supera a Cabine&rdquo;</div>
+      <p class="aero-verdito">
+        <span class="lang-pt">A cabine já é datada, mas o serviço impecável coloca a ANA entre as melhores do mundo.</span>
+        <span class="lang-en">The cabin is dated, but impeccable service places ANA among the world's best.</span>
+        <span class="lang-fr">La cabine est datée, mais un service impeccable place ANA parmi les meilleures du monde.</span>
+        <span class="lang-es">La cabina ya está datada, pero el servicio impecable coloca a ANA entre las mejores del mundo.</span>
+        <span class="lang-it">La cabina è datata, ma il servizio impeccabile colloca ANA tra le migliori al mondo.</span>
+        <span class="lang-de">Die Kabine ist in die Jahre gekommen, doch der tadellose Service zählt ANA zu den Weltbesten.</span>
+      </p>
+    </div>
+  </article>
+
+  <article class="aero-card">
+    <div class="aero-capa"><img src="assets/aero/aero-386.jpg" alt="AERO Magazine Nº 386" loading="lazy"></div>
+    <div class="aero-info">
+      <div class="aero-ed">AERO Nº 386 · 2026</div>
+      <h3>Thai Airways</h3>
+      <div class="aero-cabine" data-i18n="cabin">Classe Executiva</div>
+      <div class="aero-rota">Taipei → Bangkok</div>
+      <div class="aero-titulo">&ldquo;Conforto Sem Surpresa&rdquo;</div>
+      <p class="aero-verdito">
+        <span class="lang-pt">Serviço cordial e limpeza exemplar, com bom custo-benefício; a cabine pede atualização.</span>
+        <span class="lang-en">Cordial service and exemplary cleanliness, good value; the cabin needs an update.</span>
+        <span class="lang-fr">Un service cordial et une propreté exemplaire, bon rapport qualité-prix ; la cabine mérite une mise à jour.</span>
+        <span class="lang-es">Servicio cordial y limpieza ejemplar, buena relación calidad-precio; la cabina pide una actualización.</span>
+        <span class="lang-it">Servizio cordiale e pulizia esemplare, buon rapporto qualità-prezzo; la cabina chiede un aggiornamento.</span>
+        <span class="lang-de">Herzlicher Service und vorbildliche Sauberkeit, gutes Preis-Leistungs-Verhältnis; die Kabine braucht ein Update.</span>
+      </p>
+    </div>
+  </article>
+
+  <article class="aero-card aero-card--soon">
+    <div class="aero-capa aero-capa--soon">&#9992;</div>
+    <div class="aero-info">
+      <div class="aero-ed">AERO Nº 387 · 2026</div>
+      <h3>LATAM</h3>
+      <div class="aero-cabine" data-i18n="cabin">Classe Executiva</div>
+      <div class="aero-soon-badge" data-i18n="soon">Em breve</div>
+    </div>
+  </article>
+
+</main>
+
+<section class="encerra">
+  <p>
+    <span class="lang-pt">As matérias completas estão nas edições impressas e no acervo digital da <a href="https://aeromagazine.uol.com.br" target="_blank" rel="noopener">AERO Magazine</a>.</span>
+    <span class="lang-en">The full features are in the print editions and the digital archive of <a href="https://aeromagazine.uol.com.br" target="_blank" rel="noopener">AERO Magazine</a>.</span>
+    <span class="lang-fr">Les articles complets se trouvent dans les éditions papier et les archives numériques d'<a href="https://aeromagazine.uol.com.br" target="_blank" rel="noopener">AERO Magazine</a>.</span>
+    <span class="lang-es">Los reportajes completos están en las ediciones impresas y en el acervo digital de <a href="https://aeromagazine.uol.com.br" target="_blank" rel="noopener">AERO Magazine</a>.</span>
+    <span class="lang-it">Gli articoli completi sono nelle edizioni cartacee e nell'archivio digitale di <a href="https://aeromagazine.uol.com.br" target="_blank" rel="noopener">AERO Magazine</a>.</span>
+    <span class="lang-de">Die vollständigen Beiträge finden sich in den Printausgaben und im digitalen Archiv von <a href="https://aeromagazine.uol.com.br" target="_blank" rel="noopener">AERO Magazine</a>.</span>
+  </p>
+</section>
+
+<footer><p><a href="index.html" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}" data-i18n="back">← Voltar</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels &nbsp;·&nbsp; <a href="https://instagram.com/lulidias" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none">@lulidias</a></p></footer>
+
+<script>
+(function(){
+  var LANG=localStorage.getItem('ld-lang')||'pt';
+  var T={
+    pt:{back:'← Voltar',kicker:'Coluna mensal · Flight Check',cabin:'Classe Executiva',soon:'Em breve',n_ed:'Edições',n_cia:'Companhias',n_cort:'Cortesias'},
+    en:{back:'← Back',kicker:'Monthly column · Flight Check',cabin:'Business Class',soon:'Coming soon',n_ed:'Editions',n_cia:'Airlines',n_cort:'Courtesies'},
+    fr:{back:'← Retour',kicker:'Chronique mensuelle · Flight Check',cabin:'Classe Affaires',soon:'Bientôt',n_ed:'Éditions',n_cia:'Compagnies',n_cort:'Faveurs'},
+    es:{back:'← Volver',kicker:'Columna mensual · Flight Check',cabin:'Clase Ejecutiva',soon:'Próximamente',n_ed:'Ediciones',n_cia:'Compañías',n_cort:'Cortesías'},
+    it:{back:'← Indietro',kicker:'Rubrica mensile · Flight Check',cabin:'Classe Business',soon:'Prossimamente',n_ed:'Edizioni',n_cia:'Compagnie',n_cort:'Favori'},
+    de:{back:'← Zurück',kicker:'Monatliche Kolumne · Flight Check',cabin:'Business Class',soon:'Demnächst',n_ed:'Ausgaben',n_cia:'Airlines',n_cort:'Gefälligkeiten'}
+  };
+  function tr(k){return (T[LANG]&&T[LANG][k])||T.pt[k]||k;}
+  window.apply=function(){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){el.textContent=tr(el.getAttribute('data-i18n'));});
+    ['pt','en','fr','es','it','de'].forEach(function(l){document.querySelectorAll('.lang-'+l).forEach(function(el){el.style.display=(LANG===l)?'':'none';});});
+    document.getElementById('html-root').lang=(LANG==='pt')?'pt-BR':LANG;
+    var b=document.getElementById('lang-toggle'); if(b) b.textContent=LANG.toUpperCase();
+  };
+  window.setLang=function(l){LANG=l;try{localStorage.setItem('ld-lang',l);}catch(e){}apply();var m=document.getElementById('ld-lang-menu');if(m)m.classList.remove('open');};
+  window.toggleLang=function(){var m=document.getElementById('ld-lang-menu');if(!m){m=document.createElement('div');m.id='ld-lang-menu';m.innerHTML="<button type=button data-l=pt onclick=\"setLang('pt')\">Português</button><button type=button data-l=en onclick=\"setLang('en')\">English</button><button type=button data-l=fr onclick=\"setLang('fr')\">Français</button><button type=button data-l=es onclick=\"setLang('es')\">Español</button><button type=button data-l=it onclick=\"setLang('it')\">Italiano</button><button type=button data-l=de onclick=\"setLang('de')\">Deutsch</button>";document.body.appendChild(m);var st=document.createElement('style');st.textContent="#ld-lang-menu{position:fixed;display:none;flex-direction:column;background:#fff;border:1px solid #e6ddcf;border-radius:10px;box-shadow:0 10px 34px rgba(0,0,0,.14);z-index:99999;overflow:hidden;min-width:160px}#ld-lang-menu.open{display:flex}#ld-lang-menu button{background:none;border:0;text-align:left;padding:11px 15px;font-family:'Montserrat',sans-serif;font-size:12.5px;letter-spacing:.5px;color:#1a1a1a;cursor:pointer}#ld-lang-menu button:hover{background:#faf5eb;color:#b8922a}#ld-lang-menu button.act{color:#b8922a;font-weight:600}";document.head.appendChild(st);document.addEventListener('click',function(e){var b=document.getElementById('lang-toggle');if(m.classList.contains('open')&&b&&e.target!==b&&!b.contains(e.target)&&!m.contains(e.target))m.classList.remove('open');});}m.querySelectorAll('button').forEach(function(x){x.classList.toggle('act',x.getAttribute('data-l')===LANG);});var b=document.getElementById('lang-toggle');if(b){var r=b.getBoundingClientRect();m.style.top=(r.bottom+8)+'px';m.style.right=Math.max(8,(window.innerWidth-r.right))+'px';m.style.left='auto';}m.classList.toggle('open');};
+  apply();
+})();
+</script>
+</body>
+</html>
