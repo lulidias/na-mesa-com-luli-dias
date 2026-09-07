@@ -190,6 +190,14 @@ html{scroll-behavior:smooth}
 .faceta-cta{display:inline-block;margin-top:17px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px}
 .faceta-cta:hover{color:var(--ink)}
 @media(max-width:768px){.faceta{flex-direction:column;text-align:center;padding:42px 24px;gap:26px}.faceta-media{width:140px}.faceta-desc{margin-left:auto;margin-right:auto}}
+
+.faceta--rev{flex-direction:row-reverse}
+.faceta-media--map{width:230px}
+.faceta-media--map img{border-radius:6px;background:#F7F3EE;padding:12px;box-shadow:0 12px 30px rgba(0,0,0,.10)}
+.comendas-section{box-sizing:border-box;max-width:1100px;margin:0 auto;padding:56px 48px 22px;border-top:1px solid var(--border);background:var(--white);scroll-margin-top:76px}
+.comendas-section .distinctions-title{justify-content:center}
+.comendas-section .comendas-sub{margin-left:auto;margin-right:auto;text-align:center}
+@media(max-width:768px){.faceta--rev{flex-direction:column}.faceta-media--map{width:100%;max-width:320px}.comendas-section{padding:42px 24px 14px}}
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "267deca0f25fd78caf5c7d0264c49431"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
@@ -230,7 +238,6 @@ html{scroll-behavior:smooth}
         <div class="content-title lang-it" style="display:none">Una vita tra<br>vini e <em>tavole</em></div>
         <div class="content-title lang-de" style="display:none">Ein Leben zwischen<br>Wein und <em>Tafel</em></div>
       <div class="orn"><div class="orn-line"></div><div class="orn-diamond"></div></div>
-      <nav class="indice" aria-label="Seções"><a href="#historia"><span class="lang-pt">História</span><span class="lang-en" style="display:none">Story</span><span class="lang-fr" style="display:none">Histoire</span><span class="lang-es" style="display:none">Historia</span><span class="lang-it" style="display:none">Storia</span><span class="lang-de" style="display:none">Geschichte</span></a><a href="#comendas"><span class="lang-pt">Comendas</span><span class="lang-en" style="display:none">Honours</span><span class="lang-fr" style="display:none">Distinctions</span><span class="lang-es" style="display:none">Comendas</span><span class="lang-it" style="display:none">Onorificenze</span><span class="lang-de" style="display:none">Auszeichnungen</span></a><a href="#aero">AERO Magazine</a><a href="#playlists">Playlists</a><a href="#viagens"><span class="lang-pt">Viagens</span><span class="lang-en" style="display:none">Travels</span><span class="lang-fr" style="display:none">Voyages</span><span class="lang-es" style="display:none">Viajes</span><span class="lang-it" style="display:none">Viaggi</span><span class="lang-de" style="display:none">Reisen</span></a></nav>
 
       <div class="bio">
         <p class="lang-pt">Nasci em Recife, Pernambuco, numa família portuguesa de terceira geração com raízes profundas no comércio — e na boa mesa. Cresci num ambiente em que a gastronomia faz parte do cotidiano: em casa sempre se respirou comida, vinho e hospitalidade.</p>
@@ -285,7 +292,59 @@ html{scroll-behavior:smooth}
 
 
     </div>
-      <div style="grid-column:1/-1" id="comendas">
+      
+
+  </div>
+</div>
+
+
+
+<!-- FACETA: COMENDAS -->
+<section class="faceta" >
+  <a class="faceta-media" href="#comendas-full"><img src="fotos/comendas/mestre-bordeaux.jpeg?v=2" alt="Comendas do Vinho" loading="lazy"></a>
+  <div class="faceta-body">
+    <div class="faceta-kicker"><span class="lang-pt">O mundo do vinho</span><span class="lang-en" style="display:none">The world of wine</span><span class="lang-fr" style="display:none">Le monde du vin</span><span class="lang-es" style="display:none">El mundo del vino</span><span class="lang-it" style="display:none">Il mondo del vino</span><span class="lang-de" style="display:none">Die Welt des Weins</span></div>
+    <div class="faceta-title"><span class="lang-pt">Comendas <em>do Vinho</em></span><span class="lang-en" style="display:none">Wine <em>Honours</em></span><span class="lang-fr" style="display:none">Distinctions <em>du Vin</em></span><span class="lang-es" style="display:none">Comendas <em>del Vino</em></span><span class="lang-it" style="display:none">Onorificenze <em>del Vino</em></span><span class="lang-de" style="display:none">Wein-<em>Auszeichnungen</em></span></div>
+    <div class="faceta-desc"><span class="lang-pt">Sete das mais prestigiadas confrarias e ordens enófilas da Europa me acolheram — de Porto a Bordeaux, Saint-Émilion e Alba —, com o grau de Mestre da Commanderie de Bordeaux.</span><span class="lang-en" style="display:none">Seven of Europe’s most prestigious wine confraternities and orders have welcomed me — from Porto to Bordeaux, Saint-Émilion and Alba — with the rank of Master of the Commanderie de Bordeaux.</span><span class="lang-fr" style="display:none">Sept des confréries et ordres œnophiles les plus prestigieux d’Europe m’ont accueilli — de Porto à Bordeaux, Saint-Émilion et Alba — avec le grade de Maître de la Commanderie de Bordeaux.</span><span class="lang-es" style="display:none">Siete de las cofradías y órdenes enófilas más prestigiosas de Europa me acogieron — de Oporto a Burdeos, Saint-Émilion y Alba — con el grado de Maestro de la Commanderie de Bordeaux.</span><span class="lang-it" style="display:none">Sette tra le più prestigiose confraternite e ordini enofili d’Europa mi hanno accolto — da Porto a Bordeaux, Saint-Émilion e Alba — con il grado di Maestro della Commanderie de Bordeaux.</span><span class="lang-de" style="display:none">Sieben der renommiertesten Weinbruderschaften und -orden Europas haben mich aufgenommen — von Porto über Bordeaux und Saint-Émilion bis Alba — mit dem Rang eines Meisters der Commanderie de Bordeaux.</span></div>
+    <a class="faceta-cta" href="#comendas-full"><span class="lang-pt">Ver as comendas →</span><span class="lang-en" style="display:none">See the honours →</span><span class="lang-fr" style="display:none">Voir les distinctions →</span><span class="lang-es" style="display:none">Ver las comendas →</span><span class="lang-it" style="display:none">Vedi le onorificenze →</span><span class="lang-de" style="display:none">Zu den Auszeichnungen →</span></a>
+  </div>
+</section>
+
+<!-- FACETA: AERO MAGAZINE -->
+<section class="faceta faceta--rev" id="aero">
+  <a class="faceta-media" href="aeromagazine.html"><img src="assets/aero/aero-386.jpg" alt="AERO Magazine" loading="lazy"></a>
+  <div class="faceta-body">
+    <div class="faceta-kicker"><span class="lang-pt">Nos ares</span><span class="lang-en" style="display:none">In the air</span><span class="lang-fr" style="display:none">Dans les airs</span><span class="lang-es" style="display:none">En el aire</span><span class="lang-it" style="display:none">In volo</span><span class="lang-de" style="display:none">In der Luft</span></div>
+    <div class="faceta-title">AERO Magazine <em>Flight Check</em></div>
+    <div class="faceta-desc"><span class="lang-pt">Assino a coluna Flight Check da AERO Magazine, a maior revista de aviação da América Latina — avaliações de cabine premium em voos de longo curso. Voos pagos, sem cortesias: o mesmo critério do guia.</span><span class="lang-en" style="display:none">I write the Flight Check column for AERO Magazine, Latin America’s largest aviation title — premium-cabin reviews on long-haul flights. Paid flights, no courtesies: the same rule as the guide.</span><span class="lang-fr" style="display:none">Je signe la chronique Flight Check d’AERO Magazine, le plus grand magazine d’aviation d’Amérique latine — des évaluations de cabines premium sur les vols long-courriers. Des vols payés, sans faveurs : la même règle que le guide.</span><span class="lang-es" style="display:none">Firmo la columna Flight Check de AERO Magazine, la mayor revista de aviación de América Latina — evaluaciones de cabina premium en vuelos de larga distancia. Vuelos pagados, sin cortesías: el mismo criterio de la guía.</span><span class="lang-it" style="display:none">Firmo la rubrica Flight Check di AERO Magazine, la più grande rivista di aviazione dell’America Latina — recensioni di cabine premium sui voli di lungo raggio. Voli pagati, senza favori: lo stesso criterio della guida.</span><span class="lang-de" style="display:none">Ich schreibe die Kolumne Flight Check für das AERO Magazine, das größte Luftfahrtmagazin Lateinamerikas — Bewertungen von Premium-Kabinen auf Langstreckenflügen. Bezahlte Flüge, keine Gefälligkeiten: dieselbe Regel wie im Guide.</span></div>
+    <a class="faceta-cta" href="aeromagazine.html"><span class="lang-pt">Ver as avaliações →</span><span class="lang-en" style="display:none">See the reviews →</span><span class="lang-fr" style="display:none">Voir les évaluations →</span><span class="lang-es" style="display:none">Ver las evaluaciones →</span><span class="lang-it" style="display:none">Vedi le recensioni →</span><span class="lang-de" style="display:none">Zu den Bewertungen →</span></a>
+  </div>
+</section>
+
+<!-- FACETA: PLAYLISTS -->
+<section class="faceta" id="playlists">
+  <a class="faceta-media" href="som.html"><img src="assets/som/ehs-2.jpg" alt="Épice House Sessions" loading="lazy"></a>
+  <div class="faceta-body">
+    <div class="faceta-kicker"><span class="lang-pt">A trilha</span><span class="lang-en" style="display:none">The soundtrack</span><span class="lang-fr" style="display:none">La bande-son</span><span class="lang-es" style="display:none">La banda sonora</span><span class="lang-it" style="display:none">La colonna sonora</span><span class="lang-de" style="display:none">Der Soundtrack</span></div>
+    <div class="faceta-title">Épice <em>House Sessions</em></div>
+    <div class="faceta-desc"><span class="lang-pt">Faço deep house melódico e vocal desde 2016 — oito edições, mais de quatrocentas faixas, cada uma com o nome de uma praia que vale a viagem. É a trilha que ouço enquanto escrevo o guia, provo vinho e janto.</span><span class="lang-en" style="display:none">I have made melodic vocal deep house since 2016 — eight editions, more than four hundred tracks, each named after a beach worth the journey. It is the soundtrack I listen to while writing the guide, tasting wine and dining.</span><span class="lang-fr" style="display:none">Je fais du deep house mélodique et vocal depuis 2016 — huit éditions, plus de quatre cents titres, chacun portant le nom d’une plage qui vaut le voyage. C’est la bande-son que j’écoute en écrivant le guide, en dégustant du vin et en dînant.</span><span class="lang-es" style="display:none">Hago deep house melódico y vocal desde 2016 — ocho ediciones, más de cuatrocientas pistas, cada una con el nombre de una playa que merece el viaje. Es la banda sonora que escucho mientras escribo la guía, cato vino y ceno.</span><span class="lang-it" style="display:none">Faccio deep house melodica e vocale dal 2016 — otto edizioni, più di quattrocento tracce, ognuna col nome di una spiaggia che vale il viaggio. È la colonna sonora che ascolto mentre scrivo la guida, assaggio vino e ceno.</span><span class="lang-de" style="display:none">Ich mache seit 2016 melodischen Vocal-Deep-House — acht Editionen, mehr als vierhundert Tracks, jeder nach einem Strand benannt, der die Reise wert ist. Es ist der Soundtrack, den ich höre, während ich den Guide schreibe, Wein verkoste und zu Abend esse.</span></div>
+    <a class="faceta-cta" href="som.html"><span class="lang-pt">Ouvir →</span><span class="lang-en" style="display:none">Listen →</span><span class="lang-fr" style="display:none">Écouter →</span><span class="lang-es" style="display:none">Escuchar →</span><span class="lang-it" style="display:none">Ascolta →</span><span class="lang-de" style="display:none">Anhören →</span></a>
+  </div>
+</section>
+
+<!-- FACETA: VIAGENS -->
+<section class="faceta faceta--rev">
+  <a class="faceta-media faceta-media--map" href="#viagens"><img src="assets/facetas/mapa.svg" alt="Mapa dos países visitados" loading="lazy"></a>
+  <div class="faceta-body">
+    <div class="faceta-kicker"><span class="lang-pt">Pelo mundo</span><span class="lang-en" style="display:none">Around the world</span><span class="lang-fr" style="display:none">À travers le monde</span><span class="lang-es" style="display:none">Por el mundo</span><span class="lang-it" style="display:none">In giro per il mondo</span><span class="lang-de" style="display:none">Rund um die Welt</span></div>
+    <div class="faceta-title"><span class="lang-pt">O mundo <em>à mesa</em></span><span class="lang-en" style="display:none">The world <em>at the table</em></span><span class="lang-fr" style="display:none">Le monde <em>à table</em></span><span class="lang-es" style="display:none">El mundo <em>a la mesa</em></span><span class="lang-it" style="display:none">Il mondo <em>a tavola</em></span><span class="lang-de" style="display:none">Die Welt <em>bei Tisch</em></span></div>
+    <div class="faceta-desc"><span class="lang-pt">55 países visitados, 42 no guia — em média 40 viagens por ano, oito internacionais. Muitos endereços daqui foram postos à prova pessoalmente, no destino.</span><span class="lang-en" style="display:none">55 countries visited, 42 in the guide — an average of 40 trips a year, eight international. Many of the addresses here were tested in person, at the destination.</span><span class="lang-fr" style="display:none">55 pays visités, 42 dans le guide — en moyenne 40 voyages par an, dont huit à l’international. Beaucoup des adresses d’ici ont été éprouvées en personne, sur place.</span><span class="lang-es" style="display:none">55 países visitados, 42 en la guía — una media de 40 viajes al año, ocho internacionales. Muchas de las direcciones de aquí se probaron en persona, en el destino.</span><span class="lang-it" style="display:none">55 paesi visitati, 42 nella guida — in media 40 viaggi all’anno, otto internazionali. Molti degli indirizzi qui sono stati provati di persona, sul posto.</span><span class="lang-de" style="display:none">55 besuchte Länder, 42 im Guide — im Schnitt 40 Reisen pro Jahr, acht international. Viele der Adressen hier wurden persönlich vor Ort getestet.</span></div>
+    <a class="faceta-cta" href="#viagens"><span class="lang-pt">Ver o mapa →</span><span class="lang-en" style="display:none">See the map →</span><span class="lang-fr" style="display:none">Voir la carte →</span><span class="lang-es" style="display:none">Ver el mapa →</span><span class="lang-it" style="display:none">Vedi la mappa →</span><span class="lang-de" style="display:none">Zur Karte →</span></a>
+  </div>
+</section>
+
+<section class="comendas-section" id="comendas-full">
+<div id="comendas">
       <!-- COMENDAS -->
       <div class="distinctions-title" data-i18n="wine_distinctions">Comendas do Mundo do Vinho</div>
       <div class="comendas-sub lang-pt">Sete das mais prestigiadas confrarias e ordens enófilas da Europa me acolheram entre os seus — um reconhecimento raro no mundo do vinho.</div>
@@ -331,32 +390,6 @@ html{scroll-behavior:smooth}
         <div class="futura-data lang-it" style="display:none">28 novembre 2026</div>
         <div class="futura-data lang-de" style="display:none">28. November 2026</div></div>
       </div></div>
-
-  </div>
-</div>
-
-
-
-<!-- FACETA: AERO MAGAZINE -->
-<section class="faceta" id="aero">
-  <a class="faceta-media" href="aeromagazine.html"><img src="assets/aero/aero-386.jpg" alt="AERO Magazine" loading="lazy"></a>
-  <div class="faceta-body">
-    <div class="faceta-kicker"><span class="lang-pt">Nos ares</span><span class="lang-en" style="display:none">In the air</span><span class="lang-fr" style="display:none">Dans les airs</span><span class="lang-es" style="display:none">En el aire</span><span class="lang-it" style="display:none">In volo</span><span class="lang-de" style="display:none">In der Luft</span></div>
-    <div class="faceta-title">AERO Magazine <em>Flight Check</em></div>
-    <div class="faceta-desc"><span class="lang-pt">Assino a coluna Flight Check da AERO Magazine, a maior revista de aviação da América Latina — avaliações de cabine premium em voos de longo curso. Voos pagos, sem cortesias: o mesmo critério do guia.</span><span class="lang-en" style="display:none">I write the Flight Check column for AERO Magazine, Latin America’s largest aviation title — premium-cabin reviews on long-haul flights. Paid flights, no courtesies: the same rule as the guide.</span><span class="lang-fr" style="display:none">Je signe la chronique Flight Check d’AERO Magazine, le plus grand magazine d’aviation d’Amérique latine — des évaluations de cabines premium sur les vols long-courriers. Des vols payés, sans faveurs : la même règle que le guide.</span><span class="lang-es" style="display:none">Firmo la columna Flight Check de AERO Magazine, la mayor revista de aviación de América Latina — evaluaciones de cabina premium en vuelos de larga distancia. Vuelos pagados, sin cortesías: el mismo criterio de la guía.</span><span class="lang-it" style="display:none">Firmo la rubrica Flight Check di AERO Magazine, la più grande rivista di aviazione dell’America Latina — recensioni di cabine premium sui voli di lungo raggio. Voli pagati, senza favori: lo stesso criterio della guida.</span><span class="lang-de" style="display:none">Ich schreibe die Kolumne Flight Check für das AERO Magazine, das größte Luftfahrtmagazin Lateinamerikas — Bewertungen von Premium-Kabinen auf Langstreckenflügen. Bezahlte Flüge, keine Gefälligkeiten: dieselbe Regel wie im Guide.</span></div>
-    <a class="faceta-cta" href="aeromagazine.html"><span class="lang-pt">Ver as avaliações →</span><span class="lang-en" style="display:none">See the reviews →</span><span class="lang-fr" style="display:none">Voir les évaluations →</span><span class="lang-es" style="display:none">Ver las evaluaciones →</span><span class="lang-it" style="display:none">Vedi le recensioni →</span><span class="lang-de" style="display:none">Zu den Bewertungen →</span></a>
-  </div>
-</section>
-
-<!-- FACETA: PLAYLISTS -->
-<section class="faceta" id="playlists">
-  <a class="faceta-media" href="som.html"><img src="assets/som/ehs-2.jpg" alt="Épice House Sessions" loading="lazy"></a>
-  <div class="faceta-body">
-    <div class="faceta-kicker"><span class="lang-pt">A trilha</span><span class="lang-en" style="display:none">The soundtrack</span><span class="lang-fr" style="display:none">La bande-son</span><span class="lang-es" style="display:none">La banda sonora</span><span class="lang-it" style="display:none">La colonna sonora</span><span class="lang-de" style="display:none">Der Soundtrack</span></div>
-    <div class="faceta-title">Épice <em>House Sessions</em></div>
-    <div class="faceta-desc"><span class="lang-pt">Faço deep house melódico e vocal desde 2016 — oito edições, mais de quatrocentas faixas, cada uma com o nome de uma praia que vale a viagem. É a trilha que ouço enquanto escrevo o guia, provo vinho e janto.</span><span class="lang-en" style="display:none">I have made melodic vocal deep house since 2016 — eight editions, more than four hundred tracks, each named after a beach worth the journey. It is the soundtrack I listen to while writing the guide, tasting wine and dining.</span><span class="lang-fr" style="display:none">Je fais du deep house mélodique et vocal depuis 2016 — huit éditions, plus de quatre cents titres, chacun portant le nom d’une plage qui vaut le voyage. C’est la bande-son que j’écoute en écrivant le guide, en dégustant du vin et en dînant.</span><span class="lang-es" style="display:none">Hago deep house melódico y vocal desde 2016 — ocho ediciones, más de cuatrocientas pistas, cada una con el nombre de una playa que merece el viaje. Es la banda sonora que escucho mientras escribo la guía, cato vino y ceno.</span><span class="lang-it" style="display:none">Faccio deep house melodica e vocale dal 2016 — otto edizioni, più di quattrocento tracce, ognuna col nome di una spiaggia che vale il viaggio. È la colonna sonora che ascolto mentre scrivo la guida, assaggio vino e ceno.</span><span class="lang-de" style="display:none">Ich mache seit 2016 melodischen Vocal-Deep-House — acht Editionen, mehr als vierhundert Tracks, jeder nach einem Strand benannt, der die Reise wert ist. Es ist der Soundtrack, den ich höre, während ich den Guide schreibe, Wein verkoste und zu Abend esse.</span></div>
-    <a class="faceta-cta" href="som.html"><span class="lang-pt">Ouvir →</span><span class="lang-en" style="display:none">Listen →</span><span class="lang-fr" style="display:none">Écouter →</span><span class="lang-es" style="display:none">Escuchar →</span><span class="lang-it" style="display:none">Ascolta →</span><span class="lang-de" style="display:none">Anhören →</span></a>
-  </div>
 </section>
 
 <!-- MAPA DOS PAÍSES VISITADOS -->
