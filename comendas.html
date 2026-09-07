@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+  <meta property="og:title" content="Sobre — Luli Dias · Restaurants &amp; Hotels">
+  <meta property="og:description" content="Um guia dos meus restaurantes e hotéis favoritos — São Paulo, Rio, Lisboa, Paris, Tóquio e mais.">
+  <meta property="og:url" content="https://lulidias.com/sobre.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Luli Dias · Restaurants &amp; Hotels">
+  <meta property="og:image" content="https://lulidias.com/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Luli Dias · Restaurants &amp; Hotels">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://lulidias.com/og-image.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comendas — Luli Dias · Restaurants &amp; Hotels</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F7F3EE;--white:#FFF;--ink:#1A1A1A;--ink-lt:#5A5A5A;--ink-xs:#9A9A9A;
+  --gold:#B8922A;--gold-lt:#D4AE5C;--gold-dk:#8B6914;--gold-bg:#FAF5EB;--border:#E8E0D5;
+}
+html,body{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;}
+
+.top-nav{background:var(--white);border-bottom:1px solid var(--border);padding:12px 48px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:90;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+.back-link{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:600;background:var(--gold-bg);border:1px solid var(--gold-lt);padding:8px 14px;border-radius:24px;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.back-link:hover{background:var(--gold);color:var(--white);border-color:var(--gold);transform:translateX(-2px)}
+.nav-sep{color:var(--border)}
+.nav-current{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
+
+/* HERO */
+.hero{box-sizing:border-box;background:var(--white);border-bottom:1px solid var(--border);padding:64px 48px;display:grid;grid-template-columns:320px 1fr;gap:64px;align-items:start;max-width:1100px;margin:0 auto}
+@media(max-width:768px){.hero{grid-template-columns:1fr;padding:40px 24px;gap:40px}}
+
+/* PHOTO */
+.photo-wrap{position:relative}
+.photo-frame{width:100%;aspect-ratio:3/4;overflow:hidden;border:1px solid var(--border)}
+.photo-frame img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-placeholder{width:100%;aspect-ratio:3/4;background:linear-gradient(135deg,#f0e8d8,#e0d4c0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border:1px solid var(--border)}
+.photo-placeholder-icon{font-size:48px;opacity:.3}
+.photo-placeholder-text{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs)}
+.photo-caption{margin-top:16px;text-align:center}
+.photo-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:400;color:var(--ink)}
+.photo-name em{font-style:italic;color:var(--gold)}
+.photo-role{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-xs);margin-top:4px}
+
+/* CONTENT */
+.content{}
+.content-pre{font-size:8px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:16px}
+.content-title{font-family:'Playfair Display',serif;font-size:40px;font-weight:400;color:var(--ink);line-height:1.15;margin-bottom:8px}
+.content-title em{font-style:italic;color:var(--gold)}
+.orn{display:flex;align-items:center;gap:12px;margin:20px 0 28px}
+.orn-line{height:1px;width:48px;background:linear-gradient(90deg,var(--gold),transparent)}
+.orn-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+
+.bio{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--ink-lt);line-height:1.8;margin-bottom:32px}
+.bio p{margin-bottom:16px}
+.bio p:last-child{margin-bottom:0}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;background:transparent;margin-bottom:40px}
+.stat{background:var(--white);padding:20px;text-align:center}
+.stat-num{font-family:'Playfair Display',serif;font-size:32px;color:var(--gold);font-weight:600;line-height:1}
+.stat-lbl{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px}
+
+/* COMENDAS — vitrine */
+.distinctions-title{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.distinctions-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.comendas-sub{font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.3px;color:var(--ink-xs);margin-bottom:26px;max-width:52ch}
+.comendas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(206px,1fr));gap:15px;margin:0}
+.comenda{position:relative;border:1px solid var(--border);border-radius:14px;padding:26px 18px 22px;text-align:center;background:linear-gradient(180deg,rgba(197,163,90,.055),transparent 60%);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;overflow:hidden}
+.comenda:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(150,110,30,.12);border-color:var(--gold)}
+.comenda-photo{display:none;width:calc(100% + 36px);height:198px;object-fit:cover;object-position:center 38%;margin:0 -18px 20px}
+.comenda.has-photo{padding-top:0}
+.comenda.has-photo .comenda-photo{display:block}
+.comenda.has-photo .comenda-seal{margin-top:0}
+.comenda-seal{width:54px;height:54px;margin:0 auto 15px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1.5px solid var(--gold);box-shadow:inset 0 0 0 3px rgba(197,163,90,.16),0 2px 8px rgba(0,0,0,.08);font-family:'Playfair Display',serif;color:var(--gold)}
+.comenda-seal b{font-size:14px;font-weight:600;letter-spacing:.5px;line-height:1}
+.comenda-seal i{font-size:6px;font-style:normal;margin-top:3px;opacity:.85}
+.comenda-name{font-family:'Playfair Display',serif;font-size:15.5px;font-weight:500;color:var(--ink);line-height:1.3;text-wrap:balance;min-height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:11px}
+.comenda-region{font-family:'Montserrat',sans-serif;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-xs)}
+.comenda-region::before{content:'\25C6';color:var(--gold);font-size:7px;margin-right:6px}
+.mestre{max-width:620px;margin:0 auto 34px;border:1px solid var(--gold-lt);border-radius:16px;overflow:hidden;text-align:center;background:linear-gradient(180deg,var(--gold-bg),var(--white) 58%);box-shadow:0 14px 42px rgba(150,110,30,.14)}
+.mestre-photo{display:none;width:100%;height:320px;object-fit:cover;object-position:center 28%}
+.mestre.has-photo .mestre-photo{display:block}
+.mestre-inner{padding:32px 30px 34px}
+.mestre.has-photo .mestre-inner{padding-top:28px}
+.mestre-kicker{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:15px;font-weight:600}
+.mestre-kicker::before,.mestre-kicker::after{content:'\25C6';font-size:7px;color:var(--gold);margin:0 9px;vertical-align:middle}
+.mestre-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:10px;text-wrap:balance}
+.mestre-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:var(--gold-dk);margin-bottom:16px}
+.mestre-detail{font-family:'Montserrat',sans-serif;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-xs);line-height:1.9}
+.mestre-detail span{color:var(--ink-lt)}
+.comenda-futura{border-style:dashed;background:linear-gradient(180deg,rgba(197,163,90,.05),transparent 65%)}
+.comenda-futura .comenda-seal{border-style:dashed;color:var(--gold-dk)}
+.futura-tag{display:inline-block;font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dk);background:var(--gold-bg);border:1px solid var(--gold-lt);border-radius:20px;padding:4px 11px;margin-bottom:16px}
+.futura-data{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dk);margin-top:11px;font-weight:600}
+
+
+/* MAPA VISITADOS */
+.visited-section{box-sizing:border-box;background:var(--white);border-top:1px solid var(--border);padding:56px 48px;text-align:center;max-width:1100px;margin:0 auto}
+.visited-kicker{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.visited-nums{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--ink);margin-bottom:32px}
+.visited-nums .vn-gold{color:var(--gold);font-weight:600}
+.worldmap{max-width:920px;margin:0 auto}
+.worldmap svg{width:100%;height:auto;display:block}
+.worldmap path{fill:#E9E1D3;stroke:#FFFFFF;stroke-width:.4}
+.worldmap .visited path,.worldmap path.visited{fill:var(--gold);transition:fill .2s}
+.worldmap .visited:hover path{fill:var(--gold-dk)}
+.visited-note{font-size:11px;color:var(--ink-xs);max-width:660px;margin:24px auto 0;line-height:1.75}
+/* Países visitados — lista */
+.vc-wrap{max-width:900px;margin:40px auto 0;text-align:left}
+.vc-title{font-family:'Montserrat',sans-serif;font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:28px}
+.vc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(188px,1fr));gap:28px 34px}
+.vc-cont{font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-lt);padding-bottom:9px;margin-bottom:8px;border-bottom:1px solid var(--gold);border-color:rgba(197,163,90,.4)}
+.vc-list{list-style:none;padding:0;margin:0}
+.vc-list li{font-family:'Playfair Display',serif;font-size:15px;line-height:1.95;color:var(--ink)}
+.vc-list a{color:var(--gold);text-decoration:none;font-weight:500;border-bottom:1px solid transparent;transition:border-color .2s}
+.vc-list a:hover{border-bottom-color:var(--gold)}
+.vc-flag{display:inline-block;width:22px;margin-right:6px;font-size:13px;text-align:center;line-height:1}
+@media(max-width:640px){.visited-section{padding:36px 20px}.visited-nums{font-size:21px}}
+
+/* QUOTE */
+.quote-section{background:var(--gold-bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:56px 48px;text-align:center;max-width:100%}
+.quote-mark{font-family:'Playfair Display',serif;font-size:80px;color:var(--gold-lt);line-height:.6;display:block;margin-bottom:8px}
+.quote-text{font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;color:var(--ink);line-height:1.6;max-width:720px;margin:0 auto 20px}
+.quote-author{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--ink-xs)}
+
+footer{text-align:center;padding:32px;border-top:1px solid var(--border);background:var(--white)}
+footer p{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#bbb}
+footer a{color:var(--gold);text-decoration:none}
+.intro{max-width:640px;margin:0 auto;padding:44px 24px 8px;text-align:center}
+.intro p{font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.75;color:var(--ink-lt);margin-bottom:14px}
+.intro strong{color:var(--ink);font-weight:500}
+.anchor{max-width:680px;margin:26px auto 0;background:var(--gold-bg);border:1px solid var(--border);padding:22px 28px;text-align:center;font-family:'Playfair Display',serif;font-size:17px;line-height:1.65;color:var(--ink)}
+.anchor b{color:var(--gold);font-weight:600}
+.tbl-wrap{max-width:860px;margin:44px auto;padding:0 20px;overflow-x:auto}
+.pq-ano{color:var(--gold);font-weight:600}
+.pq-ytd{font-family:Montserrat;font-size:8px;color:var(--ink-xs);letter-spacing:1px}
+.metodo{max-width:640px;margin:8px auto 60px;padding:0 24px;text-align:center;font-size:11px;line-height:1.8;color:var(--ink-xs)}
+.intro p{margin-bottom:14px}
+
+.top-nav{justify-content:space-between}
+.top-nav-left{display:flex;align-items:center;gap:18px}
+.top-nav-brand{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;padding-left:6px;line-height:1}
+.top-nav-brand-name{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:20px;letter-spacing:8px;color:var(--ink);font-weight:400;padding-left:8px}
+.top-nav-brand-tag{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:8px;letter-spacing:3px;color:var(--ink-lt);font-weight:400}
+.top-nav-brand:hover .top-nav-brand-name{color:var(--gold)}
+@media(max-width:640px){.top-nav-brand{display:none}}
+/* ===== tabela da pesquisa ===== */
+#pesquisa .tbl-wrap{overflow-x:auto;margin:28px auto 10px;width:fit-content;max-width:100%}
+#pesquisa table{width:100%;border-collapse:collapse;font-family:'Montserrat',sans-serif;font-size:13px}
+#pesquisa th{font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-lt);font-weight:600;padding:8px 7px;border-bottom:2px solid var(--gold);text-align:right;white-space:normal;line-height:1.25;vertical-align:bottom}
+#pesquisa th:first-child{text-align:left}
+#pesquisa td{padding:8px 7px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);font-size:12.5px}
+#pesquisa td:first-child{text-align:left;white-space:nowrap}
+#pesquisa tbody tr:hover td{background:#FAF5EB}
+#pesquisa tr.tot td{border-top:2px solid var(--gold);border-bottom:none;font-weight:600;background:#FAF5EB}
+#pesquisa .pq-ano{font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);font-weight:600}
+#pesquisa tr.tot .pq-ano{font-size:15px;letter-spacing:1px}
+#pesquisa .pq-ytd{font-family:'Montserrat',sans-serif;font-size:8px;color:var(--ink-xs,#9a9a9a);letter-spacing:1px;white-space:nowrap}
+@media(max-width:640px){
+  #pesquisa .tbl-wrap{width:auto;max-width:100%;margin:18px auto 8px;padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #pesquisa table{width:auto;min-width:100%;font-size:11px}
+  #pesquisa th{font-size:7px;padding:7px 6px;letter-spacing:.2px}
+  #pesquisa td{font-size:11px;padding:7px 6px}
+  #pesquisa th:first-child,#pesquisa td:first-child{position:sticky;left:0;background:var(--white);box-shadow:1px 0 0 var(--border)}
+  #pesquisa tbody tr:hover td:first-child{background:#FAF5EB}
+  #pesquisa tr.tot td:first-child{background:#FAF5EB}
+  #pesquisa .pq-ano{font-size:12px}
+  #pesquisa tr.tot .pq-ano{font-size:12px;letter-spacing:.5px}
+}
+
+html{scroll-behavior:smooth}
+#historia,#comendas,#viagens{scroll-margin-top:76px}
+.indice{display:flex;flex-wrap:wrap;gap:8px 22px;margin:22px 0 2px}
+.indice a{font-size:9px;letter-spacing:2.4px;text-transform:uppercase;color:var(--ink-lt);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px;transition:color .2s,border-color .2s;white-space:nowrap}
+.indice a:hover{color:var(--gold);border-bottom-color:var(--gold-lt)}
+.faceta{box-sizing:border-box;max-width:1100px;margin:0 auto;padding:52px 48px;border-top:1px solid var(--border);display:flex;align-items:center;gap:44px;scroll-margin-top:76px;background:var(--white)}
+.faceta-media{flex-shrink:0;width:158px}
+.faceta-media img{width:100%;height:auto;display:block;border-radius:6px;box-shadow:0 14px 34px rgba(0,0,0,.18)}
+.faceta-body{flex:1;min-width:0}
+.faceta-kicker{font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:13px}
+.faceta-title{font-family:'Playfair Display',serif;font-weight:400;font-size:27px;color:var(--ink);line-height:1.12}
+.faceta-title em{font-style:italic;color:var(--gold-dk)}
+.faceta-desc{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--ink-lt);line-height:1.55;margin-top:12px;max-width:54ch}
+.faceta-cta{display:inline-block;margin-top:17px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px}
+.faceta-cta:hover{color:var(--ink)}
+@media(max-width:768px){.faceta{flex-direction:column;text-align:center;padding:42px 24px;gap:26px}.faceta-media{width:140px}.faceta-desc{margin-left:auto;margin-right:auto}}
+
+.faceta--rev{flex-direction:row-reverse}
+.faceta-media--map{width:230px}
+.faceta-media--map img{border-radius:6px;background:#F7F3EE;padding:12px;box-shadow:0 12px 30px rgba(0,0,0,.10)}
+.comendas-section{box-sizing:border-box;max-width:1100px;margin:0 auto;padding:56px 48px 22px;border-top:1px solid var(--border);background:var(--white);scroll-margin-top:76px}
+.comendas-section .distinctions-title{justify-content:center}
+.comendas-section .comendas-sub{margin-left:auto;margin-right:auto;text-align:center}
+@media(max-width:768px){.faceta--rev{flex-direction:column}.faceta-media--map{width:100%;max-width:320px}.comendas-section{padding:42px 24px 14px}}
+</style>
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "267deca0f25fd78caf5c7d0264c49431"}'></script><!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="top-nav-left">
+    <a href="sobre.html" class="back-link" data-i18n="back">← Voltar</a>
+    <a href="index.html" class="top-nav-brand">
+      <span class="top-nav-brand-name">LULI DIAS</span>
+      <span class="top-nav-brand-tag">RESTAURANTS &amp; HOTELS</span>
+    </a>
+  </div>
+  <span class="nav-current">Comendas</span>
+  <button id="lang-toggle" onclick="toggleLang()" style="background:none;border:1px solid var(--border);color:var(--ink-lt);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;font-weight:600;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;text-transform:uppercase;flex-shrink:0">EN</button>
+  
+</nav>
+
+<section class="comendas-section" id="comendas-full">
+<div id="comendas">
+      <!-- COMENDAS -->
+      <div class="distinctions-title" data-i18n="wine_distinctions">Comendas do Mundo do Vinho</div>
+      <div class="comendas-sub lang-pt">Sete das mais prestigiadas confrarias e ordens enófilas da Europa me acolheram entre os seus — um reconhecimento raro no mundo do vinho.</div>
+      <div class="comendas-sub lang-en" style="display:none">Seven of Europe's most prestigious wine confraternities and orders have welcomed me into their ranks — a rare distinction in the world of wine.</div>
+        <div class="comendas-sub lang-fr" style="display:none">Sept des confréries et ordres œnophiles les plus prestigieux d’Europe m’ont accueilli parmi les leurs — une distinction rare dans le monde du vin.</div>
+        <div class="comendas-sub lang-es" style="display:none">Siete de las cofradías y órdenes enófilas más prestigiosas de Europa me acogieron entre los suyos — un reconocimiento poco común en el mundo del vino.</div>
+        <div class="comendas-sub lang-it" style="display:none">Sette tra le più prestigiose confraternite e ordini enofili d’Europa mi hanno accolto tra i loro — un riconoscimento raro nel mondo del vino.</div>
+        <div class="comendas-sub lang-de" style="display:none">Sieben der renommiertesten Weinbruderschaften und -orden Europas haben mich in ihre Reihen aufgenommen — eine seltene Auszeichnung in der Welt des Weins.</div>
+      <div class="mestre">
+        <img class="mestre-photo" alt="" src="fotos/comendas/mestre-bordeaux.jpeg?v=2" onload="this.closest('.mestre').classList.add('has-photo')" onerror="this.remove()">
+        <div class="mestre-inner">
+          <div class="mestre-kicker lang-pt">O grau mais alto</div>
+          <div class="mestre-kicker lang-en" style="display:none">The highest rank</div>
+        <div class="mestre-kicker lang-fr" style="display:none">Le grade le plus élevé</div>
+        <div class="mestre-kicker lang-es" style="display:none">El grado más alto</div>
+        <div class="mestre-kicker lang-it" style="display:none">Il grado più alto</div>
+        <div class="mestre-kicker lang-de" style="display:none">Der höchste Rang</div>
+          <div class="mestre-title">Mestre da Commanderie de Bordeaux</div>
+          <div class="mestre-sub">São Paulo</div>
+          <div class="mestre-detail lang-pt">Elevação de grau · 19 de abril de 2026<br><span>Château Bellefont-Belcier · Saint-Émilion</span></div>
+          <div class="mestre-detail lang-en" style="display:none">Elevated · 19 April 2026<br><span>Château Bellefont-Belcier · Saint-Émilion</span></div>
+        <div class="mestre-detail lang-fr" style="display:none">Élévation · 19 avril 2026<br><span>Château Bellefont-Belcier · Saint-Émilion</span></div>
+        <div class="mestre-detail lang-es" style="display:none">Elevación de grado · 19 de abril de 2026<br><span>Château Bellefont-Belcier · Saint-Émilion</span></div>
+        <div class="mestre-detail lang-it" style="display:none">Elevazione · 19 aprile 2026<br><span>Château Bellefont-Belcier · Saint-Émilion</span></div>
+        <div class="mestre-detail lang-de" style="display:none">Erhebung · 19. April 2026<br><span>Château Bellefont-Belcier · Saint-Émilion</span></div>
+        </div>
+      </div>
+      <div class="comendas-grid">
+        <div class="comenda"><img class="comenda-photo" style="object-position:center 34%" alt="" src="fotos/comendas/porto.jpeg" onload="this.closest('.comenda').classList.add('has-photo')" onerror="this.remove()"><div class="comenda-seal"><b>2022</b><i>◆</i></div><div class="comenda-name">Cavaleiro do Vinho do Porto</div><div class="comenda-region">Portugal · Porto</div></div>
+        <div class="comenda"><img class="comenda-photo" style="object-position:center 42%" alt="" src="fotos/comendas/saint-emilion.jpeg?v=2" onload="this.closest('.comenda').classList.add('has-photo')" onerror="this.remove()"><div class="comenda-seal"><b>2023</b><i>◆</i></div><div class="comenda-name">Jurade de Saint-Émilion</div><div class="comenda-region">França · Saint-Émilion</div></div>
+        <div class="comenda"><img class="comenda-photo" style="object-position:center 46%" alt="" src="fotos/comendas/pomerol.jpeg" onload="this.closest('.comenda').classList.add('has-photo')" onerror="this.remove()"><div class="comenda-seal"><b>2024</b><i>◆</i></div><div class="comenda-name">Hospitaliers de Pomerol</div><div class="comenda-region">França · Pomerol</div></div>
+        <div class="comenda"><img class="comenda-photo" style="object-position:center 40%" alt="" src="fotos/comendas/bontemps.jpeg" onload="this.closest('.comenda').classList.add('has-photo')" onerror="this.remove()"><div class="comenda-seal"><b>2024</b><i>◆</i></div><div class="comenda-name">Commandeur du Bontemps</div><div class="comenda-region">França · Médoc &amp; Sauternes</div></div>
+        <div class="comenda"><img class="comenda-photo" style="object-position:center 24%" alt="" src="fotos/comendas/bordeaux.jpeg" onload="this.closest('.comenda').classList.add('has-photo')" onerror="this.remove()"><div class="comenda-seal"><b>2025</b><i>◆</i></div><div class="comenda-name">Commandeur de Bordeaux</div><div class="comenda-region">França · Bordeaux</div></div>
+        <div class="comenda"><img class="comenda-photo" style="object-position:center 55%" alt="" src="fotos/comendas/alentejo.jpeg" onload="this.closest('.comenda').classList.add('has-photo')" onerror="this.remove()"><div class="comenda-seal"><b>2026</b><i>◆</i></div><div class="comenda-name">Enófilo do Alentejo</div><div class="comenda-region">Portugal · Alentejo</div></div>
+        <div class="comenda"><img class="comenda-photo" style="object-position:center 42%" alt="" src="fotos/comendas/alba.jpeg" onload="this.closest('.comenda').classList.add('has-photo')" onerror="this.remove()"><div class="comenda-seal"><b>2026</b><i>◆</i></div><div class="comenda-name">Cavaliere del Tartufo e dei Vini di Alba</div><div class="comenda-region">Itália · Alba</div></div>
+        <div class="comenda comenda-futura"><div class="futura-tag lang-pt">Próxima</div><div class="futura-tag lang-en" style="display:none">Upcoming</div>
+        <div class="futura-tag lang-fr" style="display:none">À venir</div>
+        <div class="futura-tag lang-es" style="display:none">Próxima</div>
+        <div class="futura-tag lang-it" style="display:none">Prossima</div>
+        <div class="futura-tag lang-de" style="display:none">Demnächst</div><div class="comenda-seal"><b>2026</b><i>◆</i></div><div class="comenda-name">Confraria dos Enófilos da Bairrada</div><div class="comenda-region">Portugal · Bairrada</div><div class="futura-data lang-pt">28 de novembro de 2026</div><div class="futura-data lang-en" style="display:none">28 November 2026</div>
+        <div class="futura-data lang-fr" style="display:none">28 novembre 2026</div>
+        <div class="futura-data lang-es" style="display:none">28 de noviembre de 2026</div>
+        <div class="futura-data lang-it" style="display:none">28 novembre 2026</div>
+        <div class="futura-data lang-de" style="display:none">28. November 2026</div></div>
+      </div></div>
+</section>
+
+<footer><p><a href="index.html" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}" data-i18n="back">← Voltar</a> &nbsp;·&nbsp; Luli Dias · Restaurants &amp; Hotels &nbsp;·&nbsp; <a href="https://instagram.com/lulidias" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none">@lulidias</a></p></footer>
+
+<script>
+(function(){
+  var T={
+    pt:{back:'← Voltar',back_brasil:'← Brasil',back_todos:'← Todos os Países',srch:'Buscar restaurante, culinária, bairro…',sr:'Restaurantes',sc:'Cidades',sh:'Hotéis',se:'Estados',sm:'Michelin',m3:'★★★ 3 Estrelas',m2:'★★ 2 Estrelas',m1:'★ 1 Estrela',bib:'Bib Gourmand',grn:'Estrela Verde',mich:'Michelin',acc:'Hospedagem',view:'Vista:',list:'Lista',map:'Mapa',type:'Tipo:',all:'✦ Todos',rest:'🍽 Restaurantes',hot:'🛏 Hotéis',waze:'Navegar com Waze',gmaps:'Abrir no Google Maps',apple:'Abrir no Apple Maps',cancel:'Cancelar',call:'Todas',nm:' Perto de Mim',guide_personal:'Guia Gastronómico Pessoal',choose_state:'Escolha um estado',about_pre:'sobre o curador',countries_guide:'Países no Guia',trips_year:'Voltas ao Mundo Voadas',wine_distinctions:'Comendas do Mundo do Vinho'},
+    en:{back:'← Back',back_brasil:'← Brazil',back_todos:'← All Countries',srch:'Search restaurant, cuisine, neighbourhood…',sr:'Restaurants',sc:'Cities',sh:'Hotels',se:'States',sm:'Michelin',m3:'★★★ 3 Stars',m2:'★★ 2 Stars',m1:'★ 1 Star',bib:'Bib Gourmand',grn:'Green Star',mich:'Michelin',acc:'Accommodation',view:'View:',list:'List',map:'Map',type:'Type:',all:'✦ All',rest:'🍽 Restaurants',hot:'🛏 Hotels',waze:'Navigate with Waze',gmaps:'Open in Google Maps',apple:'Open in Apple Maps',cancel:'Cancel',call:'All',nm:' Near Me',guide_personal:'Personal Gastronomic Guide',choose_state:'Choose a state',about_pre:'about the curator',countries_guide:'Countries in Guide',trips_year:'Times Around the World Flown',wine_distinctions:'Wine World Honours'}
+  };
+  var LANG=localStorage.getItem('ld-lang')||'pt';
+  var t=function(k){return (T[LANG]&&T[LANG][k])||T.pt[k]||k;};
+  T.fr={back:'← Retour',back_brasil:'← Brésil',back_todos:'← Tous les pays',srch:'Rechercher un restaurant, une cuisine, un quartier…',sr:'Restaurants',sc:'Villes',sh:'Hôtels',se:'États',sm:'Michelin',m3:'★★★ 3 Étoiles',m2:'★★ 2 Étoiles',m1:'★ 1 Étoile',bib:'Bib Gourmand',grn:'Étoile Verte',mich:'Michelin',acc:'Hébergement',view:'Vue :',list:'Liste',map:'Carte',type:'Type :',all:'✦ Tous',rest:'🍽 Restaurants',hot:'🛏 Hôtels',waze:'Naviguer avec Waze',gmaps:'Ouvrir dans Google Maps',apple:'Ouvrir dans Apple Maps',cancel:'Annuler',call:'Tous',nm:' Près de moi',guide_personal:'Guide gastronomique personnel',choose_state:'Choisissez un état',about_pre:'sur le curateur',countries_guide:'Pays du guide',trips_year:'Voyages/an',wine_distinctions:'Ordres du monde du vin'};
+T.es={back:'← Volver',back_brasil:'← Brasil',back_todos:'← Todos los países',srch:'Buscar restaurante, cocina, barrio…',sr:'Restaurantes',sc:'Ciudades',sh:'Hoteles',se:'Estados',sm:'Michelin',m3:'★★★ 3 Estrellas',m2:'★★ 2 Estrellas',m1:'★ 1 Estrella',bib:'Bib Gourmand',grn:'Estrella Verde',mich:'Michelin',acc:'Alojamiento',view:'Vista:',list:'Lista',map:'Mapa',type:'Tipo:',all:'✦ Todos',rest:'🍽 Restaurantes',hot:'🛏 Hoteles',waze:'Navegar con Waze',gmaps:'Abrir en Google Maps',apple:'Abrir en Apple Maps',cancel:'Cancelar',call:'Todas',nm:' Cerca de mí',guide_personal:'Guía Gastronómica Personal',choose_state:'Elige un estado',about_pre:'sobre el curador',countries_guide:'Países en la Guía',trips_year:'Vueltas al Mundo Voladas',wine_distinctions:'Distinciones del Mundo del Vino'};T.it={back:'← Indietro',back_brasil:'← Brasile',back_todos:'← Tutti i paesi',srch:'Cerca ristorante, cucina, quartiere…',sr:'Ristoranti',sc:'Città',sh:'Hotel',se:'Stati',sm:'Michelin',m3:'★★★ 3 Stelle',m2:'★★ 2 Stelle',m1:'★ 1 Stella',bib:'Bib Gourmand',grn:'Stella Verde',mich:'Michelin',acc:'Alloggio',view:'Vista:',list:'Elenco',map:'Mappa',type:'Tipo:',all:'✦ Tutti',rest:'🍽 Ristoranti',hot:'🛏 Hotel',waze:'Naviga con Waze',gmaps:'Apri in Google Maps',apple:'Apri in Apple Maps',cancel:'Annulla',call:'Tutte',nm:' Vicino a me',guide_personal:'Guida Gastronomica Personale',choose_state:'Scegli uno stato',about_pre:'sul curatore',countries_guide:'Paesi nella Guida',trips_year:'Giri del Mondo Volati',wine_distinctions:'Onorificenze del Mondo del Vino'};T.de={back:'← Zurück',back_brasil:'← Brasilien',back_todos:'← Alle Länder',srch:'Restaurant, Küche, Viertel suchen…',sr:'Restaurants',sc:'Städte',sh:'Hotels',se:'Bundesstaaten',sm:'Michelin',m3:'★★★ 3 Sterne',m2:'★★ 2 Sterne',m1:'★ 1 Stern',bib:'Bib Gourmand',grn:'Grüner Stern',mich:'Michelin',acc:'Unterkunft',view:'Ansicht:',list:'Liste',map:'Karte',type:'Typ:',all:'✦ Alle',rest:'🍽 Restaurants',hot:'🛏 Hotels',waze:'Mit Waze navigieren',gmaps:'In Google Maps öffnen',apple:'In Apple Maps öffnen',cancel:'Abbrechen',call:'Alle',nm:' In meiner Nähe',guide_personal:'Persönlicher Gastronomieführer',choose_state:'Bundesstaat wählen',about_pre:'über den Kurator',countries_guide:'Länder im Guide',trips_year:'Geflogene Weltumrundungen',wine_distinctions:'Auszeichnungen der Weinwelt'};
+  function apply(){
+    document.querySelectorAll('.card-desc').forEach(function(el){if(el.dataset.pt===undefined)el.dataset.pt=el.textContent;el.textContent=(LANG==='pt'?el.dataset.pt:(el.dataset[LANG]||el.dataset.en||el.dataset.pt));});
+    document.querySelectorAll('.lang-pt').forEach(function(el){el.style.display=LANG==='pt'?'':'none';});
+    document.querySelectorAll('.lang-en').forEach(function(el){el.style.display=LANG==='en'?'':'none';});
+    ['fr','es','it','de'].forEach(function(L){document.querySelectorAll('.lang-'+L).forEach(function(el){el.style.display=LANG===L?'':'none';});});
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.dataset.i18n;
+      if(el.tagName==='INPUT')el.placeholder=t(k);
+      else el.textContent=t(k);
+    });
+    document.querySelectorAll('.cuisine-btn').forEach(function(btn){
+      if(btn.textContent.trim()==='Todas'||btn.textContent.trim()==='All')btn.textContent=t('call');
+    });
+    document.querySelectorAll('.filter-btn').forEach(function(btn){
+      if(btn.textContent.trim()==='Todas'||btn.textContent.trim()==='All')btn.textContent=t('call');
+    });
+    document.documentElement.lang=LANG==='fr'?'fr':LANG==='en'?'en':LANG==='es'?'es':LANG==='it'?'it':LANG==='de'?'de':'pt-BR';
+    var btn=document.getElementById('lang-toggle');
+    if(btn)btn.textContent='🌐 '+LANG.toUpperCase();btn.style.color=LANG==='pt'?'':'var(--gold)';
+  }
+  if(typeof window.rebuildFilters==='function'){var _rb=window.rebuildFilters;window.rebuildFilters=function(){_rb();apply();};}
+  if(typeof window.buildCuisineBar==='function'){var _bc=window.buildCuisineBar;window.buildCuisineBar=function(){_bc();apply();};}
+  if(typeof window.render==='function'){var _rndr=window.render;window.render=function(){_rndr.apply(this,arguments);apply();};}
+  window.setLang=function(l){LANG=l;try{localStorage.setItem('ld-lang',l);}catch(e){}apply();var m=document.getElementById('ld-lang-menu');if(m)m.classList.remove('open');};window.toggleLang=function(){var m=document.getElementById('ld-lang-menu');if(!m){m=document.createElement('div');m.id='ld-lang-menu';m.innerHTML="<button type=button data-l=pt onclick=\"setLang('pt')\">Português</button><button type=button data-l=en onclick=\"setLang('en')\">English</button><button type=button data-l=fr onclick=\"setLang('fr')\">Français</button><button type=button data-l=es onclick=\"setLang('es')\">Español</button><button type=button data-l=it onclick=\"setLang('it')\">Italiano</button><button type=button data-l=de onclick=\"setLang('de')\">Deutsch</button>";document.body.appendChild(m);var st=document.createElement('style');st.textContent="#ld-lang-menu{position:fixed;display:none;flex-direction:column;background:#fff;border:1px solid #e6ddcf;border-radius:10px;box-shadow:0 10px 34px rgba(0,0,0,.14);z-index:99999;overflow:hidden;min-width:160px}#ld-lang-menu.open{display:flex}#ld-lang-menu button{background:none;border:0;text-align:left;padding:11px 15px;font-family:'Montserrat',sans-serif;font-size:12.5px;letter-spacing:.5px;color:#1a1a1a;cursor:pointer}#ld-lang-menu button:hover{background:#faf5eb;color:#b8922a}#ld-lang-menu button.act{color:#b8922a;font-weight:600}";document.head.appendChild(st);document.addEventListener('click',function(e){var b=document.getElementById('lang-toggle');if(m.classList.contains('open')&&b&&e.target!==b&&!b.contains(e.target)&&!m.contains(e.target))m.classList.remove('open');});}m.querySelectorAll('button').forEach(function(x){x.classList.toggle('act',x.getAttribute('data-l')===LANG);});var b=document.getElementById('lang-toggle');if(b){var r=b.getBoundingClientRect();m.style.top=(r.bottom+8)+'px';m.style.right=Math.max(8,(window.innerWidth-r.right))+'px';m.style.left='auto';}m.classList.toggle('open');};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);
+  else apply();
+  window.addEventListener('load',apply);
+})();
+</script>
+<script src="js/logo.js"></script>
+</body>
+</html>
