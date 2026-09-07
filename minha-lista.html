@@ -75,7 +75,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-seri
 <body>
 
 <nav class="top-nav">
-  <a href="index.html" class="back-link" id="ml-back">← Voltar</a>
+  <a href="index.html" class="back-link" id="ml-back" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}">← Voltar</a>
   <a href="index.html" class="nav-brand top-nav-brand"><span class="nav-brand-name">LULI DIAS</span><span class="nav-brand-tag">RESTAURANTS &amp; HOTELS</span></a>
   <span class="nav-title" id="ml-title">Minha Lista</span>
   <button id="lang-toggle" class="util-link" onclick="toggleLang()">🌐 PT</button>

@@ -208,7 +208,7 @@ footer a{color:var(--gold);text-decoration:none}.type-bar{background:var(--gold-
 <body>
 <nav class="top-nav">
   <div class="top-nav-left">
-    <a href="index.html" class="back-link" data-i18n="back">← Voltar</a>
+    <a href="index.html" class="back-link" data-i18n="back" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}">← Voltar</a>
     <a href="index.html" class="top-nav-brand">
       <span class="top-nav-brand-name">LULI DIAS</span>
       <span class="top-nav-brand-tag">RESTAURANTS &amp; HOTELS</span>

@@ -72,7 +72,7 @@ body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-seri
 <body>
 
 <nav class="top-nav">
-  <a href="index.html" class="back-link">← Voltar</a>
+  <a href="index.html" class="back-link" onclick="if(document.referrer&&document.referrer.includes(location.host)){event.preventDefault();history.back();return false;}">← Voltar</a>
   <a href="index.html" class="nav-brand">LULI DIAS</a>
   <span class="nav-title">Busca Global</span>
 </nav>
