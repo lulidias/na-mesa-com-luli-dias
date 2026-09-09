@@ -242,7 +242,7 @@ main{max-width:980px;margin:0 auto;padding:32px}
   <div class="login-prompt">Quem está a entrar?</div>
   <div class="login-buttons">
     <button class="login-btn" onclick="login('luli')">✦ Sou o Luli</button>
-    <button class="login-btn" onclick="login('somm')">✦ Sou o Somm</button>
+    <button class="login-btn" onclick="login('somr')">✦ Sou o Somr</button>
   </div>
 </div>
 
@@ -703,7 +703,7 @@ async function login(user) {
   selectCurator(STATE.curator);
   // Saudação personalizada
   const greet = document.getElementById('homeGreeting');
-  const _names = {luli:'Luli', tito:'Tito', somm:'Somm'};
+  const _names = {luli:'Luli', tito:'Tito', somr:'Somr'};
   if (greet) greet.textContent = 'Olá, ' + (_names[user] || user) + ' 👋';
   loadSettings();
   await loadAllGuides();
