@@ -1,5 +1,22 @@
 [
  {
+  "n": "Mokutan",
+  "slug": "mokutan",
+  "guide": "brasil-sudeste",
+  "file": "brasil-sudeste.html",
+  "country": "Brasil",
+  "flag": "🇧🇷",
+  "city": "São Paulo",
+  "region": "São Paulo",
+  "photo": "fotos/brasil-sudeste/mokutan.jpeg",
+  "q": "Japonesa · Izakaya",
+  "t": null,
+  "s": 0,
+  "m": "",
+  "k": 0,
+  "date": "2026-09-09"
+ },
+ {
   "n": "Miss Kōh",
   "slug": "miss-koh",
   "guide": "brasil-nordeste",
