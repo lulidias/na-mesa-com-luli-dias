@@ -50,7 +50,7 @@ export default {
     // + chaves extras por pessoa (ex.: ADMIN_KEY_TECH para o sócio de tecnologia).
     // Revogar alguém = apagar o segredo dele no Cloudflare, sem afetar os demais.
     const adminKey = request.headers.get('X-Admin-Key');
-    const validKeys = [env.ADMIN_KEY, env.ADMIN_KEY_TECH].filter(Boolean);
+    const validKeys = [env.ADMIN_KEY, env.ADMIN_KEY_TECH, env.ADMIN_KEY_SOMM].filter(Boolean);
     if (!adminKey || !validKeys.includes(adminKey)) {
       return jsonResponse({ error: 'unauthorized' }, 401);
     }
