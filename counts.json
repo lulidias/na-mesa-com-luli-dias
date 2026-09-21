@@ -1,13 +1,13 @@
 {
   "totals": {
-    "restaurants": 1101,
-    "hotels": 187,
-    "markets": 27,
+    "restaurants": 1110,
+    "hotels": 189,
+    "markets": 28,
     "cities": 220,
     "lojaVinho": 2,
     "wineBar": 12,
-    "mercado": 27,
-    "m1": 44,
+    "mercado": 28,
+    "m1": 45,
     "m2": 13,
     "m3": 4,
     "bib": 29,
@@ -17,10 +17,10 @@
     "keys2": 10,
     "keys3": 6,
     "countries": 42,
-    "totalStars": 82,
+    "totalStars": 83,
     "totalKeys": 62,
-    "total": 1329,
-    "michelin": 91,
+    "total": 1341,
+    "michelin": 92,
     "keysEntries": 40
   },
   "countries": {
@@ -377,8 +377,8 @@
       "keysEntries": 0
     },
     "franca": {
-      "restaurants": 125,
-      "hotels": 17,
+      "restaurants": 127,
+      "hotels": 18,
       "markets": 2,
       "cities": 39,
       "lojaVinho": 2,
@@ -465,14 +465,14 @@
       "keysEntries": 0
     },
     "inglaterra": {
-      "restaurants": 5,
-      "hotels": 0,
-      "markets": 1,
+      "restaurants": 12,
+      "hotels": 1,
+      "markets": 2,
       "cities": 1,
       "lojaVinho": 0,
       "wineBar": 0,
-      "mercado": 1,
-      "m1": 1,
+      "mercado": 2,
+      "m1": 2,
       "m2": 0,
       "m3": 0,
       "bib": 0,
@@ -481,9 +481,9 @@
       "keys1": 0,
       "keys2": 0,
       "keys3": 0,
-      "totalStars": 1,
+      "totalStars": 2,
       "totalKeys": 0,
-      "michelin": 1,
+      "michelin": 2,
       "keysEntries": 0
     },
     "irlanda": {
