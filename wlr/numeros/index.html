@@ -141,7 +141,9 @@ var BORDEAUX = /bordeaux|m[ée]doc|pauillac|margaux|saint-?est[èe]phe|saint-?ju
 var BORGONHA = /bourgogne|borgonha|burgundy|c[ôo]te|chablis|meursault|montrachet|beaune|nuits|corton|chambertin|vosne|mâcon/i;
 // siglas já confirmadas (as outras aparecem só como sigla)
 var NOMES = { 'AMN': 'Álvaro Mendonça Neto', 'AA': 'Augusto Acioli', 'JAC': 'Alexandre Chaves', 'FA': 'Fred Alencar', 'FG': 'Fernando Gurgel',
-  'GC': 'Guilherme Chaves', 'JL': 'João Loyo', 'PJ': 'Pedro Jácome', 'MF': 'Marco Filho', 'RS': 'Rui Silva', 'J Rosas': 'Jorge Rosas', 'Luli': 'Luli Dias' };
+  'GC': 'Guilherme Chaves', 'JL': 'João Loyo', 'PJ': 'Pedro Jácome', 'MF': 'Marco Ferreira Filho', 'RS': 'Rui Silva', 'J Rosas': 'Jorge Rosas', 'Luli': 'Luli Dias',
+  'A Dias': 'Amadeu Dias', 'BB': 'Bruno Brayner', 'BB2': 'Bruno Bezerra', 'BT': 'Bruno Tude', 'EHL': 'Eduardo Henrique Loyo', 'MFF': 'Marcelo Ferreira',
+  'PB': 'Pedro Berinson', 'SR': 'Silvio Romero', 'AC': 'Alexandre Cunha', 'MN': 'Marcio Nejaim', 'GV': 'Gustavo Ventura' };
 function comNome(s) { return NOMES[s] ? s + ' · ' + NOMES[s] : s; }
 // siglas diferentes para a mesma pessoa
 function quem(s, ano) {
