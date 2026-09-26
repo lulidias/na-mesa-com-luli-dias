@@ -63,6 +63,8 @@ section{max-width:980px;margin:0 auto;padding:64px 24px}
 .ed-info b{color:var(--wine-lt);font-weight:700}
 .ed-foto{background:var(--soft);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:var(--ink-lt);font-size:12px;overflow:hidden;cursor:zoom-in}
 .ed-foto img{width:100%;height:100%;object-fit:cover;display:block}
+.ed-galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;padding:6px 6px 0}
+.ed-galeria img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;cursor:zoom-in;background:var(--soft)}
 .ed-texto{padding:20px 28px 0;font-size:14.5px;line-height:1.75;color:var(--ink)}
 .ed-vinhos{list-style:none;padding:22px 28px 28px;columns:2;column-gap:36px}
 .ed-vinhos li{break-inside:avoid;padding:7px 0;border-bottom:1px dotted var(--border);font-size:13.5px;line-height:1.45;display:flex;gap:10px}
@@ -215,20 +217,32 @@ function render(dados) {
     return '<article class="edicao" id="ed-' + e.ano + '">' +
       '<div class="ed-top"><div class="ed-ano">' + e.ano + '</div><div class="ed-info">' + info + '</div></div>' +
       (e.tem_foto ? '<div class="ed-foto" data-ano="' + e.ano + '">' + esc(tr('Carregando a foto…')) + '</div>' : '') +
+      (e.n_fotos ? '<div class="ed-galeria" data-ano="' + e.ano + '"></div>' : '') +
       (e.texto ? '<div class="ed-texto">' + paragrafos(e.texto) + '</div>' : '') +
       (vs.length ? '<ul class="ed-vinhos" data-notr>' + vs.map(function (v) {
         return '<li><span class="sg">' + esc(v.s) + '</span><span>' + esc(v.v) + '</span></li>';
       }).join('') + '</ul>' : '') +
       '</article>';
   }).join('');
-  // fotos: uma de cada vez, só quando chegam perto da tela
-  var fotos = [].slice.call(document.querySelectorAll('.ed-foto'));
+  // fotos: só quando chegam perto da tela (primeiro a do grupo, depois a galeria)
+  var fotos = [].slice.call(document.querySelectorAll('.ed-foto, .ed-galeria'));
+  var zoom = function (src) { var z = document.getElementById('zoom'); z.querySelector('img').src = src; z.classList.remove('hidden'); };
   var carrega = function (el) {
     if (el._ok) return; el._ok = true;
+    if (el.classList.contains('ed-galeria')) {
+      rpc('wlr_p_edicao_fotos', { p_id: meuId, p_ano: +el.dataset.ano }).then(function (lista) {
+        (lista || []).forEach(function (src) {
+          var img = new Image(); img.alt = 'Magnum Fest ' + el.dataset.ano; img.src = src; img.loading = 'lazy';
+          img.onclick = function () { zoom(src); }; el.appendChild(img);
+        });
+        if (!el.children.length) el.remove();
+      }).catch(function () { el.remove(); });
+      return;
+    }
     rpc('wlr_p_edicao_foto', { p_id: meuId, p_ano: +el.dataset.ano }).then(function (src) {
       if (!src) { el.remove(); return; }
       el.innerHTML = ''; var img = new Image(); img.alt = 'Magnum Fest ' + el.dataset.ano; img.src = src; el.appendChild(img);
-      el.onclick = function () { var z = document.getElementById('zoom'); z.querySelector('img').src = src; z.classList.remove('hidden'); };
+      el.onclick = function () { zoom(src); };
     }).catch(function () { el.textContent = tr('Não foi possível carregar a foto.'); });
   };
   if ('IntersectionObserver' in window) {

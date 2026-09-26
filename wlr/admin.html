@@ -272,12 +272,15 @@ a{color:var(--wine-lt)}
       <label class="lb">Local</label><input id="cf-local" placeholder="ex.: Restaurante …, Recife">
       <label class="lb">Texto (opcional)</label><textarea id="cf-etexto" rows="3" placeholder="ex.: Não houve edição por causa da pandemia."></textarea>
       <label class="lb">Vinhos — um por linha, no formato SIGLA - Vinho safra</label><textarea id="cf-vinhos" rows="12" placeholder="AMN - Opus One 2009&#10;AA - Cask 23 1999"></textarea>
-      <label class="lb">Foto oficial</label>
+      <label class="lb">Foto do grupo — aparece sempre primeiro</label>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
         <img id="cf-foto-prev" alt="" style="width:180px;aspect-ratio:16/9;object-fit:cover;background:#f3ecef;display:none">
         <input type="file" id="cf-foto" accept="image/*" onchange="escolheFoto(this)">
         <button class="del" id="cf-foto-rm" onclick="removeFoto()" style="display:none">remover foto</button>
       </div>
+      <label class="lb">Outras fotos da edição <span id="cf-g-aviso" style="text-transform:none;letter-spacing:0">(salve a edição primeiro)</span></label>
+      <div id="cf-galeria" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"></div>
+      <input type="file" id="cf-g-add" accept="image/*" multiple onchange="addFotosGaleria(this)" style="margin-top:8px">
       <div style="margin-top:16px;display:flex;gap:8px;align-items:center"><button class="btn gold" id="cf-salvar" onclick="salvaEdicao()">Salvar edição</button><span id="cf-status" style="font-size:11px;color:var(--ink-lt)"></span></div>
     </div>
   </div>
@@ -742,7 +745,7 @@ function loadConfraria() {
     document.getElementById('cf-body').innerHTML = eds.length ? eds.map(function (e) {
       var n = String(e.vinhos || '').split('\n').filter(function (l) { return l.trim(); }).length;
       return '<tr><td><strong>' + e.ano + '</strong></td><td>' + (e.data ? new Date(e.data + 'T12:00:00').toLocaleDateString('pt-BR') : '<span style="color:var(--ink-lt)">—</span>') + '</td><td>' + esc(e.local || '—') +
-        '</td><td>' + (n || '—') + '</td><td>' + (e.tem_foto ? '✓' : '—') + '</td><td style="white-space:nowrap"><button class="btn gold" style="padding:7px 12px;font-size:9px" onclick="abreEdicao(' + e.ano + ')">Editar</button> <button class="del" onclick="apagaEdicao(' + e.ano + ')">apagar</button></td></tr>';
+        '</td><td>' + (n || '—') + '</td><td>' + (e.tem_foto ? '✓' : '—') + (e.n_fotos ? ' + ' + e.n_fotos : '') + '</td><td style="white-space:nowrap"><button class="btn gold" style="padding:7px 12px;font-size:9px" onclick="abreEdicao(' + e.ano + ')">Editar</button> <button class="del" onclick="apagaEdicao(' + e.ano + ')">apagar</button></td></tr>';
     }).join('') : '<tr><td colspan="6" style="color:var(--ink-lt)">Nenhuma edição cadastrada.</td></tr>';
   }).catch(function (e) { toast(e.message, true); });
 }
@@ -771,9 +774,56 @@ function abreEdicao(ano) {
       if (src && edAtual === e && fotoNova === null) { prev.src = src; prev.style.display = 'block'; rm.style.display = 'inline-block'; }
     }).catch(function () { });
   }
+  galeria(e ? e.ano : null);
   document.getElementById('cf-modal').classList.remove('hidden');
 }
 // reduz para no máximo 1600 px antes de guardar (a foto fica no banco, só para membros)
+function reduzFoto(file) {
+  return new Promise(function (ok, erro) {
+    var img = new Image(), url = URL.createObjectURL(file);
+    img.onload = function () {
+      var k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+      var c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+      ok(c.toDataURL('image/jpeg', 0.8));
+    };
+    img.onerror = function () { erro(new Error('Não consegui abrir ' + file.name + '. Use JPG ou PNG.')); };
+    img.src = url;
+  });
+}
+function galeria(ano) {
+  var box = document.getElementById('cf-galeria'), inp = document.getElementById('cf-g-add');
+  box.innerHTML = ''; inp.disabled = !ano; document.getElementById('cf-g-aviso').style.display = ano ? 'none' : 'inline';
+  if (!ano) return;
+  box.innerHTML = '<span style="font-size:11px;color:var(--ink-lt)">Carregando…</span>';
+  rpc('wlr_admin_edicao_fotos', { p_token: TOKEN, p_ano: ano }).then(function (lista) {
+    if (!edAtual || edAtual.ano !== ano) return;
+    box.innerHTML = (lista || []).map(function (f) {
+      return '<span style="position:relative;display:inline-block"><img src="' + f.foto + '" style="width:120px;aspect-ratio:4/3;object-fit:cover;display:block">' +
+        '<button class="del" title="remover" onclick="rmFotoGaleria(' + f.id + ',' + ano + ')" style="position:absolute;top:2px;right:2px;background:#fff;padding:2px 6px">✕</button></span>';
+    }).join('') || '<span style="font-size:11px;color:var(--ink-lt)">Nenhuma ainda.</span>';
+  }).catch(function (e) { box.textContent = e.message; });
+}
+function addFotosGaleria(inp) {
+  var ano = edAtual && edAtual.ano, files = [].slice.call(inp.files || []);
+  if (!ano || !files.length) return;
+  var st = document.getElementById('cf-status'), feitas = 0;
+  inp.disabled = true;
+  files.reduce(function (p, f) {
+    return p.then(function () {
+      st.textContent = 'Enviando foto ' + (feitas + 1) + ' de ' + files.length + '…';
+      return reduzFoto(f).then(function (du) { return rpc('wlr_admin_edicao_foto_add', { p_token: TOKEN, p_ano: ano, p_foto: du }); })
+        .then(function () { feitas++; });
+    });
+  }, Promise.resolve()).then(function () { toast(feitas + (feitas === 1 ? ' foto adicionada.' : ' fotos adicionadas.')); })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { st.textContent = ''; inp.value = ''; inp.disabled = false; galeria(ano); loadConfraria(); });
+}
+function rmFotoGaleria(id, ano) {
+  if (!confirm('Remover esta foto?')) return;
+  rpc('wlr_admin_edicao_foto_rm', { p_token: TOKEN, p_id: id }).then(function () { toast('Foto removida.'); galeria(ano); loadConfraria(); })
+    .catch(function (e) { toast(e.message, true); });
+}
 function escolheFoto(inp) {
   var f = inp.files && inp.files[0]; if (!f) return;
   var st = document.getElementById('cf-status'); st.textContent = 'Preparando a foto…';
