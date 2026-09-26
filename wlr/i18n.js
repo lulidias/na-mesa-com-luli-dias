@@ -291,7 +291,8 @@
     'Abrir a playlist no aplicativo': ['Abrir la playlist en la app', 'Open the playlist in the app'],
     'Nenhuma edição cadastrada ainda.': ['Todavía no hay ediciones registradas.', 'No editions registered yet.'],
     'O conselho ainda vai escrever este texto.': ['El consejo todavía escribirá este texto.', 'The board will write this text soon.'],
-    'Não houve Magnum Fest em 2020, por causa da pandemia.': ['No hubo Magnum Fest en 2020, a causa de la pandemia.', 'There was no Magnum Fest in 2020 because of the pandemic.'],
+    'Não houve Magnum Fest em 2020, por causa da pandemia. Foi também o ano em que perdemos Licínio Dias.': ['No hubo Magnum Fest en 2020, a causa de la pandemia. Fue también el año en que perdimos a Licínio Dias.', 'There was no Magnum Fest in 2020 because of the pandemic. It was also the year we lost Licínio Dias.'],
+    'A primeira edição com o nome de Licínio Dias.': ['La primera edición con el nombre de Licínio Dias.', 'The first edition named after Licínio Dias.'],
     'Aparelho aprovado — entrando…': ['Dispositivo aprobado: entrando…', 'Device approved — signing in…'],
     // ── avisos (toasts) e diálogos
     'Escolha o seu nome na lista.': ['Elige tu nombre en la lista.', 'Pick your name from the list.'],
