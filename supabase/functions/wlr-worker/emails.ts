@@ -216,11 +216,12 @@ export function monta(modelo: any, tipo: string, d: Dados, ctx: Ctx, l: Lang, ra
 }
 
 // ── envio ────────────────────────────────────────────────────────────────
-export async function enviar(para: string, subject: string, html: string, replyTo: string) {
+export async function enviar(para: string, subject: string, html: string, replyTo: string, remetente?: string) {
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${RESEND}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from: FROM, to: [para], reply_to: replyTo, subject, html }),
+    // remetente próprio da confraria (wlr_config.email_remetente) quando o domínio estiver verificado no Resend
+    body: JSON.stringify({ from: remetente ? `Wine Lovers Recife <${remetente}>` : FROM, to: [para], reply_to: replyTo, subject, html }),
   });
   if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`);
 }
@@ -252,7 +253,7 @@ export async function processaFila(sb: SupabaseClient, cfg: Cfg) {
       const l = (d.idioma || p?.idioma || "pt") as Lang;
       if (!modelo) throw new Error(`Sem modelo para ${row.tipo}`);
       const { subject, html } = monta(modelo, row.tipo, d, ctx, l);
-      await enviar(row.para, subject, html, replyTo);
+      await enviar(row.para, subject, html, replyTo, cfg.email_remetente || undefined);
       await sb.from("wlr_emails").update({ status: "enviado", enviado_em: new Date().toISOString() }).eq("id", row.id);
       ok++;
     } catch (e) {
