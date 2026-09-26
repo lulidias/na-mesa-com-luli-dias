@@ -974,7 +974,7 @@ function moveLinha(b, d) { var tr = b.closest('tr'); if (d < 0 && tr.previousEle
 function novaLinha(g) { document.getElementById('evm-linhas').insertAdjacentHTML('beforeend', linhaHTML(g || {})); marcaFaltas(); if (!g) document.querySelector('#evm-linhas tr:last-child .q').focus(); }
 // vinho já conhecido: completa o que estiver vazio; a safra vem do nome
 function autoLinha(inp) {
-  var tr = inp.closest('tr'), v = inp.value, c = CONHECIDOS[chaveVinho(v)], y = v.match(/\b(19[4-9]\d|20[0-2]\d)\b/);
+  var tr = inp.closest('tr'), v = inp.value, c = CONHECIDOS[chaveVinho(v)], y = v.match(/\b(1[89][0-9]\d|20[0-2]\d)\b/);
   if (y && !tr.querySelector('.sf').value) tr.querySelector('.sf').value = y[1];
   if (c) [['.p', 'produtor'], ['.rg', 'regiao'], ['.uv', 'uva'], ['.pa', 'pais'], ['.tp', 'tipo']].forEach(function (x) { var el = tr.querySelector(x[0]); if (!el.value && c[x[1]]) el.value = c[x[1]]; });
   marcaFaltas();
@@ -983,7 +983,7 @@ function colarLista() {
   var t = document.getElementById('evm-colar').value, n = 0;
   linhasTxt(t).forEach(function (l) {
     l.v.split(/\s+\/\s+|\s+e\s+(?=[A-ZÀ-Ý])/).map(function (x) { return x.trim(); }).filter(Boolean).forEach(function (v) {
-      var c = CONHECIDOS[chaveVinho(v)] || {}, y = v.match(/\b(19[4-9]\d|20[0-2]\d)\b/);
+      var c = CONHECIDOS[chaveVinho(v)] || {}, y = v.match(/\b(1[89][0-9]\d|20[0-2]\d)\b/);
       novaLinha({ s: l.s, v: v, produtor: c.produtor, pais: c.pais, regiao: c.regiao, tipo: c.tipo, uva: c.uva, safra: y ? y[1] : '' }); n++;
     });
   });
@@ -1011,7 +1011,7 @@ function abreEvento(chave) {
   document.getElementById('evm-texto').value = e ? (e.texto || '') : '';
   var porV = {}; ((e && e.dados) || []).forEach(function (d) { porV[d.v] = d; });
   document.getElementById('evm-linhas').innerHTML = linhasTxt(e && e.vinhos).map(function (l) {
-    var d = porV[l.v] || {}; return linhaHTML({ s: l.s, v: l.v, produtor: d.produtor, pais: d.pais, regiao: d.regiao, tipo: d.tipo, uva: d.uva, safra: d.safra || (l.v.match(/\b(19[4-9]\d|20[0-2]\d)\b/) || [])[1] });
+    var d = porV[l.v] || {}; return linhaHTML({ s: l.s, v: l.v, produtor: d.produtor, pais: d.pais, regiao: d.regiao, tipo: d.tipo, uva: d.uva, safra: d.safra || (l.v.match(/\b(1[89][0-9]\d|20[0-2]\d)\b/) || [])[1] });
   }).join('');
   marcaFaltas(); tipoEvento();
   var prev = document.getElementById('evm-foto-prev'), rm = document.getElementById('evm-foto-rm');

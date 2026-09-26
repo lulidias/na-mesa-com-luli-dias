@@ -185,7 +185,7 @@ function prepara(d) {
     linhasVinhos(e.vinhos).forEach(function (l) {
       var c = porV[l.v] || {};
       TODAS.push({ ev: 'magnum', evt: 'Magnum Fest', evid: 'mf' + e.ano, ano: e.ano, s: quem(l.s, e.ano), v: l.v, produtor: c.produtor || null, pais: c.pais || null, regiao: c.regiao || null,
-        tipo: c.tipo || null, uva: c.uva || null, safra: c.safra || (l.v.match(/\b(19[4-9]\d|20[0-2]\d)\b/) || [])[1] * 1 || null });
+        tipo: c.tipo || null, uva: c.uva || null, safra: c.safra || (l.v.match(/\b(1[89][0-9]\d|20[0-2]\d)\b/) || [])[1] * 1 || null });
     });
   });
   (d.eventos || []).forEach(function (e) {
@@ -193,7 +193,7 @@ function prepara(d) {
     linhasVinhos(e.vinhos).forEach(function (l) {
       var c = porV[l.v] || {};
       TODAS.push({ ev: e.tipo, evt: e.titulo || '', evid: e.id, ano: e.ano, s: quem(l.s, e.ano), v: l.v, produtor: c.produtor || null, pais: c.pais || null, regiao: c.regiao || null,
-        tipo: c.tipo || null, uva: c.uva || null, safra: c.safra || (l.v.match(/\b(19[4-9]\d|20[0-2]\d)\b/) || [])[1] * 1 || null });
+        tipo: c.tipo || null, uva: c.uva || null, safra: c.safra || (l.v.match(/\b(1[89][0-9]\d|20[0-2]\d)\b/) || [])[1] * 1 || null });
     });
   });
   ATUAL = d.atual_ano || ATUAL;
