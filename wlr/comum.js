@@ -66,7 +66,7 @@ function montaNav(ativo) {
 function montaRodape() {
   var f = document.createElement('footer');
   f.innerHTML = '<img src="' + RAIZ + 'img/logo-branco.png" alt="Wine Lovers Recife">' +
-    '<div class="q">"Viver e curtir os bons momentos com os amigos."</div>' +
+    '<div class="q">' + esc(tr('Poucas mesas no mundo')) + '</div>' +
     '<div class="links"><a href="' + RAIZ + '">' + esc(tr('A confraria')) + '</a><a href="' + RAIZ + 'confrades/">' + esc(tr('Confrades')) + '</a><a href="' + RAIZ + 'magnumfest/">Magnum Fest 2026</a>' +
     '<a href="' + RAIZ + 'eventos/">' + esc(tr('Eventos')) + '</a><a href="' + RAIZ + 'edicoes/">' + esc(tr('Edições')) + '</a><a href="' + RAIZ + 'numeros/">' + esc(tr('Números')) + '</a></div>' +
     '<div class="rede"><span class="desde">' + esc(tr('Desde 2016')) + '</span><a href="https://www.instagram.com/wineloversrecife/" target="_blank" rel="noopener">' +
