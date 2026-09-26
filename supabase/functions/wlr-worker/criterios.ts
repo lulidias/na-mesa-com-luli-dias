@@ -200,7 +200,7 @@ export function avaliar(f: Fatos, ctx: Contexto, lang: Idioma = "pt"): Parecer {
     publico: {
       notas: notas.map(([k, n]) => `${k} ${n}`).join(" · "),
       preco: precoRef != null ? eur(precoRef) : "",
-      resumo: status === "inapto" ? "" : (notaOk ? `${melhor![0]} ${melhor![1]}` : precoOk ? `Wine-Searcher ${eur(precoRef!)}` : produtorConfrade ? x("Vinho de confrade produtor", "Vino de cofrade productor", "A member's own wine") : ""),
+      resumo: status === "inapto" ? "" : (notaOk ? `${melhor![0]} ${melhor![1]}` : produtorConfrade ? x("Vinho de confrade produtor", "Vino de cofrade productor", "A member's own wine") : ""),
     },
   };
 }
