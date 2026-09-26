@@ -87,7 +87,8 @@ function mostraQR(aberta) {
   }
 }
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
-var TOKEN = localStorage.getItem('wlr_admin_token') || '';
+var PARAMS = new URLSearchParams(location.search), DEMO = PARAMS.get('demo') === '1';
+var TOKEN = PARAMS.get('t') || localStorage.getItem('wlr_admin_token') || '';
 var MEDAL = ['🏆', '', '', '', ''];
 
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -114,7 +115,7 @@ function tick() {
     rpc('wlr_admin_votantes', { p_token: TOKEN })
   ]).then(function (res) {
     var rows = res[0] || [], cfg = (res[1] || [])[0] || {}, votantes = res[2] || 0;
-    mostraQR(cfg.votacao_aberta === true);
+    mostraQR(cfg.votacao_aberta === true || DEMO);
     document.getElementById('s-votantes').textContent = votantes;
 
     var porCat = {}, ordem = [];

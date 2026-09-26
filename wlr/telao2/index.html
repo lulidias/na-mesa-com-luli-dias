@@ -77,7 +77,8 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 'use strict';
 var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
-var TOKEN = localStorage.getItem('wlr_admin_token') || '';
+var PARAMS = new URLSearchParams(location.search), DEMO = PARAMS.get('demo') === '1';
+var TOKEN = PARAMS.get('t') || localStorage.getItem('wlr_admin_token') || '';
 var qrFeito = false;
 
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -116,7 +117,7 @@ function tick() {
     var votaram = (res[0] || []).map(function (r) { return r.nome; });
     var todos = (res[1] || []).map(function (p) { return p.nome; });
     var cfg = (res[2] || [])[0] || {};
-    mostraQR(cfg.votacao_aberta === true);
+    mostraQR(cfg.votacao_aberta === true || DEMO);
     var vSet = {};
     votaram.forEach(function (n) { vSet[n] = true; });
     var faltam = todos.filter(function (n) { return !vSet[n]; }).sort(function (a, b) { return a.localeCompare(b, 'pt'); });

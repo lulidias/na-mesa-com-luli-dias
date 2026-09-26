@@ -57,6 +57,7 @@ input{width:100%;padding:15px;border:1px solid rgba(255,255,255,.6);background:r
 'use strict';
 var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var DEMO = new URLSearchParams(location.search).get('demo') === '1';
 var meuId = localStorage.getItem('wlr_id');
 var meuNome = '';
 
@@ -98,6 +99,11 @@ function carrega() {
     var cfg = (res[0] || [])[0] || {};
     var cats = res[1] || [], vinhos = (res[2] || []).filter(function (g) { return g.situacao === 'aprovado'; });
     var eu = res[3] && res[3][0];
+    if (DEMO) {
+      meuNome = 'Demo';
+      document.getElementById('sub').textContent = T('Demonstração: é assim que a urna aparece no celular de cada confrade. Nenhum voto é registrado.');
+      return mostraUrna(cats, vinhos, {});
+    }
     if (!cfg.votacao_aberta) {
       document.getElementById('ident').classList.add('hidden');
       document.getElementById('urna').classList.add('hidden');
@@ -115,6 +121,11 @@ function carrega() {
     rpc('wlr_meus_votos', { p_participante: meuId }).then(function (votos) {
       var meus = {};
       (votos || []).forEach(function (v) { meus[v.categoria_id] = v.garrafa_id; });
+      mostraUrna(cats, vinhos, meus);
+    });
+  }).catch(function (e) { toast(e.message, true); });
+}
+function mostraUrna(cats, vinhos, meus) {
       var urna = document.getElementById('urna');
       urna.classList.remove('hidden');
       urna.innerHTML = cats.map(function (c) {
@@ -124,16 +135,15 @@ function carrega() {
             esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : '') + ' — ' + esc(g.membros.join(', ')) + '</option>';
         }).join('');
         return '<div class="card"><h2>' + esc(c.nome) + '</h2>' +
-          (c.tipo_filtro ? '<div class="ct">só ' + esc(c.tipo_filtro).toLowerCase() + 's concorrem</div>' : '<div class="ct">todos os vinhos concorrem</div>') +
+          (c.tipo_filtro ? '<div class="ct">' + esc(T('só {t} concorrem', { t: T(c.tipo_filtro + 's').toLowerCase() })) + '</div>' : '<div class="ct">' + T('todos os vinhos concorrem') + '</div>') +
           '<select data-cat="' + c.id + '" onchange="votar(this)">' + opts + '</select>' +
           '<div class="voted" id="v-' + c.id + '">' + (meus[c.id] ? '✓ Voto registrado' : '') + '</div></div>';
       }).join('');
-    });
-  }).catch(function (e) { toast(e.message, true); });
 }
 
 function votar(sel) {
   if (!sel.value) return;
+  if (DEMO) { document.getElementById('v-' + sel.dataset.cat).textContent = '✓ Voto registrado'; toast(T('Demonstração — nenhum voto foi registrado.')); return; }
   rpc('wlr_votar', { p_participante: meuId, p_categoria: sel.dataset.cat, p_garrafa: sel.value })
     .then(function () {
       document.getElementById('v-' + sel.dataset.cat).textContent = '✓ Voto registrado';
