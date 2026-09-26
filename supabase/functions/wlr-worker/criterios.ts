@@ -103,7 +103,9 @@ export function avaliar(f: Fatos, ctx: Contexto): Parecer {
   } else if (f.categoria === "Outro Porto") {
     c.push({ id: "safra", rotulo: "Só Porto Vintage (20+ anos) ou Tawny (30+ anos)", ok: false, detalhe: "outro estilo de Porto" });
   } else if (!branco && !esp && !doce) {
-    c.push({ id: "safra", rotulo: "Safra até 2014", ok: f.safra == null ? null : f.safra <= 2014,
+    // o documento de 2025 fixava 2014; a regra anda com o ano da festa (2026 → até 2015)
+    const limSafra = ctx.ano_evento - 11;
+    c.push({ id: "safra", rotulo: `Safra até ${limSafra}`, ok: f.safra == null ? null : f.safra <= limSafra,
       detalhe: f.safra == null ? "safra não identificada" : `safra ${f.safra}` });
   }
 

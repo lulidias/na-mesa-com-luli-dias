@@ -221,6 +221,13 @@ footer img{width:170px;height:auto;display:block;margin:0 auto 20px;opacity:.95}
 footer .quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--cream);margin-bottom:18px}
 footer .org{font-size:9px;letter-spacing:3px;text-transform:uppercase}
 footer .org a{color:var(--gold-lt);text-decoration:none}
+.passos-rsvp{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.passos-rsvp .pr{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt);border:1px solid var(--border);padding:8px 14px;display:flex;align-items:center;gap:8px;background:#fff}
+.passos-rsvp .pr b{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--border);color:var(--wine);align-items:center;justify-content:center;font-size:10px}
+.passos-rsvp .pr.on{border-color:var(--wine-lt);color:var(--wine-lt)}
+.passos-rsvp .pr.on b{background:var(--wine-lt);color:#fff}
+.bloco-t{font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--wine);display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);padding-bottom:10px}
+.bloco-t b{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--wine-lt);color:#fff;align-items:center;justify-content:center;font-size:11px}
 .hidden{display:none !important}
 .painel-btn{position:fixed;top:16px;right:16px;z-index:1500;background:var(--wine-lt);color:#fff;border:1px solid var(--wine-lt);padding:11px 20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-family:'Montserrat',sans-serif;transition:all .3s;box-shadow:0 4px 18px rgba(0,0,0,.25)}
 .painel-btn:hover{background:var(--wine)}
@@ -318,7 +325,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
       <li>Sem nota ou abaixo de 95: vale o <strong>preço de mercado de € 400 ou mais</strong> no Wine-Searcher.</li>
     </ul><div class="cl">Cláusulas 1 a 3</div></div>
     <div class="crit"><h3>Safras</h3><ul>
-      <li>Tintos e demais vinhos: <strong>safra até 2014</strong>, inclusive.</li>
+      <li>Tintos e demais vinhos: <strong>safra até 2015</strong>, inclusive (a regra de 2025 era até 2014 e anda um ano por edição).</li>
       <li>Porto Vintage com no mínimo <strong>20 anos</strong>; Porto Tawny com no mínimo <strong>30 anos</strong>.</li>
     </ul><div class="cl">Cláusula 4</div></div>
     <div class="crit"><h3>Brancos</h3><ul>
@@ -357,45 +364,48 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   </div>
 </section>
 
-<!-- ═══ RSVP ═══ -->
+<!-- ═══ RSVP + MAGNUM (tudo num formulário) ═══ -->
 <section class="sec" id="rsvp" style="padding-top:20px">
   <div class="sec-kicker">RSVP</div>
-  <h2 class="sec-title" id="rsvp-title">Confirme a sua presença</h2>
-  <p class="sec-sub" id="rsvp-sub">A Magnum Fest é exclusiva para os membros da Wine Lovers Recife. <br><span style="font-size:15px">Já confirmou em outro aparelho? Use o botão <strong>Meu Painel</strong> com o mesmo WhatsApp — nada se perde.</span></p>
+  <h2 class="sec-title" id="rsvp-title">Confirme a presença e registre a sua Magnum</h2>
+  <p class="sec-sub" id="rsvp-sub">Exclusivo para os membros da Wine Lovers Recife. Tudo aqui: você se identifica, informa a Magnum e o status dos critérios aparece logo abaixo.</p>
 
-  <div class="panel" id="form-panel">
-    <label class="f-label">Quem é você? *</label>
-    <select class="f-select" id="f-nome"><option value="">Carregando a lista de membros…</option></select>
-    <label class="f-label">WhatsApp *</label>
-    <input class="f-input" id="f-zap" placeholder="(81) 9 0000-0000" inputmode="tel" autocomplete="tel">
-    <label class="f-label">E-mail <span style="text-transform:none;letter-spacing:0;font-size:10px">(para receber o parecer dos seus vinhos)</span></label>
-    <input class="f-input" id="f-email" placeholder="voce@email.com" inputmode="email" autocomplete="email">
-    <label class="f-label">Restrições alimentares</label>
-    <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;margin-bottom:10px">
-      <input type="checkbox" id="f-semrestricao" style="width:16px;height:16px;accent-color:var(--wine-lt)" onchange="document.getElementById('f-obs').classList.toggle('hidden', this.checked)">
-      Não tenho restrições alimentares
-    </label>
-    <textarea class="f-input" id="f-obs" rows="2" placeholder="Quais? (ex.: alergia a frutos do mar, vegetariano...) — e outras observações"></textarea>
-    <div style="text-align:center;margin-top:32px">
-      <button class="btn" id="f-send" onclick="doRSVP()">Confirmar presença</button>
-    </div>
-    <p style="text-align:center;font-size:11px;color:var(--ink-lt);margin-top:18px">Não achou o seu nome? Fale com o organizador.</p>
-  </div>
-
-  <div class="panel hidden" id="me-panel">
-    <div class="me-hello">Presença confirmada, <span id="me-nome"></span> 🥂</div>
-    <div id="me-chips" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 4px"></div>
-    <div style="text-align:center;margin:16px 0 4px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <a class="btn gold" id="btn-cartao" href="cartao.html" style="text-decoration:none">📸 Meu cartão "Eu vou!"</a>
-      <a class="btn gold hidden" id="btn-premio" href="premio.html" style="text-decoration:none">🏆 Cartão do meu prêmio</a>
-      <button class="btn ghost" onclick="addCalendario()" style="border-color:var(--wine-lt);color:var(--wine-lt)">📅 Adicionar ao calendário</button>
+  <div class="panel" id="rsvp-box">
+    <!-- 1. quem é (some depois de identificado) -->
+    <div id="form-panel">
+      <div class="bloco-t"><b>1</b> Quem é você</div>
+      <label class="f-label">Nome *</label>
+      <select class="f-select" id="f-nome" onchange="nomeChange()"><option value="">Carregando a lista de membros…</option></select>
+      <div id="f-nome-aviso" class="hidden" style="font-size:12px;color:var(--wine-lt);margin-top:8px"></div>
+      <div class="g-row2">
+        <div><label class="f-label">WhatsApp *</label><input class="f-input" id="f-zap" placeholder="(81) 9 0000-0000" inputmode="tel" autocomplete="tel"></div>
+        <div><label class="f-label">E-mail <span style="text-transform:none;letter-spacing:0;font-size:10px">(recebe o parecer)</span></label><input class="f-input" id="f-email" placeholder="voce@email.com" inputmode="email" autocomplete="email"></div>
+      </div>
+      <label class="f-label">Restrições alimentares</label>
+      <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;margin-bottom:10px">
+        <input type="checkbox" id="f-semrestricao" style="width:16px;height:16px;accent-color:var(--wine-lt)" onchange="document.getElementById('f-obs').classList.toggle('hidden', this.checked)">
+        Não tenho restrições alimentares
+      </label>
+      <textarea class="f-input" id="f-obs" rows="2" placeholder="Quais? (ex.: alergia a frutos do mar, vegetariano...) — e outras observações"></textarea>
+      <p style="font-size:11px;color:var(--ink-lt);margin-top:10px">Não achou o seu nome? Fale com o organizador. Já se identificou em outro aparelho? Use o botão <strong>Meu Painel</strong>.</p>
     </div>
 
-    <div id="me-pedidos"></div>
-    <div id="me-garrafas"></div>
+    <!-- identificado -->
+    <div id="me-panel" class="hidden">
+      <div class="me-hello">Presença confirmada, <span id="me-nome"></span> 🥂</div>
+      <div id="me-chips" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 4px"></div>
+      <div style="text-align:center;margin:16px 0 4px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <a class="btn gold" id="btn-cartao" href="cartao.html" style="text-decoration:none">📸 Meu cartão "Eu vou!"</a>
+        <a class="btn gold hidden" id="btn-premio" href="premio.html" style="text-decoration:none">🏆 Cartão do meu prêmio</a>
+        <button class="btn ghost" onclick="addCalendario()" style="border-color:var(--wine-lt);color:var(--wine-lt)">📅 Adicionar ao calendário</button>
+      </div>
+      <div id="me-pedidos"></div>
+    </div>
 
-    <label class="f-label" style="margin-top:34px">Registrar a sua Magnum</label>
+    <!-- 2. a Magnum -->
+    <div class="bloco-t" style="margin-top:34px" id="vinho-t"><b>2</b> A sua Magnum</div>
     <input class="f-input" id="g-vinho" placeholder="Vinho (ex.: Château Léoville Barton)">
+    <div style="font-size:10.5px;color:var(--ink-lt);margin-top:6px">Ainda não decidiu? Deixe em branco e volte depois — a presença fica confirmada.</div>
     <div class="g-row3" style="margin-top:10px">
       <input class="f-input" id="g-produtor" placeholder="Produtor">
       <input class="f-input" id="g-regiao" placeholder="Região (ex.: Pauillac)">
@@ -425,13 +435,18 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <div style="font-size:10px;color:var(--ink-lt);margin-top:6px">Sem foto? O sistema busca automaticamente e você só confirma.</div>
     <div style="font-size:11px;color:var(--ink-lt);margin-top:16px;line-height:1.6;background:var(--gold-bg);padding:10px 14px">Preencha produtor e safra com cuidado — é por eles que o sistema encontra as notas e o preço daquela safra. O parecer chega em poucos minutos, aqui e por e-mail.</div>
     <div style="text-align:center;margin-top:22px">
-      <button class="btn gold" id="g-add" onclick="addGarrafa()">Adicionar Magnum</button>
+      <button class="btn gold" id="g-add" onclick="enviar()">Confirmar presença e registrar a Magnum</button>
       <button class="linklike hidden" id="g-cancel" onclick="cancelarEdicao()" style="margin-left:14px">Cancelar edição</button>
     </div>
 
+    <!-- 3. status -->
+    <div id="status-area" class="hidden">
+      <div class="bloco-t" style="margin-top:38px"><b>3</b> Status da sua Magnum</div>
+      <div id="me-garrafas"></div>
+    </div>
 
-    <div style="text-align:center;margin-top:36px">
-      <button class="linklike" onclick="logoutMe()">Não é você? Sair deste painel</button>
+    <div id="sair" class="hidden" style="text-align:center;margin-top:36px">
+      <button class="linklike" onclick="logoutMe()">Não é você? Sair</button>
     </div>
   </div>
 </section>
@@ -648,27 +663,50 @@ setInterval(function () {
 function loadMembros() {
   return view('wlr_membros').then(function (rows) {
     var sel = document.getElementById('f-nome');
+    membrosConf = {};
+    (rows || []).forEach(function (m) { membrosConf[m.nome] = m.confirmado; });
     sel.innerHTML = '<option value="">— escolha o seu nome —</option>' + (rows || []).map(function (m) {
       return '<option value="' + esc(m.nome) + '">' + esc(m.nome) + (m.confirmado ? ' (já confirmado)' : '') + '</option>';
     }).join('');
   }).catch(function () { toast('Não consegui carregar a lista de membros. Recarregue a página.', true); });
 }
-function doRSVP() {
+var membrosConf = {};
+function rotuloBotao() {
+  var n = document.getElementById('f-nome').value;
+  if (editandoId) return 'Salvar alterações';
+  if (meuId) return minhasCount ? 'Registrar outra Magnum' : 'Registrar a Magnum';
+  return n && membrosConf[n] ? 'Entrar e registrar a Magnum' : 'Confirmar presença e registrar a Magnum';
+}
+function atualizaBotao() { document.getElementById('g-add').textContent = rotuloBotao(); }
+function nomeChange() {
+  var n = document.getElementById('f-nome').value, av = document.getElementById('f-nome-aviso');
+  var ja = n && membrosConf[n];
+  av.classList.toggle('hidden', !ja);
+  av.textContent = ja ? 'Sua presença já está confirmada — informe o WhatsApp para ver a sua Magnum e o status.' : '';
+  atualizaBotao();
+}
+// um botão só: identifica (se preciso) e registra a Magnum
+function enviar() {
+  if (meuId) return addGarrafa();
   var nome = document.getElementById('f-nome').value;
   var zap = document.getElementById('f-zap').value.trim();
   var email = document.getElementById('f-email').value.trim();
   var obs = document.getElementById('f-semrestricao').checked ? 'Sem restrições alimentares' : document.getElementById('f-obs').value.trim();
   if (!nome) return toast('Escolha o seu nome na lista.', true);
   if (!zap) return toast('Informe o seu WhatsApp.', true);
-  var btn = document.getElementById('f-send'); btn.disabled = true; btn.textContent = 'Confirmando…';
+  var temVinho = !!document.getElementById('g-vinho').value.trim();
+  if (temVinho && !validaVinho()) return;
+  var btn = document.getElementById('g-add'); btn.disabled = true; btn.textContent = 'Enviando…';
   rpc('wlr_rsvp', { p_nome: nome, p_whatsapp: zap, p_email: email, p_obs: obs })
     .then(function (id) {
       meuId = id; try { localStorage.setItem('wlr_id', id); } catch (e) { }
-      toast('Presença confirmada! 🥂');
-      return loadMe().then(refreshPublic).then(loadMembros);
+      return loadMe().then(function () {
+        if (temVinho) return addGarrafa();
+        toast('Presença confirmada! Agora informe a sua Magnum. 🍷');
+      }).then(refreshPublic).then(loadMembros);
     })
     .catch(function (e) { toast(e.message, true); })
-    .then(function () { btn.disabled = false; btn.textContent = 'Confirmar presença'; });
+    .then(function () { btn.disabled = false; atualizaBotao(); });
 }
 
 function addCalendario() {
@@ -723,7 +761,12 @@ function logoutMe() {
   meuId = null; meu = null;
   document.getElementById('me-panel').classList.add('hidden');
   document.getElementById('form-panel').classList.remove('hidden');
-  document.getElementById('rsvp-title').textContent = 'Confirme a sua presença';
+  document.getElementById('sair').classList.add('hidden');
+  document.getElementById('status-area').classList.add('hidden');
+  document.getElementById('me-garrafas').innerHTML = '';
+  minhasCount = 0; atualizaBotao();
+  document.getElementById('vinho-t').innerHTML = '<b>2</b> A sua Magnum';
+  document.getElementById('rsvp-title').textContent = 'Confirme a presença e registre a sua Magnum';
 }
 
 // ── painel do confrade ───────────────────────────────────────────────────
@@ -734,8 +777,9 @@ function loadMe() {
     meu = rows[0];
     document.getElementById('form-panel').classList.add('hidden');
     document.getElementById('me-panel').classList.remove('hidden');
-    document.getElementById('rsvp-title').textContent = 'Seu painel de confrade';
-    document.getElementById('rsvp-sub').textContent = 'Registre a sua Magnum e acompanhe o parecer dos critérios.';
+    document.getElementById('sair').classList.remove('hidden');
+    document.getElementById('rsvp-title').textContent = 'A sua Magnum Fest';
+    document.getElementById('rsvp-sub').textContent = 'A sua Magnum e o status dos critérios, tudo aqui.';
     document.getElementById('cta-btn').textContent = 'Meu painel';
     document.getElementById('me-nome').textContent = meu.nome.split(' ')[0];
     document.getElementById('btn-cartao').href = 'cartao.html?id=' + meuId;
@@ -808,6 +852,9 @@ function loadMinhasGarrafas() {
       box.appendChild(d);
     });
     minhasCount = rows.length; minhasAprovadas = aprovadas;
+    document.getElementById('status-area').classList.toggle('hidden', !rows.length);
+    document.getElementById('vinho-t').innerHTML = '<b>2</b> ' + (rows.length ? 'Registrar outra Magnum (opcional)' : 'A sua Magnum');
+    atualizaBotao();
     renderChips();
     clearTimeout(pollTimer);
     if (pendentes) pollTimer = setTimeout(function () { loadMinhasGarrafas(); refreshPublic(); }, 20000);
@@ -847,7 +894,7 @@ function editarGarrafa(id) {
   document.getElementById('g-pais').value = g.pais || '';
   document.getElementById('g-tipo').value = g.tipo || 'Tinto';
   tipoChange(g.subtipo);
-  document.getElementById('g-add').textContent = 'Salvar alterações';
+  atualizaBotao();
   document.getElementById('g-cancel').classList.remove('hidden');
   document.getElementById('g-vinho').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
@@ -855,15 +902,21 @@ function cancelarEdicao() {
   editandoId = null;
   ['g-vinho', 'g-produtor', 'g-regiao', 'g-pais', 'g-safra'].forEach(function (i) { document.getElementById(i).value = ''; });
   document.getElementById('g-tipo').value = 'Tinto'; tipoChange();
-  document.getElementById('g-add').textContent = 'Adicionar Magnum';
+  atualizaBotao();
   document.getElementById('g-cancel').classList.add('hidden');
 }
+function validaVinho() {
+  if (!document.getElementById('g-vinho').value.trim()) { toast('Informe o vinho.', true); return false; }
+  if (!document.getElementById('g-safra').value.trim() && document.getElementById('g-tipo').value !== 'Fortificado / Doce') {
+    toast('Informe a safra — ela decide as notas e o preço.', true); return false;
+  }
+  return true;
+}
 function addGarrafa() {
+  if (!validaVinho()) return Promise.resolve();
   var vinho = document.getElementById('g-vinho').value.trim();
-  if (!vinho) return toast('Informe o vinho.', true);
   var safra = document.getElementById('g-safra').value.trim();
   var tipo = document.getElementById('g-tipo').value;
-  if (!safra && tipo !== 'Fortificado / Doce') return toast('Informe a safra — ela decide as notas e o preço.', true);
   var formato = 'Magnum', litros = 1.5, vagas = 1;   // Magnum Fest: só Magnum, uma por confrade
   var btn = document.getElementById('g-add'); btn.disabled = true; btn.textContent = editandoId ? 'Salvando…' : 'Adicionando…';
   var args = {
@@ -879,17 +932,17 @@ function addGarrafa() {
   var chamada;
   if (editandoId) { args.p_garrafa = editandoId; chamada = rpc('wlr_edit_garrafa', args).then(function () { return editandoId; }); }
   else chamada = rpc('wlr_add_garrafa', args);
-  chamada.then(function (garrafaId) {
+  return chamada.then(function (garrafaId) {
     var f = document.getElementById('g-foto').files[0];
     var upload = (f && garrafaId) ? enviarFotoGarrafa(f, garrafaId) : Promise.resolve();
     return upload.then(function () {
-      toast(editandoId ? 'Garrafa atualizada! 🍷' : 'Garrafa registrada! Conferindo os critérios… 🍷');
+      toast(editandoId ? 'Magnum atualizada! 🍷' : 'Magnum registrada! Veja o status logo abaixo. 🍷');
       cancelarEdicao();
       document.getElementById('g-foto').value = '';
-      return Promise.all([loadMinhasGarrafas(), refreshPublic()]);
+      return Promise.all([loadMinhasGarrafas(), refreshPublic()]).then(function () { document.getElementById('status-area').scrollIntoView({ behavior: 'smooth', block: 'center' }); });
     });
   }).catch(function (e) { toast(e.message, true); })
-    .then(function () { btn.disabled = false; btn.textContent = editandoId ? 'Salvar alterações' : 'Adicionar Magnum'; });
+    .then(function () { btn.disabled = false; atualizaBotao(); });
 }
 
 function enviarFotoGarrafa(f, garrafaId) {
