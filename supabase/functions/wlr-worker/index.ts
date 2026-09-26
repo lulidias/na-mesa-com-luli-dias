@@ -167,18 +167,22 @@ async function analisar(garrafaId: string, cfg: Cfg) {
     // já decidido pelo conselho (ex.: lista importada) → só registra, sem e-mails
     if (!g.decisao) {
       const situacao = parecer.status === "inapto" ? "inapto" : parecer.requer_conselho ? "em_analise" : "aprovado";
-      if (dono?.email) {
+      // reprovado: o confrade NÃO é avisado agora — o conselho decide primeiro (pedido do Luli, 27/09)
+      if (dono?.email && situacao !== "inapto") {
         await sb.rpc("wlr_email_enqueue", { p_tipo: "parecer", p_para: dono.email, p_dados: {
           nome: dono.nome, participante_id: g.criado_por, garrafa_id: g.id, vinho: g.vinho, safra: g.safra,
           situacao, resumo: parecer.resumo, criterios: parecer.criterios,
           resumo_i18n: { es: pEs.resumo, en: pEn.resumo }, criterios_i18n: { es: pEs.criterios, en: pEn.criterios } } });
       }
-      if (situacao === "em_analise") {
+      if (situacao === "em_analise" || situacao === "inapto") {
         const { data: conselho } = await sb.from("wlr_conselho").select("nome, email, token").not("email", "is", null);
         for (const c of conselho ?? []) {
           await sb.rpc("wlr_email_enqueue", { p_tipo: "conselho-avaliar", p_para: c.email, p_dados: {
             conselheiro: c.nome, token: c.token, garrafa_id: g.id, vinho: g.vinho, safra: g.safra,
-            nome: c.nome, confrade: dono?.nome ?? g.sigla ?? "—", resumo: parecer.resumo, criterios: parecer.criterios, idioma: "pt" } });
+            nome: c.nome, confrade: dono?.nome ?? g.sigla ?? "—", criterios: parecer.criterios, idioma: "pt",
+            resumo: situacao === "inapto"
+              ? "Reprovada na análise automática — " + parecer.resumo + " O confrade ainda não foi avisado: a decisão é do conselho."
+              : parecer.resumo } });
         }
       }
     }
