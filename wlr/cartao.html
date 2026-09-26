@@ -9,12 +9,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#2E1029;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px;font-family:'Montserrat',sans-serif}
+body{background:#411A39;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px;font-family:'Montserrat',sans-serif}
 canvas{max-width:min(92vw,460px);height:auto;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .acoes{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .btn{padding:14px 30px;background:#6C214C;color:#fff;border:none;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
-.btn.ghost{background:none;border:1px solid rgba(217,180,106,.6);color:#D9B46A}
-.aviso{color:rgba(247,240,236,.6);font-size:11px;text-align:center;max-width:420px;line-height:1.6}
+.btn.ghost{background:none;border:1px solid rgba(255,255,255,.6);color:#FFFFFF}
+.aviso{color:rgba(255,255,255,.6);font-size:11px;text-align:center;max-width:420px;line-height:1.6}
 body.foto{padding:0;gap:0}
 body.foto .acoes,body.foto .aviso{display:none}
 body.foto canvas{max-width:none;width:1080px;box-shadow:none}
@@ -53,43 +53,42 @@ function rpc(fn, args) {
   }).then(function (r) { return r.json(); });
 }
 
-var LOGO = new Image(); LOGO.src = 'img/logo-claro.png';
+var LOGO = new Image(); LOGO.src = 'img/logo.png';
 function desenha(nome) {
   var c = document.getElementById('c'), x = c.getContext('2d');
   var W = 1080, H = 1350, CX = W / 2;
-  var g = x.createLinearGradient(0, 0, 0, H);
-  g.addColorStop(0, '#6C214C'); g.addColorStop(.45, '#411A39'); g.addColorStop(1, '#2E1029');
-  x.fillStyle = g; x.fillRect(0, 0, W, H);
-  x.strokeStyle = '#D9B46A'; x.lineWidth = 4; x.strokeRect(36, 36, W - 72, H - 72);
-  x.strokeStyle = 'rgba(217,180,106,.55)'; x.lineWidth = 1.5; x.strokeRect(58, 58, W - 116, H - 116);
+  x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, W, H);
+  x.fillStyle = '#6C214C'; x.fillRect(0, H - 22, W, 22);
+  x.strokeStyle = '#6C214C'; x.lineWidth = 4; x.strokeRect(36, 36, W - 72, H - 72);
+  x.strokeStyle = 'rgba(108,33,76,.35)'; x.lineWidth = 1.5; x.strokeRect(58, 58, W - 116, H - 116);
   x.textAlign = 'center';
   // logo da confraria
   if (LOGO.complete && LOGO.naturalWidth) { var lw = 400, lh = lw * LOGO.naturalHeight / LOGO.naturalWidth; x.drawImage(LOGO, CX - lw / 2, 110, lw, lh); }
   // marca do evento
-  x.fillStyle = '#F7F0EC'; x.font = '800 104px Montserrat';
+  x.fillStyle = '#411A39'; x.font = '800 104px Montserrat';
   try { x.letterSpacing = '6px'; } catch (e) { }
   x.fillText('MAGNUM FEST', CX + 3, 440);
   try { x.letterSpacing = '0px'; } catch (e) { }
-  x.fillStyle = '#E2B0C8'; x.font = 'italic 500 64px "Cormorant Garamond", Georgia, serif';
+  x.fillStyle = '#6C214C'; x.font = 'italic 500 64px "Cormorant Garamond", Georgia, serif';
   x.fillText('Licínio Dias · 2026', CX, 520);
-  x.strokeStyle = 'rgba(217,180,106,.8)'; x.lineWidth = 2;
+  x.strokeStyle = 'rgba(108,33,76,.6)'; x.lineWidth = 2;
   x.beginPath(); x.moveTo(CX - 120, 580); x.lineTo(CX + 120, 580); x.stroke();
-  x.fillStyle = '#D9B46A'; x.font = 'italic 500 64px "Cormorant Garamond", Georgia, serif';
+  x.fillStyle = '#6C214C'; x.font = 'italic 500 64px "Cormorant Garamond", Georgia, serif';
   x.fillText('Eu vou!', CX, 676);
-  x.fillStyle = '#F7F0EC';
+  x.fillStyle = '#411A39';
   var tam = 92; x.font = '700 ' + tam + 'px Montserrat';
   while (x.measureText(nome).width > 900 && tam > 50) { tam -= 6; x.font = '700 ' + tam + 'px Montserrat'; }
   x.fillText(nome, CX, 800);
-  x.fillStyle = '#D9B46A'; x.font = '600 30px Montserrat';
+  x.fillStyle = '#6C214C'; x.font = '600 30px Montserrat';
   try { x.letterSpacing = '6px'; } catch (e) { }
   x.fillText(DATA_TXT, CX, 920);
-  x.fillStyle = 'rgba(247,240,236,.85)'; x.font = '500 26px Montserrat';
+  x.fillStyle = '#6B5E65'; x.font = '500 26px Montserrat';
   try { x.letterSpacing = '4px'; } catch (e) { }
   x.fillText(LOCAL_TXT, CX, 968);
   try { x.letterSpacing = '0px'; } catch (e) { }
-  x.fillStyle = 'rgba(247,240,236,.85)'; x.font = 'italic 400 38px "Cormorant Garamond", Georgia, serif';
+  x.fillStyle = '#6B5E65'; x.font = 'italic 400 38px "Cormorant Garamond", Georgia, serif';
   x.fillText('Só Magnums, só grandes vinhos.', CX, 1170);
-  x.fillStyle = '#D9B46A'; x.font = '600 26px Montserrat';
+  x.fillStyle = '#6C214C'; x.font = '600 26px Montserrat';
   try { x.letterSpacing = '5px'; } catch (e) { }
   x.fillText(location.host.replace(/^www\./, '').toUpperCase() + location.pathname.replace(/[^/]*$/, '').replace(/\/$/, '').toUpperCase(), CX, 1252);
   try { x.letterSpacing = '0px'; } catch (e) { }

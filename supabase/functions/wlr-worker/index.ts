@@ -39,13 +39,13 @@ function shell(cfg: Cfg, titulo: string, corpo: string, participanteId?: string,
   const SITE = cfg.site_url;
   const link = botao ? botao.href : (participanteId ? `${SITE}?id=${participanteId}#rsvp` : SITE);
   const rotulo = botao ? botao.label : "ABRIR MEU PAINEL";
-  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F7F0EC;font-family:Georgia,serif">
+  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F9F5F7;font-family:Georgia,serif">
   <div style="max-width:560px;margin:0 auto;padding:24px 16px">
-    <div style="background-color:#411A39;background:linear-gradient(180deg,#6C214C 0%,#4E1B43 50%,#2E1029 100%);color:#F7F0EC;text-align:center;padding:30px 24px;border:1px solid #C9A25A">
-      <img src="${SITE}img/logo-claro.png" alt="Wine Lovers Recife" width="170" style="display:block;margin:0 auto 14px;width:170px;height:auto">
-      <div style="font-family:Helvetica,Arial,sans-serif;font-weight:800;font-size:26px;letter-spacing:4px">MAGNUM FEST</div>
-      <div style="font-family:Georgia,serif;font-style:italic;font-size:16px;color:#E2B0C8;margin-top:4px">Licínio Dias · 2026</div>
-      <div style="font-size:10px;letter-spacing:3px;color:#C9A25A;font-family:Helvetica,Arial,sans-serif;margin-top:12px">${esc(quando(cfg, true))} · ${esc(String(cfg.local_nome ?? "").toUpperCase())}</div>
+    <div style="background:#FFFFFF;color:#411A39;text-align:center;padding:30px 24px 26px;border:1px solid #E9DDE3;border-bottom:6px solid #6C214C">
+      <img src="${SITE}img/logo.png" alt="Wine Lovers Recife" width="190" style="display:block;margin:0 auto 16px;width:190px;height:auto">
+      <div style="font-family:Helvetica,Arial,sans-serif;font-weight:800;font-size:26px;letter-spacing:4px;color:#411A39">MAGNUM FEST</div>
+      <div style="font-family:Georgia,serif;font-style:italic;font-size:16px;color:#6C214C;margin-top:4px">Licínio Dias · 2026</div>
+      <div style="font-size:10px;letter-spacing:3px;color:#6C214C;font-family:Helvetica,Arial,sans-serif;margin-top:12px">${esc(quando(cfg, true))} · ${esc(String(cfg.local_nome ?? "").toUpperCase())}</div>
     </div>
     <div style="background:#fff;border:1px solid #E9DDE3;border-top:none;padding:32px 28px;color:#1F1A1D;font-size:15px;line-height:1.7">
       <h1 style="font-family:Georgia,serif;font-size:21px;font-weight:normal;margin:0 0 16px;color:#411A39">${titulo}</h1>
@@ -59,7 +59,7 @@ function shell(cfg: Cfg, titulo: string, corpo: string, participanteId?: string,
 }
 
 const SIT: Record<string, [string, string]> = {
-  aprovado: ["✅ Aprovado", "#2E7D4F"], em_analise: ["⏳ Com o conselho", "#B8862A"],
+  aprovado: ["✅ Aprovado", "#2E7D4F"], em_analise: ["⏳ Com o conselho", "#6C214C"],
   inapto: ["❌ Não se encaixa nos critérios", "#8A2A2A"], recusado: ["❌ Não aprovado pelo conselho", "#8A2A2A"],
 };
 function listaCriterios(criterios: any[]) {
