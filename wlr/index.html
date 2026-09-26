@@ -777,7 +777,11 @@ function entrou(id) {
   clearInterval(ptTimer);
   try { localStorage.setItem('wlr_id', id); localStorage.setItem('wlr_zap', ptZap); } catch (e) { }
   var volta = ''; try { volta = sessionStorage.getItem('wlr_voltar') || ''; sessionStorage.removeItem('wlr_voltar'); } catch (e) { }
-  location.replace(volta === 'votar' ? 'votar/' : location.pathname + '#rsvp');
+  if (volta === 'votar') return location.replace('votar/');
+  // trocar só o #hash NÃO recarrega a página — era isto que deixava a pessoa presa na tela do telefone
+  meuId = id;
+  history.replaceState({}, '', location.pathname + '#rsvp');
+  location.reload();
 }
 function trataPorta(r) {
   if (r.estado === 'ok') return entrou(r.id);
