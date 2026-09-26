@@ -86,7 +86,7 @@ function desenha(p) {
   x.fillStyle = '#6C214C';
   try { x.letterSpacing = '6px'; } catch (e) { }
   var cat = T(p.categoria).toUpperCase();
-  var linhas = cat.length > 18 ? [cat.replace(' DA NOITE', ''), 'DA NOITE'] : [cat];
+  var linhas = cat.length > 18 ? [cat.replace(' DA FESTA', ''), 'DA FESTA'] : [cat];
   var cy = linhas.length === 2 ? 552 : 576;
   linhas.forEach(function (l, i) {
     var tam = 56;
