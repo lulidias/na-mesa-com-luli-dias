@@ -193,6 +193,19 @@ a{color:var(--wine-lt)}
     <tbody id="cd-body"></tbody>
   </table></div>
 
+  <h2>Eventos <small id="ev-sub">— <a href="eventos/" target="_blank">wineloversrecife.com/eventos</a></small></h2>
+  <p style="font-size:11px;color:var(--ink-lt);margin-bottom:12px;line-height:1.6">Paralela, Ordinário e Os Velhinhos (a Magnum Fest fica em "Edições anteriores", abaixo). Garrafas uma por linha: <strong>SIGLA - Vinho safra</strong>. Se não souber a data exata, preencha só o ano. Garrafas novas entram no BI; país, região e tipo aparecem como "—" até serem classificadas.</p>
+  <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap"><select id="ev-filtro" onchange="desenhaEventos()"><option value="">Todos os tipos</option><option value="paralela">Paralela</option><option value="ordinario">Ordinário</option><option value="velhinhos">Os Velhinhos</option></select>
+    <button class="btn gold" onclick="abreEvento(null)">+ Novo evento</button></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Ano</th><th>Tipo</th><th>Título</th><th>Data</th><th>Local</th><th>Garrafas</th><th>Fotos</th><th></th></tr></thead>
+    <tbody id="ev-body"></tbody>
+  </table></div>
+
+  <h2>Álbum dos confrades <small>— as últimas fotos enviadas</small></h2>
+  <p style="font-size:11px;color:var(--ink-lt);margin-bottom:12px">O conselho pode apagar qualquer foto. Toque na foto para ver maior.</p>
+  <div id="alb-adm" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px"></div>
+
   <h2>A confraria <small>— a home <a href="./" target="_blank">wineloversrecife.com</a></small></h2>
   <div class="cfg">
     <div style="grid-column:1/-1"><label>A nossa história — texto do fundador (cada linha vira um verso)</label><textarea id="cf-hist" rows="7" style="width:100%;padding:10px 12px;border:1px solid var(--border);font-family:inherit;font-size:13px;line-height:1.6"></textarea></div>
@@ -302,6 +315,24 @@ a{color:var(--wine-lt)}
       <div id="cf-galeria" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"></div>
       <input type="file" id="cf-g-add" accept="image/*" multiple onchange="addFotosGaleria(this)" style="margin-top:8px">
       <div style="margin-top:16px;display:flex;gap:8px;align-items:center"><button class="btn gold" id="cf-salvar" onclick="salvaEdicao()">Salvar edição</button><span id="cf-status" style="font-size:11px;color:var(--ink-lt)"></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="evm">
+  <div class="modal-box" style="max-width:720px">
+    <div class="modal-top"><strong id="evm-titulo">Evento</strong><button class="del" onclick="fechaModal('evm')">fechar ✕</button></div>
+    <div class="ed-cols" style="display:block">
+      <div style="display:grid;grid-template-columns:1fr 100px 1fr;gap:10px">
+        <div><label class="lb">Tipo</label><select id="evm-tipo" style="width:100%"><option value="ordinario">Ordinário</option><option value="paralela">Paralela</option><option value="velhinhos">Os Velhinhos</option></select></div>
+        <div><label class="lb">Ano</label><input id="evm-ano" inputmode="numeric" maxlength="4"></div>
+        <div><label class="lb">Data (se souber)</label><input id="evm-data" type="date"></div>
+      </div>
+      <label class="lb">Título</label><input id="evm-tit" placeholder="ex.: Chile, Portugal, Supertoscanos e Barolo…">
+      <label class="lb">Local</label><input id="evm-local">
+      <label class="lb">Texto (opcional)</label><textarea id="evm-texto" rows="3"></textarea>
+      <label class="lb">Garrafas — uma por linha: SIGLA - Vinho safra</label><textarea id="evm-vinhos" rows="12" placeholder="AMN - Château … 2005&#10;AA - …"></textarea>
+      <div style="margin-top:16px;display:flex;gap:8px;align-items:center"><button class="btn gold" id="evm-salvar" onclick="salvaEvento()">Salvar evento</button><span id="evm-st" style="font-size:11px;color:var(--ink-lt)"></span></div>
     </div>
   </div>
 </div>
@@ -825,7 +856,71 @@ function apagaConfrade(id) {
   rpc('wlr_admin_confrade_apagar', { p_token: TOKEN, p_confrade: id }).then(function () { toast('Apagado.'); return loadConfrades(); }).catch(function (e) { toast(e.message, true); });
 }
 
+// ── eventos (paralela, ordinário, os velhinhos) e moderação do álbum ─────────
+var eventos = [], evAtual = null, fotosPorRef = {};
+var TIPO_EV = { paralela: 'Paralela', ordinario: 'Ordinário', velhinhos: 'Os Velhinhos' };
+function loadEventos() {
+  return rpc('wlr_admin_eventos', { p_token: TOKEN }).then(function (l) { eventos = l || []; desenhaEventos(); }).catch(function (e) { toast(e.message, true); });
+}
+function desenhaEventos() {
+  var f = document.getElementById('ev-filtro').value;
+  var L = eventos.filter(function (e) { return !f || e.tipo === f; });
+  document.getElementById('ev-body').innerHTML = L.map(function (e) {
+    var n = String(e.vinhos || '').split('\n').filter(function (x) { return x.trim(); }).length;
+    return '<tr><td><strong>' + (e.ano || '—') + '</strong></td><td>' + esc(TIPO_EV[e.tipo] || e.tipo) + '</td><td>' + esc(e.titulo || '—') + '</td><td>' +
+      (e.data ? new Date(e.data + 'T12:00:00').toLocaleDateString('pt-BR') : '—') + '</td><td>' + esc(e.local || '—') + '</td><td>' + (n || '—') + '</td><td>' + (fotosPorRef['ev-' + e.id] || '—') +
+      '</td><td style="white-space:nowrap"><button class="btn gold" style="padding:7px 12px;font-size:9px" onclick="abreEvento(\'' + e.id + '\')">Editar</button> <button class="del" onclick="apagaEvento(\'' + e.id + '\')">apagar</button></td></tr>';
+  }).join('') || '<tr><td colspan="8" style="color:var(--ink-lt)">Nenhum evento.</td></tr>';
+  document.getElementById('ev-sub').innerHTML = '— ' + eventos.length + ' em <a href="eventos/" target="_blank">wineloversrecife.com/eventos</a>';
+}
+function abreEvento(id) {
+  var e = eventos.filter(function (x) { return x.id === id; })[0] || null; evAtual = e;
+  document.getElementById('evm-titulo').textContent = e ? 'Editar evento' : 'Novo evento';
+  document.getElementById('evm-tipo').value = e ? e.tipo : 'ordinario';
+  document.getElementById('evm-ano').value = e ? (e.ano || '') : new Date().getFullYear();
+  document.getElementById('evm-data').value = e && e.data ? e.data : '';
+  document.getElementById('evm-tit').value = e ? e.titulo || '' : '';
+  document.getElementById('evm-local').value = e ? e.local || '' : '';
+  document.getElementById('evm-texto').value = e ? e.texto || '' : '';
+  document.getElementById('evm-vinhos').value = e ? e.vinhos || '' : '';
+  document.getElementById('evm-st').textContent = '';
+  document.getElementById('evm').classList.remove('hidden');
+}
+function salvaEvento() {
+  var ano = parseInt(document.getElementById('evm-ano').value, 10), data = document.getElementById('evm-data').value || null;
+  if (!ano && !data) return toast('Informe ao menos o ano.', true);
+  var b = document.getElementById('evm-salvar'); b.disabled = true; b.textContent = 'Salvando…';
+  rpc('wlr_admin_evento_salvar', { p_token: TOKEN, p_evento: evAtual ? evAtual.id : null, p_tipo: document.getElementById('evm-tipo').value,
+    p_ano: ano || null, p_data: data, p_titulo: document.getElementById('evm-tit').value, p_local: document.getElementById('evm-local').value,
+    p_texto: document.getElementById('evm-texto').value, p_vinhos: document.getElementById('evm-vinhos').value })
+    .then(function () { toast('Evento salvo.'); fechaModal('evm'); return loadEventos(); })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { b.disabled = false; b.textContent = 'Salvar evento'; });
+}
+function apagaEvento(id) {
+  var e = eventos.filter(function (x) { return x.id === id; })[0];
+  if (!confirm('Apagar o evento "' + ((e && e.titulo) || '') + '" (' + ((e && e.ano) || '') + ')? Não dá para desfazer.')) return;
+  rpc('wlr_admin_evento_apagar', { p_token: TOKEN, p_evento: id }).then(function () { toast('Evento apagado.'); return loadEventos(); }).catch(function (e) { toast(e.message, true); });
+}
+function loadAlbumAdm() {
+  return worker({ task: 'album-listar', t: TOKEN }).then(function (d) {
+    fotosPorRef = {}; (d.fotos || []).forEach(function (f) { fotosPorRef[f.ref] = (fotosPorRef[f.ref] || 0) + 1; });
+    if (eventos.length) desenhaEventos();
+    document.getElementById('alb-adm').innerHTML = (d.fotos || []).map(function (f) {
+      var ev = /^ev-(.+)$/.exec(f.ref), nome = ev ? ((eventos.filter(function (x) { return x.id === ev[1]; })[0] || {}).titulo || 'Evento') : 'Magnum Fest ' + f.ref.slice(3);
+      return '<div style="position:relative"><a href="' + f.url + '" target="_blank"><img src="' + f.thumb + '" style="width:100%;aspect-ratio:1;object-fit:cover;display:block"></a>' +
+        '<div style="font-size:10px;color:var(--ink-lt);line-height:1.3;margin-top:3px">' + esc(nome) + '<br>' + esc(f.autor || '') + '</div>' +
+        '<button class="del" onclick="apagaFotoAdm(' + f.id + ')" style="position:absolute;top:3px;right:3px;background:#fff;padding:2px 6px">✕</button></div>';
+    }).join('') || '<span style="font-size:12px;color:var(--ink-lt)">Nenhuma foto ainda.</span>';
+  }).catch(function (e) { document.getElementById('alb-adm').textContent = e.message; });
+}
+function apagaFotoAdm(id) {
+  if (!confirm('Apagar esta foto do álbum?')) return;
+  worker({ task: 'album-apagar', t: TOKEN, id: id }).then(function () { toast('Foto apagada.'); loadAlbumAdm(); }).catch(function (e) { toast(e.message, true); });
+}
+
 function loadConfraria() {
+  loadEventos().then(loadAlbumAdm);
   loadConfrades();
   loadPresidentes();
   return rpc('wlr_admin_confraria', { p_token: TOKEN }).then(function (d) {
