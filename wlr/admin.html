@@ -190,6 +190,8 @@ a{color:var(--wine-lt)}
     <div style="grid-column:1/-1"><label>Texto sobre a Wine Lovers Recife (linha em branco separa parágrafos)</label><textarea id="cf-texto" rows="7" style="width:100%;padding:10px 12px;border:1px solid var(--border);font-family:inherit;font-size:13px;line-height:1.6"></textarea></div>
     <div style="grid-column:1/-1"><label>Link da playlist (Spotify, Apple Music ou YouTube) — vazio = a seção não aparece</label><input id="cf-playlist" placeholder="https://open.spotify.com/playlist/…"></div>
     <div><button class="btn gold" id="cf-save" onclick="salvaConfraria()">Salvar texto e playlist</button></div>
+    <div style="grid-column:1/-1"><label>Normas e deveres dos membros — uma por linha (a numeração é automática)</label><textarea id="cf-normas" rows="10" style="width:100%;padding:10px 12px;border:1px solid var(--border);font-family:inherit;font-size:13px;line-height:1.6"></textarea></div>
+    <div><button class="btn gold" id="cf-normas-save" onclick="salvaNormas()">Salvar normas</button></div>
   </div>
   <div style="display:flex;justify-content:space-between;align-items:center;margin:22px 0 10px;gap:10px;flex-wrap:wrap">
     <strong style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt)">Edições anteriores</strong>
@@ -740,6 +742,7 @@ function loadConfraria() {
   return rpc('wlr_admin_confraria', { p_token: TOKEN }).then(function (d) {
     confraria = d || { edicoes: [] };
     if (document.activeElement !== document.getElementById('cf-texto')) document.getElementById('cf-texto').value = confraria.texto || '';
+    if (document.activeElement !== document.getElementById('cf-normas')) document.getElementById('cf-normas').value = confraria.normas || '';
     if (document.activeElement !== document.getElementById('cf-playlist')) document.getElementById('cf-playlist').value = confraria.playlist || '';
     var eds = confraria.edicoes || [];
     document.getElementById('cf-body').innerHTML = eds.length ? eds.map(function (e) {
@@ -755,6 +758,13 @@ function salvaConfraria() {
     .then(function () { toast('Texto e playlist salvos.'); return loadConfraria(); })
     .catch(function (e) { toast(e.message, true); })
     .then(function () { b.disabled = false; b.textContent = 'Salvar texto e playlist'; });
+}
+function salvaNormas() {
+  var b = document.getElementById('cf-normas-save'); b.disabled = true; b.textContent = 'Salvando…';
+  rpc('wlr_admin_normas_salvar', { p_token: TOKEN, p_normas: document.getElementById('cf-normas').value })
+    .then(function () { toast('Normas salvas.'); return loadConfraria(); })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { b.disabled = false; b.textContent = 'Salvar normas'; });
 }
 function abreEdicao(ano) {
   var e = (confraria.edicoes || []).filter(function (x) { return x.ano === ano; })[0] || null;

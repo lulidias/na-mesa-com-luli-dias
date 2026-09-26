@@ -42,6 +42,12 @@ section{max-width:980px;margin:0 auto;padding:64px 24px}
 #texto{max-width:680px;margin:0 auto;font-size:15.5px;line-height:1.85;color:var(--ink)}
 #texto p+p{margin-top:16px}
 
+#sec-normas{padding-top:0}
+.normas{max-width:680px;margin:0 auto;list-style:none;counter-reset:n;background:#fff;border:1px solid var(--border);padding:10px 28px}
+.normas li{counter-increment:n;display:flex;gap:16px;padding:14px 0;border-bottom:1px dotted var(--border);font-size:14.5px;line-height:1.6}
+.normas li:last-child{border-bottom:none}
+.normas li::before{content:counter(n);flex:0 0 28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:26px;line-height:1;color:var(--wine-lt);text-align:right}
+.normas-rod{text-align:center;margin-top:14px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt)}
 #sec-playlist{padding-top:0}
 .player{max-width:680px;margin:0 auto}
 .player iframe{width:100%;border:0;border-radius:12px;display:block}
@@ -104,6 +110,13 @@ footer .q{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19p
     <div class="sec-t">Wine Lovers Recife</div>
     <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
     <div id="texto"></div>
+  </section>
+
+  <section id="sec-normas" class="hidden">
+    <div class="sec-k">Confraria WLR</div>
+    <div class="sec-t">Normas e deveres dos membros</div>
+    <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+    <ol class="normas" id="normas"></ol>
   </section>
 
   <section id="sec-playlist" class="hidden">
@@ -203,6 +216,11 @@ function linhasVinhos(t) {
 
 function render(dados) {
   document.getElementById('texto').innerHTML = paragrafos(dados.texto) || '<p class="vazio">' + esc(tr('O conselho ainda vai escrever este texto.')) + '</p>';
+  var normas = String(dados.normas || '').split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+  if (normas.length) {
+    document.getElementById('normas').innerHTML = normas.map(function (n) { return '<li><span>' + esc(n) + '</span></li>'; }).join('');
+    document.getElementById('sec-normas').classList.remove('hidden');
+  }
   if (dados.playlist) {
     var html = embedPlaylist(dados.playlist);
     document.getElementById('player').innerHTML = html + '<a class="alt" href="' + esc(dados.playlist) + '" target="_blank" rel="noopener">' + esc(tr('Abrir a playlist no aplicativo')) + ' ↗</a>';
