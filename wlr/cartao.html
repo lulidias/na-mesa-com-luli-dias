@@ -8,7 +8,7 @@ if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wi
 <title>Meu cartão — Magnum Fest Licínio Dias 2026</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#411A39;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px;font-family:'Montserrat',sans-serif}
@@ -72,25 +72,24 @@ function desenha(nome) {
   try { x.letterSpacing = '6px'; } catch (e) { }
   x.fillText('MAGNUM FEST', CX + 3, 440);
   try { x.letterSpacing = '0px'; } catch (e) { }
-  x.fillStyle = '#6C214C'; x.font = 'italic 500 64px "Cormorant Garamond", Georgia, serif';
-  x.fillText('Licínio Dias · 2026', CX, 520);
+  x.fillStyle = '#6C214C'; x.font = 'italic 500 96px "Cormorant Garamond", Georgia, serif';
+  x.fillText('Licínio Dias · 2026', CX, 540);
   x.strokeStyle = 'rgba(108,33,76,.6)'; x.lineWidth = 2;
-  x.beginPath(); x.moveTo(CX - 120, 580); x.lineTo(CX + 120, 580); x.stroke();
-  x.fillStyle = '#6C214C'; x.font = 'italic 500 64px "Cormorant Garamond", Georgia, serif';
-  x.fillText(T('Eu vou!'), CX, 676);
+  x.beginPath(); x.moveTo(CX - 140, 610); x.lineTo(CX + 140, 610); x.stroke();
+  // o destaque do cartão
+  x.fillStyle = '#6C214C'; x.font = 'italic 600 176px "Cormorant Garamond", Georgia, serif';
+  x.fillText(T('Eu vou!'), CX, 790);
   x.fillStyle = '#411A39';
-  var tam = 92; x.font = '700 ' + tam + 'px Montserrat';
+  var tam = 88; x.font = '700 ' + tam + 'px Montserrat';
   while (x.measureText(nome).width > 900 && tam > 50) { tam -= 6; x.font = '700 ' + tam + 'px Montserrat'; }
-  x.fillText(nome, CX, 800);
-  x.fillStyle = '#6C214C'; x.font = '600 30px Montserrat';
+  x.fillText(nome, CX, 930);
+  x.fillStyle = '#6C214C'; x.font = '600 34px Montserrat';
   try { x.letterSpacing = '6px'; } catch (e) { }
-  x.fillText(DATA_TXT, CX, 920);
-  x.fillStyle = '#6B5E65'; x.font = '500 26px Montserrat';
+  x.fillText(DATA_TXT, CX, 1060);
+  x.fillStyle = '#6B5E65'; x.font = '500 28px Montserrat';
   try { x.letterSpacing = '4px'; } catch (e) { }
-  x.fillText(LOCAL_TXT, CX, 968);
+  x.fillText(LOCAL_TXT, CX, 1112);
   try { x.letterSpacing = '0px'; } catch (e) { }
-  x.fillStyle = '#6B5E65'; x.font = 'italic 400 38px "Cormorant Garamond", Georgia, serif';
-  x.fillText(T('Só Magnums, só grandes vinhos.'), CX, 1170);
   x.fillStyle = '#6C214C'; x.font = '600 26px Montserrat';
   try { x.letterSpacing = '5px'; } catch (e) { }
   x.fillText(location.host.replace(/^www\./, '').toUpperCase() + location.pathname.replace(/[^/]*$/, '').replace(/\/$/, '').toUpperCase(), CX, 1252);
@@ -129,7 +128,7 @@ function compartilhar() {
 
 Promise.all([
   document.fonts.load('800 104px Montserrat'), document.fonts.load('700 92px Montserrat'),
-  document.fonts.load('italic 500 64px "Cormorant Garamond"'),
+  document.fonts.load('italic 500 64px "Cormorant Garamond"'), document.fonts.load('italic 600 64px "Cormorant Garamond"'),
   new Promise(function (ok) { if (LOGO.complete) ok(); else { LOGO.onload = ok; LOGO.onerror = ok; } }),
   fetch(SB + '/rest/v1/wlr_config_publica?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }).then(function (rows) {
     var cfg = rows && rows[0]; if (!cfg) return;
