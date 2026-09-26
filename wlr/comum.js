@@ -49,8 +49,8 @@ function semAcesso(e, volta) {
 // menu e rodapé iguais em todas as páginas
 function montaNav(ativo) {
   var L = [['historia', tr('A confraria'), RAIZ + '#historia'], ['presidentes', tr('Presidentes'), RAIZ + '#presidentes'],
-    ['normas', tr('Normas'), RAIZ + '#normas'], ['playlist', tr('Playlist'), RAIZ + '#playlist'],
-    ['edicoes', tr('Edições'), RAIZ + 'edicoes/'], ['numeros', tr('Números'), RAIZ + 'numeros/']];
+    ['normas', tr('Normas'), RAIZ + '#normas'], ['confrades', tr('Confrades'), RAIZ + 'confrades/'],
+    ['edicoes', tr('Edições'), RAIZ + 'edicoes/'], ['numeros', tr('Números'), RAIZ + 'numeros/'], ['playlist', tr('Playlist'), RAIZ + '#playlist']];
   var nav = document.createElement('nav'); nav.className = 'nav';
   nav.innerHTML = '<div class="nav-in"><a class="nav-logo" href="' + RAIZ + '"><img src="' + RAIZ + 'img/logo.png" alt="Wine Lovers Recife"></a>' +
     '<div class="nav-links">' + L.map(function (l) { return '<a href="' + l[2] + '"' + (l[0] === ativo ? ' class="on"' : '') + '>' + esc(l[1]) + '</a>'; }).join('') + '</div>' +
@@ -67,7 +67,7 @@ function montaRodape() {
   var f = document.createElement('footer');
   f.innerHTML = '<img src="' + RAIZ + 'img/logo-branco.png" alt="Wine Lovers Recife">' +
     '<div class="q">"Viver e curtir os bons momentos com os amigos."</div>' +
-    '<div class="links"><a href="' + RAIZ + '">' + esc(tr('A confraria')) + '</a><a href="' + RAIZ + 'magnumfest/">Magnum Fest 2026</a>' +
+    '<div class="links"><a href="' + RAIZ + '">' + esc(tr('A confraria')) + '</a><a href="' + RAIZ + 'confrades/">' + esc(tr('Confrades')) + '</a><a href="' + RAIZ + 'magnumfest/">Magnum Fest 2026</a>' +
     '<a href="' + RAIZ + 'edicoes/">' + esc(tr('Edições')) + '</a><a href="' + RAIZ + 'numeros/">' + esc(tr('Números')) + '</a></div>' +
     '<div class="rede"><span class="desde">' + esc(tr('Desde 2016')) + '</span><a href="https://www.instagram.com/wineloversrecife/" target="_blank" rel="noopener">' +
     '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="vertical-align:-3px;margin-right:6px"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/></svg>@wineloversrecife</a></div>';

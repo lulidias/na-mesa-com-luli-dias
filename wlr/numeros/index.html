@@ -339,7 +339,9 @@ function ligaDicas() {
 
 sessao().then(function (id) {
   if (!id) return paraPorta('numeros');
-  return rpc('wlr_p_bi', { p_id: id }).then(function (d) {
+  return Promise.all([rpc('wlr_p_bi', { p_id: id }), rpc('wlr_p_confrades', { p_id: id }).catch(function () { return null; })]).then(function (r) {
+    var d = r[0];
+    if (r[1] && r[1].siglas) Object.keys(r[1].siglas).forEach(function (s) { NOMES[s] = r[1].siglas[s]; });
     prepara(d || {});
     var h = parseInt(location.hash.slice(1), 10); if (h && TODAS.some(function (g) { return g.ano === h; })) filtroAno = h;
     document.body.classList.remove('carregando');

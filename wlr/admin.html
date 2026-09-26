@@ -185,6 +185,14 @@ a{color:var(--wine-lt)}
     <div><button class="btn gold" id="c-save" onclick="saveCfg()">Salvar</button></div>
   </div>
 
+  <h2>Confrades <small id="cd-sub">— o diretório em <a href="confrades/" target="_blank">wineloversrecife.com/confrades</a></small></h2>
+  <p style="font-size:11px;color:var(--ink-lt);margin-bottom:12px;line-height:1.6">Cada confrade atualiza foto, apelido, aniversário e o resto no próprio diretório. Aqui o conselho inclui, liga à lista de membros (para o login), marca cargos e as siglas usadas nas listas das edições. <strong>Fora do diretório</strong> = só dá nome à sigla no BI (quem não é mais membro).</p>
+  <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap"><input id="cd-busca" placeholder="Buscar…" oninput="desenhaConfrades()" style="flex:1;min-width:180px"><button class="btn gold" onclick="novoConfrade()">+ Confrade</button></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Nome</th><th>Apelido</th><th>Siglas</th><th>Cargo</th><th>Desde</th><th>Diretório</th><th>Login (lista)</th><th>WhatsApp extra</th><th>Foto</th><th></th></tr></thead>
+    <tbody id="cd-body"></tbody>
+  </table></div>
+
   <h2>A confraria <small>— a home <a href="./" target="_blank">wineloversrecife.com</a></small></h2>
   <div class="cfg">
     <div style="grid-column:1/-1"><label>A nossa história — texto do fundador (cada linha vira um verso)</label><textarea id="cf-hist" rows="7" style="width:100%;padding:10px 12px;border:1px solid var(--border);font-family:inherit;font-size:13px;line-height:1.6"></textarea></div>
@@ -369,6 +377,7 @@ function refresh() {
     rpc('wlr_admin_resultados', { p_token: TOKEN })
   ]).then(function (res) {
     parts = res[0] || []; garrafas = res[1] || []; cfg = (res[2] || [])[0] || {}; cats = res[3] || []; resultados = res[4] || [];
+    if (confrades.length) desenhaConfrades();   // a lista de membros chegou: preenche o seletor de login
     document.getElementById('c-evento').value = localInput(cfg.evento_em);
     document.getElementById('c-hora').value = String(cfg.hora_confirmada === true);
     document.getElementById('c-local').value = cfg.local_nome || '';
@@ -748,7 +757,76 @@ function ligaModelo(tipo, ativo) {
 }
 // ── a confraria (texto, playlist e edições anteriores) ─────────────────────
 var confraria = { edicoes: [] }, edAtual = null, fotoNova = null;
+// ── confrades (diretório) ───────────────────────────────────────────────────
+var confrades = [];
+function loadConfrades() {
+  return rpc('wlr_admin_confrades', { p_token: TOKEN }).then(function (l) { confrades = l || []; desenhaConfrades(); }).catch(function (e) { toast(e.message, true); });
+}
+function desenhaConfrades() {
+  var q = (document.getElementById('cd-busca').value || '').toLowerCase();
+  var opts = function (sel) {
+    return '<option value="">—</option>' + parts.slice().sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt'); })
+      .map(function (p) { return '<option value="' + p.id + '"' + (p.id === sel ? ' selected' : '') + '>' + esc(p.nome) + '</option>'; }).join('');
+  };
+  var n = confrades.filter(function (c) { return c.no_diretorio; }).length;
+  document.getElementById('cd-sub').innerHTML = '— ' + n + ' no <a href="confrades/" target="_blank">diretório</a>';
+  document.getElementById('cd-body').innerHTML = confrades.filter(function (c) {
+    return !q || [c.nome, c.apelido, (c.siglas || []).join(' '), c.cargo].join(' ').toLowerCase().indexOf(q) >= 0;
+  }).map(function (c) {
+    return '<tr id="cd-' + c.id + '"' + (c.no_diretorio ? '' : ' style="opacity:.6"') + '>' +
+      '<td><input class="cd-nome" value="' + esc(c.nome) + '" style="width:170px"></td>' +
+      '<td><input class="cd-apelido" value="' + esc(c.apelido || '') + '" style="width:100px"></td>' +
+      '<td><input class="cd-siglas" value="' + esc((c.siglas || []).join(', ')) + '" style="width:90px" title="separadas por vírgula"></td>' +
+      '<td><input class="cd-cargo" value="' + esc(c.cargo || '') + '" style="width:120px" placeholder="Conselho…"></td>' +
+      '<td><input class="cd-desde" value="' + (c.membro_desde || '') + '" inputmode="numeric" style="width:62px"></td>' +
+      '<td style="text-align:center"><input type="checkbox" class="cd-dir"' + (c.no_diretorio ? ' checked' : '') + '></td>' +
+      '<td><select class="cd-part" style="width:160px">' + opts(c.participante_id) + '</select></td>' +
+      '<td><input class="cd-zap" value="' + esc(c.whatsapp || '') + '" style="width:120px" placeholder="só se não estiver na lista"></td>' +
+      '<td>' + (c.tem_foto ? '✓ ' : '') + '<input type="file" class="cd-foto" accept="image/*" style="width:150px"></td>' +
+      '<td style="white-space:nowrap"><button class="btn gold" style="padding:7px 12px;font-size:9px" onclick="salvaConfrade(\'' + c.id + '\')">Salvar</button> ' +
+      (c.id !== 'novo' ? '<button class="del" onclick="apagaConfrade(\'' + c.id + '\')">apagar</button>' : '') + '</td></tr>';
+  }).join('') || '<tr><td colspan="10" style="color:var(--ink-lt)">Ninguém.</td></tr>';
+}
+function novoConfrade() {
+  if (confrades.some(function (c) { return c.id === 'novo'; })) return;
+  confrades.unshift({ id: 'novo', nome: '', siglas: [], no_diretorio: true });
+  document.getElementById('cd-busca').value = ''; desenhaConfrades();
+  document.querySelector('#cd-novo .cd-nome').focus();
+}
+// foto do círculo: recorte quadrado de 600 px
+function fotoQuadrada(file) {
+  return new Promise(function (ok, erro) {
+    var img = new Image(), url = URL.createObjectURL(file);
+    img.onload = function () {
+      var s = Math.min(img.naturalWidth, img.naturalHeight), c = document.createElement('canvas'); c.width = c.height = 600;
+      c.getContext('2d').drawImage(img, (img.naturalWidth - s) / 2, Math.max(0, (img.naturalHeight - s) / 2 - s * 0.08), s, s, 0, 0, 600, 600);
+      URL.revokeObjectURL(url); ok(c.toDataURL('image/jpeg', 0.85));
+    };
+    img.onerror = function () { erro(new Error('Não consegui abrir a imagem. Use JPG ou PNG.')); };
+    img.src = url;
+  });
+}
+function salvaConfrade(id) {
+  var tr_ = document.getElementById('cd-' + id), b = tr_.querySelector('.btn'), arq = tr_.querySelector('.cd-foto').files[0];
+  var v = function (c) { return tr_.querySelector(c).value; };
+  b.disabled = true; b.textContent = 'Salvando…';
+  (arq ? fotoQuadrada(arq) : Promise.resolve(null)).then(function (foto) {
+    var desde = parseInt(v('.cd-desde'), 10);
+    return rpc('wlr_admin_confrade_salvar', { p_token: TOKEN, p_confrade: id === 'novo' ? null : id, p_nome: v('.cd-nome'), p_apelido: v('.cd-apelido'),
+      p_siglas: v('.cd-siglas').split(',').map(function (x) { return x.trim(); }).filter(Boolean), p_cargo: v('.cd-cargo'),
+      p_membro_desde: isNaN(desde) ? null : desde, p_no_diretorio: tr_.querySelector('.cd-dir').checked,
+      p_participante: v('.cd-part') || null, p_whatsapp: v('.cd-zap'), p_foto: foto });
+  }).then(function () { toast('Confrade salvo.'); return loadConfrades(); })
+    .catch(function (e) { toast(e.message, true); b.disabled = false; b.textContent = 'Salvar'; });
+}
+function apagaConfrade(id) {
+  var c = confrades.filter(function (x) { return x.id === id; })[0];
+  if (!confirm('Apagar ' + (c ? c.nome : 'este confrade') + ' do cadastro? Para só tirar do diretório, desmarque "Diretório".')) return;
+  rpc('wlr_admin_confrade_apagar', { p_token: TOKEN, p_confrade: id }).then(function () { toast('Apagado.'); return loadConfrades(); }).catch(function (e) { toast(e.message, true); });
+}
+
 function loadConfraria() {
+  loadConfrades();
   loadPresidentes();
   return rpc('wlr_admin_confraria', { p_token: TOKEN }).then(function (d) {
     confraria = d || { edicoes: [] };

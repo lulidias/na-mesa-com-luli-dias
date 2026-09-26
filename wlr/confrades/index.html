@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>if (location.hostname === 'www.wineloversrecife.com') location.replace('https://wineloversrecife.com' + location.pathname + location.search + location.hash);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Confrades — Wine Lovers Recife</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../favicon.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=2">
+<meta name="theme-color" content="#6C214C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../comum.css">
+<style>
+section{max-width:1120px}
+.barra{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:22px}
+.barra input{flex:1;min-width:200px;padding:12px 14px;border:1px solid var(--border);font:13px Montserrat,sans-serif;background:#fff}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--border);background:#fff;color:var(--ink-lt);font:600 11px Montserrat,sans-serif;letter-spacing:1px;padding:10px 13px;cursor:pointer}
+.chip.on{background:var(--wine-lt);border-color:var(--wine-lt);color:#fff}
+.meu{margin-left:auto}
+
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.cf{background:#fff;border:1px solid var(--border);padding:22px 14px 18px;text-align:center;cursor:pointer;transition:border-color .2s,transform .2s;position:relative}
+.cf:hover{border-color:var(--wine-lt);transform:translateY(-2px)}
+.av{width:104px;height:104px;border-radius:50%;margin:0 auto 12px;overflow:hidden;background:var(--wine);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:40px;border:3px solid #fff;box-shadow:0 0 0 1px var(--wine-lt)}
+.av img{width:100%;height:100%;object-fit:cover;display:block}
+.cf .n{font-weight:700;font-size:14px;color:var(--wine);line-height:1.3}
+.cf .ap{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--wine-lt);margin-top:2px}
+.cf .sg{margin-top:8px;display:flex;gap:4px;justify-content:center;flex-wrap:wrap}
+.sgl{font-size:9.5px;font-weight:700;letter-spacing:1px;color:var(--wine-lt);border:1px solid var(--border);padding:3px 6px}
+.cargo{display:inline-block;margin-top:8px;background:var(--wine-lt);color:#fff;font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 8px;font-weight:600}
+.cf .ed{font-size:11px;color:var(--ink-lt);margin-top:8px}
+.selo26{position:absolute;top:10px;right:10px;font-size:9px;font-weight:700;letter-spacing:1px;color:var(--ok, #2E7D4F);border:1px solid currentColor;padding:2px 6px}
+
+.aniv{background:var(--wine);color:#fff;padding:18px 22px;margin-bottom:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.aniv .k{font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.75}
+.aniv .x{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:21px}
+
+/* ficha */
+.modal{position:fixed;inset:0;background:rgba(46,16,41,.7);z-index:2500;display:flex;align-items:flex-start;justify-content:center;padding:4vh 14px;overflow:auto}
+.ficha{background:#fff;max-width:640px;width:100%;position:relative}
+.ficha .topo{background:var(--soft);padding:30px 24px 22px;text-align:center;border-bottom:1px solid var(--border)}
+.ficha .av{width:150px;height:150px;font-size:58px}
+.ficha h2{font-weight:800;font-size:22px;color:var(--wine)}
+.ficha .corpo{padding:22px 24px 26px}
+.fechar{position:absolute;top:10px;right:12px;background:none;border:none;font-size:22px;color:var(--ink-lt);cursor:pointer}
+.dados{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:13.5px;margin-bottom:18px}
+.dados dt{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt);padding-top:3px}
+.acoes{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.bt{display:inline-flex;gap:6px;align-items:center;text-decoration:none;background:var(--wine-lt);color:#fff;border:none;cursor:pointer;font:600 10px Montserrat,sans-serif;letter-spacing:2px;text-transform:uppercase;padding:12px 16px}
+.bt.zap{background:#1F8F4E}
+.bt.gh{background:#fff;color:var(--wine-lt);border:1px solid var(--wine-lt)}
+.hist h3{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);margin:6px 0 10px}
+.hist ul{list-style:none}
+.hist li{display:flex;gap:12px;padding:8px 0;border-bottom:1px dotted var(--border);font-size:13.5px}
+.hist li b{flex:0 0 42px;color:var(--wine)}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 18px}
+.mini div{background:var(--soft);padding:12px 8px;text-align:center}
+.mini .v{font-weight:800;font-size:22px;color:var(--wine)}
+.mini .l{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px}
+.frase{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--wine-lt);margin-top:10px}
+
+/* editar perfil */
+.form label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt);margin:14px 0 6px}
+.form input,.form textarea,.form select{width:100%;padding:11px 12px;border:1px solid var(--border);font:13px Montserrat,sans-serif}
+.form .dupla{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2E7D4F;color:#fff;padding:12px 22px;font-size:12px;letter-spacing:1px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:4000}
+.toast.on{opacity:1}.toast.err{background:#8A2A2A}
+@media (max-width:640px){
+  .grade{grid-template-columns:repeat(2,1fr);gap:10px}
+  .av{width:84px;height:84px;font-size:32px}
+  .meu{margin-left:0}
+}
+</style>
+</head>
+<body class="carregando">
+
+<header class="hero" style="padding-bottom:40px">
+  <div class="kicker">Wine Lovers Recife · desde 2016</div>
+  <div class="hero-t">Os confrades</div>
+  <div class="quote">Quem faz a mesa da Wine Lovers Recife</div>
+</header>
+
+<main>
+  <section>
+    <div class="aniv hidden" id="aniv"></div>
+    <div class="barra">
+      <input id="busca" placeholder="Buscar por nome, apelido ou sigla…" oninput="desenha()">
+      <div class="chips" id="chips"></div>
+      <button class="bt meu hidden" id="btn-meu" onclick="editarMeu()">✎ Editar o meu perfil</button>
+    </div>
+    <div class="grade" id="grade"><p class="vazio">Carregando…</p></div>
+  </section>
+</main>
+
+<div class="modal hidden" id="modal" onclick="if(event.target===this)fecha()"><div class="ficha" id="ficha"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="../i18n.js"></script>
+<script src="../comum.js"></script>
+<script>
+montaNav('confrades');
+montaRodape();
+
+var C = [], SIGLAS = {}, HIST = {}, filtro = 'todos';
+var MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+function toast(m, err) { var t = document.getElementById('toast'); t.textContent = m; t.className = 'toast on' + (err ? ' err' : ''); clearTimeout(t._h); t._h = setTimeout(function () { t.className = 'toast'; }, 3200); }
+function iniciais(n) {
+  var p = String(n).split(/\s+/).filter(function (x) { return x.length > 2 || /^[A-ZÁÉÍÓÚ]/.test(x); });
+  return ((p[0] || '')[0] || '') + ((p[1] || '')[0] || '');
+}
+// a mesma pessoa com siglas diferentes, como no BI
+function quem(s, ano) {
+  if (/^(Luli|Luli D|LUD)$/.test(s) || (s === 'LD' && ano >= 2021)) return 'Luli';
+  if (s === 'BBZ') return 'BB2'; if (s === 'RRS') return 'RS';
+  return s;
+}
+
+// histórico de cada confrade nas edições (pelas siglas das listas)
+function montaHistorico(bi) {
+  (bi.edicoes || []).forEach(function (e) {
+    linhasVinhos(e.vinhos).forEach(function (l) {
+      if (!l.s) return;
+      var s = quem(l.s, e.ano);
+      (HIST[s] = HIST[s] || []).push({ ano: e.ano, v: l.v });
+    });
+  });
+  (bi.atual || []).forEach(function (g) {
+    (g.membros || []).forEach(function (nome) { (HIST['@' + nome] = HIST['@' + nome] || []).push({ ano: bi.atual_ano, v: g.vinho + (g.safra ? ' ' + g.safra : ''), atual: true }); });
+  });
+}
+function historico(c) {
+  var h = [], vistos = {};
+  (c.siglas || []).forEach(function (s) { (HIST[quem(s, 2021)] || []).forEach(function (x) { var k = x.ano + x.v; if (!vistos[k]) { vistos[k] = 1; h.push(x); } }); });
+  [c.nome, c.participante].forEach(function (n) { (HIST['@' + n] || []).forEach(function (x) { var k = x.ano + x.v; if (!vistos[k]) { vistos[k] = 1; h.push(x); } }); });
+  return h.sort(function (a, b) { return b.ano - a.ano; });
+}
+
+function desenha() {
+  var q = (document.getElementById('busca').value || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  var mes = new Date().getMonth() + 1;
+  var lista = C.filter(function (c) {
+    if (filtro === 'conselho' && !c.cargo) return false;
+    if (filtro === '2026' && !c.confirmado) return false;
+    if (filtro === 'aniv' && c.aniv_mes !== mes) return false;
+    if (!q) return true;
+    return [c.nome, c.apelido, (c.siglas || []).join(' '), c.cargo, c.profissao].join(' ').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').indexOf(q) >= 0;
+  });
+  document.getElementById('grade').innerHTML = lista.map(function (c) {
+    var h = historico(c).filter(function (x) { return !x.atual; }), eds = {};
+    h.forEach(function (x) { eds[x.ano] = 1; });
+    var n = Object.keys(eds).length;
+    return '<div class="cf" onclick="abre(\'' + c.id + '\')">' + (c.confirmado ? '<span class="selo26">2026 ✓</span>' : '') +
+      '<div class="av" data-foto="' + (c.tem_foto ? c.id : '') + '">' + esc(iniciais(c.nome)) + '</div>' +
+      '<div class="n" data-notr>' + esc(c.nome) + '</div>' + (c.apelido ? '<div class="ap" data-notr>' + esc(c.apelido) + '</div>' : '') +
+      (c.siglas && c.siglas.length ? '<div class="sg" data-notr>' + c.siglas.filter(function (s) { return !/^(Luli D|LUD|RRS|BBZ)$/.test(s); }).map(function (s) { return '<span class="sgl">' + esc(s) + '</span>'; }).join('') + '</div>' : '') +
+      (c.cargo ? '<span class="cargo">' + esc(tr(c.cargo)) + '</span>' : '') +
+      (n ? '<div class="ed">' + esc(tr(n === 1 ? '1 Magnum Fest' : '{n} Magnum Fests', { n: n })) + '</div>' : '') + '</div>';
+  }).join('') || '<p class="vazio">' + esc(tr('Ninguém encontrado.')) + '</p>';
+  fotos();
+}
+var FOTOS = {};
+function fotos() {
+  [].forEach.call(document.querySelectorAll('.av[data-foto]'), function (el) {
+    var id = el.dataset.foto; if (!id) return;
+    var poe = function (src) { if (src) el.innerHTML = '<img src="' + src + '" alt="">'; };
+    if (FOTOS[id]) return poe(FOTOS[id]);
+    if (FOTOS[id] === null) return;
+    FOTOS[id] = null;
+    rpc('wlr_p_confrade_foto', { p_id: meuId, p_confrade: id }).then(function (src) { FOTOS[id] = src; [].forEach.call(document.querySelectorAll('.av[data-foto="' + id + '"]'), function (x) { if (src) x.innerHTML = '<img src="' + src + '" alt="">'; }); }).catch(function () { });
+  });
+}
+function chips() {
+  var mes = new Date().getMonth() + 1;
+  var nAniv = C.filter(function (c) { return c.aniv_mes === mes; }).length;
+  var ops = [['todos', tr('Todos') + ' (' + C.length + ')'], ['conselho', tr('Conselho')], ['2026', tr('Na Magnum Fest 2026')]];
+  if (nAniv) ops.push(['aniv', tr('Aniversariantes do mês')]);
+  document.getElementById('chips').innerHTML = ops.map(function (o) { return '<button class="chip' + (filtro === o[0] ? ' on' : '') + '" data-f="' + o[0] + '">' + esc(o[1]) + '</button>'; }).join('');
+  [].forEach.call(document.querySelectorAll('.chip'), function (b) { b.onclick = function () { filtro = b.dataset.f; chips(); desenha(); }; });
+  var an = C.filter(function (c) { return c.aniv_mes === mes; }).sort(function (a, b) { return a.aniv_dia - b.aniv_dia; });
+  var box = document.getElementById('aniv');
+  if (an.length) {
+    box.innerHTML = '<div><div class="k">' + esc(tr('Aniversariantes de {m}', { m: tr(MESES[mes - 1]) })) + ' 🎂</div><div class="x" data-notr>' +
+      an.map(function (c) { return esc((c.apelido || c.nome.split(' ')[0]) + ' (' + c.aniv_dia + ')'); }).join(' · ') + '</div></div>';
+    box.classList.remove('hidden');
+  } else box.classList.add('hidden');
+}
+
+function abre(id) {
+  var c = C.filter(function (x) { return x.id === id; })[0]; if (!c) return;
+  var h = historico(c), passadas = h.filter(function (x) { return !x.atual; });
+  var eds = {}; passadas.forEach(function (x) { eds[x.ano] = 1; });
+  var anos = Object.keys(eds).map(Number).sort();
+  var dados = [];
+  if (c.membro_desde) dados.push([tr('Membro desde'), c.membro_desde]);
+  if (c.profissao) dados.push([tr('Profissão'), esc(c.profissao)]);
+  if (c.aniv_dia) dados.push([tr('Aniversário'), c.aniv_dia + ' ' + tr('de') + ' ' + esc(tr(MESES[c.aniv_mes - 1]))]);
+  if (c.vinho_favorito) dados.push([tr('Vinho favorito'), '<span data-notr>' + esc(c.vinho_favorito) + '</span>']);
+  if (c.siglas && c.siglas.length) dados.push([tr('Sigla nas listas'), '<span data-notr>' + esc(c.siglas.join(', ')) + '</span>']);
+  document.getElementById('ficha').innerHTML = '<button class="fechar" onclick="fecha()">✕</button>' +
+    '<div class="topo"><div class="av" data-foto="' + (c.tem_foto ? c.id : '') + '">' + esc(iniciais(c.nome)) + '</div>' +
+    '<h2 data-notr>' + esc(c.nome) + '</h2>' + (c.apelido ? '<div class="ap it" data-notr style="font-family:Cormorant Garamond,serif;font-style:italic;font-size:19px;color:var(--wine-lt)">' + esc(c.apelido) + '</div>' : '') +
+    (c.cargo ? '<span class="cargo">' + esc(tr(c.cargo)) + '</span>' : '') + (c.frase ? '<div class="frase" data-notr>"' + esc(c.frase) + '"</div>' : '') +
+    '<div class="acoes">' + (c.tem_whatsapp && !c.sou_eu ? '<button class="bt zap" onclick="zap(\'' + c.id + '\')">WhatsApp</button>' : '') +
+    (c.instagram ? '<a class="bt gh" href="https://www.instagram.com/' + encodeURIComponent(c.instagram) + '/" target="_blank" rel="noopener">@' + esc(c.instagram) + '</a>' : '') +
+    (c.sou_eu ? '<button class="bt gh" onclick="editarMeu()">✎ ' + esc(tr('Editar o meu perfil')) + '</button>' : '') + '</div></div>' +
+    '<div class="corpo">' + (dados.length ? '<dl class="dados">' + dados.map(function (d) { return '<dt>' + esc(d[0]) + '</dt><dd>' + d[1] + '</dd>'; }).join('') + '</dl>' : '') +
+    (anos.length ? '<div class="mini"><div><div class="v">' + anos.length + '</div><div class="l">Magnum Fests</div></div><div><div class="v">' + anos[0] + '</div><div class="l">' + esc(tr('A primeira')) + '</div></div>' +
+      '<div><div class="v">' + passadas.length + '</div><div class="l">Magnums</div></div></div>' : '') +
+    (h.length ? '<div class="hist"><h3>' + esc(tr('O que levou à mesa')) + '</h3><ul>' + h.map(function (x) {
+      return '<li><b>' + x.ano + '</b><span data-notr>' + esc(x.v) + (x.atual ? ' <small style="color:var(--ink-lt)">(' + esc(tr('inscrita')) + ')</small>' : '') + '</span></li>';
+    }).join('') + '</ul></div>' : '<p class="vazio">' + esc(tr('Ainda sem garrafas registradas nas listas.')) + '</p>') + '</div>';
+  document.getElementById('modal').classList.remove('hidden');
+  fotos();
+}
+function fecha() { document.getElementById('modal').classList.add('hidden'); }
+function zap(id) {
+  rpc('wlr_p_confrade_whatsapp', { p_id: meuId, p_confrade: id }).then(function (n) {
+    if (!n) return toast(tr('Sem WhatsApp cadastrado.'), true);
+    window.open('https://wa.me/' + n, '_blank');
+  }).catch(function (e) { toast(e.message, true); });
+}
+
+// editar o próprio perfil
+var fotoNova = null;
+function editarMeu() {
+  var c = C.filter(function (x) { return x.sou_eu; })[0] || {};
+  fotoNova = null;
+  var dia = '<option value="">—</option>' + Array.from({ length: 31 }, function (_, i) { return '<option' + (c.aniv_dia === i + 1 ? ' selected' : '') + '>' + (i + 1) + '</option>'; }).join('');
+  var mes = '<option value="">—</option>' + MESES.map(function (m, i) { return '<option value="' + (i + 1) + '"' + (c.aniv_mes === i + 1 ? ' selected' : '') + '>' + esc(tr(m)) + '</option>'; }).join('');
+  document.getElementById('ficha').innerHTML = '<button class="fechar" onclick="fecha()">✕</button><div class="corpo form">' +
+    '<h2 style="font-weight:800;font-size:20px;color:var(--wine)">' + esc(tr('O meu perfil')) + '</h2>' +
+    '<p style="font-size:12px;color:var(--ink-lt);margin-top:6px;line-height:1.6">' + esc(tr('Só os membros da confraria veem. O seu telefone e e-mail não aparecem: os confrades falam com você pelo botão de WhatsApp.')) + '</p>' +
+    '<label>' + esc(tr('Foto')) + '</label><div style="display:flex;gap:12px;align-items:center"><div class="av" id="ed-av" style="width:84px;height:84px;font-size:30px;margin:0" data-foto="' + (c.tem_foto ? c.id : '') + '">' + esc(iniciais(c.nome || '')) + '</div>' +
+    '<input type="file" accept="image/*" onchange="escolheFoto(this)"></div>' +
+    '<label>' + esc(tr('Apelido')) + '</label><input id="ed-apelido" value="' + esc(c.apelido || '') + '" placeholder="' + esc(tr('como os amigos chamam você')) + '">' +
+    '<label>' + esc(tr('Aniversário')) + '</label><div class="dupla"><select id="ed-dia">' + dia + '</select><select id="ed-mes">' + mes + '</select></div>' +
+    '<label>' + esc(tr('Profissão / empresa')) + '</label><input id="ed-prof" value="' + esc(c.profissao || '') + '">' +
+    '<label>' + esc(tr('Vinho favorito')) + '</label><input id="ed-vinho" value="' + esc(c.vinho_favorito || '') + '">' +
+    '<label>' + esc(tr('Uma frase')) + '</label><input id="ed-frase" maxlength="140" value="' + esc(c.frase || '') + '">' +
+    '<label>Instagram</label><input id="ed-ig" value="' + esc(c.instagram ? '@' + c.instagram : '') + '" placeholder="@">' +
+    '<div class="acoes" style="justify-content:flex-start;margin-top:20px"><button class="bt" id="ed-salvar" onclick="salvaMeu()">' + esc(tr('Salvar')) + '</button></div></div>';
+  document.getElementById('modal').classList.remove('hidden');
+  fotos();
+}
+function escolheFoto(inp) {
+  var f = inp.files && inp.files[0]; if (!f) return;
+  var img = new Image(), url = URL.createObjectURL(f);
+  img.onload = function () {
+    // recorte quadrado no centro, 600 px: é o que o círculo mostra
+    var s = Math.min(img.naturalWidth, img.naturalHeight), c = document.createElement('canvas'); c.width = c.height = 600;
+    c.getContext('2d').drawImage(img, (img.naturalWidth - s) / 2, Math.max(0, (img.naturalHeight - s) / 2 - s * 0.08), s, s, 0, 0, 600, 600);
+    fotoNova = c.toDataURL('image/jpeg', 0.85); URL.revokeObjectURL(url);
+    document.getElementById('ed-av').innerHTML = '<img src="' + fotoNova + '" alt="">';
+  };
+  img.onerror = function () { toast(tr('Não consegui abrir esta imagem. Use JPG ou PNG.'), true); };
+  img.src = url;
+}
+function salvaMeu() {
+  var b = document.getElementById('ed-salvar'); b.disabled = true; b.textContent = tr('Salvando…');
+  var d = document.getElementById('ed-dia').value, m = document.getElementById('ed-mes').value;
+  rpc('wlr_p_meu_perfil', { p_id: meuId, p_apelido: document.getElementById('ed-apelido').value, p_aniv_dia: d ? +d : null, p_aniv_mes: m ? +m : null,
+    p_profissao: document.getElementById('ed-prof').value, p_vinho_favorito: document.getElementById('ed-vinho').value,
+    p_frase: document.getElementById('ed-frase').value, p_instagram: document.getElementById('ed-ig').value, p_foto: fotoNova })
+    .then(function (id) { toast(tr('Perfil salvo.')); if (fotoNova) FOTOS[id] = fotoNova; fecha(); return carrega(); })
+    .catch(function (e) { toast(e.message, true); b.disabled = false; b.textContent = tr('Salvar'); });
+}
+
+function carrega() {
+  return Promise.all([rpc('wlr_p_confrades', { p_id: meuId }), rpc('wlr_p_bi', { p_id: meuId })]).then(function (r) {
+    C = (r[0] && r[0].confrades) || []; SIGLAS = (r[0] && r[0].siglas) || {};
+    HIST = {}; montaHistorico(r[1] || {});
+    document.getElementById('btn-meu').classList.toggle('hidden', !C.some(function (c) { return c.sou_eu; }));
+    document.body.classList.remove('carregando');
+    chips(); desenha();
+  });
+}
+sessao().then(function (id) {
+  if (!id) return paraPorta('confrades');
+  return carrega();
+}).catch(function (e) {
+  if (semAcesso(e, 'confrades')) return;
+  document.body.classList.remove('carregando');
+  document.getElementById('grade').innerHTML = '<p class="vazio">' + esc(e.message) + '</p>';
+});
+</script>
+</body>
+</html>
