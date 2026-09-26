@@ -343,6 +343,8 @@ a{color:var(--wine-lt)}
       <div><label class="lb">Local</label><input id="evm-local" placeholder="ex.: Restaurante Ruizito"></div>
     </div>
     <label class="lb">Texto (opcional)</label><textarea id="evm-texto" rows="2" style="width:100%"></textarea>
+    <div id="evm-pres-box"><label class="lb">Presentes <span style="text-transform:none;letter-spacing:0;font-weight:400">— quem esteve, mesmo sem levar garrafa (nome ou sigla, separados por vírgula). Conta nos Números e no histórico de cada confrade.</span></label>
+      <textarea id="evm-pres" rows="2" style="width:100%" placeholder="ex.: Luli Dias, Luis Duarte, AMN"></textarea></div>
 
     <div class="evm-sec"><strong>Garrafas</strong> <span id="evm-conta"></span>
       <span style="flex:1"></span>
@@ -994,6 +996,16 @@ function tipoEvento() {
   var mf = document.getElementById('evm-tipo').value === 'magnum';
   document.querySelector('.evm-tit').style.visibility = mf ? 'hidden' : 'visible';
   document.getElementById('evm-fotos-mf').classList.toggle('hidden', !mf);
+  document.getElementById('evm-pres-box').classList.toggle('hidden', mf);
+}
+// "AMN, Luli Dias" → nomes do cadastro (sigla vira o nome; nome escrito sem acento/caixa também casa)
+function presentesNomes() {
+  var sem = function (x) { return String(x).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim(); };
+  var porSigla = {}, porNome = {}; (SIGLAS_ADM || []).forEach(function (r) { porSigla[sem(r.sigla)] = r.nome; porNome[sem(r.nome)] = r.nome; });
+  (parts || []).forEach(function (c) { if (c && c.nome) porNome[sem(c.nome)] = porNome[sem(c.nome)] || c.nome; });
+  return document.getElementById('evm-pres').value.split(/[,;\n]/).map(function (x) { return x.trim(); }).filter(Boolean).map(function (x) {
+    return porSigla[sem(x)] || porNome[sem(x)] || x;
+  });
 }
 function abreEvento(chave) {
   var e = null;
@@ -1009,6 +1021,7 @@ function abreEvento(chave) {
   document.getElementById('evm-tit').value = e && e.tipo !== 'magnum' ? (e.titulo || '') : '';
   document.getElementById('evm-local').value = e ? (e.local || '') : '';
   document.getElementById('evm-texto').value = e ? (e.texto || '') : '';
+  document.getElementById('evm-pres').value = e && e.ev ? (e.ev.presentes || []).join(', ') : '';
   var porV = {}; ((e && e.dados) || []).forEach(function (d) { porV[d.v] = d; });
   document.getElementById('evm-linhas').innerHTML = linhasTxt(e && e.vinhos).map(function (l) {
     var d = porV[l.v] || {}; return linhaHTML({ s: l.s, v: l.v, produtor: d.produtor, pais: d.pais, regiao: d.regiao, tipo: d.tipo, uva: d.uva, safra: d.safra || (l.v.match(/\b(1[89][0-9]\d|20[0-2]\d)\b/) || [])[1] });
@@ -1052,7 +1065,9 @@ function salvaEvento() {
         p_texto: document.getElementById('evm-texto').value, p_vinhos: vinhos, p_dados: dados, p_foto: fotoEv }).then(function () { return 'mf-' + ano; })
     : rpc('wlr_admin_evento_gravar', { p_token: TOKEN, p_evento: evAtual ? evAtual.ev.id : null, p_tipo: tipo, p_ano: ano, p_data: data,
         p_titulo: document.getElementById('evm-tit').value, p_local: document.getElementById('evm-local').value, p_texto: document.getElementById('evm-texto').value,
-        p_vinhos: vinhos, p_dados: dados }).then(function (id) { return 'ev-' + id; });
+        p_vinhos: vinhos, p_dados: dados }).then(function (id) {
+          return rpc('wlr_admin_evento_presentes', { p_token: TOKEN, p_evento: id, p_presentes: presentesNomes() }).then(function () { return 'ev-' + id; });
+        });
   p.then(function (chave) {
     toast('Evento salvo.'); fotoEv = null;
     return loadEventos().then(function () { abreEvento(chave); document.getElementById('evm-st').textContent = 'Salvo às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) + '.'; });

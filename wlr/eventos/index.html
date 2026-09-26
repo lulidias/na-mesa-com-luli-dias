@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../comum.css?v=20260927g">
+<link rel="stylesheet" href="../comum.css?v=20260927h">
 <style>
 section{max-width:1060px}
 .abas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:26px}
@@ -46,9 +46,11 @@ section{max-width:1060px}
 .det-top .i{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-lt);margin-top:6px}
 .det .fechar{background:none;border:1px solid var(--border);padding:8px 12px;cursor:pointer;font:600 10px Montserrat,sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt)}
 .det .txt{padding:18px 28px 0;font-size:14.5px;line-height:1.75}
+.det .pres{padding:14px 28px 0;font-size:13px;line-height:1.7;color:var(--ink-lt)}
+.det .pres b{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);margin-right:6px}
 @media (max-width:640px){
   .abas{grid-template-columns:repeat(2,1fr)}
-  .det-top{padding:18px 16px 12px}.det .txt{padding:14px 16px 0}
+  .det-top{padding:18px 16px 12px}.det .txt,.det .pres{padding:14px 16px 0}
 }
 </style>
 </head>
@@ -69,8 +71,8 @@ section{max-width:1060px}
   </section>
 </main>
 
-<script src="../i18n.js?v=20260927g"></script>
-<script src="../comum.js?v=20260927g"></script>
+<script src="../i18n.js?v=20260927h"></script>
+<script src="../comum.js?v=20260927h"></script>
 <script>
 montaNav('eventos');
 montaRodape();
@@ -120,7 +122,7 @@ function lista() {
   [].forEach.call(box.querySelectorAll('[data-id]'), function (b) {
     b.onclick = function () {
       var e = evs.filter(function (x) { return x.id === b.dataset.id; })[0];
-      detalhe({ tipo: e.tipo, ref: 'ev-' + e.id, titulo: e.titulo || TIPOS.filter(function (t) { return t[0] === e.tipo; })[0][1], info: [e.data ? dataLonga(e.data) : '', e.local].filter(Boolean).join(' · '), texto: e.texto, vinhos: e.vinhos });
+      detalhe({ tipo: e.tipo, ref: 'ev-' + e.id, titulo: e.titulo || TIPOS.filter(function (t) { return t[0] === e.tipo; })[0][1], info: [e.data ? dataLonga(e.data) : '', e.local].filter(Boolean).join(' · '), texto: e.texto, vinhos: e.vinhos, presentes: e.presentes });
     };
   });
 }
@@ -131,6 +133,7 @@ function detalhe(o) {
   det.innerHTML = '<div class="det"><div class="det-top"><div><span class="det-logo">' + LOGO_EV.logo(o.tipo) + '</span><div><h2 data-notr>' + esc(o.titulo) + '</h2><div class="i">' + esc(o.info || '') +
     (o.link ? '<a href="' + o.link + '">' + esc(tr('a página da festa')) + '</a>' : '') + '</div></div></div><button class="fechar">' + esc(tr('Fechar')) + '</button></div>' +
     (o.texto ? '<div class="txt">' + paragrafos(o.texto) + '</div>' : '') +
+    (o.presentes && o.presentes.length ? '<div class="pres"><b>' + esc(tr('Presentes')) + '</b> <span data-notr>' + o.presentes.map(esc).join(' · ') + '</span></div>' : '') +
     (vs.length ? '<ul class="ed-vinhos" data-notr>' + vs.map(function (v) { return '<li><span class="sg">' + esc(v.s) + '</span><span>' + esc(v.v) + '</span></li>'; }).join('') + '</ul>' : '') +
     '<div class="alb-slot"></div></div>';
   det.querySelector('.fechar').onclick = function () { det.innerHTML = ''; };

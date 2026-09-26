@@ -4,7 +4,7 @@
 <script>if (location.hostname === 'www.wineloversrecife.com') location.replace('https://wineloversrecife.com' + location.pathname + location.search + location.hash);</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Números — Magnum Fest · Wine Lovers Recife</title>
+<title>Números — Wine Lovers Recife</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="../favicon.png">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=2">
@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../comum.css?v=20260927g">
+<link rel="stylesheet" href="../comum.css?v=20260927h">
 <style>
 section{max-width:1120px;padding-top:40px;padding-bottom:40px}
 .filtro{position:sticky;top:57px;z-index:1400;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--border)}
@@ -85,8 +85,8 @@ table.tab{width:100%;border-collapse:collapse;font-size:12.5px}
 
 <header class="hero" style="padding-bottom:40px">
   <div class="kicker">Wine Lovers Recife · desde 2016</div>
-  <div class="hero-t">Magnum Fest em números</div>
-  <div class="quote">Todas as Magnums, de todas as edições</div>
+  <div class="hero-t">Wine Lovers Recife em números</div>
+  <div class="quote" id="h-q">Todas as garrafas, de todos os encontros</div>
 </header>
 
 <div class="filtro"><div class="filtro-in" id="filtro"></div></div>
@@ -103,16 +103,16 @@ table.tab{width:100%;border-collapse:collapse;font-size:12.5px}
   <section style="padding-top:0">
     <div class="grade">
       <div class="card largo" id="c-edicoes"><h3>Magnums por edição</h3><div class="sub">Quantas garrafas foram à mesa em cada ano. 2020 não teve festa.</div><div id="g-edicoes"></div></div>
-      <div class="card"><h3>Países</h3><div class="sub">De onde vieram as Magnums.</div><div id="g-paises"></div></div>
+      <div class="card"><h3>Países</h3><div class="sub">De onde vieram as garrafas.</div><div id="g-paises"></div></div>
       <div class="card"><h3>Tipo de vinho</h3><div class="sub">Tintos, espumantes, brancos, fortificados e doces.</div><div id="g-tipos"></div></div>
       <div class="card"><h3>Regiões</h3><div class="sub">As 12 regiões que mais apareceram.</div><div id="g-regioes"></div></div>
       <div class="card"><h3>Uvas</h3><div class="sub">A uva ou o corte principal de cada garrafa.</div><div id="g-uvas"></div></div>
       <div class="card"><h3>Produtores</h3><div class="sub">Os 12 que mais estiveram à mesa.</div><div id="g-produtores"></div></div>
-      <div class="card"><h3>Os rótulos que voltaram</h3><div class="sub">Vinhos que apareceram em mais de uma edição.</div><div id="g-rotulos"></div></div>
+      <div class="card"><h3>Os rótulos que voltaram</h3><div class="sub">Vinhos que voltaram à mesa mais de uma vez.</div><div id="g-rotulos"></div></div>
       <div class="card"><h3>Safras por década</h3><div class="sub">Em que década cada vinho foi colhido.</div><div id="g-decadas"></div></div>
-      <div class="card" id="c-idade"><h3>Idade média da garrafa</h3><div class="sub">Anos entre a safra e o dia da festa, por edição.</div><div id="g-idade"></div></div>
+      <div class="card" id="c-idade"><h3>Idade média da garrafa</h3><div class="sub">Anos entre a safra e o dia do encontro, ano a ano.</div><div id="g-idade"></div></div>
       <div class="card"><h3>As mais velhas</h3><div class="sub">As 10 safras mais antigas servidas.</div><div id="g-velhas"></div></div>
-      <div class="card"><h3>Confrades mais assíduos</h3><div class="sub">Pela sigla usada nas listas de cada ano.</div><div id="g-confrades"></div></div>
+      <div class="card"><h3>Confrades mais assíduos</h3><div class="sub">Em quantos encontros cada um esteve, levando garrafa ou não.</div><div id="g-confrades"></div></div>
     </div>
   </section>
 
@@ -128,8 +128,8 @@ table.tab{width:100%;border-collapse:collapse;font-size:12.5px}
 </main>
 <div class="tip" id="tip"></div>
 
-<script src="../i18n.js?v=20260927g"></script>
-<script src="../comum.js?v=20260927g"></script>
+<script src="../i18n.js?v=20260927h"></script>
+<script src="../comum.js?v=20260927h"></script>
 <script>
 montaNav('numeros');
 montaRodape();
@@ -159,7 +159,7 @@ function quem(s, ano) {
 }
 // o mesmo rótulo escrito de jeitos diferentes
 function rotulo(g) {
-  var v = g.v.replace(/\((?:ou|NV|a confirmar)[^)]*\)/gi, '').replace(/\((?:Muga|Ramos Pinto|Bernard Magrez)\)/g, '').replace(/\b(19|20)\d\d\b/g, '').replace(/\s+/g, ' ').trim();
+  var v = g.v.replace(/\((?:ou|NV|a confirmar)[^)]*\)/gi, '').replace(/\((?:Magnum|Double Magnum|J[ée]roboam|Imperial|Rehoboam|Methuselah|Salmanazar|Balthazar|Nabucodonosor|meia garrafa|375 ?ml|3 ?L|1,5 ?L)\)/gi, '').replace(/\((?:Muga|Ramos Pinto|Bernard Magrez)\)/g, '').replace(/\b(19|20)\d\d\b/g, '').replace(/\s+/g, ' ').trim();
   if (/cristal/i.test(v)) return /ros/i.test(v) ? 'Cristal Rosé' : 'Cristal';
   if (/tonel 3|mouch[ãa]o 3\/4/i.test(v)) return 'Mouchão Tonel 3-4';
   if (/^la rioja alta 890|gran reserva 890/i.test(v)) return 'La Rioja Alta 890';
@@ -177,8 +177,8 @@ function rotulo(g) {
   return v.replace(/^Champagne /, '').replace(/ Brut$/, '');
 }
 
-var TODAS = [], ATUAL = 2026, filtroAno = 'todas', filtroEv = 'magnum';
-var EVS = [['magnum', 'Magnum Fest'], ['todos', 'Todos os encontros'], ['paralela', 'Paralela'], ['ordinario', 'Ordinário'], ['velhinhos', 'Os Velhinhos']];
+var TODAS = [], PRES = [], ATUAL = 2026, filtroAno = 'todas', filtroEv = 'todos';
+var EVS = [['todos', 'Todos os encontros'], ['magnum', 'Magnum Fest'], ['paralela', 'Paralela'], ['ordinario', 'Ordinário'], ['velhinhos', 'Os Velhinhos']];
 function prepara(d) {
   (d.edicoes || []).forEach(function (e) {
     var porV = {}; (e.dados || []).forEach(function (x) { porV[x.v] = x; });
@@ -189,6 +189,7 @@ function prepara(d) {
     });
   });
   (d.eventos || []).forEach(function (e) {
+    (e.presentes || []).forEach(function (n) { PRES.push({ ev: e.tipo, evid: e.id, ano: e.ano, p: n }); });
     var porV = {}; (e.dados || []).forEach(function (x) { porV[x.v] = x; });
     linhasVinhos(e.vinhos).forEach(function (l) {
       var c = porV[l.v] || {};
@@ -203,6 +204,22 @@ function prepara(d) {
     TODAS.push({ ev: 'magnum', evt: 'Magnum Fest', ano: ATUAL, s: (g.membros || []).join(', '), v: g.vinho + (g.safra ? ' ' + g.safra : ''), produtor: g.produtor || null,
       pais: PAIS_COD[String(g.pais || '').toLowerCase()] || null, regiao: reg, tipo: TIPO[tipo] ? tipo : null, uva: null, safra: parseInt(g.safra, 10) || null, atual: true });
   });
+}
+// a pessoa por trás da sigla (ou do nome da lista de presentes)
+function pessoa(s) { return NOMES[s] || s; }
+function presencas(L) {
+  var evids = {}, m = {};
+  L.forEach(function (g) { if (g.evid) evids[g.evid] = 1; });
+  var ok = function (x) { return (filtroEv === 'todos' || x.ev === filtroEv) && (filtroAno === 'todas' || x.ano === filtroAno); };
+  L.forEach(function (g) { if (!g.atual && g.s && g.evid) (m[pessoa(g.s)] = m[pessoa(g.s)] || {})[g.evid] = g.ano; });
+  PRES.forEach(function (x) { if (ok(x)) { evids[x.evid] = 1; (m[x.p] = m[x.p] || {})[x.evid] = x.ano; } });
+  return { n: Object.keys(evids).length, pessoas: Object.keys(m).map(function (k) { return [k, Object.keys(m[k]).length]; }).sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); }), anos: m };
+}
+var FRASE = { todos: 'Todas as garrafas, de todos os encontros', magnum: 'Todas as Magnums, de todas as edições', paralela: 'As Paralelas: todas as garrafas',
+  ordinario: 'Os Ordinários: todas as garrafas', velhinhos: 'Os Velhinhos: todas as garrafas' };
+function marca() {
+  var h = (filtroEv === 'todos' ? '' : filtroEv) + (filtroAno === 'todas' ? '' : (filtroEv === 'todos' ? '' : '-') + filtroAno);
+  try { history.replaceState({}, '', h ? '#' + h : location.pathname); } catch (e) { }
 }
 function doEvento() { return TODAS.filter(function (g) { return filtroEv === 'todos' || g.ev === filtroEv; }); }
 function lista() { var L = doEvento(); return filtroAno === 'todas' ? L.filter(function (g) { return !g.atual; }) : L.filter(function (g) { return g.ano === filtroAno; }); }
@@ -243,10 +260,10 @@ function filtro() {
       return '<button class="chip' + (filtroAno === a ? ' on' : '') + '" data-a="' + a + '">' + a + (a === ATUAL ? ' <small>' + esc(tr('até agora')) + '</small>' : '') + '</button>';
     }).join('');
   [].forEach.call(document.querySelectorAll('.chip[data-e]'), function (b) {
-    b.onclick = function () { filtroEv = b.dataset.e; filtro(); desenha(); };
+    b.onclick = function () { filtroEv = b.dataset.e; filtro(); marca(); desenha(); };
   });
   [].forEach.call(document.querySelectorAll('.chip[data-a]'), function (b) {
-    b.onclick = function () { filtroAno = b.dataset.a === 'todas' ? 'todas' : +b.dataset.a; try { history.replaceState({}, '', filtroAno === 'todas' ? location.pathname : '#' + filtroAno); } catch (e) { } filtro(); desenha(); };
+    b.onclick = function () { filtroAno = b.dataset.a === 'todas' ? 'todas' : +b.dataset.a; marca(); filtro(); desenha(); };
   });
 }
 
@@ -257,19 +274,21 @@ function desenha() {
   var idade = comSafra.length ? comSafra.reduce(function (a, g) { return a + (g.ano - g.safra); }, 0) / comSafra.length : 0;
   var velha = comSafra.slice().sort(function (a, b) { return a.safra - b.safra; })[0];
   var paises = conta(L, function (g) { return g.pais; }), produtores = conta(L, function (g) { return g.produtor; });
-  var regioes = conta(L, function (g) { return g.regiao; }), confr = conta(L.filter(function (g) { return !g.atual; }), function (g) { return g.s; });
+  var regioes = conta(L, function (g) { return g.regiao; }), PR = presencas(L), confr = PR.pessoas;
+  var FESTA = mf ? 'no dia da festa' : 'no dia do encontro';
+  document.getElementById('h-q').textContent = tr(FRASE[filtroEv] || FRASE.todos);
   var eds = conta(L, function (g) { return g.ano; }).length;
 
   document.getElementById('kpis').innerHTML = [
     [GAR, nf(total), todas ? tr(mf ? 'em {n} edições' : 'em {n} anos', { n: eds }) : tr(mf ? 'nesta edição' : 'neste ano')],
     mf ? [tr('Litros'), nf(total * 1.5), tr('≈ {n} garrafas de 750 ml', { n: nf(total * 2) })]
-       : [tr('Encontros'), conta(L, function (g) { return g.evid; }).length, tr('com lista de garrafas')],
+       : [tr('Encontros'), PR.n, tr('com lista de garrafas ou de presentes')],
     [tr('Países'), paises.length, paises[0] ? PAIS[paises[0][0]][1] + ' ' + tr(PAIS[paises[0][0]][0]) + ' ' + tr('lidera com {p}', { p: pct(paises[0][1], total) }) : ''],
     [tr('Produtores'), produtores.length, produtores[0] ? produtores[0][0] + ': ' + produtores[0][1] + '×' : ''],
     [tr('Regiões'), regioes.length, regioes[0] ? regioes[0][0] + ': ' + regioes[0][1] : ''],
-    [tr('Confrades'), confr.length || '—', confr.length ? tr('siglas diferentes nas listas') : tr('sem lista nesta edição')],
+    [tr('Confrades'), confr.length || '—', confr.length ? tr(mf ? 'siglas diferentes nas listas' : 'estiveram à mesa') : tr(mf ? 'sem lista nesta edição' : 'sem lista neste ano')],
     [tr('Safra mais antiga'), velha ? velha.safra : '—', velha ? velha.v.replace(/\s*\b(19|20)\d\d\b/, '') + ' · ' + velha.ano : ''],
-    [tr('Idade média'), idade ? nf(idade, 1) : '—', tr('anos na garrafa no dia da festa')]
+    [tr('Idade média'), idade ? nf(idade, 1) : '—', tr('anos na garrafa ' + FESTA)]
   ].map(function (k) { return '<div class="kpi"><div class="l">' + esc(k[0]) + '</div><div class="v">' + k[1] + '</div><div class="s" data-notr>' + esc(k[2]) + '</div></div>'; }).join('');
 
   // curiosidades
@@ -278,13 +297,13 @@ function desenha() {
   var pgc = L.filter(function (g) { return /Lafite|Mouton|Château Margaux$|Latour|Haut-Brion|Yquem/.test(g.produtor || '') && g.tipo !== 'branco'; });
   var cur = [];
   if (rot[0] && rot[0][1] > 1) cur.push([tr('O mais presente'), rot[0][0] + ' ' + tr('foi à mesa {n} vezes', { n: rot[0][1] })]);
-  if (fr) cur.push([tr('França'), pct(fr[1], total) + ' ' + tr('das Magnums vieram da França')]);
+  if (fr) cur.push([tr('França'), pct(fr[1], total) + ' ' + tr(mf ? 'das Magnums vieram da França' : 'das garrafas vieram da França')]);
   if (esp) cur.push([tr('Borbulhas'), esp + ' ' + tr('espumantes, {p} do total', { p: pct(esp, total) })]);
   if (pgc.length) cur.push([tr('Grandes ícones'), tr('{n} Premiers Grands Crus de Bordeaux: {l}', { n: pgc.length, l: pgc.map(function (g) { return g.v; }).join(', ') })]);
-  if (velha) cur.push([tr('A mais velha'), velha.v + ' — ' + tr('{n} anos no dia da festa', { n: velha.ano - velha.safra })]);
+  if (velha) cur.push([tr('A mais velha'), velha.v + ' — ' + tr('{n} anos ' + FESTA, { n: velha.ano - velha.safra })]);
   if (todas) {
     var porAno = conta(L, function (g) { return g.ano; }).sort(function (a, b) { return b[1] - a[1]; })[0];
-    if (porAno) cur.push([tr('A maior edição'), porAno[0] + ', ' + tr('com {n} Magnums', { n: porAno[1] })]);
+    if (porAno) cur.push([tr(mf ? 'A maior edição' : 'O ano com mais garrafas'), porAno[0] + ', ' + tr(mf ? 'com {n} Magnums' : 'com {n} garrafas', { n: porAno[1] })]);
   }
   document.getElementById('curios').innerHTML = cur.slice(0, 6).map(function (c) { return '<div class="cur"><div class="k">' + esc(c[0]) + '</div><div class="x" data-notr>' + esc(c[1]) + '</div></div>'; }).join('');
 
@@ -303,10 +322,10 @@ function desenha() {
     }), function (p) { return p[1] ? p[0] + ': ' + nf(p[1], 1) + ' ' + tr('anos em média') : p[0] + ': —'; }, function (v) { return nf(v, 1); });
   }
   hbar(document.getElementById('g-paises'), paises, function (k) { return (PAIS[k] ? PAIS[k][1] + ' ' + esc(tr(PAIS[k][0])) : esc(k)); },
-    function (p) { return (PAIS[p[0]] ? tr(PAIS[p[0]][0]) : p[0]) + ': ' + p[1] + ' Magnums · ' + pct(p[1], total); });
+    function (p) { return (PAIS[p[0]] ? tr(PAIS[p[0]][0]) : p[0]) + ': ' + p[1] + ' ' + GAR.toLowerCase().replace('magnums', 'Magnums') + ' · ' + pct(p[1], total); });
   hbar(document.getElementById('g-tipos'), conta(L, function (g) { return g.tipo; }), function (k) { return esc(tr(TIPO[k] || k)); },
     function (p) { return tr(TIPO[p[0]] || p[0]) + ': ' + p[1] + ' · ' + pct(p[1], total); });
-  hbar(document.getElementById('g-regioes'), regioes, null, function (p) { return p[0] + ': ' + p[1] + ' Magnums'; });
+  hbar(document.getElementById('g-regioes'), regioes, null, function (p) { return p[0] + ': ' + p[1] + ' ' + GAR.toLowerCase().replace('magnums', 'Magnums'); });
   hbar(document.getElementById('g-uvas'), conta(L, function (g) { return g.uva; }), null, function (p) { return p[0] + ': ' + p[1]; });
   hbar(document.getElementById('g-produtores'), produtores, null, function (p) {
     return p[0] + ': ' + L.filter(function (g) { return g.produtor === p[0]; }).map(function (g) { return g.ano + ' ' + g.v; }).join(' · ');
@@ -318,11 +337,10 @@ function desenha() {
   var dec = conta(comSafra, function (g) { return Math.floor(g.safra / 10) * 10; }).sort(function (a, b) { return a[0] - b[0]; });
   colunas(document.getElementById('g-decadas'), dec.map(function (p) { return [p[0] + 's', p[1]]; }), function (p) { return tr('Safras dos anos {d}', { d: p[0] }) + ': ' + p[1]; });
   var velhas = comSafra.slice().sort(function (a, b) { return a.safra - b.safra || a.ano - b.ano; }).slice(0, 10);
-  document.getElementById('g-velhas').innerHTML = velhas.length ? '<table class="tab"><thead><tr><th>' + esc(tr('Safra')) + '</th><th>' + esc(tr('Vinho')) + '</th><th>' + esc(tr('Edição')) + '</th><th style="text-align:right">' + esc(tr('Idade')) + '</th></tr></thead><tbody>' +
+  document.getElementById('g-velhas').innerHTML = velhas.length ? '<table class="tab"><thead><tr><th>' + esc(tr('Safra')) + '</th><th>' + esc(tr('Vinho')) + '</th><th>' + esc(tr(mf ? 'Edição' : 'Ano')) + '</th><th style="text-align:right">' + esc(tr('Idade')) + '</th></tr></thead><tbody>' +
     velhas.map(function (g) { return '<tr><td><b>' + g.safra + '</b></td><td data-notr>' + esc(g.v) + '</td><td>' + g.ano + '</td><td class="num">' + (g.ano - g.safra) + '</td></tr>'; }).join('') + '</tbody></table>' : '<p class="vazio">—</p>';
-  var anosPor = {}; L.forEach(function (g) { if (!g.s || g.atual) return; (anosPor[g.s] = anosPor[g.s] || []).push(g.ano); });
-  hbar(document.getElementById('g-confrades'), confr, function (k) { return '<span data-notr>' + esc(comNome(k)) + '</span>'; },
-    function (p) { return comNome(p[0]) + ': ' + (anosPor[p[0]] || []).sort().join(', '); }, 15);
+  hbar(document.getElementById('g-confrades'), confr, function (k) { return '<span data-notr>' + esc(k) + '</span>'; },
+    function (p) { var a = PR.anos[p[0]] || {}; return p[0] + ': ' + Object.keys(a).map(function (k) { return a[k]; }).sort().join(', '); }, 15);
   tabela();
   ligaDicas();
 }
@@ -367,7 +385,9 @@ sessao().then(function (id) {
     var d = r[0];
     if (r[1] && r[1].siglas) Object.keys(r[1].siglas).forEach(function (s) { NOMES[s] = r[1].siglas[s]; });
     prepara(d || {});
-    var h = parseInt(location.hash.slice(1), 10); if (h && TODAS.some(function (g) { return g.ano === h; })) filtroAno = h;
+    var hs = location.hash.slice(1).split('-'), h0 = hs[0];
+    if (EVS.some(function (e) { return e[0] === h0; })) { filtroEv = h0; hs.shift(); }
+    var h = parseInt(hs[0], 10); if (h && TODAS.some(function (g) { return g.ano === h; })) filtroAno = h;
     document.body.classList.remove('carregando');
     filtro(); desenha();
   });

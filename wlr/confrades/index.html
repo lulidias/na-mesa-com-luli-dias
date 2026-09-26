@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../comum.css?v=20260927g">
+<link rel="stylesheet" href="../comum.css?v=20260927h">
 <style>
 section{max-width:1120px}
 .barra{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:22px}
@@ -99,8 +99,8 @@ section{max-width:1120px}
 <div class="modal hidden" id="modal" onclick="if(event.target===this)fecha()"><div class="ficha" id="ficha"></div></div>
 <div class="toast" id="toast"></div>
 
-<script src="../i18n.js?v=20260927g"></script>
-<script src="../comum.js?v=20260927g"></script>
+<script src="../i18n.js?v=20260927h"></script>
+<script src="../comum.js?v=20260927h"></script>
 <script>
 montaNav('confrades');
 montaRodape();
@@ -132,8 +132,10 @@ function montaHistorico(bi) {
     linhasVinhos(e.vinhos).forEach(function (l) {
       if (!l.s) return;
       var s = quem(l.s, e.ano);
-      (HIST[s] = HIST[s] || []).push({ ano: e.ano, v: l.v, ev: e.titulo || '' });
+      (HIST[s] = HIST[s] || []).push({ ano: e.ano, v: l.v, ev: e.titulo || '', evid: e.id });
     });
+    // quem esteve sem levar garrafa própria (ex.: verticais de consórcio)
+    (e.presentes || []).forEach(function (nome) { (HIST['@' + nome] = HIST['@' + nome] || []).push({ ano: e.ano, v: '', ev: e.titulo || '', evid: e.id, presente: true }); });
   });
   (bi.atual || []).forEach(function (g) {
     (g.membros || []).forEach(function (nome) { (HIST['@' + nome] = HIST['@' + nome] || []).push({ ano: bi.atual_ano, v: g.vinho + (g.safra ? ' ' + g.safra : ''), atual: true, mf: true }); });
@@ -142,7 +144,10 @@ function montaHistorico(bi) {
 function historico(c) {
   var h = [], vistos = {};
   (c.siglas || []).forEach(function (s) { (HIST[quem(s, 2021)] || []).forEach(function (x) { var k = x.ano + (x.ev || 'mf') + x.v; if (!vistos[k]) { vistos[k] = 1; h.push(x); } }); });
-  [c.nome, c.participante].forEach(function (n) { (HIST['@' + n] || []).forEach(function (x) { var k = x.ano + x.v; if (!vistos[k]) { vistos[k] = 1; h.push(x); } }); });
+  [c.nome, c.participante].forEach(function (n) { (HIST['@' + n] || []).forEach(function (x) { var k = x.ano + (x.ev || 'mf') + x.v; if (!vistos[k]) { vistos[k] = 1; h.push(x); } }); });
+  // presença só entra se a pessoa não levou garrafa naquele encontro
+  var comGarrafa = {}; h.forEach(function (x) { if (x.evid && !x.presente) comGarrafa[x.evid] = 1; });
+  h = h.filter(function (x) { return !x.presente || !comGarrafa[x.evid]; });
   return h.sort(function (a, b) { return b.ano - a.ano; });
 }
 
@@ -217,8 +222,8 @@ function abre(id) {
     '<div class="corpo">' + (dados.length ? '<dl class="dados">' + dados.map(function (d) { return '<dt>' + esc(d[0]) + '</dt><dd>' + d[1] + '</dd>'; }).join('') + '</dl>' : '') +
     (anos.length ? '<div class="mini"><div><div class="v">' + anos.length + '</div><div class="l">Magnum Fests</div></div><div><div class="v">' + anos[0] + '</div><div class="l">' + esc(tr('A primeira')) + '</div></div>' +
       '<div><div class="v">' + passadas.length + '</div><div class="l">Magnums</div></div></div>' : '') +
-    (h.length ? '<div class="hist"><h3>' + esc(tr('O que levou à mesa')) + '</h3><ul>' + h.map(function (x) {
-      return '<li><b>' + x.ano + '</b><span data-notr>' + (x.ev ? '<small style="color:var(--wine-lt);font-weight:600">' + esc(x.ev) + '</small><br>' : '') + esc(x.v) + (x.atual ? ' <small style="color:var(--ink-lt)">(' + esc(tr('inscrita')) + ')</small>' : '') + '</span></li>';
+    (h.length ? '<div class="hist"><h3>' + esc(tr('Os encontros e as garrafas')) + '</h3><ul>' + h.map(function (x) {
+      return '<li><b>' + x.ano + '</b><span data-notr>' + (x.ev ? '<small style="color:var(--wine-lt);font-weight:600">' + esc(x.ev) + '</small><br>' : '') + (x.presente ? '<i style="color:var(--ink-lt)">' + esc(tr('Esteve presente')) + '</i>' : esc(x.v)) + (x.atual ? ' <small style="color:var(--ink-lt)">(' + esc(tr('inscrita')) + ')</small>' : '') + '</span></li>';
     }).join('') + '</ul></div>' : '<p class="vazio">' + esc(tr('Ainda sem garrafas registradas nas listas.')) + '</p>') + '</div>';
   document.getElementById('modal').classList.remove('hidden');
   fotos();
