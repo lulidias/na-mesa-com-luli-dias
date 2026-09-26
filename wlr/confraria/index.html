@@ -42,6 +42,14 @@ section{max-width:980px;margin:0 auto;padding:64px 24px}
 #texto{max-width:680px;margin:0 auto;font-size:15.5px;line-height:1.85;color:var(--ink)}
 #texto p+p{margin-top:16px}
 
+#sec-presidentes{padding-top:0}
+.pres{display:flex;justify-content:center;gap:34px;flex-wrap:wrap}
+.pres-c{width:220px;text-align:center}
+.pres-f{width:176px;height:176px;border-radius:50%;margin:0 auto 16px;overflow:hidden;background:var(--wine);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:62px;border:4px solid #fff;box-shadow:0 0 0 1px var(--wine-lt),0 8px 22px rgba(65,26,57,.18)}
+.pres-f img{width:100%;height:100%;object-fit:cover;display:block}
+.pres-n{font-weight:700;font-size:15px;color:var(--wine);line-height:1.35}
+.pres-p{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-top:6px}
+.pres-atual{display:inline-block;margin-top:10px;background:var(--wine-lt);color:#fff;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 10px;font-weight:600}
 #sec-normas{padding-top:0}
 .normas{max-width:680px;margin:0 auto;list-style:none;counter-reset:n;background:#fff;border:1px solid var(--border);padding:10px 28px}
 .normas li{counter-increment:n;display:flex;gap:16px;padding:14px 0;border-bottom:1px dotted var(--border);font-size:14.5px;line-height:1.6}
@@ -66,7 +74,8 @@ section{max-width:980px;margin:0 auto;padding:64px 24px}
 .ed-top{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;padding:26px 28px 18px;border-bottom:1px solid var(--border)}
 .ed-ano{font-weight:800;font-size:clamp(40px,8vw,60px);color:var(--wine);line-height:1;letter-spacing:.02em}
 .ed-info{font-size:12px;letter-spacing:1.5px;color:var(--ink-lt);text-transform:uppercase;line-height:1.7}
-.ed-nome{flex-basis:100%;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--wine-lt);font-weight:600;margin-bottom:-8px}
+.ed-nome{flex-basis:100%;font-weight:800;font-size:clamp(20px,3.6vw,28px);letter-spacing:.08em;color:var(--wine-lt);line-height:1.1;margin-bottom:-4px}
+.ed-nome i{font-family:'Cormorant Garamond',serif;font-weight:500;letter-spacing:0;font-size:1.2em;margin-left:8px}
 .ed-info b{color:var(--wine-lt);font-weight:700}
 .ed-foto{background:var(--soft);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:var(--ink-lt);font-size:12px;overflow:hidden;cursor:zoom-in}
 .ed-foto img{width:100%;height:100%;object-fit:cover;display:block}
@@ -110,6 +119,13 @@ footer .q{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19p
     <div class="sec-t">Wine Lovers Recife</div>
     <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
     <div id="texto"></div>
+  </section>
+
+  <section id="sec-presidentes" class="hidden">
+    <div class="sec-k">Wine Lovers Recife</div>
+    <div class="sec-t">Galeria dos presidentes</div>
+    <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+    <div class="pres" id="presidentes"></div>
   </section>
 
   <section id="sec-normas" class="hidden">
@@ -234,7 +250,7 @@ function render(dados) {
     var info = [e.data ? '<b>' + esc(dataLonga(e.data)) + '</b>' : '', e.local ? esc(e.local) : '',
       vs.length ? vs.length + ' Magnums' : ''].filter(Boolean).join(' · ');
     return '<article class="edicao" id="ed-' + e.ano + '">' +
-      '<div class="ed-top"><div class="ed-nome" data-notr>' + (e.ano >= 2021 ? 'Magnum Fest Licínio Dias' : 'Magnum Fest') + '</div><div class="ed-ano">' + e.ano + '</div><div class="ed-info">' + info + '</div></div>' +
+      '<div class="ed-top"><div class="ed-nome" data-notr>' + 'MAGNUM FEST' + (e.ano >= 2021 ? '<i>Licínio Dias</i>' : '') + '</div><div class="ed-ano">' + e.ano + '</div><div class="ed-info">' + info + '</div></div>' +
       (e.tem_foto ? '<div class="ed-foto" data-ano="' + e.ano + '">' + esc(tr('Carregando a foto…')) + '</div>' : '') +
       (e.n_fotos ? '<div class="ed-galeria" data-ano="' + e.ano + '"></div>' : '') +
       (e.texto ? '<div class="ed-texto">' + paragrafos(e.texto) + '</div>' : '') +
@@ -270,8 +286,31 @@ function render(dados) {
   } else fotos.forEach(carrega);
 }
 
+function iniciais(n) {
+  var p = String(n).split(/\s+/).filter(function (x) { return x.length > 2 || /^[A-ZÁÉÍÓÚ]/.test(x); });
+  return ((p[0] || '')[0] || '') + ((p[1] || '')[0] || '');   // nome + 1º sobrenome: Álvaro Mendonça → ÁM
+}
+function presidentes() {
+  return rpc('wlr_p_presidentes', { p_id: meuId }).then(function (lista) {
+    if (!lista || !lista.length) return;
+    document.getElementById('presidentes').innerHTML = lista.map(function (p, i) {
+      return '<div class="pres-c"><div class="pres-f" id="pf-' + p.id + '">' + esc(iniciais(p.nome)) + '</div>' +
+        '<div class="pres-n" data-notr>' + esc(p.nome) + '</div>' + (p.periodo ? '<div class="pres-p">' + esc(p.periodo) + '</div>' : '') +
+        (i === 0 ? '<span class="pres-atual">' + esc(tr('Presidente atual')) + '</span>' : '') + '</div>';
+    }).join('');
+    document.getElementById('sec-presidentes').classList.remove('hidden');
+    lista.filter(function (p) { return p.tem_foto; }).forEach(function (p) {
+      rpc('wlr_p_presidente_foto', { p_id: meuId, p_pres: p.id }).then(function (src) {
+        if (!src) return; var el = document.getElementById('pf-' + p.id); el.innerHTML = '';
+        var img = new Image(); img.alt = p.nome; img.src = src; el.appendChild(img);
+      }).catch(function () { });
+    });
+  }).catch(function () { });
+}
+
 sessao().then(function (id) {
   if (!id) return paraPorta();
+  presidentes();
   return rpc('wlr_p_confraria', { p_id: id }).then(function (d) {
     document.body.classList.remove('carregando');
     render(d || {});

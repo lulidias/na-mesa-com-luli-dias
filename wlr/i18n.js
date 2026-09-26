@@ -305,6 +305,10 @@
     'Ter sensibilidade e cuidado com as postagens e comentários da confraria.': ['Tener sensibilidad y cuidado con las publicaciones y comentarios de la cofradía.', 'Be sensitive and careful with the club’s posts and comments.'],
     'Ao discutir e discorrer sobre o vinho de um confrade, sempre procurar o respeito e a educação como mote.': ['Al discutir y comentar el vino de un cofrade, buscar siempre el respeto y la educación.', 'When discussing a fellow member’s wine, always make respect and courtesy the rule.'],
     'Procurar sempre que a harmonia seja o ambiente da confraria.': ['Procurar siempre que la armonía sea el ambiente de la cofradía.', 'Always strive for harmony in the club.'],
+    'Galeria dos presidentes': ['Galería de los presidentes', 'Presidents’ gallery'],
+    'Presidente atual': ['Presidente actual', 'Current president'],
+    'Da fundação a 2025': ['De la fundación a 2025', 'From the founding to 2025'],
+    'Desde 2026': ['Desde 2026', 'Since 2026'],
     'Aparelho aprovado — entrando…': ['Dispositivo aprobado: entrando…', 'Device approved — signing in…'],
     // ── avisos (toasts) e diálogos
     'Escolha o seu nome na lista.': ['Elige tu nombre en la lista.', 'Pick your name from the list.'],

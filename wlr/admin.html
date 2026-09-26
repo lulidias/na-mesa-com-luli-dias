@@ -194,6 +194,11 @@ a{color:var(--wine-lt)}
     <div><button class="btn gold" id="cf-normas-save" onclick="salvaNormas()">Salvar normas</button></div>
   </div>
   <div style="display:flex;justify-content:space-between;align-items:center;margin:22px 0 10px;gap:10px;flex-wrap:wrap">
+    <strong style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt)">Galeria dos presidentes</strong>
+    <button class="btn gold" onclick="novoPresidente()">+ Presidente</button>
+  </div>
+  <div id="pr-lista" style="display:flex;gap:14px;flex-wrap:wrap"></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:22px 0 10px;gap:10px;flex-wrap:wrap">
     <strong style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt)">Edições anteriores</strong>
     <button class="btn gold" onclick="abreEdicao(null)">+ Nova edição</button>
   </div>
@@ -739,6 +744,7 @@ function ligaModelo(tipo, ativo) {
 // ── a confraria (texto, playlist e edições anteriores) ─────────────────────
 var confraria = { edicoes: [] }, edAtual = null, fotoNova = null;
 function loadConfraria() {
+  loadPresidentes();
   return rpc('wlr_admin_confraria', { p_token: TOKEN }).then(function (d) {
     confraria = d || { edicoes: [] };
     if (document.activeElement !== document.getElementById('cf-texto')) document.getElementById('cf-texto').value = confraria.texto || '';
@@ -758,6 +764,44 @@ function salvaConfraria() {
     .then(function () { toast('Texto e playlist salvos.'); return loadConfraria(); })
     .catch(function (e) { toast(e.message, true); })
     .then(function () { b.disabled = false; b.textContent = 'Salvar texto e playlist'; });
+}
+// galeria dos presidentes: cada cartão se edita ali mesmo
+function loadPresidentes() {
+  return rpc('wlr_admin_presidentes', { p_token: TOKEN }).then(function (lista) {
+    document.getElementById('pr-lista').innerHTML = (lista || []).map(cartaoPresidente).join('') || '<span style="font-size:12px;color:var(--ink-lt)">Nenhum presidente cadastrado.</span>';
+  }).catch(function (e) { toast(e.message, true); });
+}
+function cartaoPresidente(p) {
+  var id = p.id || 'novo';
+  return '<div class="pr-card" id="pr-' + id + '" style="width:250px;border:1px solid var(--border);background:#fff;padding:14px">' +
+    '<div style="width:110px;height:110px;border-radius:50%;overflow:hidden;margin:0 auto 10px;background:#f3ecef;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ink-lt)">' +
+    (p.foto ? '<img src="' + p.foto + '" style="width:100%;height:100%;object-fit:cover">' : 'sem foto') + '</div>' +
+    '<label class="lb">Nome</label><input class="pr-nome" value="' + esc(p.nome || '') + '" style="width:100%">' +
+    '<label class="lb">Período</label><input class="pr-periodo" value="' + esc(p.periodo || '') + '" placeholder="ex.: Desde 2026" style="width:100%">' +
+    '<label class="lb">Ordem (1 = o primeiro)</label><input class="pr-ordem" inputmode="numeric" value="' + (p.ordem != null ? p.ordem : '') + '" style="width:100%">' +
+    '<label class="lb">Foto</label><input type="file" class="pr-foto" accept="image/*" style="width:100%">' +
+    '<div style="margin-top:12px;display:flex;gap:8px;align-items:center"><button class="btn gold" onclick="salvaPresidente(' + (p.id || 'null') + ')">Salvar</button>' +
+    (p.id ? '<button class="del" onclick="apagaPresidente(' + p.id + ')">apagar</button>' : '') + '</div></div>';
+}
+function novoPresidente() {
+  if (document.getElementById('pr-novo')) return;
+  document.getElementById('pr-lista').insertAdjacentHTML('beforeend', cartaoPresidente({}));
+}
+function salvaPresidente(id) {
+  var c = document.getElementById('pr-' + (id || 'novo')), b = c.querySelector('.btn');
+  var arq = c.querySelector('.pr-foto').files[0];
+  b.disabled = true; b.textContent = 'Salvando…';
+  (arq ? reduzFoto(arq) : Promise.resolve(null)).then(function (foto) {
+    var ordem = parseInt(c.querySelector('.pr-ordem').value, 10);
+    return rpc('wlr_admin_presidente_salvar', { p_token: TOKEN, p_pres: id, p_nome: c.querySelector('.pr-nome').value,
+      p_periodo: c.querySelector('.pr-periodo').value, p_ordem: isNaN(ordem) ? null : ordem, p_foto: foto });
+  }).then(function () { toast('Presidente salvo.'); return loadPresidentes(); })
+    .catch(function (e) { toast(e.message, true); b.disabled = false; b.textContent = 'Salvar'; });
+}
+function apagaPresidente(id) {
+  if (!confirm('Tirar este presidente da galeria?')) return;
+  rpc('wlr_admin_presidente_apagar', { p_token: TOKEN, p_pres: id }).then(function () { toast('Removido.'); return loadPresidentes(); })
+    .catch(function (e) { toast(e.message, true); });
 }
 function salvaNormas() {
   var b = document.getElementById('cf-normas-save'); b.disabled = true; b.textContent = 'Salvando…';
