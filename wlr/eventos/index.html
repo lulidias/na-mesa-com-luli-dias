@@ -12,11 +12,21 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../comum.css?v=20260927c">
+<link rel="stylesheet" href="../comum.css?v=20260927e">
 <style>
 section{max-width:1060px}
 .abas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:26px}
 .aba{border:1px solid var(--border);background:#fff;padding:16px 12px;text-align:center;cursor:pointer;font-family:inherit}
+.aba .ic{display:block;margin:0 auto 6px;width:46px;height:56px}
+.aba .ic svg{width:100%;height:100%}
+.aba.on .ic svg{filter:brightness(0) invert(1)}
+.ev{position:relative}
+.ev .ic{position:absolute;top:14px;right:14px;width:34px;height:42px}
+.ev .ic svg{width:100%;height:100%}
+.ev.atual .ic svg{filter:brightness(0) invert(1)}
+.det-logo{width:118px;flex:0 0 118px}
+.det-logo svg{width:100%;height:auto;display:block}
+.det-top>div:first-child{display:flex;gap:18px;align-items:center}
 .aba .t{font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--wine)}
 .aba .d{font-size:11px;color:var(--ink-lt);margin-top:4px}
 .aba.on{background:var(--wine-lt);border-color:var(--wine-lt)}
@@ -59,8 +69,8 @@ section{max-width:1060px}
   </section>
 </main>
 
-<script src="../i18n.js?v=20260927c"></script>
-<script src="../comum.js?v=20260927c"></script>
+<script src="../i18n.js?v=20260927e"></script>
+<script src="../comum.js?v=20260927e"></script>
 <script>
 montaNav('eventos');
 montaRodape();
@@ -77,7 +87,7 @@ function abas() {
   var conta = { magnum: (D.magnum || []).length };
   (D.eventos || []).forEach(function (e) { conta[e.tipo] = (conta[e.tipo] || 0) + 1; });
   document.getElementById('abas').innerHTML = TIPOS.map(function (t) {
-    return '<button class="aba' + (aba === t[0] ? ' on' : '') + '" data-t="' + t[0] + '"><div class="t" data-notr>' + esc(t[1]) + '</div><div class="d">' +
+    return '<button class="aba' + (aba === t[0] ? ' on' : '') + '" data-t="' + t[0] + '"><span class="ic">' + LOGO_EV.icone(t[0]) + '</span><div class="t" data-notr>' + esc(t[1]) + '</div><div class="d">' +
       esc(conta[t[0]] ? tr(conta[t[0]] === 1 ? '1 encontro' : '{n} encontros', { n: conta[t[0]] }) : tr('em breve')) + '</div></button>';
   }).join('');
   [].forEach.call(document.querySelectorAll('.aba'), function (b) { b.onclick = function () { aba = b.dataset.t; history.replaceState({}, '', '#' + aba); abas(); lista(); }; });
@@ -89,28 +99,28 @@ function lista() {
   var box = document.getElementById('evs');
   if (aba === 'magnum') {
     var fotos = D.fotos_por_ref || {};
-    var atual = '<button class="ev atual" data-mf="' + ANO_ATUAL + '"><div class="a">' + ANO_ATUAL + '</div><div class="n" data-notr>Magnum Fest Licínio Dias</div>' +
+    var atual = '<button class="ev atual" data-mf="' + ANO_ATUAL + '"><span class="ic">' + LOGO_EV.icone('magnum') + '</span><div class="a">' + ANO_ATUAL + '</div><div class="n" data-notr>Magnum Fest Licínio Dias</div>' +
       '<div class="i">' + esc(tr('A próxima edição')) + (fotos['mf-' + ANO_ATUAL] ? ' · ' + fotos['mf-' + ANO_ATUAL] + ' ' + esc(tr('fotos')) : '') + '</div></button>';
     box.innerHTML = atual + (D.magnum || []).map(function (m) {
       var inf = [m.n ? m.n + ' Magnums' : tr('Sem edição'), m.data ? dataLonga(m.data) : '', m.n_fotos ? m.n_fotos + ' ' + tr('fotos dos confrades') : ''].filter(Boolean).join(' · ');
-      return '<a class="ev" href="../edicoes/#ed-' + m.ano + '"><div class="a">' + m.ano + '</div><div class="n" data-notr>' + (m.ano >= 2021 ? 'Magnum Fest Licínio Dias' : 'Magnum Fest') + '</div><div class="i">' + esc(inf) + '</div></a>';
+      return '<a class="ev" href="../edicoes/#ed-' + m.ano + '"><span class="ic">' + LOGO_EV.icone('magnum') + '</span><div class="a">' + m.ano + '</div><div class="n" data-notr>' + (m.ano >= 2021 ? 'Magnum Fest Licínio Dias' : 'Magnum Fest') + '</div><div class="i">' + esc(inf) + '</div></a>';
     }).join('');
     var b = box.querySelector('[data-mf]');
-    b.onclick = function () { detalhe({ ref: 'mf-' + ANO_ATUAL, titulo: 'Magnum Fest Licínio Dias ' + ANO_ATUAL, info: tr('As fotos do dia entram aqui. Veja a festa em') + ' ', link: '../magnumfest/' }); };
+    b.onclick = function () { detalhe({ tipo: 'magnum', ref: 'mf-' + ANO_ATUAL, titulo: 'Magnum Fest Licínio Dias ' + ANO_ATUAL, info: tr('As fotos do dia entram aqui. Veja a festa em') + ' ', link: '../magnumfest/' }); };
     return;
   }
   var evs = (D.eventos || []).filter(function (e) { return e.tipo === aba; });
   box.innerHTML = evs.length ? evs.map(function (e) {
     var n = linhasVinhos(e.vinhos).length;
     var inf = [e.local, n ? n + ' ' + tr('garrafas') : '', e.n_fotos ? e.n_fotos + ' ' + tr('fotos') : ''].filter(Boolean).join(' · ');
-    return '<button class="ev" data-id="' + e.id + '"><div class="a">' + (e.ano || '—') + '</div>' +
+    return '<button class="ev" data-id="' + e.id + '"><span class="ic">' + LOGO_EV.icone(e.tipo) + '</span><div class="a">' + (e.ano || '—') + '</div>' +
       '<div class="n" data-notr>' + esc(e.titulo || TIPOS.filter(function (t) { return t[0] === e.tipo; })[0][1]) + '</div>' +
       '<div class="i">' + esc([e.data ? dataLonga(e.data) : '', inf].filter(Boolean).join(' · ')) + '</div></button>';
   }).join('') : '<p class="vazio" style="grid-column:1/-1">' + esc(tr('Ainda não há encontros cadastrados aqui. As listas vão entrando aos poucos.')) + '</p>';
   [].forEach.call(box.querySelectorAll('[data-id]'), function (b) {
     b.onclick = function () {
       var e = evs.filter(function (x) { return x.id === b.dataset.id; })[0];
-      detalhe({ ref: 'ev-' + e.id, titulo: e.titulo || TIPOS.filter(function (t) { return t[0] === e.tipo; })[0][1], info: [e.data ? dataLonga(e.data) : '', e.local].filter(Boolean).join(' · '), texto: e.texto, vinhos: e.vinhos });
+      detalhe({ tipo: e.tipo, ref: 'ev-' + e.id, titulo: e.titulo || TIPOS.filter(function (t) { return t[0] === e.tipo; })[0][1], info: [e.data ? dataLonga(e.data) : '', e.local].filter(Boolean).join(' · '), texto: e.texto, vinhos: e.vinhos });
     };
   });
 }
@@ -118,8 +128,8 @@ function lista() {
 function detalhe(o) {
   var vs = linhasVinhos(o.vinhos);
   var det = document.getElementById('det');
-  det.innerHTML = '<div class="det"><div class="det-top"><div><h2 data-notr>' + esc(o.titulo) + '</h2><div class="i">' + esc(o.info || '') +
-    (o.link ? '<a href="' + o.link + '">' + esc(tr('a página da festa')) + '</a>' : '') + '</div></div><button class="fechar">' + esc(tr('Fechar')) + '</button></div>' +
+  det.innerHTML = '<div class="det"><div class="det-top"><div><span class="det-logo">' + LOGO_EV.logo(o.tipo) + '</span><div><h2 data-notr>' + esc(o.titulo) + '</h2><div class="i">' + esc(o.info || '') +
+    (o.link ? '<a href="' + o.link + '">' + esc(tr('a página da festa')) + '</a>' : '') + '</div></div></div><button class="fechar">' + esc(tr('Fechar')) + '</button></div>' +
     (o.texto ? '<div class="txt">' + paragrafos(o.texto) + '</div>' : '') +
     (vs.length ? '<ul class="ed-vinhos" data-notr>' + vs.map(function (v) { return '<li><span class="sg">' + esc(v.s) + '</span><span>' + esc(v.v) + '</span></li>'; }).join('') + '</ul>' : '') +
     '<div class="alb-slot"></div></div>';

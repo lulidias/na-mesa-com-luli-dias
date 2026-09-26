@@ -175,3 +175,41 @@ function albumMonta(el, ref, titulo) {
   };
   return lista();
 }
+
+// ── logos dos eventos (opção A3 "Contorno", escolhida pelo Luli em 27/09) ──
+// ícone: taça/garrafa em traço grosso com o vinho cheio; gota em respingo da WLR. Só berinjela e ameixa.
+var LOGO_EV = (function () {
+  var B = '#411A39', A = '#6C214C';
+  var TACA = 'M-15 -46 C-23 -30 -23 -10 -17 -1 C-12 6 -6 8 -2.2 9 V41 C-2.5 44 -13 44.5 -17 47.5 H17 C13 44.5 2.5 44 2.2 41 V9 C6 8 12 6 17 -1 C23 -10 23 -30 15 -46 Z';
+  var VINHO = 'M-21.6 -19 C-21.4 -10 -19.5 -5 -16.6 -1 C-12 5 -6.5 7.4 0 7.6 C6.5 7.4 12 5 16.6 -1 C19.5 -5 21.4 -10 21.6 -19 Z';
+  var GARRAFA = 'M-6.5 -60h13v5h-1.2v21c0 7 15.5 11 15.5 27v67a5 5 0 0 1-5 5h-31.6a5 5 0 0 1-5-5V-7c0-16 15.5-20 15.5-27v-21H-6.5z';
+  function gota(x, y, s, c, r) { return '<path transform="translate(' + x + ' ' + y + ') rotate(' + (r || 0) + ') scale(' + s + ')" fill="' + c + '" d="M0 -20 C7 -9 11 -3 11 4 A11 11 0 0 1 -11 4 C-11 -3 -7 -9 0 -20Z"/>'; }
+  function g(x, y, s, r, inner) { return '<g transform="translate(' + x + ' ' + y + ') rotate(' + (r || 0) + ') scale(' + s + ')">' + inner + '</g>'; }
+  function taca(c1, c2) { return '<path fill="' + c1 + '" d="' + VINHO + '"/><path fill="none" stroke="' + c2 + '" stroke-width="4.2" stroke-linejoin="round" d="' + TACA + '"/>'; }
+  function garrafa(c1, c2) { return '<path fill="' + c1 + '" opacity=".16" d="' + GARRAFA + '"/><path fill="none" stroke="' + c1 + '" stroke-width="4.2" stroke-linejoin="round" d="' + GARRAFA + '"/><rect x="-13" y="14" width="26" height="26" rx="1.5" fill="' + c2 + '"/>'; }
+  function desenho(tipo, c1, c2) {
+    if (tipo === 'magnum') return gota(22, 40, .9, c2, -30) + g(48, 64, .95, 0, garrafa(c1, c2)) + g(82, 86, .5, 0, taca(c1, c2));
+    if (tipo === 'paralela') return gota(50, 14, .72, c2, 0) + g(32, 68, .92, -9, taca(c1, c2)) + g(68, 68, .92, 9, taca(c1, c2));
+    if (tipo === 'ordinario') return gota(72, 20, .8, c2, 24) + g(48, 68, 1.12, 0, taca(c1, c2));
+    return g(50, 70, .86, -66, garrafa(c1, c2)) + '<g fill="none" stroke="' + c2 + '" stroke-width="1.4" stroke-linecap="round"><path d="M88 22 L78 33 M88 22 L74 24 M88 22 L85 37"/><path d="M76 25 Q80 27.5 79.2 31.5 M79.5 28.5 Q83 31 83.6 34.5"/></g>' +
+      '<g fill="' + c2 + '"><circle cx="24" cy="98" r="1.6"/><circle cx="31" cy="103" r="1.2"/><circle cx="19" cy="104" r="1"/><circle cx="37" cy="97" r="1"/></g>';
+  }
+  var NOMES = { magnum: ['MAGNUM', 'FEST', 'Licínio Dias'], paralela: ['PARALELA', '', ''], ordinario: ['ORDINÁRIO', '', ''], velhinhos: ['OS', 'VELHINHOS', ''] };
+  function t(x, y, txt, sz, w, cor, ls, fam, it) {
+    return '<text x="' + x + '" y="' + y + '" font-family="' + (fam || 'Montserrat,Helvetica,sans-serif') + '" font-weight="' + w + '" font-size="' + sz + '" fill="' + cor + '" text-anchor="middle"' +
+      (ls ? ' letter-spacing="' + ls + '"' : '') + (it ? ' font-style="italic"' : '') + '>' + txt + '</text>';
+  }
+  return {
+    // só o ícone (abas, cartões, listas)
+    icone: function (tipo, escuro) { return '<svg class="ev-ic" viewBox="0 0 100 120" role="img" aria-hidden="true">' + desenho(tipo, escuro ? '#FFFFFF' : B, escuro ? '#E9C7DA' : A) + '</svg>'; },
+    // a logo completa (ícone + nome)
+    logo: function (tipo, escuro) {
+      var n = NOMES[tipo] || NOMES.ordinario, c1 = escuro ? '#FFFFFF' : B, c2 = escuro ? '#E9C7DA' : A, base = n[2] ? 0 : 12;
+      var s = '<svg class="ev-logo" viewBox="0 0 240 240" role="img" aria-label="' + (n[0] + ' ' + n[1]).trim() + '">' + g(70, n[2] ? 4 : 14, 1, 0, desenho(tipo, c1, c2));
+      if (n[1]) s += t(120, 160 + base, n[0], n[0].length > 6 ? 30 : 34, 900, c1, '1') + t(120, 193 + base, n[1], n[1].length > 6 ? 30 : 34, 900, c2, '1');
+      else s += t(120, 176 + base, n[0], n[0].length > 8 ? 27 : 33, 900, c1, '1');
+      if (n[2]) s += t(120, 224, n[2], 21, 600, c2, '0', "'Cormorant Garamond',Georgia,serif", 1);
+      return s + '</svg>';
+    }
+  };
+})();

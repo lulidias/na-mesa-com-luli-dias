@@ -113,3 +113,4 @@ footer .links a:hover{opacity:1}
 #alb-zoom .az-i a{color:#fff;opacity:.8}
 #alb-zoom .az-del{position:static;width:auto;height:auto;font-size:11px;letter-spacing:1px;padding:8px 12px;background:#8A2A2A}
 @media (max-width:640px){.alb{padding:18px 16px 20px}.alb-g{grid-template-columns:repeat(3,1fr);gap:4px}}
+.alb-g .vazio{grid-column:1/-1;text-align:left}
