@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conselho — Magnum Fest Licínio Dias 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#2E1029;--wine-md:#411A39;--wine-lt:#6C214C;--cream:#F7F0EC;--white:#fff;--ink:#1F1A1D;--ink-lt:#6B5E65;
+--gold:#B8862A;--gold-lt:#D9B46A;--gold-bg:#FBF4F7;--border:#E9DDE3;--ok:#2E7D4F;--warn:#B85C2A;--bad:#8A2A2A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;font-size:13px}
+.top{background:var(--wine);color:var(--cream);padding:16px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.top img{height:38px;width:auto;margin-right:14px;vertical-align:middle}
+.top h1{font-weight:800;font-size:17px;letter-spacing:1px;text-transform:uppercase;display:inline-block;vertical-align:middle}
+.top .sub{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-lt)}
+.wrap{max-width:1360px;margin:0 auto;padding:26px 20px 80px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:26px}
+.kpi{background:var(--white);border:1px solid var(--border);padding:18px;text-align:center}
+.kpi .n{font-weight:300;font-size:28px;color:var(--wine-md)}
+.kpi .k{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px}
+.kpi.alerta .n{color:var(--warn);font-weight:600}
+h2{font-weight:800;font-size:16px;margin:34px 0 12px;color:var(--wine-md);text-transform:uppercase;letter-spacing:1px}
+h2 small{font-weight:400;font-size:11px;text-transform:none;letter-spacing:0;color:var(--ink-lt)}
+table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--border)}
+th{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);text-align:left;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--gold-bg)}
+td{padding:11px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.pill{display:inline-block;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;cursor:pointer;border:none}
+.pill.ok{background:var(--ok);color:#fff}
+.pill.no{background:#E9DDE3;color:var(--ink-lt)}
+.btn{display:inline-block;padding:10px 20px;background:var(--wine-md);color:var(--cream);border:none;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;text-decoration:none}
+.btn.ok{background:var(--ok)}.btn.bad{background:var(--bad)}.btn.gold{background:var(--wine-lt)}
+.btn.ghost{background:none;border:1px solid var(--border);color:var(--ink-lt)}
+.btn:disabled{opacity:.5}
+input,select{padding:10px 12px;border:1px solid var(--border);background:var(--white);font-family:'Montserrat',sans-serif;font-size:13px;outline:none;border-radius:0}
+input:focus{border-color:var(--wine-lt)}
+.cfg{background:var(--white);border:1px solid var(--border);padding:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;align-items:end}
+.cfg label{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:6px}
+.cfg input,.cfg select{width:100%}
+.gate{max-width:380px;margin:12vh auto;background:var(--white);border:1px solid var(--border);padding:40px 34px;text-align:center}
+.gate img{width:180px;height:auto;margin-bottom:18px}
+.gate h1{font-weight:800;font-size:16px;margin-bottom:8px;text-transform:uppercase;color:var(--wine-md)}
+.gate p{font-size:11px;color:var(--ink-lt);margin-bottom:22px}
+.gate input{width:100%;text-align:center;margin-bottom:14px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 24px;font-size:12px;opacity:0;transition:opacity .3s;z-index:99;max-width:90vw;text-align:center}
+.toast.on{opacity:1}.toast.err{background:var(--bad)}
+.hidden{display:none!important}
+.tbl-wrap{overflow-x:auto}
+a{color:var(--wine-lt)}
+.del{background:none;border:none;color:var(--warn);cursor:pointer;font-size:10px;letter-spacing:1px;text-transform:uppercase;text-decoration:underline;font-family:inherit}
+.zap{display:inline-block;font-size:9px;letter-spacing:1px;text-transform:uppercase;border:1px solid #25D366;color:#1DA851;padding:4px 9px;text-decoration:none;margin:1px 0;white-space:nowrap}
+.zap:hover{background:#25D366;color:#fff}
+/* fila do conselho */
+.fila{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:14px}
+@media(max-width:600px){.fila{grid-template-columns:1fr}}
+.gc{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--gold);padding:18px 20px}
+.gc.inapto{border-left-color:var(--bad)}
+.gc.alvo{box-shadow:0 0 0 3px var(--wine-lt)}
+.gc .w{font-weight:700;font-size:15px;color:var(--wine-md)}
+.gc .m{font-size:11px;color:var(--ink-lt);margin-top:3px;line-height:1.5}
+.gc .res{margin-top:10px;font-size:12.5px}
+.gc table{border:none;margin-top:8px}
+.gc td{padding:5px 6px;font-size:12px}
+.gc td:first-child{width:22px}
+.gc .dt{color:var(--ink-lt)}
+.gc .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+.tag{display:inline-block;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;font-weight:600}
+.tag.ok{background:#EAF4EE;color:var(--ok)}.tag.an{background:#FBF1E2;color:#8A5A12}.tag.bad{background:#F8E9E9;color:var(--bad)}.tag.pd{background:#EEE;color:#555}
+.vazio{background:var(--white);border:1px dashed var(--border);padding:22px;text-align:center;color:var(--ink-lt);font-style:italic}
+.bi-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bi-row .lb{flex:0 0 118px;font-size:11px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bi-row .tr{flex:1;height:12px;position:relative}
+.bi-row .fl{position:absolute;left:0;top:0;bottom:0;background:var(--wine-lt);border-radius:0 3px 3px 0;min-width:2px}
+.bi-row .vl{flex:0 0 34px;font-size:11px;color:var(--ink-lt)}
+.bi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.bi-card{background:var(--white);border:1px solid var(--border);padding:18px}
+.bi-card h3{font-weight:700;font-size:12px;margin-bottom:14px;text-transform:uppercase;letter-spacing:1px}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <img src="img/logo.png" alt="Wine Lovers Recife">
+  <h1>Painel do conselho</h1>
+  <p>Magnum Fest Licínio Dias 2026. Use o seu link pessoal ou informe o seu código de acesso.</p>
+  <input type="password" id="tok-in" placeholder="Código de acesso">
+  <button class="btn" onclick="tryToken()">Entrar</button>
+</div>
+
+<div id="app" class="hidden">
+<div class="top">
+  <div><img src="img/logo-claro.png" alt=""><h1>Magnum Fest · Conselho</h1><div class="sub" id="quem"></div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <a class="btn ghost" href="index.html" style="color:var(--cream);border-color:rgba(255,255,255,.3)">Ver site</a>
+    <button class="btn ghost" style="color:var(--cream);border-color:rgba(255,255,255,.3)" onclick="exportCSV()">Exportar CSV</button>
+    <button class="btn ghost" style="color:var(--cream);border-color:rgba(255,255,255,.3)" onclick="sair()">Sair</button>
+  </div>
+</div>
+<div class="wrap">
+
+  <div class="kpis">
+    <div class="kpi"><div class="n" id="k-conf">—</div><div class="k">confirmados</div></div>
+    <div class="kpi"><div class="n" id="k-pagos">—</div><div class="k">pagos</div></div>
+    <div class="kpi"><div class="n" id="k-arrec">—</div><div class="k">arrecadado</div></div>
+    <div class="kpi"><div class="n" id="k-aprov">—</div><div class="k">vinhos aprovados</div></div>
+    <div class="kpi" id="k-fila-box"><div class="n" id="k-fila">—</div><div class="k">aguardando o conselho</div></div>
+    <div class="kpi"><div class="n" id="k-lit">—</div><div class="k">litros aprovados</div></div>
+  </div>
+
+  <h2>Aguardando o conselho <small id="fila-sub"></small></h2>
+  <p style="font-size:11px;color:var(--ink-lt);margin-bottom:12px">Brancos, espumantes e doces que passaram nos critérios (cláusula 7.1), casos sem dados suficientes e pedidos de exceção (cláusula 6.1). A decisão fica registrada com o seu nome e o confrade é avisado por e-mail.</p>
+  <div class="fila" id="fila"></div>
+
+  <h2>Não atendem aos critérios <small id="inaptos-sub"></small></h2>
+  <p style="font-size:11px;color:var(--ink-lt);margin-bottom:12px">Reprovados pela análise automática. Não aparecem na carta; o confrade foi avisado e pode trocar o vinho ou pedir exceção. O conselho pode aprovar mesmo assim.</p>
+  <div class="fila" id="inaptos"></div>
+
+  <h2>Todas as garrafas</h2>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Vinho</th><th>Safra</th><th>Tipo</th><th>Formato</th><th>Confrade</th><th>Análise</th><th>Situação</th><th>Decisão</th><th>Foto</th><th></th></tr></thead>
+    <tbody id="g-body"></tbody>
+  </table></div>
+
+  <h2>Membros e confirmações <small id="p-filtros"></small></h2>
+  <div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap">
+    <input id="p-busca" placeholder="Buscar nome…" oninput="renderParts()">
+    <select id="p-conf" onchange="renderParts()"><option value="">Todos os membros</option><option value="sim">Só confirmados</option><option value="nao">Só não confirmados</option></select>
+    <select id="p-pago" onchange="renderParts()"><option value="">Pagos e pendentes</option><option value="sim">Só pagos</option><option value="nao">Só pendentes</option></select>
+    <span style="flex:1"></span>
+    <input id="m-nome" placeholder="Novo membro (nome)" style="max-width:200px">
+    <input id="m-prod" placeholder="Produtor de… (opcional)" style="max-width:180px">
+    <button class="btn gold" onclick="addMembro()">Adicionar membro</button>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Nome</th><th>Situação</th><th>WhatsApp</th><th>E-mail</th><th>Obs</th><th>Comprovante</th><th>Pago</th><th></th></tr></thead>
+    <tbody id="p-body"></tbody>
+  </table></div>
+
+  <h2>Configuração</h2>
+  <div class="cfg">
+    <div><label>Data e hora do evento</label><input type="datetime-local" id="c-evento"></div>
+    <div><label>Horário</label><select id="c-hora"><option value="false">A confirmar (não mostra a hora)</option><option value="true">Confirmado (mostra a hora)</option></select></div>
+    <div><label>Local</label><input id="c-local" placeholder="Restaurante Ruizito"></div>
+    <div><label>Endereço / detalhe</label><input id="c-local2" placeholder="Shopping RioMar · Recife"></div>
+    <div><label>Chave Pix</label><input id="c-chave" placeholder="chave Pix"></div>
+    <div><label>Nome do recebedor</label><input id="c-nome" placeholder="nome do titular"></div>
+    <div><label>Valor do rateio (R$)</label><input id="c-valor" inputmode="decimal" placeholder="ex.: 350"></div>
+    <div><label>E-mail de quem confere os Pix</label><input id="c-tes" placeholder="tesoureiro@email.com"></div>
+    <div><label>RSVP</label><select id="c-aberto"><option value="true">Aberto</option><option value="false">Encerrado</option></select></div>
+    <div><label>Votação</label><select id="c-votacao"><option value="false">Urna fechada</option><option value="true">Urna aberta</option></select></div>
+    <div><label>Urna fecha automaticamente em</label><input type="datetime-local" id="c-urna"></div>
+    <div><label>Resultados</label><select id="c-resultados"><option value="false">Ocultos</option><option value="true">Públicos</option></select></div>
+    <div><label>🏆 Prêmio do vencedor</label><input id="c-premio1" placeholder="ex.: placa + Magnum"></div>
+    <div><label>Meta de confrades (0 = ocultar)</label><input id="c-meta" inputmode="numeric"></div>
+    <div><button class="btn gold" id="c-save" onclick="saveCfg()">Salvar</button></div>
+  </div>
+
+  <div id="conselho-sec" class="hidden">
+    <h2>O conselho <small>— links pessoais de acesso (só o organizador vê)</small></h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Conselheiro</th><th>E-mail (recebe os avisos)</th><th>Link pessoal</th></tr></thead>
+      <tbody id="cs-body"></tbody>
+    </table></div>
+  </div>
+
+  <h2>Números</h2>
+  <div class="bi-grid">
+    <div class="bi-card"><h3>Situação dos vinhos</h3><div id="bi-sit"></div></div>
+    <div class="bi-card"><h3>Por categoria (aprovados)</h3><div id="bi-tipos"></div></div>
+    <div class="bi-card"><h3>Por país (aprovados)</h3><div id="bi-paises"></div></div>
+    <div class="bi-card hidden" id="bi-acessos-card"><h3>Acessos por dia (só o organizador vê)</h3><div id="bi-acessos"></div></div>
+  </div>
+
+  <h2>Votação — categorias</h2>
+  <div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap">
+    <input id="cat-nome" placeholder="Nova categoria (ex.: Melhor Porto)">
+    <select id="cat-tipo">
+      <option value="">Todos os vinhos concorrem</option>
+      <option>Tinto</option><option>Branco</option><option>Espumante</option><option>Rosé</option><option>Fortificado / Doce</option>
+    </select>
+    <button class="btn gold" onclick="addCat()">Adicionar</button>
+  </div>
+  <div class="tbl-wrap"><table><thead><tr><th>Categoria</th><th>Concorrem</th><th></th></tr></thead><tbody id="cat-body"></tbody></table></div>
+
+  <h2>Votação — apuração</h2>
+  <div class="tbl-wrap"><table><thead><tr><th>Categoria</th><th>Vinho</th><th>Trazido por</th><th>Votos</th></tr></thead><tbody id="r-body"></tbody></table></div>
+
+  <div id="ac-sec" class="hidden">
+    <h2>Acessos à página <small id="ac-resumo"></small></h2>
+    <div class="tbl-wrap"><table><thead><tr><th>Quem</th><th>Quando</th></tr></thead><tbody id="ac-body"></tbody></table></div>
+  </div>
+
+  <p style="font-size:10px;color:var(--ink-lt);margin-top:30px" id="atualizado"></p>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var SITE = location.origin + location.pathname.replace(/[^/]*$/, '');
+var TOKEN = new URLSearchParams(location.search).get('t') || '';
+try { if (!TOKEN) TOKEN = localStorage.getItem('wlr_admin_token') || ''; } catch (e) { }
+var parts = [], garrafas = [], cfg = {}, cats = [], resultados = [], mestre = false, quemSou = '';
+
+function toast(m, err) { var t = document.getElementById('toast'); t.textContent = m; t.className = 'toast on' + (err ? ' err' : ''); clearTimeout(t._h); t._h = setTimeout(function () { t.className = 'toast'; }, 3600); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function js(s) { return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, { method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(args || {}) })
+    .then(function (r) { return r.text().then(function (tx) { var d = null; try { d = tx ? JSON.parse(tx) : null; } catch (e) { } if (!r.ok) throw new Error((d && d.message) || 'Erro ' + r.status); return d; }); });
+}
+function view(name) { return fetch(SB + '/rest/v1/' + name + '?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }); }
+function brl(v) { return Number(v).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+function localInput(iso) {   // timestamptz → valor de <input type=datetime-local> no fuso do Recife
+  if (!iso) return '';
+  var d = new Date(new Date(iso).getTime() - 3 * 36e5);
+  return d.toISOString().slice(0, 16);
+}
+function fromLocalInput(v) { return v ? v + ':00-03:00' : null; }
+
+function tryToken() {
+  var t = (document.getElementById('tok-in').value || '').trim() || TOKEN;
+  if (!t) return;
+  rpc('wlr_admin_quem', { p_token: t }).then(function (rows) {
+    TOKEN = t; try { localStorage.setItem('wlr_admin_token', t); } catch (e) { }
+    if (location.search.indexOf('t=') >= 0) history.replaceState({}, '', location.pathname + location.hash);
+    quemSou = rows[0].nome; mestre = rows[0].mestre;
+    document.getElementById('quem').textContent = 'Olá, ' + quemSou.split(' ')[0] + (mestre ? ' · organizador' : ' · conselho');
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    refresh().then(function () {
+      var alvo = location.hash.match(/^#g-(.+)$/);
+      if (alvo) { var el = document.getElementById('gc-' + alvo[1]); if (el) { el.classList.add('alvo'); el.scrollIntoView({ block: 'center' }); } }
+    });
+  }).catch(function () { toast('Código inválido.', true); });
+}
+function sair() { try { localStorage.removeItem('wlr_admin_token'); } catch (e) { } location.href = location.pathname; }
+
+function refresh() {
+  return Promise.all([
+    rpc('wlr_admin_lista', { p_token: TOKEN }),
+    rpc('wlr_admin_garrafas', { p_token: TOKEN }),
+    view('wlr_config_publica'),
+    view('wlr_categorias_publicas'),
+    rpc('wlr_admin_resultados', { p_token: TOKEN })
+  ]).then(function (res) {
+    parts = res[0] || []; garrafas = res[1] || []; cfg = (res[2] || [])[0] || {}; cats = res[3] || []; resultados = res[4] || [];
+    document.getElementById('c-evento').value = localInput(cfg.evento_em);
+    document.getElementById('c-hora').value = String(cfg.hora_confirmada === true);
+    document.getElementById('c-local').value = cfg.local_nome || '';
+    document.getElementById('c-local2').value = cfg.local_detalhe || '';
+    document.getElementById('c-chave').value = cfg.chave_pix || '';
+    document.getElementById('c-nome').value = cfg.nome_pix || '';
+    document.getElementById('c-valor').value = cfg.valor_rateio != null ? cfg.valor_rateio : '';
+    document.getElementById('c-aberto').value = String(cfg.rsvp_aberto !== false);
+    document.getElementById('c-votacao').value = String(cfg.votacao_aberta === true);
+    document.getElementById('c-urna').value = localInput(cfg.urna_fecha_em);
+    document.getElementById('c-resultados').value = String(cfg.resultados_publicos === true);
+    document.getElementById('c-premio1').value = cfg.premio1 || '';
+    document.getElementById('c-meta').value = cfg.meta_confrades != null ? cfg.meta_confrades : '';
+    renderKPIs(); renderFila(); renderGarrafas(); renderParts(); renderCats(); renderResultados(); renderBI();
+    if (mestre) { carregaConselho(); carregaAcessos(); }
+    document.getElementById('atualizado').textContent = 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' · atualiza sozinho a cada minuto';
+  }).catch(function (e) { toast(e.message, true); });
+}
+
+// ── fila do conselho ─────────────────────────────────────────────────────
+var ANALISE = { pendente: ['⏳ na fila', 'pd'], processando: ['🔎 analisando', 'pd'], apto: ['✓ atende', 'ok'], conselho: ['❔ faltam dados', 'an'], inapto: ['✗ não atende', 'bad'], erro: ['⚠ sem dados', 'an'] };
+var SITU = { aprovado: ['✓ aprovado', 'ok'], em_analise: ['⏳ conselho', 'an'], inapto: ['✗ não atende', 'bad'], recusado: ['✗ recusado', 'bad'] };
+function tipoRot(g) { return g.tipo + (g.subtipo ? ' · ' + g.subtipo : ''); }
+function dono(g) { return (g.membros && g.membros.length) ? g.membros.join(', ') : (g.sigla ? g.sigla + ' (a identificar)' : '—'); }
+function cardGarrafa(g) {
+  var a = g.analise || {}, f = a.fatos || {};
+  var fontes = [f.fontes_notas, f.fonte_preco].filter(Boolean).join(' · ');
+  var crit = (a.criterios || []).map(function (c) {
+    return '<tr><td>' + (c.ok === true ? '✅' : c.ok === false ? '❌' : '❔') + '</td><td><strong>' + esc(c.rotulo) + '</strong><br><span class="dt">' + esc(c.detalhe) + '</span></td></tr>';
+  }).join('');
+  var an = ANALISE[g.analise_status] || ['', 'pd'];
+  return '<div class="gc' + (g.situacao === 'inapto' ? ' inapto' : '') + '" id="gc-' + g.id + '">' +
+    '<div class="w">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
+    '<div class="m">' + esc([g.produtor, g.regiao, g.pais].filter(Boolean).join(' · ')) + ' · ' + esc(tipoRot(g)) + ' · ' + esc(g.formato) + '<br>🍷 ' + esc(dono(g)) + '</div>' +
+    '<div class="res"><span class="tag ' + an[1] + '">' + an[0] + '</span> ' + esc(a.resumo || (g.analise_status === 'pendente' ? 'A análise automática ainda não rodou.' : '')) + '</div>' +
+    (g.pedido_excecao ? '<div class="res" style="background:var(--gold-bg);padding:8px 10px">🙋 <strong>Pedido de exceção (6.1):</strong> ' + esc(a.motivo_excecao || 'sem justificativa') + '</div>' : '') +
+    (crit ? '<table>' + crit + '</table>' : '') +
+    (f.observacoes ? '<div class="res dt" style="font-style:italic">' + esc(f.observacoes) + '</div>' : '') +
+    (fontes ? '<div class="res dt" style="font-size:10.5px">Fontes: ' + esc(fontes) + '</div>' : '') +
+    (a.erro ? '<div class="res" style="color:var(--bad);font-size:11px">Erro da análise: ' + esc(a.erro) + '</div>' : '') +
+    '<div class="acts">' +
+    '<button class="btn ok" onclick="decidir(\'' + g.id + '\',\'aprovado\')">✓ Aprovar</button>' +
+    '<button class="btn bad" onclick="decidir(\'' + g.id + '\',\'recusado\')">✗ Recusar</button>' +
+    '<button class="del" style="color:var(--wine-lt)" onclick="reanalisar(\'' + g.id + '\')">refazer análise</button>' +
+    (g.sigla ? '<button class="del" style="color:var(--wine-lt)" onclick="definirDono(\'' + g.id + '\')">definir confrade</button>' : '') +
+    '</div></div>';
+}
+function renderFila() {
+  var fila = garrafas.filter(function (g) { return g.situacao === 'em_analise'; });
+  var inaptos = garrafas.filter(function (g) { return g.situacao === 'inapto'; });
+  document.getElementById('fila').innerHTML = fila.length ? fila.map(cardGarrafa).join('') : '<div class="vazio">Nada aguardando o conselho. 🥂</div>';
+  document.getElementById('inaptos').innerHTML = inaptos.length ? inaptos.map(cardGarrafa).join('') : '<div class="vazio">Nenhum vinho reprovado.</div>';
+  document.getElementById('fila-sub').textContent = '— ' + fila.length;
+  document.getElementById('inaptos-sub').textContent = '— ' + inaptos.length;
+}
+function decidir(id, decisao) {
+  var g = garrafas.filter(function (x) { return x.id === id; })[0];
+  var motivo = prompt((decisao === 'aprovado' ? 'Aprovar ' : 'Recusar ') + (g ? g.vinho + ' ' + (g.safra || '') : '') +
+    '\n\nMensagem para o confrade (opcional' + (decisao === 'recusado' ? ', mas recomendada' : '') + '):', '');
+  if (motivo === null) return;
+  rpc('wlr_admin_decidir', { p_token: TOKEN, p_garrafa: id, p_decisao: decisao, p_motivo: motivo })
+    .then(function () { toast(decisao === 'aprovado' ? 'Aprovado — o confrade foi avisado. 🍷' : 'Recusado — o confrade foi avisado.'); return refresh(); })
+    .catch(function (e) { toast(e.message, true); });
+}
+function desfazer(id) {
+  if (!confirm('Desfazer a decisão do conselho? O vinho volta a seguir a análise automática.')) return;
+  rpc('wlr_admin_decidir', { p_token: TOKEN, p_garrafa: id, p_decisao: null })
+    .then(function () { toast('Decisão desfeita.'); return refresh(); }).catch(function (e) { toast(e.message, true); });
+}
+function reanalisar(id) {
+  rpc('wlr_admin_reanalisar', { p_token: TOKEN, p_garrafa: id })
+    .then(function () { toast('Nova análise em andamento — leva alguns minutos.'); return refresh(); }).catch(function (e) { toast(e.message, true); });
+}
+function definirDono(id) {
+  var nomes = parts.map(function (p) { return p.nome; }).sort(function (a, b) { return a.localeCompare(b, 'pt'); });
+  var nome = prompt('Nome exato do confrade (como está na lista de membros):\n\n' + nomes.join(' · '));
+  if (!nome) return;
+  rpc('wlr_admin_garrafa_dono', { p_token: TOKEN, p_garrafa: id, p_nome: nome.trim() })
+    .then(function () { toast('Confrade definido.'); return refresh(); }).catch(function (e) { toast(e.message, true); });
+}
+
+// ── tabelas ──────────────────────────────────────────────────────────────
+function renderGarrafas() {
+  var body = document.getElementById('g-body'); body.innerHTML = '';
+  garrafas.forEach(function (g) {
+    var an = ANALISE[g.analise_status] || ['', 'pd'], si = SITU[g.situacao] || ['', 'pd'];
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td><strong>' + esc(g.vinho) + '</strong><div style="font-size:11px;color:var(--ink-lt)">' + esc(g.produtor || '') + '</div></td>' +
+      '<td>' + esc(g.safra || '') + '</td><td>' + esc(tipoRot(g)) + '</td><td>' + esc(g.formato) + '</td>' +
+      '<td style="font-size:11px">' + esc(dono(g)) + (g.sigla ? ' <button class="del" style="color:var(--wine-lt)" onclick="definirDono(\'' + g.id + '\')">definir</button>' : '') + '</td>' +
+      '<td><span class="tag ' + an[1] + '">' + an[0] + '</span>' + (g.analise && g.analise.publico && g.analise.publico.resumo ? '<div style="font-size:10px;color:var(--ink-lt);margin-top:3px">' + esc(g.analise.publico.resumo) + '</div>' : '') + '</td>' +
+      '<td><span class="tag ' + si[1] + '">' + si[0] + '</span></td>' +
+      '<td style="font-size:11px">' + (g.decisao ? esc(g.decisao) + ' por ' + esc(g.decisao_por) + ' <button class="del" onclick="desfazer(\'' + g.id + '\')">desfazer</button>' : '—') + '</td>' +
+      '<td>' + (g.foto_url ? '<a href="' + esc(g.foto_url) + '" target="_blank">ver</a> · ' : '') + '<button class="del" style="color:var(--wine-lt)" onclick="setFoto(\'' + g.id + '\')">' + (g.foto_url ? 'trocar' : 'definir') + '</button></td>' +
+      '<td style="white-space:nowrap"><button class="del" style="color:var(--ok)" onclick="decidir(\'' + g.id + '\',\'aprovado\')">aprovar</button> <button class="del" onclick="decidir(\'' + g.id + '\',\'recusado\')">recusar</button> <button class="del" style="color:var(--wine-lt)" onclick="reanalisar(\'' + g.id + '\')">reanalisar</button></td>';
+    body.appendChild(tr);
+  });
+}
+function renderKPIs() {
+  var conf = parts.filter(function (p) { return p.confirmado; });
+  var pagos = conf.filter(function (p) { return p.pago; }).length;
+  var aprov = garrafas.filter(function (g) { return g.situacao === 'aprovado'; });
+  var fila = garrafas.filter(function (g) { return g.situacao === 'em_analise'; }).length;
+  var litros = 0; aprov.forEach(function (g) { litros += Number(g.litros); });
+  var valor = Number(cfg.valor_rateio || 0);
+  document.getElementById('k-conf').textContent = conf.length + '/' + parts.length;
+  document.getElementById('k-pagos').textContent = pagos + '/' + conf.length;
+  document.getElementById('k-arrec').textContent = valor ? brl(pagos * valor) : '—';
+  document.getElementById('k-aprov').textContent = aprov.length;
+  document.getElementById('k-fila').textContent = fila;
+  document.getElementById('k-fila-box').classList.toggle('alerta', fila > 0);
+  document.getElementById('k-lit').textContent = (Math.round(litros * 100) / 100).toLocaleString('pt-BR');
+}
+function renderParts() {
+  var q = (document.getElementById('p-busca').value || '').toLowerCase();
+  var fc = document.getElementById('p-conf').value, fp = document.getElementById('p-pago').value;
+  var body = document.getElementById('p-body'); body.innerHTML = '';
+  var temAprov = {}, temAlguma = {};
+  garrafas.forEach(function (g) { (g.membros || []).forEach(function (n) { temAlguma[n] = true; if (g.situacao === 'aprovado') temAprov[n] = true; }); });
+  var shown = 0;
+  parts.forEach(function (p) {
+    if (q && p.nome.toLowerCase().indexOf(q) < 0) return;
+    if (fc === 'sim' && !p.confirmado) return;
+    if (fc === 'nao' && p.confirmado) return;
+    if (fp === 'sim' && !p.pago) return;
+    if (fp === 'nao' && p.pago) return;
+    shown++;
+    var tr = document.createElement('tr');
+    if (p.comprovante_url && !p.pago) tr.style.background = '#FFF6E0';
+    if (!p.confirmado) tr.style.color = 'var(--ink-lt)';
+    var zap = (p.whatsapp || '').replace(/\D/g, '');
+    var sit = !p.confirmado ? '<span class="tag pd">não confirmou</span>'
+      : ((temAprov[p.nome] ? '🍾<span style="color:var(--ok)">✓</span>' : temAlguma[p.nome] ? '🍾⏳' : '🍾<span style="color:var(--warn)">✗</span>') + ' &nbsp;' +
+        (p.pago ? '💰<span style="color:var(--ok)">✓</span>' : (p.comprovante_url ? '💰⏳' : '💰<span style="color:var(--warn)">✗</span>')));
+    tr.innerHTML =
+      '<td><strong>' + esc(p.nome) + '</strong>' + (p.produtor_de ? '<div style="font-size:10px;color:var(--ink-lt)">produtor: ' + esc(p.produtor_de) + '</div>' : '') + '</td>' +
+      '<td style="white-space:nowrap">' + sit + '</td>' +
+      '<td>' + (zap ? '<a href="https://wa.me/55' + zap.replace(/^55/, '') + '" target="_blank">' + esc(p.whatsapp) + '</a>' : '') + '</td>' +
+      '<td style="max-width:180px;overflow:hidden;text-overflow:ellipsis">' + esc(p.email || '') + '</td>' +
+      '<td style="max-width:160px;font-size:11px;color:var(--ink-lt)">' + esc(p.obs || '') + '</td>' +
+      '<td>' + (p.comprovante_url ? '<a href="' + esc(p.comprovante_url) + '" target="_blank">ver</a>' : '—') + '</td>' +
+      '<td>' + (p.confirmado ? '<button class="pill ' + (p.pago ? 'ok' : 'no') + '"' + (p.comprovante_url && !p.pago ? ' style="background:var(--gold);color:#fff"' : '') + ' onclick="togglePago(\'' + p.id + '\',' + !p.pago + ')">' + (p.pago ? '✓ Pago' : (p.comprovante_url ? 'Confirmar' : 'Pendente')) + '</button>' : '') + '</td>' +
+      '<td style="white-space:nowrap">' +
+      (p.confirmado && !p.pago && zap && cfg.valor_rateio ? '<a class="zap" target="_blank" href="' + zapCobranca(p) + '">💬 Cobrar</a><br>' : '') +
+      (p.confirmado && !temAlguma[p.nome] && zap ? '<a class="zap" target="_blank" href="' + zapGarrafa(p) + '">🍾 Magnum</a><br>' : '') +
+      (!p.confirmado ? '<a class="zap" target="_blank" href="' + zapConvite(p) + '">💬 Convidar</a>' : '<button class="del" onclick="removeP(\'' + p.id + '\',\'' + js(esc(p.nome)) + '\')">desconfirmar</button>') + '</td>';
+    body.appendChild(tr);
+  });
+  document.getElementById('p-filtros').textContent = '— ' + shown + ' de ' + parts.length;
+}
+function zapNum(p) { var z = (p.whatsapp || '').replace(/\D/g, '').replace(/^55/, ''); return z ? '55' + z : ''; }
+function zapCobranca(p) {
+  var msg = 'Olá, ' + p.nome.split(' ')[0] + '! 🍷 Falta só o rateio da Magnum Fest Licínio Dias: *' + brl(cfg.valor_rateio) + '*. ' +
+    'Pague por Pix pelo seu painel (QR code e copia-e-cola prontos):\n\n' + SITE + '?id=' + p.id + '\n\nO comprovante você envia ali mesmo. 🥂';
+  return 'https://wa.me/' + zapNum(p) + '?text=' + encodeURIComponent(msg);
+}
+function zapGarrafa(p) {
+  var msg = 'Olá, ' + p.nome.split(' ')[0] + '! 🍷 Sua presença na Magnum Fest está confirmada, mas ainda não vi a sua Magnum na carta. ' +
+    'Registre pelo painel — o sistema confere os critérios da MFLD na hora:\n\n' + SITE + '?id=' + p.id;
+  return 'https://wa.me/' + zapNum(p) + '?text=' + encodeURIComponent(msg);
+}
+function zapConvite(p) {
+  var msg = 'Olá, ' + p.nome.split(' ')[0] + '! 🍷 As confirmações da Magnum Fest Licínio Dias 2026 estão abertas. ' +
+    'Confirme a presença e registre a sua Magnum aqui:\n\n' + SITE + '#rsvp';
+  return 'https://wa.me/?text=' + encodeURIComponent(msg);
+}
+function togglePago(id, pago) {
+  rpc('wlr_admin_marca_pago', { p_token: TOKEN, p_participante: id, p_pago: pago })
+    .then(function () { toast(pago ? 'Marcado como pago.' : 'Marcado como pendente.'); return refresh(); }).catch(function (e) { toast(e.message, true); });
+}
+function removeP(id, nome) {
+  if (!confirm('Desfazer a confirmação de ' + nome + '? As garrafas dele saem da carta e o WhatsApp é desligado do nome.')) return;
+  rpc('wlr_admin_remove', { p_token: TOKEN, p_participante: id })
+    .then(function () { toast('Confirmação desfeita.'); return refresh(); }).catch(function (e) { toast(e.message, true); });
+}
+function addMembro() {
+  var nome = document.getElementById('m-nome').value.trim();
+  if (!nome) return toast('Informe o nome.', true);
+  rpc('wlr_admin_membro_add', { p_token: TOKEN, p_nome: nome, p_produtor_de: document.getElementById('m-prod').value.trim() })
+    .then(function () { document.getElementById('m-nome').value = ''; document.getElementById('m-prod').value = ''; toast('Membro adicionado à lista.'); return refresh(); })
+    .catch(function (e) { toast(e.message, true); });
+}
+function saveCfg() {
+  var btn = document.getElementById('c-save'); btn.disabled = true; btn.textContent = 'Salvando…';
+  var valor = parseFloat((document.getElementById('c-valor').value || '').replace(',', '.'));
+  var meta = parseInt(document.getElementById('c-meta').value, 10);
+  rpc('wlr_admin_config', {
+    p_token: TOKEN,
+    p_chave_pix: document.getElementById('c-chave').value.trim() || null,
+    p_nome_pix: document.getElementById('c-nome').value.trim() || null,
+    p_valor: isNaN(valor) ? null : valor,
+    p_aberto: document.getElementById('c-aberto').value === 'true',
+    p_votacao: document.getElementById('c-votacao').value === 'true',
+    p_resultados: document.getElementById('c-resultados').value === 'true',
+    p_premio1: document.getElementById('c-premio1').value.trim(),
+    p_meta: isNaN(meta) ? null : meta,
+    p_evento_em: fromLocalInput(document.getElementById('c-evento').value),
+    p_hora_confirmada: document.getElementById('c-hora').value === 'true',
+    p_local_nome: document.getElementById('c-local').value,
+    p_local_detalhe: document.getElementById('c-local2').value,
+    p_urna_fecha_em: fromLocalInput(document.getElementById('c-urna').value),
+    p_email_tesoureiro: document.getElementById('c-tes').value.trim()
+  }).then(function () { toast('Configuração salva.'); return refresh(); })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { btn.disabled = false; btn.textContent = 'Salvar'; });
+}
+function setFoto(id) {
+  var url = prompt('URL da foto da garrafa (deixe vazio para remover):');
+  if (url === null) return;
+  rpc('wlr_admin_set_foto', { p_token: TOKEN, p_garrafa: id, p_url: url.trim() })
+    .then(function () { toast('Foto atualizada.'); return refresh(); }).catch(function (e) { toast(e.message, true); });
+}
+
+// ── conselho (só o organizador) ──────────────────────────────────────────
+function carregaConselho() {
+  rpc('wlr_admin_conselho', { p_token: TOKEN }).then(function (rows) {
+    document.getElementById('conselho-sec').classList.remove('hidden');
+    document.getElementById('cs-body').innerHTML = (rows || []).map(function (c) {
+      var link = SITE + 'admin.html?t=' + c.token;
+      var msg = 'Olá, ' + c.nome.split(' ')[0] + '! 🍷 Este é o seu acesso pessoal ao painel do conselho da Magnum Fest Licínio Dias — ' +
+        'é por ele que o conselho aprova os brancos, espumantes e exceções:\n\n' + link + '\n\nNão compartilhe: as decisões ficam registradas com o seu nome.';
+      return '<tr><td><strong>' + esc(c.nome) + '</strong>' + (c.mestre ? ' <span class="tag ok">organizador</span>' : '') + '</td>' +
+        '<td><input value="' + esc(c.email || '') + '" placeholder="e-mail" style="width:220px" onchange="salvaEmailConselho(\'' + c.id + '\', this.value)"></td>' +
+        '<td style="white-space:nowrap"><button class="del" style="color:var(--wine-lt)" onclick="copiar(\'' + js(link) + '\')">copiar link</button> · ' +
+        '<a class="zap" target="_blank" href="https://wa.me/?text=' + encodeURIComponent(msg) + '">💬 enviar</a></td></tr>';
+    }).join('');
+  }).catch(function () { });
+}
+function salvaEmailConselho(id, email) {
+  rpc('wlr_admin_conselho_email', { p_token: TOKEN, p_id: id, p_email: email })
+    .then(function () { toast('E-mail salvo.'); }).catch(function (e) { toast(e.message, true); });
+}
+function copiar(t) {
+  (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject())
+    .then(function () { toast('Link copiado.'); }).catch(function () { prompt('Copie o link:', t); });
+}
+function carregaAcessos() {
+  Promise.all([rpc('wlr_admin_acessos', { p_token: TOKEN }), rpc('wlr_admin_acessos_resumo', { p_token: TOKEN })]).then(function (res) {
+    var rows = res[0] || [], r = (res[1] || [])[0] || {};
+    document.getElementById('ac-sec').classList.remove('hidden');
+    document.getElementById('bi-acessos-card').classList.remove('hidden');
+    var porDia = {};
+    rows.forEach(function (a) { var d = new Date(a.quando).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }); porDia[d] = (porDia[d] || 0) + 1; });
+    biBars('bi-acessos', Object.keys(porDia).slice(0, 7).reverse().map(function (d) { return { label: d, value: porDia[d] }; }));
+    document.getElementById('ac-resumo').textContent = '— hoje: ' + r.hoje + ' · 7 dias: ' + r.semana + ' · total: ' + r.total + ' (' + r.identificados + ' de confrades)';
+    document.getElementById('ac-body').innerHTML = rows.map(function (a) {
+      return '<tr><td>' + (a.nome === 'Visitante' ? '<span style="color:var(--ink-lt)">Visitante</span>' : '<strong>' + esc(a.nome) + '</strong>') + '</td><td>' +
+        new Date(a.quando).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) + '</td></tr>';
+    }).join('');
+  }).catch(function () { });
+}
+
+// ── BI, categorias, apuração ─────────────────────────────────────────────
+function biBars(elId, data) {
+  var el = document.getElementById(elId);
+  if (!data.length) { el.innerHTML = '<div style="font-size:11px;color:var(--ink-lt);font-style:italic">Sem dados ainda.</div>'; return; }
+  var max = Math.max.apply(null, data.map(function (d) { return d.value; }));
+  el.innerHTML = data.map(function (d) {
+    return '<div class="bi-row"><span class="lb">' + esc(d.label) + '</span><span class="tr"><span class="fl" style="width:' + Math.round(d.value / max * 100) + '%"></span></span><span class="vl">' + d.value + '</span></div>';
+  }).join('');
+}
+function conta(lista, fn) {
+  var c = {}; lista.forEach(function (x) { var k = fn(x) || '—'; c[k] = (c[k] || 0) + 1; });
+  return Object.keys(c).map(function (k) { return { label: k, value: c[k] }; }).sort(function (a, b) { return b.value - a.value; });
+}
+function renderBI() {
+  biBars('bi-sit', conta(garrafas, function (g) { return (SITU[g.situacao] || [g.situacao])[0]; }));
+  var ap = garrafas.filter(function (g) { return g.situacao === 'aprovado'; });
+  biBars('bi-tipos', conta(ap, tipoRot));
+  biBars('bi-paises', conta(ap, function (g) { return g.pais; }));
+}
+function renderCats() {
+  document.getElementById('cat-body').innerHTML = cats.map(function (c) {
+    return '<tr><td><strong>' + esc(c.nome) + '</strong></td><td>' + esc(c.tipo_filtro || 'Todos') + '</td><td><button class="del" onclick="delCat(\'' + c.id + '\',\'' + js(esc(c.nome)) + '\')">remover</button></td></tr>';
+  }).join('');
+}
+function addCat() {
+  var nome = document.getElementById('cat-nome').value.trim();
+  if (!nome) return toast('Informe o nome da categoria.', true);
+  rpc('wlr_admin_categoria_add', { p_token: TOKEN, p_nome: nome, p_tipo: document.getElementById('cat-tipo').value, p_ordem: 10 + cats.length })
+    .then(function () { document.getElementById('cat-nome').value = ''; toast('Categoria adicionada.'); return refresh(); }).catch(function (e) { toast(e.message, true); });
+}
+function delCat(id, nome) {
+  if (!confirm('Remover a categoria "' + nome + '" e seus votos?')) return;
+  rpc('wlr_admin_categoria_del', { p_token: TOKEN, p_id: id }).then(function () { toast('Removida.'); return refresh(); }).catch(function (e) { toast(e.message, true); });
+}
+function renderResultados() {
+  var body = document.getElementById('r-body');
+  if (!resultados.length) { body.innerHTML = '<tr><td colspan="4" style="color:var(--ink-lt)">Nenhum voto ainda.</td></tr>'; return; }
+  body.innerHTML = resultados.map(function (r) {
+    return '<tr><td>' + esc(r.categoria) + '</td><td><strong>' + esc(r.vinho) + '</strong>' + (r.safra ? ' ' + esc(r.safra) : '') + '</td><td style="font-size:11px">' + esc((r.membros || []).join(', ')) + '</td><td><strong>' + r.votos + '</strong></td></tr>';
+  }).join('');
+}
+function exportCSV() {
+  var rows = [['Nome', 'Confirmado', 'WhatsApp', 'Email', 'Pago', 'Obs', 'Vinhos']];
+  parts.forEach(function (p) {
+    var vs = garrafas.filter(function (g) { return (g.membros || []).indexOf(p.nome) >= 0; }).map(function (g) { return g.vinho + ' ' + (g.safra || '') + ' [' + g.situacao + ']'; }).join(' / ');
+    rows.push([p.nome, p.confirmado ? 'sim' : 'não', p.whatsapp || '', p.email || '', p.pago ? 'sim' : 'não', p.obs || '', vs]);
+  });
+  var csv = rows.map(function (r) { return r.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(';'); }).join('\n');
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = 'magnum-fest-2026-confrades.csv'; a.click();
+}
+
+document.getElementById('tok-in').addEventListener('keydown', function (e) { if (e.key === 'Enter') tryToken(); });
+if (TOKEN) tryToken();
+setInterval(function () { if (!document.getElementById('app').classList.contains('hidden')) refresh(); }, 60000);
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu prêmio — Magnum Fest Licínio Dias 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#2E1029;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px;font-family:'Montserrat',sans-serif}
+canvas{max-width:min(92vw,460px);height:auto}
+.acoes{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn{padding:14px 30px;background:#B8862A;color:#fff;border:none;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
+.btn.ghost{background:none;border:1px solid rgba(217,180,106,.6);color:#D9B46A}
+.cats{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.cats button{padding:9px 16px;background:none;border:1px solid rgba(217,180,106,.5);color:#D9B46A;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
+.cats button.on{background:#B8862A;color:#fff;border-color:#B8862A}
+.aviso{color:rgba(247,240,236,.6);font-size:11px;text-align:center;max-width:420px;line-height:1.6}
+.msg{color:#F7F0EC;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;text-align:center;max-width:420px;line-height:1.6}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="cats hidden" id="cats"></div>
+<canvas id="c" width="1080" height="1350" class="hidden"></canvas>
+<div class="msg hidden" id="msg"></div>
+<div class="acoes hidden" id="acoes">
+  <button class="btn" id="b-share" onclick="compartilhar()">📲 Compartilhar</button>
+  <button class="btn" id="b-copy" onclick="copiar()">📋 Copiar imagem</button>
+  <button class="btn ghost" onclick="baixar()">Baixar</button>
+</div>
+<p class="aviso hidden" id="aviso">Parabéns, campeão! Poste nos grupos — troféu é para ser exibido. 🏆</p>
+<div id="toast" style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#2E7D4F;color:#fff;padding:13px 26px;font-size:12px;letter-spacing:1px;opacity:0;transition:opacity .3s;pointer-events:none">Imagem copiada!</div>
+
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var params = new URLSearchParams(location.search);
+var meuId = params.get('id') || localStorage.getItem('wlr_id');
+var premios = [];
+var atual = 0;
+
+window.addEventListener('DOMContentLoaded', function () {
+  var mobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+  if (!mobile) {
+    document.getElementById('b-share').style.display = 'none';
+    document.getElementById('aviso').textContent = 'Clique em Copiar imagem e cole (Cmd+V) direto na conversa do WhatsApp. 🏆';
+  }
+});
+
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, {
+    method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(args || {})
+  }).then(function (r) {
+    return r.text().then(function (tx) {
+      var d = null; try { d = tx ? JSON.parse(tx) : null; } catch (e) { }
+      if (!r.ok) throw new Error((d && d.message) || 'Erro ' + r.status);
+      return d;
+    });
+  });
+}
+
+var LOGO = new Image(); LOGO.src = 'img/logo-claro.png';
+function desenha(p) {
+  var c = document.getElementById('c'), x = c.getContext('2d');
+  var W = 1080, H = 1350, CX = W / 2;
+  var g = x.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#6C214C'); g.addColorStop(.45, '#411A39'); g.addColorStop(1, '#2E1029');
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  x.strokeStyle = '#D9B46A'; x.lineWidth = 4; x.strokeRect(36, 36, W - 72, H - 72);
+  x.strokeStyle = 'rgba(217,180,106,.55)'; x.lineWidth = 1.5; x.strokeRect(58, 58, W - 116, H - 116);
+  x.textAlign = 'center';
+  if (LOGO.complete && LOGO.naturalWidth) { var lw = 300, lh = lw * LOGO.naturalHeight / LOGO.naturalWidth; x.drawImage(LOGO, CX - lw / 2, 96, lw, lh); }
+  x.fillStyle = '#F7F0EC'; x.font = '800 54px Montserrat';
+  try { x.letterSpacing = '5px'; } catch (e) { }
+  x.fillText('MAGNUM FEST', CX, 340);
+  try { x.letterSpacing = '0px'; } catch (e) { }
+  x.fillStyle = '#E2B0C8'; x.font = 'italic 500 38px "Cormorant Garamond", Georgia, serif';
+  x.fillText('Licínio Dias · 2026', CX, 388);
+  // troféu + categoria
+  x.font = '400 74px serif'; x.fillText('🏆', CX, 468);
+  x.fillStyle = '#D9B46A';
+  try { x.letterSpacing = '6px'; } catch (e) { }
+  var cat = p.categoria.toUpperCase();
+  var linhas = cat.length > 18 ? [cat.replace(' DA NOITE', ''), 'DA NOITE'] : [cat];
+  var cy = linhas.length === 2 ? 552 : 576;
+  linhas.forEach(function (l, i) {
+    var tam = 56;
+    x.font = '800 ' + tam + 'px Montserrat';
+    while (x.measureText(l).width > 880 && tam > 34) { tam -= 4; x.font = '800 ' + tam + 'px Montserrat'; }
+    x.fillText(l, CX, cy + i * 68);
+  });
+  // linha + eleito
+  x.strokeStyle = 'rgba(217,180,106,.8)'; x.lineWidth = 2;
+  x.beginPath(); x.moveTo(CX - 120, 668); x.lineTo(CX + 120, 668); x.stroke();
+  x.fillStyle = 'rgba(247,240,236,.9)'; x.font = 'italic 400 34px "Cormorant Garamond", Georgia, serif';
+  try { x.letterSpacing = '0px'; } catch (e) { }
+  x.fillText('eleito pelos confrades da Wine Lovers Recife', CX, 726);
+  // vinho em evidência
+  x.fillStyle = '#F7F0EC';
+  var v = p.vinho + (p.safra ? ' ' + p.safra : '');
+  var tam = 84;
+  x.font = '700 ' + tam + 'px Montserrat';
+  while (x.measureText(v).width > 900 && tam > 44) { tam -= 5; x.font = '700 ' + tam + 'px Montserrat'; }
+  x.fillText(v, CX, 848);
+  // formato
+  x.font = '500 22px Montserrat';
+  try { x.letterSpacing = '3.5px'; } catch (e) { }
+  var f = p.formato.toUpperCase();
+  var fw = x.measureText(f).width + 48;
+  x.strokeStyle = 'rgba(217,180,106,.85)'; x.lineWidth = 2;
+  x.strokeRect(CX - fw / 2, 902, fw, 48);
+  x.fillStyle = '#D9B46A'; x.fillText(f, CX, 934);
+  // trazido por
+  x.fillStyle = 'rgba(247,240,236,.92)'; x.font = 'italic 400 30px "Cormorant Garamond", Georgia, serif';
+  try { x.letterSpacing = '0px'; } catch (e) { }
+  var quem = 'Trazido por ' + (p.membros || []).join(', ');
+  var t2 = 30;
+  while (x.measureText(quem).width > 920 && t2 > 20) { t2 -= 2; x.font = 'italic 400 ' + t2 + 'px "Cormorant Garamond", Georgia, serif'; }
+  x.fillText(quem, CX, 1030);
+  // rodapé
+  x.fillStyle = 'rgba(247,240,236,.85)'; x.font = 'italic 400 32px "Cormorant Garamond", Georgia, serif';
+  x.fillText('Só Magnums, só grandes vinhos.', CX, 1198);
+  x.fillStyle = '#D9B46A'; x.font = '600 28px Montserrat';
+  try { x.letterSpacing = '5px'; } catch (e) { }
+  x.fillText(location.host.replace(/^www\./, '').toUpperCase() + location.pathname.replace(/[^/]*$/, '').replace(/\/$/, '').toUpperCase(), CX, 1252);
+}
+
+function mostra(i) {
+  atual = i;
+  desenha(premios[i]);
+  var cats = document.getElementById('cats');
+  cats.classList.toggle('hidden', premios.length < 2);
+  cats.innerHTML = premios.map(function (p, j) {
+    return '<button class="' + (j === atual ? 'on' : '') + '" onclick="mostra(' + j + ')">' + p.categoria + '</button>';
+  }).join('');
+  document.getElementById('c').classList.remove('hidden');
+  document.getElementById('acoes').classList.remove('hidden');
+  document.getElementById('aviso').classList.remove('hidden');
+}
+function falha(m) { var el = document.getElementById('msg'); el.textContent = m; el.classList.remove('hidden'); }
+
+function avisa(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.style.opacity = '1';
+  clearTimeout(t._h); t._h = setTimeout(function () { t.style.opacity = '0'; }, 3500);
+}
+function copiar() {
+  document.getElementById('c').toBlob(function (blob) {
+    if (navigator.clipboard && window.ClipboardItem) {
+      navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+        .then(function () { avisa('✓ Imagem copiada! Agora é só Cmd+V (colar) na conversa do WhatsApp.'); })
+        .catch(function () { baixar(); });
+    } else { baixar(); }
+  });
+}
+function baixar() {
+  var a = document.createElement('a');
+  a.download = 'magnum-fest-premio.png';
+  a.href = document.getElementById('c').toDataURL('image/png');
+  a.click();
+}
+function compartilhar() {
+  document.getElementById('c').toBlob(function (blob) {
+    var file = new File([blob], 'magnum-fest-premio.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file] });
+    } else { baixar(); }
+  });
+}
+
+Promise.all([
+  document.fonts.load('800 60px Montserrat'), document.fonts.load('700 84px Montserrat'),
+  new Promise(function (ok) { if (LOGO.complete) ok(); else { LOGO.onload = ok; LOGO.onerror = ok; } }),
+  document.fonts.load('italic 400 34px "Cormorant Garamond"'),
+  document.fonts.load('500 27px Montserrat')
+]).then(function () {
+  if (params.get('demo')) {
+    premios = [{ categoria: 'Melhor Vinho da Noite', vinho: 'Château Cos d\'Estournel', safra: '1991', formato: 'Magnum', membros: ['Marco Filho'] },
+               { categoria: 'Melhor Tinto', vinho: 'Insignia', safra: '2006', formato: 'Magnum', membros: ['João Loyo'] }];
+    mostra(0); document.title = 'pronto'; return;
+  }
+  if (!meuId) { falha('Abra pelo botão "Cartão do meu prêmio" no seu painel. 🏆'); return; }
+  Promise.all([rpc('wlr_meu', { p_id: meuId }), rpc('wlr_resultados')]).then(function (res) {
+    var eu = res[0] && res[0][0];
+    var rows = res[1] || [];
+    if (!eu) { falha('Não encontramos o seu cadastro — abra pelo seu painel.'); return; }
+    var vistos = {};
+    rows.forEach(function (r) {
+      if (vistos[r.categoria_id]) return;
+      vistos[r.categoria_id] = true;
+      if ((r.membros || []).indexOf(eu.nome) >= 0) {
+        premios.push({ categoria: r.categoria, vinho: r.vinho, safra: r.safra, formato: r.formato, membros: r.membros });
+      }
+    });
+    if (!premios.length) { falha('Nenhum prêmio no seu nome desta vez — fica para a próxima Magnum Fest. 🥂'); return; }
+    mostra(0); document.title = 'pronto';
+  }).catch(function (e) { falha(e.message); });
+});
+</script>
+</body>
+</html>

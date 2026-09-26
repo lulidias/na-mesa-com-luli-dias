@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magnum Fest Licínio Dias 2026 — Wine Lovers Recife</title>
+<meta name="description" content="A Magnum Fest da Wine Lovers Recife, em homenagem a Licínio Dias. 11 de dezembro de 2026, Restaurante Ruizito, Recife.">
+<meta property="og:title" content="Magnum Fest Licínio Dias 2026 — Wine Lovers Recife">
+<meta property="og:description" content="Só Magnums, só grandes vinhos. 11 de dezembro de 2026 · Restaurante Ruizito · Recife.">
+<meta property="og:image" content="https://lulidias.com/wlr/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://lulidias.com/wlr/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wine:#2E1029;--wine-md:#411A39;--wine-lt:#6C214C;--rose:#E2B0C8;
+  --cream:#F7F0EC;--white:#FFFFFF;--ink:#1F1A1D;--ink-lt:#6B5E65;
+  --gold:#B8862A;--gold-lt:#D9B46A;--gold-bg:#FBF4F7;--border:#E9DDE3;
+  --ok:#2E7D4F;--warn:#B85C2A;--bad:#8A2A2A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Montserrat',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.it{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic}
+
+/* ── Hero ── */
+.hero{background:radial-gradient(120% 120% at 50% -10%,var(--wine-lt) 0%,var(--wine-md) 48%,var(--wine) 100%);color:var(--cream);text-align:center;padding:64px 24px 60px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:14px;border:1px solid rgba(217,180,106,.35);pointer-events:none}
+.hero-logo{width:min(300px,70vw);height:auto;display:block;margin:0 auto 30px}
+.hero-kicker{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt);margin-bottom:14px}
+.hero h1{font-weight:800;font-size:clamp(40px,9vw,84px);letter-spacing:.06em;line-height:1;text-transform:uppercase}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(24px,4.4vw,36px);color:var(--rose);margin-top:10px}
+.hero-year{font-weight:300;font-size:16px;letter-spacing:14px;color:var(--gold-lt);margin-top:14px;padding-left:14px}
+.hero-tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(17px,3vw,21px);color:rgba(247,240,236,.9);margin:24px auto 0;max-width:540px;line-height:1.5}
+.orn{display:flex;align-items:center;justify-content:center;gap:12px;margin:28px 0}
+.orn .l{height:1px;width:56px;background:linear-gradient(90deg,transparent,var(--gold-lt))}
+.orn .r{height:1px;width:56px;background:linear-gradient(90deg,var(--gold-lt),transparent)}
+.orn .d{width:5px;height:5px;background:var(--gold-lt);transform:rotate(45deg)}
+.hw-dow{font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--gold-lt);margin-bottom:10px}
+.hw-date{font-weight:700;font-size:clamp(24px,4.6vw,38px);color:var(--cream);letter-spacing:1px}
+.hw-date .hw-dot{color:var(--gold-lt);padding:0 8px;font-weight:400}
+.hw-place{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:rgba(247,240,236,.88);margin-top:10px}
+.fh-t{font-weight:800;font-size:clamp(26px,5vw,40px);letter-spacing:3px;text-transform:uppercase;margin-top:24px}
+.fh-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,2.6vw,20px);color:rgba(247,240,236,.9);margin-top:12px}
+.count{display:flex;justify-content:center;gap:clamp(10px,3vw,26px);margin-top:36px}
+.cnt{min-width:64px}
+.cnt .n{font-weight:300;font-size:clamp(28px,5vw,40px);color:var(--cream)}
+.cnt .l2{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(247,240,236,.55);margin-top:4px}
+.cta{display:inline-block;margin-top:40px;padding:16px 46px;border:1px solid var(--gold-lt);color:var(--cream);text-decoration:none;font-size:11px;letter-spacing:4px;text-transform:uppercase;transition:all .3s;background:rgba(217,180,106,.08)}
+.cta:hover{background:var(--gold-lt);color:var(--wine)}
+
+/* ── Sections ── */
+.sec{max-width:1000px;margin:0 auto;padding:72px 24px}
+.sec-kicker{font-size:12px;letter-spacing:5px;text-transform:uppercase;color:var(--wine-lt);text-align:center;margin-bottom:12px;font-weight:600}
+.sec-title{font-weight:800;font-size:clamp(24px,4vw,34px);text-align:center;margin-bottom:14px;color:var(--wine-md);letter-spacing:.02em}
+.sec-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--ink-lt);text-align:center;max-width:600px;margin:0 auto 44px;line-height:1.6}
+
+/* homenagem */
+.hom{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.hom-in{max-width:760px;margin:0 auto;padding:64px 24px;text-align:center}
+.hom-in p{font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.65;color:var(--ink)}
+.hom-in p + p{margin-top:16px}
+.hom-sig{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--wine-lt);margin-top:26px;font-weight:600}
+
+/* regra / critérios */
+.rule-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-top:8px}
+.rule-card{background:var(--white);border:1px solid var(--border);padding:26px 20px;text-align:center}
+.rule-card .fmt{font-weight:700;font-size:16px;color:var(--wine-md)}
+.rule-card .lt{font-weight:300;font-size:32px;color:var(--wine-lt);margin:8px 0 2px}
+.rule-card .pp{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt)}
+.rule-card .tx{font-size:12.5px;color:var(--ink-lt);line-height:1.7;margin-top:10px}
+.passos-grid{grid-template-columns:repeat(3,1fr)}
+@media(max-width:700px){.passos-grid{grid-template-columns:1fr}}
+.rule-note{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:var(--ink-lt);margin-top:28px}
+.crit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.crit{background:var(--white);border:1px solid var(--border);border-top:3px solid var(--wine-lt);padding:22px 22px 18px}
+.crit h3{font-weight:700;font-size:15px;color:var(--wine-md);margin-bottom:10px}
+.crit ul{list-style:none;font-size:13px;line-height:1.65;color:var(--ink)}
+.crit li{padding-left:16px;position:relative;margin-bottom:5px}
+.crit li::before{content:'';position:absolute;left:0;top:.62em;width:6px;height:6px;background:var(--gold);transform:rotate(45deg)}
+.crit .cl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-top:8px}
+.auto-box{max-width:760px;margin:30px auto 0;background:var(--gold-bg);border:1px dashed var(--wine-lt);padding:20px 24px;font-size:13.5px;line-height:1.7;text-align:center}
+
+/* ── Forms ── */
+.panel{background:var(--white);border:1px solid var(--border);padding:clamp(26px,5vw,52px);max-width:1000px;margin:0 auto}
+.f-label{display:block;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin:22px 0 8px}
+.f-input,.f-select,textarea.f-input{width:100%;padding:13px 14px;border:1px solid var(--border);background:var(--cream);font-family:'Montserrat',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:border .2s;border-radius:0;-webkit-appearance:none}
+.f-input:focus,.f-select:focus{border-color:var(--wine-lt)}
+.btn{display:inline-block;padding:15px 40px;background:var(--wine-md);color:var(--cream);border:none;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background .3s}
+.btn:hover{background:var(--wine)}
+.btn.gold{background:var(--wine-lt);color:#fff}
+.btn.gold:hover{background:var(--wine-md)}
+.btn.ghost{background:none;border:1px solid var(--border);color:var(--ink-lt)}
+.btn:disabled{opacity:.5;cursor:default}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:13px 26px;font-size:12px;letter-spacing:1px;opacity:0;transition:all .35s;z-index:2000;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--bad)}
+
+/* painel do confrade */
+.me-hello{font-weight:700;font-size:22px;text-align:center;margin-bottom:6px;color:var(--wine-md)}
+.cover{margin:26px 0 6px}
+.cover-bar{height:6px;background:var(--border);position:relative;overflow:hidden}
+.cover-fill{position:absolute;inset:0;right:auto;background:linear-gradient(90deg,var(--wine-lt),var(--rose));transition:width .5s}
+.cover-txt{font-size:11px;color:var(--ink-lt);margin-top:8px;text-align:center}
+.gr-card{border:1px solid var(--border);background:var(--cream);padding:18px;margin-top:12px;display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}
+.gr-card .w{font-weight:700;font-size:16px;color:var(--wine-md)}
+.gr-card .m{font-size:11px;color:var(--ink-lt);margin-top:4px;line-height:1.5}
+.gr-fmt{font-size:9px;letter-spacing:2px;text-transform:uppercase;background:var(--wine-md);color:var(--cream);padding:4px 9px;white-space:nowrap}
+.linklike{background:none;border:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);cursor:pointer;text-decoration:underline;font-family:'Montserrat',sans-serif}
+.parecer{width:100%;border-top:1px dashed var(--border);padding-top:12px;margin-top:4px;font-size:12px;line-height:1.6}
+.parecer .st{font-weight:700;font-size:12px;letter-spacing:.5px}
+.parecer table{width:100%;border-collapse:collapse;margin-top:8px}
+.parecer td{padding:5px 6px;border-bottom:1px solid var(--border);vertical-align:top;font-size:12px}
+.parecer td:first-child{width:22px}
+.parecer .dt{color:var(--ink-lt)}
+.spin{display:inline-block;width:11px;height:11px;border:2px solid var(--border);border-top-color:var(--wine-lt);border-radius:50%;animation:sp 1s linear infinite;vertical-align:-1px;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* pagamento */
+.pix-box{border:1px dashed var(--wine-lt);background:var(--gold-bg);padding:26px;text-align:center;margin-top:18px}
+.pix-val{font-weight:300;font-size:38px;color:var(--wine-md)}
+.pix-key{font-size:13px;margin:12px 0 4px;word-break:break-all}
+#pix-qr{margin:16px auto 4px;display:block;background:#fff;padding:8px}
+.copy-area{background:#fff;border:1px solid var(--border);font-size:10px;padding:10px;word-break:break-all;max-height:64px;overflow:auto;text-align:left;margin:12px 0;color:var(--ink-lt)}
+.paid-badge{display:inline-block;background:var(--ok);color:#fff;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;margin-top:8px}
+
+/* carta */
+.wine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.wine-card{background:var(--white);border:1px solid var(--border);padding:22px;position:relative;transition:box-shadow .3s}
+.wine-card:hover{box-shadow:0 10px 30px rgba(46,16,41,.08)}
+.wine-card .nm{font-weight:700;font-size:16.5px;line-height:1.35;padding-right:70px;color:var(--wine-md)}
+.wine-card .pr{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--ink-lt);margin-top:3px}
+.wine-card .fmt{position:absolute;top:0;right:16px;background:var(--wine-md);color:var(--cream);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:6px 10px}
+.wine-card .who{font-size:11px;color:var(--ink-lt);margin-top:12px;line-height:1.6}
+.wine-card .join{margin-top:12px;font-size:12px}
+.sit{display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 9px;margin-top:10px;font-weight:600}
+.sit.ok{background:#EAF4EE;color:var(--ok)}
+.sit.an{background:#FBF1E2;color:#8A5A12}
+.selo{display:inline-block;font-size:10px;letter-spacing:1px;color:var(--wine-lt);margin:10px 0 0 8px;font-weight:600}
+.vac{color:var(--wine-lt);font-weight:600}
+.vagas-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:-18px 0 30px}
+.vaga{border:1px solid var(--border);background:var(--white);padding:10px 16px;font-size:11px;text-align:center;min-width:150px}
+.vaga b{display:block;font-size:20px;color:var(--wine-md);font-weight:700}
+.vaga.cheia b{color:var(--bad)}
+.wine-stats{display:flex;justify-content:center;gap:clamp(20px,6vw,64px);margin-bottom:38px;flex-wrap:wrap}
+.ws .n{font-weight:300;font-size:38px;color:var(--wine-md);text-align:center}
+.ws .k{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);text-align:center;margin-top:4px}
+
+/* confirmados */
+.fbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}
+.vlista{background:var(--white);border:1px solid var(--border)}
+.vrow{display:flex;gap:16px;align-items:flex-start;padding:12px 18px;border-bottom:1px solid var(--border);font-size:12px;flex-wrap:nowrap}
+@media(max-width:700px){.vrow{flex-wrap:wrap}}
+.vrow:last-child{border-bottom:none}
+.vrow .vn{font-weight:700;font-size:15px;flex:0 0 280px;color:var(--wine-md)}
+.vrow .vf{font-size:9px;letter-spacing:1px;text-transform:uppercase;background:var(--wine-md);color:var(--cream);padding:4px 0;white-space:nowrap;flex:0 0 160px;text-align:center}
+.vrow .vq{color:var(--ink-lt);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px}
+.vrow .cl-p{flex:0 0 230px}
+.vrow .cl-q{flex:1;min-width:160px}
+@media(max-width:700px){.vrow .vn,.vrow .cl-p{flex:1 1 100%}}
+.fpill{border:1px solid var(--border);background:var(--white);padding:8px 16px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;color:var(--ink-lt);border-radius:20px;transition:all .2s}
+.fpill:hover{border-color:var(--wine-lt);color:var(--wine-lt)}
+.fpill.on{background:var(--wine-md);color:var(--cream);border-color:var(--wine-md)}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));grid-auto-rows:1fr;gap:12px}
+.person{background:var(--white);border:1px solid var(--border);padding:16px 18px}
+.person .pn{font-weight:700;font-size:15px;display:flex;align-items:baseline;justify-content:space-between;gap:8px;color:var(--wine-md)}
+.person .paid{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ok);white-space:nowrap}
+.person .pw{color:var(--ink-lt);margin-top:8px;line-height:1.5;font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic}
+.wg-tipo{display:flex;align-items:center;gap:16px;margin:40px 0 6px}
+.wg-tipo:first-child{margin-top:0}
+.wg-tipo .t{font-weight:800;font-size:20px;color:var(--wine-md);white-space:nowrap;text-transform:uppercase;letter-spacing:.04em}
+.wg-tipo .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--wine-lt),transparent)}
+.wg-pais{font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin:24px 0 14px;font-weight:600}
+
+/* números */
+.meta-bar{width:130px;height:5px;background:var(--border);margin:9px auto 0;overflow:hidden}
+.meta-bar i{display:block;height:100%;background:var(--wine-lt);width:0;transition:width .8s ease}
+.meta-k{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-lt);margin-top:5px}
+.pwin{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.pwin .mp{display:inline-block;background:linear-gradient(180deg,#4E1B43 0%,#2E1029 100%);line-height:0;padding:6px}
+.pwin .mp svg{width:88px;height:auto}
+.num-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1100px;margin:0 auto;align-items:stretch}
+.num-stack{display:flex;flex-direction:column;gap:16px}
+.num-stack .num-card{flex:1;display:flex;flex-direction:column}
+.num-stack .num-card>div,.num-card.pais-full>div{flex:1;display:flex;flex-direction:column;justify-content:space-evenly}
+.num-card.pais-full{display:flex;flex-direction:column}
+.num-card.safra{grid-column:1/-1}
+@media (max-width:700px){.num-grid{grid-template-columns:1fr}}
+.num-cols{display:flex;align-items:flex-end;justify-content:center;gap:12px;padding-top:6px}
+.num-col{display:flex;flex-direction:column;align-items:center;flex:0 1 44px;min-width:0}
+.num-col .cv{font-size:11px;color:var(--ink-lt);margin-bottom:4px}
+.num-col .cb{width:100%;max-width:26px;background:var(--wine-lt);border-radius:3px 3px 0 0}
+.num-col .cl{font-size:10px;color:var(--ink);margin-top:6px;letter-spacing:.5px;white-space:nowrap}
+@media (max-width:600px){.num-cols{gap:5px}.num-col .cl{font-size:7.5px;letter-spacing:0}.num-col .cv{font-size:9px}}
+.num-card{background:var(--white);border:1px solid var(--border);padding:22px 20px 16px}
+.num-card h3{font-weight:700;font-size:14px;margin-bottom:16px;text-align:center;color:var(--wine-md);text-transform:uppercase;letter-spacing:2px}
+.num-row{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.num-row .lb{flex:0 0 104px;font-size:11px;color:var(--ink);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.num-row .tr{flex:1;height:12px;position:relative}
+.num-row .fl{position:absolute;left:0;top:0;bottom:0;background:var(--wine-lt);border-radius:0 3px 3px 0;min-width:2px}
+.num-row .vl{flex:0 0 26px;font-size:11px;color:var(--ink-lt)}
+.podium{background:var(--cream);border:1px solid var(--border);padding:26px;margin-bottom:18px}
+.podium .cn{font-weight:800;font-size:18px;color:var(--wine-md);text-align:center;margin-bottom:16px;text-transform:uppercase;letter-spacing:.04em}
+.podium .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:9px 0;flex-wrap:wrap}
+.podium .w{font-weight:700;font-size:16px}
+.podium .med{font-size:18px;margin-right:6px}
+.podium .v{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);white-space:nowrap}
+.podium .mm{font-size:11px;color:var(--ink-lt);width:100%}
+footer{background:var(--wine);color:rgba(247,240,236,.75);text-align:center;padding:54px 24px}
+footer img{width:170px;height:auto;display:block;margin:0 auto 20px;opacity:.95}
+footer .quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--cream);margin-bottom:18px}
+footer .org{font-size:9px;letter-spacing:3px;text-transform:uppercase}
+footer .org a{color:var(--gold-lt);text-decoration:none}
+.hidden{display:none !important}
+.painel-btn{position:fixed;top:16px;right:16px;z-index:1500;background:var(--wine-md);color:var(--cream);border:1px solid var(--gold-lt);padding:11px 20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-family:'Montserrat',sans-serif;transition:all .3s;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.painel-btn:hover{background:var(--wine-lt)}
+.chip{font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:7px 13px;border:1px solid var(--border);background:var(--cream);color:var(--ink-lt)}
+.chip.ok{border-color:var(--ok);color:var(--ok);background:#F0F7F2}
+.chip.warn{border-color:var(--warn);color:var(--warn);background:#FBF3ED}
+.g-row3{display:grid;grid-template-columns:1fr 1fr 90px;gap:10px}
+.g-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g-row2b{display:grid;grid-template-columns:1fr 130px;gap:10px}
+@media(max-width:600px){
+  .hero{padding:52px 16px 48px}
+  .sec{padding:52px 16px}
+  .panel{padding:24px 16px}
+  .g-row3{grid-template-columns:1fr 1fr}
+  .g-row3 #g-safra{grid-column:span 2}
+  .wine-grid{grid-template-columns:1fr}
+  .people{grid-template-columns:1fr}
+  .gr-card{flex-direction:column;align-items:flex-start}
+  .pix-box{padding:18px 12px}
+  .copy-area{font-size:9px}
+  .painel-btn{top:10px;right:10px;padding:9px 14px}
+}
+</style>
+</head>
+<body>
+
+<a class="painel-btn" href="#rsvp" id="painel-btn" onclick="painelClick(event)">Meu Painel</a>
+
+<div id="entrar-modal" class="hidden" style="position:fixed;inset:0;z-index:3000;background:rgba(46,16,41,.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px" onclick="if(event.target===this)this.classList.add('hidden')">
+  <div style="background:var(--white);max-width:380px;width:100%;padding:40px 34px;text-align:center">
+    <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--wine-lt);margin-bottom:12px;font-weight:600">Magnum Fest Licínio Dias</div>
+    <h3 style="font-weight:700;font-size:20px;margin-bottom:8px;color:var(--wine-md)">Entrar no meu painel</h3>
+    <p style="font-size:12px;color:var(--ink-lt);margin-bottom:22px;line-height:1.6">Digite o WhatsApp que você usou na confirmação.</p>
+    <input class="f-input" id="entrar-zap" placeholder="(81) 9 0000-0000" inputmode="tel" style="text-align:center" onkeydown="if(event.key==='Enter')entrarPainel()">
+    <button class="btn" style="width:100%;margin-top:14px" id="entrar-btn" onclick="entrarPainel()">Entrar</button>
+    <button class="linklike" style="margin-top:16px" onclick="document.getElementById('entrar-modal').classList.add('hidden');location.hash='#rsvp'">Ainda não confirmei presença</button>
+  </div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero">
+  <img class="hero-logo" src="img/logo-claro.png" alt="Wine Lovers Recife">
+  <div class="hero-kicker">Wine Lovers Recife apresenta</div>
+  <h1>Magnum Fest</h1>
+  <div class="hero-sub">Licínio Dias</div>
+  <div class="hero-year">2026</div>
+  <p class="hero-tag">Só Magnums, só grandes vinhos — uma noite em homenagem a quem ensinou o Recife a celebrar à mesa.</p>
+  <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+  <div class="hero-when">
+    <div class="hw-dow" id="hw-dow">Sexta-feira</div>
+    <div class="hw-date"><span id="hw-dia">11 de dezembro</span> <span class="hw-dot">·</span> <span id="hw-hora">horário a confirmar</span></div>
+    <div class="hw-place" id="hw-local">Restaurante Ruizito · Shopping RioMar · Recife</div>
+  </div>
+  <div class="count" id="countdown">
+    <div class="cnt"><div class="n" id="cd-d">—</div><div class="l2">dias</div></div>
+    <div class="cnt"><div class="n" id="cd-h">—</div><div class="l2">horas</div></div>
+    <div class="cnt"><div class="n" id="cd-m">—</div><div class="l2">min</div></div>
+    <div class="cnt"><div class="n" id="cd-s">—</div><div class="l2">seg</div></div>
+  </div>
+  <a class="cta" href="#rsvp" id="cta-btn">Confirmar presença</a>
+  <div id="festa-hero" class="hidden" style="margin-top:8px"></div>
+</header>
+
+<!-- ═══ HOMENAGEM ═══ -->
+<section class="hom">
+  <div class="hom-in">
+    <div class="sec-kicker">Em homenagem</div>
+    <h2 class="sec-title" style="margin-bottom:24px">Licínio Dias</h2>
+    <p>Restaurateur, importador de vinhos e grande fazedor de marcas, Licínio Dias deixou um legado inestimável na gastronomia — e uma forma de viver: celebrar os bons momentos à mesa, com os amigos.</p>
+    <p>A Magnum Fest nasce desse espírito. Por respeito a ele, cada vinho da noite passa por critérios rigorosos de qualidade e exclusividade — os mesmos padrões que Licínio sempre defendeu.</p>
+    <div class="hom-sig">Wine Lovers Recife</div>
+  </div>
+</section>
+
+<!-- ═══ COMO PARTICIPAR ═══ -->
+<section class="sec">
+  <div class="sec-kicker">Como participar</div>
+  <h2 class="sec-title">Três passos para estar na mesa</h2>
+  <div class="rule-grid passos-grid" style="max-width:900px;margin:34px auto">
+    <div class="rule-card"><div class="lt" style="margin-top:0">1</div><div class="fmt">Confirme a presença</div><div class="tx">Escolha o seu nome na lista de membros da Wine Lovers Recife e informe o seu WhatsApp.</div></div>
+    <div class="rule-card"><div class="lt" style="margin-top:0">2</div><div class="fmt">Registre sua Magnum</div><div class="tx">O sistema confere na hora os critérios da MFLD — nota, preço, safra e região — e diz se o vinho entra direto ou vai para o conselho.</div></div>
+    <div class="rule-card"><div class="lt" style="margin-top:0">3</div><div class="fmt">Pague o rateio</div><div class="tx"><span id="passo-rateio">O valor do rateio será anunciado em breve</span> — Pix com QR code no seu painel, comprovante ali mesmo.</div></div>
+  </div>
+  <p class="sec-sub" style="margin-bottom:20px">Os formatos da casa — é uma Magnum Fest:</p>
+  <div class="rule-grid">
+    <div class="rule-card"><div class="fmt">Magnum</div><div class="lt">1,5 L</div><div class="pp">1 confrade</div></div>
+    <div class="rule-card"><div class="fmt">Double Magnum</div><div class="lt">3 L</div><div class="pp">2 confrades</div></div>
+    <div class="rule-card"><div class="fmt">Jeroboam</div><div class="lt">6 L</div><div class="pp">4 confrades</div></div>
+    <div class="rule-card"><div class="fmt">Salmanazar</div><div class="lt">9 L</div><div class="pp">6 confrades</div></div>
+  </div>
+  <p class="rule-note">Formatos maiores podem ser levados sozinho ou divididos entre confrades.</p>
+</section>
+
+<!-- ═══ CRITÉRIOS ═══ -->
+<section class="sec" id="criterios" style="padding-top:0">
+  <div class="sec-kicker">Critérios de seleção</div>
+  <h2 class="sec-title">O que entra na Magnum Fest</h2>
+  <p class="sec-sub">As regras da MFLD, divulgadas com antecedência para que cada confrade possa garimpar o seu vinho com tranquilidade.</p>
+  <div class="crit-grid">
+    <div class="crit"><h3>Qualidade</h3><ul>
+      <li>Nota mínima de <strong>95 pontos</strong> em Robert Parker, Wine Spectator ou James Suckling.</li>
+      <li>Sem nota ou abaixo de 95: vale o <strong>preço de mercado de € 400 ou mais</strong> no Wine-Searcher.</li>
+    </ul><div class="cl">Cláusulas 1 a 3</div></div>
+    <div class="crit"><h3>Safras</h3><ul>
+      <li>Tintos e demais vinhos: <strong>safra até 2014</strong>, inclusive.</li>
+      <li>Porto Vintage com no mínimo <strong>20 anos</strong>; Porto Tawny com no mínimo <strong>30 anos</strong>.</li>
+    </ul><div class="cl">Cláusula 4</div></div>
+    <div class="crit"><h3>Brancos</h3><ul>
+      <li>Velho Mundo: Borgonha, Bordeaux, Douro, Alentejo, Rioja, Ribeira Sacra, Alsácia, Mosel, Tokaj e Rhône.</li>
+      <li>Novo Mundo: só Estados Unidos, África do Sul, Austrália e Nova Zelândia.</li>
+    </ul><div class="cl">Cláusula 5.1</div></div>
+    <div class="crit"><h3>Espumantes</h3><ul>
+      <li>Champagne, com preço mínimo de <strong>€ 400</strong>.</li>
+      <li>Exceções: Cava, Prosecco e espumante brasileiro <strong>premiados e safrados</strong>, de origem controlada.</li>
+      <li>Limite de <strong>3 rótulos</strong>: 1 rosé e 2 brut.</li>
+    </ul><div class="cl">Cláusulas 5.2 a 5.6</div></div>
+    <div class="crit"><h3>Doces e fortificados</h3><ul>
+      <li>Sauternes, conforme a qualidade do produtor; Tokaj de <strong>6 puttonyos</strong>.</li>
+      <li>Porto, Sauternes e Tokaj: <strong>2 exemplares</strong> no total.</li>
+    </ul><div class="cl">Cláusulas 5.7 e 5.8</div></div>
+    <div class="crit"><h3>Exceções e conselho</h3><ul>
+      <li>Safras raras, vinhos sem nota ou sem preço podem ir à análise do conselho da WLR.</li>
+      <li>Confrades produtores podem apresentar os próprios vinhos.</li>
+      <li>Brancos e espumantes têm sempre a <strong>aprovação final do conselho</strong>.</li>
+    </ul><div class="cl">Cláusulas 6 e 7</div></div>
+  </div>
+  <div class="auto-box">🔎 <strong>Análise automática:</strong> ao registrar a garrafa, o sistema pesquisa as notas de crítica e o preço no Wine-Searcher daquela safra e confere cada cláusula. Tintos que atendem a tudo entram direto; brancos, espumantes, doces e os casos em dúvida seguem para o conselho da Wine Lovers Recife.</div>
+</section>
+
+<!-- ═══ RSVP ═══ -->
+<section class="sec" id="rsvp" style="padding-top:20px">
+  <div class="sec-kicker">RSVP</div>
+  <h2 class="sec-title" id="rsvp-title">Confirme a sua presença</h2>
+  <p class="sec-sub" id="rsvp-sub">A Magnum Fest é exclusiva para os membros da Wine Lovers Recife. <br><span style="font-size:15px">Já confirmou em outro aparelho? Use o botão <strong>Meu Painel</strong> com o mesmo WhatsApp — nada se perde.</span></p>
+
+  <div class="panel" id="form-panel">
+    <label class="f-label">Quem é você? *</label>
+    <select class="f-select" id="f-nome"><option value="">Carregando a lista de membros…</option></select>
+    <label class="f-label">WhatsApp *</label>
+    <input class="f-input" id="f-zap" placeholder="(81) 9 0000-0000" inputmode="tel" autocomplete="tel">
+    <label class="f-label">E-mail <span style="text-transform:none;letter-spacing:0;font-size:10px">(para receber o parecer dos seus vinhos)</span></label>
+    <input class="f-input" id="f-email" placeholder="voce@email.com" inputmode="email" autocomplete="email">
+    <label class="f-label">Restrições alimentares</label>
+    <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;margin-bottom:10px">
+      <input type="checkbox" id="f-semrestricao" style="width:16px;height:16px;accent-color:var(--wine-lt)" onchange="document.getElementById('f-obs').classList.toggle('hidden', this.checked)">
+      Não tenho restrições alimentares
+    </label>
+    <textarea class="f-input" id="f-obs" rows="2" placeholder="Quais? (ex.: alergia a frutos do mar, vegetariano...) — e outras observações"></textarea>
+    <div style="text-align:center;margin-top:32px">
+      <button class="btn" id="f-send" onclick="doRSVP()">Confirmar presença</button>
+    </div>
+    <p style="text-align:center;font-size:11px;color:var(--ink-lt);margin-top:18px">Não achou o seu nome? Fale com o organizador.</p>
+  </div>
+
+  <div class="panel hidden" id="me-panel">
+    <div class="me-hello">Presença confirmada, <span id="me-nome"></span> 🥂</div>
+    <div id="me-chips" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 4px"></div>
+    <div style="text-align:center;margin:16px 0 4px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <a class="btn gold" id="btn-cartao" href="cartao.html" style="text-decoration:none">📸 Meu cartão "Eu vou!"</a>
+      <a class="btn gold hidden" id="btn-premio" href="premio.html" style="text-decoration:none">🏆 Cartão do meu prêmio</a>
+      <button class="btn ghost" onclick="addCalendario()" style="border-color:var(--wine-lt);color:var(--wine-lt)">📅 Adicionar ao calendário</button>
+    </div>
+    <div class="cover">
+      <div class="cover-bar"><div class="cover-fill" id="cover-fill" style="width:0%"></div></div>
+      <div class="cover-txt" id="cover-txt">Você ainda não registrou nenhuma garrafa.</div>
+    </div>
+
+    <div id="me-pedidos"></div>
+    <div id="me-garrafas"></div>
+
+    <label class="f-label" style="margin-top:34px">Registrar uma garrafa</label>
+    <input class="f-input" id="g-vinho" placeholder="Vinho (ex.: Château Léoville Barton)">
+    <div class="g-row3" style="margin-top:10px">
+      <input class="f-input" id="g-produtor" placeholder="Produtor">
+      <input class="f-input" id="g-regiao" placeholder="Região (ex.: Pauillac)">
+      <input class="f-input" id="g-safra" placeholder="Safra" inputmode="numeric">
+    </div>
+    <div class="g-row2" style="margin-top:10px">
+      <select class="f-select" id="g-tipo" onchange="tipoChange()">
+        <option value="Tinto">Tinto</option>
+        <option value="Branco">Branco</option>
+        <option value="Espumante">Espumante / Champagne</option>
+        <option value="Rosé">Rosé</option>
+        <option value="Fortificado / Doce">Porto, Sauternes ou Tokaj</option>
+      </select>
+      <input class="f-input" id="g-pais" list="paises" placeholder="País">
+      <datalist id="paises">
+        <option>França</option><option>Itália</option><option>Espanha</option><option>Portugal</option>
+        <option>Estados Unidos</option><option>Chile</option><option>Argentina</option><option>Brasil</option>
+        <option>Alemanha</option><option>Hungria</option><option>África do Sul</option>
+        <option>Austrália</option><option>Nova Zelândia</option><option>Áustria</option><option>Uruguai</option>
+      </datalist>
+    </div>
+    <div id="g-subtipo-row" class="hidden" style="margin-top:10px">
+      <select class="f-select" id="g-subtipo"></select>
+    </div>
+    <div class="g-row2b" style="margin-top:10px">
+      <select class="f-select" id="g-formato" onchange="fmtChange()">
+        <option value="Magnum|1.5|1">Magnum — 1,5 L</option>
+        <option value="Double Magnum|3|2">Double Magnum — 3 L</option>
+        <option value="Jeroboam|6|4">Jeroboam — 6 L</option>
+        <option value="Salmanazar|9|6">Salmanazar — 9 L</option>
+        <option value="outro">Outro formato…</option>
+      </select>
+      <select class="f-select" id="g-vagas" title="Quantos confrades dividem esta garrafa"></select>
+    </div>
+    <div id="g-outro-row" class="hidden" style="margin-top:10px">
+      <input class="f-input" id="g-litros" placeholder="Litros (mínimo 1,5)" inputmode="decimal">
+    </div>
+    <label class="f-label">Foto da garrafa (opcional)</label>
+    <input type="file" id="g-foto" accept="image/*" style="font-size:12px">
+    <div style="font-size:10px;color:var(--ink-lt);margin-top:6px">Sem foto? O sistema busca automaticamente e você só confirma.</div>
+    <div style="font-size:11px;color:var(--ink-lt);margin-top:16px;line-height:1.6;background:var(--gold-bg);padding:10px 14px">Preencha produtor e safra com cuidado — é por eles que o sistema encontra as notas e o preço daquela safra. O parecer chega em poucos minutos, aqui e por e-mail.</div>
+    <div style="text-align:center;margin-top:22px">
+      <button class="btn gold" id="g-add" onclick="addGarrafa()">Adicionar garrafa</button>
+      <button class="linklike hidden" id="g-cancel" onclick="cancelarEdicao()" style="margin-left:14px">Cancelar edição</button>
+    </div>
+
+    <div id="pay-sec" style="margin-top:44px">
+      <label class="f-label">Rateio</label>
+      <div class="pix-box" id="pix-box">
+        <div id="pix-pending" class="hidden it" style="font-size:17px;color:var(--ink-lt)">O valor do rateio será anunciado em breve. Você será avisado.</div>
+        <div id="pix-ready" class="hidden">
+          <div class="pix-val" id="pix-val"></div>
+          <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)">por confrade</div>
+          <div style="display:flex;justify-content:center;gap:22px;margin:18px 0 4px;flex-wrap:wrap;font-size:10px;letter-spacing:1px;color:var(--ink-lt)">
+            <span><strong style="color:var(--wine-lt)">1.</strong> Escaneie o QR ou copie o código</span>
+            <span><strong style="color:var(--wine-lt)">2.</strong> Pague no app do seu banco</span>
+            <span><strong style="color:var(--wine-lt)">3.</strong> Envie o comprovante abaixo</span>
+          </div>
+          <canvas id="pix-qr" width="180" height="180"></canvas>
+          <div class="pix-key">Pix: <strong id="pix-chave"></strong> <span id="pix-nome" style="color:var(--ink-lt)"></span></div>
+          <div class="copy-area" id="pix-payload"></div>
+          <button class="btn gold" onclick="copyPix()">Copiar Pix copia-e-cola</button>
+          <div style="margin-top:22px">
+            <label class="f-label" style="margin-top:0">Enviar comprovante</label>
+            <input type="file" id="f-comprovante" accept="image/*,.pdf" style="font-size:12px" onchange="uploadComprovante(this)">
+            <div id="comp-status" style="font-size:11px;color:var(--ink-lt);margin-top:8px"></div>
+          </div>
+        </div>
+        <div id="pix-paid" class="hidden">
+          <div style="font-weight:700;font-size:18px;color:var(--ok)">Pagamento confirmado</div>
+          <div class="paid-badge">✓ Pago</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:36px">
+      <button class="linklike" onclick="logoutMe()">Não é você? Sair deste painel</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ A CARTA ═══ -->
+<section class="sec" id="vinhos" style="background:var(--white);max-width:none;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div style="max-width:1000px;margin:0 auto">
+    <div class="sec-kicker">A mesa</div>
+    <h2 class="sec-title">A carta da Magnum Fest</h2>
+    <p class="sec-sub">Os vinhos aprovados — e os que aguardam o conselho. A lista cresce a cada garrafa registrada.</p>
+    <div class="vagas-row" id="vagas-row"></div>
+    <div class="fbar" id="v-vista" style="margin-bottom:22px"></div>
+    <div id="wine-groups"></div>
+    <p id="wine-empty" class="rule-note hidden">Seja o primeiro a registrar uma Magnum.</p>
+  </div>
+</section>
+
+<!-- ═══ NÚMEROS ═══ -->
+<section class="sec" id="numeros" style="max-width:1240px">
+  <div class="sec-kicker">A noite em números</div>
+  <h2 class="sec-title">Os números da mesa</h2>
+  <p class="sec-sub">Quantos confrades, quantos litros, de onde vêm e de que safras — o placar muda a cada Magnum.</p>
+  <div class="wine-stats">
+    <div class="ws"><div class="n" id="st-conf">0</div><div class="k">confrades</div>
+      <div class="meta-bar hidden" id="meta-bar"><i id="meta-fill"></i></div>
+      <div class="meta-k hidden" id="meta-k"></div>
+    </div>
+    <div class="ws"><div class="n" id="st-gar">0</div><div class="k">garrafas</div></div>
+    <div class="ws"><div class="n" id="st-lit">0</div><div class="k">litros</div></div>
+    <div class="ws"><div class="n" id="st-media">0</div><div class="k">L por confrade</div></div>
+  </div>
+  <div class="num-grid">
+    <div class="num-stack">
+      <div class="num-card"><h3>Por categoria</h3><div id="num-tipos"></div></div>
+      <div class="num-card"><h3>Por formato</h3><div id="num-formatos"></div></div>
+    </div>
+    <div class="num-card pais-full"><h3>Por país</h3><div id="num-paises"></div></div>
+    <div class="num-card safra"><h3>Por safra</h3><div id="num-safras"></div></div>
+  </div>
+</section>
+
+<!-- ═══ CONFIRMADOS ═══ -->
+<section class="sec" id="confirmados" style="max-width:1240px">
+  <div class="sec-kicker">Quem já vem</div>
+  <h2 class="sec-title">Confrades confirmados</h2>
+  <p class="sec-sub" id="conf-count-sub">&nbsp;</p>
+  <div class="fbar" id="f-paises"></div>
+  <div class="fbar" id="f-ordem" style="margin-bottom:26px"></div>
+  <div class="people" id="people"></div>
+</section>
+
+<!-- ═══ VOTAÇÃO (anúncio) ═══ -->
+<section class="sec" id="vot-teaser" style="background:var(--wine);max-width:none;color:var(--cream)">
+  <div style="max-width:1000px;margin:0 auto;text-align:center">
+    <div class="sec-kicker" style="color:var(--gold-lt)">Na noite da festa</div>
+    <h2 class="sec-title" style="color:var(--cream)">A grande votação</h2>
+    <p class="sec-sub" style="color:rgba(247,240,236,.85)">Durante a festa, cada confrade vota pelo celular nos melhores vinhos da mesa — um voto por categoria. O resultado sai no telão.</p>
+    <div id="teaser-cats" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:8px"></div>
+    <div class="orn" style="margin-top:34px"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+    <p class="it" style="font-size:18px;color:var(--gold-lt);margin-top:6px">Um vencedor por categoria — cada um leva a sua placa. 🏆</p>
+  </div>
+</section>
+
+<section class="sec hidden" id="premios-sec" style="padding-top:0;padding-bottom:30px">
+  <div class="sec-kicker">A disputa</div>
+  <h2 class="sec-title">O prêmio de cada vencedor</h2>
+  <div class="rule-grid" style="max-width:420px;margin:26px auto 0">
+    <div class="rule-card"><div class="lt" style="margin-top:0">🏆</div><div class="fmt" id="premio1"></div></div>
+  </div>
+</section>
+
+<section class="sec hidden" id="resultados" style="background:var(--white);max-width:none;border-top:1px solid var(--border)">
+  <div style="max-width:1000px;margin:0 auto">
+    <div class="sec-kicker">O veredicto</div>
+    <h2 class="sec-title">Os melhores vinhos da noite</h2>
+    <p class="sec-sub">Eleitos pelos próprios confrades.</p>
+    <div id="podios"></div>
+  </div>
+</section>
+
+<footer>
+  <img src="img/logo-claro.png" alt="Wine Lovers Recife">
+  <div class="quote">"Viver e curtir os bons momentos com os amigos."</div>
+  <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+  <div class="org">Magnum Fest Licínio Dias · Recife · 2026 · Organização <a href="https://lulidias.com">Luli Dias</a></div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var SITE = location.origin + location.pathname.replace(/[^/]*$/, '');   // funciona em lulidias.com/wlr/ e no domínio próprio
+
+var _urlId = new URLSearchParams(location.search).get('id');
+if (_urlId) { try { localStorage.setItem('wlr_id', _urlId); } catch (e) { } }
+var meuId = null; try { meuId = localStorage.getItem('wlr_id'); } catch (e) { }
+var meu = null;
+var cfg = null;
+
+// ── helpers ──────────────────────────────────────────────────────────────
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function toast(msg, err) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast on' + (err ? ' err' : '');
+  clearTimeout(t._h); t._h = setTimeout(function () { t.className = 'toast'; }, 3800);
+}
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, {
+    method: 'POST',
+    headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(args || {})
+  }).then(function (r) {
+    return r.text().then(function (tx) {
+      var data = null; try { data = tx ? JSON.parse(tx) : null; } catch (e) { }
+      if (!r.ok) throw new Error((data && (data.message || data.hint)) || 'Erro (' + r.status + ')');
+      return data;
+    });
+  });
+}
+function view(name, q) {
+  return fetch(SB + '/rest/v1/' + name + '?select=*' + (q || ''), {
+    headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
+  }).then(function (r) { if (!r.ok) throw new Error('Erro ao carregar ' + name); return r.json(); });
+}
+var FLAGS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Uruguai': '🇺🇾', 'Estados Unidos': '🇺🇸', 'Alemanha': '🇩🇪', 'Hungria': '🇭🇺', 'África do Sul': '🇿🇦', 'Austrália': '🇦🇺', 'Nova Zelândia': '🇳🇿', 'Áustria': '🇦🇹', 'Líbano': '🇱🇧', 'Outros': '🌍' };
+function normalizaPais(p) {
+  p = String(p || '').trim();
+  if (!p) return '';
+  var MAPA = { 'france': 'França', 'franca': 'França', 'frança': 'França', 'spain': 'Espanha', 'espanha': 'Espanha',
+    'italy': 'Itália', 'italia': 'Itália', 'itália': 'Itália', 'germany': 'Alemanha', 'alemanha': 'Alemanha',
+    'portugal': 'Portugal', 'chile': 'Chile', 'argentina': 'Argentina', 'brazil': 'Brasil', 'brasil': 'Brasil',
+    'uruguay': 'Uruguai', 'uruguai': 'Uruguai', 'usa': 'Estados Unidos', 'us': 'Estados Unidos', 'eua': 'Estados Unidos',
+    'united states': 'Estados Unidos', 'estados unidos': 'Estados Unidos', 'south africa': 'África do Sul',
+    'africa do sul': 'África do Sul', 'áfrica do sul': 'África do Sul', 'australia': 'Austrália', 'austrália': 'Austrália',
+    'new zealand': 'Nova Zelândia', 'nova zelandia': 'Nova Zelândia', 'nova zelândia': 'Nova Zelândia',
+    'hungary': 'Hungria', 'hungria': 'Hungria', 'austria': 'Áustria', 'áustria': 'Áustria', 'lebanon': 'Líbano', 'libano': 'Líbano' };
+  return MAPA[p.toLowerCase()] || (p.charAt(0).toUpperCase() + p.slice(1));
+}
+function fmtLitros(n) { return (Math.round(n * 100) / 100).toLocaleString('pt-BR'); }
+function tipoRotulo(g) {
+  if (g.tipo === 'Espumante' && g.subtipo) return 'Espumante ' + g.subtipo.toLowerCase();
+  if (g.tipo === 'Fortificado / Doce' && g.subtipo) return g.subtipo;
+  return g.tipo;
+}
+
+// ── data e local do evento (vêm da configuração) ─────────────────────────
+var EVENTO = new Date('2026-12-11T20:00:00-03:00').getTime();
+function eventoDia() {
+  return new Date(EVENTO).toLocaleDateString('pt-BR', { timeZone: 'America/Recife', day: 'numeric', month: 'long' });
+}
+function eventoHora() {
+  if (!cfg || !cfg.hora_confirmada) return 'horário a confirmar';
+  return new Date(EVENTO).toLocaleTimeString('pt-BR', { timeZone: 'America/Recife', hour: '2-digit', minute: '2-digit' }).replace(':00', 'h').replace(':', 'h');
+}
+function localTxt() { return cfg ? [cfg.local_nome, cfg.local_detalhe].filter(Boolean).join(' · ') : 'Restaurante Ruizito · Shopping RioMar · Recife'; }
+function renderQuando() {
+  if (cfg && cfg.evento_em) EVENTO = new Date(cfg.evento_em).getTime();
+  var dow = new Date(EVENTO).toLocaleDateString('pt-BR', { timeZone: 'America/Recife', weekday: 'long' });
+  document.getElementById('hw-dow').textContent = dow;
+  document.getElementById('hw-dia').textContent = eventoDia();
+  document.getElementById('hw-hora').textContent = eventoHora();
+  document.getElementById('hw-local').textContent = localTxt();
+}
+
+// ── modo festa (o hero acompanha a noite) ────────────────────────────────
+function faseFesta() {
+  var sim = new URLSearchParams(location.search).get('simular');
+  if (sim) return sim;
+  var now = Date.now();
+  var ini = new Date(new Date(EVENTO).toLocaleDateString('en-CA', { timeZone: 'America/Recife' }) + 'T00:00:00-03:00').getTime();
+  var fim = ini + 30 * 36e5;   // até as 6h do dia seguinte
+  if (now < ini) return '';
+  if (now >= fim) return 'memoria';
+  if (cfg && cfg.resultados_publicos) return 'resultados';
+  if (cfg && cfg.votacao_aberta) return 'urna';
+  var fecha = cfg && cfg.urna_fecha_em ? new Date(cfg.urna_fecha_em).getTime() : 0;
+  return fecha && now >= fecha ? 'apuracao' : 'hoje';
+}
+function modoFesta() {
+  var fase = faseFesta();
+  var fh = document.getElementById('festa-hero');
+  var cd = document.getElementById('countdown');
+  var cta = document.getElementById('cta-btn');
+  if (!fase) { fh.classList.add('hidden'); cd.classList.remove('hidden'); cta.classList.remove('hidden'); return; }
+  cd.classList.add('hidden'); cta.classList.add('hidden'); fh.classList.remove('hidden');
+  var html = '';
+  if (fase === 'hoje') {
+    html = '<div class="fh-t">É hoje! 🥂</div><div class="fh-sub">' + esc(eventoHora()) + ' · ' + esc(localTxt()) + '</div>' +
+      '<a class="cta" href="#rsvp">Abrir meu painel</a>';
+  } else if (fase === 'urna') {
+    html = '<div class="fh-t">🗳️ A urna está aberta</div><div class="fh-sub">Um voto por categoria — você pode mudar enquanto a urna estiver aberta.</div>' +
+      '<a class="cta" href="votar/" style="font-size:14px;padding:18px 46px">Votar agora</a>';
+  } else if (fase === 'apuracao') {
+    html = '<div class="fh-t">🏆 A urna está fechada</div><div class="fh-sub">Os votos estão sendo apurados — olhos no telão. 👀</div>';
+  } else if (fase === 'resultados') {
+    html = '<div class="fh-t">🏆 Temos vencedores!</div><div class="fh-sub">Os melhores vinhos da noite, eleitos pelos confrades.</div>' +
+      '<a class="cta" href="#resultados">Ver o pódio</a>';
+  } else if (fase === 'memoria') {
+    html = '<div class="fh-t">Foi memorável. 🥂</div><div class="fh-sub">A Magnum Fest Licínio Dias 2026 ficou para a história da Wine Lovers Recife.</div>' +
+      (cfg && cfg.resultados_publicos ? '<a class="cta" href="#resultados">Ver os vencedores</a>' : '');
+  }
+  if (fh.dataset.fase !== fase) { fh.innerHTML = html; fh.dataset.fase = fase; }
+}
+setInterval(modoFesta, 30000);
+setInterval(function () {
+  var d = Math.max(0, EVENTO - Date.now());
+  document.getElementById('cd-d').textContent = Math.floor(d / 864e5);
+  document.getElementById('cd-h').textContent = Math.floor(d / 36e5) % 24;
+  document.getElementById('cd-m').textContent = Math.floor(d / 6e4) % 60;
+  document.getElementById('cd-s').textContent = Math.floor(d / 1e3) % 60;
+}, 1000);
+
+// ── RSVP ─────────────────────────────────────────────────────────────────
+function loadMembros() {
+  return view('wlr_membros').then(function (rows) {
+    var sel = document.getElementById('f-nome');
+    sel.innerHTML = '<option value="">— escolha o seu nome —</option>' + (rows || []).map(function (m) {
+      return '<option value="' + esc(m.nome) + '">' + esc(m.nome) + (m.confirmado ? ' (já confirmado)' : '') + '</option>';
+    }).join('');
+  }).catch(function () { toast('Não consegui carregar a lista de membros. Recarregue a página.', true); });
+}
+function doRSVP() {
+  var nome = document.getElementById('f-nome').value;
+  var zap = document.getElementById('f-zap').value.trim();
+  var email = document.getElementById('f-email').value.trim();
+  var obs = document.getElementById('f-semrestricao').checked ? 'Sem restrições alimentares' : document.getElementById('f-obs').value.trim();
+  if (!nome) return toast('Escolha o seu nome na lista.', true);
+  if (!zap) return toast('Informe o seu WhatsApp.', true);
+  var btn = document.getElementById('f-send'); btn.disabled = true; btn.textContent = 'Confirmando…';
+  rpc('wlr_rsvp', { p_nome: nome, p_whatsapp: zap, p_email: email, p_obs: obs })
+    .then(function (id) {
+      meuId = id; try { localStorage.setItem('wlr_id', id); } catch (e) { }
+      toast('Presença confirmada! 🥂');
+      return loadMe().then(refreshPublic).then(loadMembros);
+    })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { btn.disabled = false; btn.textContent = 'Confirmar presença'; });
+}
+
+function addCalendario() {
+  var ini = new Date(EVENTO), fim = new Date(EVENTO + 5 * 36e5);
+  var z = function (d) { return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); };
+  var titulo = '🍷 Magnum Fest Licínio Dias 2026 — Wine Lovers Recife';
+  var desc = 'Leve a sua Magnum! Seu painel: ' + SITE;
+  var local = localTxt();
+  if (/iPhone|iPad|Macintosh/i.test(navigator.userAgent)) {
+    var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Wine Lovers Recife//MFLD//PT', 'BEGIN:VEVENT',
+      'UID:mfld2026@lulidias.com', 'DTSTAMP:' + z(new Date()), 'DTSTART:' + z(ini), 'DTEND:' + z(fim),
+      'SUMMARY:' + titulo, 'DESCRIPTION:' + desc, 'LOCATION:' + local.replace(/,/g, '\\,'),
+      'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY', 'DESCRIPTION:Amanhã é a Magnum Fest! Separe a sua Magnum. 🍷', 'END:VALARM',
+      'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    location.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+    return;
+  }
+  window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(titulo) +
+    '&dates=' + z(ini) + '/' + z(fim) + '&details=' + encodeURIComponent(desc) + '&location=' + encodeURIComponent(local), '_blank');
+}
+function painelClick(e) {
+  if (!meuId) {
+    e.preventDefault();
+    document.getElementById('entrar-modal').classList.remove('hidden');
+    setTimeout(function () { document.getElementById('entrar-zap').focus(); }, 100);
+  }
+}
+function entrarPainel() {
+  var zap = document.getElementById('entrar-zap').value.trim();
+  if (!zap) return toast('Digite o seu WhatsApp.', true);
+  var btn = document.getElementById('entrar-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
+  rpc('wlr_entrar', { p_whatsapp: zap })
+    .then(function (id) {
+      meuId = id; try { localStorage.setItem('wlr_id', id); } catch (e) { }
+      document.getElementById('entrar-modal').classList.add('hidden');
+      toast('Bem-vindo de volta! 🥂');
+      return loadMe().then(function () { location.hash = '#rsvp'; });
+    })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { btn.disabled = false; btn.textContent = 'Entrar'; });
+}
+var minhasCount = 0, minhasAprovadas = 0;
+function renderChips() {
+  var box = document.getElementById('me-chips');
+  if (!box || !meu) return;
+  var pago = meu.pago ? '<span class="chip ok">💰 Rateio pago ✓</span>'
+    : (meu.comprovante_url ? '<span class="chip">💰 Comprovante em análise</span>' : '<span class="chip warn">💰 Rateio pendente</span>');
+  var gar = minhasAprovadas > 0 ? '<span class="chip ok">🍾 Magnum aprovada ✓</span>'
+    : minhasCount > 0 ? '<span class="chip">🍾 Magnum em análise</span>' : '<span class="chip warn">🍾 Falta a sua Magnum</span>';
+  box.innerHTML = '<span class="chip ok">✓ Presença confirmada</span>' + gar + pago;
+}
+function logoutMe() {
+  try { localStorage.removeItem('wlr_id'); } catch (e) { }
+  meuId = null; meu = null;
+  document.getElementById('me-panel').classList.add('hidden');
+  document.getElementById('form-panel').classList.remove('hidden');
+  document.getElementById('rsvp-title').textContent = 'Confirme a sua presença';
+}
+
+// ── painel do confrade ───────────────────────────────────────────────────
+function loadMe() {
+  if (!meuId) return Promise.resolve();
+  return rpc('wlr_meu', { p_id: meuId }).then(function (rows) {
+    if (!rows || !rows.length) { logoutMe(); return; }
+    meu = rows[0];
+    document.getElementById('form-panel').classList.add('hidden');
+    document.getElementById('me-panel').classList.remove('hidden');
+    document.getElementById('rsvp-title').textContent = 'Seu painel de confrade';
+    document.getElementById('rsvp-sub').textContent = 'Registre as suas Magnums, acompanhe o parecer de cada uma e o rateio.';
+    document.getElementById('cta-btn').textContent = 'Meu painel';
+    document.getElementById('me-nome').textContent = meu.nome.split(' ')[0];
+    document.getElementById('btn-cartao').href = 'cartao.html?id=' + meuId;
+    meuNomeCache = meu.nome;
+    atualizaPremioBtn();
+    renderPay();
+    return Promise.all([loadMinhasGarrafas(), loadMeusPedidos().then(refreshPublic), loadPedidosRecebidos()]);
+  });
+}
+
+var SIT = {
+  aprovado: ['✅ Aprovado', 'var(--ok)'],
+  em_analise: ['⏳ Com o conselho da WLR', '#8A5A12'],
+  inapto: ['❌ Não se encaixa nos critérios', 'var(--bad)'],
+  recusado: ['❌ Não aprovado pelo conselho', 'var(--bad)']
+};
+function parecerHtml(g) {
+  var analisando = g.analise_status === 'pendente' || g.analise_status === 'processando';
+  if (analisando && !g.decisao_por) {
+    return '<div class="parecer"><span class="spin"></span>Conferindo notas, preço e critérios da MFLD… o parecer aparece aqui em alguns minutos.</div>';
+  }
+  var s = SIT[g.situacao] || SIT.em_analise;
+  var a = g.analise || {};
+  var h = '<div class="parecer"><div class="st" style="color:' + s[1] + '">' + s[0] +
+    (g.decisao_por ? ' <span style="font-weight:400;color:var(--ink-lt)">— decisão de ' + esc(g.decisao_por) + '</span>' : '') + '</div>';
+  if (g.decisao_motivo) h += '<div style="margin-top:4px">' + esc(g.decisao_motivo) + '</div>';
+  else if (a.resumo) h += '<div style="margin-top:4px">' + esc(a.resumo) + '</div>';
+  if (a.criterios && a.criterios.length) {
+    h += '<details style="margin-top:6px"><summary style="cursor:pointer;font-size:11px;color:var(--wine-lt)">Ver os critérios um a um</summary><table>' +
+      a.criterios.map(function (c) {
+        return '<tr><td>' + (c.ok === true ? '✅' : c.ok === false ? '❌' : '❔') + '</td><td><strong>' + esc(c.rotulo) + '</strong><br><span class="dt">' + esc(c.detalhe) + '</span></td></tr>';
+      }).join('') + '</table>' +
+      (a.fatos && a.fatos.observacoes ? '<div class="dt" style="margin-top:6px;font-style:italic">' + esc(a.fatos.observacoes) + '</div>' : '') + '</details>';
+  }
+  if (g.analise_status === 'erro' && !g.decisao_por) h += '<div class="dt" style="margin-top:4px">A pesquisa automática não encontrou dados suficientes — o conselho vai avaliar.</div>';
+  if (g.situacao === 'inapto' && g.sou_criador && !g.pedido_excecao) {
+    h += '<div style="margin-top:10px">Pode trocar o vinho (Editar) ou, se ele merece a mesa por raridade ou singularidade, ' +
+      '<button class="linklike" onclick="pedirExcecao(\'' + g.id + '\')">pedir a análise do conselho</button> (cláusula 6.1).</div>';
+  }
+  return h + '</div>';
+}
+var minhasGarrafas = [], pollTimer = null;
+function loadMinhasGarrafas() {
+  return rpc('wlr_minhas_garrafas', { p_participante: meuId }).then(function (rows) {
+    rows = rows || [];
+    minhasGarrafas = rows;
+    var box = document.getElementById('me-garrafas'); box.innerHTML = '';
+    var share = 0, aprovadas = 0, pendentes = false;
+    rows.forEach(function (g) {
+      var conta = g.situacao !== 'inapto' && g.situacao !== 'recusado';
+      if (conta) share += Number(g.litros) / Math.max(1, g.vagas || g.membros.length);
+      if (g.situacao === 'aprovado') aprovadas++;
+      if (g.analise_status === 'pendente' || g.analise_status === 'processando') pendentes = true;
+      var d = document.createElement('div'); d.className = 'gr-card';
+      var fotoHtml = '';
+      if (g.foto_url && g.foto_ok === null) {
+        fotoHtml = '<div style="width:100%;display:flex;gap:14px;align-items:center;border-top:1px dashed var(--border);padding-top:12px;margin-top:4px">' +
+          '<img src="' + esc(g.foto_url) + '" style="max-height:72px;max-width:48px;object-fit:contain" onerror="this.remove()">' +
+          '<div style="font-size:11px">Encontramos esta foto — está certa?<br>' +
+          '<button class="linklike" onclick="avaliaFoto(\'' + g.id + '\', true)">✓ Sim, é essa</button> &nbsp; ' +
+          '<button class="linklike" onclick="avaliaFoto(\'' + g.id + '\', false)">✗ Não é essa</button></div></div>';
+      } else if (g.foto_ok === false) {
+        fotoHtml = '<div style="width:100%;font-size:11px;border-top:1px dashed var(--border);padding-top:12px;margin-top:4px">Envie a foto certa da garrafa: ' +
+          '<input type="file" accept="image/*" style="font-size:11px" onchange="uploadFotoGarrafa(this, \'' + g.id + '\')"></div>';
+      }
+      d.innerHTML = '<div><div class="w">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
+        '<div class="m">' + (g.produtor ? esc(g.produtor) + ' · ' : '') + (g.regiao ? esc(g.regiao) + ' · ' : '') + esc(tipoRotulo(g)) + ' · ' + esc(g.formato) + ' (' + fmtLitros(g.litros) + ' L)' +
+        ((g.vagas || 1) > 1 ? ' — sua parte: 1/' + g.vagas : '') +
+        (g.membros.length > 1 ? ' — com ' + esc(g.membros.join(', ')) : '') + '</div></div>' +
+        '<div style="display:flex;gap:10px;align-items:center"><span class="gr-fmt">' + esc(g.formato) + '</span>' +
+        (g.sou_criador ? '<button class="linklike" onclick="editarGarrafa(\'' + g.id + '\')">Editar</button>' : '') +
+        '<button class="linklike" onclick="leaveGarrafa(\'' + g.id + '\')">' + (g.sou_criador ? 'Remover' : 'Sair') + '</button></div>' +
+        parecerHtml(g) + fotoHtml;
+      box.appendChild(d);
+    });
+    minhasCount = rows.length; minhasAprovadas = aprovadas;
+    renderChips();
+    var need = 1.5;
+    var pct = Math.min(100, Math.round(share / need * 100));
+    document.getElementById('cover-fill').style.width = pct + '%';
+    document.getElementById('cover-txt').innerHTML = rows.length
+      ? 'Sua contribuição: <strong>' + fmtLitros(share) + ' L</strong> de ' + fmtLitros(need) + ' L mínimos' + (share >= need ? ' — <span style="color:var(--ok)">✓ completa</span>' : ' — falta ' + fmtLitros(Math.max(0, need - share)) + ' L')
+      : 'Você ainda não registrou nenhuma garrafa — o mínimo é uma Magnum (1,5 L) por confrade.';
+    // enquanto houver análise em curso, atualiza sozinho
+    clearTimeout(pollTimer);
+    if (pendentes) pollTimer = setTimeout(function () { loadMinhasGarrafas(); refreshPublic(); }, 20000);
+  });
+}
+function pedirExcecao(id) {
+  var motivo = prompt('Conte ao conselho por que este vinho merece a mesa (raridade, singularidade, qualidade):');
+  if (motivo === null) return;
+  rpc('wlr_pedir_excecao', { p_participante: meuId, p_garrafa: id, p_motivo: motivo })
+    .then(function () { toast('Pedido enviado ao conselho. Você recebe a decisão por e-mail.'); return Promise.all([loadMinhasGarrafas(), refreshPublic()]); })
+    .catch(function (e) { toast(e.message, true); });
+}
+
+var SUBTIPOS = {
+  'Espumante': [['Brut', 'Brut'], ['Rosé', 'Rosé']],
+  'Fortificado / Doce': [['Porto Vintage', 'Porto Vintage'], ['Porto Tawny', 'Porto Tawny (30+ anos)'], ['Sauternes', 'Sauternes'], ['Tokaj', 'Tokaj'], ['Outro', 'Outro']]
+};
+function tipoChange(valor) {
+  var t = document.getElementById('g-tipo').value;
+  var row = document.getElementById('g-subtipo-row'), sel = document.getElementById('g-subtipo');
+  if (!SUBTIPOS[t]) { row.classList.add('hidden'); sel.innerHTML = ''; return; }
+  row.classList.remove('hidden');
+  sel.innerHTML = SUBTIPOS[t].map(function (o) { return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join('');
+  if (valor) sel.value = valor;
+}
+function fmtChange() {
+  var v = document.getElementById('g-formato').value;
+  document.getElementById('g-outro-row').classList.toggle('hidden', v !== 'outro');
+  var vagas = document.getElementById('g-vagas'); vagas.innerHTML = '';
+  for (var i = 1; i <= 12; i++) {
+    var o = document.createElement('option'); o.value = i;
+    o.textContent = i === 1 ? 'Sozinho' : 'Dividir entre ' + i;
+    if (i === 1) o.selected = true; vagas.appendChild(o);
+  }
+}
+fmtChange();
+
+var editandoId = null;
+function editarGarrafa(id) {
+  var g = null;
+  minhasGarrafas.forEach(function (x) { if (x.id === id) g = x; });
+  if (!g) return;
+  editandoId = id;
+  document.getElementById('g-vinho').value = g.vinho;
+  document.getElementById('g-produtor').value = g.produtor || '';
+  document.getElementById('g-regiao').value = g.regiao || '';
+  document.getElementById('g-safra').value = g.safra || '';
+  document.getElementById('g-pais').value = g.pais || '';
+  document.getElementById('g-tipo').value = g.tipo || 'Tinto';
+  tipoChange(g.subtipo);
+  var fsel = document.getElementById('g-formato'), achou = false;
+  [].slice.call(fsel.options).forEach(function (o) {
+    if (o.value !== 'outro' && o.value.split('|')[0] === g.formato) { fsel.value = o.value; achou = true; }
+  });
+  if (!achou) fsel.value = 'outro';
+  fmtChange();
+  if (!achou) document.getElementById('g-litros').value = String(g.litros).replace('.', ',');
+  document.getElementById('g-vagas').value = g.vagas;
+  document.getElementById('g-add').textContent = 'Salvar alterações';
+  document.getElementById('g-cancel').classList.remove('hidden');
+  document.getElementById('g-vinho').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function cancelarEdicao() {
+  editandoId = null;
+  ['g-vinho', 'g-produtor', 'g-regiao', 'g-pais', 'g-safra', 'g-litros'].forEach(function (i) { document.getElementById(i).value = ''; });
+  document.getElementById('g-tipo').value = 'Tinto'; tipoChange();
+  fmtChange();
+  document.getElementById('g-add').textContent = 'Adicionar garrafa';
+  document.getElementById('g-cancel').classList.add('hidden');
+}
+function addGarrafa() {
+  var vinho = document.getElementById('g-vinho').value.trim();
+  if (!vinho) return toast('Informe o vinho.', true);
+  var safra = document.getElementById('g-safra').value.trim();
+  var tipo = document.getElementById('g-tipo').value;
+  if (!safra && tipo !== 'Fortificado / Doce') return toast('Informe a safra — ela decide as notas e o preço.', true);
+  var fsel = document.getElementById('g-formato').value;
+  var formato, litros;
+  if (fsel === 'outro') {
+    litros = parseFloat((document.getElementById('g-litros').value || '').replace(',', '.'));
+    if (!litros || litros <= 0) return toast('Informe os litros da garrafa.', true);
+    if (litros < 1.5) return toast('É uma Magnum Fest: o mínimo é 1,5 L.', true);
+    formato = fmtLitros(litros) + ' litros';
+  } else {
+    var p = fsel.split('|'); formato = p[0]; litros = parseFloat(p[1]);
+  }
+  var vagas = parseInt(document.getElementById('g-vagas').value, 10) || 1;
+  var btn = document.getElementById('g-add'); btn.disabled = true; btn.textContent = editandoId ? 'Salvando…' : 'Adicionando…';
+  var args = {
+    p_participante: meuId, p_vinho: vinho,
+    p_produtor: document.getElementById('g-produtor').value.trim(),
+    p_safra: safra,
+    p_formato: formato, p_litros: litros, p_vagas: vagas,
+    p_tipo: tipo,
+    p_pais: normalizaPais(document.getElementById('g-pais').value),
+    p_regiao: document.getElementById('g-regiao').value.trim(),
+    p_subtipo: SUBTIPOS[tipo] ? document.getElementById('g-subtipo').value : null
+  };
+  var chamada;
+  if (editandoId) { args.p_garrafa = editandoId; chamada = rpc('wlr_edit_garrafa', args).then(function () { return editandoId; }); }
+  else chamada = rpc('wlr_add_garrafa', args);
+  chamada.then(function (garrafaId) {
+    var f = document.getElementById('g-foto').files[0];
+    var upload = (f && garrafaId) ? enviarFotoGarrafa(f, garrafaId) : Promise.resolve();
+    return upload.then(function () {
+      toast(editandoId ? 'Garrafa atualizada! 🍷' : 'Garrafa registrada! Conferindo os critérios… 🍷');
+      cancelarEdicao();
+      document.getElementById('g-foto').value = '';
+      return Promise.all([loadMinhasGarrafas(), refreshPublic()]);
+    });
+  }).catch(function (e) { toast(e.message, true); })
+    .then(function () { btn.disabled = false; btn.textContent = editandoId ? 'Salvar alterações' : 'Adicionar garrafa'; });
+}
+
+function enviarFotoGarrafa(f, garrafaId) {
+  if (f.size > 10 * 1024 * 1024) { toast('Foto muito grande (máx. 10 MB).', true); return Promise.resolve(); }
+  var ext = (f.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+  var path = 'fotos-vinhos/' + garrafaId + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+  return fetch(SB + '/storage/v1/object/wlr/' + path, {
+    method: 'POST',
+    headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': f.type || 'image/jpeg' },
+    body: f
+  }).then(function (r) {
+    if (!r.ok) throw new Error('Falha ao enviar a foto');
+    return rpc('wlr_set_foto_garrafa', { p_participante: meuId, p_garrafa: garrafaId, p_url: SB + '/storage/v1/object/public/wlr/' + path });
+  });
+}
+function uploadFotoGarrafa(input, garrafaId) {
+  var f = input.files && input.files[0]; if (!f) return;
+  enviarFotoGarrafa(f, garrafaId).then(function () {
+    toast('Foto da garrafa atualizada! 📷');
+    return Promise.all([loadMinhasGarrafas(), refreshPublic()]);
+  }).catch(function (e) { toast(e.message, true); });
+}
+function avaliaFoto(garrafaId, ok) {
+  rpc('wlr_avalia_foto', { p_participante: meuId, p_garrafa: garrafaId, p_ok: ok })
+    .then(function () {
+      toast(ok ? 'Foto confirmada!' : 'Certo — envie a foto certa ou o organizador buscará outra.');
+      return Promise.all([loadMinhasGarrafas(), refreshPublic()]);
+    }).catch(function (e) { toast(e.message, true); });
+}
+var meusPedidosMap = {};
+function pedirGarrafa(id) {
+  if (!meuId) { toast('Confirme a sua presença primeiro.', true); location.hash = '#rsvp'; return; }
+  rpc('wlr_pedir_garrafa', { p_participante: meuId, p_garrafa: id })
+    .then(function () { meusPedidosMap[id] = 'pendente'; toast('Pedido enviado! O dono da garrafa vai combinar com você. 🤝'); return refreshPublic(); })
+    .catch(function (e) { toast(e.message, true); });
+}
+function loadMeusPedidos() {
+  if (!meuId) return Promise.resolve();
+  return rpc('wlr_meus_pedidos', { p_participante: meuId }).then(function (rows) {
+    meusPedidosMap = {};
+    (rows || []).forEach(function (p) { meusPedidosMap[p.garrafa_id] = p.status; });
+  }).catch(function () { });
+}
+function loadPedidosRecebidos() {
+  if (!meuId) return Promise.resolve();
+  return rpc('wlr_pedidos_recebidos', { p_participante: meuId }).then(function (rows) {
+    var box = document.getElementById('me-pedidos');
+    if (!rows || !rows.length) { box.innerHTML = ''; return; }
+    box.innerHTML = rows.map(function (p) {
+      var zap = String(p.whatsapp || '').replace(/\D/g, '').replace(/^55/, '');
+      return '<div style="border:1px dashed var(--wine-lt);background:var(--gold-bg);padding:16px;margin-top:12px;font-size:13px">' +
+        '✋ <strong>' + esc(p.solicitante) + '</strong> quer dividir seu <em>' + esc(p.vinho) + '</em>' +
+        '<div style="margin-top:10px;display:flex;gap:14px;flex-wrap:wrap;align-items:center">' +
+        '<a href="https://wa.me/55' + zap + '" target="_blank" style="color:#1DA851;font-size:11px;letter-spacing:1px;text-transform:uppercase">💬 Combinar no WhatsApp</a>' +
+        '<button class="linklike" style="color:var(--ok)" onclick="responderPedido(\'' + p.garrafa_id + '\',\'' + p.solicitante_id + '\', true)">✓ Aceitar</button>' +
+        '<button class="linklike" style="color:var(--warn)" onclick="responderPedido(\'' + p.garrafa_id + '\',\'' + p.solicitante_id + '\', false)">✗ Recusar</button>' +
+        '</div></div>';
+    }).join('');
+  }).catch(function () { });
+}
+function responderPedido(garrafa, solicitante, aceitar) {
+  rpc('wlr_responder_pedido', { p_criador: meuId, p_garrafa: garrafa, p_solicitante: solicitante, p_aceitar: aceitar })
+    .then(function () {
+      toast(aceitar ? 'Sociedade fechada! 🥂' : 'Pedido recusado — a vaga segue aberta.');
+      return Promise.all([loadPedidosRecebidos(), loadMinhasGarrafas(), refreshPublic()]);
+    }).catch(function (e) { toast(e.message, true); });
+}
+function leaveGarrafa(id) {
+  if (!confirm('Tem certeza?')) return;
+  rpc('wlr_leave_garrafa', { p_participante: meuId, p_garrafa: id })
+    .then(function () { toast('Feito.'); return Promise.all([loadMinhasGarrafas(), refreshPublic()]); })
+    .catch(function (e) { toast(e.message, true); });
+}
+
+// ── Pix ──────────────────────────────────────────────────────────────────
+function emv(id, value) { var v = String(value); return id + ('0' + v.length).slice(-2) + v; }
+function crc16(s) {
+  var crc = 0xFFFF;
+  for (var i = 0; i < s.length; i++) {
+    crc ^= s.charCodeAt(i) << 8;
+    for (var j = 0; j < 8; j++) crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) & 0xFFFF : (crc << 1) & 0xFFFF;
+  }
+  return ('000' + crc.toString(16).toUpperCase()).slice(-4);
+}
+function semAcento(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+function pixPayload(chave, nome, cidade, valor, txid) {
+  var mai = emv('00', 'br.gov.bcb.pix') + emv('01', chave);
+  var p = emv('00', '01') + emv('26', mai) + emv('52', '0000') + emv('53', '986');
+  if (valor) p += emv('54', valor.toFixed(2));
+  p += emv('58', 'BR') + emv('59', semAcento(nome || 'WINE LOVERS RECIFE').substring(0, 25)) +
+       emv('60', (cidade || 'RECIFE').substring(0, 15)) + emv('62', emv('05', (txid || 'MFLD2026').substring(0, 25)));
+  p += '6304';
+  return p + crc16(p);
+}
+var pixCopiaECola = '';
+function renderPay() {
+  if (!meu) return;
+  renderChips();
+  var pend = document.getElementById('pix-pending'), ready = document.getElementById('pix-ready'), paid = document.getElementById('pix-paid');
+  pend.classList.add('hidden'); ready.classList.add('hidden'); paid.classList.add('hidden');
+  if (meu.pago) { paid.classList.remove('hidden'); return; }
+  if (!cfg || !cfg.chave_pix || !cfg.valor_rateio) { pend.classList.remove('hidden'); return; }
+  ready.classList.remove('hidden');
+  var valor = Number(cfg.valor_rateio);
+  document.getElementById('pix-val').textContent = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  document.getElementById('pix-chave').textContent = cfg.chave_pix;
+  document.getElementById('pix-nome').textContent = cfg.nome_pix ? '(' + cfg.nome_pix + ')' : '';
+  pixCopiaECola = pixPayload(cfg.chave_pix, cfg.nome_pix, 'RECIFE', valor, 'MFLD2026');
+  document.getElementById('pix-payload').textContent = pixCopiaECola;
+  if (window.QRious) new QRious({ element: document.getElementById('pix-qr'), value: pixCopiaECola, size: 180, background: '#FFFFFF', foreground: '#2E1029', level: 'M' });
+  if (meu.comprovante_url) document.getElementById('comp-status').innerHTML = '✓ Comprovante enviado — <a href="' + esc(meu.comprovante_url) + '" target="_blank">ver</a>. Aguardando confirmação.';
+}
+function copyPix() {
+  (navigator.clipboard ? navigator.clipboard.writeText(pixCopiaECola) : Promise.reject())
+    .then(function () { toast('Pix copiado! Cole no app do seu banco.'); })
+    .catch(function () { toast('Selecione e copie o código acima.', true); });
+}
+function uploadComprovante(input) {
+  var f = input.files && input.files[0]; if (!f) return;
+  if (f.size > 8 * 1024 * 1024) return toast('Arquivo muito grande (máx. 8 MB).', true);
+  var st = document.getElementById('comp-status'); st.textContent = 'Enviando…';
+  var ext = (f.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+  var path = 'comprovantes/' + meuId + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+  fetch(SB + '/storage/v1/object/wlr/' + path, {
+    method: 'POST',
+    headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': f.type || 'application/octet-stream' },
+    body: f
+  }).then(function (r) {
+    if (!r.ok) throw new Error('Falha no envio (' + r.status + ')');
+    var url = SB + '/storage/v1/object/public/wlr/' + path;
+    return rpc('wlr_set_comprovante', { p_participante: meuId, p_url: url }).then(function () {
+      meu.comprovante_url = url;
+      st.innerHTML = '✓ Comprovante enviado — aguardando confirmação.';
+      toast('Comprovante recebido! Obrigado. 🥂');
+    });
+  }).catch(function (e) { st.textContent = ''; toast(e.message, true); });
+}
+
+// ── público: carta + confirmados ─────────────────────────────────────────
+var vinhosCache = [];
+function renderVagas(vinhos) {
+  if (!cfg) return;
+  var ap = vinhos.filter(function (g) { return g.situacao === 'aprovado'; });
+  var rose = ap.filter(function (g) { return g.tipo === 'Espumante' && g.subtipo === 'Rosé'; }).length;
+  var brut = ap.filter(function (g) { return g.tipo === 'Espumante' && g.subtipo !== 'Rosé'; }).length;
+  var doces = ap.filter(function (g) { return g.tipo === 'Fortificado / Doce'; }).length;
+  var limB = cfg.lim_espumantes - cfg.lim_espumante_rose;
+  var v = function (rot, n, lim) {
+    return '<div class="vaga' + (n >= lim ? ' cheia' : '') + '"><b>' + n + ' / ' + lim + '</b>' + rot + (n >= lim ? ' — completo' : '') + '</div>';
+  };
+  document.getElementById('vagas-row').innerHTML = v('espumantes brut', brut, limB) + v('espumante rosé', rose, cfg.lim_espumante_rose) + v('Porto, Sauternes e Tokaj', doces, cfg.lim_doces);
+}
+function selo(g) {
+  var s = g.situacao === 'aprovado' ? '<span class="sit ok">✓ Aprovado</span>' : '<span class="sit an">⏳ Com o conselho</span>';
+  return s + (g.selo && g.selo.resumo ? '<span class="selo">' + esc(g.selo.resumo) + '</span>' : '');
+}
+function quem(g) { return g.membros && g.membros.length ? g.membros.join(', ') : (g.sigla || '—'); }
+function refreshPublic() {
+  return Promise.all([view('wlr_vinhos_publico'), view('wlr_confirmados')]).then(function (res) {
+    var vinhos = res[0] || [], pessoas = res[1] || [];
+    pessoas.sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt'); });
+    var aprov = vinhos.filter(function (g) { return g.situacao === 'aprovado'; });
+    var litros = 0;
+    aprov.forEach(function (g) {
+      var vagas = Math.max(1, g.vagas || 1);
+      litros += Number(g.litros) * (Math.max(1, Math.min(g.membros.length, vagas)) / vagas);
+    });
+    document.getElementById('st-conf').textContent = pessoas.length;
+    var meta = cfg && cfg.meta_confrades;
+    var mb = document.getElementById('meta-bar'), mk = document.getElementById('meta-k');
+    if (meta > 0) {
+      mb.classList.remove('hidden'); mk.classList.remove('hidden');
+      document.getElementById('meta-fill').style.width = Math.min(100, Math.round(pessoas.length / meta * 100)) + '%';
+      mk.textContent = 'rumo a ' + meta;
+    } else { mb.classList.add('hidden'); mk.classList.add('hidden'); }
+    document.getElementById('st-gar').textContent = aprov.length;
+    document.getElementById('st-lit').textContent = fmtLitros(Math.round(litros * 100) / 100);
+    var comGarrafa = {};
+    aprov.forEach(function (g) { (g.membros || []).forEach(function (n) { comGarrafa[n] = true; }); if (!g.membros.length && g.sigla) comGarrafa[g.sigla] = true; });
+    var nCom = Object.keys(comGarrafa).length;
+    document.getElementById('st-media').textContent = nCom ? fmtLitros(Math.round(litros / nCom * 100) / 100) : '—';
+    vinhosCache = vinhos;
+    renderVagas(vinhos);
+    var groups = document.getElementById('wine-groups'); groups.innerHTML = '';
+    document.getElementById('wine-empty').classList.toggle('hidden', vinhos.length > 0);
+    var TIPO_ORDEM = ['Espumante', 'Branco', 'Rosé', 'Tinto', 'Fortificado / Doce'];
+    var TIPO_PLURAL = { 'Espumante': 'Espumantes', 'Branco': 'Brancos', 'Rosé': 'Rosés', 'Tinto': 'Tintos', 'Fortificado / Doce': 'Porto, Sauternes & Tokaj' };
+    var porTipo = {};
+    vinhos.forEach(function (g) { var t = g.tipo || 'Tinto'; (porTipo[t] = porTipo[t] || []).push(g); });
+    var tipos = TIPO_ORDEM.filter(function (t) { return porTipo[t]; })
+      .concat(Object.keys(porTipo).filter(function (t) { return TIPO_ORDEM.indexOf(t) < 0; }).sort());
+    document.getElementById('v-vista').innerHTML =
+      fpill('⊞ Cards', vistaVinhos === 'cards', "setVista('vinhos','cards')") +
+      fpill('☰ Lista', vistaVinhos === 'lista', "setVista('vinhos','lista')");
+    tipos.forEach(function (t) {
+      var h = document.createElement('div'); h.className = 'wg-tipo';
+      h.innerHTML = '<span class="t">' + esc(TIPO_PLURAL[t] || t) + '</span><span class="ln"></span>';
+      groups.appendChild(h);
+      var porPais = {};
+      porTipo[t].forEach(function (g) { var p = g.pais || 'Outros'; (porPais[p] = porPais[p] || []).push(g); });
+      Object.keys(porPais).sort(function (a, b) { return a === 'Outros' ? 1 : b === 'Outros' ? -1 : a.localeCompare(b, 'pt'); })
+        .forEach(function (pais) {
+          var ph = document.createElement('div'); ph.className = 'wg-pais';
+          ph.textContent = (FLAGS[pais] ? FLAGS[pais] + ' ' : '') + pais;
+          groups.appendChild(ph);
+          var lista = porPais[pais].slice().sort(function (a, b) { return a.vinho.localeCompare(b.vinho, 'pt'); });
+          if (vistaVinhos === 'lista') {
+            var lw = document.createElement('div'); lw.className = 'vlista';
+            lista.forEach(function (g) {
+              var r = document.createElement('div'); r.className = 'vrow';
+              r.innerHTML = '<span class="vn">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</span>' +
+                '<span class="vq cl-p">' + esc([g.produtor, g.regiao].filter(Boolean).join(' · ')) + '</span>' +
+                '<span class="vf">' + esc(g.formato) + ' · ' + fmtLitros(g.litros) + ' L</span>' +
+                '<span class="vq cl-q">' + esc(quem(g)) + (g.situacao !== 'aprovado' ? ' · ⏳' : '') + (g.selo && g.selo.resumo ? ' · ' + esc(g.selo.resumo) : '') + '</span>';
+              lw.appendChild(r);
+            });
+            groups.appendChild(lw);
+            return;
+          }
+          var grid = document.createElement('div'); grid.className = 'wine-grid';
+          lista.forEach(function (g) {
+            var d = document.createElement('div'); d.className = 'wine-card';
+            var souMembro = meu && (g.membros || []).indexOf(meu.nome) >= 0;
+            var vagasHtml = '';
+            if (g.vagas_restantes > 0 && !souMembro && g.membros.length) {
+              vagasHtml = meusPedidosMap[g.id] === 'pendente'
+                ? '<div class="join"><span class="vac">✋ pedido enviado</span> — aguardando o dono da garrafa</div>'
+                : '<div class="join"><span class="vac">' + g.vagas_restantes + ' vaga' + (g.vagas_restantes > 1 ? 's' : '') + '</span> — <button class="linklike" onclick="pedirGarrafa(\'' + g.id + '\')">✋ pedir para dividir</button></div>';
+            }
+            var subt = [g.produtor, g.regiao].filter(Boolean).map(esc).join(' · ');
+            d.innerHTML = '<div class="fmt">' + esc(g.formato) + ' · ' + fmtLitros(g.litros) + ' L</div>' +
+              (g.foto_url && g.foto_ok !== false ? '<img src="' + esc(g.foto_url) + '" alt="" style="float:right;height:96px;max-width:70px;object-fit:contain;margin:14px 0 6px 10px" onerror="this.remove()">' : '') +
+              '<div class="nm">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
+              (subt ? '<div class="pr">' + subt + '</div>' : '') +
+              (g.subtipo ? '<div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt);margin-top:4px">' + esc(g.subtipo) + '</div>' : '') +
+              selo(g) +
+              '<div class="who">🍷 ' + esc(quem(g)) + '</div>' + vagasHtml;
+            grid.appendChild(d);
+          });
+          groups.appendChild(grid);
+        });
+    });
+    renderNumeros(aprov);
+    pessoasCache = pessoas;
+    document.getElementById('conf-count-sub').textContent = pessoas.length
+      ? pessoas.length + ' confrade' + (pessoas.length > 1 ? 's' : '') + ' já ' + (pessoas.length > 1 ? 'confirmaram' : 'confirmou') + ' presença.'
+      : 'Seja o primeiro a confirmar presença.';
+    renderConfirmados();
+  }).catch(function (e) { console.error(e); });
+}
+
+var pessoasCache = [];
+var fPais = '', fOrdem = 'az';
+var vistaVinhos = 'cards', vistaPessoas = 'cards';
+function setVista(t, v) {
+  if (t === 'vinhos') { vistaVinhos = v; refreshPublic(); }
+  else { vistaPessoas = v; renderConfirmados(); }
+}
+function fpill(rotulo, ativo, onclick) { return '<button class="fpill' + (ativo ? ' on' : '') + '" onclick="' + onclick + '">' + rotulo + '</button>'; }
+function setFiltro(tipo, valor) {
+  if (tipo === 'pais') fPais = (fPais === valor ? '' : valor);
+  if (tipo === 'ordem') fOrdem = valor;
+  renderConfirmados();
+}
+var vencedoresPorNome = {}, vencedoresCarregados = false, catsCache = [];
+function loadVencedores() {
+  if (!cfg || !cfg.resultados_publicos || vencedoresCarregados) return;
+  vencedoresCarregados = true;
+  rpc('wlr_resultados').then(function (rows) {
+    var vistos = {};
+    (rows || []).forEach(function (r) {
+      if (vistos[r.categoria_id]) return;
+      vistos[r.categoria_id] = true;
+      var cat = null;
+      catsCache.forEach(function (c) { if (c.id === r.categoria_id) cat = c; });
+      (r.membros || []).forEach(function (n) {
+        (vencedoresPorNome[n] = vencedoresPorNome[n] || []).push({ categoria: r.categoria, tf: cat ? cat.tipo_filtro : null });
+      });
+    });
+    renderConfirmados(); atualizaPremioBtn();
+  }).catch(function () { vencedoresCarregados = false; });
+}
+function atualizaPremioBtn() {
+  var b = document.getElementById('btn-premio');
+  var ganhou = meuNomeCache && vencedoresPorNome[meuNomeCache];
+  b.classList.toggle('hidden', !ganhou);
+  if (ganhou && meuId) b.href = 'premio.html?id=' + meuId;
+}
+var meuNomeCache = '';
+function renderConfirmados() {
+  var pessoas = pessoasCache.slice();
+  var vinhos = vinhosCache.filter(function (g) { return g.situacao === 'aprovado'; });
+  var paisesPessoa = {}, paisesMesa = {};
+  vinhos.forEach(function (g) {
+    if (!g.pais) return;
+    paisesMesa[g.pais] = true;
+    (g.membros || []).forEach(function (n) { (paisesPessoa[n] = paisesPessoa[n] || {})[g.pais] = true; });
+  });
+  document.getElementById('f-paises').innerHTML =
+    fpill('Todos os países', fPais === '', "setFiltro('pais','')") +
+    Object.keys(paisesMesa).sort().map(function (p) {
+      return fpill((FLAGS[p] || '') + ' ' + esc(p), fPais === p, "setFiltro('pais','" + p.replace(/'/g, "\\'") + "')");
+    }).join('') + fpill('🍾 sem Magnum aprovada', fPais === '__sem__', "setFiltro('pais','__sem__')");
+  document.getElementById('f-ordem').innerHTML =
+    fpill('A–Z', fOrdem === 'az', "setFiltro('ordem','az')") + fpill('Recentes', fOrdem === 'novo', "setFiltro('ordem','novo')") +
+    '<span style="width:14px"></span>' +
+    fpill('⊞ Cards', vistaPessoas === 'cards', "setVista('pessoas','cards')") + fpill('☰ Lista', vistaPessoas === 'lista', "setVista('pessoas','lista')");
+  if (fPais === '__sem__') pessoas = pessoas.filter(function (p) { return !paisesPessoa[p.nome]; });
+  else if (fPais) pessoas = pessoas.filter(function (p) { return paisesPessoa[p.nome] && paisesPessoa[p.nome][fPais]; });
+  if (fOrdem === 'novo') pessoas.sort(function (a, b) { return new Date(b.criado_em) - new Date(a.criado_em); });
+  else pessoas.sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt'); });
+  var pp = document.getElementById('people'); pp.innerHTML = '';
+  if (!pessoas.length) pp.innerHTML = '<div class="it" style="grid-column:1/-1;text-align:center;font-size:17px;color:var(--ink-lt)">Nenhum confrade neste filtro — ainda. 🍷</div>';
+  var vinhosDe = function (p) { return vinhos.filter(function (g) { return (g.membros || []).indexOf(p.nome) >= 0; }); };
+  if (vistaPessoas === 'lista' && pessoas.length) {
+    var lw = document.createElement('div'); lw.className = 'vlista'; lw.style.gridColumn = '1/-1';
+    pessoas.forEach(function (p) {
+      var vs = vinhosDe(p).map(function (g) { return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : ''); }).join(' · ');
+      var r = document.createElement('div'); r.className = 'vrow';
+      r.innerHTML = '<span class="vn">' + esc(p.nome) + (p.pago ? ' <span class="paid" style="font-size:9px;color:var(--ok)">✓</span>' : '') + '</span>' +
+        (vs ? '<span class="vq cl-q">' + vs + '</span>' : '<span class="vq cl-q" style="color:var(--warn)">sem Magnum aprovada ainda</span>');
+      lw.appendChild(r);
+    });
+    pp.appendChild(lw);
+    return;
+  }
+  pessoas.forEach(function (p) {
+    var mv = vinhosDe(p).map(function (g) {
+      return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : '') + ' (' + esc(g.formato) + ((g.vagas || 1) > 1 ? ' · 1/' + g.vagas : '') + ')';
+    });
+    var premios = vencedoresPorNome[p.nome] || [];
+    var d = document.createElement('div'); d.className = 'person';
+    d.innerHTML = '<div class="pn"><span>' + esc(p.nome) + '</span>' + (p.pago ? '<span class="paid">✓ pago</span>' : '') + '</div>' +
+      (mv.length ? '<div class="pw">🍷 ' + mv.join(' · ') + '</div>' : '') +
+      (premios.length ? '<div class="pwin">' + premios.map(function (c) { return '<span class="mp" title="' + esc(c.categoria) + '">' + placaSVG(c.categoria, c.tf) + '</span>'; }).join('') + '</div>' : '');
+    pp.appendChild(d);
+  });
+}
+
+// ── números da mesa ──────────────────────────────────────────────────────
+function numBars(elId, data) {
+  var el = document.getElementById(elId);
+  if (!data.length) { el.innerHTML = '<div style="font-size:11px;color:var(--ink-lt);font-style:italic;text-align:center">Aguardando as primeiras Magnums…</div>'; return; }
+  var max = Math.max.apply(null, data.map(function (d) { return d.value; }));
+  el.innerHTML = data.map(function (d) {
+    return '<div class="num-row" title="' + esc(d.label) + ': ' + d.value + '"><span class="lb">' + esc(d.label) + '</span>' +
+      '<span class="tr"><span class="fl" style="width:' + Math.round(d.value / max * 100) + '%"></span></span><span class="vl">' + d.value + '</span></div>';
+  }).join('');
+}
+function numCols(elId, data) {
+  var el = document.getElementById(elId);
+  if (!data.length) { el.innerHTML = '<div style="font-size:11px;color:var(--ink-lt);font-style:italic;text-align:center">Aguardando as primeiras Magnums…</div>'; return; }
+  var max = Math.max.apply(null, data.map(function (d) { return d.value; }));
+  el.innerHTML = '<div class="num-cols">' + data.map(function (d) {
+    return '<div class="num-col" title="' + esc(d.label) + ': ' + d.value + '"><span class="cv">' + d.value + '</span>' +
+      '<span class="cb" style="height:' + Math.round(4 + d.value / max * 76) + 'px"></span><span class="cl">' + esc(d.label) + '</span></div>';
+  }).join('') + '</div>';
+}
+function numConta(lista, chave, rotulo) {
+  var c = {};
+  lista.forEach(function (x) { var k = x[chave] || '—'; c[k] = (c[k] || 0) + 1; });
+  return Object.keys(c).map(function (k) { return { label: rotulo ? rotulo(k) : k, value: c[k] }; }).sort(function (a, b) { return b.value - a.value; });
+}
+function renderNumeros(vinhos) {
+  numBars('num-tipos', numConta(vinhos.map(function (g) { return { t: tipoRotulo(g) }; }), 't'));
+  numBars('num-paises', numConta(vinhos, 'pais', function (k) { return (FLAGS[k] ? FLAGS[k] + ' ' : '') + k; }));
+  var LITROS_FORMATO = { 'Magnum': 1.5, 'Double Magnum': 3, 'Jeroboam': 6, 'Salmanazar': 9 };
+  function tamanho(f) { if (LITROS_FORMATO[f]) return LITROS_FORMATO[f]; var m = String(f).match(/^([\d,.]+)\s*litros?/i); return m ? parseFloat(m[1].replace(',', '.')) : 99; }
+  numBars('num-formatos', numConta(vinhos, 'formato').sort(function (a, b) { return tamanho(a.label) - tamanho(b.label); }));
+  var safras = {};
+  vinhos.forEach(function (g) { var s = String(g.safra || '').trim(); var k = /^(19|20)\d{2}$/.test(s) ? s : 'NV'; safras[k] = (safras[k] || 0) + 1; });
+  numCols('num-safras', Object.keys(safras).sort(function (a, b) { if (a === 'NV') return 1; if (b === 'NV') return -1; return Number(a) - Number(b); })
+    .map(function (k) { return { label: k, value: safras[k] }; }));
+}
+
+// ── resultados ───────────────────────────────────────────────────────────
+function renderResultados() {
+  var sec = document.getElementById('resultados');
+  if (!cfg || !cfg.resultados_publicos) { sec.classList.add('hidden'); return; }
+  rpc('wlr_resultados').then(function (rows) {
+    if (!rows || !rows.length) { sec.classList.add('hidden'); return; }
+    sec.classList.remove('hidden');
+    var box = document.getElementById('podios'); box.innerHTML = '';
+    var porCat = {}, ordem = [];
+    rows.forEach(function (r) {
+      if (!porCat[r.categoria_id]) { porCat[r.categoria_id] = { nome: r.categoria, itens: [] }; ordem.push(r.categoria_id); }
+      porCat[r.categoria_id].itens.push(r);
+    });
+    ordem.forEach(function (cid) {
+      var c = porCat[cid], r = c.itens[0];
+      var d = document.createElement('div'); d.className = 'podium';
+      d.innerHTML = '<div class="cn">' + esc(c.nome) + '</div><div class="row"><div><span class="med">🏆</span><span class="w">' + esc(r.vinho) +
+        (r.safra ? ' <span style="color:var(--gold)">' + esc(r.safra) + '</span>' : '') + '</span></div>' +
+        '<span class="v">' + r.votos + ' voto' + (r.votos > 1 ? 's' : '') + '</span>' +
+        '<div class="mm">' + esc(r.formato) + ' — trazido por ' + esc((r.membros || []).join(', ')) + '</div></div>';
+      box.appendChild(d);
+    });
+  }).catch(function () { sec.classList.add('hidden'); });
+}
+
+// ── placas das categorias ────────────────────────────────────────────────
+function placaSVG(nome, tipoFiltro) {
+  var eFesta = !tipoFiltro;
+  var palavra = eFesta ? ['VINHO', 'DA NOITE'] : [String(tipoFiltro).toUpperCase().replace(' / DOCE', '')];
+  var sans = "'Montserrat',Helvetica,sans-serif", serif = "'Cormorant Garamond',Georgia,serif";
+  // silhueta de uma Magnum
+  var garrafa = '<path d="M81 22 h8 v12 c0 4 7 7 7 16 v34 c0 3 -2 5 -5 5 h-12 c-3 0 -5 -2 -5 -5 v-34 c0 -9 7 -12 7 -16 Z" fill="none" stroke="#D9B46A" stroke-width="1.3"/>' +
+    '<rect x="78" y="58" width="14" height="16" fill="rgba(217,180,106,.25)" stroke="#D9B46A" stroke-width=".6"/>';
+  var linhas = palavra.length === 2
+    ? '<text x="85" y="152" text-anchor="middle" font-family="' + sans + '" font-weight="800" font-size="17" letter-spacing="1.5" fill="#F7F0EC">' + palavra[0] + '</text>' +
+      '<text x="85" y="172" text-anchor="middle" font-family="' + sans + '" font-weight="800" font-size="17" letter-spacing="1.5" fill="#F7F0EC">' + palavra[1] + '</text>'
+    : '<text x="85" y="160" text-anchor="middle" font-family="' + sans + '" font-weight="800" font-size="' + (palavra[0].length > 7 ? 16 : 20) + '" letter-spacing="1.5" fill="#F7F0EC">' + palavra[0] + '</text>';
+  return '<svg viewBox="0 0 170 220" width="145" xmlns="http://www.w3.org/2000/svg">' +
+    '<rect x="3" y="3" width="164" height="214" fill="rgba(217,180,106,.05)" stroke="#D9B46A" stroke-width="1.4"/>' +
+    '<rect x="9" y="9" width="152" height="202" fill="none" stroke="#D9B46A" stroke-width=".6" opacity=".6"/>' + garrafa +
+    '<text x="85" y="108" text-anchor="middle" font-family="' + sans + '" font-weight="800" font-size="11" letter-spacing="2" fill="#F7F0EC">MAGNUM FEST</text>' +
+    '<text x="85" y="122" text-anchor="middle" font-family="' + serif + '" font-style="italic" font-size="11" fill="#E2B0C8">Licínio Dias</text>' +
+    '<text x="85" y="138" text-anchor="middle" font-family="' + sans + '" font-size="8" letter-spacing="4" fill="#D9B46A">MELHOR</text>' + linhas +
+    '<text x="85" y="202" text-anchor="middle" font-family="' + sans + '" font-weight="300" font-size="12" letter-spacing="5" fill="#D9B46A">2026</text>' +
+    '</svg>';
+}
+function renderTeaser() {
+  var sec = document.getElementById('vot-teaser');
+  if (cfg && (cfg.votacao_aberta || cfg.resultados_publicos)) { sec.classList.add('hidden'); return; }
+  sec.classList.remove('hidden');
+  var box = document.getElementById('teaser-cats'); box.innerHTML = '';
+  catsCache.slice().sort(function (a, b) { return (a.tipo_filtro ? 1 : 0) - (b.tipo_filtro ? 1 : 0); }).forEach(function (c) {
+    var el = document.createElement('div'); el.innerHTML = placaSVG(c.nome, c.tipo_filtro); box.appendChild(el);
+  });
+}
+function renderRateioPublico() {
+  var el = document.getElementById('passo-rateio');
+  if (el && cfg && cfg.valor_rateio) el.innerHTML = '<strong>' + Number(cfg.valor_rateio).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) + ' por confrade</strong>';
+}
+function renderPremios() {
+  var sec = document.getElementById('premios-sec');
+  if (!cfg || !cfg.premio1) { sec.classList.add('hidden'); return; }
+  sec.classList.remove('hidden');
+  document.getElementById('premio1').textContent = cfg.premio1;
+}
+
+// ── init ─────────────────────────────────────────────────────────────────
+tipoChange();
+loadMembros();
+Promise.all([
+  view('wlr_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : null; renderQuando(); modoFesta(); }).catch(function () { }),
+  view('wlr_categorias_publicas').then(function (rows) { catsCache = rows || []; }).catch(function () { })
+]).then(function () {
+  if (meu) renderPay();
+  renderTeaser(); renderPremios(); renderRateioPublico(); renderResultados(); loadVencedores();
+  refreshPublic();
+});
+try {
+  if (!sessionStorage.getItem('wlr_ping')) { sessionStorage.setItem('wlr_ping', '1'); rpc('wlr_ping', { p_participante: meuId || null }).catch(function () { }); }
+} catch (e) { }
+loadMe();
+setInterval(function () {
+  refreshPublic(); renderResultados();
+  view('wlr_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : cfg; renderQuando(); loadVencedores(); modoFesta(); }).catch(function () { });
+}, 60000);
+</script>
+</body>
+</html>
