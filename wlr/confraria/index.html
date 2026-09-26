@@ -39,6 +39,15 @@ section{max-width:980px;margin:0 auto;padding:64px 24px}
 .orn .r{height:1px;width:56px;background:linear-gradient(90deg,var(--wine-lt),transparent)}
 .orn .d{width:5px;height:5px;background:var(--wine-lt);transform:rotate(45deg)}
 
+.hist{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;max-width:940px;margin:0 auto}
+.hist.sem-foto{grid-template-columns:1fr;max-width:680px}
+.hist figure{margin:0}
+.hist figure img{width:100%;display:block;box-shadow:0 10px 30px rgba(65,26,57,.2);cursor:zoom-in}
+.hist figcaption{text-align:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin-top:12px}
+.poema{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(21px,2.6vw,25px);line-height:1.5;color:var(--wine)}
+.poema p+p{margin-top:8px}
+.assina{margin-top:22px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);font-weight:600}
+.assina::before{content:'— '}
 #texto{max-width:680px;margin:0 auto;font-size:15.5px;line-height:1.85;color:var(--ink)}
 #texto p+p{margin-top:16px}
 
@@ -99,21 +108,36 @@ footer .q{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19p
   section{padding:50px 16px}
   .ed-top{padding:20px 18px 14px}
   .ed-texto{padding:16px 18px 0}
+  .hist{grid-template-columns:1fr;gap:26px}
   .ed-vinhos{columns:1;padding:16px 18px 22px}
   .hero{padding:48px 16px 44px}
 }
+.rede{display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap;margin-top:18px;font-size:11px;letter-spacing:2px;text-transform:uppercase}
+.rede .desde{opacity:.8}
+.rede a{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.4);padding:8px 14px;text-transform:none;letter-spacing:.5px;font-size:13px}
+.rede a:hover{background:#fff;color:#411A39}
 </style>
 </head>
 <body class="carregando">
 
 <header class="hero">
   <img class="hero-logo" src="../img/logo.png" alt="Wine Lovers Recife">
-  <div class="kicker">A confraria</div>
+  <div class="kicker">A confraria · desde 2016</div>
   <div class="quote">"Viver e curtir os bons momentos com os amigos."</div>
   <a class="cta" href="../">Magnum Fest 2026 →</a>
 </header>
 
 <main>
+  <section id="sec-historia" class="hidden">
+    <div class="sec-k">Como tudo começou</div>
+    <div class="sec-t">A nossa história</div>
+    <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+    <div class="hist sem-foto" id="hist">
+      <figure id="hist-fig" class="hidden"><img id="hist-img" alt="O primeiro encontro da Wine Lovers Recife"><figcaption id="hist-leg"></figcaption></figure>
+      <div><div class="poema" id="hist-texto"></div><div class="assina" id="hist-assina" data-notr></div></div>
+    </div>
+  </section>
+
   <section id="sec-sobre">
     <div class="sec-k">Quem somos</div>
     <div class="sec-t">Wine Lovers Recife</div>
@@ -163,6 +187,7 @@ footer .q{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19p
 <footer>
   <img src="../img/logo-branco.png" alt="Wine Lovers Recife">
   <div class="q">"Viver e curtir os bons momentos com os amigos."</div>
+  <div class="rede"><span class="desde">Desde 2016</span><a href="https://www.instagram.com/wineloversrecife/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="vertical-align:-3px;margin-right:6px"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/></svg>@wineloversrecife</a></div>
 </footer>
 
 <div id="zoom" class="hidden" onclick="this.classList.add('hidden')"><img alt=""></div>
@@ -232,6 +257,23 @@ function linhasVinhos(t) {
 
 function render(dados) {
   document.getElementById('texto').innerHTML = paragrafos(dados.texto) || '<p class="vazio">' + esc(tr('O conselho ainda vai escrever este texto.')) + '</p>';
+  if (dados.historia) {
+    document.getElementById('hist-texto').innerHTML = String(dados.historia).split('\n').map(function (l) { return l.trim(); }).filter(Boolean)
+      .map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('');
+    var as = document.getElementById('hist-assina');
+    if (dados.historia_assinatura) as.textContent = dados.historia_assinatura; else as.remove();
+    document.getElementById('sec-historia').classList.remove('hidden');
+    if (dados.historia_tem_foto) {
+      document.getElementById('hist-leg').textContent = dados.historia_legenda || '';
+      rpc('wlr_p_historia_foto', { p_id: meuId }).then(function (src) {
+        if (!src) return;
+        var img = document.getElementById('hist-img'); img.src = src;
+        img.onclick = function () { var z = document.getElementById('zoom'); z.querySelector('img').src = src; z.classList.remove('hidden'); };
+        document.getElementById('hist-fig').classList.remove('hidden');
+        document.getElementById('hist').classList.remove('sem-foto');
+      }).catch(function () { });
+    }
+  }
   var normas = String(dados.normas || '').split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
   if (normas.length) {
     document.getElementById('normas').innerHTML = normas.map(function (n) { return '<li><span>' + esc(n) + '</span></li>'; }).join('');

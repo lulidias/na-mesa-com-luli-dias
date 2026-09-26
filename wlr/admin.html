@@ -187,6 +187,11 @@ a{color:var(--wine-lt)}
 
   <h2>A confraria <small>— página <a href="confraria/" target="_blank">wineloversrecife.com/confraria</a>, que o membro vê antes da festa</small></h2>
   <div class="cfg">
+    <div style="grid-column:1/-1"><label>A nossa história — texto do fundador (cada linha vira um verso)</label><textarea id="cf-hist" rows="7" style="width:100%;padding:10px 12px;border:1px solid var(--border);font-family:inherit;font-size:13px;line-height:1.6"></textarea></div>
+    <div><label>Assinatura</label><input id="cf-hist-ass" placeholder="ex.: Álvaro Mendonça Neto, fundador"></div>
+    <div><label>Legenda da foto</label><input id="cf-hist-leg" placeholder="ex.: O primeiro encontro · 28 de julho de 2016"></div>
+    <div><label>Foto da história</label><input type="file" id="cf-hist-foto" accept="image/*"><img id="cf-hist-prev" alt="" style="width:120px;margin-top:8px;display:none"></div>
+    <div><button class="btn gold" id="cf-hist-save" onclick="salvaHistoria()">Salvar a história</button></div>
     <div style="grid-column:1/-1"><label>Texto sobre a Wine Lovers Recife (linha em branco separa parágrafos)</label><textarea id="cf-texto" rows="7" style="width:100%;padding:10px 12px;border:1px solid var(--border);font-family:inherit;font-size:13px;line-height:1.6"></textarea></div>
     <div style="grid-column:1/-1"><label>Link da playlist (Spotify, Apple Music ou YouTube) — vazio = a seção não aparece</label><input id="cf-playlist" placeholder="https://open.spotify.com/playlist/…"></div>
     <div><button class="btn gold" id="cf-save" onclick="salvaConfraria()">Salvar texto e playlist</button></div>
@@ -748,6 +753,11 @@ function loadConfraria() {
   return rpc('wlr_admin_confraria', { p_token: TOKEN }).then(function (d) {
     confraria = d || { edicoes: [] };
     if (document.activeElement !== document.getElementById('cf-texto')) document.getElementById('cf-texto').value = confraria.texto || '';
+    [['cf-hist', 'historia'], ['cf-hist-ass', 'historia_assinatura'], ['cf-hist-leg', 'historia_legenda']].forEach(function (x) {
+      if (document.activeElement !== document.getElementById(x[0])) document.getElementById(x[0]).value = confraria[x[1]] || '';
+    });
+    var hp = document.getElementById('cf-hist-prev');
+    if (confraria.historia_tem_foto && !hp.src) rpc('wlr_admin_historia_foto', { p_token: TOKEN }).then(function (src) { if (src) { hp.src = src; hp.style.display = 'block'; } }).catch(function () { });
     if (document.activeElement !== document.getElementById('cf-normas')) document.getElementById('cf-normas').value = confraria.normas || '';
     if (document.activeElement !== document.getElementById('cf-playlist')) document.getElementById('cf-playlist').value = confraria.playlist || '';
     var eds = confraria.edicoes || [];
@@ -802,6 +812,17 @@ function apagaPresidente(id) {
   if (!confirm('Tirar este presidente da galeria?')) return;
   rpc('wlr_admin_presidente_apagar', { p_token: TOKEN, p_pres: id }).then(function () { toast('Removido.'); return loadPresidentes(); })
     .catch(function (e) { toast(e.message, true); });
+}
+function salvaHistoria() {
+  var b = document.getElementById('cf-hist-save'), arq = document.getElementById('cf-hist-foto').files[0];
+  b.disabled = true; b.textContent = 'Salvando…';
+  (arq ? reduzFoto(arq) : Promise.resolve(null)).then(function (foto) {
+    return rpc('wlr_admin_historia_salvar', { p_token: TOKEN, p_texto: document.getElementById('cf-hist').value,
+      p_assinatura: document.getElementById('cf-hist-ass').value, p_legenda: document.getElementById('cf-hist-leg').value, p_foto: foto })
+      .then(function () { if (foto) { var hp = document.getElementById('cf-hist-prev'); hp.src = foto; hp.style.display = 'block'; } });
+  }).then(function () { toast('História salva.'); document.getElementById('cf-hist-foto').value = ''; return loadConfraria(); })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { b.disabled = false; b.textContent = 'Salvar a história'; });
 }
 function salvaNormas() {
   var b = document.getElementById('cf-normas-save'); b.disabled = true; b.textContent = 'Salvando…';
