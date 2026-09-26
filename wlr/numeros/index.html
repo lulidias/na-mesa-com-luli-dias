@@ -139,6 +139,10 @@ var TIPO = { 'tinto': 'Tinto', 'espumante': 'Espumante', 'espumante rosé': 'Esp
 // apelações de Bordeaux e da Borgonha vão para a região-mãe (a edição atual chega com a apelação)
 var BORDEAUX = /bordeaux|m[ée]doc|pauillac|margaux|saint-?est[èe]phe|saint-?julien|pomerol|saint-?[ée]milion|pessac|graves|sauternes|castillon/i;
 var BORGONHA = /bourgogne|borgonha|burgundy|c[ôo]te|chablis|meursault|montrachet|beaune|nuits|corton|chambertin|vosne|mâcon/i;
+// siglas já confirmadas (as outras aparecem só como sigla)
+var NOMES = { 'AMN': 'Álvaro Mendonça Neto', 'AA': 'Augusto Acioli', 'JAC': 'Alexandre Chaves', 'FA': 'Fred Alencar', 'FG': 'Fernando Gurgel',
+  'GC': 'Guilherme Chaves', 'JL': 'João Loyo', 'PJ': 'Pedro Jácome', 'MF': 'Marco Filho', 'RS': 'Rui Silva', 'J Rosas': 'Jorge Rosas', 'Luli': 'Luli Dias' };
+function comNome(s) { return NOMES[s] ? s + ' · ' + NOMES[s] : s; }
 // siglas diferentes para a mesma pessoa
 function quem(s, ano) {
   if (!s) return '';
@@ -287,8 +291,8 @@ function desenha() {
   document.getElementById('g-velhas').innerHTML = velhas.length ? '<table class="tab"><thead><tr><th>' + esc(tr('Safra')) + '</th><th>' + esc(tr('Vinho')) + '</th><th>' + esc(tr('Edição')) + '</th><th style="text-align:right">' + esc(tr('Idade')) + '</th></tr></thead><tbody>' +
     velhas.map(function (g) { return '<tr><td><b>' + g.safra + '</b></td><td data-notr>' + esc(g.v) + '</td><td>' + g.ano + '</td><td class="num">' + (g.ano - g.safra) + '</td></tr>'; }).join('') + '</tbody></table>' : '<p class="vazio">—</p>';
   var anosPor = {}; L.forEach(function (g) { if (!g.s || g.atual) return; (anosPor[g.s] = anosPor[g.s] || []).push(g.ano); });
-  hbar(document.getElementById('g-confrades'), confr, function (k) { return '<span data-notr>' + esc(k) + '</span>'; },
-    function (p) { return p[0] + ': ' + (anosPor[p[0]] || []).sort().join(', '); }, 15);
+  hbar(document.getElementById('g-confrades'), confr, function (k) { return '<span data-notr>' + esc(comNome(k)) + '</span>'; },
+    function (p) { return comNome(p[0]) + ': ' + (anosPor[p[0]] || []).sort().join(', '); }, 15);
   tabela();
   ligaDicas();
 }
@@ -300,13 +304,13 @@ function tabela() {
   var q = (document.getElementById('busca').value || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
   var L = lista().filter(function (g) {
     if (!q) return true;
-    return [g.ano, g.s, g.v, g.produtor, g.pais && PAIS[g.pais] && PAIS[g.pais][0], g.regiao, g.tipo, g.uva, g.safra].join(' ').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').indexOf(q) >= 0;
+    return [g.ano, g.s, NOMES[g.s], g.v, g.produtor, g.pais && PAIS[g.pais] && PAIS[g.pais][0], g.regiao, g.tipo, g.uva, g.safra].join(' ').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').indexOf(q) >= 0;
   });
   L.sort(function (a, b) { var x = a[ordem.k], y = b[ordem.k]; if (x == null) return 1; if (y == null) return -1; return (x > y ? 1 : x < y ? -1 : 0) * ordem.d || a.v.localeCompare(b.v); });
   document.getElementById('tab-h').innerHTML = COLS.map(function (c) { return '<th data-k="' + c[0] + '">' + esc(tr(c[1])) + (ordem.k === c[0] ? (ordem.d > 0 ? ' ↑' : ' ↓') : '') + '</th>'; }).join('');
   [].forEach.call(document.querySelectorAll('#tab-h th'), function (th) { th.onclick = function () { ordem = { k: th.dataset.k, d: ordem.k === th.dataset.k ? -ordem.d : 1 }; tabela(); }; });
   document.getElementById('tab-b').innerHTML = L.map(function (g) {
-    return '<tr><td>' + g.ano + '</td><td data-notr><b>' + esc(g.s || '—') + '</b></td><td data-notr>' + esc(g.v) + '</td><td data-notr>' + esc(g.produtor || '—') + '</td><td>' +
+    return '<tr><td>' + g.ano + '</td><td data-notr><b>' + esc(g.s || '—') + '</b>' + (NOMES[g.s] ? '<br><small>' + esc(NOMES[g.s]) + '</small>' : '') + '</td><td data-notr>' + esc(g.v) + '</td><td data-notr>' + esc(g.produtor || '—') + '</td><td>' +
       (g.pais && PAIS[g.pais] ? PAIS[g.pais][1] + ' ' + esc(tr(PAIS[g.pais][0])) : '—') + '</td><td data-notr>' + esc(g.regiao || '—') + '</td><td>' + esc(tr(TIPO[g.tipo] || '—')) +
       '</td><td data-notr>' + esc(g.uva || '—') + '</td><td class="num">' + (g.safra || '—') + '</td></tr>';
   }).join('') || '<tr><td colspan="9" class="vazio">' + esc(tr('Nada encontrado.')) + '</td></tr>';
