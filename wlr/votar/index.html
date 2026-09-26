@@ -82,7 +82,7 @@ function rpc(fn, args) {
 }
 function view(n) { return fetch(SB + '/rest/v1/' + n + '?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }); }
 
-function entrar() { location.href = '../?voltar=votar'; }
+function entrar() { location.href = '../magnumfest/?voltar=votar'; }
 
 function carrega() {
   Promise.all([

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>if (location.hostname === 'www.wineloversrecife.com') location.replace('https://wineloversrecife.com' + location.pathname + location.search + location.hash);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Edições — Magnum Fest · Wine Lovers Recife</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../favicon.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=2">
+<meta name="theme-color" content="#6C214C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../comum.css">
+</head>
+<body class="carregando">
+
+<header class="hero" style="padding-bottom:40px">
+  <div class="kicker">Wine Lovers Recife · desde 2016</div>
+  <div class="hero-t">Magnum Fest</div>
+  <div class="quote">As edições, as fotos e as garrafas de cada confrade</div>
+</header>
+
+<main>
+  <section>
+    <div class="anos" id="anos"></div>
+    <div id="edicoes"><p class="vazio">Carregando…</p></div>
+    <div class="mais"><a class="btn" href="../numeros/">Ver a Magnum Fest em números</a></div>
+  </section>
+</main>
+
+<script src="../i18n.js"></script>
+<script src="../comum.js"></script>
+<script>
+montaNav('edicoes');
+montaRodape();
+
+function render(dados) {
+  var eds = dados.edicoes || [];
+  var box = document.getElementById('edicoes');
+  if (!eds.length) { box.innerHTML = '<p class="vazio">' + esc(tr('Nenhuma edição cadastrada ainda.')) + '</p>'; return; }
+  document.getElementById('anos').innerHTML = eds.map(function (e) { return '<a href="#ed-' + e.ano + '">' + e.ano + '</a>'; }).join('');
+  box.innerHTML = eds.map(function (e) {
+    var vs = linhasVinhos(e.vinhos);
+    var info = [e.data ? '<b>' + esc(dataLonga(e.data)) + '</b>' : '', e.local ? esc(e.local) : '', vs.length ? vs.length + ' Magnums' : ''].filter(Boolean).join(' · ');
+    return '<article class="edicao" id="ed-' + e.ano + '">' +
+      '<div class="ed-top"><div class="ed-nome" data-notr>' + nomeEdicao(e.ano) + '</div><div class="ed-ano">' + e.ano + '</div><div class="ed-info">' + info + '</div></div>' +
+      (e.tem_foto ? '<div class="ed-foto" data-ano="' + e.ano + '">' + esc(tr('Carregando a foto…')) + '</div>' : '') +
+      (e.n_fotos ? '<div class="ed-galeria" data-ano="' + e.ano + '"></div>' : '') +
+      (e.texto ? '<div class="ed-texto">' + paragrafos(e.texto) + '</div>' : '') +
+      (vs.length ? '<ul class="ed-vinhos" data-notr>' + vs.map(function (v) {
+        return '<li><span class="sg">' + esc(v.s) + '</span><span>' + esc(v.v) + '</span></li>';
+      }).join('') + '</ul>' : '') + '</article>';
+  }).join('');
+  // fotos só quando chegam perto da tela (primeiro a do grupo, depois a galeria)
+  var fotos = [].slice.call(document.querySelectorAll('.ed-foto, .ed-galeria'));
+  var carrega = function (el) {
+    if (el._ok) return; el._ok = true;
+    if (el.classList.contains('ed-galeria')) {
+      rpc('wlr_p_edicao_fotos', { p_id: meuId, p_ano: +el.dataset.ano }).then(function (lista) {
+        (lista || []).forEach(function (src) {
+          var img = new Image(); img.alt = 'Magnum Fest ' + el.dataset.ano; img.src = src; img.loading = 'lazy';
+          img.onclick = function () { zoom(src); }; el.appendChild(img);
+        });
+        if (!el.children.length) el.remove();
+      }).catch(function () { el.remove(); });
+      return;
+    }
+    rpc('wlr_p_edicao_foto', { p_id: meuId, p_ano: +el.dataset.ano }).then(function (src) {
+      if (!src) { el.remove(); return; }
+      el.innerHTML = ''; var img = new Image(); img.alt = 'Magnum Fest ' + el.dataset.ano; img.src = src; el.appendChild(img);
+      el.onclick = function () { zoom(src); };
+    }).catch(function () { el.textContent = tr('Não foi possível carregar a foto.'); });
+  };
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { io.unobserve(x.target); carrega(x.target); } }); }, { rootMargin: '500px' });
+    fotos.forEach(function (f) { io.observe(f); });
+  } else fotos.forEach(carrega);
+  if (location.hash) { var alvo = document.querySelector(location.hash); if (alvo) setTimeout(function () { alvo.scrollIntoView(); }, 50); }
+}
+
+sessao().then(function (id) {
+  if (!id) return paraPorta('edicoes');
+  return rpc('wlr_p_confraria', { p_id: id }).then(function (d) { document.body.classList.remove('carregando'); render(d || {}); });
+}).catch(function (e) {
+  if (semAcesso(e, 'edicoes')) return;
+  document.body.classList.remove('carregando');
+  document.getElementById('edicoes').innerHTML = '<p class="vazio">' + esc(e.message) + '</p>';
+});
+</script>
+</body>
+</html>

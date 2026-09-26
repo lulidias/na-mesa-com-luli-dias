@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>if (location.hostname === 'www.wineloversrecife.com') location.replace('https://wineloversrecife.com' + location.pathname + location.search + location.hash);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Números — Magnum Fest · Wine Lovers Recife</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../favicon.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=2">
+<meta name="theme-color" content="#6C214C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../comum.css">
+<style>
+section{max-width:1120px;padding-top:40px;padding-bottom:40px}
+.filtro{position:sticky;top:57px;z-index:1400;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--border)}
+.filtro-in{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.filtro-in::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--border);background:#fff;color:var(--ink-lt);font:600 11px Montserrat,sans-serif;letter-spacing:1px;padding:9px 13px;cursor:pointer}
+.chip.on{background:var(--wine-lt);border-color:var(--wine-lt);color:#fff}
+.chip small{font-weight:500;opacity:.8}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi{background:#fff;border:1px solid var(--border);padding:20px 16px}
+.kpi .l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);font-weight:600}
+.kpi .v{font-weight:800;font-size:clamp(30px,4.4vw,42px);color:var(--wine);line-height:1.05;margin-top:8px}
+.kpi .s{font-size:12px;color:var(--ink-lt);margin-top:6px;line-height:1.4}
+
+.grade{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:#fff;border:1px solid var(--border);padding:22px 22px 18px}
+.card.largo{grid-column:1/-1}
+.card h3{font-weight:700;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--wine)}
+.card .sub{font-size:12px;color:var(--ink-lt);margin:4px 0 16px;line-height:1.5}
+
+/* barras horizontais (ranking) */
+.hb{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;gap:6px 10px;align-items:center}
+.hb .n{font-size:12.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hb .t{height:14px;background:transparent;position:relative}
+.hb .b{height:100%;background:var(--wine-lt);border-radius:0 4px 4px 0;min-width:3px;transition:width .4s}
+.hb .row:hover .b{background:var(--wine)}
+.hb .v{font-size:12px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;min-width:26px;text-align:right}
+.hb .row{display:contents;cursor:default}
+.hb .row:hover .n{color:var(--wine-lt)}
+
+/* colunas (por edição, por década) */
+.cols{display:flex;align-items:flex-end;gap:8px;height:190px;padding-top:22px;border-bottom:1px solid var(--border)}
+.col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative;cursor:default}
+.col .b{width:100%;max-width:46px;background:var(--wine-lt);border-radius:4px 4px 0 0;min-height:2px;transition:height .4s}
+.col:hover .b{background:var(--wine)}
+.col .v{font-size:11px;font-weight:700;color:var(--ink);margin-bottom:4px;font-variant-numeric:tabular-nums}
+.col.zero .b{background:repeating-linear-gradient(45deg,var(--border) 0 4px,transparent 4px 8px)}
+.cols-x{display:flex;gap:8px;margin-top:6px}
+.cols-x span{flex:1;text-align:center;font-size:10.5px;color:var(--ink-lt);font-weight:600}
+
+.tip{position:fixed;z-index:3000;pointer-events:none;background:var(--wine);color:#fff;font-size:12px;line-height:1.5;padding:8px 11px;max-width:280px;box-shadow:0 6px 18px rgba(0,0,0,.2);display:none}
+
+.curios{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cur{background:var(--wine);color:#fff;padding:20px 18px}
+.cur .k{font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.75}
+.cur .x{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;line-height:1.25;margin-top:8px}
+
+table.tab{width:100%;border-collapse:collapse;font-size:12.5px}
+.tab th{text-align:left;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt);font-weight:600;padding:8px 8px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;cursor:pointer;white-space:nowrap}
+.tab td{padding:8px;border-bottom:1px dotted var(--border);vertical-align:top}
+.tab td.num{font-variant-numeric:tabular-nums;text-align:right}
+.tab-wrap{max-height:520px;overflow:auto;border:1px solid var(--border)}
+.busca{width:100%;padding:11px 12px;border:1px solid var(--border);font:13px Montserrat,sans-serif;margin-bottom:10px}
+.nota{font-size:11.5px;color:var(--ink-lt);line-height:1.6;margin-top:10px}
+
+@media (max-width:860px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grade{grid-template-columns:1fr}
+  .curios{grid-template-columns:1fr}
+  .filtro{top:96px}
+  .filtro-in{padding:0 16px}
+  .card{padding:18px 16px 14px}
+}
+</style>
+</head>
+<body class="carregando">
+
+<header class="hero" style="padding-bottom:40px">
+  <div class="kicker">Wine Lovers Recife · desde 2016</div>
+  <div class="hero-t">Magnum Fest em números</div>
+  <div class="quote">Todas as Magnums, de todas as edições</div>
+</header>
+
+<div class="filtro"><div class="filtro-in" id="filtro"></div></div>
+
+<main>
+  <section>
+    <div class="kpis" id="kpis"></div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="curios" id="curios"></div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="grade">
+      <div class="card largo" id="c-edicoes"><h3>Magnums por edição</h3><div class="sub">Quantas garrafas foram à mesa em cada ano. 2020 não teve festa.</div><div id="g-edicoes"></div></div>
+      <div class="card"><h3>Países</h3><div class="sub">De onde vieram as Magnums.</div><div id="g-paises"></div></div>
+      <div class="card"><h3>Tipo de vinho</h3><div class="sub">Tintos, espumantes, brancos, fortificados e doces.</div><div id="g-tipos"></div></div>
+      <div class="card"><h3>Regiões</h3><div class="sub">As 12 regiões que mais apareceram.</div><div id="g-regioes"></div></div>
+      <div class="card"><h3>Uvas</h3><div class="sub">A uva ou o corte principal de cada garrafa.</div><div id="g-uvas"></div></div>
+      <div class="card"><h3>Produtores</h3><div class="sub">Os 12 que mais estiveram à mesa.</div><div id="g-produtores"></div></div>
+      <div class="card"><h3>Os rótulos que voltaram</h3><div class="sub">Vinhos que apareceram em mais de uma edição.</div><div id="g-rotulos"></div></div>
+      <div class="card"><h3>Safras por década</h3><div class="sub">Em que década cada vinho foi colhido.</div><div id="g-decadas"></div></div>
+      <div class="card" id="c-idade"><h3>Idade média da garrafa</h3><div class="sub">Anos entre a safra e o dia da festa, por edição.</div><div id="g-idade"></div></div>
+      <div class="card"><h3>As mais velhas</h3><div class="sub">As 10 safras mais antigas servidas.</div><div id="g-velhas"></div></div>
+      <div class="card"><h3>Confrades mais assíduos</h3><div class="sub">Pela sigla usada nas listas de cada ano.</div><div id="g-confrades"></div></div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="card largo">
+      <h3>Todas as garrafas</h3>
+      <div class="sub">Clique no título de uma coluna para ordenar.</div>
+      <input class="busca" id="busca" placeholder="Buscar vinho, produtor, país, região, uva, sigla…" oninput="tabela()">
+      <div class="tab-wrap"><table class="tab"><thead><tr id="tab-h"></tr></thead><tbody id="tab-b"></tbody></table></div>
+      <p class="nota">País, região, tipo e uva foram classificados a partir do nome de cada vinho. Até 2017 não ficou lista: as garrafas foram reconhecidas pelas fotos. Garrafa sem classificação aparece como "—".</p>
+    </div>
+  </section>
+</main>
+<div class="tip" id="tip"></div>
+
+<script src="../i18n.js"></script>
+<script src="../comum.js"></script>
+<script>
+montaNav('numeros');
+montaRodape();
+
+var PAIS = { FR: ['França', '🇫🇷'], ES: ['Espanha', '🇪🇸'], PT: ['Portugal', '🇵🇹'], IT: ['Itália', '🇮🇹'], US: ['Estados Unidos', '🇺🇸'],
+  AR: ['Argentina', '🇦🇷'], CL: ['Chile', '🇨🇱'], AU: ['Austrália', '🇦🇺'], DE: ['Alemanha', '🇩🇪'], BR: ['Brasil', '🇧🇷'], ZA: ['África do Sul', '🇿🇦'], NZ: ['Nova Zelândia', '🇳🇿'], UY: ['Uruguai', '🇺🇾'], AT: ['Áustria', '🇦🇹'], HU: ['Hungria', '🇭🇺'] };
+var PAIS_COD = {}; Object.keys(PAIS).forEach(function (k) { PAIS_COD[PAIS[k][0].toLowerCase()] = k; });
+var TIPO = { 'tinto': 'Tinto', 'espumante': 'Espumante', 'espumante rosé': 'Espumante rosé', 'branco': 'Branco', 'rosé': 'Rosé', 'fortificado': 'Fortificado', 'doce': 'Doce' };
+// apelações de Bordeaux e da Borgonha vão para a região-mãe (a edição atual chega com a apelação)
+var BORDEAUX = /bordeaux|m[ée]doc|pauillac|margaux|saint-?est[èe]phe|saint-?julien|pomerol|saint-?[ée]milion|pessac|graves|sauternes|castillon/i;
+var BORGONHA = /bourgogne|borgonha|burgundy|c[ôo]te|chablis|meursault|montrachet|beaune|nuits|corton|chambertin|vosne|mâcon/i;
+// siglas diferentes para a mesma pessoa
+function quem(s, ano) {
+  if (!s) return '';
+  if (/^(Luli|Luli D|LUD)$/.test(s) || (s === 'LD' && ano >= 2021)) return 'Luli';
+  return s;
+}
+// o mesmo rótulo escrito de jeitos diferentes
+function rotulo(g) {
+  var v = g.v.replace(/\((?:ou|NV|a confirmar)[^)]*\)/gi, '').replace(/\((?:Muga|Ramos Pinto|Bernard Magrez)\)/g, '').replace(/\b(19|20)\d\d\b/g, '').replace(/\s+/g, ' ').trim();
+  if (/cristal/i.test(v)) return /ros/i.test(v) ? 'Cristal Rosé' : 'Cristal';
+  if (/tonel 3|mouch[ãa]o 3\/4/i.test(v)) return 'Mouchão Tonel 3-4';
+  if (/^la rioja alta 890|gran reserva 890/i.test(v)) return 'La Rioja Alta 890';
+  if (/^la rioja( alta)?$/i.test(v)) return 'La Rioja Alta';
+  if (/roederer ros/i.test(v)) return 'Louis Roederer Rosé';
+  if (/zambujeiro/i.test(v)) return 'Quinta do Zambujeiro';
+  if (/clos apalta/i.test(v)) return 'Clos Apalta';
+  if (/prado enea/i.test(v)) return 'Prado Enea';
+  if (/esporão/i.test(v)) return 'Esporão Reserva';
+  if (/vega sicilia único/i.test(v)) return 'Vega Sicilia Único';
+  if (/campofiorin/i.test(v)) return 'Masi Campofiorin';
+  if (/yquem/i.test(v)) return "Château d'Yquem";
+  if (/krug/i.test(v)) return /ros/i.test(v) ? 'Krug Rosé' : 'Krug';
+  if (/dom p[ée]rignon/i.test(v)) return /ros/i.test(v) ? 'Dom Pérignon Rosé' : 'Dom Pérignon';
+  return v.replace(/^Champagne /, '').replace(/ Brut$/, '');
+}
+
+var TODAS = [], ATUAL = 2026, filtroAno = 'todas';
+function prepara(d) {
+  (d.edicoes || []).forEach(function (e) {
+    var porV = {}; (e.dados || []).forEach(function (x) { porV[x.v] = x; });
+    linhasVinhos(e.vinhos).forEach(function (l) {
+      var c = porV[l.v] || {};
+      TODAS.push({ ano: e.ano, s: quem(l.s, e.ano), v: l.v, produtor: c.produtor || null, pais: c.pais || null, regiao: c.regiao || null,
+        tipo: c.tipo || null, uva: c.uva || null, safra: c.safra || (l.v.match(/\b(19[4-9]\d|20[0-2]\d)\b/) || [])[1] * 1 || null });
+    });
+  });
+  ATUAL = d.atual_ano || ATUAL;
+  (d.atual || []).forEach(function (g) {
+    var tipo = String(g.tipo || '').toLowerCase(); if (tipo === 'espumante' && /ros/i.test(g.subtipo || '')) tipo = 'espumante rosé';
+    var reg = g.regiao || null; if (reg && BORDEAUX.test(reg)) reg = 'Bordeaux'; else if (reg && BORGONHA.test(reg)) reg = 'Borgonha';
+    TODAS.push({ ano: ATUAL, s: (g.membros || []).join(', '), v: g.vinho + (g.safra ? ' ' + g.safra : ''), produtor: g.produtor || null,
+      pais: PAIS_COD[String(g.pais || '').toLowerCase()] || null, regiao: reg, tipo: TIPO[tipo] ? tipo : null, uva: null, safra: parseInt(g.safra, 10) || null, atual: true });
+  });
+}
+function lista() { return filtroAno === 'todas' ? TODAS.filter(function (g) { return !g.atual; }) : TODAS.filter(function (g) { return g.ano === filtroAno; }); }
+function conta(arr, f) {
+  var m = {}; arr.forEach(function (g) { var k = f(g); if (k == null || k === '') return; m[k] = (m[k] || 0) + 1; });
+  return Object.keys(m).map(function (k) { return [k, m[k]]; }).sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); });
+}
+function nf(n, d) { return Number(n).toLocaleString(LOC(), { maximumFractionDigits: d || 0 }); }
+
+// ── desenho ──────────────────────────────────────────────────────────────
+function hbar(el, pares, rotuloFn, dicaFn, max) {
+  if (!pares.length) { el.innerHTML = '<p class="vazio">—</p>'; return; }
+  var mx = Math.max.apply(null, pares.map(function (p) { return p[1]; }));
+  el.innerHTML = '<div class="hb">' + pares.slice(0, max || 12).map(function (p) {
+    var dica = dicaFn ? dicaFn(p) : '';
+    return '<div class="row" data-tip="' + esc(dica) + '"><div class="n">' + (rotuloFn ? rotuloFn(p[0]) : esc(p[0])) + '</div>' +
+      '<div class="t"><div class="b" style="width:' + (p[1] / mx * 100) + '%"></div></div><div class="v">' + nf(p[1]) + '</div></div>';
+  }).join('') + '</div>';
+}
+function colunas(el, pares, dicaFn, fmt) {
+  var mx = Math.max.apply(null, pares.map(function (p) { return p[1] || 0; })) || 1;
+  el.innerHTML = '<div class="cols">' + pares.map(function (p) {
+    return '<div class="col' + (p[1] ? '' : ' zero') + '" data-tip="' + esc(dicaFn ? dicaFn(p) : '') + '"><div class="v">' + (p[1] ? (fmt ? fmt(p[1]) : nf(p[1])) : '—') + '</div>' +
+      '<div class="b" style="height:' + (p[1] ? Math.max(p[1] / mx * 100, 2) : 100) + '%"></div></div>';
+  }).join('') + '</div><div class="cols-x">' + pares.map(function (p) { return '<span>' + esc(p[0]) + '</span>'; }).join('') + '</div>';
+}
+function pct(n, t) { return t ? Math.round(n / t * 100) + '%' : ''; }
+
+function filtro() {
+  var anos = []; TODAS.forEach(function (g) { if (anos.indexOf(g.ano) < 0) anos.push(g.ano); }); anos.sort();
+  document.getElementById('filtro').innerHTML = '<button class="chip' + (filtroAno === 'todas' ? ' on' : '') + '" data-a="todas">' + esc(tr('Todas as edições')) + '</button>' +
+    anos.map(function (a) {
+      return '<button class="chip' + (filtroAno === a ? ' on' : '') + '" data-a="' + a + '">' + a + (a === ATUAL ? ' <small>' + esc(tr('até agora')) + '</small>' : '') + '</button>';
+    }).join('');
+  [].forEach.call(document.querySelectorAll('.chip'), function (b) {
+    b.onclick = function () { filtroAno = b.dataset.a === 'todas' ? 'todas' : +b.dataset.a; try { history.replaceState({}, '', filtroAno === 'todas' ? location.pathname : '#' + filtroAno); } catch (e) { } filtro(); desenha(); };
+  });
+}
+
+function desenha() {
+  var L = lista(), total = L.length, todas = filtroAno === 'todas';
+  var comSafra = L.filter(function (g) { return g.safra; });
+  var idade = comSafra.length ? comSafra.reduce(function (a, g) { return a + (g.ano - g.safra); }, 0) / comSafra.length : 0;
+  var velha = comSafra.slice().sort(function (a, b) { return a.safra - b.safra; })[0];
+  var paises = conta(L, function (g) { return g.pais; }), produtores = conta(L, function (g) { return g.produtor; });
+  var regioes = conta(L, function (g) { return g.regiao; }), confr = conta(L.filter(function (g) { return !g.atual; }), function (g) { return g.s; });
+  var eds = conta(L, function (g) { return g.ano; }).length;
+
+  document.getElementById('kpis').innerHTML = [
+    [tr('Magnums'), nf(total), todas ? tr('em {n} edições', { n: eds }) : tr('nesta edição')],
+    [tr('Litros'), nf(total * 1.5), tr('≈ {n} garrafas de 750 ml', { n: nf(total * 2) })],
+    [tr('Países'), paises.length, paises[0] ? PAIS[paises[0][0]][1] + ' ' + tr(PAIS[paises[0][0]][0]) + ' ' + tr('lidera com {p}', { p: pct(paises[0][1], total) }) : ''],
+    [tr('Produtores'), produtores.length, produtores[0] ? produtores[0][0] + ': ' + produtores[0][1] + '×' : ''],
+    [tr('Regiões'), regioes.length, regioes[0] ? regioes[0][0] + ': ' + regioes[0][1] : ''],
+    [tr('Confrades'), confr.length || '—', confr.length ? tr('siglas diferentes nas listas') : tr('sem lista nesta edição')],
+    [tr('Safra mais antiga'), velha ? velha.safra : '—', velha ? velha.v.replace(/\s*\b(19|20)\d\d\b/, '') + ' · ' + velha.ano : ''],
+    [tr('Idade média'), idade ? nf(idade, 1) : '—', tr('anos na garrafa no dia da festa')]
+  ].map(function (k) { return '<div class="kpi"><div class="l">' + esc(k[0]) + '</div><div class="v">' + k[1] + '</div><div class="s" data-notr>' + esc(k[2]) + '</div></div>'; }).join('');
+
+  // curiosidades
+  var rot = conta(L, rotulo), fr = paises.filter(function (p) { return p[0] === 'FR'; })[0];
+  var esp = L.filter(function (g) { return /espumante/.test(g.tipo || ''); }).length;
+  var pgc = L.filter(function (g) { return /Lafite|Mouton|Château Margaux$|Latour|Haut-Brion|Yquem/.test(g.produtor || '') && g.tipo !== 'branco'; });
+  var cur = [];
+  if (rot[0] && rot[0][1] > 1) cur.push([tr('O mais presente'), rot[0][0] + ' ' + tr('foi à mesa {n} vezes', { n: rot[0][1] })]);
+  if (fr) cur.push([tr('França'), pct(fr[1], total) + ' ' + tr('das Magnums vieram da França')]);
+  if (esp) cur.push([tr('Borbulhas'), esp + ' ' + tr('espumantes, {p} do total', { p: pct(esp, total) })]);
+  if (pgc.length) cur.push([tr('Grandes ícones'), tr('{n} Premiers Grands Crus de Bordeaux: {l}', { n: pgc.length, l: pgc.map(function (g) { return g.v; }).join(', ') })]);
+  if (velha) cur.push([tr('A mais velha'), velha.v + ' — ' + tr('{n} anos no dia da festa', { n: velha.ano - velha.safra })]);
+  if (todas) {
+    var porAno = conta(L, function (g) { return g.ano; }).sort(function (a, b) { return b[1] - a[1]; })[0];
+    if (porAno) cur.push([tr('A maior edição'), porAno[0] + ', ' + tr('com {n} Magnums', { n: porAno[1] })]);
+  }
+  document.getElementById('curios').innerHTML = cur.slice(0, 6).map(function (c) { return '<div class="cur"><div class="k">' + esc(c[0]) + '</div><div class="x" data-notr>' + esc(c[1]) + '</div></div>'; }).join('');
+
+  // por edição (só no "todas"): 2020 aparece vazio de propósito
+  document.getElementById('c-edicoes').classList.toggle('hidden', !todas);
+  document.getElementById('c-idade').classList.toggle('hidden', !todas);
+  if (todas) {
+    var anos = []; for (var a = 2016; a < ATUAL; a++) anos.push(a);
+    colunas(document.getElementById('g-edicoes'), anos.map(function (a) { return [a, L.filter(function (g) { return g.ano === a; }).length]; }),
+      function (p) { return p[1] ? p[0] + ': ' + p[1] + ' Magnums (' + nf(p[1] * 1.5) + ' L)' : p[0] + ': ' + tr('sem festa (pandemia)'); });
+    colunas(document.getElementById('g-idade'), anos.map(function (a) {
+      var x = L.filter(function (g) { return g.ano === a && g.safra; });
+      return [a, x.length ? x.reduce(function (s, g) { return s + a - g.safra; }, 0) / x.length : 0];
+    }), function (p) { return p[1] ? p[0] + ': ' + nf(p[1], 1) + ' ' + tr('anos em média') : p[0] + ': —'; }, function (v) { return nf(v, 1); });
+  }
+  hbar(document.getElementById('g-paises'), paises, function (k) { return (PAIS[k] ? PAIS[k][1] + ' ' + esc(tr(PAIS[k][0])) : esc(k)); },
+    function (p) { return (PAIS[p[0]] ? tr(PAIS[p[0]][0]) : p[0]) + ': ' + p[1] + ' Magnums · ' + pct(p[1], total); });
+  hbar(document.getElementById('g-tipos'), conta(L, function (g) { return g.tipo; }), function (k) { return esc(tr(TIPO[k] || k)); },
+    function (p) { return tr(TIPO[p[0]] || p[0]) + ': ' + p[1] + ' · ' + pct(p[1], total); });
+  hbar(document.getElementById('g-regioes'), regioes, null, function (p) { return p[0] + ': ' + p[1] + ' Magnums'; });
+  hbar(document.getElementById('g-uvas'), conta(L, function (g) { return g.uva; }), null, function (p) { return p[0] + ': ' + p[1]; });
+  hbar(document.getElementById('g-produtores'), produtores, null, function (p) {
+    return p[0] + ': ' + L.filter(function (g) { return g.produtor === p[0]; }).map(function (g) { return g.ano + ' ' + g.v; }).join(' · ');
+  });
+  var voltaram = conta(L, rotulo).filter(function (p) { return p[1] > 1; });
+  hbar(document.getElementById('g-rotulos'), voltaram, null, function (p) {
+    return p[0] + ': ' + L.filter(function (g) { return rotulo(g) === p[0]; }).map(function (g) { return g.ano + (g.s ? ' (' + g.s + ')' : ''); }).join(', ');
+  });
+  var dec = conta(comSafra, function (g) { return Math.floor(g.safra / 10) * 10; }).sort(function (a, b) { return a[0] - b[0]; });
+  colunas(document.getElementById('g-decadas'), dec.map(function (p) { return [p[0] + 's', p[1]]; }), function (p) { return tr('Safras dos anos {d}', { d: p[0] }) + ': ' + p[1]; });
+  var velhas = comSafra.slice().sort(function (a, b) { return a.safra - b.safra || a.ano - b.ano; }).slice(0, 10);
+  document.getElementById('g-velhas').innerHTML = velhas.length ? '<table class="tab"><thead><tr><th>' + esc(tr('Safra')) + '</th><th>' + esc(tr('Vinho')) + '</th><th>' + esc(tr('Edição')) + '</th><th style="text-align:right">' + esc(tr('Idade')) + '</th></tr></thead><tbody>' +
+    velhas.map(function (g) { return '<tr><td><b>' + g.safra + '</b></td><td data-notr>' + esc(g.v) + '</td><td>' + g.ano + '</td><td class="num">' + (g.ano - g.safra) + '</td></tr>'; }).join('') + '</tbody></table>' : '<p class="vazio">—</p>';
+  var anosPor = {}; L.forEach(function (g) { if (!g.s || g.atual) return; (anosPor[g.s] = anosPor[g.s] || []).push(g.ano); });
+  hbar(document.getElementById('g-confrades'), confr, function (k) { return '<span data-notr>' + esc(k) + '</span>'; },
+    function (p) { return p[0] + ': ' + (anosPor[p[0]] || []).sort().join(', '); }, 15);
+  tabela();
+  ligaDicas();
+}
+
+// tabela completa, com busca e ordenação
+var ordem = { k: 'ano', d: -1 };
+var COLS = [['ano', 'Edição'], ['s', 'Sigla'], ['v', 'Vinho'], ['produtor', 'Produtor'], ['pais', 'País'], ['regiao', 'Região'], ['tipo', 'Tipo'], ['uva', 'Uva'], ['safra', 'Safra']];
+function tabela() {
+  var q = (document.getElementById('busca').value || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  var L = lista().filter(function (g) {
+    if (!q) return true;
+    return [g.ano, g.s, g.v, g.produtor, g.pais && PAIS[g.pais] && PAIS[g.pais][0], g.regiao, g.tipo, g.uva, g.safra].join(' ').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').indexOf(q) >= 0;
+  });
+  L.sort(function (a, b) { var x = a[ordem.k], y = b[ordem.k]; if (x == null) return 1; if (y == null) return -1; return (x > y ? 1 : x < y ? -1 : 0) * ordem.d || a.v.localeCompare(b.v); });
+  document.getElementById('tab-h').innerHTML = COLS.map(function (c) { return '<th data-k="' + c[0] + '">' + esc(tr(c[1])) + (ordem.k === c[0] ? (ordem.d > 0 ? ' ↑' : ' ↓') : '') + '</th>'; }).join('');
+  [].forEach.call(document.querySelectorAll('#tab-h th'), function (th) { th.onclick = function () { ordem = { k: th.dataset.k, d: ordem.k === th.dataset.k ? -ordem.d : 1 }; tabela(); }; });
+  document.getElementById('tab-b').innerHTML = L.map(function (g) {
+    return '<tr><td>' + g.ano + '</td><td data-notr><b>' + esc(g.s || '—') + '</b></td><td data-notr>' + esc(g.v) + '</td><td data-notr>' + esc(g.produtor || '—') + '</td><td>' +
+      (g.pais && PAIS[g.pais] ? PAIS[g.pais][1] + ' ' + esc(tr(PAIS[g.pais][0])) : '—') + '</td><td data-notr>' + esc(g.regiao || '—') + '</td><td>' + esc(tr(TIPO[g.tipo] || '—')) +
+      '</td><td data-notr>' + esc(g.uva || '—') + '</td><td class="num">' + (g.safra || '—') + '</td></tr>';
+  }).join('') || '<tr><td colspan="9" class="vazio">' + esc(tr('Nada encontrado.')) + '</td></tr>';
+}
+
+// dica ao passar o mouse (ou tocar) nas barras
+function ligaDicas() {
+  var tip = document.getElementById('tip');
+  [].forEach.call(document.querySelectorAll('[data-tip]'), function (el) {
+    if (!el.dataset.tip) return;
+    var mostra = function (e) { tip.textContent = el.dataset.tip; tip.style.display = 'block'; move(e); };
+    var move = function (e) {
+      var t = e.touches ? e.touches[0] : e, w = tip.offsetWidth;
+      tip.style.left = Math.min(t.clientX + 14, innerWidth - w - 8) + 'px'; tip.style.top = (t.clientY + 16) + 'px';
+    };
+    el.onmouseenter = mostra; el.onmousemove = move; el.onmouseleave = function () { tip.style.display = 'none'; };
+    el.ontouchstart = function (e) { mostra(e); clearTimeout(tip._h); tip._h = setTimeout(function () { tip.style.display = 'none'; }, 2600); };
+  });
+}
+
+sessao().then(function (id) {
+  if (!id) return paraPorta('numeros');
+  return rpc('wlr_p_bi', { p_id: id }).then(function (d) {
+    prepara(d || {});
+    var h = parseInt(location.hash.slice(1), 10); if (h && TODAS.some(function (g) { return g.ano === h; })) filtroAno = h;
+    document.body.classList.remove('carregando');
+    filtro(); desenha();
+  });
+}).catch(function (e) {
+  if (semAcesso(e, 'numeros')) return;
+  document.body.classList.remove('carregando');
+  document.getElementById('kpis').innerHTML = '<p class="vazio">' + esc(e.message) + '</p>';
+});
+</script>
+</body>
+</html>
