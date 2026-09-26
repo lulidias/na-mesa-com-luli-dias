@@ -1513,6 +1513,13 @@ iniciaSessao().then(function () { return Promise.all([
   refreshPublic();
   // aberto pelo ícone: vai direto para o painel
   if (STANDALONE && meuId && !location.hash) setTimeout(function () { var r = document.getElementById('rsvp'); if (r) r.scrollIntoView(); }, 300);
+  // primeiro acesso pelo celular (fora do app): mostra uma vez como pôr o ícone na tela de início
+  var celular = /iPhone|iPad|iPod|Android/.test(navigator.userAgent), visto = true;
+  try { visto = !!localStorage.getItem('wlr_inst_visto'); } catch (e) { }
+  if (meuId && celular && !STANDALONE && !visto) setTimeout(function () {
+    try { localStorage.setItem('wlr_inst_visto', '1'); } catch (e) { }
+    instalarApp();
+  }, 1500);
 }); });
 try {
   if (!sessionStorage.getItem('wlr_ping')) { sessionStorage.setItem('wlr_ping', '1'); rpc('wlr_ping', { p_participante: meuId || null }).catch(function () { }); }
