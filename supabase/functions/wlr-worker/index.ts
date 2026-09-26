@@ -51,7 +51,7 @@ const str = { type: ["string", "null"] };
 const FERRAMENTA: Anthropic.Beta.BetaTool = {
   name: "registrar_fatos",
   description: "Registra os fatos apurados sobre o vinho. Chame uma única vez, ao final da pesquisa.",
-  strict: true,
+  // sem "strict": o formulário tem mais campos opcionais (18) do que o modo estrito aceita (16)
   input_schema: {
     type: "object",
     additionalProperties: false,
@@ -64,11 +64,11 @@ const FERRAMENTA: Anthropic.Beta.BetaTool = {
       produtor: str, regiao: str,
       pais: { type: ["string", "null"], description: "Nome do país em português (França, Itália, Estados Unidos…)" },
       categoria: { type: "string", enum: CATEGORIAS },
-      estilo_espumante: { type: ["string", "null"], enum: ["Brut", "Rosé", "Outro", null], description: "Só para espumantes" },
+      estilo_espumante: { anyOf: [{ type: "string", enum: ["Brut", "Rosé", "Outro"] }, { type: "null" }], description: "Só para espumantes" },
       safra: { type: ["integer", "null"] },
       tawny_idade: { type: ["integer", "null"], description: "Idade indicada no rótulo de um Porto Tawny (10, 20, 30, 40)" },
       puttonyos: { type: ["integer", "null"] },
-      regiao_branco_lista: { type: ["string", "null"], enum: [...BRANCO_REGIOES_VELHO_MUNDO, null],
+      regiao_branco_lista: { anyOf: [{ type: "string", enum: [...BRANCO_REGIOES_VELHO_MUNDO] }, { type: "null" }],
         description: "Para brancos do Velho Mundo: a região da lista a que o vinho pertence; null se não pertence ou se não é branco" },
       nota_rp: { ...num, description: "Nota de Robert Parker / Wine Advocate para ESTA safra" },
       nota_ws: { ...num, description: "Nota da Wine Spectator para ESTA safra" },
