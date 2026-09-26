@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../comum.css?v=20260927h">
+<link rel="stylesheet" href="../comum.css?v=20260927i">
 <style>
 section{max-width:1120px;padding-top:40px;padding-bottom:40px}
 .filtro{position:sticky;top:57px;z-index:1400;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--border)}
@@ -128,14 +128,14 @@ table.tab{width:100%;border-collapse:collapse;font-size:12.5px}
 </main>
 <div class="tip" id="tip"></div>
 
-<script src="../i18n.js?v=20260927h"></script>
-<script src="../comum.js?v=20260927h"></script>
+<script src="../i18n.js?v=20260927i"></script>
+<script src="../comum.js?v=20260927i"></script>
 <script>
 montaNav('numeros');
 montaRodape();
 
 var PAIS = { FR: ['França', '🇫🇷'], ES: ['Espanha', '🇪🇸'], PT: ['Portugal', '🇵🇹'], IT: ['Itália', '🇮🇹'], US: ['Estados Unidos', '🇺🇸'],
-  AR: ['Argentina', '🇦🇷'], CL: ['Chile', '🇨🇱'], AU: ['Austrália', '🇦🇺'], DE: ['Alemanha', '🇩🇪'], BR: ['Brasil', '🇧🇷'], ZA: ['África do Sul', '🇿🇦'], NZ: ['Nova Zelândia', '🇳🇿'], UY: ['Uruguai', '🇺🇾'], AT: ['Áustria', '🇦🇹'], HU: ['Hungria', '🇭🇺'] };
+  AR: ['Argentina', '🇦🇷'], CL: ['Chile', '🇨🇱'], AU: ['Austrália', '🇦🇺'], DE: ['Alemanha', '🇩🇪'], BR: ['Brasil', '🇧🇷'], ZA: ['África do Sul', '🇿🇦'], NZ: ['Nova Zelândia', '🇳🇿'], UY: ['Uruguai', '🇺🇾'], AT: ['Áustria', '🇦🇹'], HU: ['Hungria', '🇭🇺'], CA: ['Canadá', '🇨🇦'] };
 var PAIS_COD = {}; Object.keys(PAIS).forEach(function (k) { PAIS_COD[PAIS[k][0].toLowerCase()] = k; });
 var TIPO = { 'tinto': 'Tinto', 'espumante': 'Espumante', 'espumante rosé': 'Espumante rosé', 'branco': 'Branco', 'rosé': 'Rosé', 'fortificado': 'Fortificado', 'doce': 'Doce' };
 // apelações de Bordeaux e da Borgonha vão para a região-mãe (a edição atual chega com a apelação)

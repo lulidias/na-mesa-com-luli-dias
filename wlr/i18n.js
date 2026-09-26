@@ -563,7 +563,7 @@
     // ── países
     'França': ['Francia', 'France'], 'Itália': ['Italia', 'Italy'], 'Espanha': ['España', 'Spain'], 'Portugal': ['Portugal', 'Portugal'],
     'Estados Unidos': ['Estados Unidos', 'United States'], 'Chile': ['Chile', 'Chile'], 'Argentina': ['Argentina', 'Argentina'],
-    'Brasil': ['Brasil', 'Brazil'], 'Alemanha': ['Alemania', 'Germany'], 'Hungria': ['Hungría', 'Hungary'],
+    'Brasil': ['Brasil', 'Brazil'], 'Alemanha': ['Alemania', 'Germany'], 'Hungria': ['Hungría', 'Hungary'], 'Canadá': ['Canadá', 'Canada'],
     'África do Sul': ['Sudáfrica', 'South Africa'], 'Austrália': ['Australia', 'Australia'], 'Nova Zelândia': ['Nueva Zelanda', 'New Zealand'],
     'Áustria': ['Austria', 'Austria'], 'Uruguai': ['Uruguay', 'Uruguay'], 'Líbano': ['Líbano', 'Lebanon'], 'Outros': ['Otros', 'Others'],
     // ── placeholders
