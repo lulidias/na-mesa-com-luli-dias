@@ -784,13 +784,21 @@ function trataPorta(r) {
     var re = document.getElementById('pt-reenviar'); re.disabled = true;
     setTimeout(function () { re.disabled = false; }, 60000);
     clearInterval(ptTimer);
-    ptTimer = setInterval(function () {
-      rpc('wlr_porta_status', { p_whatsapp: ptZap, p_disp: meuDisp() }).then(function (s) { if (s && s.estado === 'ok') entrou(s.id); }).catch(function () { });
-    }, 4000);
+    try { localStorage.setItem('wlr_zap', ptZap); } catch (e) { }
+    ptTimer = setInterval(confereAprovacao, 3000);
   }
 }
+function confereAprovacao() {
+  if (!ptZap) return;
+  rpc('wlr_porta_status', { p_whatsapp: ptZap, p_disp: meuDisp() }).then(function (s) { if (s && s.estado === 'ok') entrou(s.id); }).catch(function () { });
+}
+document.addEventListener('visibilitychange', function () {
+  if (document.visibilityState === 'visible' && !document.getElementById('pt-esp').classList.contains('hidden')) confereAprovacao();
+});
+window.addEventListener('pageshow', function () { if (ptZap && !meuId) confereAprovacao(); });
 function entrarSite(reenviar) {
   var zap = reenviar ? ptZap : document.getElementById('porta-zap').value.trim();
+  if (!zap) { try { zap = localStorage.getItem('wlr_zap') || ''; } catch (e) { } }
   if (!zap) return toast('Digite o seu WhatsApp.', true);
   ptZap = zap;
   var btn = document.getElementById('porta-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
@@ -812,7 +820,8 @@ function cadastrarEmail() {
 (function () {
   var t = _q.get('aprovar'); if (!t) return;
   history.replaceState({}, '', location.pathname);
-  rpc('wlr_aprovar_dispositivo', { p_token: t }).then(function (r) {
+  rpc('wlr_aprovar_dispositivo', { p_token: t, p_disp: meuDisp(), p_aparelho: meuAparelho() }).then(function (r) {
+    if (r && r.id) { toast(T('Aparelho aprovado — entrando…')); return entrou(r.id); }
     document.body.classList.add('porta-aberta');
     portaPasso('ok');
     document.getElementById('pt-ok-txt').textContent = T('Pronto, {n}! O aparelho ({a}) já pode entrar. Se você digitou o telefone em outra tela, ela entrou sozinha.', { n: String(r.nome || '').split(' ')[0], a: r.aparelho || '' });

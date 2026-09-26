@@ -267,6 +267,7 @@
     'e toque em': ['y toca', 'and tap'], 'por lá.': ['allí.', 'there.'],
     'Entendi': ['Entendido', 'Got it'],
     'Aparelho não aprovado — entre de novo com o seu WhatsApp': ['Dispositivo no aprobado: entra de nuevo con tu WhatsApp', 'Device not approved — sign in again with your WhatsApp'],
+    'Aparelho aprovado — entrando…': ['Dispositivo aprobado: entrando…', 'Device approved — signing in…'],
     // ── avisos (toasts) e diálogos
     'Escolha o seu nome na lista.': ['Elige tu nombre en la lista.', 'Pick your name from the list.'],
     'Informe o seu WhatsApp.': ['Indica tu WhatsApp.', 'Enter your WhatsApp number.'],
