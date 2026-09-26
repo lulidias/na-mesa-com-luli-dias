@@ -191,7 +191,7 @@ var LOGO_EV = (function () {
     if (tipo === 'magnum') return gota(22, 40, .9, c2, -30) + g(48, 64, .95, 0, garrafa(c1, c2)) + g(82, 86, .5, 0, taca(c1, c2));
     if (tipo === 'paralela') return gota(50, 14, .72, c2, 0) + g(32, 68, .92, -9, taca(c1, c2)) + g(68, 68, .92, 9, taca(c1, c2));
     if (tipo === 'ordinario') return gota(72, 20, .8, c2, 24) + g(48, 68, 1.12, 0, taca(c1, c2));
-    return g(52, 66, .68, -66, garrafa(c1, c2)) + '<g fill="none" stroke="' + c2 + '" stroke-width="1.4" stroke-linecap="round"><path d="M6 26 L16 36 M6 26 L10 41 M6 26 L21 29"/><path d="M13 33 Q16 30 18 29.4 M9 36.5 Q13 34.5 15.5 35.5"/></g>' +
+    return g(54, 68, .63, -66, garrafa(c1, c2)) + '<g fill="none" stroke="' + c2 + '" stroke-width="1.3" stroke-linecap="round" opacity=".9"><path d="M4 18 H30 M4 18 V44 M4 18 L24 38"/><path d="M13 18 Q14 24 10.5 24.5 Q9.5 27 4 27 M21 18 Q22 28 16 30 Q15 35 4 35 M29 18 Q30 32 22 36 Q21 43 4 43"/></g>' +
       '<g fill="' + c2 + '"><circle cx="40" cy="96" r="1.6"/><circle cx="48" cy="101" r="1.2"/><circle cx="34" cy="102" r="1"/><circle cx="56" cy="95" r="1"/></g>';
   }
   var NOMES = { magnum: ['MAGNUM', 'FEST', 'Licínio Dias'], paralela: ['PARALELA', '', ''], ordinario: ['ORDINÁRIO', '', ''], velhinhos: ['OS', 'VELHINHOS', ''] };
