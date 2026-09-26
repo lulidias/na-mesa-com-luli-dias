@@ -185,6 +185,21 @@ a{color:var(--wine-lt)}
     <div><button class="btn gold" id="c-save" onclick="saveCfg()">Salvar</button></div>
   </div>
 
+  <h2>A confraria <small>— página <a href="confraria/" target="_blank">wineloversrecife.com/confraria</a>, que o membro vê antes da festa</small></h2>
+  <div class="cfg">
+    <div style="grid-column:1/-1"><label>Texto sobre a Wine Lovers Recife (linha em branco separa parágrafos)</label><textarea id="cf-texto" rows="7" style="width:100%;padding:10px 12px;border:1px solid var(--border);font-family:inherit;font-size:13px;line-height:1.6"></textarea></div>
+    <div style="grid-column:1/-1"><label>Link da playlist (Spotify, Apple Music ou YouTube) — vazio = a seção não aparece</label><input id="cf-playlist" placeholder="https://open.spotify.com/playlist/…"></div>
+    <div><button class="btn gold" id="cf-save" onclick="salvaConfraria()">Salvar texto e playlist</button></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:22px 0 10px;gap:10px;flex-wrap:wrap">
+    <strong style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt)">Edições anteriores</strong>
+    <button class="btn gold" onclick="abreEdicao(null)">+ Nova edição</button>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Ano</th><th>Data</th><th>Local</th><th>Magnums</th><th>Foto</th><th></th></tr></thead>
+    <tbody id="cf-body"></tbody>
+  </table></div>
+
   <div id="conselho-sec" class="hidden">
     <h2>O conselho <small>— links pessoais de acesso (só o organizador vê)</small></h2>
     <div class="tbl-wrap"><table>
@@ -242,6 +257,28 @@ a{color:var(--wine-lt)}
           <span id="ed-status" style="font-size:11px;color:var(--ink-lt);align-self:center"></span></div>
       </div>
       <div><div class="lb" style="margin-top:0">Pré-visualização (dados de exemplo)</div><iframe id="ed-prev" class="ed-prev"></iframe></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="cf-modal">
+  <div class="modal-box" style="max-width:720px">
+    <div class="modal-top"><strong id="cf-titulo">Edição</strong><button class="del" onclick="fechaModal('cf-modal')">fechar ✕</button></div>
+    <div class="ed-cols" style="display:block">
+      <div style="display:grid;grid-template-columns:120px 1fr;gap:10px">
+        <div><label class="lb">Ano</label><input id="cf-ano" inputmode="numeric" maxlength="4"></div>
+        <div><label class="lb">Data (se souber)</label><input id="cf-data" type="date"></div>
+      </div>
+      <label class="lb">Local</label><input id="cf-local" placeholder="ex.: Restaurante …, Recife">
+      <label class="lb">Texto (opcional)</label><textarea id="cf-etexto" rows="3" placeholder="ex.: Não houve edição por causa da pandemia."></textarea>
+      <label class="lb">Vinhos — um por linha, no formato SIGLA - Vinho safra</label><textarea id="cf-vinhos" rows="12" placeholder="AMN - Opus One 2009&#10;AA - Cask 23 1999"></textarea>
+      <label class="lb">Foto oficial</label>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <img id="cf-foto-prev" alt="" style="width:180px;aspect-ratio:16/9;object-fit:cover;background:#f3ecef;display:none">
+        <input type="file" id="cf-foto" accept="image/*" onchange="escolheFoto(this)">
+        <button class="del" id="cf-foto-rm" onclick="removeFoto()" style="display:none">remover foto</button>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:8px;align-items:center"><button class="btn gold" id="cf-salvar" onclick="salvaEdicao()">Salvar edição</button><span id="cf-status" style="font-size:11px;color:var(--ink-lt)"></span></div>
     </div>
   </div>
 </div>
@@ -308,6 +345,7 @@ function tryToken() {
 function sair() { try { localStorage.removeItem('wlr_admin_token'); } catch (e) { } location.href = location.pathname; }
 
 function refresh() {
+  loadConfraria();
   return Promise.all([
     rpc('wlr_admin_lista', { p_token: TOKEN }),
     rpc('wlr_admin_garrafas', { p_token: TOKEN }),
@@ -691,6 +729,87 @@ function miniatura(tipo) {
 function ligaModelo(tipo, ativo) {
   rpc('wlr_admin_modelo_ativo', { p_token: TOKEN, p_tipo: tipo, p_ativo: ativo })
     .then(function () { toast(ativo ? 'E-mail ligado.' : 'E-mail desligado — não sai sozinho.'); return carregaModelos(); })
+    .catch(function (e) { toast(e.message, true); });
+}
+// ── a confraria (texto, playlist e edições anteriores) ─────────────────────
+var confraria = { edicoes: [] }, edAtual = null, fotoNova = null;
+function loadConfraria() {
+  return rpc('wlr_admin_confraria', { p_token: TOKEN }).then(function (d) {
+    confraria = d || { edicoes: [] };
+    if (document.activeElement !== document.getElementById('cf-texto')) document.getElementById('cf-texto').value = confraria.texto || '';
+    if (document.activeElement !== document.getElementById('cf-playlist')) document.getElementById('cf-playlist').value = confraria.playlist || '';
+    var eds = confraria.edicoes || [];
+    document.getElementById('cf-body').innerHTML = eds.length ? eds.map(function (e) {
+      var n = String(e.vinhos || '').split('\n').filter(function (l) { return l.trim(); }).length;
+      return '<tr><td><strong>' + e.ano + '</strong></td><td>' + (e.data ? new Date(e.data + 'T12:00:00').toLocaleDateString('pt-BR') : '<span style="color:var(--ink-lt)">—</span>') + '</td><td>' + esc(e.local || '—') +
+        '</td><td>' + (n || '—') + '</td><td>' + (e.tem_foto ? '✓' : '—') + '</td><td style="white-space:nowrap"><button class="btn gold" style="padding:7px 12px;font-size:9px" onclick="abreEdicao(' + e.ano + ')">Editar</button> <button class="del" onclick="apagaEdicao(' + e.ano + ')">apagar</button></td></tr>';
+    }).join('') : '<tr><td colspan="6" style="color:var(--ink-lt)">Nenhuma edição cadastrada.</td></tr>';
+  }).catch(function (e) { toast(e.message, true); });
+}
+function salvaConfraria() {
+  var b = document.getElementById('cf-save'); b.disabled = true; b.textContent = 'Salvando…';
+  rpc('wlr_admin_confraria_salvar', { p_token: TOKEN, p_texto: document.getElementById('cf-texto').value, p_playlist: document.getElementById('cf-playlist').value })
+    .then(function () { toast('Texto e playlist salvos.'); return loadConfraria(); })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { b.disabled = false; b.textContent = 'Salvar texto e playlist'; });
+}
+function abreEdicao(ano) {
+  var e = (confraria.edicoes || []).filter(function (x) { return x.ano === ano; })[0] || null;
+  edAtual = e; fotoNova = null;
+  document.getElementById('cf-titulo').textContent = e ? 'Edição ' + e.ano : 'Nova edição';
+  document.getElementById('cf-ano').value = e ? e.ano : '';
+  document.getElementById('cf-data').value = e && e.data ? e.data : '';
+  document.getElementById('cf-local').value = e ? e.local || '' : '';
+  document.getElementById('cf-etexto').value = e ? e.texto || '' : '';
+  document.getElementById('cf-vinhos').value = e ? e.vinhos || '' : '';
+  document.getElementById('cf-foto').value = '';
+  document.getElementById('cf-status').textContent = '';
+  var prev = document.getElementById('cf-foto-prev'), rm = document.getElementById('cf-foto-rm');
+  prev.style.display = 'none'; rm.style.display = 'none'; prev.removeAttribute('src');
+  if (e && e.tem_foto) {
+    rpc('wlr_admin_edicao_foto', { p_token: TOKEN, p_ano: e.ano }).then(function (src) {
+      if (src && edAtual === e && fotoNova === null) { prev.src = src; prev.style.display = 'block'; rm.style.display = 'inline-block'; }
+    }).catch(function () { });
+  }
+  document.getElementById('cf-modal').classList.remove('hidden');
+}
+// reduz para no máximo 1600 px antes de guardar (a foto fica no banco, só para membros)
+function escolheFoto(inp) {
+  var f = inp.files && inp.files[0]; if (!f) return;
+  var st = document.getElementById('cf-status'); st.textContent = 'Preparando a foto…';
+  var img = new Image(), url = URL.createObjectURL(f);
+  img.onload = function () {
+    var k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+    var c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    fotoNova = c.toDataURL('image/jpeg', 0.8); URL.revokeObjectURL(url);
+    var prev = document.getElementById('cf-foto-prev'); prev.src = fotoNova; prev.style.display = 'block';
+    document.getElementById('cf-foto-rm').style.display = 'inline-block';
+    st.textContent = 'Foto pronta — clique em Salvar edição.';
+  };
+  img.onerror = function () { st.textContent = ''; toast('Não consegui abrir esta imagem. Use JPG ou PNG.', true); };
+  img.src = url;
+}
+function removeFoto() {
+  fotoNova = '';
+  var prev = document.getElementById('cf-foto-prev'); prev.style.display = 'none'; prev.removeAttribute('src');
+  document.getElementById('cf-foto-rm').style.display = 'none'; document.getElementById('cf-foto').value = '';
+  document.getElementById('cf-status').textContent = 'A foto sai quando você salvar.';
+}
+function salvaEdicao() {
+  var ano = parseInt(document.getElementById('cf-ano').value, 10);
+  if (!ano) return toast('Informe o ano.', true);
+  var b = document.getElementById('cf-salvar'); b.disabled = true; b.textContent = 'Salvando…';
+  rpc('wlr_admin_edicao_salvar', { p_token: TOKEN, p_ano: ano, p_data: document.getElementById('cf-data').value || null,
+    p_local: document.getElementById('cf-local').value, p_texto: document.getElementById('cf-etexto').value,
+    p_vinhos: document.getElementById('cf-vinhos').value, p_foto: fotoNova, p_ano_antigo: edAtual ? edAtual.ano : null })
+    .then(function () { toast('Edição ' + ano + ' salva.'); fechaModal('cf-modal'); return loadConfraria(); })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { b.disabled = false; b.textContent = 'Salvar edição'; });
+}
+function apagaEdicao(ano) {
+  if (!confirm('Apagar a edição de ' + ano + ' (vinhos e foto)? Não dá para desfazer.')) return;
+  rpc('wlr_admin_edicao_apagar', { p_token: TOKEN, p_ano: ano }).then(function () { toast('Edição ' + ano + ' apagada.'); return loadConfraria(); })
     .catch(function (e) { toast(e.message, true); });
 }
 function fechaModal(id) { document.getElementById(id).classList.add('hidden'); }

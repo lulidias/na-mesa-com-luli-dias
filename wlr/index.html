@@ -251,6 +251,8 @@ body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado
 .hidden{display:none !important}
 .painel-btn{position:fixed;top:16px;right:16px;z-index:1500;background:var(--wine-lt);color:#fff;border:1px solid var(--wine-lt);padding:11px 20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-family:'Montserrat',sans-serif;transition:all .3s;box-shadow:0 4px 18px rgba(0,0,0,.25)}
 .painel-btn:hover{background:var(--wine)}
+.confraria-btn{position:absolute;top:60px;left:16px;z-index:1400;color:var(--wine-lt);font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-weight:600;padding:6px 2px;border-bottom:1px solid rgba(108,33,76,.35)}
+body.fechado .confraria-btn{display:none}
 .chip{font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:7px 13px;border:1px solid var(--border);background:#fff;color:var(--ink-lt)}
 .chip.ok{border-color:var(--ok);color:var(--ok);background:#F0F7F2}
 .chip.warn{border-color:var(--warn);color:var(--warn);background:#FBF3ED}
@@ -275,6 +277,7 @@ body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado
 <body>
 
 <a class="painel-btn" href="#rsvp" id="painel-btn" onclick="painelClick(event)">Meu Painel</a>
+<a class="confraria-btn" href="confraria/" id="confraria-btn">← A confraria</a>
 
 
 <!-- ═══ HERO ═══ -->
@@ -778,6 +781,7 @@ function entrou(id) {
   try { localStorage.setItem('wlr_id', id); localStorage.setItem('wlr_zap', ptZap); } catch (e) { }
   var volta = ''; try { volta = sessionStorage.getItem('wlr_voltar') || ''; sessionStorage.removeItem('wlr_voltar'); } catch (e) { }
   if (volta === 'votar') return location.replace('votar/');
+  if (volta === 'confraria') return location.replace('confraria/');
   // trocar só o #hash NÃO recarrega a página — era isto que deixava a pessoa presa na tela do telefone
   meuId = id;
   history.replaceState({}, '', location.pathname + '#rsvp');
@@ -1516,6 +1520,13 @@ function renderPremios() {
 // ── init ─────────────────────────────────────────────────────────────────
 tipoChange();
 var STANDALONE = !!(navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches));
+function vaiParaConfraria() {
+  var vista = true; try { vista = !!sessionStorage.getItem('wlr_confraria_vista'); } catch (e) { }
+  if (!meuId || vista || STANDALONE || location.hash || location.search) return false;
+  try { sessionStorage.setItem('wlr_confraria_vista', '1'); } catch (e) { }
+  location.replace('confraria/');
+  return true;
+}
 function iniciaSessao() {
   if (meuId) return Promise.resolve();
   var k = _q.get('k');
@@ -1528,7 +1539,7 @@ function iniciaSessao() {
     if (id) { meuId = id; try { localStorage.setItem('wlr_id', id); } catch (e) { } }
   }).catch(function () { });
 }
-iniciaSessao().then(function () { return Promise.all([
+iniciaSessao().then(function () { if (vaiParaConfraria()) return; return Promise.all([
   view('wlr_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : null; renderQuando(); modoFesta(); aplicaPorta(); if (!fechado()) return loadMembros().then(loadMe); }).catch(function () { }),
   view('wlr_categorias_publicas').then(function (rows) { catsCache = rows || []; }).catch(function () { })
 ]).then(function () {

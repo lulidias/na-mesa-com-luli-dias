@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>/* o site mora em wineloversrecife.com, sempre sem www */
+if (location.hostname === 'www.wineloversrecife.com') location.replace('https://wineloversrecife.com' + location.pathname + location.search + location.hash);
+else if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wineloversrecife.com' + location.pathname.replace(/^\/wlr/, '') + location.search + location.hash);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Wine Lovers Recife — a confraria</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../favicon.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=2">
+<meta name="theme-color" content="#6C214C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#411A39;--wine-lt:#6C214C;--ink:#1F1A1D;--ink-lt:#6B5E65;--bg:#F9F5F7;--soft:#FBF4F7;--border:#E9DDE3}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Montserrat',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.it{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic}
+body.carregando main,body.carregando .hero .cta{visibility:hidden}
+
+.hero{background:#fff;color:var(--wine);text-align:center;padding:60px 24px 56px;position:relative;border-bottom:6px solid var(--wine-lt)}
+.hero::after{content:'';position:absolute;inset:14px;border:1px solid rgba(108,33,76,.25);pointer-events:none}
+.hero-logo{width:min(340px,74vw);height:auto;display:block;margin:0 auto 26px}
+.kicker{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--wine-lt);font-weight:600}
+.quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(22px,4.4vw,32px);color:var(--wine-lt);margin:14px auto 0;max-width:620px;line-height:1.3}
+.cta{display:inline-block;margin-top:30px;background:var(--wine-lt);color:#fff;text-decoration:none;padding:15px 28px;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:600;position:relative;z-index:2}
+.cta:hover{background:var(--wine)}
+
+section{max-width:980px;margin:0 auto;padding:64px 24px}
+.sec-k{text-align:center;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--wine-lt);font-weight:600;margin-bottom:10px}
+.sec-t{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(30px,5vw,44px);color:var(--wine);line-height:1.1;margin-bottom:26px}
+.orn{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 30px}
+.orn .l{height:1px;width:56px;background:linear-gradient(90deg,transparent,var(--wine-lt))}
+.orn .r{height:1px;width:56px;background:linear-gradient(90deg,var(--wine-lt),transparent)}
+.orn .d{width:5px;height:5px;background:var(--wine-lt);transform:rotate(45deg)}
+
+#texto{max-width:680px;margin:0 auto;font-size:15.5px;line-height:1.85;color:var(--ink)}
+#texto p+p{margin-top:16px}
+
+#sec-playlist{padding-top:0}
+.player{max-width:680px;margin:0 auto}
+.player iframe{width:100%;border:0;border-radius:12px;display:block}
+.player .alt{display:block;text-align:center;margin-top:14px;font-size:12px;color:var(--wine-lt)}
+
+.proxima{display:block;max-width:680px;margin:0 auto;background:var(--wine);color:#fff;text-decoration:none;text-align:center;padding:38px 24px;position:relative}
+.proxima::after{content:'';position:absolute;inset:10px;border:1px solid rgba(255,255,255,.3);pointer-events:none}
+.proxima .k{font-size:10px;letter-spacing:5px;text-transform:uppercase;opacity:.75}
+.proxima .n{font-weight:800;font-size:clamp(28px,6vw,44px);letter-spacing:.05em;margin-top:10px}
+.proxima .s{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,3.6vw,28px);margin-top:4px}
+.proxima .d{font-size:12px;letter-spacing:2px;margin-top:16px;opacity:.9}
+.proxima .b{display:inline-block;margin-top:20px;border:1px solid #fff;padding:12px 22px;font-size:10px;letter-spacing:3px;text-transform:uppercase}
+.proxima:hover .b{background:#fff;color:var(--wine)}
+
+.edicao{background:#fff;border:1px solid var(--border);margin:0 auto 34px;max-width:980px}
+.ed-top{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;padding:26px 28px 18px;border-bottom:1px solid var(--border)}
+.ed-ano{font-weight:800;font-size:clamp(40px,8vw,60px);color:var(--wine);line-height:1;letter-spacing:.02em}
+.ed-info{font-size:12px;letter-spacing:1.5px;color:var(--ink-lt);text-transform:uppercase;line-height:1.7}
+.ed-info b{color:var(--wine-lt);font-weight:700}
+.ed-foto{background:var(--soft);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:var(--ink-lt);font-size:12px;overflow:hidden;cursor:zoom-in}
+.ed-foto img{width:100%;height:100%;object-fit:cover;display:block}
+.ed-texto{padding:20px 28px 0;font-size:14.5px;line-height:1.75;color:var(--ink)}
+.ed-vinhos{list-style:none;padding:22px 28px 28px;columns:2;column-gap:36px}
+.ed-vinhos li{break-inside:avoid;padding:7px 0;border-bottom:1px dotted var(--border);font-size:13.5px;line-height:1.45;display:flex;gap:10px}
+.ed-vinhos .sg{flex:0 0 58px;font-weight:700;font-size:11px;letter-spacing:1px;color:var(--wine-lt);padding-top:2px}
+.vazio{text-align:center;color:var(--ink-lt);font-size:13px}
+
+#zoom{position:fixed;inset:0;background:rgba(31,26,29,.94);z-index:3000;display:flex;align-items:center;justify-content:center;padding:18px;cursor:zoom-out}
+#zoom img{max-width:100%;max-height:100%;object-fit:contain}
+.hidden{display:none !important}
+
+footer{background:var(--wine);color:#fff;text-align:center;padding:50px 24px 44px}
+footer img{width:160px;height:auto;display:block;margin:0 auto 18px}
+footer .q{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;opacity:.9}
+
+@media (max-width:640px){
+  section{padding:50px 16px}
+  .ed-top{padding:20px 18px 14px}
+  .ed-texto{padding:16px 18px 0}
+  .ed-vinhos{columns:1;padding:16px 18px 22px}
+  .hero{padding:48px 16px 44px}
+}
+</style>
+</head>
+<body class="carregando">
+
+<header class="hero">
+  <img class="hero-logo" src="../img/logo.png" alt="Wine Lovers Recife">
+  <div class="kicker">A confraria</div>
+  <div class="quote">"Viver e curtir os bons momentos com os amigos."</div>
+  <a class="cta" href="../">Magnum Fest 2026 →</a>
+</header>
+
+<main>
+  <section id="sec-sobre">
+    <div class="sec-k">Quem somos</div>
+    <div class="sec-t">Wine Lovers Recife</div>
+    <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+    <div id="texto"></div>
+  </section>
+
+  <section id="sec-playlist" class="hidden">
+    <div class="sec-k">Para ouvir</div>
+    <div class="sec-t">A nossa playlist</div>
+    <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+    <div class="player" id="player"></div>
+  </section>
+
+  <section id="sec-proxima" style="padding-top:0">
+    <a class="proxima" href="../">
+      <div class="k">A próxima edição</div>
+      <div class="n">MAGNUM FEST</div>
+      <div class="s">Licínio Dias · 2026</div>
+      <div class="d" id="proxima-data">11 DE DEZEMBRO · 12H · RESTAURANTE RUIZITO</div>
+      <span class="b">Confirmar presença e registrar a Magnum</span>
+    </a>
+  </section>
+
+  <section id="sec-edicoes">
+    <div class="sec-k">Magnum Fest Licínio Dias</div>
+    <div class="sec-t">Edições anteriores</div>
+    <div class="orn"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+    <div id="edicoes"><p class="vazio">Carregando…</p></div>
+  </section>
+</main>
+
+<footer>
+  <img src="../img/logo-branco.png" alt="Wine Lovers Recife">
+  <div class="q">"Viver e curtir os bons momentos com os amigos."</div>
+</footer>
+
+<div id="zoom" class="hidden" onclick="this.classList.add('hidden')"><img alt=""></div>
+
+<script src="../i18n.js"></script>
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+try { sessionStorage.setItem('wlr_confraria_vista', '1'); } catch (e) { }
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, {
+    method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(args || {})
+  }).then(function (r) {
+    return r.text().then(function (tx) {
+      var d = null; try { d = tx ? JSON.parse(tx) : null; } catch (e) { }
+      if (!r.ok) throw new Error((d && d.message) || 'Erro (' + r.status + ')');
+      return d;
+    });
+  });
+}
+function tr(s) { return typeof T === 'function' ? T(s) : s; }
+function LOC() { return typeof LOCALE === 'function' ? LOCALE() : 'pt-BR'; }
+
+// sessão: a mesma do site da festa (o aparelho aprovado entra sem pedir nada)
+var meuId = null; try { meuId = localStorage.getItem('wlr_id'); } catch (e) { }
+function meuDisp() {
+  var d = ''; try { d = localStorage.getItem('wlr_disp') || ''; } catch (e) { }
+  if (d.length < 40) { var m = document.cookie.match(/(?:^|; )wlr_disp=([0-9a-f]{48})/); if (m) d = m[1]; }
+  return d;
+}
+function paraPorta() { location.replace('../?voltar=confraria'); }
+function sessao() {
+  if (meuId) return Promise.resolve(meuId);
+  var d = meuDisp(); if (!d) return Promise.resolve(null);
+  return rpc('wlr_sessao_do_aparelho', { p_disp: d }).then(function (id) {
+    if (id) { meuId = id; try { localStorage.setItem('wlr_id', id); } catch (e) { } }
+    return id;
+  }).catch(function () { return null; });
+}
+
+function paragrafos(t) {
+  return String(t || '').split(/\n\s*\n/).map(function (p) { return p.trim(); }).filter(Boolean)
+    .map(function (p) { return '<p>' + esc(p).replace(/\n/g, '<br>') + '</p>'; }).join('');
+}
+function embedPlaylist(url) {
+  var m = String(url).match(/open\.spotify\.com\/(?:intl-[a-z-]+\/)?(playlist|album)\/([A-Za-z0-9]+)/);
+  if (m) return '<iframe src="https://open.spotify.com/embed/' + m[1] + '/' + m[2] + '?theme=0" height="452" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>';
+  if (/music\.apple\.com\//.test(url)) return '<iframe src="' + esc(url.replace('music.apple.com', 'embed.music.apple.com')) + '" height="450" allow="autoplay *; encrypted-media *;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" loading="lazy"></iframe>';
+  if (/youtube\.com\/playlist\?list=([\w-]+)/.test(url)) return '<iframe src="https://www.youtube.com/embed/videoseries?list=' + url.match(/list=([\w-]+)/)[1] + '" height="380" allowfullscreen loading="lazy"></iframe>';
+  return '';
+}
+function dataLonga(d) {
+  if (!d) return '';
+  var x = new Date(d + 'T12:00:00');
+  return x.toLocaleDateString(LOC(), { day: 'numeric', month: 'long', year: 'numeric' });
+}
+function linhasVinhos(t) {
+  return String(t || '').split(/\n/).map(function (l) { return l.trim(); }).filter(Boolean).map(function (l) {
+    var i = l.indexOf(' - ');
+    return i > 0 ? { s: l.slice(0, i).trim(), v: l.slice(i + 3).trim() } : { s: '', v: l };
+  });
+}
+
+function render(dados) {
+  document.getElementById('texto').innerHTML = paragrafos(dados.texto) || '<p class="vazio">' + esc(tr('O conselho ainda vai escrever este texto.')) + '</p>';
+  if (dados.playlist) {
+    var html = embedPlaylist(dados.playlist);
+    document.getElementById('player').innerHTML = html + '<a class="alt" href="' + esc(dados.playlist) + '" target="_blank" rel="noopener">' + esc(tr('Abrir a playlist no aplicativo')) + ' ↗</a>';
+    document.getElementById('sec-playlist').classList.remove('hidden');
+  }
+  var eds = dados.edicoes || [];
+  var box = document.getElementById('edicoes');
+  if (!eds.length) { box.innerHTML = '<p class="vazio">' + esc(tr('Nenhuma edição cadastrada ainda.')) + '</p>'; return; }
+  box.innerHTML = eds.map(function (e) {
+    var vs = linhasVinhos(e.vinhos);
+    var info = [e.data ? '<b>' + esc(dataLonga(e.data)) + '</b>' : '', e.local ? esc(e.local) : '',
+      vs.length ? vs.length + ' Magnums' : ''].filter(Boolean).join(' · ');
+    return '<article class="edicao" id="ed-' + e.ano + '">' +
+      '<div class="ed-top"><div class="ed-ano">' + e.ano + '</div><div class="ed-info">' + info + '</div></div>' +
+      (e.tem_foto ? '<div class="ed-foto" data-ano="' + e.ano + '">' + esc(tr('Carregando a foto…')) + '</div>' : '') +
+      (e.texto ? '<div class="ed-texto">' + paragrafos(e.texto) + '</div>' : '') +
+      (vs.length ? '<ul class="ed-vinhos" data-notr>' + vs.map(function (v) {
+        return '<li><span class="sg">' + esc(v.s) + '</span><span>' + esc(v.v) + '</span></li>';
+      }).join('') + '</ul>' : '') +
+      '</article>';
+  }).join('');
+  // fotos: uma de cada vez, só quando chegam perto da tela
+  var fotos = [].slice.call(document.querySelectorAll('.ed-foto'));
+  var carrega = function (el) {
+    if (el._ok) return; el._ok = true;
+    rpc('wlr_p_edicao_foto', { p_id: meuId, p_ano: +el.dataset.ano }).then(function (src) {
+      if (!src) { el.remove(); return; }
+      el.innerHTML = ''; var img = new Image(); img.alt = 'Magnum Fest ' + el.dataset.ano; img.src = src; el.appendChild(img);
+      el.onclick = function () { var z = document.getElementById('zoom'); z.querySelector('img').src = src; z.classList.remove('hidden'); };
+    }).catch(function () { el.textContent = tr('Não foi possível carregar a foto.'); });
+  };
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { io.unobserve(x.target); carrega(x.target); } }); }, { rootMargin: '400px' });
+    fotos.forEach(function (f) { io.observe(f); });
+  } else fotos.forEach(carrega);
+}
+
+sessao().then(function (id) {
+  if (!id) return paraPorta();
+  return rpc('wlr_p_confraria', { p_id: id }).then(function (d) {
+    document.body.classList.remove('carregando');
+    render(d || {});
+  });
+}).catch(function (e) {
+  if (/restrito/i.test(e.message)) { try { localStorage.removeItem('wlr_id'); } catch (x) { } return paraPorta(); }
+  document.body.classList.remove('carregando');
+  document.getElementById('edicoes').innerHTML = '<p class="vazio">' + esc(e.message) + '</p>';
+});
+</script>
+</body>
+</html>
