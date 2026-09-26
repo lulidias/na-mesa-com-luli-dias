@@ -44,8 +44,7 @@ input{width:100%;padding:15px;border:1px solid rgba(255,255,255,.6);background:r
   <div id="ident" class="hidden">
     <div class="card" style="text-align:center">
       <h2>Quem vota?</h2>
-      <div class="ct" style="margin-top:4px">Digite o WhatsApp que você usou na confirmação</div>
-      <input id="zap" placeholder="(81) 9 0000-0000" inputmode="tel" onkeydown="if(event.key==='Enter')entrar()">
+      <div class="ct" style="margin-top:4px">Entre no site com o seu WhatsApp — depois você volta direto para a urna</div>
       <button class="btn" id="btn-entrar" onclick="entrar()">Entrar na urna</button>
     </div>
   </div>
@@ -83,15 +82,7 @@ function rpc(fn, args) {
 }
 function view(n) { return fetch(SB + '/rest/v1/' + n + '?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }); }
 
-function entrar() {
-  var z = document.getElementById('zap').value.trim();
-  if (!z) return toast('Digite o seu WhatsApp.', true);
-  var b = document.getElementById('btn-entrar'); b.disabled = true; b.textContent = 'Entrando…';
-  rpc('wlr_entrar', { p_whatsapp: z })
-    .then(function (id) { meuId = id; localStorage.setItem('wlr_id', id); carrega(); })
-    .catch(function (e) { toast(e.message, true); })
-    .then(function () { b.disabled = false; b.textContent = 'Entrar na urna'; });
-}
+function entrar() { location.href = '../?voltar=votar'; }
 
 function carrega() {
   Promise.all([

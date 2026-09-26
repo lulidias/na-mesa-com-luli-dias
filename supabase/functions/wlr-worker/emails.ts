@@ -196,7 +196,7 @@ export function monta(modelo: any, tipo: string, d: Dados, ctx: Ctx, l: Lang, ra
     n_magnums: String(ctx.vinhos.filter((v) => v.situacao === "aprovado").length),
     vinho: esc(`${d.vinho ?? ""}${d.safra ? " " + d.safra : ""}`), situacao: esc(sit(situacao, l)), resumo: esc(resumo),
     decisao: esc(d.decisao === "aprovado" ? x(l, "aprovou", "aprobó", "approved") : x(l, "não aprovou", "no aprobó", "did not approve")),
-    motivo: d.motivo ? esc(d.motivo) : "", por: esc(d.por ?? ""), confrade: esc(d.confrade ?? ""), proximo_passo: esc(proximo),
+    motivo: d.motivo ? esc(d.motivo) : "", por: esc(d.por ?? ""), aparelho: esc(d.aparelho || x(l, "um navegador", "un navegador", "a browser")), confrade: esc(d.confrade ?? ""), proximo_passo: esc(proximo),
   };
   const blocos: Record<string, string> = {
     criterios: tabelaCriterios(crit), carta: blocoCarta(ctx, l), novidades: blocoNovidades(ctx, l),
@@ -204,7 +204,8 @@ export function monta(modelo: any, tipo: string, d: Dados, ctx: Ctx, l: Lang, ra
     podio: blocoPodio(ctx, l), pauta: blocoPauta(ctx, l),
   };
   const painel = pid ? `${SITE}?id=${pid}` : SITE;
-  const href = tipo === "votacao-aberta" ? `${SITE}votar/`
+  const href = tipo === "aprovar-dispositivo" ? `${SITE}?aprovar=${d.token ?? ""}`
+    : tipo === "votacao-aberta" ? `${SITE}votar/`
     : (tipo === "conselho-avaliar" || tipo === "pauta-conselho") ? `${SITE}admin.html?t=${d.token ?? ""}${d.garrafa_id ? "#g-" + d.garrafa_id : ""}`
     : (tipo === "resumo" || tipo === "carta-fechada") ? `${painel}#vinhos`
     : (tipo === "resultados" || tipo === "agradecimento") ? `${painel}#resultados`
@@ -244,7 +245,7 @@ export async function processaFila(sb: SupabaseClient, cfg: Cfg) {
     const d = row.dados ?? {};
     const modelo = modelos[row.tipo];
     // modelo desligado no painel: automáticos e agendados não saem (envio manual passa)
-    if (modelo && !modelo.ativo && !d.manual) {
+    if (modelo && !modelo.ativo && !d.manual && row.tipo !== "aprovar-dispositivo") {   // aprovação de acesso nunca é bloqueada
       await sb.from("wlr_emails").update({ status: "desligado" }).eq("id", row.id);
       continue;
     }
@@ -304,6 +305,7 @@ export function exemplo(tipo: string, ctx: Ctx): Dados {
   ];
   const base: Dados = { nome: alguem.nome, participante_id: alguem.id, vinho: v.vinho, safra: v.safra, confrade: alguem.nome,
     criterios: crit, resumo: "Atende a todos os critérios da MFLD.", situacao: "aprovado" };
+  if (tipo === "aprovar-dispositivo") return { ...base, token: "…", aparelho: "iPhone · Safari" };
   if (tipo === "decisao-conselho") return { ...base, decisao: "aprovado", motivo: "Grande escolha — entra na carta.", por: "Gurgel" };
   if (tipo === "conselho-avaliar" || tipo === "pauta-conselho") return { ...base, nome: "Fernando Gurgel", conselheiro: "Fernando Gurgel", token: "…", situacao: "em_analise", resumo: "Brancos, espumantes e doces precisam do aval do conselho (cláusula 7.1)." };
   return base;

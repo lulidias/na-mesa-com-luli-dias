@@ -160,7 +160,7 @@ a{color:var(--wine-lt)}
     <button class="btn gold" onclick="addMembro()">Adicionar membro</button>
   </div>
   <div class="tbl-wrap"><table>
-    <thead><tr><th>Nome</th><th>Situação</th><th>WhatsApp</th><th>E-mail</th><th>Obs</th><th></th></tr></thead>
+    <thead><tr><th>Nome</th><th>Situação</th><th>WhatsApp</th><th>E-mail</th><th>Aparelhos</th><th>Obs</th><th></th></tr></thead>
     <tbody id="p-body"></tbody>
   </table></div>
 
@@ -328,7 +328,7 @@ function refresh() {
     document.getElementById('c-resultados').value = String(cfg.resultados_publicos === true);
     document.getElementById('c-premio1').value = cfg.premio1 || '';
     document.getElementById('c-meta').value = cfg.meta_confrades != null ? cfg.meta_confrades : '';
-    renderKPIs(); renderFila(); renderGarrafas(); renderParts(); renderAcesso(); carregaModelos(); renderCats(); renderResultados(); renderBI();
+    renderKPIs(); renderFila(); renderGarrafas(); renderParts(); renderAcesso(); carregaModelos(); carregaDisps(); renderCats(); renderResultados(); renderBI();
     if (mestre) { carregaConselho(); carregaAcessos(); }
     document.getElementById('atualizado').textContent = 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' · atualiza sozinho a cada minuto';
   }).catch(function (e) { toast(e.message, true); });
@@ -444,7 +444,8 @@ function renderParts() {
       '<td><strong>' + esc(p.nome) + '</strong>' + (p.produtor_de ? '<div style="font-size:10px;color:var(--ink-lt)">produtor: ' + esc(p.produtor_de) + '</div>' : '') + '</td>' +
       '<td style="white-space:nowrap">' + sit + '</td>' +
       '<td><input value="' + esc(p.whatsapp_lista || '') + '" placeholder="(81) 9…" style="width:150px;padding:6px 8px;font-size:12px" onchange="salvaZapLista(\'' + js(p.nome) + '\', this.value)"></td>' +
-      '<td style="max-width:180px;overflow:hidden;text-overflow:ellipsis">' + esc(p.email || '') + '</td>' +
+      '<td><input value="' + esc(p.email || '') + '" placeholder="e-mail" style="width:190px;padding:6px 8px;font-size:12px" onchange="salvaEmailMembro(\'' + p.id + '\', this.value, this)"></td>' +
+      '<td style="white-space:nowrap;font-size:11px">' + (disps[p.id] ? disps[p.id].aprovados + ' aprovado(s) <button class="del" title="Obriga a aprovar de novo por e-mail" onclick="desconecta(\'' + p.id + '\',\'' + js(esc(p.nome)) + '\')">desconectar</button>' : '<span style="color:var(--ink-lt)">—</span>') + '</td>' +
       '<td style="max-width:160px;font-size:11px;color:var(--ink-lt)">' + esc(p.obs || '') + '</td>' +
       '<td style="white-space:nowrap">' +
       (p.confirmado && !temAlguma[p.nome] && zap ? '<a class="zap" target="_blank" href="' + zapGarrafa(p) + '">🍾 Magnum</a><br>' : '') +
@@ -468,6 +469,23 @@ function zapConvite(p) {
   var msg = 'Olá, ' + p.nome.split(' ')[0] + '! 🍷 As confirmações da Magnum Fest Licínio Dias 2026 estão abertas. ' +
     'Confirme a presença e registre a sua Magnum aqui:\n\n' + SITE + '#rsvp';
   return 'https://wa.me/?text=' + encodeURIComponent(msg);
+}
+var disps = {};
+function carregaDisps() {
+  return rpc('wlr_admin_dispositivos', { p_token: TOKEN }).then(function (rows) {
+    disps = {}; (rows || []).forEach(function (r) { if (r.aprovados > 0) disps[r.participante_id] = r; });
+    renderParts();
+  }).catch(function () { });
+}
+function salvaEmailMembro(id, email, el) {
+  if (!confirm('Trocar o e-mail? Os aparelhos já aprovados desta pessoa terão de ser aprovados de novo pelo e-mail novo.')) { el.value = el.defaultValue; return; }
+  rpc('wlr_admin_email', { p_token: TOKEN, p_participante: id, p_email: email })
+    .then(function () { toast('E-mail salvo.'); return refresh(); }).catch(function (e) { toast(e.message, true); el.value = el.defaultValue; });
+}
+function desconecta(id, nome) {
+  if (!confirm('Desconectar todos os aparelhos de ' + nome + '? No próximo acesso, ele aprova de novo pelo e-mail.')) return;
+  rpc('wlr_admin_desconectar', { p_token: TOKEN, p_participante: id })
+    .then(function () { toast('Aparelhos desconectados.'); return carregaDisps(); }).catch(function (e) { toast(e.message, true); });
 }
 function salvaZapLista(nome, zap) {
   rpc('wlr_admin_whatsapp_lista', { p_token: TOKEN, p_nome: nome, p_whatsapp: zap })

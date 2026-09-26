@@ -232,7 +232,9 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 .bloco-t{font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--wine);display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);padding-bottom:10px}
 .bloco-t b{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--wine-lt);color:#fff;align-items:center;justify-content:center;font-size:11px}
 #porta{display:none}
-body.fechado #porta{display:block}
+body.fechado #porta,body.porta-aberta #porta{display:block}
+.pt-linha{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:440px;margin:0 auto}
+.pt-linha .f-input{flex:1;min-width:200px;text-align:center}
 body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado #festa-hero{display:none !important}
 .hidden{display:none !important}
 .painel-btn{position:fixed;top:16px;right:16px;z-index:1500;background:var(--wine-lt);color:#fff;border:1px solid var(--wine-lt);padding:11px 20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-family:'Montserrat',sans-serif;transition:all .3s;box-shadow:0 4px 18px rgba(0,0,0,.25)}
@@ -262,16 +264,6 @@ body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado
 
 <a class="painel-btn" href="#rsvp" id="painel-btn" onclick="painelClick(event)">Meu Painel</a>
 
-<div id="entrar-modal" class="hidden" style="position:fixed;inset:0;z-index:3000;background:rgba(65,26,57,.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px" onclick="if(event.target===this)this.classList.add('hidden')">
-  <div style="background:var(--white);max-width:380px;width:100%;padding:40px 34px;text-align:center">
-    <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--wine-lt);margin-bottom:12px;font-weight:600">Magnum Fest Licínio Dias</div>
-    <h3 style="font-weight:700;font-size:20px;margin-bottom:8px;color:var(--wine-md)">Entrar no meu painel</h3>
-    <p style="font-size:12px;color:var(--ink-lt);margin-bottom:22px;line-height:1.6">Digite o WhatsApp que você usou na confirmação.</p>
-    <input class="f-input" id="entrar-zap" placeholder="(81) 9 0000-0000" inputmode="tel" style="text-align:center" onkeydown="if(event.key==='Enter')entrarPainel()">
-    <button class="btn" style="width:100%;margin-top:14px" id="entrar-btn" onclick="entrarPainel()">Entrar</button>
-    <button class="linklike" style="margin-top:16px" onclick="document.getElementById('entrar-modal').classList.add('hidden');location.hash='#rsvp'">Ainda não confirmei presença</button>
-  </div>
-</div>
 
 <!-- ═══ HERO ═══ -->
 <header class="hero">
@@ -296,10 +288,30 @@ body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado
   <a class="cta" href="#rsvp" id="cta-btn">Confirmar presença</a>
   <div id="porta">
     <div style="font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--wine-lt);font-weight:600;margin-top:40px">Acesso exclusivo dos membros</div>
-    <p class="it" style="font-size:18px;color:var(--ink-lt);margin:10px auto 16px;max-width:420px">Digite o seu WhatsApp — o mesmo do grupo da Wine Lovers Recife.</p>
-    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:420px;margin:0 auto">
-      <input class="f-input" id="porta-zap" placeholder="(81) 9 0000-0000" inputmode="tel" style="flex:1;min-width:200px;text-align:center" onkeydown="if(event.key==='Enter')entrarSite()">
-      <button class="btn gold" id="porta-btn" onclick="entrarSite()">Entrar</button>
+    <div id="pt-tel">
+      <p class="it" style="font-size:18px;color:var(--ink-lt);margin:10px auto 16px;max-width:420px">Digite o seu WhatsApp — o mesmo do grupo da Wine Lovers Recife.</p>
+      <div class="pt-linha">
+        <input class="f-input" id="porta-zap" placeholder="(81) 9 0000-0000" inputmode="tel" autocomplete="tel" onkeydown="if(event.key==='Enter')entrarSite()">
+        <button class="btn gold" id="porta-btn" onclick="entrarSite()">Entrar</button>
+      </div>
+    </div>
+    <div id="pt-cad" class="hidden">
+      <p class="it" style="font-size:19px;color:var(--wine);margin:10px auto 6px">Bem-vindo, <span id="pt-nome"></span>!</p>
+      <p style="font-size:13px;color:var(--ink-lt);margin:0 auto 14px;max-width:440px;line-height:1.6">Primeiro acesso: informe o seu e-mail. É por ele que você aprova os aparelhos que usam o site e recebe o parecer dos seus vinhos.</p>
+      <div class="pt-linha">
+        <input class="f-input" id="pt-email" placeholder="voce@email.com" inputmode="email" autocomplete="email" onkeydown="if(event.key==='Enter')cadastrarEmail()">
+        <button class="btn gold" id="pt-cad-btn" onclick="cadastrarEmail()">Continuar</button>
+      </div>
+    </div>
+    <div id="pt-esp" class="hidden">
+      <p class="it" style="font-size:19px;color:var(--wine);margin:10px auto 6px">📧 Confira o seu e-mail</p>
+      <p style="font-size:13px;color:var(--ink-lt);margin:0 auto 12px;max-width:440px;line-height:1.6">Enviamos um link para <strong id="pt-email-mask"></strong>. Toque em <strong>Aprovar este dispositivo</strong> — pode ser pelo celular — e esta tela entra sozinha.</p>
+      <p style="font-size:12px;color:var(--ink-lt)"><span class="spin"></span>Aguardando a aprovação…</p>
+      <p style="margin-top:12px"><button class="linklike" id="pt-reenviar" onclick="entrarSite(true)" disabled>Reenviar e-mail</button> &nbsp;·&nbsp; <button class="linklike" onclick="portaPasso('tel')">Usar outro número</button></p>
+    </div>
+    <div id="pt-ok" class="hidden">
+      <p class="it" style="font-size:20px;color:var(--ok);margin:12px auto 6px">✅ Dispositivo aprovado</p>
+      <p style="font-size:13px;color:var(--ink-lt);max-width:440px;margin:0 auto;line-height:1.6" id="pt-ok-txt">Pode voltar à tela onde você digitou o telefone — ela já entrou. Ou digite o seu WhatsApp aqui para entrar também neste aparelho.</p>
     </div>
   </div>
   <div id="festa-hero" class="hidden" style="margin-top:8px"></div>
@@ -391,17 +403,15 @@ body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado
       <label class="f-label">Nome *</label>
       <select class="f-select" id="f-nome" onchange="nomeChange()"><option value="">Carregando a lista de membros…</option></select>
       <div id="f-nome-aviso" class="hidden" style="font-size:12px;color:var(--wine-lt);margin-top:8px"></div>
-      <div class="g-row2">
-        <div><label class="f-label">WhatsApp *</label><input class="f-input" id="f-zap" placeholder="(81) 9 0000-0000" inputmode="tel" autocomplete="tel"></div>
-        <div><label class="f-label">E-mail <span style="text-transform:none;letter-spacing:0;font-size:10px">(recebe o parecer)</span></label><input class="f-input" id="f-email" placeholder="voce@email.com" inputmode="email" autocomplete="email"></div>
-      </div>
+      <label class="f-label">E-mail <span style="text-transform:none;letter-spacing:0;font-size:10px">(recebe o parecer e aprova os seus acessos)</span></label>
+      <input class="f-input" id="f-email" placeholder="voce@email.com" inputmode="email" autocomplete="email">
       <label class="f-label">Restrições alimentares</label>
       <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;margin-bottom:10px">
         <input type="checkbox" id="f-semrestricao" style="width:16px;height:16px;accent-color:var(--wine-lt)" onchange="document.getElementById('f-obs').classList.toggle('hidden', this.checked)">
         Não tenho restrições alimentares
       </label>
       <textarea class="f-input" id="f-obs" rows="2" placeholder="Quais? (ex.: alergia a frutos do mar, vegetariano...) — e outras observações"></textarea>
-      <p style="font-size:11px;color:var(--ink-lt);margin-top:10px">Não achou o seu nome? Fale com o organizador. Já se identificou em outro aparelho? Use o botão <strong>Meu Painel</strong>.</p>
+      
     </div>
 
     <!-- identificado -->
@@ -555,8 +565,26 @@ var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
 var SITE = location.origin + location.pathname.replace(/[^/]*$/, '');   // funciona em lulidias.com/wlr/ e no domínio próprio
 
-var _urlId = new URLSearchParams(location.search).get('id');
+var _q = new URLSearchParams(location.search);
+var _urlId = _q.get('id');
 if (_urlId) { try { localStorage.setItem('wlr_id', _urlId); } catch (e) { } }
+if (_q.get('voltar')) { try { sessionStorage.setItem('wlr_voltar', _q.get('voltar')); } catch (e) { } }
+// segredo deste navegador: só ele, depois de aprovado por e-mail, recebe a sessão
+function meuDisp() {
+  var d = ''; try { d = localStorage.getItem('wlr_disp') || ''; } catch (e) { }
+  if (d.length < 40) {
+    var b = new Uint8Array(24); (window.crypto || window.msCrypto).getRandomValues(b);
+    d = Array.prototype.map.call(b, function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
+    try { localStorage.setItem('wlr_disp', d); } catch (e) { }
+  }
+  return d;
+}
+function meuAparelho() {
+  var u = navigator.userAgent;
+  var so = /iPhone/.test(u) ? 'iPhone' : /iPad/.test(u) ? 'iPad' : /Android/.test(u) ? 'Android' : /Mac/.test(u) ? 'Mac' : /Windows/.test(u) ? 'Windows' : 'Computador';
+  var nav = /Edg\//.test(u) ? 'Edge' : /CriOS|Chrome\//.test(u) ? 'Chrome' : /FxiOS|Firefox/.test(u) ? 'Firefox' : /Safari/.test(u) ? 'Safari' : 'navegador';
+  return so + ' · ' + nav;
+}
 var meuId = null; try { meuId = localStorage.getItem('wlr_id'); } catch (e) { }
 var meu = null;
 var cfg = null;
@@ -694,51 +722,98 @@ function travaNome() {
     var o = document.createElement('option'); o.value = membroNome; o.textContent = membroNome; sel.appendChild(o);
   }
   sel.value = membroNome; sel.disabled = true;
-  var z = ''; try { z = localStorage.getItem('wlr_zap') || ''; } catch (e) { }
-  if (z && !document.getElementById('f-zap').value) document.getElementById('f-zap').value = z;
   nomeChange();
 }
-function entrarSite() {
-  var zap = document.getElementById('porta-zap').value.trim();
-  if (!zap) return toast('Digite o seu WhatsApp.', true);
-  var btn = document.getElementById('porta-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
-  rpc('wlr_acesso', { p_whatsapp: zap }).then(function (id) {
-    try { localStorage.setItem('wlr_id', id); localStorage.setItem('wlr_zap', zap); } catch (e) { }
-    location.reload();
-  }).catch(function (e) { toast(e.message, true); btn.disabled = false; btn.textContent = 'Entrar'; });
+var ptTimer = null, ptZap = '';
+function portaPasso(p) {
+  ['tel', 'cad', 'esp', 'ok'].forEach(function (k) { document.getElementById('pt-' + k).classList.toggle('hidden', k !== p && !(p === 'ok' && k === 'tel')); });
+  if (p !== 'esp') clearInterval(ptTimer);
 }
+function entrou(id) {
+  clearInterval(ptTimer);
+  try { localStorage.setItem('wlr_id', id); localStorage.setItem('wlr_zap', ptZap); } catch (e) { }
+  var volta = ''; try { volta = sessionStorage.getItem('wlr_voltar') || ''; sessionStorage.removeItem('wlr_voltar'); } catch (e) { }
+  location.replace(volta === 'votar' ? 'votar/' : location.pathname + '#rsvp');
+}
+function trataPorta(r) {
+  if (r.estado === 'ok') return entrou(r.id);
+  if (r.estado === 'cadastro') {
+    document.getElementById('pt-nome').textContent = String(r.nome || '').split(' ')[0];
+    portaPasso('cad'); setTimeout(function () { document.getElementById('pt-email').focus(); }, 100);
+    return;
+  }
+  if (r.estado === 'aguardando') {
+    document.getElementById('pt-email-mask').textContent = r.email || '';
+    portaPasso('esp');
+    var re = document.getElementById('pt-reenviar'); re.disabled = true;
+    setTimeout(function () { re.disabled = false; }, 60000);
+    clearInterval(ptTimer);
+    ptTimer = setInterval(function () {
+      rpc('wlr_porta_status', { p_whatsapp: ptZap, p_disp: meuDisp() }).then(function (s) { if (s && s.estado === 'ok') entrou(s.id); }).catch(function () { });
+    }, 4000);
+  }
+}
+function entrarSite(reenviar) {
+  var zap = reenviar ? ptZap : document.getElementById('porta-zap').value.trim();
+  if (!zap) return toast('Digite o seu WhatsApp.', true);
+  ptZap = zap;
+  var btn = document.getElementById('porta-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
+  rpc('wlr_porta', { p_whatsapp: zap, p_disp: meuDisp(), p_aparelho: meuAparelho() })
+    .then(function (r) { if (reenviar) toast('E-mail reenviado.'); trataPorta(r); })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { btn.disabled = false; btn.textContent = 'Entrar'; });
+}
+function cadastrarEmail() {
+  var email = document.getElementById('pt-email').value.trim();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return toast('Informe um e-mail válido.', true);
+  var btn = document.getElementById('pt-cad-btn'); btn.disabled = true; btn.textContent = 'Enviando…';
+  rpc('wlr_porta_cadastro', { p_whatsapp: ptZap, p_disp: meuDisp(), p_aparelho: meuAparelho(), p_email: email, p_idioma: LANG() })
+    .then(trataPorta)
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { btn.disabled = false; btn.textContent = 'Continuar'; });
+}
+// link do e-mail de aprovação (?aprovar=…)
+(function () {
+  var t = _q.get('aprovar'); if (!t) return;
+  history.replaceState({}, '', location.pathname);
+  rpc('wlr_aprovar_dispositivo', { p_token: t }).then(function (r) {
+    document.body.classList.add('porta-aberta');
+    portaPasso('ok');
+    document.getElementById('pt-ok-txt').textContent = T('Pronto, {n}! O aparelho ({a}) já pode entrar. Se você digitou o telefone em outra tela, ela entrou sozinha.', { n: String(r.nome || '').split(' ')[0], a: r.aparelho || '' });
+    var z = ''; try { z = localStorage.getItem('wlr_zap') || ''; } catch (e) { }
+    if (z) { ptZap = z; rpc('wlr_porta_status', { p_whatsapp: z, p_disp: meuDisp() }).then(function (s) { if (s && s.estado === 'ok') entrou(s.id); }).catch(function () { }); }
+  }).catch(function (e) { toast(e.message, true); document.body.classList.add('porta-aberta'); });
+})();
+// links dos e-mails do sistema (?id=) valem como aprovação deste navegador
+if (_urlId) rpc('wlr_disp_pelo_link', { p_id: _urlId, p_disp: meuDisp(), p_aparelho: meuAparelho() }).catch(function () { });
 function aplicaPorta() {
   document.body.classList.toggle('fechado', fechado());
 }
 function rotuloBotao() {
   var n = document.getElementById('f-nome').value;
   if (editandoId) return 'Salvar alterações';
-  if (meuId) return minhasCount ? 'Registrar outra Magnum' : 'Registrar a Magnum';
-  return n && membrosConf[n] ? 'Entrar e registrar a Magnum' : 'Confirmar presença e registrar a Magnum';
+  if (meuId && meu) return minhasCount ? 'Registrar outra Magnum' : 'Registrar a Magnum';
+  return 'Confirmar presença e registrar a Magnum';
 }
 function atualizaBotao() { document.getElementById('g-add').textContent = rotuloBotao(); }
 function nomeChange() {
   var n = document.getElementById('f-nome').value, av = document.getElementById('f-nome-aviso');
   var ja = n && membrosConf[n];
   av.classList.toggle('hidden', !ja);
-  av.textContent = ja ? 'Sua presença já está confirmada — informe o WhatsApp para ver a sua Magnum e o status.' : '';
+  av.textContent = '';
   atualizaBotao();
 }
 // um botão só: identifica (se preciso) e registra a Magnum
 function enviar() {
-  if (meuId) return addGarrafa();
-  var nome = document.getElementById('f-nome').value;
-  var zap = document.getElementById('f-zap').value.trim();
+  if (!meuId) { abrePorta(); return toast('Entre com o seu WhatsApp primeiro.', true); }
+  if (meu) return addGarrafa();
   var email = document.getElementById('f-email').value.trim();
   var obs = document.getElementById('f-semrestricao').checked ? 'Sem restrições alimentares' : document.getElementById('f-obs').value.trim();
-  if (!nome) return toast('Escolha o seu nome na lista.', true);
-  if (!zap) return toast('Informe o seu WhatsApp.', true);
   var temVinho = !!document.getElementById('g-vinho').value.trim();
   if (temVinho && !validaVinho()) return;
   var btn = document.getElementById('g-add'); btn.disabled = true; btn.textContent = 'Enviando…';
-  rpc('wlr_rsvp', { p_nome: nome, p_whatsapp: zap, p_email: email, p_obs: obs, p_idioma: LANG() })
-    .then(function (id) {
-      meuId = id; try { localStorage.setItem('wlr_id', id); } catch (e) { }
+  rpc('wlr_confirmar', { p_id: meuId, p_email: email, p_obs: obs, p_idioma: LANG() })
+    .then(function () {
       return loadMe().then(function () {
         if (temVinho) return addGarrafa();
         toast('Presença confirmada! Agora informe a sua Magnum. 🍷');
@@ -766,25 +841,14 @@ function addCalendario() {
   window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(titulo) +
     '&dates=' + z(ini) + '/' + z(fim) + '&details=' + encodeURIComponent(desc) + '&location=' + encodeURIComponent(local), '_blank');
 }
-function painelClick(e) {
-  if (!meuId) {
-    e.preventDefault();
-    document.getElementById('entrar-modal').classList.remove('hidden');
-    setTimeout(function () { document.getElementById('entrar-zap').focus(); }, 100);
-  }
+function abrePorta() {
+  document.body.classList.add('porta-aberta');
+  portaPasso('tel');
+  document.getElementById('porta').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function () { document.getElementById('porta-zap').focus(); }, 300);
 }
-function entrarPainel() {
-  var zap = document.getElementById('entrar-zap').value.trim();
-  if (!zap) return toast('Digite o seu WhatsApp.', true);
-  var btn = document.getElementById('entrar-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
-  rpc('wlr_acesso', { p_whatsapp: zap })
-    .then(function (id) {
-      try { localStorage.setItem('wlr_id', id); localStorage.setItem('wlr_zap', zap); } catch (e) { }
-      location.hash = '#rsvp'; location.reload();
-      return;
-    })
-    .catch(function (e) { toast(e.message, true); })
-    .then(function () { btn.disabled = false; btn.textContent = 'Entrar'; });
+function painelClick(e) {
+  if (!meuId) { e.preventDefault(); abrePorta(); }
 }
 var minhasCount = 0, minhasAprovadas = 0;
 function renderChips() {
@@ -817,6 +881,8 @@ function loadMe() {
       return rpc('wlr_quem', { p_id: meuId }).then(function (q) {
         if (!q || !q.length) { logoutMe(); return; }
         membroNome = q[0].nome;
+        if (q[0].email && !document.getElementById('f-email').value) document.getElementById('f-email').value = q[0].email;
+        if (q[0].obs && !document.getElementById('f-obs').value) document.getElementById('f-obs').value = q[0].obs;
         travaNome();
       });
     }
