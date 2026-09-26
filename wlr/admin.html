@@ -47,6 +47,31 @@ input:focus{border-color:var(--wine-lt)}
 .gate input{width:100%;text-align:center;margin-bottom:14px}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 24px;font-size:12px;opacity:0;transition:opacity .3s;z-index:99;max-width:90vw;text-align:center}
 .toast.on{opacity:1}.toast.err{background:var(--bad)}
+.em-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.em-card{background:var(--white);border:1px solid var(--border);display:flex;flex-direction:column}
+.em-card.off{opacity:.55}
+.em-mini{height:230px;overflow:hidden;position:relative;background:#F9F5F7;border-bottom:1px solid var(--border);cursor:pointer}
+.em-mini iframe{width:600px;height:1100px;border:0;transform:scale(.45);transform-origin:0 0;pointer-events:none;position:absolute;left:0;top:0}
+.em-info{padding:12px 14px 14px;font-size:12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.em-info .n{font-weight:700;font-size:13px;color:var(--wine-md)}
+.em-info .q{color:var(--ink-lt);font-size:11px}
+.em-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;align-items:center}
+.em-acts .btn{padding:8px 12px;font-size:9px}
+.sw{display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-lt);cursor:pointer;margin-left:auto}
+.sw input{accent-color:var(--wine-lt)}
+.modal{position:fixed;inset:0;background:rgba(46,16,41,.6);z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:4vh 16px;overflow:auto}
+.modal-box{background:var(--white);width:100%;padding:22px 24px;border-top:4px solid var(--wine-lt)}
+.modal-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:15px;color:var(--wine-md)}
+.ed-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.ed-cols{grid-template-columns:1fr}}
+.ed-cols input,.ed-cols textarea{width:100%;font-family:'Montserrat',sans-serif;font-size:13px;padding:9px 11px;border:1px solid var(--border)}
+.ed-cols textarea{line-height:1.5;resize:vertical}
+.lb{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin:12px 0 5px}
+.ajuda{font-size:10.5px;color:var(--ink-lt);line-height:1.7;margin-top:10px;background:var(--gold-bg);padding:9px 11px}
+.ed-prev{width:100%;height:72vh;border:1px solid var(--border);background:#F9F5F7}
+.ed-tabs{display:flex;gap:4px}
+.ed-tabs button{border:1px solid var(--border);background:#fff;padding:7px 14px;font:600 10px Montserrat,sans-serif;letter-spacing:1.5px;cursor:pointer;color:var(--ink-lt)}
+.ed-tabs button.on{background:var(--wine-lt);color:#fff;border-color:var(--wine-lt)}
 .hidden{display:none!important}
 .tbl-wrap{overflow-x:auto}
 a{color:var(--wine-lt)}
@@ -133,9 +158,13 @@ a{color:var(--wine-lt)}
     <button class="btn gold" onclick="addMembro()">Adicionar membro</button>
   </div>
   <div class="tbl-wrap"><table>
-    <thead><tr><th>Nome</th><th>Situação</th><th>WhatsApp do grupo</th><th>WhatsApp informado</th><th>E-mail</th><th>Obs</th><th></th></tr></thead>
+    <thead><tr><th>Nome</th><th>Situação</th><th>WhatsApp</th><th>E-mail</th><th>Obs</th><th></th></tr></thead>
     <tbody id="p-body"></tbody>
   </table></div>
+
+  <h2>E-mails <small id="em-sub"></small></h2>
+  <p style="font-size:11px;color:var(--ink-lt);margin-bottom:12px">Cada e-mail sai no idioma do confrade (português, espanhol ou inglês) e as respostas vão para o Gurgel. Clique em <strong>Editar</strong> para mudar os textos, ou em <strong>Enviar agora</strong> para disparar na hora. Desligue um e-mail para ele não sair sozinho.</p>
+  <div class="em-grid" id="em-grid"></div>
 
   <h2>Configuração</h2>
   <div class="cfg">
@@ -193,6 +222,44 @@ a{color:var(--wine-lt)}
 </div>
 </div>
 <div class="toast" id="toast"></div>
+
+<div class="modal hidden" id="ed-modal">
+  <div class="modal-box" style="max-width:1180px">
+    <div class="modal-top"><strong id="ed-titulo"></strong><button class="del" onclick="fechaModal('ed-modal')">fechar ✕</button></div>
+    <div class="ed-cols">
+      <div>
+        <div class="ed-tabs" id="ed-tabs"></div>
+        <label class="lb">Assunto</label><input id="ed-assunto" oninput="agendaPrevia()">
+        <label class="lb">Título</label><input id="ed-tit" oninput="agendaPrevia()">
+        <label class="lb">Texto</label><textarea id="ed-corpo" rows="13" oninput="agendaPrevia()"></textarea>
+        <label class="lb">Botão</label><input id="ed-botao" oninput="agendaPrevia()" placeholder="deixe vazio para não ter botão">
+        <div class="ajuda">Linha em branco separa parágrafos · <strong>**negrito**</strong><br>
+          Campos: {nome} {data} {hora} {local} {valor} {dias} {vinho} {situacao} {resumo} {motivo} {confrade} {n_confirmados} {n_magnums} {proximo_passo}<br>
+          Blocos (sozinhos numa linha): {{carta}} {{minhas_garrafas}} {{criterios}} {{novidades}} {{cardapio}} {{podio}} {{pauta}}</div>
+        <div style="margin-top:14px;display:flex;gap:8px"><button class="btn gold" id="ed-salvar" onclick="salvaModelo()">Salvar este idioma</button>
+          <span id="ed-status" style="font-size:11px;color:var(--ink-lt);align-self:center"></span></div>
+      </div>
+      <div><div class="lb" style="margin-top:0">Pré-visualização (dados de exemplo)</div><iframe id="ed-prev" class="ed-prev"></iframe></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="en-modal">
+  <div class="modal-box" style="max-width:520px">
+    <div class="modal-top"><strong id="en-titulo"></strong><button class="del" onclick="fechaModal('en-modal')">fechar ✕</button></div>
+    <label class="lb">Para quem</label>
+    <select id="en-publico" onchange="contaEnvio()" style="width:100%">
+      <option value="confirmados">Confirmados</option>
+      <option value="sem_magnum">Confirmados sem Magnum aprovada</option>
+      <option value="conselho">Conselho</option>
+      <option value="todos">Todos os membros com e-mail</option>
+      <option value="um">Um confrade…</option>
+    </select>
+    <select id="en-um" class="hidden" onchange="contaEnvio()" style="width:100%;margin-top:8px"></select>
+    <div id="en-conta" style="font-size:12px;margin:14px 0;line-height:1.6;color:var(--ink-lt)"></div>
+    <button class="btn gold" id="en-btn" onclick="confirmaEnvio()" disabled>Enviar</button>
+  </div>
+</div>
 
 <script>
 'use strict';
@@ -259,7 +326,7 @@ function refresh() {
     document.getElementById('c-resultados').value = String(cfg.resultados_publicos === true);
     document.getElementById('c-premio1').value = cfg.premio1 || '';
     document.getElementById('c-meta').value = cfg.meta_confrades != null ? cfg.meta_confrades : '';
-    renderKPIs(); renderFila(); renderGarrafas(); renderParts(); renderAcesso(); renderCats(); renderResultados(); renderBI();
+    renderKPIs(); renderFila(); renderGarrafas(); renderParts(); renderAcesso(); carregaModelos(); renderCats(); renderResultados(); renderBI();
     if (mestre) { carregaConselho(); carregaAcessos(); }
     document.getElementById('atualizado').textContent = 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' · atualiza sozinho a cada minuto';
   }).catch(function (e) { toast(e.message, true); });
@@ -368,14 +435,13 @@ function renderParts() {
     shown++;
     var tr = document.createElement('tr');
     if (!p.confirmado) tr.style.color = 'var(--ink-lt)';
-    var zap = (p.whatsapp || '').replace(/\D/g, '');
+    var zap = String(p.whatsapp_lista || p.whatsapp || '').split(';')[0].replace(/\D/g, '');
     var sit = !p.confirmado ? '<span class="tag pd">não confirmou</span>'
       : (temAprov[p.nome] ? '🍾<span style="color:var(--ok)">✓</span>' : temAlguma[p.nome] ? '🍾⏳' : '🍾<span style="color:var(--warn)">✗</span>');
     tr.innerHTML =
       '<td><strong>' + esc(p.nome) + '</strong>' + (p.produtor_de ? '<div style="font-size:10px;color:var(--ink-lt)">produtor: ' + esc(p.produtor_de) + '</div>' : '') + '</td>' +
       '<td style="white-space:nowrap">' + sit + '</td>' +
       '<td><input value="' + esc(p.whatsapp_lista || '') + '" placeholder="(81) 9…" style="width:150px;padding:6px 8px;font-size:12px" onchange="salvaZapLista(\'' + js(p.nome) + '\', this.value)"></td>' +
-      '<td>' + (zap ? '<a href="https://wa.me/55' + zap.replace(/^55/, '') + '" target="_blank">' + esc(p.whatsapp) + '</a>' : '') + '</td>' +
       '<td style="max-width:180px;overflow:hidden;text-overflow:ellipsis">' + esc(p.email || '') + '</td>' +
       '<td style="max-width:160px;font-size:11px;color:var(--ink-lt)">' + esc(p.obs || '') + '</td>' +
       '<td style="white-space:nowrap">' +
@@ -385,7 +451,7 @@ function renderParts() {
   });
   document.getElementById('p-filtros').textContent = '— ' + shown + ' de ' + parts.length;
 }
-function zapNum(p) { var z = (p.whatsapp || '').replace(/\D/g, '').replace(/^55/, ''); return z ? '55' + z : ''; }
+function zapNum(p) { var z = String(p.whatsapp_lista || p.whatsapp || '').split(';')[0].replace(/\D/g, ''); return z ? (z.length <= 11 ? '55' + z : z) : ''; }
 function zapCobranca(p) {
   var msg = 'Olá, ' + p.nome.split(' ')[0] + '! 🍷 Falta só o rateio da Magnum Fest Licínio Dias: *' + brl(cfg.valor_rateio) + '*. ' +
     'Pague por Pix pelo seu painel (QR code e copia-e-cola prontos):\n\n' + SITE + '?id=' + p.id + '\n\nO comprovante você envia ali mesmo. 🥂';
@@ -413,7 +479,7 @@ function renderAcesso() {
     com + ' de ' + parts.length + ' membros com o WhatsApp do grupo cadastrado.' +
     (function () {
       var sem = parts.filter(function (p) { return !p.whatsapp_lista; }).map(function (p) { return p.nome; });
-      return sem.length ? '<br><span style="color:var(--warn)">⚠ Sem WhatsApp: <strong>' + sem.map(esc).join(', ') + '</strong> — preencha na coluna "WhatsApp do grupo" abaixo.</span>' : '';
+      return sem.length ? '<br><span style="color:var(--warn)">⚠ Sem WhatsApp: <strong>' + sem.map(esc).join(', ') + '</strong> — preencha na coluna "WhatsApp" abaixo.</span>' : '';
     })() +
     (mestre ? ' <button class="btn ' + (cfg.acesso_restrito ? 'ghost' : 'gold') + '" style="margin-left:10px" onclick="alternaAcesso(' + !cfg.acesso_restrito + ',' + com + ')">' + (cfg.acesso_restrito ? 'Abrir o site' : 'Fechar para os membros') + '</button>' : '');
 }
@@ -548,6 +614,144 @@ function renderResultados() {
     return '<tr><td>' + esc(r.categoria) + '</td><td><strong>' + esc(r.vinho) + '</strong>' + (r.safra ? ' ' + esc(r.safra) : '') + '</td><td style="font-size:11px">' + esc((r.membros || []).join(', ')) + '</td><td><strong>' + r.votos + '</strong></td></tr>';
   }).join('');
 }
+// ── e-mails ──────────────────────────────────────────────────────────────
+var WORKER = SB + '/functions/v1/wlr-worker';
+var modelos = [], edTipo = null, edLang = 'pt', edTimer = null, enTipo = null;
+var PUBLICO = { confirmados: 'confirmados', sem_magnum: 'confirmados sem Magnum aprovada', conselho: 'conselho', automatico: 'quem o sistema indicar', um: 'um confrade', todos: 'todos com e-mail' };
+var MANUAL_OK = { 'votacao-aberta': 1, 'resultados': 1, 'boas-vindas': 1 };
+function worker(corpo) {
+  return fetch(WORKER, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({ t: TOKEN }, corpo)) })
+    .then(function (r) { return r.json().then(function (d) { if (!r.ok || !d.ok) throw new Error(d.erro || 'Erro ' + r.status); return d; }); });
+}
+function carregaModelos() {
+  return rpc('wlr_admin_modelos', { p_token: TOKEN }).then(function (rows) {
+    var primeira = !modelos.length;
+    modelos = rows || [];
+    var ativos = modelos.filter(function (m) { return m.ativo; }).length;
+    document.getElementById('em-sub').textContent = '— ' + modelos.length + ' modelos · ' + ativos + ' ligados';
+    if (primeira) renderModelos(); else atualizaCards();
+  }).catch(function (e) { toast(e.message, true); });
+}
+function infoEnvio(m) {
+  var partes = [];
+  if (m.enviados > 0) partes.push(m.enviados + ' enviado' + (m.enviados > 1 ? 's' : ''));
+  if (m.pendentes > 0) partes.push(m.pendentes + ' na fila');
+  if (m.ultimo_envio) partes.push('último em ' + new Date(m.ultimo_envio).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }));
+  return partes.length ? partes.join(' · ') : 'nenhum envio ainda';
+}
+function renderModelos() {
+  var g = document.getElementById('em-grid');
+  g.innerHTML = modelos.map(function (m) {
+    var podeEnviar = !m.automatico || MANUAL_OK[m.tipo];
+    return '<div class="em-card' + (m.ativo ? '' : ' off') + '" id="em-' + m.tipo + '">' +
+      '<div class="em-mini" onclick="abreEditor(\'' + m.tipo + '\')" title="Editar"><iframe id="mini-' + m.tipo + '" loading="lazy"></iframe></div>' +
+      '<div class="em-info"><div class="n">' + esc(m.nome) + '</div>' +
+      '<div class="q">🕒 ' + esc(m.quando) + '</div>' +
+      '<div class="q">👥 ' + esc(PUBLICO[m.publico] || m.publico) + '</div>' +
+      '<div class="q" id="env-' + m.tipo + '">📨 ' + esc(infoEnvio(m)) + '</div>' +
+      '<div class="em-acts"><button class="btn ghost" onclick="abreEditor(\'' + m.tipo + '\')">✏️ Editar</button>' +
+      (podeEnviar ? '<button class="btn gold" onclick="abreEnvio(\'' + m.tipo + '\')">📤 Enviar agora</button>' : '') +
+      '<label class="sw"><input type="checkbox"' + (m.ativo ? ' checked' : '') + ' onchange="ligaModelo(\'' + m.tipo + '\', this.checked)"> ' + (m.automatico ? 'automático' : 'agendado') + '</label></div>' +
+      '</div></div>';
+  }).join('');
+  modelos.forEach(function (m, i) { setTimeout(function () { miniatura(m.tipo); }, i * 150); });
+}
+function atualizaCards() {
+  modelos.forEach(function (m) {
+    var c = document.getElementById('em-' + m.tipo); if (!c) return;
+    c.classList.toggle('off', !m.ativo);
+    var e = document.getElementById('env-' + m.tipo); if (e) e.textContent = '📨 ' + infoEnvio(m);
+  });
+}
+function miniatura(tipo) {
+  worker({ task: 'preview', tipo: tipo, lang: 'pt' }).then(function (d) {
+    var f = document.getElementById('mini-' + tipo); if (f) f.srcdoc = d.html;
+  }).catch(function () { });
+}
+function ligaModelo(tipo, ativo) {
+  rpc('wlr_admin_modelo_ativo', { p_token: TOKEN, p_tipo: tipo, p_ativo: ativo })
+    .then(function () { toast(ativo ? 'E-mail ligado.' : 'E-mail desligado — não sai sozinho.'); return carregaModelos(); })
+    .catch(function (e) { toast(e.message, true); });
+}
+function fechaModal(id) { document.getElementById(id).classList.add('hidden'); }
+function abreEditor(tipo) {
+  edTipo = tipo; edLang = 'pt';
+  var m = modelos.filter(function (x) { return x.tipo === tipo; })[0];
+  document.getElementById('ed-titulo').textContent = '✏️ ' + m.nome;
+  document.getElementById('ed-modal').classList.remove('hidden');
+  mostraIdioma();
+}
+function mostraIdioma() {
+  var m = modelos.filter(function (x) { return x.tipo === edTipo; })[0];
+  var t = (m.textos && m.textos[edLang]) || {};
+  document.getElementById('ed-tabs').innerHTML = ['pt', 'es', 'en'].map(function (l) {
+    return '<button class="' + (l === edLang ? 'on' : '') + '" onclick="trocaIdioma(\'' + l + '\')">' + { pt: 'PORTUGUÊS', es: 'ESPAÑOL', en: 'ENGLISH' }[l] + '</button>';
+  }).join('');
+  document.getElementById('ed-assunto').value = t.assunto || '';
+  document.getElementById('ed-tit').value = t.titulo || '';
+  document.getElementById('ed-corpo').value = t.corpo || '';
+  document.getElementById('ed-botao').value = t.botao || '';
+  document.getElementById('ed-status').textContent = m.atualizado_por ? 'última edição: ' + m.atualizado_por : '';
+  previa();
+}
+function trocaIdioma(l) { edLang = l; mostraIdioma(); }
+function rascunho() {
+  return { assunto: document.getElementById('ed-assunto').value, titulo: document.getElementById('ed-tit').value,
+    corpo: document.getElementById('ed-corpo').value, botao: document.getElementById('ed-botao').value };
+}
+function agendaPrevia() { clearTimeout(edTimer); edTimer = setTimeout(previa, 600); document.getElementById('ed-status').textContent = 'alterações não salvas'; }
+function previa() {
+  worker({ task: 'preview', tipo: edTipo, lang: edLang, rascunho: rascunho() }).then(function (d) {
+    document.getElementById('ed-prev').srcdoc = '<div style="font:12px Helvetica,Arial;padding:10px 16px;background:#fff;border-bottom:1px solid #E9DDE3"><b>Assunto:</b> ' + esc(d.subject) + '</div>' + d.html;
+  }).catch(function (e) { toast(e.message, true); });
+}
+function salvaModelo() {
+  var b = document.getElementById('ed-salvar'); b.disabled = true; b.textContent = 'Salvando…';
+  rpc('wlr_admin_modelo_salvar', { p_token: TOKEN, p_tipo: edTipo, p_idioma: edLang, p_textos: rascunho() })
+    .then(function () {
+      toast('Texto salvo (' + edLang.toUpperCase() + ').');
+      document.getElementById('ed-status').textContent = 'salvo';
+      var m = modelos.filter(function (x) { return x.tipo === edTipo; })[0];
+      m.textos = m.textos || {}; m.textos[edLang] = rascunho();
+      if (edLang === 'pt') miniatura(edTipo);
+    })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { b.disabled = false; b.textContent = 'Salvar este idioma'; });
+}
+function abreEnvio(tipo) {
+  enTipo = tipo;
+  var m = modelos.filter(function (x) { return x.tipo === tipo; })[0];
+  document.getElementById('en-titulo').textContent = '📤 ' + m.nome;
+  var sel = document.getElementById('en-publico');
+  sel.value = m.publico === 'automatico' ? 'confirmados' : m.publico;
+  document.getElementById('en-um').innerHTML = parts.filter(function (p) { return p.email; }).map(function (p) {
+    return '<option value="' + p.id + '">' + esc(p.nome) + '</option>';
+  }).join('');
+  document.getElementById('en-modal').classList.remove('hidden');
+  contaEnvio();
+}
+function contaEnvio() {
+  var pub = document.getElementById('en-publico').value;
+  document.getElementById('en-um').classList.toggle('hidden', pub !== 'um');
+  var btn = document.getElementById('en-btn'); btn.disabled = true;
+  document.getElementById('en-conta').textContent = 'Contando…';
+  worker({ task: 'contar', tipo: enTipo, publico: pub, participante: document.getElementById('en-um').value }).then(function (d) {
+    document.getElementById('en-conta').innerHTML = d.n
+      ? 'Vai para <strong>' + d.n + '</strong> pessoa' + (d.n > 1 ? 's' : '') + ': ' + esc(d.nomes.join(', ')) + '<br>Cada um recebe no seu idioma.'
+      : 'Ninguém com e-mail neste grupo ainda.';
+    btn.disabled = !d.n; btn.textContent = d.n ? 'Enviar para ' + d.n : 'Enviar';
+    btn.dataset.n = d.n;
+  }).catch(function (e) { document.getElementById('en-conta').textContent = e.message; });
+}
+function confirmaEnvio() {
+  var n = document.getElementById('en-btn').dataset.n;
+  if (!confirm('Enviar agora para ' + n + ' pessoa(s)? Não dá para desfazer.')) return;
+  var btn = document.getElementById('en-btn'); btn.disabled = true; btn.textContent = 'Enviando…';
+  worker({ task: 'enviar', tipo: enTipo, publico: document.getElementById('en-publico').value, participante: document.getElementById('en-um').value })
+    .then(function (d) { toast(d.n + ' e-mail(s) na fila de envio. 📨'); fechaModal('en-modal'); setTimeout(carregaModelos, 4000); })
+    .catch(function (e) { toast(e.message, true); btn.disabled = false; btn.textContent = 'Enviar'; });
+}
+
 function exportCSV() {
   var rows = [['Nome', 'Confirmado', 'WhatsApp', 'Email', 'Obs', 'Vinhos']];
   parts.forEach(function (p) {

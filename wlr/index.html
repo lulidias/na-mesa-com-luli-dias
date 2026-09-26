@@ -733,7 +733,7 @@ function enviar() {
   var temVinho = !!document.getElementById('g-vinho').value.trim();
   if (temVinho && !validaVinho()) return;
   var btn = document.getElementById('g-add'); btn.disabled = true; btn.textContent = 'Enviando…';
-  rpc('wlr_rsvp', { p_nome: nome, p_whatsapp: zap, p_email: email, p_obs: obs })
+  rpc('wlr_rsvp', { p_nome: nome, p_whatsapp: zap, p_email: email, p_obs: obs, p_idioma: LANG() })
     .then(function (id) {
       meuId = id; try { localStorage.setItem('wlr_id', id); } catch (e) { }
       return loadMe().then(function () {
@@ -818,6 +818,7 @@ function loadMe() {
       });
     }
     meu = rows[0];
+    rpc('wlr_set_idioma', { p_participante: meuId, p_idioma: LANG() }).catch(function () { });   // e-mails no idioma que ele usa
     document.getElementById('form-panel').classList.add('hidden');
     document.getElementById('me-panel').classList.remove('hidden');
     document.getElementById('sair').classList.remove('hidden');

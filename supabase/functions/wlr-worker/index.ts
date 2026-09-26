@@ -1,218 +1,23 @@
 // Magnum Fest Licínio Dias 2026 (Wine Lovers Recife) — worker:
-// fila de e-mails, fotos das garrafas, resumo semanal e ANÁLISE DOS VINHOS pelos critérios da MFLD.
+// fila de e-mails (modelos editáveis, ver emails.ts), fotos das garrafas e ANÁLISE DOS VINHOS pelos critérios da MFLD.
 // Secrets: WLR_CRON_SECRET, ANTHROPIC_API_KEY, RESEND_API_KEY, EMAIL_FROM (+ SUPABASE_* automáticos)
 // Deploy: supabase functions deploy wlr-worker --no-verify-jwt --project-ref saotncritqxuchsvvnzi
 
 import { createClient } from "npm:@supabase/supabase-js@2";
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { avaliar, BRANCO_REGIOES_VELHO_MUNDO, type Fatos } from "./criterios.ts";
+import { carregaCtx, carregaModelos, destinatarios, enfileira, exemplo, monta, processaFila as filaEmails } from "./emails.ts";
 
 const SECRET = Deno.env.get("WLR_CRON_SECRET") ?? "";
-const RESEND = Deno.env.get("RESEND_API_KEY") ?? "";
-// mesmo endereço do EMAIL_FROM, com o nome da confraria como remetente
-const FROM_ADDR = (Deno.env.get("EMAIL_FROM") ?? "").match(/<([^>]+)>/)?.[1] ?? (Deno.env.get("EMAIL_FROM") ?? "");
-const FROM = `Wine Lovers Recife <${FROM_ADDR}>`;
-const REPLY_TO = "lulidias@me.com";
 const MODELO = "claude-opus-5";
 
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
 type Cfg = Record<string, any>;
-const esc = (s: unknown) =>
-  String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] ?? c));
 
 async function carregaCfg(): Promise<Cfg> {
   const { data } = await sb.from("wlr_config").select("*").eq("id", 1).single();
   return data ?? {};
-}
-function quando(cfg: Cfg, curto = false) {
-  const d = new Date(cfg.evento_em);
-  const dia = d.toLocaleDateString("pt-BR", { timeZone: "America/Recife", weekday: "long", day: "numeric", month: "long" });
-  const hora = cfg.hora_confirmada
-    ? d.toLocaleTimeString("pt-BR", { timeZone: "America/Recife", hour: "2-digit", minute: "2-digit" }).replace(":00", "h").replace(":", "h")
-    : "horário a confirmar";
-  return curto ? `${dia.toUpperCase()} · ${hora.toUpperCase()}` : `${dia}, ${hora}`;
-}
-
-// ── e-mails ───────────────────────────────────────────────────────────────
-function shell(cfg: Cfg, titulo: string, corpo: string, participanteId?: string, botao?: { href: string; label: string }) {
-  const SITE = cfg.site_url;
-  const link = botao ? botao.href : (participanteId ? `${SITE}?id=${participanteId}#rsvp` : SITE);
-  const rotulo = botao ? botao.label : "ABRIR MEU PAINEL";
-  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F9F5F7;font-family:Georgia,serif">
-  <div style="max-width:560px;margin:0 auto;padding:24px 16px">
-    <div style="background:#FFFFFF;color:#411A39;text-align:center;padding:30px 24px 26px;border:1px solid #E9DDE3;border-bottom:6px solid #6C214C">
-      <img src="${SITE}img/logo.png" alt="Wine Lovers Recife" width="190" style="display:block;margin:0 auto 16px;width:190px;height:auto">
-      <div style="font-family:Helvetica,Arial,sans-serif;font-weight:800;font-size:26px;letter-spacing:4px;color:#411A39">MAGNUM FEST</div>
-      <div style="font-family:Georgia,serif;font-style:italic;font-size:16px;color:#6C214C;margin-top:4px">Licínio Dias · 2026</div>
-      <div style="font-size:10px;letter-spacing:3px;color:#6C214C;font-family:Helvetica,Arial,sans-serif;margin-top:12px">${esc(quando(cfg, true))} · ${esc(String(cfg.local_nome ?? "").toUpperCase())}</div>
-    </div>
-    <div style="background:#fff;border:1px solid #E9DDE3;border-top:none;padding:32px 28px;color:#1F1A1D;font-size:15px;line-height:1.7">
-      <h1 style="font-family:Georgia,serif;font-size:21px;font-weight:normal;margin:0 0 16px;color:#411A39">${titulo}</h1>
-      ${corpo}
-      ${botao && !botao.href ? "" : `<p style="text-align:center;margin:28px 0 8px">
-        <a href="${link}" style="background:#6C214C;color:#fff;text-decoration:none;padding:13px 30px;font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2px">${rotulo}</a></p>`}
-    </div>
-    <p style="text-align:center;font-size:11px;color:#9A8A92;font-family:Helvetica,Arial,sans-serif;margin-top:16px">
-      Magnum Fest Licínio Dias · Organização Wine Lovers Recife</p>
-  </div></body></html>`;
-}
-
-const SIT: Record<string, [string, string]> = {
-  aprovado: ["✅ Aprovado", "#2E7D4F"], em_analise: ["⏳ Com o conselho", "#6C214C"],
-  inapto: ["❌ Não se encaixa nos critérios", "#8A2A2A"], recusado: ["❌ Não aprovado pelo conselho", "#8A2A2A"],
-};
-function listaCriterios(criterios: any[]) {
-  return `<table style="width:100%;border-collapse:collapse;font-size:13px;margin:10px 0">${criterios.map((c) =>
-    `<tr><td style="padding:6px 8px;border-bottom:1px solid #F0E6EB;width:22px">${c.ok === true ? "✅" : c.ok === false ? "❌" : "❔"}</td>
-     <td style="padding:6px 8px;border-bottom:1px solid #F0E6EB"><strong>${esc(c.rotulo)}</strong><br><span style="color:#6B5E65">${esc(c.detalhe)}</span></td></tr>`).join("")}</table>`;
-}
-
-function render(tipo: string, d: Record<string, any>, cfg: Cfg) {
-  const nome = esc(String(d.nome ?? "confrade").split(" ")[0]);
-  const pid = String(d.participante_id ?? "");
-  const SITE = cfg.site_url;
-  const vinho = `${esc(d.vinho)}${d.safra ? " " + esc(d.safra) : ""}`;
-  const local = `${esc(cfg.local_nome)}, ${esc(cfg.local_detalhe)}`;
-  switch (tipo) {
-    case "boas-vindas":
-      return {
-        subject: "🍷 Presença confirmada — Magnum Fest Licínio Dias 2026",
-        html: shell(cfg, `Presença confirmada, ${nome}!`, `
-          <p>Anote: <strong>${esc(quando(cfg))}</strong>, no <strong>${local}</strong>.</p>
-          <p>É uma Magnum Fest: cada confrade leva <strong>uma Magnum (1,5 L)</strong>. Não há rateio antecipado — o restaurante cobra de cada um no dia. Cada vinho passa pelos critérios da MFLD (nota mínima de 95 pontos em Robert Parker, Wine Spectator ou James Suckling, ou preço de € 400 ou mais, entre outras regras).</p>
-          <p>Registre a sua garrafa no painel: o sistema confere os critérios na hora e avisa se ela entra direto ou se vai para o conselho.</p>`, pid),
-      };
-    case "garrafa-registrada":
-      return {
-        subject: `🍷 ${String(d.vinho)} registrado — analisando os critérios`,
-        html: shell(cfg, `Recebemos a sua garrafa, ${nome}`, `
-          <p style="background:#FBF4F7;border:1px dashed #6C214C;padding:16px;text-align:center;font-size:17px">
-            <strong>${vinho}</strong><br><span style="font-size:13px;color:#6B5E65">${esc(d.tipo)}</span></p>
-          <p>Estamos conferindo notas de crítica, preço e as demais regras da MFLD. Em alguns minutos o parecer aparece no seu painel e chega por e-mail.</p>`, pid),
-      };
-    case "parecer": {
-      const [rot, cor] = SIT[String(d.situacao)] ?? SIT.em_analise;
-      const extra = d.situacao === "inapto"
-        ? `<p>Pode trocar o vinho no painel — ou, se achar que ele merece a mesa por raridade ou singularidade, pedir a análise do conselho (cláusula 6.1).</p>`
-        : d.situacao === "em_analise"
-          ? `<p>O conselho da WLR vai avaliar e você recebe a decisão por e-mail.</p>`
-          : `<p>Ele já aparece na carta da festa. 🥂</p>`;
-      return {
-        subject: `${rot.split(" ")[0]} ${String(d.vinho)} — parecer da MFLD`,
-        html: shell(cfg, `${nome}, o parecer do seu vinho`, `
-          <p style="font-size:17px;margin:0 0 4px"><strong>${vinho}</strong></p>
-          <p style="color:${cor};font-weight:bold;margin:0 0 10px">${rot}</p>
-          <p>${esc(d.resumo)}</p>${listaCriterios(d.criterios ?? [])}${extra}`, pid),
-      };
-    }
-    case "conselho-avaliar":
-      return {
-        subject: `🛡️ Conselho: avaliar ${String(d.vinho)}${d.safra ? " " + d.safra : ""} (${String(d.confrade)})`,
-        html: shell(cfg, `${esc(String(d.conselheiro ?? "").split(" ")[0])}, um vinho aguarda o conselho`, `
-          <p><strong>${esc(d.confrade)}</strong> registrou <strong>${vinho}</strong>.</p>
-          <p>${esc(d.motivo)}</p>${d.criterios ? listaCriterios(d.criterios) : ""}
-          <p>Aprove ou recuse no painel do conselho — a decisão fica registrada com o seu nome e o confrade é avisado.</p>`,
-          undefined, { href: `${SITE}admin.html?t=${d.token}#g-${d.garrafa_id}`, label: "ABRIR O PAINEL DO CONSELHO" }),
-      };
-    case "decisao-conselho": {
-      const ok = d.decisao === "aprovado";
-      return {
-        subject: `${ok ? "✅" : "❌"} ${String(d.vinho)} — decisão do conselho`,
-        html: shell(cfg, ok ? `${nome}, seu vinho está na mesa!` : `${nome}, sobre o seu vinho`, `
-          <p>O conselho da Wine Lovers Recife ${ok ? "<strong>aprovou</strong>" : "<strong>não aprovou</strong>"} o <strong>${vinho}</strong> para a Magnum Fest.</p>
-          ${d.motivo ? `<p style="background:#FBF4F7;border-left:3px solid #6C214C;padding:10px 14px">${esc(d.motivo)}</p>` : ""}
-          <p>${ok ? "Ele já aparece na carta da festa. 🥂" : "Registre outra garrafa no painel — o sistema confere os critérios na hora."}</p>`, pid),
-      };
-    }
-    case "rateio-definido": {
-      const valor = Number(cfg.valor_rateio ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-      return {
-        subject: `💰 Rateio da Magnum Fest: ${valor} — como pagar`,
-        html: shell(cfg, `${nome}, o rateio está definido`, `
-          <p>O rateio ficou em <strong>${valor} por confrade</strong>.</p>
-          <p>Pague por Pix para <strong>${esc(cfg.chave_pix)}</strong>${cfg.nome_pix ? ` (${esc(cfg.nome_pix)})` : ""} — no seu painel estão o QR code, o copia-e-cola e o envio do comprovante.</p>`, pid),
-      };
-    }
-    case "pagamento-confirmado":
-      return { subject: "✅ Pagamento confirmado — Magnum Fest", html: shell(cfg, `Tudo certo, ${nome}!`,
-        `<p>Seu pagamento do rateio foi <strong>confirmado</strong>. Obrigado!</p><p>Até ${esc(quando(cfg))}. 🥂</p>`, pid) };
-    case "comprovante-recebido":
-      return { subject: "📄 Comprovante recebido — em análise", html: shell(cfg, `${nome}, recebemos o seu comprovante`,
-        `<p>Assim que for confirmado, você recebe o aviso e o selo <strong>✓ pago</strong> aparece no seu painel.</p>`, pid) };
-    case "comprovante-tesoureiro":
-      return { subject: `💰 Pagamento: ${String(d.nome)} — confira no extrato`, html: shell(cfg, "Entrou um comprovante",
-        `<p><strong>${esc(d.nome)}</strong> enviou o comprovante do rateio da Magnum Fest.</p>`, undefined,
-        { href: String(d.url), label: "VER COMPROVANTE" }) };
-    case "votacao-aberta":
-      return { subject: "🗳️ A urna está aberta — vote nos melhores vinhos", html: shell(cfg, `${nome}, a votação começou!`,
-        `<p>Um voto por categoria — você pode mudar de ideia enquanto a urna estiver aberta.</p>`, pid,
-        { href: `${SITE}votar/`, label: "VOTAR AGORA" }) };
-    case "resultados":
-      return { subject: "🏆 Saiu o resultado — os melhores vinhos da Magnum Fest", html: shell(cfg, `${nome}, temos vencedores!`,
-        `<p>A apuração terminou e os vencedores de cada categoria estão no site.</p>`, pid) };
-    case "pedido-garrafa": {
-      const zap = String(d.solicitante_zap ?? "").replace(/\D/g, "").replace(/^55/, "");
-      return {
-        subject: `🤝 ${String(d.solicitante)} quer dividir seu ${String(d.vinho)}`,
-        html: shell(cfg, `${nome}, você tem um pedido de sociedade`, `
-          <p><strong>${esc(d.solicitante)}</strong> pediu para dividir a sua garrafa de <strong>${vinho}</strong> (${esc(d.formato)}).</p>
-          <p style="text-align:center"><a href="https://wa.me/55${zap}" style="background:#2E7D4F;color:#fff;text-decoration:none;padding:12px 26px;font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2px">💬 CHAMAR NO WHATSAPP</a></p>
-          <p>Depois de combinar, aceite ou recuse o pedido no seu painel.</p>`, pid),
-      };
-    }
-    case "pedido-aceito":
-      return { subject: `🍷 Você está dentro: ${String(d.vinho)}`, html: shell(cfg, `${nome}, sociedade fechada!`,
-        `<p>Você agora divide o <strong>${vinho}</strong> (${esc(d.formato)}). 🥂</p>`, pid) };
-    case "pedido-recusado":
-      return { subject: `Sobre o ${String(d.vinho)}`, html: shell(cfg, `${nome}, esta garrafa não deu certo`,
-        `<p>O grupo do <strong>${esc(d.vinho)}</strong> se organizou de outra forma. Que tal registrar uma Magnum sua?</p>`, pid) };
-    case "lembrete": {
-      const gs = Array.isArray(d.garrafas) ? d.garrafas : [];
-      const lista = gs.length
-        ? `<p>Suas garrafas:</p><ul>${gs.map((g: any) => `<li><strong>${esc(g.vinho)}${g.safra ? " " + esc(g.safra) : ""}</strong> — ${(SIT[g.situacao] ?? SIT.em_analise)[0]}</li>`).join("")}</ul>`
-        : `<p style="color:#8A2A2A"><strong>Você ainda não registrou nenhuma garrafa</strong> — o mínimo é uma Magnum.</p>`;
-      const M: Record<string, [string, string]> = {
-        "1-mes": ["📅 Falta 1 mês — Magnum Fest Licínio Dias", `${nome}, falta um mês`],
-        "1-semana": ["📅 Falta 1 semana — Magnum Fest Licínio Dias", `${nome}, falta só uma semana`],
-        "hoje": ["🍷 É HOJE — Magnum Fest Licínio Dias", `${nome}, é hoje! 🥂`],
-      };
-      const [assunto, titulo] = M[String(d.quando)] ?? M["1-mes"];
-      return { subject: assunto, html: shell(cfg, titulo, `<p><strong>${esc(quando(cfg))}</strong> — ${local}.</p>${lista}
-        ${cfg.valor_no_dia ? `<p>Valor por pessoa, pago no dia ao restaurante: <strong>${Number(cfg.valor_no_dia).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>.</p>` : ""}`, pid) };
-    }
-    default:
-      return { subject: "Magnum Fest Licínio Dias 2026", html: shell(cfg, "Novidades", "<p>Acesse o site para ver as novidades.</p>", pid) };
-  }
-}
-
-async function enviar(para: string, subject: string, html: string) {
-  const r = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${RESEND}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from: FROM, to: [para], reply_to: REPLY_TO, subject, html }),
-  });
-  if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`);
-}
-
-async function processaFila(cfg: Cfg) {
-  const { data: fila } = await sb.from("wlr_emails").select("*").eq("status", "pendente").lt("tentativas", 5)
-    .order("criado_em").limit(25);
-  let ok = 0, err = 0;
-  for (const row of fila ?? []) {
-    try {
-      const { subject, html } = render(row.tipo, row.dados ?? {}, cfg);
-      await enviar(row.para, subject, html);
-      await sb.from("wlr_emails").update({ status: "enviado", enviado_em: new Date().toISOString() }).eq("id", row.id);
-      ok++;
-    } catch (e) {
-      const t = (row.tentativas ?? 0) + 1;
-      await sb.from("wlr_emails").update({ tentativas: t, erro: String(e).slice(0, 500), status: t >= 5 ? "erro" : "pendente" }).eq("id", row.id);
-      err++;
-    }
-    await new Promise((r) => setTimeout(r, 600));
-  }
-  return { ok, err };
 }
 
 // ── fotos (Vivino, garrafa inteira _pb_) ──────────────────────────────────
@@ -364,15 +169,16 @@ async function analisar(garrafaId: string, cfg: Cfg) {
       const situacao = parecer.status === "inapto" ? "inapto" : parecer.requer_conselho ? "em_analise" : "aprovado";
       if (dono?.email) {
         await sb.rpc("wlr_email_enqueue", { p_tipo: "parecer", p_para: dono.email, p_dados: {
-          nome: dono.nome, participante_id: g.criado_por, vinho: g.vinho, safra: g.safra,
-          situacao, resumo: parecer.resumo, criterios: parecer.criterios } });
+          nome: dono.nome, participante_id: g.criado_por, garrafa_id: g.id, vinho: g.vinho, safra: g.safra,
+          situacao, resumo: parecer.resumo, criterios: parecer.criterios,
+          resumo_i18n: { es: pEs.resumo, en: pEn.resumo }, criterios_i18n: { es: pEs.criterios, en: pEn.criterios } } });
       }
       if (situacao === "em_analise") {
         const { data: conselho } = await sb.from("wlr_conselho").select("nome, email, token").not("email", "is", null);
         for (const c of conselho ?? []) {
           await sb.rpc("wlr_email_enqueue", { p_tipo: "conselho-avaliar", p_para: c.email, p_dados: {
             conselheiro: c.nome, token: c.token, garrafa_id: g.id, vinho: g.vinho, safra: g.safra,
-            confrade: dono?.nome ?? g.sigla ?? "—", motivo: parecer.resumo, criterios: parecer.criterios } });
+            nome: c.nome, confrade: dono?.nome ?? g.sigla ?? "—", resumo: parecer.resumo, criterios: parecer.criterios, idioma: "pt" } });
         }
       }
     }
@@ -399,42 +205,64 @@ async function proximaPendente() {
   return data?.[0]?.id as string | undefined;
 }
 
-// ── resumo semanal ────────────────────────────────────────────────────────
-async function resumoSemanal(cfg: Cfg, apenas?: string) {
-  const { data: parts } = await sb.from("wlr_participantes").select("id, nome, email, confirmado_em").eq("confirmado", true);
-  const dest = apenas ? (parts ?? []).filter((p) => p.email === apenas) : (parts ?? []);
-  const { data: vinhos } = await sb.from("wlr_vinhos_publico").select("*").eq("situacao", "aprovado");
-  const semana = Date.now() - 7 * 864e5;
-  const novos = (parts ?? []).filter((p) => p.confirmado_em && new Date(p.confirmado_em).getTime() > semana);
-  const ordem = ["Espumante", "Branco", "Rosé", "Tinto", "Fortificado / Doce"];
-  const porTipo: Record<string, any[]> = {};
-  for (const v of vinhos ?? []) (porTipo[v.tipo] ??= []).push(v);
-  const carta = Object.keys(porTipo).sort((a, b) => ordem.indexOf(a) - ordem.indexOf(b)).map((t) =>
-    `<h3 style="color:#411A39;border-bottom:1px solid #E9DDE3;padding-bottom:6px">${esc(t)}</h3><ul>` +
-    porTipo[t].map((v) => `<li><strong>${esc(v.vinho)}${v.safra ? " " + esc(v.safra) : ""}</strong> — ${esc(v.produtor ?? "")}${v.selo?.resumo ? " · " + esc(v.selo.resumo) : ""}</li>`).join("") + "</ul>").join("");
-  const corpo = `${novos.length ? `<p style="background:#FBF4F7;border:1px dashed #6C214C;padding:14px">👋 Confirmaram esta semana: ${esc(novos.map((p) => p.nome).join(", "))}</p>` : ""}
-    <p>A mesa já tem <strong>${(parts ?? []).length} confrades</strong> e <strong>${(vinhos ?? []).length} vinhos aprovados</strong>.</p>
-    <h2 style="font-size:18px;font-weight:normal">A carta até agora</h2>${carta}`;
-  let enviados = 0;
-  for (const p of dest) {
-    if (!p.email) continue;
-    try { await enviar(p.email, "🍷 A carta da Magnum Fest — resumo da semana", shell(cfg, `${esc(p.nome.split(" ")[0])}, a mesa está crescendo`, corpo, p.id)); enviados++; }
-    catch (_) { /* segue */ }
-    await new Promise((r) => setTimeout(r, 600));
-  }
-  return { enviados };
-}
-
 declare const EdgeRuntime: { waitUntil(p: Promise<unknown>): void };
 
+const processaFila = (cfg: Cfg) => filaEmails(sb, cfg);
+
+// campanha agendada: respeita o "ativo" do modelo e o público dele
+async function campanha(tipo: string, cfg: Cfg) {
+  const modelos = await carregaModelos(sb);
+  const m = modelos[tipo];
+  if (!m || !m.ativo) return { tipo, pulado: "desligado" };
+  if (tipo === "resumo") {
+    // a cada 15 dias: só nas semanas pares do ano
+    const d = new Date(); const ini = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    const semana = Math.ceil(((d.getTime() - ini.getTime()) / 864e5 + ini.getUTCDay() + 1) / 7);
+    if (semana % 2 === 1) return { tipo, pulado: "semana ímpar" };
+  }
+  const n = await enfileira(sb, tipo, await destinatarios(sb, m.publico));
+  return { tipo, enfileirados: n, fila: await processaFila(cfg) };
+}
+
+const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "content-type, apikey, authorization",
+  "Access-Control-Allow-Methods": "POST, OPTIONS" };
+const json = (o: unknown, status = 200) => new Response(JSON.stringify(o), { status, headers: { "Content-Type": "application/json", ...CORS } });
+
+// chamadas do painel do conselho (token pessoal): pré-visualizar, contar e enviar
+async function painel(body: any, cfg: Cfg) {
+  const { data: quem, error } = await sb.rpc("wlr_admin_check", { p_token: body.t ?? "" });
+  if (error || !quem) return json({ ok: false, erro: "Código inválido" }, 403);
+  const modelos = await carregaModelos(sb);
+  const m = modelos[body.tipo];
+  if (!m) return json({ ok: false, erro: "Modelo não encontrado" }, 404);
+  if (body.task === "preview") {
+    const ctx = await carregaCtx(sb, cfg);
+    const l = ["pt", "es", "en"].includes(body.lang) ? body.lang : "pt";
+    return json({ ok: true, ...monta(m, body.tipo, exemplo(body.tipo, ctx), ctx, l, body.rascunho ?? undefined) });
+  }
+  const alvos = await destinatarios(sb, body.publico ?? m.publico, body.participante);
+  if (body.task === "contar") return json({ ok: true, n: alvos.length, nomes: alvos.map((a) => a.dados.nome) });
+  if (body.task === "enviar") {
+    if (m.automatico && !["votacao-aberta", "resultados", "boas-vindas"].includes(body.tipo)) {
+      return json({ ok: false, erro: "Este e-mail é disparado sozinho pelo sistema" }, 400);
+    }
+    const n = await enfileira(sb, body.tipo, alvos, { manual: true, enviado_por: quem });
+    EdgeRuntime.waitUntil(processaFila(cfg));
+    return json({ ok: true, n });
+  }
+  return json({ ok: false, erro: "Tarefa desconhecida" }, 400);
+}
+
 Deno.serve(async (req) => {
-  if (!SECRET || req.headers.get("x-wlr-secret") !== SECRET) return new Response("forbidden", { status: 403 });
+  if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
   const body = await req.json().catch(() => ({}));
   const task = body.task ?? "fila";
   const cfg = await carregaCfg();
   try {
+    if (["preview", "contar", "enviar"].includes(task)) return await painel(body, cfg);
+    if (!SECRET || req.headers.get("x-wlr-secret") !== SECRET) return new Response("forbidden", { status: 403 });
     let out: unknown;
-    if (task === "resumo-semanal") out = await resumoSemanal(cfg, body.apenas);
+    if (task === "campanha") out = await campanha(body.tipo, cfg);
     else if (task === "analise-agora" && body.garrafa) out = await analisar(body.garrafa, cfg);   // síncrono (skill local)
     else if (task === "analise") {
       await destrava();
@@ -447,8 +275,8 @@ Deno.serve(async (req) => {
       if (id) EdgeRuntime.waitUntil(analisar(id, cfg).then(() => processaFila(cfg)));
       out = { fila: await processaFila(cfg), fotos: await buscaFotos(), analisando: id ?? null };
     }
-    return new Response(JSON.stringify({ ok: true, task, out }), { headers: { "Content-Type": "application/json" } });
+    return json({ ok: true, task, out });
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, erro: String(e) }), { status: 500 });
+    return json({ ok: false, erro: String(e) }, 500);
   }
 });
