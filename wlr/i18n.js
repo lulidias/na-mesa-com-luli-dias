@@ -252,7 +252,7 @@
     'Sessão inválida — entre de novo': ['Sesión inválida: entra de nuevo', 'Invalid session — please sign in again'],
     'Entre no site com o seu WhatsApp — depois você volta direto para a urna': ['Entra al sitio con tu WhatsApp; después vuelves directo a la urna', 'Sign in with your WhatsApp — you will come straight back to the ballot'],
     '📲 Instalar no celular': ['📲 Instalar en el móvil', '📲 Install on your phone'],
-    'Magnum Fest na tela de início': ['Magnum Fest en la pantalla de inicio', 'Magnum Fest on your home screen'],
+    'Wine Lovers Recife na tela de início': ['Wine Lovers Recife en la pantalla de inicio', 'Wine Lovers Recife on your home screen'],
     'Faça agora, com esta página aberta. O ícone já entra sem pedir o telefone.': ['Hazlo ahora, con esta página abierta. El icono entra sin pedir el teléfono.', 'Do it now, with this page open. The icon will sign you in without asking for your number.'],
     'Toque em': ['Toca', 'Tap'], '(na barra do Safari)': ['(en la barra de Safari)', '(in the Safari toolbar)'],
     'Compartilhar': ['Compartir', 'Share'],
