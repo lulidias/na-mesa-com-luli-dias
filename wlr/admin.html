@@ -369,7 +369,7 @@ function renderParts() {
     if (!p.confirmado) tr.style.color = 'var(--ink-lt)';
     var zap = (p.whatsapp || '').replace(/\D/g, '');
     var sit = !p.confirmado ? '<span class="tag pd">não confirmou</span>'
-      : ((temAprov[p.nome] ? '🍾<span style="color:var(--ok)">✓</span>' : temAlguma[p.nome] ? '🍾⏳' : '🍾<span style="color:var(--warn)">✗</span>')));
+      : (temAprov[p.nome] ? '🍾<span style="color:var(--ok)">✓</span>' : temAlguma[p.nome] ? '🍾⏳' : '🍾<span style="color:var(--warn)">✗</span>');
     tr.innerHTML =
       '<td><strong>' + esc(p.nome) + '</strong>' + (p.produtor_de ? '<div style="font-size:10px;color:var(--ink-lt)">produtor: ' + esc(p.produtor_de) + '</div>' : '') + '</td>' +
       '<td style="white-space:nowrap">' + sit + '</td>' +
