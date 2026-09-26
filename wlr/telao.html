@@ -133,7 +133,7 @@ function tick() {
         return '<div class="row"><div class="l1"><span class="w"><span class="med" style="color:var(--gold-lt)">' + (i + 1) + 'º</span> ' + esc(r.vinho) +
           (r.safra ? ' <span style="color:var(--gold-lt)">' + esc(r.safra) + '</span>' : '') + '</span>' +
           '<span class="v">' + r.votos + ' voto' + (r.votos > 1 ? 's' : '') + '</span></div>' +
-          '<div class="who">' + esc((r.membros || []).join(', ')) + ' · ' + esc(r.formato) + '</div>' +
+          '<div class="who">' + esc((r.membros || []).join(', ')) + '</div>' +
           '<div class="bar"><i style="width:' + pct + '%"></i></div></div>';
       }).join('');
       grid.appendChild(d);

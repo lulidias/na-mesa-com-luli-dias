@@ -138,7 +138,7 @@ footer .orn .d,#vot-teaser .orn .d{background:#fff}
 .wine-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 .wine-card{background:var(--white);border:1px solid var(--border);padding:22px;position:relative;transition:box-shadow .3s}
 .wine-card:hover{box-shadow:0 10px 30px rgba(65,26,57,.08)}
-.wine-card .nm{font-weight:700;font-size:16.5px;line-height:1.35;padding-right:70px;color:var(--wine-md)}
+.wine-card .nm{font-weight:700;font-size:16.5px;line-height:1.35;color:var(--wine-md)}
 .wine-card .pr{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--ink-lt);margin-top:3px}
 .wine-card .fmt{position:absolute;top:0;right:16px;background:var(--wine-md);color:var(--cream);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:6px 10px}
 .wine-card .who{font-size:11px;color:var(--ink-lt);margin-top:12px;line-height:1.6}
@@ -301,17 +301,10 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   <h2 class="sec-title">Três passos para estar na mesa</h2>
   <div class="rule-grid passos-grid" style="max-width:900px;margin:34px auto">
     <div class="rule-card"><div class="lt" style="margin-top:0">1</div><div class="fmt">Confirme a presença</div><div class="tx">Escolha o seu nome na lista de membros da Wine Lovers Recife e informe o seu WhatsApp.</div></div>
-    <div class="rule-card"><div class="lt" style="margin-top:0">2</div><div class="fmt">Registre sua Magnum</div><div class="tx">O sistema confere na hora os critérios da MFLD — nota, preço, safra e região — e diz se o vinho entra direto ou vai para o conselho.</div></div>
-    <div class="rule-card"><div class="lt" style="margin-top:0">3</div><div class="fmt">Pague o rateio</div><div class="tx"><span id="passo-rateio">O valor do rateio será anunciado em breve</span> — Pix com QR code no seu painel, comprovante ali mesmo.</div></div>
+    <div class="rule-card"><div class="lt" style="margin-top:0">2</div><div class="fmt">Registre a sua Magnum</div><div class="tx">O sistema confere na hora os critérios da MFLD — nota, preço, safra e região — e diz se o vinho entra direto ou vai para o conselho.</div></div>
+    <div class="rule-card"><div class="lt" style="margin-top:0">3</div><div class="fmt">Pague no dia</div><div class="tx">Não há rateio antecipado: o restaurante cobra de cada confrade na própria noite. <a href="#cardapio" style="color:var(--wine-lt)">Valor e cardápio</a>.</div></div>
   </div>
-  <p class="sec-sub" style="margin-bottom:20px">Os formatos da casa — é uma Magnum Fest:</p>
-  <div class="rule-grid">
-    <div class="rule-card"><div class="fmt">Magnum</div><div class="lt">1,5 L</div><div class="pp">1 confrade</div></div>
-    <div class="rule-card"><div class="fmt">Double Magnum</div><div class="lt">3 L</div><div class="pp">2 confrades</div></div>
-    <div class="rule-card"><div class="fmt">Jeroboam</div><div class="lt">6 L</div><div class="pp">4 confrades</div></div>
-    <div class="rule-card"><div class="fmt">Salmanazar</div><div class="lt">9 L</div><div class="pp">6 confrades</div></div>
-  </div>
-  <p class="rule-note">Formatos maiores podem ser levados sozinho ou divididos entre confrades.</p>
+  <p class="rule-note">Na Magnum Fest, só entra garrafa Magnum (1,5 L) — uma por confrade.</p>
 </section>
 
 <!-- ═══ CRITÉRIOS ═══ -->
@@ -350,6 +343,20 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   <div class="auto-box">🔎 <strong>Análise automática:</strong> ao registrar a garrafa, o sistema pesquisa as notas de crítica e o preço no Wine-Searcher daquela safra e confere cada cláusula. Tintos que atendem a tudo entram direto; brancos, espumantes, doces e os casos em dúvida seguem para o conselho da Wine Lovers Recife.</div>
 </section>
 
+<!-- ═══ VALOR E CARDÁPIO ═══ -->
+<section class="sec" id="cardapio" style="padding-top:0">
+  <div class="sec-kicker">À mesa</div>
+  <h2 class="sec-title">Valor e cardápio</h2>
+  <p class="sec-sub" style="margin-bottom:26px">Não há rateio antecipado — o restaurante cobra de cada confrade no dia.</p>
+  <div class="panel" style="max-width:720px;text-align:center">
+    <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)">Valor por pessoa, pago no dia</div>
+    <div id="valor-dia" style="font-weight:300;font-size:40px;color:var(--wine);margin:8px 0 4px">a definir</div>
+    <div class="orn" style="margin:22px 0"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+    <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt);margin-bottom:14px">Cardápio</div>
+    <div id="cardapio-txt" class="it" style="font-size:19px;line-height:1.7;white-space:pre-line;color:var(--ink)">O cardápio será divulgado em breve.</div>
+  </div>
+</section>
+
 <!-- ═══ RSVP ═══ -->
 <section class="sec" id="rsvp" style="padding-top:20px">
   <div class="sec-kicker">RSVP</div>
@@ -383,15 +390,11 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
       <a class="btn gold hidden" id="btn-premio" href="premio.html" style="text-decoration:none">🏆 Cartão do meu prêmio</a>
       <button class="btn ghost" onclick="addCalendario()" style="border-color:var(--wine-lt);color:var(--wine-lt)">📅 Adicionar ao calendário</button>
     </div>
-    <div class="cover">
-      <div class="cover-bar"><div class="cover-fill" id="cover-fill" style="width:0%"></div></div>
-      <div class="cover-txt" id="cover-txt">Você ainda não registrou nenhuma garrafa.</div>
-    </div>
 
     <div id="me-pedidos"></div>
     <div id="me-garrafas"></div>
 
-    <label class="f-label" style="margin-top:34px">Registrar uma garrafa</label>
+    <label class="f-label" style="margin-top:34px">Registrar a sua Magnum</label>
     <input class="f-input" id="g-vinho" placeholder="Vinho (ex.: Château Léoville Barton)">
     <div class="g-row3" style="margin-top:10px">
       <input class="f-input" id="g-produtor" placeholder="Produtor">
@@ -417,56 +420,15 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <div id="g-subtipo-row" class="hidden" style="margin-top:10px">
       <select class="f-select" id="g-subtipo"></select>
     </div>
-    <div class="g-row2b" style="margin-top:10px">
-      <select class="f-select" id="g-formato" onchange="fmtChange()">
-        <option value="Magnum|1.5|1">Magnum — 1,5 L</option>
-        <option value="Double Magnum|3|2">Double Magnum — 3 L</option>
-        <option value="Jeroboam|6|4">Jeroboam — 6 L</option>
-        <option value="Salmanazar|9|6">Salmanazar — 9 L</option>
-        <option value="outro">Outro formato…</option>
-      </select>
-      <select class="f-select" id="g-vagas" title="Quantos confrades dividem esta garrafa"></select>
-    </div>
-    <div id="g-outro-row" class="hidden" style="margin-top:10px">
-      <input class="f-input" id="g-litros" placeholder="Litros (mínimo 1,5)" inputmode="decimal">
-    </div>
     <label class="f-label">Foto da garrafa (opcional)</label>
     <input type="file" id="g-foto" accept="image/*" style="font-size:12px">
     <div style="font-size:10px;color:var(--ink-lt);margin-top:6px">Sem foto? O sistema busca automaticamente e você só confirma.</div>
     <div style="font-size:11px;color:var(--ink-lt);margin-top:16px;line-height:1.6;background:var(--gold-bg);padding:10px 14px">Preencha produtor e safra com cuidado — é por eles que o sistema encontra as notas e o preço daquela safra. O parecer chega em poucos minutos, aqui e por e-mail.</div>
     <div style="text-align:center;margin-top:22px">
-      <button class="btn gold" id="g-add" onclick="addGarrafa()">Adicionar garrafa</button>
+      <button class="btn gold" id="g-add" onclick="addGarrafa()">Adicionar Magnum</button>
       <button class="linklike hidden" id="g-cancel" onclick="cancelarEdicao()" style="margin-left:14px">Cancelar edição</button>
     </div>
 
-    <div id="pay-sec" style="margin-top:44px">
-      <label class="f-label">Rateio</label>
-      <div class="pix-box" id="pix-box">
-        <div id="pix-pending" class="hidden it" style="font-size:17px;color:var(--ink-lt)">O valor do rateio será anunciado em breve. Você será avisado.</div>
-        <div id="pix-ready" class="hidden">
-          <div class="pix-val" id="pix-val"></div>
-          <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)">por confrade</div>
-          <div style="display:flex;justify-content:center;gap:22px;margin:18px 0 4px;flex-wrap:wrap;font-size:10px;letter-spacing:1px;color:var(--ink-lt)">
-            <span><strong style="color:var(--wine-lt)">1.</strong> Escaneie o QR ou copie o código</span>
-            <span><strong style="color:var(--wine-lt)">2.</strong> Pague no app do seu banco</span>
-            <span><strong style="color:var(--wine-lt)">3.</strong> Envie o comprovante abaixo</span>
-          </div>
-          <canvas id="pix-qr" width="180" height="180"></canvas>
-          <div class="pix-key">Pix: <strong id="pix-chave"></strong> <span id="pix-nome" style="color:var(--ink-lt)"></span></div>
-          <div class="copy-area" id="pix-payload"></div>
-          <button class="btn gold" onclick="copyPix()">Copiar Pix copia-e-cola</button>
-          <div style="margin-top:22px">
-            <label class="f-label" style="margin-top:0">Enviar comprovante</label>
-            <input type="file" id="f-comprovante" accept="image/*,.pdf" style="font-size:12px" onchange="uploadComprovante(this)">
-            <div id="comp-status" style="font-size:11px;color:var(--ink-lt);margin-top:8px"></div>
-          </div>
-        </div>
-        <div id="pix-paid" class="hidden">
-          <div style="font-weight:700;font-size:18px;color:var(--ok)">Pagamento confirmado</div>
-          <div class="paid-badge">✓ Pago</div>
-        </div>
-      </div>
-    </div>
 
     <div style="text-align:center;margin-top:36px">
       <button class="linklike" onclick="logoutMe()">Não é você? Sair deste painel</button>
@@ -491,20 +453,17 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 <section class="sec" id="numeros" style="max-width:1240px">
   <div class="sec-kicker">A noite em números</div>
   <h2 class="sec-title">Os números da mesa</h2>
-  <p class="sec-sub">Quantos confrades, quantos litros, de onde vêm e de que safras — o placar muda a cada Magnum.</p>
+  <p class="sec-sub">Quantos confrades, de onde vêm os vinhos e de que safras — o placar muda a cada Magnum.</p>
   <div class="wine-stats">
     <div class="ws"><div class="n" id="st-conf">0</div><div class="k">confrades</div>
       <div class="meta-bar hidden" id="meta-bar"><i id="meta-fill"></i></div>
       <div class="meta-k hidden" id="meta-k"></div>
     </div>
-    <div class="ws"><div class="n" id="st-gar">0</div><div class="k">garrafas</div></div>
-    <div class="ws"><div class="n" id="st-lit">0</div><div class="k">litros</div></div>
-    <div class="ws"><div class="n" id="st-media">0</div><div class="k">L por confrade</div></div>
+    <div class="ws"><div class="n" id="st-gar">0</div><div class="k">Magnums aprovadas</div></div>
   </div>
   <div class="num-grid">
     <div class="num-stack">
       <div class="num-card"><h3>Por categoria</h3><div id="num-tipos"></div></div>
-      <div class="num-card"><h3>Por formato</h3><div id="num-formatos"></div></div>
     </div>
     <div class="num-card pais-full"><h3>Por país</h3><div id="num-paises"></div></div>
     <div class="num-card safra"><h3>Por safra</h3><div id="num-safras"></div></div>
@@ -755,11 +714,9 @@ var minhasCount = 0, minhasAprovadas = 0;
 function renderChips() {
   var box = document.getElementById('me-chips');
   if (!box || !meu) return;
-  var pago = meu.pago ? '<span class="chip ok">💰 Rateio pago ✓</span>'
-    : (meu.comprovante_url ? '<span class="chip">💰 Comprovante em análise</span>' : '<span class="chip warn">💰 Rateio pendente</span>');
   var gar = minhasAprovadas > 0 ? '<span class="chip ok">🍾 Magnum aprovada ✓</span>'
     : minhasCount > 0 ? '<span class="chip">🍾 Magnum em análise</span>' : '<span class="chip warn">🍾 Falta a sua Magnum</span>';
-  box.innerHTML = '<span class="chip ok">✓ Presença confirmada</span>' + gar + pago;
+  box.innerHTML = '<span class="chip ok">✓ Presença confirmada</span>' + gar;
 }
 function logoutMe() {
   try { localStorage.removeItem('wlr_id'); } catch (e) { }
@@ -778,13 +735,13 @@ function loadMe() {
     document.getElementById('form-panel').classList.add('hidden');
     document.getElementById('me-panel').classList.remove('hidden');
     document.getElementById('rsvp-title').textContent = 'Seu painel de confrade';
-    document.getElementById('rsvp-sub').textContent = 'Registre as suas Magnums, acompanhe o parecer de cada uma e o rateio.';
+    document.getElementById('rsvp-sub').textContent = 'Registre a sua Magnum e acompanhe o parecer dos critérios.';
     document.getElementById('cta-btn').textContent = 'Meu painel';
     document.getElementById('me-nome').textContent = meu.nome.split(' ')[0];
     document.getElementById('btn-cartao').href = 'cartao.html?id=' + meuId;
     meuNomeCache = meu.nome;
     atualizaPremioBtn();
-    renderPay();
+    renderChips();
     return Promise.all([loadMinhasGarrafas(), loadMeusPedidos().then(refreshPublic), loadPedidosRecebidos()]);
   });
 }
@@ -826,10 +783,8 @@ function loadMinhasGarrafas() {
     rows = rows || [];
     minhasGarrafas = rows;
     var box = document.getElementById('me-garrafas'); box.innerHTML = '';
-    var share = 0, aprovadas = 0, pendentes = false;
+    var aprovadas = 0, pendentes = false;
     rows.forEach(function (g) {
-      var conta = g.situacao !== 'inapto' && g.situacao !== 'recusado';
-      if (conta) share += Number(g.litros) / Math.max(1, g.vagas || g.membros.length);
       if (g.situacao === 'aprovado') aprovadas++;
       if (g.analise_status === 'pendente' || g.analise_status === 'processando') pendentes = true;
       var d = document.createElement('div'); d.className = 'gr-card';
@@ -845,10 +800,8 @@ function loadMinhasGarrafas() {
           '<input type="file" accept="image/*" style="font-size:11px" onchange="uploadFotoGarrafa(this, \'' + g.id + '\')"></div>';
       }
       d.innerHTML = '<div><div class="w">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
-        '<div class="m">' + (g.produtor ? esc(g.produtor) + ' · ' : '') + (g.regiao ? esc(g.regiao) + ' · ' : '') + esc(tipoRotulo(g)) + ' · ' + esc(g.formato) + ' (' + fmtLitros(g.litros) + ' L)' +
-        ((g.vagas || 1) > 1 ? ' — sua parte: 1/' + g.vagas : '') +
-        (g.membros.length > 1 ? ' — com ' + esc(g.membros.join(', ')) : '') + '</div></div>' +
-        '<div style="display:flex;gap:10px;align-items:center"><span class="gr-fmt">' + esc(g.formato) + '</span>' +
+        '<div class="m">' + (g.produtor ? esc(g.produtor) + ' · ' : '') + (g.regiao ? esc(g.regiao) + ' · ' : '') + esc(tipoRotulo(g)) + '</div></div>' +
+        '<div style="display:flex;gap:10px;align-items:center">' +
         (g.sou_criador ? '<button class="linklike" onclick="editarGarrafa(\'' + g.id + '\')">Editar</button>' : '') +
         '<button class="linklike" onclick="leaveGarrafa(\'' + g.id + '\')">' + (g.sou_criador ? 'Remover' : 'Sair') + '</button></div>' +
         parecerHtml(g) + fotoHtml;
@@ -856,13 +809,6 @@ function loadMinhasGarrafas() {
     });
     minhasCount = rows.length; minhasAprovadas = aprovadas;
     renderChips();
-    var need = 1.5;
-    var pct = Math.min(100, Math.round(share / need * 100));
-    document.getElementById('cover-fill').style.width = pct + '%';
-    document.getElementById('cover-txt').innerHTML = rows.length
-      ? 'Sua contribuição: <strong>' + fmtLitros(share) + ' L</strong> de ' + fmtLitros(need) + ' L mínimos' + (share >= need ? ' — <span style="color:var(--ok)">✓ completa</span>' : ' — falta ' + fmtLitros(Math.max(0, need - share)) + ' L')
-      : 'Você ainda não registrou nenhuma garrafa — o mínimo é uma Magnum (1,5 L) por confrade.';
-    // enquanto houver análise em curso, atualiza sozinho
     clearTimeout(pollTimer);
     if (pendentes) pollTimer = setTimeout(function () { loadMinhasGarrafas(); refreshPublic(); }, 20000);
   });
@@ -887,17 +833,6 @@ function tipoChange(valor) {
   sel.innerHTML = SUBTIPOS[t].map(function (o) { return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join('');
   if (valor) sel.value = valor;
 }
-function fmtChange() {
-  var v = document.getElementById('g-formato').value;
-  document.getElementById('g-outro-row').classList.toggle('hidden', v !== 'outro');
-  var vagas = document.getElementById('g-vagas'); vagas.innerHTML = '';
-  for (var i = 1; i <= 12; i++) {
-    var o = document.createElement('option'); o.value = i;
-    o.textContent = i === 1 ? 'Sozinho' : 'Dividir entre ' + i;
-    if (i === 1) o.selected = true; vagas.appendChild(o);
-  }
-}
-fmtChange();
 
 var editandoId = null;
 function editarGarrafa(id) {
@@ -912,24 +847,15 @@ function editarGarrafa(id) {
   document.getElementById('g-pais').value = g.pais || '';
   document.getElementById('g-tipo').value = g.tipo || 'Tinto';
   tipoChange(g.subtipo);
-  var fsel = document.getElementById('g-formato'), achou = false;
-  [].slice.call(fsel.options).forEach(function (o) {
-    if (o.value !== 'outro' && o.value.split('|')[0] === g.formato) { fsel.value = o.value; achou = true; }
-  });
-  if (!achou) fsel.value = 'outro';
-  fmtChange();
-  if (!achou) document.getElementById('g-litros').value = String(g.litros).replace('.', ',');
-  document.getElementById('g-vagas').value = g.vagas;
   document.getElementById('g-add').textContent = 'Salvar alterações';
   document.getElementById('g-cancel').classList.remove('hidden');
   document.getElementById('g-vinho').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 function cancelarEdicao() {
   editandoId = null;
-  ['g-vinho', 'g-produtor', 'g-regiao', 'g-pais', 'g-safra', 'g-litros'].forEach(function (i) { document.getElementById(i).value = ''; });
+  ['g-vinho', 'g-produtor', 'g-regiao', 'g-pais', 'g-safra'].forEach(function (i) { document.getElementById(i).value = ''; });
   document.getElementById('g-tipo').value = 'Tinto'; tipoChange();
-  fmtChange();
-  document.getElementById('g-add').textContent = 'Adicionar garrafa';
+  document.getElementById('g-add').textContent = 'Adicionar Magnum';
   document.getElementById('g-cancel').classList.add('hidden');
 }
 function addGarrafa() {
@@ -938,17 +864,7 @@ function addGarrafa() {
   var safra = document.getElementById('g-safra').value.trim();
   var tipo = document.getElementById('g-tipo').value;
   if (!safra && tipo !== 'Fortificado / Doce') return toast('Informe a safra — ela decide as notas e o preço.', true);
-  var fsel = document.getElementById('g-formato').value;
-  var formato, litros;
-  if (fsel === 'outro') {
-    litros = parseFloat((document.getElementById('g-litros').value || '').replace(',', '.'));
-    if (!litros || litros <= 0) return toast('Informe os litros da garrafa.', true);
-    if (litros < 1.5) return toast('É uma Magnum Fest: o mínimo é 1,5 L.', true);
-    formato = fmtLitros(litros) + ' litros';
-  } else {
-    var p = fsel.split('|'); formato = p[0]; litros = parseFloat(p[1]);
-  }
-  var vagas = parseInt(document.getElementById('g-vagas').value, 10) || 1;
+  var formato = 'Magnum', litros = 1.5, vagas = 1;   // Magnum Fest: só Magnum, uma por confrade
   var btn = document.getElementById('g-add'); btn.disabled = true; btn.textContent = editandoId ? 'Salvando…' : 'Adicionando…';
   var args = {
     p_participante: meuId, p_vinho: vinho,
@@ -973,7 +889,7 @@ function addGarrafa() {
       return Promise.all([loadMinhasGarrafas(), refreshPublic()]);
     });
   }).catch(function (e) { toast(e.message, true); })
-    .then(function () { btn.disabled = false; btn.textContent = editandoId ? 'Salvar alterações' : 'Adicionar garrafa'; });
+    .then(function () { btn.disabled = false; btn.textContent = editandoId ? 'Salvar alterações' : 'Adicionar Magnum'; });
 }
 
 function enviarFotoGarrafa(f, garrafaId) {
@@ -1048,70 +964,6 @@ function leaveGarrafa(id) {
     .catch(function (e) { toast(e.message, true); });
 }
 
-// ── Pix ──────────────────────────────────────────────────────────────────
-function emv(id, value) { var v = String(value); return id + ('0' + v.length).slice(-2) + v; }
-function crc16(s) {
-  var crc = 0xFFFF;
-  for (var i = 0; i < s.length; i++) {
-    crc ^= s.charCodeAt(i) << 8;
-    for (var j = 0; j < 8; j++) crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) & 0xFFFF : (crc << 1) & 0xFFFF;
-  }
-  return ('000' + crc.toString(16).toUpperCase()).slice(-4);
-}
-function semAcento(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, ''); }
-function pixPayload(chave, nome, cidade, valor, txid) {
-  var mai = emv('00', 'br.gov.bcb.pix') + emv('01', chave);
-  var p = emv('00', '01') + emv('26', mai) + emv('52', '0000') + emv('53', '986');
-  if (valor) p += emv('54', valor.toFixed(2));
-  p += emv('58', 'BR') + emv('59', semAcento(nome || 'WINE LOVERS RECIFE').substring(0, 25)) +
-       emv('60', (cidade || 'RECIFE').substring(0, 15)) + emv('62', emv('05', (txid || 'MFLD2026').substring(0, 25)));
-  p += '6304';
-  return p + crc16(p);
-}
-var pixCopiaECola = '';
-function renderPay() {
-  if (!meu) return;
-  renderChips();
-  var pend = document.getElementById('pix-pending'), ready = document.getElementById('pix-ready'), paid = document.getElementById('pix-paid');
-  pend.classList.add('hidden'); ready.classList.add('hidden'); paid.classList.add('hidden');
-  if (meu.pago) { paid.classList.remove('hidden'); return; }
-  if (!cfg || !cfg.chave_pix || !cfg.valor_rateio) { pend.classList.remove('hidden'); return; }
-  ready.classList.remove('hidden');
-  var valor = Number(cfg.valor_rateio);
-  document.getElementById('pix-val').textContent = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-  document.getElementById('pix-chave').textContent = cfg.chave_pix;
-  document.getElementById('pix-nome').textContent = cfg.nome_pix ? '(' + cfg.nome_pix + ')' : '';
-  pixCopiaECola = pixPayload(cfg.chave_pix, cfg.nome_pix, 'RECIFE', valor, 'MFLD2026');
-  document.getElementById('pix-payload').textContent = pixCopiaECola;
-  if (window.QRious) new QRious({ element: document.getElementById('pix-qr'), value: pixCopiaECola, size: 180, background: '#FFFFFF', foreground: '#411A39', level: 'M' });
-  if (meu.comprovante_url) document.getElementById('comp-status').innerHTML = '✓ Comprovante enviado — <a href="' + esc(meu.comprovante_url) + '" target="_blank">ver</a>. Aguardando confirmação.';
-}
-function copyPix() {
-  (navigator.clipboard ? navigator.clipboard.writeText(pixCopiaECola) : Promise.reject())
-    .then(function () { toast('Pix copiado! Cole no app do seu banco.'); })
-    .catch(function () { toast('Selecione e copie o código acima.', true); });
-}
-function uploadComprovante(input) {
-  var f = input.files && input.files[0]; if (!f) return;
-  if (f.size > 8 * 1024 * 1024) return toast('Arquivo muito grande (máx. 8 MB).', true);
-  var st = document.getElementById('comp-status'); st.textContent = 'Enviando…';
-  var ext = (f.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
-  var path = 'comprovantes/' + meuId + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
-  fetch(SB + '/storage/v1/object/wlr/' + path, {
-    method: 'POST',
-    headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': f.type || 'application/octet-stream' },
-    body: f
-  }).then(function (r) {
-    if (!r.ok) throw new Error('Falha no envio (' + r.status + ')');
-    var url = SB + '/storage/v1/object/public/wlr/' + path;
-    return rpc('wlr_set_comprovante', { p_participante: meuId, p_url: url }).then(function () {
-      meu.comprovante_url = url;
-      st.innerHTML = '✓ Comprovante enviado — aguardando confirmação.';
-      toast('Comprovante recebido! Obrigado. 🥂');
-    });
-  }).catch(function (e) { st.textContent = ''; toast(e.message, true); });
-}
-
 // ── público: carta + confirmados ─────────────────────────────────────────
 var vinhosCache = [];
 function renderVagas(vinhos) {
@@ -1150,11 +1002,6 @@ function refreshPublic() {
       mk.textContent = 'rumo a ' + meta;
     } else { mb.classList.add('hidden'); mk.classList.add('hidden'); }
     document.getElementById('st-gar').textContent = aprov.length;
-    document.getElementById('st-lit').textContent = fmtLitros(Math.round(litros * 100) / 100);
-    var comGarrafa = {};
-    aprov.forEach(function (g) { (g.membros || []).forEach(function (n) { comGarrafa[n] = true; }); if (!g.membros.length && g.sigla) comGarrafa[g.sigla] = true; });
-    var nCom = Object.keys(comGarrafa).length;
-    document.getElementById('st-media').textContent = nCom ? fmtLitros(Math.round(litros / nCom * 100) / 100) : '—';
     vinhosCache = vinhos;
     renderVagas(vinhos);
     var groups = document.getElementById('wine-groups'); groups.innerHTML = '';
@@ -1186,7 +1033,7 @@ function refreshPublic() {
               var r = document.createElement('div'); r.className = 'vrow';
               r.innerHTML = '<span class="vn">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</span>' +
                 '<span class="vq cl-p">' + esc([g.produtor, g.regiao].filter(Boolean).join(' · ')) + '</span>' +
-                '<span class="vf">' + esc(g.formato) + ' · ' + fmtLitros(g.litros) + ' L</span>' +
+                
                 '<span class="vq cl-q">' + esc(quem(g)) + (g.situacao !== 'aprovado' ? ' · ⏳' : '') + (g.selo && g.selo.resumo ? ' · ' + esc(g.selo.resumo) : '') + '</span>';
               lw.appendChild(r);
             });
@@ -1204,7 +1051,7 @@ function refreshPublic() {
                 : '<div class="join"><span class="vac">' + g.vagas_restantes + ' vaga' + (g.vagas_restantes > 1 ? 's' : '') + '</span> — <button class="linklike" onclick="pedirGarrafa(\'' + g.id + '\')">✋ pedir para dividir</button></div>';
             }
             var subt = [g.produtor, g.regiao].filter(Boolean).map(esc).join(' · ');
-            d.innerHTML = '<div class="fmt">' + esc(g.formato) + ' · ' + fmtLitros(g.litros) + ' L</div>' +
+            d.innerHTML = 
               (g.foto_url && g.foto_ok !== false ? '<img src="' + esc(g.foto_url) + '" alt="" style="float:right;height:96px;max-width:70px;object-fit:contain;margin:14px 0 6px 10px" onerror="this.remove()">' : '') +
               '<div class="nm">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
               (subt ? '<div class="pr">' + subt + '</div>' : '') +
@@ -1302,7 +1149,7 @@ function renderConfirmados() {
   }
   pessoas.forEach(function (p) {
     var mv = vinhosDe(p).map(function (g) {
-      return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : '') + ' (' + esc(g.formato) + ((g.vagas || 1) > 1 ? ' · 1/' + g.vagas : '') + ')';
+      return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : '');
     });
     var premios = vencedoresPorNome[p.nome] || [];
     var d = document.createElement('div'); d.className = 'person';
@@ -1340,9 +1187,6 @@ function numConta(lista, chave, rotulo) {
 function renderNumeros(vinhos) {
   numBars('num-tipos', numConta(vinhos.map(function (g) { return { t: tipoRotulo(g) }; }), 't'));
   numBars('num-paises', numConta(vinhos, 'pais', function (k) { return (FLAGS[k] ? FLAGS[k] + ' ' : '') + k; }));
-  var LITROS_FORMATO = { 'Magnum': 1.5, 'Double Magnum': 3, 'Jeroboam': 6, 'Salmanazar': 9 };
-  function tamanho(f) { if (LITROS_FORMATO[f]) return LITROS_FORMATO[f]; var m = String(f).match(/^([\d,.]+)\s*litros?/i); return m ? parseFloat(m[1].replace(',', '.')) : 99; }
-  numBars('num-formatos', numConta(vinhos, 'formato').sort(function (a, b) { return tamanho(a.label) - tamanho(b.label); }));
   var safras = {};
   vinhos.forEach(function (g) { var s = String(g.safra || '').trim(); var k = /^(19|20)\d{2}$/.test(s) ? s : 'NV'; safras[k] = (safras[k] || 0) + 1; });
   numCols('num-safras', Object.keys(safras).sort(function (a, b) { if (a === 'NV') return 1; if (b === 'NV') return -1; return Number(a) - Number(b); })
@@ -1368,7 +1212,7 @@ function renderResultados() {
       d.innerHTML = '<div class="cn">' + esc(c.nome) + '</div><div class="row"><div><span class="med">🏆</span><span class="w">' + esc(r.vinho) +
         (r.safra ? ' <span style="color:var(--gold)">' + esc(r.safra) + '</span>' : '') + '</span></div>' +
         '<span class="v">' + r.votos + ' voto' + (r.votos > 1 ? 's' : '') + '</span>' +
-        '<div class="mm">' + esc(r.formato) + ' — trazido por ' + esc((r.membros || []).join(', ')) + '</div></div>';
+        '<div class="mm">Trazido por ' + esc((r.membros || []).join(', ')) + '</div></div>';
       box.appendChild(d);
     });
   }).catch(function () { sec.classList.add('hidden'); });
@@ -1404,9 +1248,10 @@ function renderTeaser() {
     var el = document.createElement('div'); el.innerHTML = placaSVG(c.nome, c.tipo_filtro); box.appendChild(el);
   });
 }
-function renderRateioPublico() {
-  var el = document.getElementById('passo-rateio');
-  if (el && cfg && cfg.valor_rateio) el.innerHTML = '<strong>' + Number(cfg.valor_rateio).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) + ' por confrade</strong>';
+function renderCardapio() {
+  if (!cfg) return;
+  document.getElementById('valor-dia').textContent = cfg.valor_no_dia ? Number(cfg.valor_no_dia).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'a definir';
+  document.getElementById('cardapio-txt').textContent = cfg.cardapio || 'O cardápio será divulgado em breve.';
 }
 function renderPremios() {
   var sec = document.getElementById('premios-sec');
@@ -1422,8 +1267,7 @@ Promise.all([
   view('wlr_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : null; renderQuando(); modoFesta(); }).catch(function () { }),
   view('wlr_categorias_publicas').then(function (rows) { catsCache = rows || []; }).catch(function () { })
 ]).then(function () {
-  if (meu) renderPay();
-  renderTeaser(); renderPremios(); renderRateioPublico(); renderResultados(); loadVencedores();
+  renderTeaser(); renderPremios(); renderCardapio(); renderResultados(); loadVencedores();
   refreshPublic();
 });
 try {
@@ -1432,7 +1276,7 @@ try {
 loadMe();
 setInterval(function () {
   refreshPublic(); renderResultados();
-  view('wlr_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : cfg; renderQuando(); loadVencedores(); modoFesta(); }).catch(function () { });
+  view('wlr_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : cfg; renderQuando(); renderCardapio(); loadVencedores(); modoFesta(); }).catch(function () { });
 }, 60000);
 </script>
 </body>

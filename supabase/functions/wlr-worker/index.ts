@@ -80,7 +80,7 @@ function render(tipo: string, d: Record<string, any>, cfg: Cfg) {
         subject: "🍷 Presença confirmada — Magnum Fest Licínio Dias 2026",
         html: shell(cfg, `Presença confirmada, ${nome}!`, `
           <p>Anote: <strong>${esc(quando(cfg))}</strong>, no <strong>${local}</strong>.</p>
-          <p>É uma Magnum Fest: cada confrade leva no mínimo <strong>1,5 litro</strong> — uma Magnum. E cada vinho passa pelos critérios da MFLD (nota mínima de 95 pontos em Robert Parker, Wine Spectator ou James Suckling, ou preço de € 400 ou mais, entre outras regras).</p>
+          <p>É uma Magnum Fest: cada confrade leva <strong>uma Magnum (1,5 L)</strong>. Não há rateio antecipado — o restaurante cobra de cada um no dia. Cada vinho passa pelos critérios da MFLD (nota mínima de 95 pontos em Robert Parker, Wine Spectator ou James Suckling, ou preço de € 400 ou mais, entre outras regras).</p>
           <p>Registre a sua garrafa no painel: o sistema confere os critérios na hora e avisa se ela entra direto ou se vai para o conselho.</p>`, pid),
       };
     case "garrafa-registrada":
@@ -88,7 +88,7 @@ function render(tipo: string, d: Record<string, any>, cfg: Cfg) {
         subject: `🍷 ${String(d.vinho)} registrado — analisando os critérios`,
         html: shell(cfg, `Recebemos a sua garrafa, ${nome}`, `
           <p style="background:#FBF4F7;border:1px dashed #6C214C;padding:16px;text-align:center;font-size:17px">
-            <strong>${vinho}</strong><br><span style="font-size:13px;color:#6B5E65">${esc(d.formato)} · ${esc(d.litros)} L · ${esc(d.tipo)}</span></p>
+            <strong>${vinho}</strong><br><span style="font-size:13px;color:#6B5E65">${esc(d.tipo)}</span></p>
           <p>Estamos conferindo notas de crítica, preço e as demais regras da MFLD. Em alguns minutos o parecer aparece no seu painel e chega por e-mail.</p>`, pid),
       };
     case "parecer": {
@@ -170,7 +170,7 @@ function render(tipo: string, d: Record<string, any>, cfg: Cfg) {
     case "lembrete": {
       const gs = Array.isArray(d.garrafas) ? d.garrafas : [];
       const lista = gs.length
-        ? `<p>Suas garrafas:</p><ul>${gs.map((g: any) => `<li><strong>${esc(g.vinho)}${g.safra ? " " + esc(g.safra) : ""}</strong> (${esc(g.formato)}) — ${(SIT[g.situacao] ?? SIT.em_analise)[0]}</li>`).join("")}</ul>`
+        ? `<p>Suas garrafas:</p><ul>${gs.map((g: any) => `<li><strong>${esc(g.vinho)}${g.safra ? " " + esc(g.safra) : ""}</strong> — ${(SIT[g.situacao] ?? SIT.em_analise)[0]}</li>`).join("")}</ul>`
         : `<p style="color:#8A2A2A"><strong>Você ainda não registrou nenhuma garrafa</strong> — o mínimo é uma Magnum.</p>`;
       const M: Record<string, [string, string]> = {
         "1-mes": ["📅 Falta 1 mês — Magnum Fest Licínio Dias", `${nome}, falta um mês`],
@@ -179,7 +179,7 @@ function render(tipo: string, d: Record<string, any>, cfg: Cfg) {
       };
       const [assunto, titulo] = M[String(d.quando)] ?? M["1-mes"];
       return { subject: assunto, html: shell(cfg, titulo, `<p><strong>${esc(quando(cfg))}</strong> — ${local}.</p>${lista}
-        <p>Rateio: ${d.pago ? '<strong style="color:#2E7D4F">✓ pago</strong>' : '<strong style="color:#8A2A2A">pendente</strong>'}.</p>`, pid) };
+        ${cfg.valor_no_dia ? `<p>Valor por pessoa, pago no dia ao restaurante: <strong>${Number(cfg.valor_no_dia).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>.</p>` : ""}`, pid) };
     }
     default:
       return { subject: "Magnum Fest Licínio Dias 2026", html: shell(cfg, "Novidades", "<p>Acesse o site para ver as novidades.</p>", pid) };

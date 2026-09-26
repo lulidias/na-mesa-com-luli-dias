@@ -103,11 +103,9 @@ a{color:var(--wine-lt)}
 
   <div class="kpis">
     <div class="kpi"><div class="n" id="k-conf">—</div><div class="k">confirmados</div></div>
-    <div class="kpi"><div class="n" id="k-pagos">—</div><div class="k">pagos</div></div>
-    <div class="kpi"><div class="n" id="k-arrec">—</div><div class="k">arrecadado</div></div>
     <div class="kpi"><div class="n" id="k-aprov">—</div><div class="k">vinhos aprovados</div></div>
     <div class="kpi" id="k-fila-box"><div class="n" id="k-fila">—</div><div class="k">aguardando o conselho</div></div>
-    <div class="kpi"><div class="n" id="k-lit">—</div><div class="k">litros aprovados</div></div>
+    
   </div>
 
   <h2>Aguardando o conselho <small id="fila-sub"></small></h2>
@@ -120,7 +118,7 @@ a{color:var(--wine-lt)}
 
   <h2>Todas as garrafas</h2>
   <div class="tbl-wrap"><table>
-    <thead><tr><th>Vinho</th><th>Safra</th><th>Tipo</th><th>Formato</th><th>Confrade</th><th>Análise</th><th>Situação</th><th>Decisão</th><th>Foto</th><th></th></tr></thead>
+    <thead><tr><th>Vinho</th><th>Safra</th><th>Tipo</th><th>Confrade</th><th>Análise</th><th>Situação</th><th>Decisão</th><th>Foto</th><th></th></tr></thead>
     <tbody id="g-body"></tbody>
   </table></div>
 
@@ -128,14 +126,13 @@ a{color:var(--wine-lt)}
   <div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap">
     <input id="p-busca" placeholder="Buscar nome…" oninput="renderParts()">
     <select id="p-conf" onchange="renderParts()"><option value="">Todos os membros</option><option value="sim">Só confirmados</option><option value="nao">Só não confirmados</option></select>
-    <select id="p-pago" onchange="renderParts()"><option value="">Pagos e pendentes</option><option value="sim">Só pagos</option><option value="nao">Só pendentes</option></select>
     <span style="flex:1"></span>
     <input id="m-nome" placeholder="Novo membro (nome)" style="max-width:200px">
     <input id="m-prod" placeholder="Produtor de… (opcional)" style="max-width:180px">
     <button class="btn gold" onclick="addMembro()">Adicionar membro</button>
   </div>
   <div class="tbl-wrap"><table>
-    <thead><tr><th>Nome</th><th>Situação</th><th>WhatsApp</th><th>E-mail</th><th>Obs</th><th>Comprovante</th><th>Pago</th><th></th></tr></thead>
+    <thead><tr><th>Nome</th><th>Situação</th><th>WhatsApp</th><th>E-mail</th><th>Obs</th><th></th></tr></thead>
     <tbody id="p-body"></tbody>
   </table></div>
 
@@ -145,10 +142,8 @@ a{color:var(--wine-lt)}
     <div><label>Horário</label><select id="c-hora"><option value="false">A confirmar (não mostra a hora)</option><option value="true">Confirmado (mostra a hora)</option></select></div>
     <div><label>Local</label><input id="c-local" placeholder="Restaurante Ruizito"></div>
     <div><label>Endereço / detalhe</label><input id="c-local2" placeholder="Shopping RioMar · Recife"></div>
-    <div><label>Chave Pix</label><input id="c-chave" placeholder="chave Pix"></div>
-    <div><label>Nome do recebedor</label><input id="c-nome" placeholder="nome do titular"></div>
-    <div><label>Valor do rateio (R$)</label><input id="c-valor" inputmode="decimal" placeholder="ex.: 350"></div>
-    <div><label>E-mail de quem confere os Pix</label><input id="c-tes" placeholder="tesoureiro@email.com"></div>
+    <div><label>Valor por pessoa, pago no dia (R$)</label><input id="c-valor" inputmode="decimal" placeholder="ex.: 380 — vazio = a definir"></div>
+    <div style="grid-column:1/-1"><label>Cardápio (aparece no site como está escrito)</label><textarea id="c-cardapio" rows="6" style="width:100%;padding:10px 12px;border:1px solid var(--border);font-family:inherit;font-size:13px" placeholder="Entrada…&#10;Prato principal…&#10;Sobremesa…"></textarea></div>
     <div><label>RSVP</label><select id="c-aberto"><option value="true">Aberto</option><option value="false">Encerrado</option></select></div>
     <div><label>Votação</label><select id="c-votacao"><option value="false">Urna fechada</option><option value="true">Urna aberta</option></select></div>
     <div><label>Urna fecha automaticamente em</label><input type="datetime-local" id="c-urna"></div>
@@ -254,9 +249,8 @@ function refresh() {
     document.getElementById('c-hora').value = String(cfg.hora_confirmada === true);
     document.getElementById('c-local').value = cfg.local_nome || '';
     document.getElementById('c-local2').value = cfg.local_detalhe || '';
-    document.getElementById('c-chave').value = cfg.chave_pix || '';
-    document.getElementById('c-nome').value = cfg.nome_pix || '';
-    document.getElementById('c-valor').value = cfg.valor_rateio != null ? cfg.valor_rateio : '';
+    document.getElementById('c-valor').value = cfg.valor_no_dia != null ? cfg.valor_no_dia : '';
+    document.getElementById('c-cardapio').value = cfg.cardapio || '';
     document.getElementById('c-aberto').value = String(cfg.rsvp_aberto !== false);
     document.getElementById('c-votacao').value = String(cfg.votacao_aberta === true);
     document.getElementById('c-urna').value = localInput(cfg.urna_fecha_em);
@@ -283,7 +277,7 @@ function cardGarrafa(g) {
   var an = ANALISE[g.analise_status] || ['', 'pd'];
   return '<div class="gc' + (g.situacao === 'inapto' ? ' inapto' : '') + '" id="gc-' + g.id + '">' +
     '<div class="w">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
-    '<div class="m">' + esc([g.produtor, g.regiao, g.pais].filter(Boolean).join(' · ')) + ' · ' + esc(tipoRot(g)) + ' · ' + esc(g.formato) + '<br>🍷 ' + esc(dono(g)) + '</div>' +
+    '<div class="m">' + esc([g.produtor, g.regiao, g.pais].filter(Boolean).join(' · ')) + ' · ' + esc(tipoRot(g)) + '<br>🍷 ' + esc(dono(g)) + '</div>' +
     '<div class="res"><span class="tag ' + an[1] + '">' + an[0] + '</span> ' + esc(a.resumo || (g.analise_status === 'pendente' ? 'A análise automática ainda não rodou.' : '')) + '</div>' +
     (g.pedido_excecao ? '<div class="res" style="background:var(--gold-bg);padding:8px 10px">🙋 <strong>Pedido de exceção (6.1):</strong> ' + esc(a.motivo_excecao || 'sem justificativa') + '</div>' : '') +
     (crit ? '<table>' + crit + '</table>' : '') +
@@ -338,7 +332,7 @@ function renderGarrafas() {
     var an = ANALISE[g.analise_status] || ['', 'pd'], si = SITU[g.situacao] || ['', 'pd'];
     var tr = document.createElement('tr');
     tr.innerHTML = '<td><strong>' + esc(g.vinho) + '</strong><div style="font-size:11px;color:var(--ink-lt)">' + esc(g.produtor || '') + '</div></td>' +
-      '<td>' + esc(g.safra || '') + '</td><td>' + esc(tipoRot(g)) + '</td><td>' + esc(g.formato) + '</td>' +
+      '<td>' + esc(g.safra || '') + '</td><td>' + esc(tipoRot(g)) + '</td>' +
       '<td style="font-size:11px">' + esc(dono(g)) + (g.sigla ? ' <button class="del" style="color:var(--wine-lt)" onclick="definirDono(\'' + g.id + '\')">definir</button>' : '') + '</td>' +
       '<td><span class="tag ' + an[1] + '">' + an[0] + '</span>' + (g.analise && g.analise.publico && g.analise.publico.resumo ? '<div style="font-size:10px;color:var(--ink-lt);margin-top:3px">' + esc(g.analise.publico.resumo) + '</div>' : '') + '</td>' +
       '<td><span class="tag ' + si[1] + '">' + si[0] + '</span></td>' +
@@ -350,22 +344,17 @@ function renderGarrafas() {
 }
 function renderKPIs() {
   var conf = parts.filter(function (p) { return p.confirmado; });
-  var pagos = conf.filter(function (p) { return p.pago; }).length;
   var aprov = garrafas.filter(function (g) { return g.situacao === 'aprovado'; });
   var fila = garrafas.filter(function (g) { return g.situacao === 'em_analise'; }).length;
   var litros = 0; aprov.forEach(function (g) { litros += Number(g.litros); });
-  var valor = Number(cfg.valor_rateio || 0);
   document.getElementById('k-conf').textContent = conf.length + '/' + parts.length;
-  document.getElementById('k-pagos').textContent = pagos + '/' + conf.length;
-  document.getElementById('k-arrec').textContent = valor ? brl(pagos * valor) : '—';
   document.getElementById('k-aprov').textContent = aprov.length;
   document.getElementById('k-fila').textContent = fila;
   document.getElementById('k-fila-box').classList.toggle('alerta', fila > 0);
-  document.getElementById('k-lit').textContent = (Math.round(litros * 100) / 100).toLocaleString('pt-BR');
 }
 function renderParts() {
   var q = (document.getElementById('p-busca').value || '').toLowerCase();
-  var fc = document.getElementById('p-conf').value, fp = document.getElementById('p-pago').value;
+  var fc = document.getElementById('p-conf').value;
   var body = document.getElementById('p-body'); body.innerHTML = '';
   var temAprov = {}, temAlguma = {};
   garrafas.forEach(function (g) { (g.membros || []).forEach(function (n) { temAlguma[n] = true; if (g.situacao === 'aprovado') temAprov[n] = true; }); });
@@ -374,26 +363,19 @@ function renderParts() {
     if (q && p.nome.toLowerCase().indexOf(q) < 0) return;
     if (fc === 'sim' && !p.confirmado) return;
     if (fc === 'nao' && p.confirmado) return;
-    if (fp === 'sim' && !p.pago) return;
-    if (fp === 'nao' && p.pago) return;
     shown++;
     var tr = document.createElement('tr');
-    if (p.comprovante_url && !p.pago) tr.style.background = '#FFF6E0';
     if (!p.confirmado) tr.style.color = 'var(--ink-lt)';
     var zap = (p.whatsapp || '').replace(/\D/g, '');
     var sit = !p.confirmado ? '<span class="tag pd">não confirmou</span>'
-      : ((temAprov[p.nome] ? '🍾<span style="color:var(--ok)">✓</span>' : temAlguma[p.nome] ? '🍾⏳' : '🍾<span style="color:var(--warn)">✗</span>') + ' &nbsp;' +
-        (p.pago ? '💰<span style="color:var(--ok)">✓</span>' : (p.comprovante_url ? '💰⏳' : '💰<span style="color:var(--warn)">✗</span>')));
+      : ((temAprov[p.nome] ? '🍾<span style="color:var(--ok)">✓</span>' : temAlguma[p.nome] ? '🍾⏳' : '🍾<span style="color:var(--warn)">✗</span>')));
     tr.innerHTML =
       '<td><strong>' + esc(p.nome) + '</strong>' + (p.produtor_de ? '<div style="font-size:10px;color:var(--ink-lt)">produtor: ' + esc(p.produtor_de) + '</div>' : '') + '</td>' +
       '<td style="white-space:nowrap">' + sit + '</td>' +
       '<td>' + (zap ? '<a href="https://wa.me/55' + zap.replace(/^55/, '') + '" target="_blank">' + esc(p.whatsapp) + '</a>' : '') + '</td>' +
       '<td style="max-width:180px;overflow:hidden;text-overflow:ellipsis">' + esc(p.email || '') + '</td>' +
       '<td style="max-width:160px;font-size:11px;color:var(--ink-lt)">' + esc(p.obs || '') + '</td>' +
-      '<td>' + (p.comprovante_url ? '<a href="' + esc(p.comprovante_url) + '" target="_blank">ver</a>' : '—') + '</td>' +
-      '<td>' + (p.confirmado ? '<button class="pill ' + (p.pago ? 'ok' : 'no') + '"' + (p.comprovante_url && !p.pago ? ' style="background:var(--gold);color:#fff"' : '') + ' onclick="togglePago(\'' + p.id + '\',' + !p.pago + ')">' + (p.pago ? '✓ Pago' : (p.comprovante_url ? 'Confirmar' : 'Pendente')) + '</button>' : '') + '</td>' +
       '<td style="white-space:nowrap">' +
-      (p.confirmado && !p.pago && zap && cfg.valor_rateio ? '<a class="zap" target="_blank" href="' + zapCobranca(p) + '">💬 Cobrar</a><br>' : '') +
       (p.confirmado && !temAlguma[p.nome] && zap ? '<a class="zap" target="_blank" href="' + zapGarrafa(p) + '">🍾 Magnum</a><br>' : '') +
       (!p.confirmado ? '<a class="zap" target="_blank" href="' + zapConvite(p) + '">💬 Convidar</a>' : '<button class="del" onclick="removeP(\'' + p.id + '\',\'' + js(esc(p.nome)) + '\')">desconfirmar</button>') + '</td>';
     body.appendChild(tr);
@@ -438,9 +420,6 @@ function saveCfg() {
   var meta = parseInt(document.getElementById('c-meta').value, 10);
   rpc('wlr_admin_config', {
     p_token: TOKEN,
-    p_chave_pix: document.getElementById('c-chave').value.trim() || null,
-    p_nome_pix: document.getElementById('c-nome').value.trim() || null,
-    p_valor: isNaN(valor) ? null : valor,
     p_aberto: document.getElementById('c-aberto').value === 'true',
     p_votacao: document.getElementById('c-votacao').value === 'true',
     p_resultados: document.getElementById('c-resultados').value === 'true',
@@ -451,7 +430,8 @@ function saveCfg() {
     p_local_nome: document.getElementById('c-local').value,
     p_local_detalhe: document.getElementById('c-local2').value,
     p_urna_fecha_em: fromLocalInput(document.getElementById('c-urna').value),
-    p_email_tesoureiro: document.getElementById('c-tes').value.trim()
+    p_valor_no_dia: isNaN(valor) ? 0 : valor,
+    p_cardapio: document.getElementById('c-cardapio').value
   }).then(function () { toast('Configuração salva.'); return refresh(); })
     .catch(function (e) { toast(e.message, true); })
     .then(function () { btn.disabled = false; btn.textContent = 'Salvar'; });
@@ -544,10 +524,10 @@ function renderResultados() {
   }).join('');
 }
 function exportCSV() {
-  var rows = [['Nome', 'Confirmado', 'WhatsApp', 'Email', 'Pago', 'Obs', 'Vinhos']];
+  var rows = [['Nome', 'Confirmado', 'WhatsApp', 'Email', 'Obs', 'Vinhos']];
   parts.forEach(function (p) {
     var vs = garrafas.filter(function (g) { return (g.membros || []).indexOf(p.nome) >= 0; }).map(function (g) { return g.vinho + ' ' + (g.safra || '') + ' [' + g.situacao + ']'; }).join(' / ');
-    rows.push([p.nome, p.confirmado ? 'sim' : 'não', p.whatsapp || '', p.email || '', p.pago ? 'sim' : 'não', p.obs || '', vs]);
+    rows.push([p.nome, p.confirmado ? 'sim' : 'não', p.whatsapp || '', p.email || '', p.obs || '', vs]);
   });
   var csv = rows.map(function (r) { return r.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(';'); }).join('\n');
   var a = document.createElement('a');
