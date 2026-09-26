@@ -56,7 +56,7 @@ Depois de qualquer inserção: colapsar `,,` → `,` e validar com **`Array.from
 - `fotos/<pais>/<slug>-N.jpeg` — fotos, com `PHOTOS` a dizer quantas há.
 - `admin/` — painel + `worker.js` (Cloudflare Worker `luli-admin`): `/enrich` (Claude API), `/publish` (commit no GitHub), `/register` (cadastro), D1 `lulidias-db`, Stripe, cron diário 09:00 UTC que sincroniza Mailchimp → D1. **O D1 é a fonte de verdade dos inscritos**, não o Mailchimp.
 - `confras/` — Confra das Confras 2026 (RSVP, votação, telão, placas), sobre Supabase `confras_*`.
-- `wlr/` — Magnum Fest Licínio Dias 2026 da Wine Lovers Recife (clone do Confras com a marca da WLR), Supabase `wlr_*` + edge function `wlr-worker`, que analisa cada vinho pelos critérios da MFLD. Vai migrar para `wineloversrecife.com.br`: ver `wlr/README.md`. Skill local `/wlr-vinhos`.
+- `wlr/` — Magnum Fest Licínio Dias 2026 da Wine Lovers Recife (clone do Confras com a marca da WLR), Supabase `wlr_*` + edge function `wlr-worker`, que analisa cada vinho pelos critérios da MFLD. Publicado em **wineloversrecife.com** (projeto Pages `wineloversrecife`, saída `wlr`); `lulidias.com/wlr` redireciona para lá. Ver `wlr/README.md`. Skill local `/wlr-vinhos`.
 - `tito/` — os 13 estabelecimentos `c:"tito"` **não pertencem a este guia**; são do Tito Dias e vão sair para um guia próprio.
 - `scripts/` — `build-counts.js`, `sync-stats-bars.js`, `generate-search.js`, `novo-pais.sh`.
 - `supabase/migrations/` — SQL do Confras.

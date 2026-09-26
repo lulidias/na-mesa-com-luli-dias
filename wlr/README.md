@@ -7,11 +7,10 @@ Site da festa da Wine Lovers Recife (11/12/2026, Restaurante Ruizito, Shopping R
 - `votar/`, `telao.html`, `telao2/`: urna e telões da noite. `cartao.html` e `premio.html` geram as imagens para o WhatsApp. `placa-print.html` é a placa de 15×20 cm.
 - Backend: Supabase `saotncritqxuchsvvnzi`, tabelas `wlr_*` (migrações `supabase/migrations/20260925*_wlr*.sql`) e a edge function `wlr-worker` (e-mails, fotos do Vivino e análise dos critérios com a Claude API; as regras ficam em `criterios.ts`).
 
-## Mudar para wineloversrecife.com.br
+## Domínio próprio: wineloversrecife.com (26/09/2026)
 
-Todos os links do site são relativos: a pasta funciona tanto em `lulidias.com/wlr/` quanto na raiz de outro domínio. Quando o domínio estiver registrado:
-
-1. No Cloudflare, criar um projeto Pages novo a partir deste mesmo repo, com **diretório de saída `wlr`**, e ligar o domínio `wineloversrecife.com.br` a ele.
-2. Em produção: `update wlr_config set site_url = 'https://wineloversrecife.com.br/'` (é o endereço usado nos links dos e-mails).
-3. Trocar `og:url` e `og:image` no `<head>` do `index.html` para o domínio novo.
-4. Em `lulidias.com`, redirecionar `/wlr/*` para o domínio novo (regra de redirect no Cloudflare), para os links antigos continuarem valendo.
+- Projeto Cloudflare Pages **`wineloversrecife`**, do mesmo repo, com **saída `wlr`** (publica só esta pasta) e os domínios `wineloversrecife.com` e `www.wineloversrecife.com`. Cada push em `main` atualiza os dois endereços.
+- `wlr_config.site_url = https://wineloversrecife.com/` (links dos e-mails).
+- Quem abre `lulidias.com/wlr/...` é levado por script para `wineloversrecife.com/...`, com o mesmo caminho, `?id=` e `?t=`.
+- O Pages serve `admin.html` como `/admin` (redireciona sozinho, mantendo o `?t=`).
+- O domínio foi comprado na Cloudflare (conta do Luli). Para passar à confraria: transferir entre contas Cloudflare.
