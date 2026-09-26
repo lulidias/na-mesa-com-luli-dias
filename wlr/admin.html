@@ -410,6 +410,10 @@ function renderAcesso() {
   var el = document.getElementById('acesso-box'); if (!el) return;
   el.innerHTML = '<strong>' + (cfg.acesso_restrito ? '🔒 Site fechado — só entra quem estiver na lista' : '🔓 Site aberto a qualquer pessoa com o link') + '</strong><br>' +
     com + ' de ' + parts.length + ' membros com o WhatsApp do grupo cadastrado.' +
+    (function () {
+      var sem = parts.filter(function (p) { return !p.whatsapp_lista; }).map(function (p) { return p.nome; });
+      return sem.length ? '<br><span style="color:var(--warn)">⚠ Sem WhatsApp: <strong>' + sem.map(esc).join(', ') + '</strong> — preencha na coluna "WhatsApp do grupo" abaixo.</span>' : '';
+    })() +
     (mestre ? ' <button class="btn ' + (cfg.acesso_restrito ? 'ghost' : 'gold') + '" style="margin-left:10px" onclick="alternaAcesso(' + !cfg.acesso_restrito + ',' + com + ')">' + (cfg.acesso_restrito ? 'Abrir o site' : 'Fechar para os membros') + '</button>' : '');
 }
 function alternaAcesso(ligar, com) {
