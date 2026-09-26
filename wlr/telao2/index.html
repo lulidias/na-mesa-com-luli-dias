@@ -110,7 +110,7 @@ function entrar() {
 function tick() {
   Promise.all([
     rpc('wlr_admin_quem_votou', { p_token: TOKEN }),
-    view('wlr_confirmados'),
+    rpc('wlr_admin_lista', { p_token: TOKEN }).then(function (r) { return (r || []).filter(function (p) { return p.confirmado; }); }),
     view('wlr_config_publica')
   ]).then(function (res) {
     var votaram = (res[0] || []).map(function (r) { return r.nome; });

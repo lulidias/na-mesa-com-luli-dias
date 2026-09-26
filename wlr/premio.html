@@ -179,7 +179,7 @@ Promise.all([
   document.fonts.load('500 27px Montserrat')
 ]).then(function () {
   if (params.get('demo')) {
-    premios = [{ categoria: 'Melhor Vinho da Noite', vinho: 'Château Cos d\'Estournel', safra: '1991', formato: 'Magnum', membros: ['Marco Filho'] },
+    premios = [{ categoria: 'Melhor Vinho', vinho: 'Château Cos d\'Estournel', safra: '1991', formato: 'Magnum', membros: ['Marco Filho'] },
                { categoria: 'Melhor Tinto', vinho: 'Insignia', safra: '2006', formato: 'Magnum', membros: ['João Loyo'] }];
     mostra(0); document.title = 'pronto'; return;
   }

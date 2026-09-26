@@ -228,6 +228,9 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 .passos-rsvp .pr.on b{background:var(--wine-lt);color:#fff}
 .bloco-t{font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--wine);display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);padding-bottom:10px}
 .bloco-t b{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--wine-lt);color:#fff;align-items:center;justify-content:center;font-size:11px}
+#porta{display:none}
+body.fechado #porta{display:block}
+body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado #festa-hero{display:none !important}
 .hidden{display:none !important}
 .painel-btn{position:fixed;top:16px;right:16px;z-index:1500;background:var(--wine-lt);color:#fff;border:1px solid var(--wine-lt);padding:11px 20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-family:'Montserrat',sans-serif;transition:all .3s;box-shadow:0 4px 18px rgba(0,0,0,.25)}
 .painel-btn:hover{background:var(--wine)}
@@ -288,6 +291,14 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     <div class="cnt"><div class="n" id="cd-s">—</div><div class="l2">seg</div></div>
   </div>
   <a class="cta" href="#rsvp" id="cta-btn">Confirmar presença</a>
+  <div id="porta">
+    <div style="font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--wine-lt);font-weight:600;margin-top:40px">Acesso exclusivo dos membros</div>
+    <p class="it" style="font-size:18px;color:var(--ink-lt);margin:10px auto 16px;max-width:420px">Digite o seu WhatsApp — o mesmo do grupo da Wine Lovers Recife.</p>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:420px;margin:0 auto">
+      <input class="f-input" id="porta-zap" placeholder="(81) 9 0000-0000" inputmode="tel" style="flex:1;min-width:200px;text-align:center" onkeydown="if(event.key==='Enter')entrarSite()">
+      <button class="btn gold" id="porta-btn" onclick="entrarSite()">Entrar</button>
+    </div>
+  </div>
   <div id="festa-hero" class="hidden" style="margin-top:8px"></div>
 </header>
 
@@ -661,7 +672,7 @@ setInterval(function () {
 
 // ── RSVP ─────────────────────────────────────────────────────────────────
 function loadMembros() {
-  return view('wlr_membros').then(function (rows) {
+  return rpc('wlr_p_membros', { p_id: meuId }).then(function (rows) {
     var sel = document.getElementById('f-nome');
     membrosConf = {};
     (rows || []).forEach(function (m) { membrosConf[m.nome] = m.confirmado; });
@@ -670,7 +681,31 @@ function loadMembros() {
     }).join('');
   }).catch(function () { toast('Não consegui carregar a lista de membros. Recarregue a página.', true); });
 }
-var membrosConf = {};
+var membrosConf = {}, membroNome = '';
+function fechado() { return !!(cfg && cfg.acesso_restrito && !meuId); }
+function travaNome() {
+  if (!membroNome) return;
+  var sel = document.getElementById('f-nome');
+  if (![].some.call(sel.options, function (o) { return o.value === membroNome; })) {
+    var o = document.createElement('option'); o.value = membroNome; o.textContent = membroNome; sel.appendChild(o);
+  }
+  sel.value = membroNome; sel.disabled = true;
+  var z = ''; try { z = localStorage.getItem('wlr_zap') || ''; } catch (e) { }
+  if (z && !document.getElementById('f-zap').value) document.getElementById('f-zap').value = z;
+  nomeChange();
+}
+function entrarSite() {
+  var zap = document.getElementById('porta-zap').value.trim();
+  if (!zap) return toast('Digite o seu WhatsApp.', true);
+  var btn = document.getElementById('porta-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
+  rpc('wlr_acesso', { p_whatsapp: zap }).then(function (id) {
+    try { localStorage.setItem('wlr_id', id); localStorage.setItem('wlr_zap', zap); } catch (e) { }
+    location.reload();
+  }).catch(function (e) { toast(e.message, true); btn.disabled = false; btn.textContent = 'Entrar'; });
+}
+function aplicaPorta() {
+  document.body.classList.toggle('fechado', fechado());
+}
 function rotuloBotao() {
   var n = document.getElementById('f-nome').value;
   if (editandoId) return 'Salvar alterações';
@@ -738,12 +773,11 @@ function entrarPainel() {
   var zap = document.getElementById('entrar-zap').value.trim();
   if (!zap) return toast('Digite o seu WhatsApp.', true);
   var btn = document.getElementById('entrar-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
-  rpc('wlr_entrar', { p_whatsapp: zap })
+  rpc('wlr_acesso', { p_whatsapp: zap })
     .then(function (id) {
-      meuId = id; try { localStorage.setItem('wlr_id', id); } catch (e) { }
-      document.getElementById('entrar-modal').classList.add('hidden');
-      toast('Bem-vindo de volta! 🥂');
-      return loadMe().then(function () { location.hash = '#rsvp'; });
+      try { localStorage.setItem('wlr_id', id); localStorage.setItem('wlr_zap', zap); } catch (e) { }
+      location.hash = '#rsvp'; location.reload();
+      return;
     })
     .catch(function (e) { toast(e.message, true); })
     .then(function () { btn.disabled = false; btn.textContent = 'Entrar'; });
@@ -757,7 +791,8 @@ function renderChips() {
   box.innerHTML = '<span class="chip ok">✓ Presença confirmada</span>' + gar;
 }
 function logoutMe() {
-  try { localStorage.removeItem('wlr_id'); } catch (e) { }
+  try { localStorage.removeItem('wlr_id'); localStorage.removeItem('wlr_zap'); } catch (e) { }
+  if (cfg && cfg.acesso_restrito) { location.reload(); return; }
   meuId = null; meu = null;
   document.getElementById('me-panel').classList.add('hidden');
   document.getElementById('form-panel').classList.remove('hidden');
@@ -773,7 +808,14 @@ function logoutMe() {
 function loadMe() {
   if (!meuId) return Promise.resolve();
   return rpc('wlr_meu', { p_id: meuId }).then(function (rows) {
-    if (!rows || !rows.length) { logoutMe(); return; }
+    if (!rows || !rows.length) {
+      // membro que entrou pelo WhatsApp da lista mas ainda não confirmou: mantém a sessão e já escolhe o nome
+      return rpc('wlr_quem', { p_id: meuId }).then(function (q) {
+        if (!q || !q.length) { logoutMe(); return; }
+        membroNome = q[0].nome;
+        travaNome();
+      });
+    }
     meu = rows[0];
     document.getElementById('form-panel').classList.add('hidden');
     document.getElementById('me-panel').classList.remove('hidden');
@@ -1037,7 +1079,8 @@ function selo(g) {
 }
 function quem(g) { return g.membros && g.membros.length ? g.membros.join(', ') : (g.sigla || '—'); }
 function refreshPublic() {
-  return Promise.all([view('wlr_vinhos_publico'), view('wlr_confirmados')]).then(function (res) {
+  if (fechado()) return Promise.resolve();
+  return Promise.all([rpc('wlr_p_vinhos', { p_id: meuId }), rpc('wlr_p_confirmados', { p_id: meuId })]).then(function (res) {
     var vinhos = res[0] || [], pessoas = res[1] || [];
     pessoas.sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt'); });
     var aprov = vinhos.filter(function (g) { return g.situacao === 'aprovado'; });
@@ -1274,7 +1317,7 @@ function renderResultados() {
 // ── placas das categorias ────────────────────────────────────────────────
 function placaSVG(nome, tipoFiltro) {
   var eFesta = !tipoFiltro;
-  var palavra = eFesta ? ['VINHO', 'DA NOITE'] : [String(tipoFiltro).toUpperCase().replace(' / DOCE', '')];
+  var palavra = eFesta ? ['VINHO'] : [String(tipoFiltro).toUpperCase().replace(' / DOCE', '')];
   var sans = "'Montserrat',Helvetica,sans-serif", serif = "'Cormorant Garamond',Georgia,serif";
   var cat = palavra.length === 2
     ? '<text x="85" y="150" text-anchor="middle" font-family="' + sans + '" font-weight="800" font-size="17" letter-spacing="1.5" fill="#FFFFFF">' + palavra[0] + '</text>' +
@@ -1315,9 +1358,8 @@ function renderPremios() {
 
 // ── init ─────────────────────────────────────────────────────────────────
 tipoChange();
-loadMembros();
 Promise.all([
-  view('wlr_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : null; renderQuando(); modoFesta(); }).catch(function () { }),
+  view('wlr_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : null; renderQuando(); modoFesta(); aplicaPorta(); if (!fechado()) return loadMembros().then(loadMe); }).catch(function () { }),
   view('wlr_categorias_publicas').then(function (rows) { catsCache = rows || []; }).catch(function () { })
 ]).then(function () {
   renderTeaser(); renderPremios(); renderCardapio(); renderResultados(); loadVencedores();
@@ -1326,7 +1368,6 @@ Promise.all([
 try {
   if (!sessionStorage.getItem('wlr_ping')) { sessionStorage.setItem('wlr_ping', '1'); rpc('wlr_ping', { p_participante: meuId || null }).catch(function () { }); }
 } catch (e) { }
-loadMe();
 setInterval(function () {
   refreshPublic(); renderResultados();
   view('wlr_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : cfg; renderQuando(); renderCardapio(); loadVencedores(); modoFesta(); }).catch(function () { });

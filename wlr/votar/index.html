@@ -91,7 +91,7 @@ function entrar() {
 
 function carrega() {
   Promise.all([
-    view('wlr_config_publica'), view('wlr_categorias_publicas'), view('wlr_vinhos_publico'),
+    view('wlr_config_publica'), view('wlr_categorias_publicas'), rpc('wlr_p_vinhos', { p_id: meuId || null }).catch(function () { return []; }),
     meuId ? rpc('wlr_meu', { p_id: meuId }) : Promise.resolve(null)
   ]).then(function (res) {
     var cfg = (res[0] || [])[0] || {};
