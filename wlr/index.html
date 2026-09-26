@@ -244,6 +244,9 @@ body.fechado #porta,body.porta-aberta #porta{display:block}
 .pt-linha{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:440px;margin:0 auto}
 .pt-linha .f-input{flex:1;min-width:200px;text-align:center}
 body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado #festa-hero{display:none !important}
+.inst-bloco{border:1px solid var(--border);padding:10px 14px}
+.inst-bloco.meu{border-color:var(--wine-lt);background:var(--gold-bg)}
+.inst-t{font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--wine-lt);margin-bottom:2px}
 .hidden{display:none !important}
 .painel-btn{position:fixed;top:16px;right:16px;z-index:1500;background:var(--wine-lt);color:#fff;border:1px solid var(--wine-lt);padding:11px 20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-family:'Montserrat',sans-serif;transition:all .3s;box-shadow:0 4px 18px rgba(0,0,0,.25)}
 .painel-btn:hover{background:var(--wine)}
@@ -571,17 +574,21 @@ body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado
     <img src="img/apple-touch-icon.png" alt="" style="width:72px;height:72px;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.15)">
     <h3 style="font-weight:800;font-size:17px;color:var(--wine);margin:14px 0 6px">Magnum Fest na tela de início</h3>
     <p style="font-size:12.5px;color:var(--ink-lt);line-height:1.6;margin-bottom:14px">Faça agora, com esta página aberta. O ícone já entra sem pedir o telefone.</p>
-    <div id="inst-ios" class="hidden" style="text-align:left;font-size:13.5px;line-height:1.9">
+    <div id="inst-pc" class="hidden" style="font-size:12.5px;line-height:1.6;background:var(--gold-bg);padding:8px 10px;margin-bottom:10px">Abra este site no <b>celular</b> e toque em <b>📲 Instalar no celular</b> por lá.</div>
+    <div id="inst-lista" style="display:flex;flex-direction:column;gap:12px">
+    <div id="inst-ios" class="inst-bloco" style="text-align:left;font-size:13.5px;line-height:1.9">
+      <div class="inst-t">🍎 iPhone</div>
       <b>1.</b> Toque em <b>Compartilhar</b> <span style="font-size:17px">⎋</span> (na barra do Safari)<br>
       <b>2.</b> Role e toque em <b>Adicionar à Tela de Início</b><br>
       <b>3.</b> Toque em <b>Adicionar</b>
     </div>
-    <div id="inst-android" class="hidden" style="text-align:left;font-size:13.5px;line-height:1.9">
+    <div id="inst-android" class="inst-bloco" style="text-align:left;font-size:13.5px;line-height:1.9">
+      <div class="inst-t">🤖 Android</div>
       <b>1.</b> Toque no menu <b>⋮</b> do Chrome<br>
       <b>2.</b> Toque em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b><br>
       <b>3.</b> Confirme
     </div>
-    <div id="inst-pc" class="hidden" style="font-size:13px;line-height:1.7">Abra este site no <b>celular</b> e toque em <b>📲 Instalar no celular</b> por lá.</div>
+    </div>
     <button class="btn" style="margin-top:18px;width:100%" onclick="document.getElementById('inst-modal').classList.add('hidden')">Entendi</button>
   </div>
 </div>
@@ -872,8 +879,11 @@ function addCalendario() {
 }
 function instalarApp() {
   var ios = /iPhone|iPad|iPod/.test(navigator.userAgent), android = /Android/.test(navigator.userAgent);
-  ['ios', 'android', 'pc'].forEach(function (k) { document.getElementById('inst-' + k).classList.add('hidden'); });
-  document.getElementById('inst-' + (ios ? 'ios' : android ? 'android' : 'pc')).classList.remove('hidden');
+  // as duas instruções sempre; a do aparelho da pessoa vem primeiro e destacada
+  var lista = document.getElementById('inst-lista'), bi = document.getElementById('inst-ios'), ba = document.getElementById('inst-android');
+  bi.classList.toggle('meu', ios); ba.classList.toggle('meu', android);
+  if (android) lista.insertBefore(ba, bi); else lista.insertBefore(bi, ba);
+  document.getElementById('inst-pc').classList.toggle('hidden', ios || android);
   document.getElementById('inst-modal').classList.remove('hidden');
   if (!ios && !android) return;
   // o ícone salvo abre este endereço: leva um token de uso único para o app entrar sozinho
