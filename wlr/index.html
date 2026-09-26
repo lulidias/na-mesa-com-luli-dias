@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
 <script>/* o site da festa mora em wineloversrecife.com — quem chegar pelo endereço antigo é levado para lá, com o mesmo caminho */
-if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wineloversrecife.com' + location.pathname.replace(/^\/wlr/, '') + location.search + location.hash);</script>
+if (location.hostname === 'www.wineloversrecife.com') location.replace('https://wineloversrecife.com' + location.pathname + location.search + location.hash);
+else if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wineloversrecife.com' + location.pathname.replace(/^\/wlr/, '') + location.search + location.hash);</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Magnum Fest Licínio Dias 2026 — Wine Lovers Recife</title>
@@ -316,7 +317,12 @@ body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado
     </div>
     <div id="pt-esp" class="hidden">
       <p class="it" style="font-size:19px;color:var(--wine);margin:10px auto 6px">📧 Confira o seu e-mail</p>
-      <p style="font-size:13px;color:var(--ink-lt);margin:0 auto 12px;max-width:440px;line-height:1.6">Enviamos um link para <strong id="pt-email-mask"></strong>. Toque em <strong>Aprovar este dispositivo</strong> — pode ser pelo celular — e esta tela entra sozinha.</p>
+      <p style="font-size:13px;color:var(--ink-lt);margin:0 auto 12px;max-width:440px;line-height:1.6">Enviamos um código para <strong id="pt-email-mask"></strong>. Digite-o aqui:</p>
+      <div style="display:flex;gap:8px;justify-content:center;margin:0 auto 12px;max-width:300px">
+        <input id="pt-codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="7" placeholder="000000" style="flex:1;min-width:0;text-align:center;font-size:22px;letter-spacing:6px;padding:10px;border:1px solid var(--border);font-family:inherit" onkeydown="if(event.key==='Enter')usarCodigo()" oninput="if(this.value.replace(/\D/g,'').length===6)usarCodigo()">
+        <button class="btn" id="pt-codigo-btn" onclick="usarCodigo()">Entrar</button>
+      </div>
+      <p style="font-size:12px;color:var(--ink-lt);max-width:440px;margin:0 auto 8px;line-height:1.6">Ou toque em <strong>Aprovar este dispositivo</strong> no e-mail.</p>
       <p style="font-size:12px;color:var(--ink-lt)"><span class="spin"></span>Aguardando a aprovação…</p>
       <p style="margin-top:12px"><button class="linklike" id="pt-reenviar" onclick="entrarSite(true)" disabled>Reenviar e-mail</button> &nbsp;·&nbsp; <button class="linklike" onclick="portaPasso('tel')">Usar outro número</button></p>
     </div>
@@ -608,11 +614,13 @@ if (_q.get('voltar')) { try { sessionStorage.setItem('wlr_voltar', _q.get('volta
 // segredo deste navegador: só ele, depois de aprovado por e-mail, recebe a sessão
 function meuDisp() {
   var d = ''; try { d = localStorage.getItem('wlr_disp') || ''; } catch (e) { }
+  if (d.length < 40) { var m = document.cookie.match(/(?:^|; )wlr_disp=([0-9a-f]{48})/); if (m) { d = m[1]; try { localStorage.setItem('wlr_disp', d); } catch (e) { } } }
   if (d.length < 40) {
     var b = new Uint8Array(24); (window.crypto || window.msCrypto).getRandomValues(b);
     d = Array.prototype.map.call(b, function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
     try { localStorage.setItem('wlr_disp', d); } catch (e) { }
   }
+  if (document.cookie.indexOf('wlr_disp=' + d) < 0) document.cookie = 'wlr_disp=' + d + '; max-age=34560000; path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : '');
   return d;
 }
 function meuAparelho() {
@@ -787,6 +795,17 @@ function trataPorta(r) {
     try { localStorage.setItem('wlr_zap', ptZap); } catch (e) { }
     ptTimer = setInterval(confereAprovacao, 3000);
   }
+}
+function usarCodigo() {
+  var el = document.getElementById('pt-codigo'), c = el.value.replace(/\D/g, ''), b = document.getElementById('pt-codigo-btn');
+  if (c.length !== 6) { toast(T('Digite os 6 números do e-mail'), true); return; }
+  if (b.disabled) return;
+  b.disabled = true; b.textContent = T('Entrando…');
+  rpc('wlr_porta_codigo', { p_whatsapp: ptZap, p_disp: meuDisp(), p_codigo: c, p_aparelho: meuAparelho() }).then(function (r) {
+    if (r && r.estado === 'ok') return entrou(r.id);
+    throw new Error((r && r.msg) || 'Código incorreto');
+  }).catch(function (e) { toast(T(e.message), true); el.value = ''; el.focus(); })
+    .then(function () { b.disabled = false; b.textContent = T('Entrar'); });
 }
 function confereAprovacao() {
   if (!ptZap) return;

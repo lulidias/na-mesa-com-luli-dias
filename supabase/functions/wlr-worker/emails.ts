@@ -197,7 +197,7 @@ export function monta(modelo: any, tipo: string, d: Dados, ctx: Ctx, l: Lang, ra
     n_magnums: String(ctx.vinhos.filter((v) => v.situacao === "aprovado").length),
     vinho: esc(`${d.vinho ?? ""}${d.safra ? " " + d.safra : ""}`), situacao: esc(sit(situacao, l)), resumo: esc(resumo),
     decisao: esc(d.decisao === "aprovado" ? x(l, "aprovou", "aprobó", "approved") : x(l, "não aprovou", "no aprobó", "did not approve")),
-    motivo: d.motivo ? esc(d.motivo) : "", por: esc(d.por ?? ""), aparelho: esc(d.aparelho || x(l, "um navegador", "un navegador", "a browser")), confrade: esc(d.confrade ?? ""), proximo_passo: esc(proximo),
+    motivo: d.motivo ? esc(d.motivo) : "", por: esc(d.por ?? ""), aparelho: esc(d.aparelho || x(l, "um navegador", "un navegador", "a browser")), confrade: esc(d.confrade ?? ""), proximo_passo: esc(proximo), codigo: esc(String(d.codigo ?? "")),
   };
   const blocos: Record<string, string> = {
     criterios: tabelaCriterios(crit), carta: blocoCarta(ctx, l), novidades: blocoNovidades(ctx, l),
@@ -306,7 +306,7 @@ export function exemplo(tipo: string, ctx: Ctx): Dados {
   ];
   const base: Dados = { nome: alguem.nome, participante_id: alguem.id, vinho: v.vinho, safra: v.safra, confrade: alguem.nome,
     criterios: crit, resumo: "Atende a todos os critérios da MFLD.", situacao: "aprovado" };
-  if (tipo === "aprovar-dispositivo") return { ...base, token: "…", aparelho: "iPhone · Safari" };
+  if (tipo === "aprovar-dispositivo") return { ...base, token: "…", codigo: "482915", aparelho: "iPhone · Safari" };
   if (tipo === "decisao-conselho") return { ...base, decisao: "aprovado", motivo: "Grande escolha — entra na carta.", por: "Gurgel" };
   if (tipo === "conselho-avaliar" || tipo === "pauta-conselho") return { ...base, nome: "Fernando Gurgel", conselheiro: "Fernando Gurgel", token: "…", situacao: "em_analise", resumo: "Brancos, espumantes e doces precisam do aval do conselho (cláusula 7.1)." };
   return base;
