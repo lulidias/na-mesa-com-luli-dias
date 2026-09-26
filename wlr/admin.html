@@ -68,6 +68,21 @@ input:focus{border-color:var(--wine-lt)}
 @media(max-width:900px){.ed-cols{grid-template-columns:1fr}}
 .ed-cols input,.ed-cols textarea{width:100%;font-family:'Montserrat',sans-serif;font-size:13px;padding:9px 11px;border:1px solid var(--border)}
 .ed-cols textarea{line-height:1.5;resize:vertical}
+.evm-grid{display:grid;grid-template-columns:170px 90px 150px 1fr 1fr;gap:10px}
+.evm-grid input,.evm-grid select{width:100%}
+.evm-sec{display:flex;gap:10px;align-items:center;margin:20px 0 10px;flex-wrap:wrap}
+.evm-sec strong{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt)}
+.evm-sec-box{border-top:1px solid var(--border);margin-top:18px}
+.evm-tab{max-height:52vh;overflow:auto}
+.evm-tab td{padding:4px 4px;vertical-align:middle}
+.evm-tab input,.evm-tab select{width:100%;padding:6px 7px;font-size:12px;border:1px solid var(--border)}
+.evm-tab tr.falta td{background:#FFF8EC}
+.evm-tab .q{width:120px}.evm-tab .v{min-width:240px}.evm-tab .p{width:140px}.evm-tab .sf{width:64px}.evm-tab .pa{width:110px}.evm-tab .rg{width:120px}.evm-tab .tp{width:120px}.evm-tab .uv{width:130px}
+.evm-alb{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px}
+.evm-alb div{position:relative}.evm-alb img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.evm-alb small{display:block;font-size:10px;color:var(--ink-lt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn.ghost-d{background:#fff;color:var(--wine-lt);border:1px solid var(--wine-lt)}
+@media(max-width:900px){.evm-grid{grid-template-columns:1fr 1fr}}
 .lb{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-lt);margin:12px 0 5px}
 .ajuda{font-size:10.5px;color:var(--ink-lt);line-height:1.7;margin-top:10px;background:var(--gold-bg);padding:9px 11px}
 .ed-prev{width:100%;height:72vh;border:1px solid var(--border);background:#F9F5F7}
@@ -193,12 +208,17 @@ a{color:var(--wine-lt)}
     <tbody id="cd-body"></tbody>
   </table></div>
 
-  <h2>Eventos <small id="ev-sub">— <a href="eventos/" target="_blank">wineloversrecife.com/eventos</a></small></h2>
-  <p style="font-size:11px;color:var(--ink-lt);margin-bottom:12px;line-height:1.6">Paralela, Ordinário e Os Velhinhos (a Magnum Fest fica em "Edições anteriores", abaixo). Garrafas uma por linha: <strong>SIGLA - Vinho safra</strong>. Se não souber a data exata, preencha só o ano. Garrafas novas entram no BI; país, região e tipo aparecem como "—" até serem classificadas.</p>
-  <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap"><select id="ev-filtro" onchange="desenhaEventos()"><option value="">Todos os tipos</option><option value="paralela">Paralela</option><option value="ordinario">Ordinário</option><option value="velhinhos">Os Velhinhos</option></select>
-    <button class="btn gold" onclick="abreEvento(null)">+ Novo evento</button></div>
+  <h2>Eventos <small id="ev-sub"></small></h2>
+  <p style="font-size:11px;color:var(--ink-lt);margin-bottom:12px;line-height:1.6">Todos os encontros da confraria: <strong>Magnum Fest, Paralela, Ordinário e Os Velhinhos</strong>. Em cada evento, as garrafas são cadastradas linha a linha, com quem levou, e classificadas (país, região, tipo, uva). É isso que alimenta os Números e o histórico de cada confrade. Dá também para colar uma lista inteira, e os vinhos que já apareceram antes são preenchidos sozinhos.</p>
+  <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
+    <select id="ev-filtro" onchange="desenhaEventos()"><option value="">Todos os tipos</option><option value="magnum">Magnum Fest</option><option value="ordinario">Ordinário</option><option value="paralela">Paralela</option><option value="velhinhos">Os Velhinhos</option></select>
+    <select id="ev-ano" onchange="desenhaEventos()"><option value="">Todos os anos</option></select>
+    <input id="ev-busca" placeholder="Buscar título, local, vinho, sigla…" oninput="desenhaEventos()" style="flex:1;min-width:180px">
+    <button class="btn gold" onclick="abreEvento('novo')">+ Novo evento</button>
+    <button class="btn gold" onclick="abreEvento('nova-mf')">+ Magnum Fest</button>
+  </div>
   <div class="tbl-wrap"><table>
-    <thead><tr><th>Ano</th><th>Tipo</th><th>Título</th><th>Data</th><th>Local</th><th>Garrafas</th><th>Fotos</th><th></th></tr></thead>
+    <thead><tr><th>Ano</th><th>Tipo</th><th>Título</th><th>Data</th><th>Local</th><th>Garrafas</th><th>Classificadas</th><th>Fotos</th><th></th></tr></thead>
     <tbody id="ev-body"></tbody>
   </table></div>
 
@@ -224,14 +244,7 @@ a{color:var(--wine-lt)}
     <button class="btn gold" onclick="novoPresidente()">+ Presidente</button>
   </div>
   <div id="pr-lista" style="display:flex;gap:14px;flex-wrap:wrap"></div>
-  <div style="display:flex;justify-content:space-between;align-items:center;margin:22px 0 10px;gap:10px;flex-wrap:wrap">
-    <strong style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt)">Edições anteriores</strong>
-    <button class="btn gold" onclick="abreEdicao(null)">+ Nova edição</button>
-  </div>
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Ano</th><th>Data</th><th>Local</th><th>Magnums</th><th>Foto</th><th></th></tr></thead>
-    <tbody id="cf-body"></tbody>
-  </table></div>
+  <table class="hidden"><tbody id="cf-body"></tbody></table>
 
   <div id="conselho-sec" class="hidden">
     <h2>O conselho <small>— links pessoais de acesso (só o organizador vê)</small></h2>
@@ -320,20 +333,45 @@ a{color:var(--wine-lt)}
 </div>
 
 <div class="modal hidden" id="evm">
-  <div class="modal-box" style="max-width:720px">
-    <div class="modal-top"><strong id="evm-titulo">Evento</strong><button class="del" onclick="fechaModal('evm')">fechar ✕</button></div>
-    <div class="ed-cols" style="display:block">
-      <div style="display:grid;grid-template-columns:1fr 100px 1fr;gap:10px">
-        <div><label class="lb">Tipo</label><select id="evm-tipo" style="width:100%"><option value="ordinario">Ordinário</option><option value="paralela">Paralela</option><option value="velhinhos">Os Velhinhos</option></select></div>
-        <div><label class="lb">Ano</label><input id="evm-ano" inputmode="numeric" maxlength="4"></div>
-        <div><label class="lb">Data (se souber)</label><input id="evm-data" type="date"></div>
-      </div>
-      <label class="lb">Título</label><input id="evm-tit" placeholder="ex.: Chile, Portugal, Supertoscanos e Barolo…">
-      <label class="lb">Local</label><input id="evm-local">
-      <label class="lb">Texto (opcional)</label><textarea id="evm-texto" rows="3"></textarea>
-      <label class="lb">Garrafas — uma por linha: SIGLA - Vinho safra</label><textarea id="evm-vinhos" rows="12" placeholder="AMN - Château … 2005&#10;AA - …"></textarea>
-      <div style="margin-top:16px;display:flex;gap:8px;align-items:center"><button class="btn gold" id="evm-salvar" onclick="salvaEvento()">Salvar evento</button><span id="evm-st" style="font-size:11px;color:var(--ink-lt)"></span></div>
+  <div class="modal-box" style="max-width:1180px">
+    <div class="modal-top"><strong id="evm-titulo">Evento</strong><button class="del" onclick="fechaEvento()">fechar ✕</button></div>
+    <div class="evm-grid">
+      <div><label class="lb">Tipo</label><select id="evm-tipo" onchange="tipoEvento()"><option value="magnum">Magnum Fest</option><option value="ordinario">Ordinário</option><option value="paralela">Paralela</option><option value="velhinhos">Os Velhinhos</option></select></div>
+      <div><label class="lb">Ano</label><input id="evm-ano" inputmode="numeric" maxlength="4"></div>
+      <div><label class="lb">Data (se souber)</label><input id="evm-data" type="date"></div>
+      <div class="evm-tit"><label class="lb">Título</label><input id="evm-tit" placeholder="ex.: Chile, Portugal, Supertoscanos e Barolo…"></div>
+      <div><label class="lb">Local</label><input id="evm-local" placeholder="ex.: Restaurante Ruizito"></div>
     </div>
+    <label class="lb">Texto (opcional)</label><textarea id="evm-texto" rows="2" style="width:100%"></textarea>
+
+    <div class="evm-sec"><strong>Garrafas</strong> <span id="evm-conta"></span>
+      <span style="flex:1"></span>
+      <button class="btn ghost-d" onclick="document.getElementById('evm-colar-box').classList.toggle('hidden')">Colar lista</button>
+      <button class="btn gold" onclick="novaLinha()">+ Garrafa</button></div>
+    <div id="evm-colar-box" class="hidden" style="margin-bottom:10px">
+      <textarea id="evm-colar" rows="6" style="width:100%" placeholder="Uma garrafa por linha:&#10;AMN - Château Léoville-Poyferré 1995&#10;AA - Barca Velha 1964 / Tokaji Szamoradni 1981   (duas garrafas na mesma linha: separe com / ou &quot; e &quot;)"></textarea>
+      <button class="btn gold" style="margin-top:6px" onclick="colarLista()">Transformar em garrafas</button>
+      <span style="font-size:11px;color:var(--ink-lt)">As linhas entram no fim da tabela. Vinhos já conhecidos vêm classificados.</span>
+    </div>
+    <div class="tbl-wrap evm-tab"><table>
+      <thead><tr><th>#</th><th>Quem levou</th><th>Vinho (como aparece no site)</th><th>Produtor</th><th>Safra</th><th>País</th><th>Região</th><th>Tipo</th><th>Uva / corte</th><th></th></tr></thead>
+      <tbody id="evm-linhas"></tbody>
+    </table></div>
+    <datalist id="dl-siglas"></datalist><datalist id="dl-regioes"></datalist><datalist id="dl-uvas"></datalist><datalist id="dl-produtores"></datalist>
+
+    <div id="evm-fotos-mf" class="evm-sec-box">
+      <div class="evm-sec"><strong>Foto do grupo</strong> <span style="font-size:11px;color:var(--ink-lt)">aparece sempre primeiro na edição</span></div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><img id="evm-foto-prev" alt="" style="width:200px;aspect-ratio:16/9;object-fit:cover;background:#f3ecef;display:none">
+        <input type="file" id="evm-foto" accept="image/*" onchange="fotoEvento(this)"><button class="del" id="evm-foto-rm" onclick="tiraFotoEvento()" style="display:none">remover</button>
+        <button class="btn ghost-d" id="evm-galeria" onclick="abreGaleriaMF()">Outras fotos oficiais…</button></div>
+    </div>
+    <div class="evm-sec-box"><div class="evm-sec"><strong>Álbum dos confrades</strong> <span id="evm-alb-n" style="font-size:11px;color:var(--ink-lt)"></span><span style="flex:1"></span>
+      <label class="btn gold" id="evm-alb-add">📷 Adicionar fotos<input type="file" accept="image/*" multiple hidden onchange="albumAdmEnvia(this)"></label></div>
+      <div id="evm-alb-st" style="font-size:12px;margin-bottom:8px"></div>
+      <div id="evm-alb" class="evm-alb"></div></div>
+
+    <div style="margin-top:18px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button class="btn gold" id="evm-salvar" onclick="salvaEvento()">Salvar evento</button>
+      <span id="evm-st" style="font-size:11px;color:var(--ink-lt)"></span></div>
   </div>
 </div>
 
@@ -856,51 +894,230 @@ function apagaConfrade(id) {
   rpc('wlr_admin_confrade_apagar', { p_token: TOKEN, p_confrade: id }).then(function () { toast('Apagado.'); return loadConfrades(); }).catch(function (e) { toast(e.message, true); });
 }
 
-// ── eventos (paralela, ordinário, os velhinhos) e moderação do álbum ─────────
-var eventos = [], evAtual = null, fotosPorRef = {};
-var TIPO_EV = { paralela: 'Paralela', ordinario: 'Ordinário', velhinhos: 'Os Velhinhos' };
+// ── eventos: lista única (Magnum Fest + paralela/ordinário/velhinhos) e editor completo ──
+var MAG = [], EVS = [], SIGLAS_ADM = [], CONHECIDOS = {}, evAtual = null, fotoEv = null, fotosPorRef = {};
+var eventos = EVS;   // (a moderação do álbum usa os títulos)
+var TIPO_EV = { magnum: 'Magnum Fest', paralela: 'Paralela', ordinario: 'Ordinário', velhinhos: 'Os Velhinhos' };
+var PAISES = [['FR', 'França'], ['PT', 'Portugal'], ['ES', 'Espanha'], ['IT', 'Itália'], ['US', 'Estados Unidos'], ['AR', 'Argentina'], ['CL', 'Chile'], ['UY', 'Uruguai'],
+  ['AU', 'Austrália'], ['NZ', 'Nova Zelândia'], ['ZA', 'África do Sul'], ['DE', 'Alemanha'], ['AT', 'Áustria'], ['HU', 'Hungria'], ['BR', 'Brasil'], ['GR', 'Grécia'], ['LB', 'Líbano'], ['IL', 'Israel']];
+var TIPOS_V = [['tinto', 'Tinto'], ['branco', 'Branco'], ['espumante', 'Espumante'], ['espumante rosé', 'Espumante rosé'], ['rosé', 'Rosé'], ['fortificado', 'Fortificado'], ['doce', 'Doce']];
+function chaveVinho(v) { return String(v || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\b(19|20)\d\d\b/g, '').replace(/\([^)]*\)/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim(); }
+function linhasTxt(t) {
+  return String(t || '').split(/\n/).map(function (l) { return l.trim(); }).filter(Boolean).map(function (l) {
+    var i = l.indexOf(' - '); return i > 0 ? { s: l.slice(0, i).trim(), v: l.slice(i + 3).trim() } : { s: '', v: l };
+  });
+}
 function loadEventos() {
-  return rpc('wlr_admin_eventos', { p_token: TOKEN }).then(function (l) { eventos = l || []; desenhaEventos(); }).catch(function (e) { toast(e.message, true); });
+  return Promise.all([rpc('wlr_admin_todos_eventos', { p_token: TOKEN }), rpc('wlr_admin_siglas', { p_token: TOKEN })]).then(function (r) {
+    MAG = (r[0] && r[0].magnum) || []; EVS = (r[0] && r[0].eventos) || []; eventos = EVS; SIGLAS_ADM = r[1] || [];
+    // tudo o que já foi classificado vira sugestão (produtor, país, região, tipo, uva)
+    CONHECIDOS = {}; var regs = {}, uvas = {}, prods = {};
+    MAG.concat(EVS).forEach(function (e) { (e.dados || []).forEach(function (d) {
+      var k = chaveVinho(d.v); if (k && d.pais && !CONHECIDOS[k]) CONHECIDOS[k] = d;
+      if (d.regiao) regs[d.regiao] = 1; if (d.uva) uvas[d.uva] = 1; if (d.produtor) prods[d.produtor] = 1;
+    }); });
+    document.getElementById('dl-siglas').innerHTML = SIGLAS_ADM.map(function (x) { return '<option value="' + esc(x.sigla) + '">' + esc(x.nome) + '</option>'; }).join('');
+    document.getElementById('dl-regioes').innerHTML = Object.keys(regs).sort().map(function (x) { return '<option value="' + esc(x) + '">'; }).join('');
+    document.getElementById('dl-uvas').innerHTML = Object.keys(uvas).sort().map(function (x) { return '<option value="' + esc(x) + '">'; }).join('');
+    document.getElementById('dl-produtores').innerHTML = Object.keys(prods).sort().map(function (x) { return '<option value="' + esc(x) + '">'; }).join('');
+    var anos = {}; MAG.concat(EVS).forEach(function (e) { if (e.ano) anos[e.ano] = 1; });
+    var sel = document.getElementById('ev-ano'), atual = sel.value;
+    sel.innerHTML = '<option value="">Todos os anos</option>' + Object.keys(anos).sort().reverse().map(function (a) { return '<option' + (a === atual ? ' selected' : '') + '>' + a + '</option>'; }).join('');
+    desenhaEventos();
+  }).catch(function (e) { toast(e.message, true); });
+}
+function todosEventos() {
+  return MAG.map(function (m) { return { chave: 'mf-' + m.ano, tipo: 'magnum', ano: m.ano, data: m.data, titulo: 'Magnum Fest', local: m.local, texto: m.texto, vinhos: m.vinhos, dados: m.dados, fotos: (m.n_album || 0) + (m.n_galeria || 0) + (m.tem_foto ? 1 : 0), mf: m }; })
+    .concat(EVS.map(function (e) { return { chave: 'ev-' + e.id, tipo: e.tipo, ano: e.ano, data: e.data, titulo: e.titulo, local: e.local, texto: e.texto, vinhos: e.vinhos, dados: e.dados, fotos: e.n_album || 0, ev: e }; }))
+    .sort(function (a, b) { return (b.ano || 0) - (a.ano || 0) || String(b.data || '').localeCompare(String(a.data || '')) || (a.tipo === 'magnum' ? -1 : 1); });
 }
 function desenhaEventos() {
-  var f = document.getElementById('ev-filtro').value;
-  var L = eventos.filter(function (e) { return !f || e.tipo === f; });
+  var ft = document.getElementById('ev-filtro').value, fa = document.getElementById('ev-ano').value, q = (document.getElementById('ev-busca').value || '').toLowerCase();
+  var L = todosEventos().filter(function (e) {
+    if (ft && e.tipo !== ft) return false; if (fa && String(e.ano) !== fa) return false;
+    return !q || [e.titulo, e.local, e.vinhos, e.texto].join(' ').toLowerCase().indexOf(q) >= 0;
+  });
+  document.getElementById('ev-sub').innerHTML = '— ' + MAG.length + ' Magnum Fests e ' + EVS.length + ' outros encontros · <a href="eventos/" target="_blank">ver no site</a>';
   document.getElementById('ev-body').innerHTML = L.map(function (e) {
-    var n = String(e.vinhos || '').split('\n').filter(function (x) { return x.trim(); }).length;
-    return '<tr><td><strong>' + (e.ano || '—') + '</strong></td><td>' + esc(TIPO_EV[e.tipo] || e.tipo) + '</td><td>' + esc(e.titulo || '—') + '</td><td>' +
-      (e.data ? new Date(e.data + 'T12:00:00').toLocaleDateString('pt-BR') : '—') + '</td><td>' + esc(e.local || '—') + '</td><td>' + (n || '—') + '</td><td>' + (fotosPorRef['ev-' + e.id] || '—') +
-      '</td><td style="white-space:nowrap"><button class="btn gold" style="padding:7px 12px;font-size:9px" onclick="abreEvento(\'' + e.id + '\')">Editar</button> <button class="del" onclick="apagaEvento(\'' + e.id + '\')">apagar</button></td></tr>';
-  }).join('') || '<tr><td colspan="8" style="color:var(--ink-lt)">Nenhum evento.</td></tr>';
-  document.getElementById('ev-sub').innerHTML = '— ' + eventos.length + ' em <a href="eventos/" target="_blank">wineloversrecife.com/eventos</a>';
+    var n = linhasTxt(e.vinhos).length, porV = {}; (e.dados || []).forEach(function (d) { porV[d.v] = d; });
+    var ok = linhasTxt(e.vinhos).filter(function (l) { var d = porV[l.v]; return d && d.pais && d.tipo; }).length;
+    return '<tr><td><strong>' + (e.ano || '—') + '</strong></td><td>' + esc(TIPO_EV[e.tipo]) + '</td><td>' + esc(e.tipo === 'magnum' ? 'Magnum Fest ' + e.ano : (e.titulo || '—')) + '</td><td>' +
+      (e.data ? new Date(e.data + 'T12:00:00').toLocaleDateString('pt-BR') : '—') + '</td><td>' + esc(e.local || '—') + '</td><td>' + (n || '—') + '</td><td' + (n && ok < n ? ' style="color:#B85C2A;font-weight:600"' : '') + '>' +
+      (n ? ok + '/' + n : '—') + '</td><td>' + (e.fotos || '—') + '</td><td style="white-space:nowrap"><button class="btn gold" style="padding:7px 12px;font-size:9px" onclick="abreEvento(\'' + e.chave + '\')">Editar</button> ' +
+      '<button class="del" onclick="apagaEvento(\'' + e.chave + '\')">apagar</button></td></tr>';
+  }).join('') || '<tr><td colspan="9" style="color:var(--ink-lt)">Nenhum evento.</td></tr>';
 }
-function abreEvento(id) {
-  var e = eventos.filter(function (x) { return x.id === id; })[0] || null; evAtual = e;
-  document.getElementById('evm-titulo').textContent = e ? 'Editar evento' : 'Novo evento';
-  document.getElementById('evm-tipo').value = e ? e.tipo : 'ordinario';
+
+// editor
+function opcoes(lista, sel) { return '<option value=""></option>' + lista.map(function (o) { return '<option value="' + esc(o[0]) + '"' + (o[0] === sel ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join(''); }
+function linhaHTML(g) {
+  return '<tr><td class="num" style="color:var(--ink-lt);font-size:11px"></td>' +
+    '<td><input class="q" list="dl-siglas" value="' + esc(g.s || '') + '" placeholder="sigla"></td>' +
+    '<td><input class="v" value="' + esc(g.v || '') + '" onchange="autoLinha(this)"></td>' +
+    '<td><input class="p" list="dl-produtores" value="' + esc(g.produtor || '') + '"></td>' +
+    '<td><input class="sf" inputmode="numeric" maxlength="4" value="' + esc(g.safra || '') + '"></td>' +
+    '<td><select class="pa" onchange="marcaFaltas()">' + opcoes(PAISES, g.pais) + '</select></td>' +
+    '<td><input class="rg" list="dl-regioes" value="' + esc(g.regiao || '') + '"></td>' +
+    '<td><select class="tp" onchange="marcaFaltas()">' + opcoes(TIPOS_V, g.tipo) + '</select></td>' +
+    '<td><input class="uv" list="dl-uvas" value="' + esc(g.uva || '') + '"></td>' +
+    '<td style="white-space:nowrap"><button class="del" title="subir" onclick="moveLinha(this,-1)">↑</button><button class="del" title="apagar" onclick="this.closest(\'tr\').remove();marcaFaltas()">✕</button></td></tr>';
+}
+function marcaFaltas() {
+  var trs = [].slice.call(document.querySelectorAll('#evm-linhas tr')), falta = 0;
+  trs.forEach(function (tr, i) {
+    tr.querySelector('.num').textContent = i + 1;
+    var f = !tr.querySelector('.pa').value || !tr.querySelector('.tp').value; tr.classList.toggle('falta', f); if (f) falta++;
+  });
+  document.getElementById('evm-conta').textContent = trs.length + ' garrafas' + (falta ? ' · ' + falta + ' sem classificação (em amarelo)' : ' · todas classificadas ✓');
+}
+function moveLinha(b, d) { var tr = b.closest('tr'); if (d < 0 && tr.previousElementSibling) tr.parentNode.insertBefore(tr, tr.previousElementSibling); marcaFaltas(); }
+function novaLinha(g) { document.getElementById('evm-linhas').insertAdjacentHTML('beforeend', linhaHTML(g || {})); marcaFaltas(); if (!g) document.querySelector('#evm-linhas tr:last-child .q').focus(); }
+// vinho já conhecido: completa o que estiver vazio; a safra vem do nome
+function autoLinha(inp) {
+  var tr = inp.closest('tr'), v = inp.value, c = CONHECIDOS[chaveVinho(v)], y = v.match(/\b(19[4-9]\d|20[0-2]\d)\b/);
+  if (y && !tr.querySelector('.sf').value) tr.querySelector('.sf').value = y[1];
+  if (c) [['.p', 'produtor'], ['.rg', 'regiao'], ['.uv', 'uva'], ['.pa', 'pais'], ['.tp', 'tipo']].forEach(function (x) { var el = tr.querySelector(x[0]); if (!el.value && c[x[1]]) el.value = c[x[1]]; });
+  marcaFaltas();
+}
+function colarLista() {
+  var t = document.getElementById('evm-colar').value, n = 0;
+  linhasTxt(t).forEach(function (l) {
+    l.v.split(/\s+\/\s+|\s+e\s+(?=[A-ZÀ-Ý])/).map(function (x) { return x.trim(); }).filter(Boolean).forEach(function (v) {
+      var c = CONHECIDOS[chaveVinho(v)] || {}, y = v.match(/\b(19[4-9]\d|20[0-2]\d)\b/);
+      novaLinha({ s: l.s, v: v, produtor: c.produtor, pais: c.pais, regiao: c.regiao, tipo: c.tipo, uva: c.uva, safra: y ? y[1] : '' }); n++;
+    });
+  });
+  document.getElementById('evm-colar').value = ''; document.getElementById('evm-colar-box').classList.add('hidden');
+  toast(n + ' garrafas adicionadas. Confira as em amarelo.');
+}
+function tipoEvento() {
+  var mf = document.getElementById('evm-tipo').value === 'magnum';
+  document.querySelector('.evm-tit').style.visibility = mf ? 'hidden' : 'visible';
+  document.getElementById('evm-fotos-mf').classList.toggle('hidden', !mf);
+}
+function abreEvento(chave) {
+  var e = null;
+  if (chave !== 'novo' && chave !== 'nova-mf') e = todosEventos().filter(function (x) { return x.chave === chave; })[0];
+  evAtual = e; fotoEv = null;
+  var tipo = e ? e.tipo : (chave === 'nova-mf' ? 'magnum' : 'ordinario');
+  document.getElementById('evm-titulo').textContent = e ? (e.tipo === 'magnum' ? 'Magnum Fest ' + e.ano : (e.titulo || 'Evento')) : (tipo === 'magnum' ? 'Nova Magnum Fest' : 'Novo evento');
+  var sel = document.getElementById('evm-tipo'); sel.value = tipo;
+  // Magnum Fest e os outros encontros ficam em tabelas diferentes: o tipo só muda entre os três "outros"
+  [].forEach.call(sel.options, function (o) { o.disabled = e ? ((e.tipo === 'magnum') !== (o.value === 'magnum')) : (chave === 'nova-mf' ? o.value !== 'magnum' : o.value === 'magnum'); });
   document.getElementById('evm-ano').value = e ? (e.ano || '') : new Date().getFullYear();
   document.getElementById('evm-data').value = e && e.data ? e.data : '';
-  document.getElementById('evm-tit').value = e ? e.titulo || '' : '';
-  document.getElementById('evm-local').value = e ? e.local || '' : '';
-  document.getElementById('evm-texto').value = e ? e.texto || '' : '';
-  document.getElementById('evm-vinhos').value = e ? e.vinhos || '' : '';
+  document.getElementById('evm-tit').value = e && e.tipo !== 'magnum' ? (e.titulo || '') : '';
+  document.getElementById('evm-local').value = e ? (e.local || '') : '';
+  document.getElementById('evm-texto').value = e ? (e.texto || '') : '';
+  var porV = {}; ((e && e.dados) || []).forEach(function (d) { porV[d.v] = d; });
+  document.getElementById('evm-linhas').innerHTML = linhasTxt(e && e.vinhos).map(function (l) {
+    var d = porV[l.v] || {}; return linhaHTML({ s: l.s, v: l.v, produtor: d.produtor, pais: d.pais, regiao: d.regiao, tipo: d.tipo, uva: d.uva, safra: d.safra || (l.v.match(/\b(19[4-9]\d|20[0-2]\d)\b/) || [])[1] });
+  }).join('');
+  marcaFaltas(); tipoEvento();
+  var prev = document.getElementById('evm-foto-prev'), rm = document.getElementById('evm-foto-rm');
+  prev.style.display = 'none'; rm.style.display = 'none'; prev.removeAttribute('src'); document.getElementById('evm-foto').value = '';
+  document.getElementById('evm-galeria').style.display = e && e.tipo === 'magnum' ? '' : 'none';
+  if (e && e.tipo === 'magnum' && e.mf.tem_foto) rpc('wlr_admin_edicao_foto', { p_token: TOKEN, p_ano: e.ano }).then(function (src) {
+    if (src && evAtual === e && fotoEv === null) { prev.src = src; prev.style.display = 'block'; rm.style.display = ''; }
+  }).catch(function () { });
   document.getElementById('evm-st').textContent = '';
+  albumAdm(e ? e.chave : null);
   document.getElementById('evm').classList.remove('hidden');
 }
+function fechaEvento() { fechaModal('evm'); }
+function fotoEvento(inp) {
+  var f = inp.files && inp.files[0]; if (!f) return;
+  reduzFoto(f).then(function (du) { fotoEv = du; var p = document.getElementById('evm-foto-prev'); p.src = du; p.style.display = 'block'; document.getElementById('evm-foto-rm').style.display = ''; })
+    .catch(function (e) { toast(e.message, true); });
+}
+function tiraFotoEvento() { fotoEv = ''; var p = document.getElementById('evm-foto-prev'); p.style.display = 'none'; p.removeAttribute('src'); document.getElementById('evm-foto-rm').style.display = 'none'; }
+function abreGaleriaMF() { if (evAtual && evAtual.mf) abreEdicao(evAtual.ano); }
+function coletaLinhas() {
+  return [].slice.call(document.querySelectorAll('#evm-linhas tr')).map(function (tr) {
+    var g = function (c) { return tr.querySelector(c).value.trim(); };
+    var safra = parseInt(g('.sf'), 10);
+    return { s: g('.q'), v: g('.v'), produtor: g('.p') || null, pais: g('.pa') || null, regiao: g('.rg') || null, tipo: g('.tp') || null, uva: g('.uv') || null, safra: isNaN(safra) ? null : safra };
+  }).filter(function (x) { return x.v; });
+}
 function salvaEvento() {
-  var ano = parseInt(document.getElementById('evm-ano').value, 10), data = document.getElementById('evm-data').value || null;
-  if (!ano && !data) return toast('Informe ao menos o ano.', true);
+  var tipo = document.getElementById('evm-tipo').value, ano = parseInt(document.getElementById('evm-ano').value, 10), data = document.getElementById('evm-data').value || null;
+  if (!ano) return toast('Informe o ano.', true);
+  if (data && +data.slice(0, 4) !== ano) return toast('A data não é do mesmo ano do evento.', true);
+  var L = coletaLinhas();
+  var vinhos = L.map(function (x) { return (x.s ? x.s + ' - ' : '') + x.v; }).join('\n');
+  var dados = L.map(function (x) { return { v: x.v, produtor: x.produtor, pais: x.pais, regiao: x.regiao, tipo: x.tipo, uva: x.uva, safra: x.safra }; });
   var b = document.getElementById('evm-salvar'); b.disabled = true; b.textContent = 'Salvando…';
-  rpc('wlr_admin_evento_salvar', { p_token: TOKEN, p_evento: evAtual ? evAtual.id : null, p_tipo: document.getElementById('evm-tipo').value,
-    p_ano: ano || null, p_data: data, p_titulo: document.getElementById('evm-tit').value, p_local: document.getElementById('evm-local').value,
-    p_texto: document.getElementById('evm-texto').value, p_vinhos: document.getElementById('evm-vinhos').value })
-    .then(function () { toast('Evento salvo.'); fechaModal('evm'); return loadEventos(); })
-    .catch(function (e) { toast(e.message, true); })
+  var p = tipo === 'magnum'
+    ? rpc('wlr_admin_edicao_gravar', { p_token: TOKEN, p_ano: ano, p_ano_antigo: evAtual ? evAtual.ano : null, p_data: data, p_local: document.getElementById('evm-local').value,
+        p_texto: document.getElementById('evm-texto').value, p_vinhos: vinhos, p_dados: dados, p_foto: fotoEv }).then(function () { return 'mf-' + ano; })
+    : rpc('wlr_admin_evento_gravar', { p_token: TOKEN, p_evento: evAtual ? evAtual.ev.id : null, p_tipo: tipo, p_ano: ano, p_data: data,
+        p_titulo: document.getElementById('evm-tit').value, p_local: document.getElementById('evm-local').value, p_texto: document.getElementById('evm-texto').value,
+        p_vinhos: vinhos, p_dados: dados }).then(function (id) { return 'ev-' + id; });
+  p.then(function (chave) {
+    toast('Evento salvo.'); fotoEv = null;
+    return loadEventos().then(function () { abreEvento(chave); document.getElementById('evm-st').textContent = 'Salvo às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) + '.'; });
+  }).catch(function (e) { toast(e.message, true); })
     .then(function () { b.disabled = false; b.textContent = 'Salvar evento'; });
 }
-function apagaEvento(id) {
-  var e = eventos.filter(function (x) { return x.id === id; })[0];
-  if (!confirm('Apagar o evento "' + ((e && e.titulo) || '') + '" (' + ((e && e.ano) || '') + ')? Não dá para desfazer.')) return;
-  rpc('wlr_admin_evento_apagar', { p_token: TOKEN, p_evento: id }).then(function () { toast('Evento apagado.'); return loadEventos(); }).catch(function (e) { toast(e.message, true); });
+function apagaEvento(chave) {
+  var e = todosEventos().filter(function (x) { return x.chave === chave; })[0]; if (!e) return;
+  var nome = e.tipo === 'magnum' ? 'a Magnum Fest ' + e.ano + ' (garrafas e fotos oficiais)' : 'o evento "' + (e.titulo || '') + '" (' + (e.ano || '') + ')';
+  if (!confirm('Apagar ' + nome + '? Não dá para desfazer.')) return;
+  (e.tipo === 'magnum' ? rpc('wlr_admin_edicao_apagar', { p_token: TOKEN, p_ano: e.ano }) : rpc('wlr_admin_evento_apagar', { p_token: TOKEN, p_evento: e.ev.id }))
+    .then(function () { toast('Apagado.'); return loadEventos(); }).catch(function (x) { toast(x.message, true); });
+}
+
+// álbum dentro do editor (o conselho também envia e apaga)
+var albRef = null;
+function albumAdm(ref) {
+  albRef = ref; var box = document.getElementById('evm-alb'), add = document.getElementById('evm-alb-add');
+  document.getElementById('evm-alb-st').textContent = '';
+  if (!ref) { box.innerHTML = '<span style="font-size:12px;color:var(--ink-lt)">Salve o evento para poder adicionar fotos.</span>'; add.style.display = 'none'; document.getElementById('evm-alb-n').textContent = ''; return; }
+  add.style.display = ''; box.innerHTML = '<span style="font-size:12px;color:var(--ink-lt)">Carregando…</span>';
+  worker({ task: 'album-listar', ref: ref }).then(function (d) {
+    if (albRef !== ref) return;
+    var f = d.fotos || []; document.getElementById('evm-alb-n').textContent = f.length ? f.length + ' fotos' : '';
+    box.innerHTML = f.map(function (x) {
+      return '<div><a href="' + x.url + '" target="_blank"><img src="' + x.thumb + '" alt=""></a><small>' + esc(x.autor || '') + '</small>' +
+        '<button class="del" onclick="apagaFotoEv(' + x.id + ')" style="position:absolute;top:3px;right:3px;background:#fff;padding:2px 6px">✕</button></div>';
+    }).join('') || '<span style="font-size:12px;color:var(--ink-lt)">Nenhuma foto ainda.</span>';
+  }).catch(function (e) { box.textContent = e.message; });
+}
+function apagaFotoEv(id) {
+  if (!confirm('Apagar esta foto do álbum?')) return;
+  worker({ task: 'album-apagar', id: id }).then(function () { toast('Foto apagada.'); albumAdm(albRef); loadAlbumAdm(); }).catch(function (e) { toast(e.message, true); });
+}
+function blobReduzido(file, lado, q) {
+  return new Promise(function (ok, erro) {
+    var img = new Image(), url = URL.createObjectURL(file);
+    img.onload = function () {
+      var k = Math.min(1, lado / Math.max(img.naturalWidth, img.naturalHeight)), c = document.createElement('canvas');
+      c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+      c.toBlob(function (b) { b ? ok(b) : erro(new Error('Falha ao preparar a foto')); }, 'image/jpeg', q);
+    };
+    img.onerror = function () { erro(new Error('Não consegui abrir ' + file.name)); };
+    img.src = url;
+  });
+}
+function albumAdmEnvia(inp) {
+  var arqs = [].slice.call(inp.files || []).slice(0, 30), ref = albRef, st = document.getElementById('evm-alb-st');
+  if (!arqs.length || !ref) return;
+  st.textContent = 'Preparando ' + arqs.length + ' fotos…';
+  worker({ task: 'album-enviar', ref: ref, n: arqs.length }).then(function (d) {
+    var feitos = [], i = 0;
+    var prox = function () {
+      if (i >= arqs.length) return Promise.resolve();
+      var a = arqs[i], it = d.itens[i]; i++; st.textContent = 'Enviando ' + i + ' de ' + arqs.length + '…';
+      return Promise.all([blobReduzido(a, 1600, 0.82), blobReduzido(a, 420, 0.75)]).then(function (b) {
+        return Promise.all([fetch(it.url, { method: 'PUT', headers: { 'Content-Type': 'image/jpeg' }, body: b[0] }), fetch(it.url_thumb, { method: 'PUT', headers: { 'Content-Type': 'image/jpeg' }, body: b[1] })])
+          .then(function (r) { if (r[0].ok && r[1].ok) feitos.push({ path: it.path, thumb: it.thumb }); });
+      }).catch(function () { }).then(prox);
+    };
+    return prox().then(function () { return worker({ task: 'album-registrar', ref: ref, itens: feitos }); });
+  }).then(function (r) { st.textContent = r.n + ' de ' + arqs.length + ' fotos adicionadas.'; albumAdm(ref); loadAlbumAdm(); })
+    .catch(function (e) { st.textContent = e.message; })
+    .then(function () { inp.value = ''; });
 }
 function loadAlbumAdm() {
   return worker({ task: 'album-listar', t: TOKEN }).then(function (d) {
