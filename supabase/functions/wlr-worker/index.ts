@@ -132,16 +132,19 @@ ${produtorDe ? `- O confrade é produtor da vinícola "${produtorDe}".` : ""}`;
   throw new Error("A análise não chegou a um registro");
 }
 
-async function analisar(garrafaId: string, cfg: Cfg) {
+// reusar = true: só reaplica as regras aos fatos já apurados (sem nova pesquisa) — para quando uma regra muda
+async function analisar(garrafaId: string, cfg: Cfg, reusar = false) {
   const { data: g } = await sb.from("wlr_garrafas").select("*").eq("id", garrafaId).single();
-  if (!g || g.analise_status === "processando") return { pulada: true };
-  await sb.from("wlr_garrafas").update({ analise_status: "processando", analise_em: new Date().toISOString(),
+  if (!g) return { pulada: true };
+  if (reusar && !g.analise?.fatos) return { garrafa: g.id, erro: "sem análise anterior para reaproveitar" };
+  if (!reusar && g.analise_status === "processando") return { pulada: true };
+  if (!reusar) await sb.from("wlr_garrafas").update({ analise_status: "processando", analise_em: new Date().toISOString(),
     analise_tentativas: (g.analise_tentativas ?? 0) + 1 }).eq("id", g.id);
   try {
     const { data: dono } = g.criado_por
       ? await sb.from("wlr_participantes").select("nome, email, produtor_de").eq("id", g.criado_por).single()
       : { data: null };
-    const fatos = await perguntaClaude(g, dono?.produtor_de ?? null);
+    const fatos = reusar ? g.analise.fatos : await perguntaClaude(g, dono?.produtor_de ?? null);
 
     // vagas já ocupadas por espumantes e doces aprovados (sem contar esta garrafa)
     const { data: outras } = await sb.from("wlr_vinhos_publico").select("id, tipo, subtipo, situacao").eq("situacao", "aprovado").neq("id", g.id);
@@ -359,6 +362,13 @@ Deno.serve(async (req) => {
     let out: unknown;
     if (task === "campanha") out = await campanha(body.tipo, cfg);
     else if (task === "analise-agora" && body.garrafa) out = await analisar(body.garrafa, cfg);   // síncrono (skill local)
+    else if (task === "reavaliar") {   // regras novas sobre os fatos já apurados: body.garrafa ou todas as que têm análise
+      const ids = body.garrafa ? [body.garrafa]
+        : ((await sb.from("wlr_garrafas").select("id").not("analise", "is", null)).data ?? []).map((x: any) => x.id);
+      const r = [];
+      for (const id of ids) r.push(await analisar(id, cfg, true));
+      out = r;
+    }
     else if (task === "analise") {
       await destrava();
       const id = Deno.env.get("ANTHROPIC_API_KEY") ? (body.garrafa ?? await proximaPendente()) : undefined;
