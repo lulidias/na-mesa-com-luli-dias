@@ -21,6 +21,8 @@ section{max-width:1120px;padding-top:40px;padding-bottom:40px}
 .chip{flex:0 0 auto;border:1px solid var(--border);background:#fff;color:var(--ink-lt);font:600 11px Montserrat,sans-serif;letter-spacing:1px;padding:9px 13px;cursor:pointer}
 .chip.on{background:var(--wine-lt);border-color:var(--wine-lt);color:#fff}
 .chip small{font-weight:500;opacity:.8}
+.chip.ev.on{background:var(--wine);border-color:var(--wine)}
+.filtro-in .sep{flex:0 0 1px;background:var(--border);margin:0 6px}
 
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .kpi{background:#fff;border:1px solid var(--border);padding:20px 16px}
@@ -175,13 +177,22 @@ function rotulo(g) {
   return v.replace(/^Champagne /, '').replace(/ Brut$/, '');
 }
 
-var TODAS = [], ATUAL = 2026, filtroAno = 'todas';
+var TODAS = [], ATUAL = 2026, filtroAno = 'todas', filtroEv = 'magnum';
+var EVS = [['magnum', 'Magnum Fest'], ['todos', 'Todos os encontros'], ['paralela', 'Paralela'], ['ordinario', 'Ordinário'], ['velhinhos', 'Os Velhinhos']];
 function prepara(d) {
   (d.edicoes || []).forEach(function (e) {
     var porV = {}; (e.dados || []).forEach(function (x) { porV[x.v] = x; });
     linhasVinhos(e.vinhos).forEach(function (l) {
       var c = porV[l.v] || {};
-      TODAS.push({ ano: e.ano, s: quem(l.s, e.ano), v: l.v, produtor: c.produtor || null, pais: c.pais || null, regiao: c.regiao || null,
+      TODAS.push({ ev: 'magnum', evt: 'Magnum Fest', evid: 'mf' + e.ano, ano: e.ano, s: quem(l.s, e.ano), v: l.v, produtor: c.produtor || null, pais: c.pais || null, regiao: c.regiao || null,
+        tipo: c.tipo || null, uva: c.uva || null, safra: c.safra || (l.v.match(/\b(19[4-9]\d|20[0-2]\d)\b/) || [])[1] * 1 || null });
+    });
+  });
+  (d.eventos || []).forEach(function (e) {
+    var porV = {}; (e.dados || []).forEach(function (x) { porV[x.v] = x; });
+    linhasVinhos(e.vinhos).forEach(function (l) {
+      var c = porV[l.v] || {};
+      TODAS.push({ ev: e.tipo, evt: e.titulo || '', evid: e.id, ano: e.ano, s: quem(l.s, e.ano), v: l.v, produtor: c.produtor || null, pais: c.pais || null, regiao: c.regiao || null,
         tipo: c.tipo || null, uva: c.uva || null, safra: c.safra || (l.v.match(/\b(19[4-9]\d|20[0-2]\d)\b/) || [])[1] * 1 || null });
     });
   });
@@ -189,11 +200,12 @@ function prepara(d) {
   (d.atual || []).forEach(function (g) {
     var tipo = String(g.tipo || '').toLowerCase(); if (tipo === 'espumante' && /ros/i.test(g.subtipo || '')) tipo = 'espumante rosé';
     var reg = g.regiao || null; if (reg && BORDEAUX.test(reg)) reg = 'Bordeaux'; else if (reg && BORGONHA.test(reg)) reg = 'Borgonha';
-    TODAS.push({ ano: ATUAL, s: (g.membros || []).join(', '), v: g.vinho + (g.safra ? ' ' + g.safra : ''), produtor: g.produtor || null,
+    TODAS.push({ ev: 'magnum', evt: 'Magnum Fest', ano: ATUAL, s: (g.membros || []).join(', '), v: g.vinho + (g.safra ? ' ' + g.safra : ''), produtor: g.produtor || null,
       pais: PAIS_COD[String(g.pais || '').toLowerCase()] || null, regiao: reg, tipo: TIPO[tipo] ? tipo : null, uva: null, safra: parseInt(g.safra, 10) || null, atual: true });
   });
 }
-function lista() { return filtroAno === 'todas' ? TODAS.filter(function (g) { return !g.atual; }) : TODAS.filter(function (g) { return g.ano === filtroAno; }); }
+function doEvento() { return TODAS.filter(function (g) { return filtroEv === 'todos' || g.ev === filtroEv; }); }
+function lista() { var L = doEvento(); return filtroAno === 'todas' ? L.filter(function (g) { return !g.atual; }) : L.filter(function (g) { return g.ano === filtroAno; }); }
 function conta(arr, f) {
   var m = {}; arr.forEach(function (g) { var k = f(g); if (k == null || k === '') return; m[k] = (m[k] || 0) + 1; });
   return Object.keys(m).map(function (k) { return [k, m[k]]; }).sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); });
@@ -220,18 +232,27 @@ function colunas(el, pares, dicaFn, fmt) {
 function pct(n, t) { return t ? Math.round(n / t * 100) + '%' : ''; }
 
 function filtro() {
-  var anos = []; TODAS.forEach(function (g) { if (anos.indexOf(g.ano) < 0) anos.push(g.ano); }); anos.sort();
-  document.getElementById('filtro').innerHTML = '<button class="chip' + (filtroAno === 'todas' ? ' on' : '') + '" data-a="todas">' + esc(tr('Todas as edições')) + '</button>' +
+  var anos = []; doEvento().forEach(function (g) { if (anos.indexOf(g.ano) < 0) anos.push(g.ano); }); anos.sort();
+  if (filtroAno !== 'todas' && anos.indexOf(filtroAno) < 0) filtroAno = 'todas';
+  var temEv = {}; TODAS.forEach(function (g) { temEv[g.ev] = 1; });
+  document.getElementById('filtro').innerHTML = EVS.filter(function (e) { return e[0] === 'magnum' || e[0] === 'todos' || temEv[e[0]]; }).map(function (e) {
+      return '<button class="chip ev' + (filtroEv === e[0] ? ' on' : '') + '" data-e="' + e[0] + '">' + esc(tr(e[1])) + '</button>';
+    }).join('') + '<span class="sep"></span>' +
+    '<button class="chip' + (filtroAno === 'todas' ? ' on' : '') + '" data-a="todas">' + esc(tr('Todos os anos')) + '</button>' +
     anos.map(function (a) {
       return '<button class="chip' + (filtroAno === a ? ' on' : '') + '" data-a="' + a + '">' + a + (a === ATUAL ? ' <small>' + esc(tr('até agora')) + '</small>' : '') + '</button>';
     }).join('');
-  [].forEach.call(document.querySelectorAll('.chip'), function (b) {
+  [].forEach.call(document.querySelectorAll('.chip[data-e]'), function (b) {
+    b.onclick = function () { filtroEv = b.dataset.e; filtro(); desenha(); };
+  });
+  [].forEach.call(document.querySelectorAll('.chip[data-a]'), function (b) {
     b.onclick = function () { filtroAno = b.dataset.a === 'todas' ? 'todas' : +b.dataset.a; try { history.replaceState({}, '', filtroAno === 'todas' ? location.pathname : '#' + filtroAno); } catch (e) { } filtro(); desenha(); };
   });
 }
 
 function desenha() {
-  var L = lista(), total = L.length, todas = filtroAno === 'todas';
+  var L = lista(), total = L.length, todas = filtroAno === 'todas', mf = filtroEv === 'magnum';
+  var GAR = mf ? 'Magnums' : tr('Garrafas');
   var comSafra = L.filter(function (g) { return g.safra; });
   var idade = comSafra.length ? comSafra.reduce(function (a, g) { return a + (g.ano - g.safra); }, 0) / comSafra.length : 0;
   var velha = comSafra.slice().sort(function (a, b) { return a.safra - b.safra; })[0];
@@ -240,8 +261,9 @@ function desenha() {
   var eds = conta(L, function (g) { return g.ano; }).length;
 
   document.getElementById('kpis').innerHTML = [
-    [tr('Magnums'), nf(total), todas ? tr('em {n} edições', { n: eds }) : tr('nesta edição')],
-    [tr('Litros'), nf(total * 1.5), tr('≈ {n} garrafas de 750 ml', { n: nf(total * 2) })],
+    [GAR, nf(total), todas ? tr(mf ? 'em {n} edições' : 'em {n} anos', { n: eds }) : tr(mf ? 'nesta edição' : 'neste ano')],
+    mf ? [tr('Litros'), nf(total * 1.5), tr('≈ {n} garrafas de 750 ml', { n: nf(total * 2) })]
+       : [tr('Encontros'), conta(L, function (g) { return g.evid; }).length, tr('com lista de garrafas')],
     [tr('Países'), paises.length, paises[0] ? PAIS[paises[0][0]][1] + ' ' + tr(PAIS[paises[0][0]][0]) + ' ' + tr('lidera com {p}', { p: pct(paises[0][1], total) }) : ''],
     [tr('Produtores'), produtores.length, produtores[0] ? produtores[0][0] + ': ' + produtores[0][1] + '×' : ''],
     [tr('Regiões'), regioes.length, regioes[0] ? regioes[0][0] + ': ' + regioes[0][1] : ''],
@@ -268,11 +290,13 @@ function desenha() {
 
   // por edição (só no "todas"): 2020 aparece vazio de propósito
   document.getElementById('c-edicoes').classList.toggle('hidden', !todas);
+  document.querySelector('#c-edicoes h3').textContent = mf ? tr('Magnums por edição') : tr('Garrafas por ano');
+  document.querySelector('#c-edicoes .sub').textContent = mf ? tr('Quantas garrafas foram à mesa em cada ano. 2020 não teve festa.') : tr('Quantas garrafas foram à mesa em cada ano, somando os encontros.');
   document.getElementById('c-idade').classList.toggle('hidden', !todas);
   if (todas) {
     var anos = []; for (var a = 2016; a < ATUAL; a++) anos.push(a);
     colunas(document.getElementById('g-edicoes'), anos.map(function (a) { return [a, L.filter(function (g) { return g.ano === a; }).length]; }),
-      function (p) { return p[1] ? p[0] + ': ' + p[1] + ' Magnums (' + nf(p[1] * 1.5) + ' L)' : p[0] + ': ' + tr('sem festa (pandemia)'); });
+      function (p) { return p[1] ? p[0] + ': ' + p[1] + ' ' + GAR + (mf ? ' (' + nf(p[1] * 1.5) + ' L)' : '') : p[0] + ': ' + (mf && p[0] === 2020 ? tr('sem festa (pandemia)') : '—'); });
     colunas(document.getElementById('g-idade'), anos.map(function (a) {
       var x = L.filter(function (g) { return g.ano === a && g.safra; });
       return [a, x.length ? x.reduce(function (s, g) { return s + a - g.safra; }, 0) / x.length : 0];
@@ -305,21 +329,21 @@ function desenha() {
 
 // tabela completa, com busca e ordenação
 var ordem = { k: 'ano', d: -1 };
-var COLS = [['ano', 'Edição'], ['s', 'Sigla'], ['v', 'Vinho'], ['produtor', 'Produtor'], ['pais', 'País'], ['regiao', 'Região'], ['tipo', 'Tipo'], ['uva', 'Uva'], ['safra', 'Safra']];
+var COLS = [['ano', 'Ano'], ['evt', 'Evento'], ['s', 'Sigla'], ['v', 'Vinho'], ['produtor', 'Produtor'], ['pais', 'País'], ['regiao', 'Região'], ['tipo', 'Tipo'], ['uva', 'Uva'], ['safra', 'Safra']];
 function tabela() {
   var q = (document.getElementById('busca').value || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
   var L = lista().filter(function (g) {
     if (!q) return true;
-    return [g.ano, g.s, NOMES[g.s], g.v, g.produtor, g.pais && PAIS[g.pais] && PAIS[g.pais][0], g.regiao, g.tipo, g.uva, g.safra].join(' ').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').indexOf(q) >= 0;
+    return [g.ano, g.evt, g.s, NOMES[g.s], g.v, g.produtor, g.pais && PAIS[g.pais] && PAIS[g.pais][0], g.regiao, g.tipo, g.uva, g.safra].join(' ').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').indexOf(q) >= 0;
   });
   L.sort(function (a, b) { var x = a[ordem.k], y = b[ordem.k]; if (x == null) return 1; if (y == null) return -1; return (x > y ? 1 : x < y ? -1 : 0) * ordem.d || a.v.localeCompare(b.v); });
   document.getElementById('tab-h').innerHTML = COLS.map(function (c) { return '<th data-k="' + c[0] + '">' + esc(tr(c[1])) + (ordem.k === c[0] ? (ordem.d > 0 ? ' ↑' : ' ↓') : '') + '</th>'; }).join('');
   [].forEach.call(document.querySelectorAll('#tab-h th'), function (th) { th.onclick = function () { ordem = { k: th.dataset.k, d: ordem.k === th.dataset.k ? -ordem.d : 1 }; tabela(); }; });
   document.getElementById('tab-b').innerHTML = L.map(function (g) {
-    return '<tr><td>' + g.ano + '</td><td data-notr><b>' + esc(g.s || '—') + '</b>' + (NOMES[g.s] ? '<br><small>' + esc(NOMES[g.s]) + '</small>' : '') + '</td><td data-notr>' + esc(g.v) + '</td><td data-notr>' + esc(g.produtor || '—') + '</td><td>' +
+    return '<tr><td>' + g.ano + '</td><td data-notr>' + esc(g.evt || '') + '</td><td data-notr><b>' + esc(g.s || '—') + '</b>' + (NOMES[g.s] ? '<br><small>' + esc(NOMES[g.s]) + '</small>' : '') + '</td><td data-notr>' + esc(g.v) + '</td><td data-notr>' + esc(g.produtor || '—') + '</td><td>' +
       (g.pais && PAIS[g.pais] ? PAIS[g.pais][1] + ' ' + esc(tr(PAIS[g.pais][0])) : '—') + '</td><td data-notr>' + esc(g.regiao || '—') + '</td><td>' + esc(tr(TIPO[g.tipo] || '—')) +
       '</td><td data-notr>' + esc(g.uva || '—') + '</td><td class="num">' + (g.safra || '—') + '</td></tr>';
-  }).join('') || '<tr><td colspan="9" class="vazio">' + esc(tr('Nada encontrado.')) + '</td></tr>';
+  }).join('') || '<tr><td colspan="10" class="vazio">' + esc(tr('Nada encontrado.')) + '</td></tr>';
 }
 
 // dica ao passar o mouse (ou tocar) nas barras

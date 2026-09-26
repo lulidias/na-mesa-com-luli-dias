@@ -103,7 +103,7 @@ function lista() {
   box.innerHTML = evs.length ? evs.map(function (e) {
     var n = linhasVinhos(e.vinhos).length;
     var inf = [e.local, n ? n + ' ' + tr('garrafas') : '', e.n_fotos ? e.n_fotos + ' ' + tr('fotos') : ''].filter(Boolean).join(' · ');
-    return '<button class="ev" data-id="' + e.id + '"><div class="a">' + (e.data ? new Date(e.data + 'T12:00:00').getFullYear() : '—') + '</div>' +
+    return '<button class="ev" data-id="' + e.id + '"><div class="a">' + (e.ano || '—') + '</div>' +
       '<div class="n" data-notr>' + esc(e.titulo || TIPOS.filter(function (t) { return t[0] === e.tipo; })[0][1]) + '</div>' +
       '<div class="i">' + esc([e.data ? dataLonga(e.data) : '', inf].filter(Boolean).join(' · ')) + '</div></button>';
   }).join('') : '<p class="vazio" style="grid-column:1/-1">' + esc(tr('Ainda não há encontros cadastrados aqui. As listas vão entrando aos poucos.')) + '</p>';

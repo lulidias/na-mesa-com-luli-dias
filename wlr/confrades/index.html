@@ -125,16 +125,23 @@ function montaHistorico(bi) {
     linhasVinhos(e.vinhos).forEach(function (l) {
       if (!l.s) return;
       var s = quem(l.s, e.ano);
-      (HIST[s] = HIST[s] || []).push({ ano: e.ano, v: l.v });
+      (HIST[s] = HIST[s] || []).push({ ano: e.ano, v: l.v, mf: true });
+    });
+  });
+  (bi.eventos || []).forEach(function (e) {
+    linhasVinhos(e.vinhos).forEach(function (l) {
+      if (!l.s) return;
+      var s = quem(l.s, e.ano);
+      (HIST[s] = HIST[s] || []).push({ ano: e.ano, v: l.v, ev: e.titulo || '' });
     });
   });
   (bi.atual || []).forEach(function (g) {
-    (g.membros || []).forEach(function (nome) { (HIST['@' + nome] = HIST['@' + nome] || []).push({ ano: bi.atual_ano, v: g.vinho + (g.safra ? ' ' + g.safra : ''), atual: true }); });
+    (g.membros || []).forEach(function (nome) { (HIST['@' + nome] = HIST['@' + nome] || []).push({ ano: bi.atual_ano, v: g.vinho + (g.safra ? ' ' + g.safra : ''), atual: true, mf: true }); });
   });
 }
 function historico(c) {
   var h = [], vistos = {};
-  (c.siglas || []).forEach(function (s) { (HIST[quem(s, 2021)] || []).forEach(function (x) { var k = x.ano + x.v; if (!vistos[k]) { vistos[k] = 1; h.push(x); } }); });
+  (c.siglas || []).forEach(function (s) { (HIST[quem(s, 2021)] || []).forEach(function (x) { var k = x.ano + (x.ev || 'mf') + x.v; if (!vistos[k]) { vistos[k] = 1; h.push(x); } }); });
   [c.nome, c.participante].forEach(function (n) { (HIST['@' + n] || []).forEach(function (x) { var k = x.ano + x.v; if (!vistos[k]) { vistos[k] = 1; h.push(x); } }); });
   return h.sort(function (a, b) { return b.ano - a.ano; });
 }
@@ -150,7 +157,7 @@ function desenha() {
     return [c.nome, c.apelido, (c.siglas || []).join(' '), c.cargo, c.profissao].join(' ').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').indexOf(q) >= 0;
   });
   document.getElementById('grade').innerHTML = lista.map(function (c) {
-    var h = historico(c).filter(function (x) { return !x.atual; }), eds = {};
+    var h = historico(c).filter(function (x) { return !x.atual && x.mf; }), eds = {};
     h.forEach(function (x) { eds[x.ano] = 1; });
     var n = Object.keys(eds).length;
     return '<div class="cf" onclick="abre(\'' + c.id + '\')">' + (c.confirmado ? '<span class="selo26">2026 ✓</span>' : '') +
@@ -191,7 +198,7 @@ function chips() {
 
 function abre(id) {
   var c = C.filter(function (x) { return x.id === id; })[0]; if (!c) return;
-  var h = historico(c), passadas = h.filter(function (x) { return !x.atual; });
+  var h = historico(c), passadas = h.filter(function (x) { return !x.atual && x.mf; });
   var eds = {}; passadas.forEach(function (x) { eds[x.ano] = 1; });
   var anos = Object.keys(eds).map(Number).sort();
   var dados = [];
@@ -211,7 +218,7 @@ function abre(id) {
     (anos.length ? '<div class="mini"><div><div class="v">' + anos.length + '</div><div class="l">Magnum Fests</div></div><div><div class="v">' + anos[0] + '</div><div class="l">' + esc(tr('A primeira')) + '</div></div>' +
       '<div><div class="v">' + passadas.length + '</div><div class="l">Magnums</div></div></div>' : '') +
     (h.length ? '<div class="hist"><h3>' + esc(tr('O que levou à mesa')) + '</h3><ul>' + h.map(function (x) {
-      return '<li><b>' + x.ano + '</b><span data-notr>' + esc(x.v) + (x.atual ? ' <small style="color:var(--ink-lt)">(' + esc(tr('inscrita')) + ')</small>' : '') + '</span></li>';
+      return '<li><b>' + x.ano + '</b><span data-notr>' + (x.ev ? '<small style="color:var(--wine-lt);font-weight:600">' + esc(x.ev) + '</small><br>' : '') + esc(x.v) + (x.atual ? ' <small style="color:var(--ink-lt)">(' + esc(tr('inscrita')) + ')</small>' : '') + '</span></li>';
     }).join('') + '</ul></div>' : '<p class="vazio">' + esc(tr('Ainda sem garrafas registradas nas listas.')) + '</p>') + '</div>';
   document.getElementById('modal').classList.remove('hidden');
   fotos();
