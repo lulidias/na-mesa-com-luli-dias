@@ -54,7 +54,7 @@ function shell(cfg: Cfg, titulo: string, corpo: string, participanteId?: string,
         <a href="${link}" style="background:#6C214C;color:#fff;text-decoration:none;padding:13px 30px;font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2px">${rotulo}</a></p>`}
     </div>
     <p style="text-align:center;font-size:11px;color:#9A8A92;font-family:Helvetica,Arial,sans-serif;margin-top:16px">
-      Wine Lovers Recife · Magnum Fest Licínio Dias · Organização <a href="https://lulidias.com" style="color:#6C214C">Luli Dias</a></p>
+      Magnum Fest Licínio Dias · Organização Wine Lovers Recife</p>
   </div></body></html>`;
 }
 
