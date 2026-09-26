@@ -252,7 +252,7 @@ const FERRAMENTA: Anthropic.Beta.BetaTool = {
     additionalProperties: false,
     required: ["identificado", "nome_completo", "produtor", "regiao", "pais", "categoria", "estilo_espumante", "safra",
       "tawny_idade", "puttonyos", "regiao_branco_lista", "nota_rp", "nota_ws", "nota_js", "fontes_notas",
-      "preco_eur_750", "preco_eur_formato", "fonte_preco", "premiado", "premios", "origem_controlada", "confianca", "observacoes"],
+      "preco_eur_750", "preco_eur_formato", "fonte_preco", "premiado", "premios", "origem_controlada", "confianca", "observacoes", "observacoes_es", "observacoes_en"],
     properties: {
       identificado: { type: "boolean", description: "true se encontrou este vinho específico (produtor + rótulo + safra)" },
       nome_completo: { type: "string" },
@@ -277,6 +277,8 @@ const FERRAMENTA: Anthropic.Beta.BetaTool = {
       origem_controlada: { type: ["boolean", "null"], description: "Para espumantes fora de Champagne: tem DO/DOC/DOCG/IG?" },
       confianca: { type: "string", enum: ["alta", "media", "baixa"] },
       observacoes: { type: "string", description: "Uma ou duas frases em português com o que for relevante para o conselho" },
+      observacoes_es: { type: "string", description: "As mesmas observações, em espanhol" },
+      observacoes_en: { type: "string", description: "As mesmas observações, em inglês" },
     },
   },
 };
@@ -339,15 +341,20 @@ async function analisar(garrafaId: string, cfg: Cfg) {
     // vagas já ocupadas por espumantes e doces aprovados (sem contar esta garrafa)
     const { data: outras } = await sb.from("wlr_vinhos_publico").select("id, tipo, subtipo, situacao").eq("situacao", "aprovado").neq("id", g.id);
     const esp = (outras ?? []).filter((x) => x.tipo === "Espumante");
-    const parecer = avaliar(fatos, {
+    const ctxAval = {
       ano_evento: new Date(cfg.evento_em).getFullYear(),
       litros: Number(g.litros),
       produtor_do_confrade: dono?.produtor_de ?? null,
       vagas: { espumantes: esp.length, espumante_rose: esp.filter((x) => x.subtipo === "Rosé").length,
         doces: (outras ?? []).filter((x) => x.tipo === "Fortificado / Doce").length },
       limites: { espumantes: cfg.lim_espumantes, espumante_rose: cfg.lim_espumante_rose, doces: cfg.lim_doces },
-    });
+    };
+    const parecer = avaliar(fatos, ctxAval, "pt");
+    const pEs = avaliar(fatos, ctxAval, "es"), pEn = avaliar(fatos, ctxAval, "en");
+    parecer.publico = { ...parecer.publico, resumo_es: pEs.publico.resumo, resumo_en: pEn.publico.resumo } as typeof parecer.publico;
     const analise = { ...parecer, fatos, modelo: MODELO, em: new Date().toISOString(),
+      i18n: { es: { resumo: pEs.resumo, criterios: pEs.criterios, observacoes: fatos.observacoes_es },
+              en: { resumo: pEn.resumo, criterios: pEn.criterios, observacoes: fatos.observacoes_en } },
       motivo_excecao: g.analise?.motivo_excecao ?? null };
     await sb.from("wlr_garrafas").update({ analise_status: parecer.status, analise, requer_conselho: parecer.requer_conselho,
       analise_em: new Date().toISOString() }).eq("id", g.id);

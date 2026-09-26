@@ -34,6 +34,7 @@ canvas{max-width:min(92vw,460px);height:auto}
 <p class="aviso hidden" id="aviso">Parabéns, campeão! Poste nos grupos — troféu é para ser exibido. 🏆</p>
 <div id="toast" style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#2E7D4F;color:#fff;padding:13px 26px;font-size:12px;letter-spacing:1px;opacity:0;transition:opacity .3s;pointer-events:none">Imagem copiada!</div>
 
+<script src="i18n.js"></script>
 <script>
 'use strict';
 var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
@@ -84,7 +85,7 @@ function desenha(p) {
   x.font = '400 74px serif'; x.fillText('🏆', CX, 468);
   x.fillStyle = '#6C214C';
   try { x.letterSpacing = '6px'; } catch (e) { }
-  var cat = p.categoria.toUpperCase();
+  var cat = T(p.categoria).toUpperCase();
   var linhas = cat.length > 18 ? [cat.replace(' DA NOITE', ''), 'DA NOITE'] : [cat];
   var cy = linhas.length === 2 ? 552 : 576;
   linhas.forEach(function (l, i) {
@@ -98,7 +99,7 @@ function desenha(p) {
   x.beginPath(); x.moveTo(CX - 120, 668); x.lineTo(CX + 120, 668); x.stroke();
   x.fillStyle = '#6B5E65'; x.font = 'italic 400 34px "Cormorant Garamond", Georgia, serif';
   try { x.letterSpacing = '0px'; } catch (e) { }
-  x.fillText('eleito pelos confrades da Wine Lovers Recife', CX, 726);
+  x.fillText(T('eleito pelos confrades da Wine Lovers Recife'), CX, 726);
   // vinho em evidência
   x.fillStyle = '#411A39';
   var v = p.vinho + (p.safra ? ' ' + p.safra : '');
@@ -117,13 +118,13 @@ function desenha(p) {
   // trazido por
   x.fillStyle = '#6B5E65'; x.font = 'italic 400 30px "Cormorant Garamond", Georgia, serif';
   try { x.letterSpacing = '0px'; } catch (e) { }
-  var quem = 'Trazido por ' + (p.membros || []).join(', ');
+  var quem = T('Trazido por {n}', { n: (p.membros || []).join(', ') });
   var t2 = 30;
   while (x.measureText(quem).width > 920 && t2 > 20) { t2 -= 2; x.font = 'italic 400 ' + t2 + 'px "Cormorant Garamond", Georgia, serif'; }
   x.fillText(quem, CX, 1030);
   // rodapé
   x.fillStyle = '#6B5E65'; x.font = 'italic 400 32px "Cormorant Garamond", Georgia, serif';
-  x.fillText('Só Magnums, só grandes vinhos.', CX, 1198);
+  x.fillText(T('Só Magnums, só grandes vinhos.'), CX, 1198);
   x.fillStyle = '#6C214C'; x.font = '600 28px Montserrat';
   try { x.letterSpacing = '5px'; } catch (e) { }
   x.fillText(location.host.replace(/^www\./, '').toUpperCase() + location.pathname.replace(/[^/]*$/, '').replace(/\/$/, '').toUpperCase(), CX, 1252);

@@ -30,6 +30,7 @@ body.foto canvas{max-width:none;width:1080px;box-shadow:none}
 <p class="aviso" id="aviso">Poste no grupo da Wine Lovers e chame os confrades para a mesa. 🥂</p>
 <div id="toast" style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#2E7D4F;color:#fff;padding:13px 26px;font-size:12px;letter-spacing:1px;opacity:0;transition:opacity .3s;pointer-events:none">Imagem copiada!</div>
 
+<script src="i18n.js"></script>
 <script>
 'use strict';
 var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
@@ -74,7 +75,7 @@ function desenha(nome) {
   x.strokeStyle = 'rgba(108,33,76,.6)'; x.lineWidth = 2;
   x.beginPath(); x.moveTo(CX - 120, 580); x.lineTo(CX + 120, 580); x.stroke();
   x.fillStyle = '#6C214C'; x.font = 'italic 500 64px "Cormorant Garamond", Georgia, serif';
-  x.fillText('Eu vou!', CX, 676);
+  x.fillText(T('Eu vou!'), CX, 676);
   x.fillStyle = '#411A39';
   var tam = 92; x.font = '700 ' + tam + 'px Montserrat';
   while (x.measureText(nome).width > 900 && tam > 50) { tam -= 6; x.font = '700 ' + tam + 'px Montserrat'; }
@@ -87,7 +88,7 @@ function desenha(nome) {
   x.fillText(LOCAL_TXT, CX, 968);
   try { x.letterSpacing = '0px'; } catch (e) { }
   x.fillStyle = '#6B5E65'; x.font = 'italic 400 38px "Cormorant Garamond", Georgia, serif';
-  x.fillText('Só Magnums, só grandes vinhos.', CX, 1170);
+  x.fillText(T('Só Magnums, só grandes vinhos.'), CX, 1170);
   x.fillStyle = '#6C214C'; x.font = '600 26px Montserrat';
   try { x.letterSpacing = '5px'; } catch (e) { }
   x.fillText(location.host.replace(/^www\./, '').toUpperCase() + location.pathname.replace(/[^/]*$/, '').replace(/\/$/, '').toUpperCase(), CX, 1252);
@@ -130,14 +131,14 @@ Promise.all([
   new Promise(function (ok) { if (LOGO.complete) ok(); else { LOGO.onload = ok; LOGO.onerror = ok; } }),
   fetch(SB + '/rest/v1/wlr_config_publica?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }).then(function (rows) {
     var cfg = rows && rows[0]; if (!cfg) return;
-    DATA_TXT = new Date(cfg.evento_em).toLocaleDateString('pt-BR', { timeZone: 'America/Recife', day: 'numeric', month: 'long', year: 'numeric' }).toUpperCase();
+    DATA_TXT = new Date(cfg.evento_em).toLocaleDateString(LOCALE(), { timeZone: 'America/Recife', day: 'numeric', month: 'long', year: 'numeric' }).toUpperCase();
     LOCAL_TXT = [cfg.local_nome, 'RECIFE'].filter(Boolean).join(' · ').toUpperCase();
   }).catch(function () { })
 ]).then(function () {
-  if (!meuId) { desenha('Confrade'); return; }
+  if (!meuId) { desenha(T('Confrade')); return; }
   rpc('wlr_meu', { p_id: meuId }).then(function (rows) {
     var p = rows && rows[0];
-    desenha(p ? p.nome : 'Confrade');
+    desenha(p ? p.nome : T('Confrade'));
     document.title = 'pronto';
   });
 });

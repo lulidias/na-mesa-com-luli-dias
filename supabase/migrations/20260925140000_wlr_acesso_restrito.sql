@@ -81,7 +81,7 @@ begin
   if length(v_dig) < 8 then raise exception 'Informe um WhatsApp válido, com DDD'; end if;
   select * into v from wlr_participantes where nome = p_nome;
   if v is null then raise exception 'Escolha o seu nome na lista de membros'; end if;
-  if v_restrito and v.whatsapp_lista is not null and wlr_dig8(v.whatsapp_lista) <> v_dig then
+  if v_restrito and v.whatsapp_lista is not null and not wlr_na_lista(v.whatsapp_lista, v_dig) then
     raise exception 'Este WhatsApp não é o de % na lista do grupo', v.nome;
   end if;
   if v.confirmado and v.whatsapp is not null and wlr_dig8(v.whatsapp) <> v_dig then
@@ -113,4 +113,24 @@ language plpgsql security definer set search_path = public as $$
 begin
   perform wlr_admin_mestre(p_token);
   update wlr_config set acesso_restrito = p_ligado where id = 1;
+end $$;
+
+-- whatsapp_lista pode ter vários números separados por ";" (a agenda tem mais de um por pessoa)
+create or replace function wlr_na_lista(p_lista text, p_dig text) returns boolean language sql immutable as $$
+  select exists (select 1 from unnest(string_to_array(coalesce(p_lista, ''), ';')) n where wlr_dig8(n) = p_dig and length(p_dig) = 8);
+$$;
+
+create or replace function wlr_acesso(p_whatsapp text) returns uuid
+language plpgsql security definer set search_path = public as $$
+declare v_id uuid; v_dig text;
+begin
+  v_dig := wlr_dig8(p_whatsapp);
+  if length(v_dig) < 8 then raise exception 'Informe um WhatsApp válido, com DDD'; end if;
+  select id into v_id from wlr_participantes
+   where wlr_na_lista(whatsapp_lista, v_dig) or wlr_dig8(whatsapp) = v_dig
+   order by (wlr_dig8(whatsapp) = v_dig) desc limit 1;
+  if v_id is null then
+    raise exception 'Este WhatsApp não está na lista de membros da Wine Lovers Recife. Fale com o organizador.';
+  end if;
+  return v_id;
 end $$;

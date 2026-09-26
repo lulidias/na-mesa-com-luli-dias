@@ -52,6 +52,7 @@ input{width:100%;padding:15px;border:1px solid rgba(255,255,255,.6);background:r
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="../i18n.js"></script>
 <script>
 'use strict';
 var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
@@ -109,7 +110,7 @@ function carrega() {
       return;
     }
     meuNome = eu.nome;
-    document.getElementById('sub').textContent = 'Olá, ' + meuNome.split(' ')[0] + '! Um voto por categoria — pode mudar enquanto a urna estiver aberta.';
+    document.getElementById('sub').textContent = T('Olá, {n}! Um voto por categoria — pode mudar enquanto a urna estiver aberta.', { n: meuNome.split(' ')[0] });
     document.getElementById('ident').classList.add('hidden');
     rpc('wlr_meus_votos', { p_participante: meuId }).then(function (votos) {
       var meus = {};

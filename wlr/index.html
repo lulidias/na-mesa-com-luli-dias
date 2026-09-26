@@ -544,6 +544,7 @@ body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado
 
 <div class="toast" id="toast"></div>
 
+<script src="i18n.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 <script>
 'use strict';
@@ -598,24 +599,24 @@ function normalizaPais(p) {
 }
 function fmtLitros(n) { return (Math.round(n * 100) / 100).toLocaleString('pt-BR'); }
 function tipoRotulo(g) {
-  if (g.tipo === 'Espumante' && g.subtipo) return 'Espumante ' + g.subtipo.toLowerCase();
-  if (g.tipo === 'Fortificado / Doce' && g.subtipo) return g.subtipo;
-  return g.tipo;
+  if (g.tipo === 'Espumante' && g.subtipo) return T('Espumante ' + g.subtipo.toLowerCase());
+  if (g.tipo === 'Fortificado / Doce' && g.subtipo) return T(g.subtipo);
+  return T(g.tipo);
 }
 
 // ── data e local do evento (vêm da configuração) ─────────────────────────
 var EVENTO = new Date('2026-12-11T20:00:00-03:00').getTime();
 function eventoDia() {
-  return new Date(EVENTO).toLocaleDateString('pt-BR', { timeZone: 'America/Recife', day: 'numeric', month: 'long' });
+  return new Date(EVENTO).toLocaleDateString(LOCALE(), { timeZone: 'America/Recife', day: 'numeric', month: 'long' });
 }
 function eventoHora() {
-  if (!cfg || !cfg.hora_confirmada) return 'horário a confirmar';
-  return new Date(EVENTO).toLocaleTimeString('pt-BR', { timeZone: 'America/Recife', hour: '2-digit', minute: '2-digit' }).replace(':00', 'h').replace(':', 'h');
+  if (!cfg || !cfg.hora_confirmada) return T('horário a confirmar');
+  return new Date(EVENTO).toLocaleTimeString(LOCALE(), { timeZone: 'America/Recife', hour: '2-digit', minute: '2-digit' }).replace(LANG() === 'en' ? /^$/ : ':00', LANG() === 'en' ? '' : 'h').replace(LANG() === 'en' ? /^$/ : ':', LANG() === 'en' ? '' : 'h');
 }
 function localTxt() { return cfg ? [cfg.local_nome, cfg.local_detalhe].filter(Boolean).join(' · ') : 'Restaurante Ruizito · Shopping RioMar · Recife'; }
 function renderQuando() {
   if (cfg && cfg.evento_em) EVENTO = new Date(cfg.evento_em).getTime();
-  var dow = new Date(EVENTO).toLocaleDateString('pt-BR', { timeZone: 'America/Recife', weekday: 'long' });
+  var dow = new Date(EVENTO).toLocaleDateString(LOCALE(), { timeZone: 'America/Recife', weekday: 'long' });
   document.getElementById('hw-dow').textContent = dow;
   document.getElementById('hw-dia').textContent = eventoDia();
   document.getElementById('hw-hora').textContent = eventoHora();
@@ -677,7 +678,7 @@ function loadMembros() {
     membrosConf = {};
     (rows || []).forEach(function (m) { membrosConf[m.nome] = m.confirmado; });
     sel.innerHTML = '<option value="">— escolha o seu nome —</option>' + (rows || []).map(function (m) {
-      return '<option value="' + esc(m.nome) + '">' + esc(m.nome) + (m.confirmado ? ' (já confirmado)' : '') + '</option>';
+      return '<option value="' + esc(m.nome) + '">' + esc(m.nome) + (m.confirmado ? T(' (já confirmado)') : '') + '</option>';
     }).join('');
   }).catch(function () { toast('Não consegui carregar a lista de membros. Recarregue a página.', true); });
 }
@@ -747,14 +748,14 @@ function enviar() {
 function addCalendario() {
   var ini = new Date(EVENTO), fim = new Date(EVENTO + 5 * 36e5);
   var z = function (d) { return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); };
-  var titulo = '🍷 Magnum Fest Licínio Dias 2026 — Wine Lovers Recife';
-  var desc = 'Leve a sua Magnum! Seu painel: ' + SITE;
+  var titulo = T('🍷 Magnum Fest Licínio Dias 2026 — Wine Lovers Recife');
+  var desc = T('Leve a sua Magnum! Seu painel: ') + SITE;
   var local = localTxt();
   if (/iPhone|iPad|Macintosh/i.test(navigator.userAgent)) {
     var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Wine Lovers Recife//MFLD//PT', 'BEGIN:VEVENT',
       'UID:mfld2026@lulidias.com', 'DTSTAMP:' + z(new Date()), 'DTSTART:' + z(ini), 'DTEND:' + z(fim),
       'SUMMARY:' + titulo, 'DESCRIPTION:' + desc, 'LOCATION:' + local.replace(/,/g, '\\,'),
-      'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY', 'DESCRIPTION:Amanhã é a Magnum Fest! Separe a sua Magnum. 🍷', 'END:VALARM',
+      'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY', 'DESCRIPTION:' + T('Amanhã é a Magnum Fest! Separe a sua Magnum. 🍷'), 'END:VALARM',
       'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
     location.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
     return;
@@ -845,8 +846,9 @@ function parecerHtml(g) {
   }
   var s = SIT[g.situacao] || SIT.em_analise;
   var a = g.analise || {};
+  if (LANG() !== 'pt' && a.i18n && a.i18n[LANG()]) a = Object.assign({}, a, a.i18n[LANG()]);
   var h = '<div class="parecer"><div class="st" style="color:' + s[1] + '">' + s[0] +
-    (g.decisao_por ? ' <span style="font-weight:400;color:var(--ink-lt)">— decisão de ' + esc(g.decisao_por) + '</span>' : '') + '</div>';
+    (g.decisao_por ? ' <span style="font-weight:400;color:var(--ink-lt)">' + esc(T('— decisão de {n}', { n: g.decisao_por })) + '</span>' : '') + '</div>';
   if (g.decisao_motivo) h += '<div style="margin-top:4px">' + esc(g.decisao_motivo) + '</div>';
   else if (a.resumo) h += '<div style="margin-top:4px">' + esc(a.resumo) + '</div>';
   if (a.criterios && a.criterios.length) {
@@ -854,7 +856,7 @@ function parecerHtml(g) {
       a.criterios.map(function (c) {
         return '<tr><td>' + (c.ok === true ? '✅' : c.ok === false ? '❌' : '❔') + '</td><td><strong>' + esc(c.rotulo) + '</strong><br><span class="dt">' + esc(c.detalhe) + '</span></td></tr>';
       }).join('') + '</table>' +
-      (a.fatos && a.fatos.observacoes ? '<div class="dt" style="margin-top:6px;font-style:italic">' + esc(a.fatos.observacoes) + '</div>' : '') + '</details>';
+      (a.observacoes || (a.fatos && a.fatos.observacoes) ? '<div class="dt" style="margin-top:6px;font-style:italic">' + esc(a.observacoes || a.fatos.observacoes) + '</div>' : '') + '</details>';
   }
   if (g.analise_status === 'erro' && !g.decisao_por) h += '<div class="dt" style="margin-top:4px">A pesquisa automática não encontrou dados suficientes — o conselho vai avaliar.</div>';
   if (g.situacao === 'inapto' && g.sou_criador && !g.pedido_excecao) {
@@ -903,7 +905,7 @@ function loadMinhasGarrafas() {
   });
 }
 function pedirExcecao(id) {
-  var motivo = prompt('Conte ao conselho por que este vinho merece a mesa (raridade, singularidade, qualidade):');
+  var motivo = prompt(T('Conte ao conselho por que este vinho merece a mesa (raridade, singularidade, qualidade):'));
   if (motivo === null) return;
   rpc('wlr_pedir_excecao', { p_participante: meuId, p_garrafa: id, p_motivo: motivo })
     .then(function () { toast('Pedido enviado ao conselho. Você recebe a decisão por e-mail.'); return Promise.all([loadMinhasGarrafas(), refreshPublic()]); })
@@ -1053,7 +1055,7 @@ function responderPedido(garrafa, solicitante, aceitar) {
     }).catch(function (e) { toast(e.message, true); });
 }
 function leaveGarrafa(id) {
-  if (!confirm('Tem certeza?')) return;
+  if (!confirm(T('Tem certeza?'))) return;
   rpc('wlr_leave_garrafa', { p_participante: meuId, p_garrafa: id })
     .then(function () { toast('Feito.'); return Promise.all([loadMinhasGarrafas(), refreshPublic()]); })
     .catch(function (e) { toast(e.message, true); });
@@ -1069,13 +1071,14 @@ function renderVagas(vinhos) {
   var doces = ap.filter(function (g) { return g.tipo === 'Fortificado / Doce'; }).length;
   var limB = cfg.lim_espumantes - cfg.lim_espumante_rose;
   var v = function (rot, n, lim) {
-    return '<div class="vaga' + (n >= lim ? ' cheia' : '') + '"><b>' + n + ' / ' + lim + '</b>' + rot + (n >= lim ? ' — completo' : '') + '</div>';
+    return '<div class="vaga' + (n >= lim ? ' cheia' : '') + '"><b>' + n + ' / ' + lim + '</b>' + esc(T(rot)) + (n >= lim ? ' — ' + T('completo') : '') + '</div>';
   };
   document.getElementById('vagas-row').innerHTML = v('espumantes brut', brut, limB) + v('espumante rosé', rose, cfg.lim_espumante_rose) + v('Porto, Sauternes e Tokaj', doces, cfg.lim_doces);
 }
 function selo(g) {
   var s = g.situacao === 'aprovado' ? '<span class="sit ok">✓ Aprovado</span>' : '<span class="sit an">⏳ Com o conselho</span>';
-  return s + (g.selo && g.selo.resumo ? '<span class="selo">' + esc(g.selo.resumo) + '</span>' : '');
+  var sr = g.selo && (g.selo['resumo_' + LANG()] || g.selo.resumo);
+  return s + (sr ? '<span class="selo">' + esc(sr) + '</span>' : '');
 }
 function quem(g) { return g.membros && g.membros.length ? g.membros.join(', ') : (g.sigla || '—'); }
 function refreshPublic() {
@@ -1113,14 +1116,14 @@ function refreshPublic() {
       fpill('☰ Lista', vistaVinhos === 'lista', "setVista('vinhos','lista')");
     tipos.forEach(function (t) {
       var h = document.createElement('div'); h.className = 'wg-tipo';
-      h.innerHTML = '<span class="t">' + esc(TIPO_PLURAL[t] || t) + '</span><span class="ln"></span>';
+      h.innerHTML = '<span class="t">' + esc(T(TIPO_PLURAL[t] || t)) + '</span><span class="ln"></span>';
       groups.appendChild(h);
       var porPais = {};
       porTipo[t].forEach(function (g) { var p = g.pais || 'Outros'; (porPais[p] = porPais[p] || []).push(g); });
       Object.keys(porPais).sort(function (a, b) { return a === 'Outros' ? 1 : b === 'Outros' ? -1 : a.localeCompare(b, 'pt'); })
         .forEach(function (pais) {
           var ph = document.createElement('div'); ph.className = 'wg-pais';
-          ph.textContent = (FLAGS[pais] ? FLAGS[pais] + ' ' : '') + pais;
+          ph.textContent = (FLAGS[pais] ? FLAGS[pais] + ' ' : '') + T(pais);
           groups.appendChild(ph);
           var lista = porPais[pais].slice().sort(function (a, b) { return a.vinho.localeCompare(b.vinho, 'pt'); });
           if (vistaVinhos === 'lista') {
@@ -1162,8 +1165,8 @@ function refreshPublic() {
     renderNumeros(aprov);
     pessoasCache = pessoas;
     document.getElementById('conf-count-sub').textContent = pessoas.length
-      ? pessoas.length + ' confrade' + (pessoas.length > 1 ? 's' : '') + ' já ' + (pessoas.length > 1 ? 'confirmaram' : 'confirmou') + ' presença.'
-      : 'Seja o primeiro a confirmar presença.';
+      ? (pessoas.length > 1 ? T('{n} confrades já confirmaram presença.', { n: pessoas.length }) : T('1 confrade já confirmou presença.'))
+      : T('Seja o primeiro a confirmar presença.');
     renderConfirmados();
   }).catch(function (e) { console.error(e); });
 }
@@ -1218,7 +1221,7 @@ function renderConfirmados() {
   document.getElementById('f-paises').innerHTML =
     fpill('Todos os países', fPais === '', "setFiltro('pais','')") +
     Object.keys(paisesMesa).sort().map(function (p) {
-      return fpill((FLAGS[p] || '') + ' ' + esc(p), fPais === p, "setFiltro('pais','" + p.replace(/'/g, "\\'") + "')");
+      return fpill((FLAGS[p] || '') + ' ' + esc(T(p)), fPais === p, "setFiltro('pais','" + p.replace(/'/g, "\\'") + "')");
     }).join('') + fpill('🍾 sem Magnum aprovada', fPais === '__sem__', "setFiltro('pais','__sem__')");
   document.getElementById('f-ordem').innerHTML =
     fpill('A–Z', fOrdem === 'az', "setFiltro('ordem','az')") + fpill('Recentes', fOrdem === 'novo', "setFiltro('ordem','novo')") +
@@ -1282,7 +1285,7 @@ function numConta(lista, chave, rotulo) {
 }
 function renderNumeros(vinhos) {
   numBars('num-tipos', numConta(vinhos.map(function (g) { return { t: tipoRotulo(g) }; }), 't'));
-  numBars('num-paises', numConta(vinhos, 'pais', function (k) { return (FLAGS[k] ? FLAGS[k] + ' ' : '') + k; }));
+  numBars('num-paises', numConta(vinhos, 'pais', function (k) { return (FLAGS[k] ? FLAGS[k] + ' ' : '') + T(k); }));
   var safras = {};
   vinhos.forEach(function (g) { var s = String(g.safra || '').trim(); var k = /^(19|20)\d{2}$/.test(s) ? s : 'NV'; safras[k] = (safras[k] || 0) + 1; });
   numCols('num-safras', Object.keys(safras).sort(function (a, b) { if (a === 'NV') return 1; if (b === 'NV') return -1; return Number(a) - Number(b); })
@@ -1307,8 +1310,8 @@ function renderResultados() {
       var d = document.createElement('div'); d.className = 'podium';
       d.innerHTML = '<div class="cn">' + esc(c.nome) + '</div><div class="row"><div><span class="med">🏆</span><span class="w">' + esc(r.vinho) +
         (r.safra ? ' <span style="color:var(--gold)">' + esc(r.safra) + '</span>' : '') + '</span></div>' +
-        '<span class="v">' + r.votos + ' voto' + (r.votos > 1 ? 's' : '') + '</span>' +
-        '<div class="mm">Trazido por ' + esc((r.membros || []).join(', ')) + '</div></div>';
+        '<span class="v">' + (r.votos > 1 ? T('{n} votos', { n: r.votos }) : T('1 voto')) + '</span>' +
+        '<div class="mm">' + esc(T('Trazido por {n}', { n: (r.membros || []).join(', ') })) + '</div></div>';
       box.appendChild(d);
     });
   }).catch(function () { sec.classList.add('hidden'); });
@@ -1346,7 +1349,7 @@ function renderTeaser() {
 }
 function renderCardapio() {
   if (!cfg) return;
-  document.getElementById('valor-dia').textContent = cfg.valor_no_dia ? Number(cfg.valor_no_dia).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'a definir';
+  document.getElementById('valor-dia').textContent = cfg.valor_no_dia ? Number(cfg.valor_no_dia).toLocaleString(LOCALE(), { style: 'currency', currency: 'BRL' }) : 'a definir';
   document.getElementById('cardapio-txt').textContent = cfg.cardapio || 'O cardápio será divulgado em breve.';
 }
 function renderPremios() {
