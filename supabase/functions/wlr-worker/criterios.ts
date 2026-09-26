@@ -80,7 +80,9 @@ export function avaliar(f: Fatos, ctx: Contexto, lang: Idioma = "pt"): Parecer {
   const notas = [["RP", f.nota_rp], ["WS", f.nota_ws], ["JS", f.nota_js]].filter(([, n]) => n != null) as [string, number][];
   const melhor = notas.reduce<[string, number] | null>((a, b) => (!a || b[1] > a[1] ? b : a), null);
   const notaOk = !!melhor && melhor[1] >= 95;
-  const precoRef = f.preco_eur_750;
+  // a Magnum Fest só aceita Magnum: os € 400 valem para o preço da Magnum (regra confirmada pelo Luli em 27/09).
+  // Sem cotação da Magnum, estima-se 2,1 × a garrafa de 750 ml.
+  const precoRef = f.preco_eur_formato ?? (f.preco_eur_750 != null ? Math.round(f.preco_eur_750 * 2.1) : null);
   const precoOk = precoRef != null && precoRef >= 400;
   const txtNotas = notas.length ? notas.map(([k, n]) => `${k} ${n}`).join(" · ") : x("sem nota de RP/WS/JS", "sin puntuación de RP/WS/JS", "no RP/WS/JS score");
   const preco = x("preço", "precio", "price");
@@ -96,8 +98,8 @@ export function avaliar(f: Fatos, ctx: Contexto, lang: Idioma = "pt"): Parecer {
     if (!ok && !notas.length && precoRef == null) ok = null;   // sem dado nenhum → cláusula 6.1 (conselho)
     const det = notaOk ? `${melhor![0]} ${melhor![1]}` + (precoRef != null ? ` · ${preco} ${eur(precoRef)}` : "")
       : precoOk ? `${txtNotas}${x(", mas preço ", ", pero precio ", ", but price ")}${eur(precoRef!)} (≥ € 400, ${x("cláusula", "cláusula", "clause")} 3.1)`
-      : `${txtNotas}${precoRef != null ? ` · ${preco} 750 ml ${eur(precoRef)} (${x("abaixo de € 400", "por debajo de 400 €", "below €400")})` : " · " + x("sem preço no Wine-Searcher", "sin precio en Wine-Searcher", "no Wine-Searcher price")}` +
-        (f.preco_eur_formato != null ? ` · Magnum ≈ ${eur(f.preco_eur_formato)}` : "");
+      : `${txtNotas}${precoRef != null ? ` · ${preco} Magnum ${eur(precoRef)} (${x("abaixo de € 400", "por debajo de 400 €", "below €400")})` : " · " + x("sem preço no Wine-Searcher", "sin precio en Wine-Searcher", "no Wine-Searcher price")}` +
+        (f.preco_eur_750 != null ? ` · 750 ml ${eur(f.preco_eur_750)}` : "");
     c.push({ id: "qualidade", rotulo: x("Nota ≥ 95 (RP, WS ou JS) ou preço ≥ € 400", "Puntuación ≥ 95 (RP, WS o JS) o precio ≥ 400 €", "Score ≥ 95 (RP, WS or JS) or price ≥ €400"), ok, detalhe: det });
   }
 
@@ -130,10 +132,10 @@ export function avaliar(f: Fatos, ctx: Contexto, lang: Idioma = "pt"): Parecer {
   // 5.2–5.6 Espumantes
   if (esp) {
     if (f.categoria === "Champagne") {
-      const p = f.preco_eur_750;
+      const p = precoRef;
       c.push({ id: "champagne-preco", rotulo: x("Champagne de € 400 ou mais (cláusula 5.4)", "Champagne de 400 € o más (cláusula 5.4)", "Champagne at €400 or more (clause 5.4)"), ok: p == null ? null : p >= 400,
-        detalhe: p == null ? x("sem preço no Wine-Searcher", "sin precio en Wine-Searcher", "no Wine-Searcher price") : `${eur(p)} ${x("a garrafa de 750 ml", "la botella de 750 ml", "per 750 ml bottle")}` +
-          (f.preco_eur_formato ? ` · ${eur(f.preco_eur_formato)} ${x("no formato levado", "en el formato llevado", "in the format brought")}` : "") });
+        detalhe: p == null ? x("sem preço no Wine-Searcher", "sin precio en Wine-Searcher", "no Wine-Searcher price") : `${eur(p)} ${x("a Magnum", "la Magnum", "per Magnum")}` +
+          (f.preco_eur_750 != null ? ` · 750 ml ${eur(f.preco_eur_750)}` : "") });
     } else if (["Cava", "Prosecco", "Espumante brasileiro"].includes(f.categoria)) {
       const ok = f.premiado === true && f.safra != null ? true : (f.premiado === false || f.safra == null ? false : null);
       c.push({ id: "espumante", rotulo: x(`${f.categoria} premiado e safrado (cláusula 5.2)`, `${f.categoria === "Espumante brasileiro" ? "Espumoso brasileño" : f.categoria} premiado y de añada (cláusula 5.2)`, `Award-winning, vintage-dated ${f.categoria === "Espumante brasileiro" ? "Brazilian sparkling" : f.categoria} (clause 5.2)`), ok,
