@@ -4,7 +4,7 @@
 <script>/* o site da festa mora em wineloversrecife.com — quem chegar pelo endereço antigo é levado para lá, com o mesmo caminho */
 if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wineloversrecife.com' + location.pathname.replace(/^\/wlr/, '') + location.search + location.hash);</script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Magnum Fest Licínio Dias 2026 — Wine Lovers Recife</title>
 <meta name="description" content="A Magnum Fest da Wine Lovers Recife, em homenagem a Licínio Dias. 11 de dezembro de 2026, Restaurante Ruizito, Recife.">
 <meta property="og:title" content="Magnum Fest Licínio Dias 2026 — Wine Lovers Recife">
@@ -16,7 +16,15 @@ if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wi
 <link rel="canonical" href="https://wineloversrecife.com/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="favicon.png">
+<link rel="icon" href="favicon.png">
+<!-- app na tela de início: sem start_url no manifest, o ícone abre o endereço de quando foi salvo (leva o token de instalação) -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Magnum Fest">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#6C214C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -420,6 +428,7 @@ body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado
       <div id="me-chips" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 4px"></div>
       <div style="text-align:center;margin:16px 0 4px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
         <a class="btn gold" id="btn-cartao" href="cartao.html" style="text-decoration:none">📸 Meu cartão "Eu vou!"</a>
+        <button class="btn gold" id="btn-instalar" onclick="instalarApp()">📲 Instalar no celular</button>
         <a class="btn gold hidden" id="btn-premio" href="premio.html" style="text-decoration:none">🏆 Cartão do meu prêmio</a>
         <button class="btn ghost" onclick="addCalendario()" style="border-color:var(--wine-lt);color:var(--wine-lt)">📅 Adicionar ao calendário</button>
       </div>
@@ -556,6 +565,26 @@ body.fechado #cta-btn,body.fechado #painel-btn,body.fechado section,body.fechado
 </footer>
 
 <div class="toast" id="toast"></div>
+
+<div id="inst-modal" class="hidden" style="position:fixed;inset:0;z-index:3000;background:rgba(65,26,57,.82);display:flex;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.classList.add('hidden')">
+  <div style="background:#fff;max-width:400px;width:100%;padding:28px 24px;text-align:center;border-top:5px solid var(--wine-lt)">
+    <img src="img/apple-touch-icon.png" alt="" style="width:72px;height:72px;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.15)">
+    <h3 style="font-weight:800;font-size:17px;color:var(--wine);margin:14px 0 6px">Magnum Fest na tela de início</h3>
+    <p style="font-size:12.5px;color:var(--ink-lt);line-height:1.6;margin-bottom:14px">Faça agora, com esta página aberta. O ícone já entra sem pedir o telefone.</p>
+    <div id="inst-ios" class="hidden" style="text-align:left;font-size:13.5px;line-height:1.9">
+      <b>1.</b> Toque em <b>Compartilhar</b> <span style="font-size:17px">⎋</span> (na barra do Safari)<br>
+      <b>2.</b> Role e toque em <b>Adicionar à Tela de Início</b><br>
+      <b>3.</b> Toque em <b>Adicionar</b>
+    </div>
+    <div id="inst-android" class="hidden" style="text-align:left;font-size:13.5px;line-height:1.9">
+      <b>1.</b> Toque no menu <b>⋮</b> do Chrome<br>
+      <b>2.</b> Toque em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b><br>
+      <b>3.</b> Confirme
+    </div>
+    <div id="inst-pc" class="hidden" style="font-size:13px;line-height:1.7">Abra este site no <b>celular</b> e toque em <b>📲 Instalar no celular</b> por lá.</div>
+    <button class="btn" style="margin-top:18px;width:100%" onclick="document.getElementById('inst-modal').classList.add('hidden')">Entendi</button>
+  </div>
+</div>
 
 <script src="i18n.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
@@ -841,6 +870,17 @@ function addCalendario() {
   window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(titulo) +
     '&dates=' + z(ini) + '/' + z(fim) + '&details=' + encodeURIComponent(desc) + '&location=' + encodeURIComponent(local), '_blank');
 }
+function instalarApp() {
+  var ios = /iPhone|iPad|iPod/.test(navigator.userAgent), android = /Android/.test(navigator.userAgent);
+  ['ios', 'android', 'pc'].forEach(function (k) { document.getElementById('inst-' + k).classList.add('hidden'); });
+  document.getElementById('inst-' + (ios ? 'ios' : android ? 'android' : 'pc')).classList.remove('hidden');
+  document.getElementById('inst-modal').classList.remove('hidden');
+  if (!ios && !android) return;
+  // o ícone salvo abre este endereço: leva um token de uso único para o app entrar sozinho
+  rpc('wlr_token_instalar', { p_id: meuId, p_disp: meuDisp() }).then(function (k) {
+    history.replaceState({}, '', location.pathname + '?k=' + k);
+  }).catch(function (e) { toast(e.message, true); });
+}
 function abrePorta() {
   document.body.classList.add('porta-aberta');
   portaPasso('tel');
@@ -881,12 +921,14 @@ function loadMe() {
       return rpc('wlr_quem', { p_id: meuId }).then(function (q) {
         if (!q || !q.length) { logoutMe(); return; }
         membroNome = q[0].nome;
+        rpc('wlr_disp_pelo_link', { p_id: meuId, p_disp: meuDisp(), p_aparelho: meuAparelho() }).catch(function () { });
         if (q[0].email && !document.getElementById('f-email').value) document.getElementById('f-email').value = q[0].email;
         if (q[0].obs && !document.getElementById('f-obs').value) document.getElementById('f-obs').value = q[0].obs;
         travaNome();
       });
     }
     meu = rows[0];
+    rpc('wlr_disp_pelo_link', { p_id: meuId, p_disp: meuDisp(), p_aparelho: meuAparelho() }).catch(function () { });
     rpc('wlr_set_idioma', { p_participante: meuId, p_idioma: LANG() }).catch(function () { });   // e-mails no idioma que ele usa
     document.getElementById('form-panel').classList.add('hidden');
     document.getElementById('me-panel').classList.remove('hidden');
@@ -1431,13 +1473,28 @@ function renderPremios() {
 
 // ── init ─────────────────────────────────────────────────────────────────
 tipoChange();
-Promise.all([
+var STANDALONE = !!(navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches));
+function iniciaSessao() {
+  if (meuId) return Promise.resolve();
+  var k = _q.get('k');
+  var tentativa = (STANDALONE && k)
+    ? rpc('wlr_usar_token_instalar', { p_token: k, p_disp: meuDisp(), p_aparelho: meuAparelho() + ' · app' })
+    : Promise.resolve(null);
+  return tentativa.then(function (id) {
+    return id || rpc('wlr_sessao_do_aparelho', { p_disp: meuDisp() });
+  }).then(function (id) {
+    if (id) { meuId = id; try { localStorage.setItem('wlr_id', id); } catch (e) { } }
+  }).catch(function () { });
+}
+iniciaSessao().then(function () { return Promise.all([
   view('wlr_config_publica').then(function (rows) { cfg = rows && rows[0] ? rows[0] : null; renderQuando(); modoFesta(); aplicaPorta(); if (!fechado()) return loadMembros().then(loadMe); }).catch(function () { }),
   view('wlr_categorias_publicas').then(function (rows) { catsCache = rows || []; }).catch(function () { })
 ]).then(function () {
   renderTeaser(); renderPremios(); renderCardapio(); renderResultados(); loadVencedores();
   refreshPublic();
-});
+  // aberto pelo ícone: vai direto para o painel
+  if (STANDALONE && meuId && !location.hash) setTimeout(function () { var r = document.getElementById('rsvp'); if (r) r.scrollIntoView(); }, 300);
+}); });
 try {
   if (!sessionStorage.getItem('wlr_ping')) { sessionStorage.setItem('wlr_ping', '1'); rpc('wlr_ping', { p_participante: meuId || null }).catch(function () { }); }
 } catch (e) { }

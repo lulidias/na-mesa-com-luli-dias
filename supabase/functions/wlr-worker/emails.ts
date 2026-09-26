@@ -60,6 +60,7 @@ function shell(cfg: Cfg, l: Lang, titulo: string, corpo: string, botao?: { href:
     <div style="background:#fff;border:1px solid #E9DDE3;border-top:none;padding:32px 28px;color:#1F1A1D;font-size:15px;line-height:1.7">
       <h1 style="font-family:Georgia,serif;font-size:21px;font-weight:normal;margin:0 0 16px;color:#411A39">${titulo}</h1>
       ${corpo}
+      ${cfg.assinatura ? `<p style="margin:24px 0 0">${x(l, "Abraço,", "Un abrazo,", "Best regards,")}<br><strong>${esc(cfg.assinatura)}</strong><br><span style="font-size:13px;color:#6B5E65">Wine Lovers Recife</span></p>` : ""}
       ${botao && botao.label && botao.href ? `<p style="text-align:center;margin:28px 0 8px">
         <a href="${botao.href}" style="background:#6C214C;color:#fff;text-decoration:none;padding:13px 30px;font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2px">${esc(botao.label)}</a></p>` : ""}
     </div>
