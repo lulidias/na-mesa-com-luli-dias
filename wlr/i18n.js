@@ -406,6 +406,8 @@
     'Fortificado': ['Fortificado', 'Fortified'],
     'Doce': ['Dulce', 'Sweet'],
     'Buscar vinho, produtor, país, região, uva, sigla…': ['Buscar vino, productor, país, región, uva, sigla…', 'Search wine, producer, country, region, grape, initials…'],
+    'A primeira Magnum Fest, em dezembro de 2016. Não ficou lista: as garrafas foram reconhecidas pela foto. Estavam à mesa, com certeza, Álvaro Mendonça Neto e Rui Silva.': ['La primera Magnum Fest, en diciembre de 2016. No quedó lista: las botellas se reconocieron por la foto. En la mesa estaban, con certeza, Álvaro Mendonça Neto y Rui Silva.', 'The first Magnum Fest, in December 2016. There is no list: the bottles were identified from the photo. Álvaro Mendonça Neto and Rui Silva were certainly at the table.'],
+    'Ano II. Não ficou lista: as garrafas foram reconhecidas pela foto. Estavam à mesa, com certeza, Álvaro Mendonça Neto e Rui Silva.': ['Año II. No quedó lista: las botellas se reconocieron por la foto. En la mesa estaban, con certeza, Álvaro Mendonça Neto y Rui Silva.', 'Year II. There is no list: the bottles were identified from the photo. Álvaro Mendonça Neto and Rui Silva were certainly at the table.'],
     'Aparelho aprovado — entrando…': ['Dispositivo aprobado: entrando…', 'Device approved — signing in…'],
     // ── avisos (toasts) e diálogos
     'Escolha o seu nome na lista.': ['Elige tu nombre en la lista.', 'Pick your name from the list.'],
