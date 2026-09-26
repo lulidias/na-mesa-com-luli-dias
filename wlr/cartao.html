@@ -56,7 +56,7 @@ function rpc(fn, args) {
   }).then(function (r) { return r.json(); });
 }
 
-var LOGO = new Image(); LOGO.src = 'img/logo.png';
+var LOGO = new Image(); LOGO.src = 'img/magnumfest-logo.png';
 function desenha(nome) {
   var c = document.getElementById('c'), x = c.getContext('2d');
   var W = 1080, H = 1350, CX = W / 2;
@@ -66,16 +66,14 @@ function desenha(nome) {
   x.strokeStyle = 'rgba(108,33,76,.35)'; x.lineWidth = 1.5; x.strokeRect(58, 58, W - 116, H - 116);
   x.textAlign = 'center';
   // logo da confraria
-  if (LOGO.complete && LOGO.naturalWidth) { var lw = 400, lh = lw * LOGO.naturalHeight / LOGO.naturalWidth; x.drawImage(LOGO, CX - lw / 2, 110, lw, lh); }
-  // marca do evento
-  x.fillStyle = '#411A39'; x.font = '800 104px Montserrat';
-  try { x.letterSpacing = '6px'; } catch (e) { }
-  x.fillText('MAGNUM FEST', CX + 3, 440);
+  // a logo da Magnum Fest (garrafa, taça e o nome) e o ano
+  if (LOGO.complete && LOGO.naturalWidth) { var lh = 440, lw = lh * LOGO.naturalWidth / LOGO.naturalHeight; x.drawImage(LOGO, CX - lw / 2, 88, lw, lh); }
+  x.fillStyle = '#6C214C'; x.font = '500 44px Montserrat';
+  try { x.letterSpacing = '14px'; } catch (e) { }
+  x.fillText('2026', CX + 7, 588);
   try { x.letterSpacing = '0px'; } catch (e) { }
-  x.fillStyle = '#6C214C'; x.font = 'italic 500 96px "Cormorant Garamond", Georgia, serif';
-  x.fillText('Licínio Dias · 2026', CX, 540);
   x.strokeStyle = 'rgba(108,33,76,.6)'; x.lineWidth = 2;
-  x.beginPath(); x.moveTo(CX - 140, 610); x.lineTo(CX + 140, 610); x.stroke();
+  x.beginPath(); x.moveTo(CX - 140, 628); x.lineTo(CX + 140, 628); x.stroke();
   // o destaque do cartão
   x.fillStyle = '#6C214C'; x.font = 'italic 600 176px "Cormorant Garamond", Georgia, serif';
   x.fillText(T('Eu vou!'), CX, 790);

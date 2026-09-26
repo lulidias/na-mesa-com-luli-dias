@@ -67,7 +67,7 @@ function rpc(fn, args) {
   });
 }
 
-var LOGO = new Image(); LOGO.src = 'img/logo.png';
+var LOGO = new Image(); LOGO.src = 'img/magnumfest-logo.png';
 function desenha(p) {
   var c = document.getElementById('c'), x = c.getContext('2d');
   var W = 1080, H = 1350, CX = W / 2;
@@ -76,13 +76,11 @@ function desenha(p) {
   x.strokeStyle = '#6C214C'; x.lineWidth = 4; x.strokeRect(36, 36, W - 72, H - 72);
   x.strokeStyle = 'rgba(108,33,76,.35)'; x.lineWidth = 1.5; x.strokeRect(58, 58, W - 116, H - 116);
   x.textAlign = 'center';
-  if (LOGO.complete && LOGO.naturalWidth) { var lw = 300, lh = lw * LOGO.naturalHeight / LOGO.naturalWidth; x.drawImage(LOGO, CX - lw / 2, 96, lw, lh); }
-  x.fillStyle = '#411A39'; x.font = '800 54px Montserrat';
-  try { x.letterSpacing = '5px'; } catch (e) { }
-  x.fillText('MAGNUM FEST', CX, 340);
+  if (LOGO.complete && LOGO.naturalWidth) { var lh = 290, lw = lh * LOGO.naturalWidth / LOGO.naturalHeight; x.drawImage(LOGO, CX - lw / 2, 84, lw, lh); }
+  x.fillStyle = '#6C214C'; x.font = '500 30px Montserrat';
+  try { x.letterSpacing = '10px'; } catch (e) { }
+  x.fillText('2026', CX + 5, 410);
   try { x.letterSpacing = '0px'; } catch (e) { }
-  x.fillStyle = '#6C214C'; x.font = 'italic 500 38px "Cormorant Garamond", Georgia, serif';
-  x.fillText('Licínio Dias · 2026', CX, 388);
   // troféu + categoria
   x.font = '400 74px serif'; x.fillText('🏆', CX, 468);
   x.fillStyle = '#6C214C';

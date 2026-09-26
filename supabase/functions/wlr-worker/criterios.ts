@@ -96,7 +96,8 @@ export function avaliar(f: Fatos, ctx: Contexto, lang: Idioma = "pt"): Parecer {
     if (!ok && !notas.length && precoRef == null) ok = null;   // sem dado nenhum → cláusula 6.1 (conselho)
     const det = notaOk ? `${melhor![0]} ${melhor![1]}` + (precoRef != null ? ` · ${preco} ${eur(precoRef)}` : "")
       : precoOk ? `${txtNotas}${x(", mas preço ", ", pero precio ", ", but price ")}${eur(precoRef!)} (≥ € 400, ${x("cláusula", "cláusula", "clause")} 3.1)`
-      : `${txtNotas}${precoRef != null ? ` · ${preco} ${eur(precoRef)} (${x("abaixo de € 400", "por debajo de 400 €", "below €400")})` : " · " + x("sem preço no Wine-Searcher", "sin precio en Wine-Searcher", "no Wine-Searcher price")}`;
+      : `${txtNotas}${precoRef != null ? ` · ${preco} 750 ml ${eur(precoRef)} (${x("abaixo de € 400", "por debajo de 400 €", "below €400")})` : " · " + x("sem preço no Wine-Searcher", "sin precio en Wine-Searcher", "no Wine-Searcher price")}` +
+        (f.preco_eur_formato != null ? ` · Magnum ≈ ${eur(f.preco_eur_formato)}` : "");
     c.push({ id: "qualidade", rotulo: x("Nota ≥ 95 (RP, WS ou JS) ou preço ≥ € 400", "Puntuación ≥ 95 (RP, WS o JS) o precio ≥ 400 €", "Score ≥ 95 (RP, WS or JS) or price ≥ €400"), ok, detalhe: det });
   }
 
