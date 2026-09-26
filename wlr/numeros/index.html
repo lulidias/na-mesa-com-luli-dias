@@ -144,12 +144,15 @@ var NOMES = { 'AMN': 'Álvaro Mendonça Neto', 'AA': 'Augusto Acioli', 'JAC': 'A
   'GC': 'Guilherme Chaves', 'JL': 'João Loyo', 'PJ': 'Pedro Jácome', 'MF': 'Marco Ferreira Filho', 'RS': 'Rui Silva', 'J Rosas': 'Jorge Rosas', 'Luli': 'Luli Dias',
   'A Dias': 'Amadeu Dias', 'BB': 'Bruno Brayner', 'BB2': 'Bruno Bezerra', 'BT': 'Bruno Tude', 'EHL': 'Eduardo Henrique Loyo', 'MFF': 'Marcelo Ferreira',
   'PB': 'Pedro Berinson', 'SR': 'Silvio Romero', 'AC': 'Alexandre Cunha', 'MN': 'Marcio Nejaim', 'GV': 'Gustavo Ventura',
-  'FV': 'Felipe Valença', 'HV': 'Henrique Vidon', 'PL': 'Pedro Leite', 'LA': 'Leandro Almeida' };
+  'FV': 'Felipe Valença', 'HV': 'Henrique Vidon', 'PL': 'Pedro Leite', 'LA': 'Leandro Almeida',
+  'AD': 'Adauto', 'HS': 'Hugo Silvestre', 'PDZ': 'José Pedroza' };
 function comNome(s) { return NOMES[s] ? s + ' · ' + NOMES[s] : s; }
 // siglas diferentes para a mesma pessoa
 function quem(s, ano) {
   if (!s) return '';
   if (/^(Luli|Luli D|LUD)$/.test(s) || (s === 'LD' && ano >= 2021)) return 'Luli';
+  if (s === 'BBZ') return 'BB2';   // Bruno Bezerra usou as duas
+  if (s === 'RRS') return 'RS';    // Rui (Raimundo da) Silva usou as duas
   return s;
 }
 // o mesmo rótulo escrito de jeitos diferentes
