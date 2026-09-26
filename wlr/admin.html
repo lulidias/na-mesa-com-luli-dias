@@ -226,7 +226,8 @@ function tryToken() {
     TOKEN = t; try { localStorage.setItem('wlr_admin_token', t); } catch (e) { }
     if (location.search.indexOf('t=') >= 0) history.replaceState({}, '', location.pathname + location.hash);
     quemSou = rows[0].nome; mestre = rows[0].mestre;
-    document.getElementById('quem').textContent = 'Olá, ' + quemSou.split(' ')[0] + (mestre ? ' · organizador' : ' · conselho');
+    var nomeCurto = /Gurgel/.test(quemSou) ? 'Gurgel' : quemSou.split(' ')[0];
+    document.getElementById('quem').textContent = quemSou === 'Suporte técnico' ? 'Suporte técnico da ferramenta' : 'Olá, ' + nomeCurto + (mestre ? ' · presidente' : ' · conselho');
     document.getElementById('gate').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
     refresh().then(function () {
@@ -475,7 +476,7 @@ function carregaConselho() {
       var link = SITE + 'admin.html?t=' + c.token;
       var msg = 'Olá, ' + c.nome.split(' ')[0] + '! 🍷 Este é o seu acesso pessoal ao painel do conselho da Magnum Fest Licínio Dias — ' +
         'é por ele que o conselho aprova os brancos, espumantes e exceções:\n\n' + link + '\n\nNão compartilhe: as decisões ficam registradas com o seu nome.';
-      return '<tr><td><strong>' + esc(c.nome) + '</strong>' + (c.mestre ? ' <span class="tag ok">organizador</span>' : '') + '</td>' +
+      return '<tr><td><strong>' + esc(c.nome) + '</strong>' + (c.mestre ? ' <span class="tag ok">presidente</span>' : '') + '</td>' +
         '<td><input value="' + esc(c.email || '') + '" placeholder="e-mail" style="width:220px" onchange="salvaEmailConselho(\'' + c.id + '\', this.value)"></td>' +
         '<td style="white-space:nowrap"><button class="del" style="color:var(--wine-lt)" onclick="copiar(\'' + js(link) + '\')">copiar link</button> · ' +
         '<a class="zap" target="_blank" href="https://wa.me/?text=' + encodeURIComponent(msg) + '">💬 enviar</a></td></tr>';
