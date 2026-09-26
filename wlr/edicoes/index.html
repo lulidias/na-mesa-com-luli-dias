@@ -51,12 +51,13 @@ function render(dados) {
       (e.texto ? '<div class="ed-texto">' + paragrafos(e.texto) + '</div>' : '') +
       (vs.length ? '<ul class="ed-vinhos" data-notr>' + vs.map(function (v) {
         return '<li><span class="sg">' + esc(v.s) + '</span><span>' + esc(v.v) + '</span></li>';
-      }).join('') + '</ul>' : '') + '</article>';
+      }).join('') + '</ul>' : '') + (vs.length ? '<div class="alb-slot" data-ref="mf-' + e.ano + '"></div>' : '') + '</article>';
   }).join('');
   // fotos só quando chegam perto da tela (primeiro a do grupo, depois a galeria)
-  var fotos = [].slice.call(document.querySelectorAll('.ed-foto, .ed-galeria'));
+  var fotos = [].slice.call(document.querySelectorAll('.ed-foto, .ed-galeria, .alb-slot'));
   var carrega = function (el) {
     if (el._ok) return; el._ok = true;
+    if (el.classList.contains('alb-slot')) return albumMonta(el, el.dataset.ref);
     if (el.classList.contains('ed-galeria')) {
       rpc('wlr_p_edicao_fotos', { p_id: meuId, p_ano: +el.dataset.ano }).then(function (lista) {
         (lista || []).forEach(function (src) {

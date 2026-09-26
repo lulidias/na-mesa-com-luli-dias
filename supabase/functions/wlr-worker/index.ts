@@ -253,6 +253,96 @@ async function painel(body: any, cfg: Cfg) {
   return json({ ok: false, erro: "Tarefa desconhecida" }, 400);
 }
 
+// ── álbum coletivo (bucket privado wlr-album) ─────────────────────────────
+// O confrade (sessão = p_id) pede links de envio, sobe as fotos direto do navegador e registra; para ver, o worker
+// devolve links temporários. Quem enviou apaga a própria foto; o conselho (token) apaga qualquer uma.
+const ALBUM = "wlr-album";
+async function sessaoOk(pid: string | undefined) {
+  if (!pid || !/^[0-9a-f-]{36}$/i.test(pid)) return false;
+  const { data } = await sb.rpc("wlr_sessao_ok", { p_id: pid });
+  return data === true;
+}
+async function refOk(ref: string, cfg: Cfg) {
+  const m = /^mf-(\d{4})$/.exec(ref);
+  if (m) {
+    const ano = +m[1];
+    const atual = cfg.evento_em ? new Date(cfg.evento_em).getFullYear() : 0;
+    if (ano === atual) return true;
+    const { data } = await sb.from("wlr_edicoes").select("ano").eq("ano", ano).maybeSingle();
+    return !!data;
+  }
+  const e = /^ev-([0-9a-f-]{36})$/i.exec(ref);
+  if (e) { const { data } = await sb.from("wlr_eventos").select("id").eq("id", e[1]).maybeSingle(); return !!data; }
+  return false;
+}
+async function album(body: any, cfg: Cfg) {
+  const t = body.task;
+  const admin = body.t ? await sb.rpc("wlr_admin_check", { p_token: body.t }).then((r) => r.error ? null : r.data) : null;
+  if (!admin && !(await sessaoOk(body.p_id))) return json({ ok: false, erro: "Acesso restrito aos membros" }, 403);
+  const ref = String(body.ref ?? "");
+
+  if (t === "album-listar") {
+    let q = sb.from("wlr_album").select("id, ref, path, thumb, autor_id, autor_nome, legenda, criado_em").order("criado_em", { ascending: true });
+    q = ref ? q.eq("ref", ref) : q.order("criado_em", { ascending: false }).limit(120);
+    const { data: fotos } = await q;
+    const lista = fotos ?? [];
+    if (!lista.length) return json({ ok: true, fotos: [] });
+    const caminhos = lista.flatMap((f) => [f.thumb, f.path]);
+    const { data: urls } = await sb.storage.from(ALBUM).createSignedUrls(caminhos, 3600);
+    const u: Record<string, string> = {};
+    (urls ?? []).forEach((x: any) => { if (x.path && x.signedUrl) u[x.path] = x.signedUrl; });
+    return json({ ok: true, fotos: lista.map((f) => ({ id: f.id, ref: f.ref, autor: f.autor_nome, legenda: f.legenda, criado_em: f.criado_em,
+      minha: !!body.p_id && f.autor_id === body.p_id, thumb: u[f.thumb], url: u[f.path] })) });
+  }
+
+  if (t === "album-enviar") {
+    if (!(await refOk(ref, cfg))) return json({ ok: false, erro: "Evento não encontrado" }, 404);
+    const n = Math.min(Math.max(parseInt(body.n, 10) || 1, 1), 30);
+    const itens = [];
+    for (let i = 0; i < n; i++) {
+      const id = crypto.randomUUID();
+      const path = `${ref}/${id}.jpg`, thumb = `${ref}/${id}_t.jpg`;
+      const a = await sb.storage.from(ALBUM).createSignedUploadUrl(path);
+      const b = await sb.storage.from(ALBUM).createSignedUploadUrl(thumb);
+      if (a.error || b.error) return json({ ok: false, erro: "Não foi possível preparar o envio" }, 500);
+      itens.push({ path, thumb, url: a.data.signedUrl, url_thumb: b.data.signedUrl });
+    }
+    return json({ ok: true, itens });
+  }
+
+  if (t === "album-registrar") {
+    if (!(await refOk(ref, cfg))) return json({ ok: false, erro: "Evento não encontrado" }, 404);
+    const itens = (Array.isArray(body.itens) ? body.itens : []).slice(0, 30)
+      .filter((x: any) => typeof x.path === "string" && x.path.startsWith(ref + "/") && x.thumb === x.path.replace(/\.jpg$/, "_t.jpg"));
+    // só registra o que de fato chegou ao armazenamento
+    const { data: existe } = await sb.storage.from(ALBUM).list(ref, { limit: 1000 });
+    const nomes = new Set((existe ?? []).map((o: any) => `${ref}/${o.name}`));
+    const ok = itens.filter((x: any) => nomes.has(x.path) && nomes.has(x.thumb));
+    let autor = admin as string | null;
+    if (!admin) {
+      const { data: c } = await sb.from("wlr_confrades").select("nome, apelido").eq("participante_id", body.p_id).maybeSingle();
+      const { data: p } = await sb.from("wlr_participantes").select("nome").eq("id", body.p_id).maybeSingle();
+      autor = c?.nome ?? p?.nome ?? "Confrade";
+    }
+    if (ok.length) {
+      const { error } = await sb.from("wlr_album").insert(ok.map((x: any) => ({ ref, path: x.path, thumb: x.thumb,
+        autor_id: admin ? null : body.p_id, autor_nome: autor, legenda: String(x.legenda ?? "").slice(0, 200) || null })));
+      if (error) return json({ ok: false, erro: error.message }, 500);
+    }
+    return json({ ok: true, n: ok.length });
+  }
+
+  if (t === "album-apagar") {
+    const { data: f } = await sb.from("wlr_album").select("id, path, thumb, autor_id").eq("id", body.id).maybeSingle();
+    if (!f) return json({ ok: false, erro: "Foto não encontrada" }, 404);
+    if (!admin && f.autor_id !== body.p_id) return json({ ok: false, erro: "Só quem enviou (ou o conselho) pode apagar esta foto" }, 403);
+    await sb.storage.from(ALBUM).remove([f.path, f.thumb]);
+    await sb.from("wlr_album").delete().eq("id", f.id);
+    return json({ ok: true });
+  }
+  return json({ ok: false, erro: "Tarefa desconhecida" }, 400);
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
   const body = await req.json().catch(() => ({}));
@@ -260,6 +350,7 @@ Deno.serve(async (req) => {
   const cfg = await carregaCfg();
   try {
     if (["preview", "contar", "enviar"].includes(task)) return await painel(body, cfg);
+    if (String(task).startsWith("album-")) return await album(body, cfg);
     if (!SECRET || req.headers.get("x-wlr-secret") !== SECRET) return new Response("forbidden", { status: 403 });
     let out: unknown;
     if (task === "campanha") out = await campanha(body.tipo, cfg);

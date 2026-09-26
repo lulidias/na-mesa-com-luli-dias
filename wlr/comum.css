@@ -88,3 +88,28 @@ footer .links a:hover{opacity:1}
   .ed-vinhos{columns:1;padding:16px 18px 22px}
   .hero{padding:44px 16px 42px}
 }
+
+/* álbum coletivo */
+.alb{padding:22px 28px 26px;border-top:1px solid var(--border)}
+.alb-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.alb-t{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);font-weight:700}
+.alb-n{color:var(--ink-lt);font-weight:600}
+.alb-add{padding:11px 16px;font-size:10px;letter-spacing:2px;cursor:pointer}
+.alb-add.ocupado{opacity:.5;pointer-events:none}
+.alb-st{font-size:12px;color:#2E7D4F;margin-bottom:10px}
+.alb-st.err{color:#8A2A2A}
+.alb-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px}
+.alb-g figure{margin:0;position:relative;cursor:zoom-in;background:var(--soft)}
+.alb-g img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.alb-g figcaption{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:10px;padding:14px 6px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#alb-zoom{position:fixed;inset:0;background:rgba(20,14,18,.95);z-index:3200;display:none;align-items:center;justify-content:center;flex-direction:column;padding:50px 14px 70px}
+#alb-zoom.on{display:flex}
+#alb-zoom img{max-width:100%;max-height:100%;object-fit:contain}
+#alb-zoom button{position:absolute;background:rgba(255,255,255,.12);color:#fff;border:none;font-size:26px;width:46px;height:46px;cursor:pointer}
+#alb-zoom .az-x{top:12px;right:12px;font-size:20px}
+#alb-zoom .az-p{left:12px;top:50%}
+#alb-zoom .az-n{right:12px;top:50%}
+#alb-zoom .az-i{position:absolute;bottom:16px;left:0;right:0;display:flex;gap:18px;justify-content:center;align-items:center;color:#fff;font-size:12px;flex-wrap:wrap}
+#alb-zoom .az-i a{color:#fff;opacity:.8}
+#alb-zoom .az-del{position:static;width:auto;height:auto;font-size:11px;letter-spacing:1px;padding:8px 12px;background:#8A2A2A}
+@media (max-width:640px){.alb{padding:18px 16px 20px}.alb-g{grid-template-columns:repeat(3,1fr);gap:4px}}

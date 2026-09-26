@@ -787,7 +787,7 @@ function entrou(id) {
   var volta = ''; try { volta = sessionStorage.getItem('wlr_voltar') || ''; sessionStorage.removeItem('wlr_voltar'); } catch (e) { }
   if (volta === 'votar') return location.replace('../votar/');
   if (volta === 'confraria' || volta === 'inicio') return location.replace('../');
-  if (volta === 'edicoes' || volta === 'numeros' || volta === 'confrades') return location.replace('../' + volta + '/');
+  if (volta === 'edicoes' || volta === 'numeros' || volta === 'confrades' || volta === 'eventos') return location.replace('../' + volta + '/');
   // trocar só o #hash NÃO recarrega a página — era isto que deixava a pessoa presa na tela do telefone
   meuId = id;
   history.replaceState({}, '', location.pathname + '#rsvp');

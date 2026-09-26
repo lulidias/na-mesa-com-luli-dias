@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>if (location.hostname === 'www.wineloversrecife.com') location.replace('https://wineloversrecife.com' + location.pathname + location.search + location.hash);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Eventos — Wine Lovers Recife</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../favicon.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=2">
+<meta name="theme-color" content="#6C214C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../comum.css">
+<style>
+section{max-width:1060px}
+.abas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:26px}
+.aba{border:1px solid var(--border);background:#fff;padding:16px 12px;text-align:center;cursor:pointer;font-family:inherit}
+.aba .t{font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--wine)}
+.aba .d{font-size:11px;color:var(--ink-lt);margin-top:4px}
+.aba.on{background:var(--wine-lt);border-color:var(--wine-lt)}
+.aba.on .t,.aba.on .d{color:#fff}
+.intro{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--wine-lt);text-align:center;margin:-6px auto 24px;max-width:640px}
+.evs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.ev{display:block;text-decoration:none;background:#fff;border:1px solid var(--border);padding:20px 18px;cursor:pointer;transition:border-color .2s,transform .2s;text-align:left;font-family:inherit;width:100%}
+.ev:hover{border-color:var(--wine-lt);transform:translateY(-2px)}
+.ev .a{font-weight:800;font-size:34px;color:var(--wine);line-height:1}
+.ev .n{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);font-weight:700;margin-top:8px}
+.ev .i{font-size:12px;color:var(--ink-lt);margin-top:8px;line-height:1.5}
+.ev.atual{background:var(--wine);border-color:var(--wine)}
+.ev.atual .a,.ev.atual .n,.ev.atual .i{color:#fff}
+.det{background:#fff;border:1px solid var(--border);margin-top:18px}
+.det-top{padding:24px 28px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.det-top h2{font-weight:800;font-size:24px;color:var(--wine)}
+.det-top .i{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-lt);margin-top:6px}
+.det .fechar{background:none;border:1px solid var(--border);padding:8px 12px;cursor:pointer;font:600 10px Montserrat,sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt)}
+.det .txt{padding:18px 28px 0;font-size:14.5px;line-height:1.75}
+@media (max-width:640px){
+  .abas{grid-template-columns:repeat(2,1fr)}
+  .det-top{padding:18px 16px 12px}.det .txt{padding:14px 16px 0}
+}
+</style>
+</head>
+<body class="carregando">
+
+<header class="hero" style="padding-bottom:40px">
+  <div class="kicker">Wine Lovers Recife · desde 2016</div>
+  <div class="hero-t">Eventos</div>
+  <div class="quote">Os encontros da confraria, as garrafas e as fotos de quem estava lá</div>
+</header>
+
+<main>
+  <section>
+    <div class="abas" id="abas"></div>
+    <div class="intro" id="intro"></div>
+    <div class="evs" id="evs"></div>
+    <div id="det"></div>
+  </section>
+</main>
+
+<script src="../i18n.js"></script>
+<script src="../comum.js"></script>
+<script>
+montaNav('eventos');
+montaRodape();
+
+var TIPOS = [
+  ['magnum', 'Magnum Fest', 'A grande festa anual, só Magnums'],
+  ['paralela', 'Paralela', 'Encontros paralelos da confraria'],
+  ['ordinario', 'Ordinário', 'Os encontros regulares'],
+  ['velhinhos', 'Os Velhinhos', 'Garrafas com muitos anos de guarda']
+];
+var D = null, aba = 'magnum', ANO_ATUAL = 2026;
+
+function abas() {
+  var conta = { magnum: (D.magnum || []).length };
+  (D.eventos || []).forEach(function (e) { conta[e.tipo] = (conta[e.tipo] || 0) + 1; });
+  document.getElementById('abas').innerHTML = TIPOS.map(function (t) {
+    return '<button class="aba' + (aba === t[0] ? ' on' : '') + '" data-t="' + t[0] + '"><div class="t" data-notr>' + esc(t[1]) + '</div><div class="d">' +
+      esc(conta[t[0]] ? tr(conta[t[0]] === 1 ? '1 encontro' : '{n} encontros', { n: conta[t[0]] }) : tr('em breve')) + '</div></button>';
+  }).join('');
+  [].forEach.call(document.querySelectorAll('.aba'), function (b) { b.onclick = function () { aba = b.dataset.t; history.replaceState({}, '', '#' + aba); abas(); lista(); }; });
+  document.getElementById('intro').textContent = tr(TIPOS.filter(function (t) { return t[0] === aba; })[0][2]);
+}
+
+function lista() {
+  document.getElementById('det').innerHTML = '';
+  var box = document.getElementById('evs');
+  if (aba === 'magnum') {
+    var fotos = D.fotos_por_ref || {};
+    var atual = '<button class="ev atual" data-mf="' + ANO_ATUAL + '"><div class="a">' + ANO_ATUAL + '</div><div class="n" data-notr>Magnum Fest Licínio Dias</div>' +
+      '<div class="i">' + esc(tr('A próxima edição')) + (fotos['mf-' + ANO_ATUAL] ? ' · ' + fotos['mf-' + ANO_ATUAL] + ' ' + esc(tr('fotos')) : '') + '</div></button>';
+    box.innerHTML = atual + (D.magnum || []).map(function (m) {
+      var inf = [m.n ? m.n + ' Magnums' : tr('Sem edição'), m.data ? dataLonga(m.data) : '', m.n_fotos ? m.n_fotos + ' ' + tr('fotos dos confrades') : ''].filter(Boolean).join(' · ');
+      return '<a class="ev" href="../edicoes/#ed-' + m.ano + '"><div class="a">' + m.ano + '</div><div class="n" data-notr>' + (m.ano >= 2021 ? 'Magnum Fest Licínio Dias' : 'Magnum Fest') + '</div><div class="i">' + esc(inf) + '</div></a>';
+    }).join('');
+    var b = box.querySelector('[data-mf]');
+    b.onclick = function () { detalhe({ ref: 'mf-' + ANO_ATUAL, titulo: 'Magnum Fest Licínio Dias ' + ANO_ATUAL, info: tr('As fotos do dia entram aqui. Veja a festa em') + ' ', link: '../magnumfest/' }); };
+    return;
+  }
+  var evs = (D.eventos || []).filter(function (e) { return e.tipo === aba; });
+  box.innerHTML = evs.length ? evs.map(function (e) {
+    var n = linhasVinhos(e.vinhos).length;
+    var inf = [e.local, n ? n + ' ' + tr('garrafas') : '', e.n_fotos ? e.n_fotos + ' ' + tr('fotos') : ''].filter(Boolean).join(' · ');
+    return '<button class="ev" data-id="' + e.id + '"><div class="a">' + (e.data ? new Date(e.data + 'T12:00:00').getFullYear() : '—') + '</div>' +
+      '<div class="n" data-notr>' + esc(e.titulo || TIPOS.filter(function (t) { return t[0] === e.tipo; })[0][1]) + '</div>' +
+      '<div class="i">' + esc([e.data ? dataLonga(e.data) : '', inf].filter(Boolean).join(' · ')) + '</div></button>';
+  }).join('') : '<p class="vazio" style="grid-column:1/-1">' + esc(tr('Ainda não há encontros cadastrados aqui. As listas vão entrando aos poucos.')) + '</p>';
+  [].forEach.call(box.querySelectorAll('[data-id]'), function (b) {
+    b.onclick = function () {
+      var e = evs.filter(function (x) { return x.id === b.dataset.id; })[0];
+      detalhe({ ref: 'ev-' + e.id, titulo: e.titulo || TIPOS.filter(function (t) { return t[0] === e.tipo; })[0][1], info: [e.data ? dataLonga(e.data) : '', e.local].filter(Boolean).join(' · '), texto: e.texto, vinhos: e.vinhos });
+    };
+  });
+}
+
+function detalhe(o) {
+  var vs = linhasVinhos(o.vinhos);
+  var det = document.getElementById('det');
+  det.innerHTML = '<div class="det"><div class="det-top"><div><h2 data-notr>' + esc(o.titulo) + '</h2><div class="i">' + esc(o.info || '') +
+    (o.link ? '<a href="' + o.link + '">' + esc(tr('a página da festa')) + '</a>' : '') + '</div></div><button class="fechar">' + esc(tr('Fechar')) + '</button></div>' +
+    (o.texto ? '<div class="txt">' + paragrafos(o.texto) + '</div>' : '') +
+    (vs.length ? '<ul class="ed-vinhos" data-notr>' + vs.map(function (v) { return '<li><span class="sg">' + esc(v.s) + '</span><span>' + esc(v.v) + '</span></li>'; }).join('') + '</ul>' : '') +
+    '<div class="alb-slot"></div></div>';
+  det.querySelector('.fechar').onclick = function () { det.innerHTML = ''; };
+  albumMonta(det.querySelector('.alb-slot'), o.ref);
+  det.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+sessao().then(function (id) {
+  if (!id) return paraPorta('eventos');
+  return rpc('wlr_p_eventos', { p_id: id }).then(function (d) {
+    D = d || {};
+    var h = location.hash.slice(1); if (TIPOS.some(function (t) { return t[0] === h; })) aba = h;
+    document.body.classList.remove('carregando');
+    abas(); lista();
+  });
+}).catch(function (e) {
+  if (semAcesso(e, 'eventos')) return;
+  document.body.classList.remove('carregando');
+  document.getElementById('evs').innerHTML = '<p class="vazio">' + esc(e.message) + '</p>';
+});
+</script>
+</body>
+</html>
