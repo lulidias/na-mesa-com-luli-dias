@@ -131,3 +131,10 @@ footer .links a:hover{opacity:1}
 .alb.gal .alb-top{padding:16px 28px 0;margin-bottom:6px}
 .alb.gal .alb-st{margin:0 28px 6px}
 @media (max-width:640px){.gal-palco{height:52vh}.gal-mini{padding:6px 12px}.gal-mini img{width:60px;height:46px}.alb.gal .alb-top{padding:14px 16px 0}.alb.gal .alb-st{margin:0 16px 6px}.gal-p,.gal-n{width:38px;height:52px;font-size:24px}}
+/* marca dos eventos: Wine Lovers em cima, o nome do encontro embaixo (tamanho pelo font-size do contêiner) */
+.lk{text-align:center;color:var(--wine);font-size:24px}
+.lk img{width:6.2em;height:auto;display:block;margin:0 auto}
+.lk .fl{width:1.8em;height:1px;background:currentColor;opacity:.35;margin:.55em auto .5em}
+.lk .nm{font-weight:900;font-size:1em;letter-spacing:.14em;padding-left:.14em;text-transform:uppercase;line-height:1.05}
+.lk .sb{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:.88em;color:var(--wine-lt);margin-top:.05em}
+.lk.esc{color:#fff}.lk.esc .sb{color:#E9C7DA}.lk.esc .fl{background:#fff;opacity:.4}

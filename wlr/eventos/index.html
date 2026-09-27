@@ -12,14 +12,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../comum.css?v=20260927t">
+<link rel="stylesheet" href="../comum.css?v=20260927u">
 <style>
 section{max-width:1060px}
 .abas{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px}
 .aba{border:1px solid var(--border);background:#fff;padding:14px 10px;text-align:center;cursor:pointer;font-family:inherit}
-.aba .ic{display:block;margin:0 auto 6px;width:42px;height:50px}
-.aba .ic svg{width:100%;height:100%}
-.aba.on .ic svg{filter:brightness(0) invert(1)}
+.aba .ic{display:block;margin:0 auto 10px;width:64px}
+.aba .ic img{width:100%;height:auto;display:block}
+.aba .sb{display:block;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--wine-lt);margin-top:2px}
+.aba.on .sb{color:#E9C7DA}
 .aba .t{font-weight:800;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--wine)}
 .aba .d{font-size:11px;color:var(--ink-lt);margin-top:4px}
 .aba.on{background:var(--wine-lt);border-color:var(--wine-lt)}
@@ -41,12 +42,11 @@ section{max-width:1060px}
 .ev:hover{border-color:var(--wine-lt);transform:translateY(-2px)}
 .ev .capa{height:128px;background:#F3ECEF center/cover no-repeat}
 .ev .corpo{padding:16px 18px 18px;position:relative;flex:1}
-.ev .ic{position:absolute;top:14px;right:14px;width:30px;height:38px}
-.ev .ic svg{width:100%;height:100%}
-.ev .quando{font-weight:800;font-size:26px;color:var(--wine);line-height:1;letter-spacing:-.3px;padding-right:40px}
+.ev .mk{display:block;width:92px;margin:2px 0 12px}.ev .mk img{width:100%;height:auto;display:block}
+.ev .quando{font-weight:800;font-size:26px;color:var(--wine);line-height:1;letter-spacing:-.3px}
 .ev .quando.sem{font-size:12.5px;font-weight:600;font-style:italic;letter-spacing:0;color:var(--ink-lt);padding-top:6px}
 .ev .a{font-weight:700;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);margin-top:8px}
-.ev .n{font-size:15px;font-weight:800;color:var(--wine);margin-top:4px;padding-right:36px;line-height:1.25}
+.ev .n{font-size:15px;font-weight:800;color:var(--wine);margin-top:4px;line-height:1.25}
 .ev .i{font-size:12px;color:var(--ink-lt);margin-top:8px;line-height:1.5}
 .ev .falta{margin-top:10px;display:flex;gap:5px;flex-wrap:wrap}
 .ev .falta i{font-style:normal;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:#8a5a00;background:#FFF4DC;padding:3px 7px}
@@ -55,9 +55,8 @@ section{max-width:1060px}
 .ev mark{background:#F6E3B4;color:inherit;padding:0 1px}
 .ev.atual{background:var(--wine);border-color:var(--wine)}
 .ev.atual .a,.ev.atual .n,.ev.atual .i,.ev.atual .quando{color:#fff}
-.ev.atual .ic svg{filter:brightness(0) invert(1)}
 .prox{display:flex;align-items:center;gap:22px;background:var(--wine);color:#fff;padding:22px 26px;margin:0 0 26px;cursor:pointer;border:none;width:100%;text-align:left;font-family:inherit}
-.prox .pl{width:84px;flex:0 0 84px}.prox .pl svg{width:100%;height:auto;display:block}
+.prox .pl{flex:0 0 auto;font-size:15px;border-right:1px solid rgba(255,255,255,.25);padding-right:24px}
 .prox .k{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#E9C7DA;font-weight:700}
 .prox .t{font-weight:800;font-size:22px;margin-top:4px}
 .prox .w{font-size:13px;color:#F3E6EC;margin-top:6px}
@@ -78,7 +77,8 @@ section{max-width:1060px}
 body.evm-aberta{overflow:hidden}
 .evm-c{background:#fff;width:100%;max-width:980px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.35);margin:auto 0}
 .evm-top{display:flex;gap:16px;align-items:center;padding:18px 64px 16px 24px;border-bottom:1px solid var(--border)}
-.evm-top .lg{width:56px;flex:0 0 56px}.evm-top .lg svg{width:100%;height:auto;display:block}
+.evm-top .lg{width:110px;flex:0 0 110px;border-right:1px solid var(--border);padding-right:18px}.evm-top .lg img{width:100%;height:auto;display:block}
+.evm-top .k i{font-family:'Cormorant Garamond',serif;letter-spacing:0;text-transform:none;font-size:15px;font-weight:500}
 .evm-top .k{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--wine-lt);font-weight:700}
 .evm-top h2{font-weight:800;font-size:22px;color:var(--wine);line-height:1.2;margin-top:2px}
 .evm-top .i{font-size:12.5px;color:var(--ink-lt);margin-top:4px}
@@ -96,11 +96,11 @@ body.evm-aberta{overflow:hidden}
 .evm-res .lnk{display:inline-block;margin-top:14px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--wine-lt);font-weight:700;text-decoration:none}
 .evm-res .ed-vinhos .sg small{display:block;font-weight:500;letter-spacing:0;font-size:10px;color:var(--ink-lt);text-transform:none}
 @media (max-width:760px){
-  .prox{flex-wrap:wrap;gap:14px;padding:18px}.prox .pl{width:60px;flex-basis:60px}.prox .cd{margin-left:0}
+  .prox{flex-wrap:wrap;gap:14px;padding:18px}.prox .pl{border:none;padding:0;font-size:13px}.prox .cd{margin-left:0}
   .abas{grid-template-columns:repeat(2,1fr)}
   .aba[data-t="todos"]{grid-column:1/-1}
   .evm{padding:0}.evm-c{min-height:100%;box-shadow:none}
-  .evm-top{padding:14px 56px 12px 16px;gap:12px}.evm-top .lg{width:40px;flex-basis:40px}.evm-top h2{font-size:18px}
+  .evm-top{padding:14px 56px 12px 16px;gap:12px}.evm-top .lg{width:72px;flex-basis:72px;padding-right:12px}.evm-top h2{font-size:18px}
   .evm-x{top:8px;right:8px}
   .evm-res{padding:16px 16px 22px}
 }
@@ -126,8 +126,8 @@ body.evm-aberta{overflow:hidden}
   </section>
 </main>
 
-<script src="../i18n.js?v=20260927t"></script>
-<script src="../comum.js?v=20260927t"></script>
+<script src="../i18n.js?v=20260927u"></script>
+<script src="../comum.js?v=20260927u"></script>
 <script>
 montaNav('eventos');
 montaRodape();
@@ -213,7 +213,7 @@ function abas() {
   ITENS.forEach(function (it) { if (!anoOk(it.ano) || it.semFesta) return; conta[it.tipo] = (conta[it.tipo] || 0) + 1; conta.todos = (conta.todos || 0) + 1; });
   document.getElementById('abas').innerHTML = TIPOS.map(function (t) {
     var n = conta[t[0]];
-    return '<button class="aba' + (aba === t[0] ? ' on' : '') + '" data-t="' + t[0] + '"><span class="ic">' + LOGO_EV.icone(t[0]) + '</span><div class="t" data-notr>' + esc(t[1]) + '</div><div class="d">' +
+    return '<button class="aba' + (aba === t[0] ? ' on' : '') + '" data-t="' + t[0] + '"><span class="ic">' + LOGO_EV.icone(t[0], aba === t[0]) + '</span><div class="t" data-notr>' + esc(t[1]) + '</div><span class="sb" data-notr>' + esc(LOGO_EV.sub(t[0])) + '</span><div class="d">' +
       esc(n ? tr(n === 1 ? '1 encontro' : '{n} encontros', { n: n }) : tr(ano === 'todos' ? 'em breve' : 'nenhum neste ano')) + '</div></button>';
   }).join('');
   [].forEach.call(document.querySelectorAll('.aba'), function (b) { b.onclick = function () { aba = b.dataset.t; marca(); abas(); lista(); }; });
@@ -265,7 +265,7 @@ function card(it) {
     it.achou.pres.slice(0, 3).map(function (p) { return '<div><b>✓</b><span>' + realca(p) + ' ' + esc(tr('esteve presente')) + '</span></div>'; }).join('') + '</div>' : '';
   return '<button class="ev' + (it.atual ? ' atual' : '') + '" data-ref="' + it.ref + '">' +
     (capa || it.temFoto ? '<div class="capa" data-capa="' + it.ref + '"' + (capa ? ' style="background-image:url(\'' + esc(capa) + '\')"' : '') + '></div>' : '') +
-    '<div class="corpo"><span class="ic">' + LOGO_EV.icone(it.tipo, it.atual) + '</span>' +
+    '<div class="corpo">' + (it.atual ? '<span class="mk">' + LOGO_EV.icone(it.tipo, true) + '</span>' : '') +
     (it.data ? '<div class="quando">' + esc(diaMes(it.data)) + '</div>' : '<div class="quando sem">' + (it.semFesta ? '—' : esc(tr('data a confirmar'))) + '</div>') +
     '<div class="a" data-notr>' + esc(NOME_TIPO[it.tipo]) + '</div>' +
     '<div class="n" data-notr>' + esc(it.titulo) + '</div><div class="i">' + esc(info) + '</div>' +
@@ -282,7 +282,7 @@ function proximo() {
   if (!fut) return '';
   var dias = Math.round((new Date(fut.data + 'T00:00:00') - hoje) / 864e5);
   var cd = dias === 0 ? '<b>🍷</b><span>' + esc(tr('é hoje')) + '</span>' : '<b>' + dias + '</b><span>' + esc(dias === 1 ? tr('dia') : tr('dias')) + '</span>';
-  return '<button class="prox" data-ref="' + fut.ref + '"><span class="pl">' + LOGO_EV.icone(fut.tipo, true) + '</span><div><div class="k">' + esc(tr('Próximo encontro')) + '</div>' +
+  return '<button class="prox" data-ref="' + fut.ref + '"><span class="pl">' + LOGO_EV.logo(fut.tipo, true) + '</span><div><div class="k">' + esc(tr('Próximo encontro')) + '</div>' +
     '<div class="t" data-notr>' + esc(fut.titulo) + '</div><div class="w">' + esc([dataLonga(fut.data), fut.local].filter(Boolean).join(' · ')) + '</div></div>' +
     '<div class="cd">' + (dias > 0 ? '<span>' + esc(tr('faltam')) + '</span>' : '') + cd + '</div></button>';
 }
@@ -341,7 +341,7 @@ function detalhe(it) {
   if (it.n) num.push([it.n, it.tipo === 'magnum' ? 'Magnums' : tr('garrafas')]);
   if (it.quem.length) num.push([it.quem.length, tr('confrades')]);
   EVM.querySelector('.evm-c').innerHTML = '<button class="evm-x" aria-label="' + esc(tr('Fechar')) + '">✕</button>' +
-    '<div class="evm-top"><span class="lg">' + LOGO_EV.icone(it.tipo) + '</span><div><div class="k" data-notr>' + esc(NOME_TIPO[it.tipo]) + '</div>' +
+    '<div class="evm-top"><span class="lg">' + LOGO_EV.icone(it.tipo) + '</span><div><div class="k" data-notr>' + esc(NOME_TIPO[it.tipo]) + (LOGO_EV.sub(it.tipo) ? ' · <i>' + esc(LOGO_EV.sub(it.tipo)) + '</i>' : '') + '</div>' +
     '<h2 data-notr>' + esc(it.titulo + (it.tipo === 'magnum' ? ' ' + it.ano : '')) + '</h2><div class="i">' + esc(info) + '</div></div></div>' +
     '<div class="alb-slot"></div>' +
     '<div class="evm-res"><h3>' + esc(tr('O encontro')) + '</h3>' +

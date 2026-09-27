@@ -52,7 +52,7 @@ function shell(cfg: Cfg, l: Lang, titulo: string, corpo: string, botao?: { href:
   return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F9F5F7;font-family:Georgia,serif">
   <div style="max-width:560px;margin:0 auto;padding:24px 16px">
     <div style="background:#FFFFFF;color:#411A39;text-align:center;padding:30px 24px 26px;border:1px solid #E9DDE3;border-bottom:6px solid #6C214C">
-      <img src="${SITE}img/magnumfest-logo.png" alt="Magnum Fest Licínio Dias" width="150" style="display:block;margin:0 auto 16px;width:150px;height:auto">
+      <img src="${SITE}img/magnumfest-logo.png" alt="Magnum Fest Licínio Dias" width="230" style="display:block;margin:0 auto 16px;width:150px;height:auto">
       <div style="font-family:Helvetica,Arial,sans-serif;font-weight:800;font-size:26px;letter-spacing:4px;color:#411A39">MAGNUM FEST</div>
       <div style="font-family:Georgia,serif;font-style:italic;font-size:16px;color:#6C214C;margin-top:4px">Licínio Dias · 2026</div>
       <div style="font-size:10px;letter-spacing:3px;color:#6C214C;font-family:Helvetica,Arial,sans-serif;margin-top:12px">${esc(`${data} · ${hora} · ${cfg.local_nome ?? ""}`.toUpperCase())}</div>

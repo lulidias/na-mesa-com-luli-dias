@@ -67,13 +67,14 @@ function desenha(nome) {
   x.textAlign = 'center';
   // logo da confraria
   // a logo da Magnum Fest (garrafa, taça e o nome) e o ano
-  if (LOGO.complete && LOGO.naturalWidth) { var lh = 440, lw = lh * LOGO.naturalWidth / LOGO.naturalHeight; x.drawImage(LOGO, CX - lw / 2, 88, lw, lh); }
+  // a marca: Wine Lovers em cima, MAGNUM FEST e Licínio Dias embaixo
+  if (LOGO.complete && LOGO.naturalWidth) { var lw = 720, lh = lw * LOGO.naturalHeight / LOGO.naturalWidth; x.drawImage(LOGO, CX - lw / 2, 110, lw, lh); }
   x.fillStyle = '#6C214C'; x.font = '500 44px Montserrat';
   try { x.letterSpacing = '14px'; } catch (e) { }
-  x.fillText('2026', CX + 7, 588);
+  x.fillText('2026', CX + 7, 572);
   try { x.letterSpacing = '0px'; } catch (e) { }
   x.strokeStyle = 'rgba(108,33,76,.6)'; x.lineWidth = 2;
-  x.beginPath(); x.moveTo(CX - 140, 628); x.lineTo(CX + 140, 628); x.stroke();
+  x.beginPath(); x.moveTo(CX - 140, 618); x.lineTo(CX + 140, 618); x.stroke();
   // o destaque do cartão
   x.fillStyle = '#6C214C'; x.font = 'italic 600 176px "Cormorant Garamond", Georgia, serif';
   x.fillText(T('Eu vou!'), CX, 790);
