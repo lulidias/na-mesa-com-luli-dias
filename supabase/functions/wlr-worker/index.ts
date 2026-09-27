@@ -85,7 +85,7 @@ const FERRAMENTA: Anthropic.Beta.BetaTool = {
       nota_js: { ...num, description: "Nota de James Suckling para ESTA safra" },
       fontes_notas: str,
       preco_eur_750: { ...num, description: "Preço médio no Wine-Searcher da garrafa de 750 ml, ESTA safra, EM EUROS. Se só achar em dólar ou libra, CONVERTA para euro (câmbio do dia; na dúvida, US$ 1 ≈ € 0,86 e £ 1 ≈ € 1,17) e diga em fonte_preco que converteu. Nunca deixe null se achou o preço em outra moeda." },
-      preco_eur_formato: { ...num, description: "Preço no formato levado (ex.: Magnum 1,5 L), em euros. Se não houver cotação desse formato, ESTIME como 2,1 × o preço da 750 ml e diga em fonte_preco que é estimativa." },
+      preco_eur_formato: { ...num, description: "Preço REAL da garrafa no formato levado (ex.: Magnum 1,5 L), em euros: a média Wine-Searcher desse formato ou, se não houver, a média das ofertas de lojas que você encontrar para ESSE formato (converta moedas: US$ 1 ≈ € 0,86, £ 1 ≈ € 1,17). NÃO estime a partir da 750 ml: se não achar nenhuma oferta do formato, deixe null (a regra calcula 2,5 × a 750 ml). Diga em fonte_preco de onde tirou." },
       fonte_preco: str,
       premiado: { type: ["boolean", "null"], description: "Para Cava, Prosecco e espumante brasileiro: tem medalhas/prêmios relevantes?" },
       premios: str,
@@ -197,7 +197,7 @@ async function analisar(garrafaId: string, cfg: Cfg, reusar = false) {
             conselheiro: c.nome, token: c.token, garrafa_id: g.id, vinho: g.vinho, safra: g.safra,
             nome: c.nome, confrade: dono?.nome ?? g.sigla ?? "—", criterios: parecer.criterios, idioma: "pt",
             resumo: situacao === "inapto"
-              ? "Reprovada na análise automática — " + parecer.resumo + " O confrade ainda não foi avisado: a decisão é do conselho."
+              ? comAviso("Reprovada na análise automática — " + parecer.resumo + " O confrade ainda não foi avisado: a decisão é do conselho.", "pt")
               : comAviso(parecer.resumo, "pt") } });
         }
       }

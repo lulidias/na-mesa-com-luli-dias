@@ -81,8 +81,9 @@ export function avaliar(f: Fatos, ctx: Contexto, lang: Idioma = "pt"): Parecer {
   const melhor = notas.reduce<[string, number] | null>((a, b) => (!a || b[1] > a[1] ? b : a), null);
   const notaOk = !!melhor && melhor[1] >= 95;
   // a Magnum Fest só aceita Magnum: os € 400 valem para o preço da Magnum (regra confirmada pelo Luli em 27/09).
-  // Sem cotação da Magnum, estima-se 2,1 × a garrafa de 750 ml.
-  const precoRef = f.preco_eur_formato ?? (f.preco_eur_750 != null ? Math.round(f.preco_eur_750 * 2.1) : null);
+  // Preço da Magnum: ofertas reais da Magnum quando houver; sem nenhuma, estima-se 2,5 × a garrafa de 750 ml
+  // (a Magnum costuma custar 2,5 a 3 vezes a 750 ml — usamos o piso, para não aprovar pela estimativa).
+  const precoRef = f.preco_eur_formato ?? (f.preco_eur_750 != null ? Math.round(f.preco_eur_750 * 2.5) : null);
   const precoOk = precoRef != null && precoRef >= 400;
   const txtNotas = notas.length ? notas.map(([k, n]) => `${k} ${n}`).join(" · ") : x("sem nota de RP/WS/JS", "sin puntuación de RP/WS/JS", "no RP/WS/JS score");
   const preco = x("preço", "precio", "price");
@@ -135,6 +136,7 @@ export function avaliar(f: Fatos, ctx: Contexto, lang: Idioma = "pt"): Parecer {
       const p = precoRef;
       c.push({ id: "champagne-preco", rotulo: x("Champagne de € 400 ou mais (cláusula 5.4)", "Champagne de 400 € o más (cláusula 5.4)", "Champagne at €400 or more (clause 5.4)"), ok: p == null ? null : p >= 400,
         detalhe: p == null ? x("sem preço no Wine-Searcher", "sin precio en Wine-Searcher", "no Wine-Searcher price") : `${eur(p)} ${x("a Magnum", "la Magnum", "per Magnum")}` +
+          (f.preco_eur_formato == null ? " " + x("(estimado: 2,5 × a 750 ml)", "(estimado: 2,5 × la de 750 ml)", "(estimated: 2.5 × the 750 ml)") : "") +
           (f.preco_eur_750 != null ? ` · 750 ml ${eur(f.preco_eur_750)}` : "") });
     } else if (["Cava", "Prosecco", "Espumante brasileiro"].includes(f.categoria)) {
       const ok = f.premiado === true && f.safra != null ? true : (f.premiado === false || f.safra == null ? false : null);
