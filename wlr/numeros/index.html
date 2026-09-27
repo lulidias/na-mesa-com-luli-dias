@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../comum.css?v=20260927j">
+<link rel="stylesheet" href="../comum.css?v=20260927k">
 <style>
 section{max-width:1120px;padding-top:40px;padding-bottom:40px}
 .filtro{position:sticky;top:57px;z-index:1400;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--border)}
@@ -128,8 +128,8 @@ table.tab{width:100%;border-collapse:collapse;font-size:12.5px}
 </main>
 <div class="tip" id="tip"></div>
 
-<script src="../i18n.js?v=20260927j"></script>
-<script src="../comum.js?v=20260927j"></script>
+<script src="../i18n.js?v=20260927k"></script>
+<script src="../comum.js?v=20260927k"></script>
 <script>
 montaNav('numeros');
 montaRodape();
@@ -313,7 +313,8 @@ function desenha() {
   document.querySelector('#c-edicoes .sub').textContent = mf ? tr('Quantas garrafas foram à mesa em cada ano. 2020 não teve festa.') : tr('Quantas garrafas foram à mesa em cada ano, somando os encontros.');
   document.getElementById('c-idade').classList.toggle('hidden', !todas);
   if (todas) {
-    var anos = []; for (var a = 2016; a < ATUAL; a++) anos.push(a);
+    // a Magnum Fest do ano corrente ainda não aconteceu; os outros encontros do ano já contam
+    var anos = []; for (var a = 2016; a < (mf ? ATUAL : ATUAL + 1); a++) anos.push(a);
     colunas(document.getElementById('g-edicoes'), anos.map(function (a) { return [a, L.filter(function (g) { return g.ano === a; }).length]; }),
       function (p) { return p[1] ? p[0] + ': ' + p[1] + ' ' + GAR + (mf ? ' (' + nf(p[1] * 1.5) + ' L)' : '') : p[0] + ': ' + (mf && p[0] === 2020 ? tr('sem festa (pandemia)') : '—'); });
     colunas(document.getElementById('g-idade'), anos.map(function (a) {
