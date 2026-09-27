@@ -384,8 +384,7 @@ body.fechado .confraria-btn{display:none}
     <div class="crit"><h3>Espumantes</h3><ul>
       <li>Champagne, com preço mínimo de <strong>€ 400</strong>.</li>
       <li>Exceções: Cava, Prosecco e espumante brasileiro <strong>premiados e safrados</strong>, de origem controlada.</li>
-      <li>Limite de <strong>3 rótulos</strong>: 1 rosé e 2 brut.</li>
-    </ul><div class="cl">Cláusulas 5.2 a 5.6</div></div>
+    </ul><div class="cl">Cláusulas 5.2 a 5.5</div></div>
     <div class="crit"><h3>Doces e fortificados</h3><ul>
       <li>Sauternes, conforme a qualidade do produtor; Tokaj de <strong>6 puttonyos</strong>.</li>
       <li>Porto, Sauternes e Tokaj: <strong>2 exemplares</strong> no total.</li>
@@ -606,7 +605,7 @@ body.fechado .confraria-btn{display:none}
   </div>
 </div>
 
-<script src="../i18n.js?v=20260927i"></script>
+<script src="../i18n.js?v=20260927j"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 <script>
 'use strict';
@@ -1229,14 +1228,11 @@ var vinhosCache = [];
 function renderVagas(vinhos) {
   if (!cfg) return;
   var ap = vinhos.filter(function (g) { return g.situacao === 'aprovado'; });
-  var rose = ap.filter(function (g) { return g.tipo === 'Espumante' && g.subtipo === 'Rosé'; }).length;
-  var brut = ap.filter(function (g) { return g.tipo === 'Espumante' && g.subtipo !== 'Rosé'; }).length;
   var doces = ap.filter(function (g) { return g.tipo === 'Fortificado / Doce'; }).length;
-  var limB = cfg.lim_espumantes - cfg.lim_espumante_rose;
   var v = function (rot, n, lim) {
     return '<div class="vaga' + (n >= lim ? ' cheia' : '') + '"><b>' + n + ' / ' + lim + '</b>' + esc(T(rot)) + (n >= lim ? ' — ' + T('completo') : '') + '</div>';
   };
-  document.getElementById('vagas-row').innerHTML = v('espumantes brut', brut, limB) + v('espumante rosé', rose, cfg.lim_espumante_rose) + v('Porto, Sauternes e Tokaj', doces, cfg.lim_doces);
+  document.getElementById('vagas-row').innerHTML = v('Porto, Sauternes e Tokaj', doces, cfg.lim_doces);
 }
 function selo(g) {
   var s = g.situacao === 'aprovado' ? '<span class="sit ok">✓ Aprovado</span>' : '<span class="sit an">⏳ Com o conselho</span>';

@@ -69,6 +69,7 @@
     '3 rótulos': ['3 etiquetas', '3 labels'],
     ': 1 rosé e 2 brut.': [': 1 rosado y 2 brut.', ': 1 rosé and 2 brut.'],
     'Cláusulas 5.2 a 5.6': ['Cláusulas 5.2 a 5.6', 'Clauses 5.2 to 5.6'],
+    'Cláusulas 5.2 a 5.5': ['Cláusulas 5.2 a 5.5', 'Clauses 5.2 to 5.5'],
     'Doces e fortificados': ['Dulces y generosos', 'Sweet and fortified'],
     'Sauternes, conforme a qualidade do produtor; Tokaj de': ['Sauternes, según la calidad del productor; Tokaj de', 'Sauternes, depending on the producer; Tokaj of'],
     'Porto, Sauternes e Tokaj:': ['Oporto, Sauternes y Tokaj:', 'Port, Sauternes and Tokaj:'],

@@ -129,7 +129,7 @@ export function avaliar(f: Fatos, ctx: Contexto, lang: Idioma = "pt"): Parecer {
       detalhe: ok ? (f.regiao_branco_lista ?? f.pais!) : `${f.regiao ?? "?"}, ${f.pais ?? "?"} — ${x("fora da lista", "fuera de la lista", "not on the list")}` });
   }
 
-  // 5.2–5.6 Espumantes
+  // 5.2–5.5 Espumantes (o limite de 1 rosé + 2 brut da 5.6 foi retirado em 2026)
   if (esp) {
     if (f.categoria === "Champagne") {
       const p = precoRef;
@@ -149,14 +149,6 @@ export function avaliar(f: Fatos, ctx: Contexto, lang: Idioma = "pt"): Parecer {
       c.push({ id: "doc", rotulo: x("Safrado e de origem controlada (cláusula 5.5)", "De añada y con denominación de origen (cláusula 5.5)", "Vintage-dated, controlled appellation (clause 5.5)"), ok,
         detalhe: `${safraTxt(f.safra)} · ${f.origem_controlada ? "DO/DOC" : f.origem_controlada === false ? x("sem DO", "sin DO", "no appellation") : x("DO não confirmada", "DO no confirmada", "appellation not confirmed")}` });
     }
-    const rose = f.estilo_espumante === "Rosé";
-    const lotado = ctx.vagas.espumantes >= ctx.limites.espumantes ||
-      (rose ? ctx.vagas.espumante_rose >= ctx.limites.espumante_rose
-            : ctx.vagas.espumantes - ctx.vagas.espumante_rose >= ctx.limites.espumantes - ctx.limites.espumante_rose);
-    c.push({ id: "vagas", rotulo: x(`Vaga de espumante ${rose ? "rosé" : "brut"} (cláusula 5.6: 1 rosé + 2 brut)`, `Plaza de espumoso ${rose ? "rosado" : "brut"} (cláusula 5.6: 1 rosado + 2 brut)`, `${rose ? "Rosé" : "Brut"} sparkling slot (clause 5.6: 1 rosé + 2 brut)`),
-      ok: lotado ? null : true,
-      detalhe: x(`${ctx.vagas.espumantes} de ${ctx.limites.espumantes} vagas ocupadas (${ctx.vagas.espumante_rose} rosé)`, `${ctx.vagas.espumantes} de ${ctx.limites.espumantes} plazas ocupadas (${ctx.vagas.espumante_rose} rosado)`, `${ctx.vagas.espumantes} of ${ctx.limites.espumantes} slots taken (${ctx.vagas.espumante_rose} rosé)`) +
-        (lotado ? x(" — lotado; o conselho decide entre os candidatos", ": completo; el consejo decide entre los candidatos", " — full; the board chooses among the candidates") : "") });
   }
 
   // 5.7–5.8 Doces e fortificados
