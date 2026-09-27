@@ -136,9 +136,12 @@ function albumMonta(el, ref, opts) {
   };
   var lista = function () {
     var ex = extras || (extras = (opts.extras ? opts.extras() : Promise.resolve([])).catch(function () { return []; }));
-    return Promise.all([ex, worker({ task: 'album-listar', p_id: meuId, ref: ref })]).then(function (r) {
+    var dp = opts.depois ? opts.depois().catch(function () { return []; }) : Promise.resolve([]);
+    return Promise.all([ex, worker({ task: 'album-listar', p_id: meuId, ref: ref }), dp]).then(function (r) {
       var d = r[1], proprias = d.fotos || [];
-      fotos = (r[0] || []).concat(proprias);
+      // a capa escolhida no painel abre a galeria
+      if (opts.primeira) proprias.sort(function (a, b) { return (b.id === opts.primeira) - (a.id === opts.primeira); });
+      fotos = (r[0] || []).concat(proprias).concat(r[2] || []);
       el.querySelector('.alb-n').textContent = proprias.length ? '· ' + proprias.length : '';
       if (gal) {
         el.querySelector('.gal-mini').innerHTML = fotos.map(function (f, i) { return '<img src="' + esc(f.thumb || f.url) + '" alt="" loading="lazy" data-i="' + i + '">'; }).join('');

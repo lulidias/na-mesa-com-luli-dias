@@ -1022,7 +1022,6 @@ function tipoEvento() {
   var mf = document.getElementById('evm-tipo').value === 'magnum';
   document.querySelector('.evm-tit').style.visibility = mf ? 'hidden' : 'visible';
   document.getElementById('evm-fotos-mf').classList.toggle('hidden', !mf);
-  document.getElementById('evm-pres-box').classList.toggle('hidden', mf);
 }
 // "AMN, Luli Dias" → nomes do cadastro (sigla vira o nome; nome escrito sem acento/caixa também casa)
 function presentesNomes() {
@@ -1047,7 +1046,7 @@ function abreEvento(chave) {
   document.getElementById('evm-tit').value = e && e.tipo !== 'magnum' ? (e.titulo || '') : '';
   document.getElementById('evm-local').value = e ? (e.local || '') : '';
   document.getElementById('evm-texto').value = e ? (e.texto || '') : '';
-  document.getElementById('evm-pres').value = e && e.ev ? (e.ev.presentes || []).join(', ') : '';
+  document.getElementById('evm-pres').value = e ? (((e.ev || e.mf || {}).presentes) || []).join(', ') : '';
   var porV = {}; ((e && e.dados) || []).forEach(function (d) { porV[d.v] = d; });
   document.getElementById('evm-linhas').innerHTML = linhasTxt(e && e.vinhos).map(function (l) {
     var d = porV[l.v] || {}; return linhaHTML({ s: l.s, v: l.v, produtor: d.produtor, pais: d.pais, regiao: d.regiao, tipo: d.tipo, uva: d.uva, safra: d.safra || (l.v.match(/\b(1[89][0-9]\d|20[0-2]\d)\b/) || [])[1] });
@@ -1088,7 +1087,7 @@ function salvaEvento() {
   var b = document.getElementById('evm-salvar'); b.disabled = true; b.textContent = 'Salvando…';
   var p = tipo === 'magnum'
     ? rpc('wlr_admin_edicao_gravar', { p_token: TOKEN, p_ano: ano, p_ano_antigo: evAtual ? evAtual.ano : null, p_data: data, p_local: document.getElementById('evm-local').value,
-        p_texto: document.getElementById('evm-texto').value, p_vinhos: vinhos, p_dados: dados, p_foto: fotoEv }).then(function () { return 'mf-' + ano; })
+        p_texto: document.getElementById('evm-texto').value, p_vinhos: vinhos, p_dados: dados, p_foto: fotoEv }).then(function () { return rpc('wlr_admin_edicao_presentes', { p_token: TOKEN, p_ano: ano, p_presentes: presentesNomes() }); }).then(function () { return 'mf-' + ano; })
     : rpc('wlr_admin_evento_gravar', { p_token: TOKEN, p_evento: evAtual ? evAtual.ev.id : null, p_tipo: tipo, p_ano: ano, p_data: data,
         p_titulo: document.getElementById('evm-tit').value, p_local: document.getElementById('evm-local').value, p_texto: document.getElementById('evm-texto').value,
         p_vinhos: vinhos, p_dados: dados }).then(function (id) {
@@ -1118,11 +1117,26 @@ function albumAdm(ref) {
   worker({ task: 'album-listar', ref: ref }).then(function (d) {
     if (albRef !== ref) return;
     var f = d.fotos || []; document.getElementById('evm-alb-n').textContent = f.length ? f.length + ' fotos' : '';
-    box.innerHTML = f.map(function (x) {
-      return '<div><a href="' + x.url + '" target="_blank"><img src="' + x.thumb + '" alt=""></a><small>' + esc(x.autor || '') + '</small>' +
-        '<button class="del" onclick="apagaFotoEv(' + x.id + ')" style="position:absolute;top:3px;right:3px;background:#fff;padding:2px 6px">✕</button></div>';
-    }).join('') || '<span style="font-size:12px;color:var(--ink-lt)">Nenhuma foto ainda.</span>';
+    // capa: a escolhida; sem escolha, a foto oficial (Magnum Fest) ou a primeira do álbum
+    var obj = evAtual ? (evAtual.ev || evAtual.mf || {}) : {}, capa = obj.capa || null, oficial = !!(evAtual && evAtual.mf && evAtual.mf.tem_foto);
+    var efetiva = capa || (oficial ? null : (f[0] && f[0].id));
+    var aviso = '<div style="grid-column:1/-1;font-size:11px;color:var(--ink-lt);margin-bottom:4px">Capa do card e 1ª foto da galeria: ' +
+      (capa ? 'a marcada com ★.' : oficial ? '<strong>a foto oficial da edição</strong>.' : 'a primeira do álbum (nenhuma escolhida).') +
+      ' Prioridade: confrades juntos → garrafas juntas → qualquer uma.' + (capa && evAtual && evAtual.mf ? ' <a href="#" onclick="defineCapa(null);return false">Voltar para a foto oficial</a>' : capa ? ' <a href="#" onclick="defineCapa(null);return false">Tirar a escolha</a>' : '') + '</div>';
+    box.innerHTML = f.length ? aviso + f.map(function (x) {
+      var on = x.id === efetiva;
+      return '<div' + (on ? ' style="outline:3px solid #C5A35A;outline-offset:-3px"' : '') + '><a href="' + x.url + '" target="_blank"><img src="' + x.thumb + '" alt=""></a><small>' + esc(x.autor || '') + '</small>' +
+        '<button class="del" onclick="apagaFotoEv(' + x.id + ')" style="position:absolute;top:3px;right:3px;background:#fff;padding:2px 6px">✕</button>' +
+        '<button onclick="defineCapa(' + x.id + ')" title="Usar como capa" style="position:absolute;top:3px;left:3px;border:none;cursor:pointer;font:600 10px Montserrat,sans-serif;padding:3px 6px;' + (on ? 'background:#C5A35A;color:#fff' : 'background:#fff;color:#6C214C') + '">★' + (on ? ' capa' : '') + '</button></div>';
+    }).join('') : '<span style="font-size:12px;color:var(--ink-lt)">Nenhuma foto ainda.</span>';
   }).catch(function (e) { box.textContent = e.message; });
+}
+function defineCapa(id) {
+  var ref = albRef; if (!ref) return;
+  rpc('wlr_admin_capa', { p_token: TOKEN, p_ref: ref, p_album: id }).then(function () {
+    var obj = evAtual ? (evAtual.ev || evAtual.mf) : null; if (obj) obj.capa = id;
+    toast(id ? 'Capa escolhida.' : 'Capa: voltou ao padrão.'); albumAdm(ref);
+  }).catch(function (e) { toast(e.message, true); });
 }
 function apagaFotoEv(id) {
   if (!confirm('Apagar esta foto do álbum?')) return;

@@ -306,9 +306,19 @@ async function album(body: any, cfg: Cfg) {
   if (t === "album-capas") {
     const refs = (Array.isArray(body.refs) ? body.refs : []).filter((r: unknown) => typeof r === "string").slice(0, 300);
     if (!refs.length) return json({ ok: true, capas: {} });
-    const { data: fotos } = await sb.from("wlr_album").select("ref, thumb").in("ref", refs).order("criado_em", { ascending: true });
+    const { data: fotos } = await sb.from("wlr_album").select("id, ref, thumb").in("ref", refs).order("criado_em", { ascending: true });
+    // capa escolhida no painel; sem escolha: Magnum Fest com foto oficial fica com a oficial (a página usa), o resto pega a primeira do álbum
+    const [{ data: evs }, { data: eds }] = await Promise.all([
+      sb.from("wlr_eventos").select("id, capa").not("capa", "is", null),
+      sb.from("wlr_edicoes").select("ano, capa").not("capa", "is", null)]);
+    const escolhida: Record<string, number> = {}, comOficial: Record<string, boolean> = {};
+    (evs ?? []).forEach((e: any) => { escolhida["ev-" + e.id] = e.capa; });
+    (eds ?? []).forEach((e: any) => { escolhida["mf-" + e.ano] = e.capa; });
+    // a página diz quais edições têm foto oficial (evita ler as fotos pesadas aqui)
+    (Array.isArray(body.oficiais) ? body.oficiais : []).forEach((r: unknown) => { if (typeof r === "string") comOficial[r] = true; });
     const primeira: Record<string, string> = {};
-    (fotos ?? []).forEach((f: any) => { if (!primeira[f.ref]) primeira[f.ref] = f.thumb; });
+    (fotos ?? []).forEach((f: any) => { if (escolhida[f.ref] === f.id) primeira[f.ref] = f.thumb; });
+    (fotos ?? []).forEach((f: any) => { if (!primeira[f.ref] && !escolhida[f.ref] && !comOficial[f.ref]) primeira[f.ref] = f.thumb; });
     const caminhos = Object.values(primeira);
     if (!caminhos.length) return json({ ok: true, capas: {} });
     const { data: urls } = await sb.storage.from(ALBUM).createSignedUrls(caminhos, 3600);

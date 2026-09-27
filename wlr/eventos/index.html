@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../comum.css?v=20260927s">
+<link rel="stylesheet" href="../comum.css?v=20260927t">
 <style>
 section{max-width:1060px}
 .abas{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px}
@@ -126,8 +126,8 @@ body.evm-aberta{overflow:hidden}
   </section>
 </main>
 
-<script src="../i18n.js?v=20260927s"></script>
-<script src="../comum.js?v=20260927s"></script>
+<script src="../i18n.js?v=20260927t"></script>
+<script src="../comum.js?v=20260927t"></script>
 <script>
 montaNav('eventos');
 montaRodape();
@@ -157,12 +157,12 @@ function monta() {
     nFotos: (D.fotos_por_ref || {})['mf-' + ANO_ATUAL] || 0 });
   (D.magnum || []).forEach(function (m) {
     ITENS.push({ ref: 'mf-' + m.ano, tipo: 'magnum', ano: m.ano, data: m.data, local: m.local, titulo: m.ano >= 2021 ? 'Magnum Fest Licínio Dias' : 'Magnum Fest',
-      vinhos: m.vinhos || '', presentes: [], n: m.n, link: '../edicoes/#ed-' + m.ano, temFoto: m.tem_foto, semFesta: !m.n && !m.data,
+      vinhos: m.vinhos || '', presentes: m.presentes || [], capa: m.capa, n: m.n, link: '../edicoes/#ed-' + m.ano, temFoto: m.tem_foto, semFesta: !m.n && !m.data,
       nFotos: (m.n_fotos || 0) + (m.n_galeria || 0) + (m.tem_foto ? 1 : 0) });
   });
   (D.eventos || []).forEach(function (e) {
     ITENS.push({ ref: 'ev-' + e.id, tipo: e.tipo, ano: e.ano, data: e.data, local: e.local, titulo: e.titulo || NOME_TIPO[e.tipo], texto: e.texto,
-      vinhos: e.vinhos || '', presentes: e.presentes || [], n: linhasVinhos(e.vinhos).length, nFotos: e.n_fotos || 0 });
+      vinhos: e.vinhos || '', presentes: e.presentes || [], capa: e.capa, n: linhasVinhos(e.vinhos).length, nFotos: e.n_fotos || 0 });
   });
   ITENS.forEach(function (it) {
     // quem estava: quem levou garrafa (sigla → nome) + a lista de presentes, sem repetir
@@ -358,7 +358,7 @@ function detalhe(it) {
       return (r[0] ? [r[0]] : []).concat(r[1] || []).map(function (src) { return { url: src, thumb: src, oficial: true }; });
     });
   } : null;
-  albumMonta(EVM.querySelector('.alb-slot'), it.ref, { galeria: true, extras: extras });
+  albumMonta(EVM.querySelector('.alb-slot'), it.ref, { galeria: true, extras: it.capa ? null : extras, primeira: it.capa, depois: it.capa ? extras : null });
   EVM.scrollTop = 0;
   if (!EVM.classList.contains('on')) {
     EVM.classList.add('on'); document.body.classList.add('evm-aberta');
@@ -390,7 +390,8 @@ sessao().then(function (id) {
     document.body.classList.remove('carregando');
     abas(); anos(); lista();
     // capas: a primeira foto do álbum de cada encontro
-    worker({ task: 'album-capas', p_id: id, refs: ITENS.filter(function (it) { return it.nFotos; }).map(function (it) { return it.ref; }) }).then(function (r) {
+    worker({ task: 'album-capas', p_id: id, refs: ITENS.filter(function (it) { return it.nFotos; }).map(function (it) { return it.ref; }),
+      oficiais: ITENS.filter(function (it) { return it.temFoto; }).map(function (it) { return it.ref; }) }).then(function (r) {
       Object.keys(r.capas || {}).forEach(function (k) { CAPAS[k] = r.capas[k]; });
       // põe as capas nos cards já desenhados, sem fechar um encontro aberto
       if (!Object.keys(r.capas || {}).length) return;
