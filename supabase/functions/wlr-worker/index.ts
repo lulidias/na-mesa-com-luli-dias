@@ -302,6 +302,23 @@ async function album(body: any, cfg: Cfg) {
       minha: !!body.p_id && f.autor_id === body.p_id, thumb: u[f.thumb], url: u[f.path] })) });
   }
 
+  // capa de cada encontro: a primeira foto do álbum (miniatura), para os cards da página de eventos
+  if (t === "album-capas") {
+    const refs = (Array.isArray(body.refs) ? body.refs : []).filter((r: unknown) => typeof r === "string").slice(0, 300);
+    if (!refs.length) return json({ ok: true, capas: {} });
+    const { data: fotos } = await sb.from("wlr_album").select("ref, thumb").in("ref", refs).order("criado_em", { ascending: true });
+    const primeira: Record<string, string> = {};
+    (fotos ?? []).forEach((f: any) => { if (!primeira[f.ref]) primeira[f.ref] = f.thumb; });
+    const caminhos = Object.values(primeira);
+    if (!caminhos.length) return json({ ok: true, capas: {} });
+    const { data: urls } = await sb.storage.from(ALBUM).createSignedUrls(caminhos, 3600);
+    const u: Record<string, string> = {};
+    (urls ?? []).forEach((x: any) => { if (x.path && x.signedUrl) u[x.path] = x.signedUrl; });
+    const capas: Record<string, string> = {};
+    Object.keys(primeira).forEach((r) => { if (u[primeira[r]]) capas[r] = u[primeira[r]]; });
+    return json({ ok: true, capas });
+  }
+
   if (t === "album-enviar") {
     if (!(await refOk(ref, cfg))) return json({ ok: false, erro: "Evento não encontrado" }, 404);
     const n = Math.min(Math.max(parseInt(body.n, 10) || 1, 1), 30);

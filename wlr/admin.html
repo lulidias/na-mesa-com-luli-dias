@@ -210,6 +210,11 @@ a{color:var(--wine-lt)}
 
   <h2>Eventos <small id="ev-sub"></small></h2>
   <p style="font-size:11px;color:var(--ink-lt);margin-bottom:12px;line-height:1.6">Todos os encontros da confraria: <strong>Magnum Fest, Paralela, Ordinário e Os Velhinhos</strong>. Em cada evento, as garrafas são cadastradas linha a linha, com quem levou, e classificadas (país, região, tipo, uva). É isso que alimenta os Números e o histórico de cada confrade. Dá também para colar uma lista inteira, e os vinhos que já apareceram antes são preenchidos sozinhos.</p>
+  <div id="sug-box" class="hidden" style="background:#FBF6EE;border:1px solid #EFE2C8;padding:14px 16px;margin-bottom:14px">
+    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--wine);margin-bottom:8px">Os confrades sabem de alguma coisa <span id="sug-n"></span></div>
+    <p style="font-size:11px;color:var(--ink-lt);margin-bottom:10px">Data, lugar, quem estava, quem levou cada garrafa: o que chegou pelo botão "Ajude a completar" da página de eventos. Confira, atualize o evento e marque como resolvida.</p>
+    <div id="sug-lista"></div>
+  </div>
   <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
     <select id="ev-filtro" onchange="desenhaEventos()"><option value="">Todos os tipos</option><option value="magnum">Magnum Fest</option><option value="ordinario">Ordinário</option><option value="paralela">Paralela</option><option value="velhinhos">Os Velhinhos</option></select>
     <select id="ev-ano" onchange="desenhaEventos()"><option value="">Todos os anos</option></select>
@@ -926,7 +931,28 @@ function loadEventos() {
     var sel = document.getElementById('ev-ano'), atual = sel.value;
     sel.innerHTML = '<option value="">Todos os anos</option>' + Object.keys(anos).sort().reverse().map(function (a) { return '<option' + (a === atual ? ' selected' : '') + '>' + a + '</option>'; }).join('');
     desenhaEventos();
+    loadSugestoes();
   }).catch(function (e) { toast(e.message, true); });
+}
+// o que os confrades mandaram pelo "Ajude a completar"
+function loadSugestoes() {
+  return rpc('wlr_admin_sugestoes', { p_token: TOKEN }).then(function (L) {
+    L = L || []; var abertas = L.filter(function (x) { return !x.resolvida; });
+    document.getElementById('sug-box').classList.toggle('hidden', !L.length);
+    document.getElementById('sug-n').textContent = abertas.length ? '· ' + abertas.length + ' para conferir' : '· tudo conferido';
+    document.getElementById('sug-lista').innerHTML = L.map(function (x) {
+      return '<div style="border-top:1px solid #EFE2C8;padding:9px 0;display:flex;gap:12px;align-items:flex-start;' + (x.resolvida ? 'opacity:.5' : '') + '">' +
+        '<div style="flex:1;font-size:12.5px;line-height:1.55"><strong>' + esc(x.evento || x.ref) + '</strong> <span style="color:var(--ink-lt);font-size:11px">· ' + esc(x.autor || '—') + ' · ' +
+        new Date(x.criado_em).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) + '</span><br>' + esc(x.texto).replace(/\n/g, '<br>') + '</div>' +
+        '<div style="display:flex;gap:6px;flex:0 0 auto"><button class="btn ghost-d" onclick="abreEvento(\'' + x.ref + '\')">Abrir evento</button>' +
+        (x.resolvida ? '<span style="font-size:11px;color:#2e7d32;padding-top:8px">✓ resolvida</span>' : '<button class="btn gold" onclick="resolveSugestao(' + x.id + ', this)">Resolvida</button>') + '</div></div>';
+    }).join('');
+  }).catch(function (e) { toast(e.message, true); });
+}
+function resolveSugestao(id, b) {
+  b.disabled = true; b.textContent = 'Salvando…';
+  rpc('wlr_admin_sugestao_resolver', { p_token: TOKEN, p_sugestao: id }).then(function () { toast('Marcada como resolvida.'); loadSugestoes(); })
+    .catch(function (e) { toast(e.message, true); b.disabled = false; b.textContent = 'Resolvida'; });
 }
 function todosEventos() {
   return MAG.map(function (m) { return { chave: 'mf-' + m.ano, tipo: 'magnum', ano: m.ano, data: m.data, titulo: 'Magnum Fest', local: m.local, texto: m.texto, vinhos: m.vinhos, dados: m.dados, fotos: (m.n_album || 0) + (m.n_galeria || 0) + (m.tem_foto ? 1 : 0), mf: m }; })

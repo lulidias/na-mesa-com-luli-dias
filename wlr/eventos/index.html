@@ -12,48 +12,75 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../comum.css?v=20260927l">
+<link rel="stylesheet" href="../comum.css?v=20260927m">
 <style>
 section{max-width:1060px}
-.abas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:26px}
-.aba{border:1px solid var(--border);background:#fff;padding:16px 12px;text-align:center;cursor:pointer;font-family:inherit}
-.aba .ic{display:block;margin:0 auto 6px;width:46px;height:56px}
+.abas{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px}
+.aba{border:1px solid var(--border);background:#fff;padding:14px 10px;text-align:center;cursor:pointer;font-family:inherit}
+.aba .ic{display:block;margin:0 auto 6px;width:42px;height:50px}
 .aba .ic svg{width:100%;height:100%}
 .aba.on .ic svg{filter:brightness(0) invert(1)}
-.ev{position:relative}
-.ev .ic{position:absolute;top:14px;right:14px;width:34px;height:42px}
-.ev .ic svg{width:100%;height:100%}
-.ev.atual .ic svg{filter:brightness(0) invert(1)}
-.det-logo{width:118px;flex:0 0 118px}
-.det-logo svg{width:100%;height:auto;display:block}
-.det-top>div:first-child{display:flex;gap:18px;align-items:center}
-.aba .t{font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--wine)}
+.aba .t{font-weight:800;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--wine)}
 .aba .d{font-size:11px;color:var(--ink-lt);margin-top:4px}
 .aba.on{background:var(--wine-lt);border-color:var(--wine-lt)}
 .aba.on .t,.aba.on .d{color:#fff}
-.anos{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:-10px 0 24px}
+.barra{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:22px}
+.busca{width:100%;max-width:560px;border:1px solid var(--border);background:#fff;padding:13px 16px 13px 40px;font:400 14px Montserrat,sans-serif;color:var(--ink);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236C214C' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:14px center}
+.busca:focus{outline:none;border-color:var(--wine-lt)}
+.anos{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
 .anos button{border:1px solid var(--border);background:#fff;color:var(--ink-lt);font:600 11px Montserrat,sans-serif;letter-spacing:1px;padding:8px 13px;cursor:pointer}
 .anos button.on{background:var(--wine-lt);border-color:var(--wine-lt);color:#fff}
-.intro{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--wine-lt);text-align:center;margin:-6px auto 24px;max-width:640px}
+.intro{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--wine-lt);text-align:center;margin:0 auto 20px;max-width:640px}
+.ano-h{display:flex;align-items:baseline;gap:14px;margin:30px 0 12px;border-bottom:1px solid var(--border);padding-bottom:8px}
+.ano-h:first-child{margin-top:0}
+.ano-h b{font-weight:800;font-size:30px;color:var(--wine);line-height:1}
+.ano-h span{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt)}
 .evs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
-.ev{display:block;text-decoration:none;background:#fff;border:1px solid var(--border);padding:20px 18px;cursor:pointer;transition:border-color .2s,transform .2s;text-align:left;font-family:inherit;width:100%}
+.ev{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--border);padding:0;cursor:pointer;transition:border-color .2s,transform .2s;text-align:left;font-family:inherit;width:100%;overflow:hidden}
 .ev:hover{border-color:var(--wine-lt);transform:translateY(-2px)}
-.ev .a{font-weight:800;font-size:34px;color:var(--wine);line-height:1}
-.ev .n{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);font-weight:700;margin-top:8px}
+.ev .capa{height:128px;background:#F3ECEF center/cover no-repeat}
+.ev .corpo{padding:16px 18px 18px;position:relative;flex:1}
+.ev .ic{position:absolute;top:14px;right:14px;width:30px;height:38px}
+.ev .ic svg{width:100%;height:100%}
+.ev .a{font-weight:800;font-size:13px;letter-spacing:1px;color:var(--ink-lt)}
+.ev .n{font-size:15px;font-weight:800;color:var(--wine);margin-top:4px;padding-right:36px;line-height:1.25}
 .ev .i{font-size:12px;color:var(--ink-lt);margin-top:8px;line-height:1.5}
+.ev .falta{margin-top:10px;display:flex;gap:5px;flex-wrap:wrap}
+.ev .falta i{font-style:normal;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:#8a5a00;background:#FFF4DC;padding:3px 7px}
+.ev .achou{margin-top:10px;border-top:1px dotted var(--border);padding-top:8px;font-size:12px;line-height:1.5;color:var(--ink)}
+.ev .achou div{display:flex;gap:6px}.ev .achou b{color:var(--wine-lt);font-size:10.5px;letter-spacing:.5px;min-width:34px}
+.ev mark{background:#F6E3B4;color:inherit;padding:0 1px}
 .ev.atual{background:var(--wine);border-color:var(--wine)}
 .ev.atual .a,.ev.atual .n,.ev.atual .i{color:#fff}
-.det{background:#fff;border:1px solid var(--border);margin-top:18px}
+.ev.atual .ic svg{filter:brightness(0) invert(1)}
+.nres{text-align:center;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-lt);margin:-8px 0 16px}
+.det{background:#fff;border:1px solid var(--border);margin-top:18px;scroll-margin-top:90px}
 .det-top{padding:24px 28px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.det-top>div:first-child{display:flex;gap:18px;align-items:center}
+.det-logo{width:118px;flex:0 0 118px}
+.det-logo svg{width:100%;height:auto;display:block}
 .det-top h2{font-weight:800;font-size:24px;color:var(--wine)}
 .det-top .i{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-lt);margin-top:6px}
+.det-top .i a{color:var(--wine-lt)}
 .det .fechar{background:none;border:1px solid var(--border);padding:8px 12px;cursor:pointer;font:600 10px Montserrat,sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt)}
 .det .txt{padding:18px 28px 0;font-size:14.5px;line-height:1.75}
 .det .pres{padding:14px 28px 0;font-size:13px;line-height:1.7;color:var(--ink-lt)}
 .det .pres b{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);margin-right:6px}
-@media (max-width:640px){
+.det .ed-vinhos .sg small{display:block;font-weight:500;letter-spacing:0;font-size:10px;color:var(--ink-lt);text-transform:none}
+.ajuda{margin:0 28px 22px;background:#FBF6EE;border:1px solid #EFE2C8;padding:18px 20px;scroll-margin-top:90px}
+.ajuda h3{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--wine);font-weight:800}
+.ajuda p{font-size:13px;color:var(--ink-lt);margin:6px 0 10px;line-height:1.55}
+.ajuda textarea{width:100%;border:1px solid var(--border);padding:10px 12px;font:400 13.5px Montserrat,sans-serif;min-height:70px;resize:vertical;background:#fff}
+.ajuda .lin{display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.ajuda .btn{padding:11px 18px;font-size:10px;letter-spacing:2px}
+.ajuda .st{font-size:12px;color:var(--ink-lt)}.ajuda .st.ok{color:#2e7d32;font-weight:600}.ajuda .st.err{color:#b3261e;font-weight:600}
+@media (max-width:760px){
   .abas{grid-template-columns:repeat(2,1fr)}
-  .det-top{padding:18px 16px 12px}.det .txt,.det .pres{padding:14px 16px 0}
+  .aba[data-t="todos"]{grid-column:1/-1}
+  .det-top{padding:18px 16px 12px;flex-direction:column}.det .txt,.det .pres{padding:14px 16px 0}
+  .det-logo{width:80px;flex-basis:80px}
+  .ajuda{margin:0 16px 18px}
 }
 </style>
 </head>
@@ -68,32 +95,106 @@ section{max-width:1060px}
 <main>
   <section>
     <div class="abas" id="abas"></div>
-    <div class="anos" id="anos"></div>
+    <div class="barra">
+      <input class="busca" id="busca" type="search" placeholder="Buscar vinho, produtor, confrade ou lugar…" autocomplete="off">
+      <div class="anos" id="anos"></div>
+    </div>
     <div class="intro" id="intro"></div>
-    <div class="evs" id="evs"></div>
+    <div id="evs"></div>
     <div id="det"></div>
   </section>
 </main>
 
-<script src="../i18n.js?v=20260927l"></script>
-<script src="../comum.js?v=20260927l"></script>
+<script src="../i18n.js?v=20260927m"></script>
+<script src="../comum.js?v=20260927m"></script>
 <script>
 montaNav('eventos');
 montaRodape();
 
 var TIPOS = [
+  ['todos', 'Todos', 'Todos os encontros da confraria, ano a ano'],
   ['magnum', 'Magnum Fest', 'A grande festa anual, só Magnums'],
   ['paralela', 'Paralela', 'Encontros paralelos da confraria'],
   ['ordinario', 'Ordinário', 'Os encontros regulares'],
   ['velhinhos', 'Os Velhinhos', 'Garrafas com muitos anos de guarda']
 ];
-var D = null, aba = 'magnum', ano = 'todos', ANO_ATUAL = 2026;
+var NOME_TIPO = {}; TIPOS.forEach(function (t) { NOME_TIPO[t[0]] = t[1]; });
+var D = null, ITENS = [], SIGLAS = {}, CAPAS = {}, aba = 'todos', ano = 'todos', q = '', ANO_ATUAL = 2026;
+
+function sem(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
 function anoOk(a) { return ano === 'todos' || a === ano; }
-function marca() { try { history.replaceState({}, '', '#' + aba + (ano === 'todos' ? '' : '-' + ano)); } catch (e) { } }
+function marca() {
+  var h = aba + (ano === 'todos' ? '' : '-' + ano);
+  try { history.replaceState({}, '', h === 'todos' ? location.pathname : '#' + h); } catch (e) { }
+}
+
+// todos os encontros num formato só (Magnum Fest + os outros)
+function monta() {
+  ITENS = [];
+  ITENS.push({ ref: 'mf-' + ANO_ATUAL, tipo: 'magnum', ano: ANO_ATUAL, titulo: 'Magnum Fest Licínio Dias', atual: true, link: '../magnumfest/', vinhos: '', presentes: [],
+    nFotos: (D.fotos_por_ref || {})['mf-' + ANO_ATUAL] || 0 });
+  (D.magnum || []).forEach(function (m) {
+    ITENS.push({ ref: 'mf-' + m.ano, tipo: 'magnum', ano: m.ano, data: m.data, local: m.local, titulo: m.ano >= 2021 ? 'Magnum Fest Licínio Dias' : 'Magnum Fest',
+      vinhos: m.vinhos || '', presentes: [], n: m.n, link: '../edicoes/#ed-' + m.ano, temFoto: m.tem_foto, semFesta: !m.n && !m.data,
+      nFotos: (m.n_fotos || 0) + (m.n_galeria || 0) + (m.tem_foto ? 1 : 0) });
+  });
+  (D.eventos || []).forEach(function (e) {
+    ITENS.push({ ref: 'ev-' + e.id, tipo: e.tipo, ano: e.ano, data: e.data, local: e.local, titulo: e.titulo || NOME_TIPO[e.tipo], texto: e.texto,
+      vinhos: e.vinhos || '', presentes: e.presentes || [], n: linhasVinhos(e.vinhos).length, nFotos: e.n_fotos || 0 });
+  });
+  ITENS.forEach(function (it) {
+    it.falta = [];
+    if (it.atual || it.semFesta) return;
+    if (!it.data) it.falta.push('falta data');
+    if (!it.local) it.falta.push('falta lugar');
+    if (!it.nFotos) it.falta.push('sem fotos');
+  });
+}
+function nomeDe(s) { return SIGLAS[s] || ''; }
+// o texto em que a busca procura: título, lugar, vinhos, siglas e o nome por trás de cada sigla, presentes
+function achados(it) {
+  if (!q) return null;
+  var termos = sem(q).split(/\s+/).filter(Boolean);
+  var bate = function (txt) { txt = sem(txt); return termos.every(function (t) { return txt.indexOf(t) >= 0; }); };
+  var linhas = linhasVinhos(it.vinhos).filter(function (l) { return bate(l.s + ' ' + nomeDe(l.s) + ' ' + l.v); });
+  var pres = it.presentes.filter(function (p) { return bate(p); });
+  var geral = bate([it.titulo, it.local, NOME_TIPO[it.tipo], it.ano, it.vinhos, it.presentes.join(' '),
+    linhasVinhos(it.vinhos).map(function (l) { return nomeDe(l.s); }).join(' ')].join(' '));
+  if (!linhas.length && !pres.length && !geral) return null;
+  return { linhas: linhas, pres: pres };
+}
+function realca(txt) {
+  var s = esc(txt); if (!q) return s;
+  sem(q).split(/\s+/).filter(Boolean).forEach(function (t) {
+    var base = sem(txt), i = base.indexOf(t);
+    if (i >= 0) { var orig = txt.substr(i, t.length); s = s.replace(esc(orig), '<mark>' + esc(orig) + '</mark>'); }
+  });
+  return s;
+}
+
+function visiveis() {
+  return ITENS.filter(function (it) {
+    if (aba !== 'todos' && it.tipo !== aba) return false;
+    if (!anoOk(it.ano)) return false;
+    if (aba === 'todos' && it.semFesta) return false;
+    if (q) { it.achou = achados(it); return !!it.achou; }
+    it.achou = null; return true;
+  }).sort(function (a, b) { return (b.ano || 0) - (a.ano || 0) || String(b.data || '').localeCompare(String(a.data || '')) || (a.tipo === 'magnum' ? -1 : 1); });
+}
+
+function abas() {
+  var conta = {};
+  ITENS.forEach(function (it) { if (!anoOk(it.ano) || it.semFesta) return; conta[it.tipo] = (conta[it.tipo] || 0) + 1; conta.todos = (conta.todos || 0) + 1; });
+  document.getElementById('abas').innerHTML = TIPOS.map(function (t) {
+    var n = conta[t[0]];
+    return '<button class="aba' + (aba === t[0] ? ' on' : '') + '" data-t="' + t[0] + '"><span class="ic">' + LOGO_EV.icone(t[0]) + '</span><div class="t" data-notr>' + esc(t[1]) + '</div><div class="d">' +
+      esc(n ? tr(n === 1 ? '1 encontro' : '{n} encontros', { n: n }) : tr(ano === 'todos' ? 'em breve' : 'nenhum neste ano')) + '</div></button>';
+  }).join('');
+  [].forEach.call(document.querySelectorAll('.aba'), function (b) { b.onclick = function () { aba = b.dataset.t; marca(); abas(); lista(); }; });
+  document.getElementById('intro').textContent = tr(TIPOS.filter(function (t) { return t[0] === aba; })[0][2]);
+}
 function anos() {
-  var todos = {}; todos[ANO_ATUAL] = 1;
-  (D.magnum || []).forEach(function (m) { if (m.ano) todos[m.ano] = 1; });
-  (D.eventos || []).forEach(function (e) { if (e.ano) todos[e.ano] = 1; });
+  var todos = {}; ITENS.forEach(function (it) { if (it.ano && !it.semFesta) todos[it.ano] = 1; });
   var ord = Object.keys(todos).map(Number).sort(function (a, b) { return b - a; });
   document.getElementById('anos').innerHTML = '<button data-a="todos"' + (ano === 'todos' ? ' class="on"' : '') + '>' + esc(tr('Todos os anos')) + '</button>' +
     ord.map(function (a) { return '<button data-a="' + a + '"' + (ano === a ? ' class="on"' : '') + '>' + a + '</button>'; }).join('');
@@ -102,71 +203,109 @@ function anos() {
   });
 }
 
-function abas() {
-  var conta = { magnum: (D.magnum || []).filter(function (m) { return anoOk(m.ano); }).length + (anoOk(ANO_ATUAL) ? 1 : 0) };
-  (D.eventos || []).forEach(function (e) { if (anoOk(e.ano)) conta[e.tipo] = (conta[e.tipo] || 0) + 1; });
-  document.getElementById('abas').innerHTML = TIPOS.map(function (t) {
-    return '<button class="aba' + (aba === t[0] ? ' on' : '') + '" data-t="' + t[0] + '"><span class="ic">' + LOGO_EV.icone(t[0]) + '</span><div class="t" data-notr>' + esc(t[1]) + '</div><div class="d">' +
-      esc(conta[t[0]] ? tr(conta[t[0]] === 1 ? '1 encontro' : '{n} encontros', { n: conta[t[0]] }) : tr('em breve')) + '</div></button>';
-  }).join('');
-  [].forEach.call(document.querySelectorAll('.aba'), function (b) { b.onclick = function () { aba = b.dataset.t; marca(); abas(); lista(); }; });
-  document.getElementById('intro').textContent = tr(TIPOS.filter(function (t) { return t[0] === aba; })[0][2]);
+function card(it) {
+  var info = [it.data ? dataLonga(it.data) : '', it.local, it.n ? it.n + ' ' + (it.tipo === 'magnum' ? 'Magnums' : tr('garrafas')) : '',
+    it.nFotos ? it.nFotos + ' ' + tr('fotos') : ''].filter(Boolean).join(' · ');
+  if (it.atual) info = tr('A próxima edição') + (it.nFotos ? ' · ' + it.nFotos + ' ' + tr('fotos') : '');
+  if (it.semFesta) info = tr('Sem festa (pandemia)');
+  var capa = CAPAS[it.ref];
+  var ach = it.achou && (it.achou.linhas.length || it.achou.pres.length) ? '<div class="achou" data-notr>' +
+    it.achou.linhas.slice(0, 4).map(function (l) { return '<div><b>' + esc(l.s) + '</b><span>' + realca(l.v) + (nomeDe(l.s) && q && sem(nomeDe(l.s)).indexOf(sem(q)) >= 0 ? ' · ' + realca(nomeDe(l.s)) : '') + '</span></div>'; }).join('') +
+    (it.achou.linhas.length > 4 ? '<div><b></b><span>+ ' + (it.achou.linhas.length - 4) + '</span></div>' : '') +
+    it.achou.pres.slice(0, 3).map(function (p) { return '<div><b>✓</b><span>' + realca(p) + ' ' + esc(tr('esteve presente')) + '</span></div>'; }).join('') + '</div>' : '';
+  return '<button class="ev' + (it.atual ? ' atual' : '') + '" data-ref="' + it.ref + '">' +
+    (capa || it.temFoto ? '<div class="capa" data-capa="' + it.ref + '"' + (capa ? ' style="background-image:url(\'' + esc(capa) + '\')"' : '') + '></div>' : '') +
+    '<div class="corpo"><span class="ic">' + LOGO_EV.icone(it.tipo, it.atual) + '</span><div class="a">' + (it.ano || '—') + ' · <span data-notr>' + esc(NOME_TIPO[it.tipo]) + '</span></div>' +
+    '<div class="n" data-notr>' + esc(it.titulo) + '</div><div class="i">' + esc(info) + '</div>' +
+    (it.falta.length && !q ? '<div class="falta">' + it.falta.map(function (f) { return '<i>' + esc(tr(f)) + '</i>'; }).join('') + '</div>' : '') + ach + '</div></button>';
 }
 
 function lista() {
   document.getElementById('det').innerHTML = '';
-  var box = document.getElementById('evs');
-  if (aba === 'magnum') {
-    var fotos = D.fotos_por_ref || {};
-    var atual = '<button class="ev atual" data-mf="' + ANO_ATUAL + '"><span class="ic">' + LOGO_EV.icone('magnum') + '</span><div class="a">' + ANO_ATUAL + '</div><div class="n" data-notr>Magnum Fest Licínio Dias</div>' +
-      '<div class="i">' + esc(tr('A próxima edição')) + (fotos['mf-' + ANO_ATUAL] ? ' · ' + fotos['mf-' + ANO_ATUAL] + ' ' + esc(tr('fotos')) : '') + '</div></button>';
-    box.innerHTML = (anoOk(ANO_ATUAL) ? atual : '') + (D.magnum || []).filter(function (m) { return anoOk(m.ano); }).map(function (m) {
-      var inf = [m.n ? m.n + ' Magnums' : tr('Sem edição'), m.data ? dataLonga(m.data) : '', m.n_fotos ? m.n_fotos + ' ' + tr('fotos dos confrades') : ''].filter(Boolean).join(' · ');
-      return '<a class="ev" href="../edicoes/#ed-' + m.ano + '"><span class="ic">' + LOGO_EV.icone('magnum') + '</span><div class="a">' + m.ano + '</div><div class="n" data-notr>' + (m.ano >= 2021 ? 'Magnum Fest Licínio Dias' : 'Magnum Fest') + '</div><div class="i">' + esc(inf) + '</div></a>';
-    }).join('');
-    if (!box.innerHTML) box.innerHTML = '<p class="vazio" style="grid-column:1/-1">' + esc(tr('Nenhum encontro deste tipo neste ano.')) + '</p>';
-    var b = box.querySelector('[data-mf]');
-    if (b) b.onclick = function () { detalhe({ tipo: 'magnum', ref: 'mf-' + ANO_ATUAL, titulo: 'Magnum Fest Licínio Dias ' + ANO_ATUAL, info: tr('As fotos do dia entram aqui. Veja a festa em') + ' ', link: '../magnumfest/' }); };
-    return;
-  }
-  var evs = (D.eventos || []).filter(function (e) { return e.tipo === aba && anoOk(e.ano); });
-  box.innerHTML = evs.length ? evs.map(function (e) {
-    var n = linhasVinhos(e.vinhos).length;
-    var inf = [e.local, n ? n + ' ' + tr('garrafas') : '', e.n_fotos ? e.n_fotos + ' ' + tr('fotos') : ''].filter(Boolean).join(' · ');
-    return '<button class="ev" data-id="' + e.id + '"><span class="ic">' + LOGO_EV.icone(e.tipo) + '</span><div class="a">' + (e.ano || '—') + '</div>' +
-      '<div class="n" data-notr>' + esc(e.titulo || TIPOS.filter(function (t) { return t[0] === e.tipo; })[0][1]) + '</div>' +
-      '<div class="i">' + esc([e.data ? dataLonga(e.data) : '', inf].filter(Boolean).join(' · ')) + '</div></button>';
-  }).join('') : '<p class="vazio" style="grid-column:1/-1">' + esc(tr(ano === 'todos' ? 'Ainda não há encontros cadastrados aqui. As listas vão entrando aos poucos.' : 'Nenhum encontro deste tipo neste ano.')) + '</p>';
-  [].forEach.call(box.querySelectorAll('[data-id]'), function (b) {
-    b.onclick = function () {
-      var e = evs.filter(function (x) { return x.id === b.dataset.id; })[0];
-      detalhe({ tipo: e.tipo, ref: 'ev-' + e.id, titulo: e.titulo || TIPOS.filter(function (t) { return t[0] === e.tipo; })[0][1], info: [e.data ? dataLonga(e.data) : '', e.local].filter(Boolean).join(' · '), texto: e.texto, vinhos: e.vinhos, presentes: e.presentes });
-    };
+  var box = document.getElementById('evs'), L = visiveis();
+  var nres = q ? '<div class="nres">' + esc(L.length === 1 ? tr('1 encontro encontrado') : tr('{n} encontros encontrados', { n: L.length })) + '</div>' : '';
+  if (!L.length) { box.innerHTML = nres + '<p class="vazio">' + esc(tr(q ? 'Nada encontrado com esse termo.' : (ano === 'todos' ? 'Ainda não há encontros cadastrados aqui. As listas vão entrando aos poucos.' : 'Nenhum encontro deste tipo neste ano.'))) + '</p>'; return; }
+  // linha do tempo: um bloco por ano, com o total de encontros e de garrafas
+  var grupos = [], porAno = {};
+  L.forEach(function (it) { var k = it.ano || 0; if (!porAno[k]) { porAno[k] = []; grupos.push(k); } porAno[k].push(it); });
+  box.innerHTML = nres + grupos.map(function (k) {
+    var its = porAno[k], gar = its.reduce(function (s, it) { return s + (it.n || 0); }, 0);
+    var sub = [its.length === 1 ? tr('1 encontro') : tr('{n} encontros', { n: its.length }), gar ? gar + ' ' + tr('garrafas') : ''].filter(Boolean).join(' · ');
+    return '<div class="ano-h"><b>' + (k || '—') + '</b><span>' + esc(sub) + '</span></div><div class="evs">' + its.map(card).join('') + '</div>';
+  }).join('');
+  [].forEach.call(box.querySelectorAll('.ev'), function (b) {
+    b.onclick = function () { var it = ITENS.filter(function (x) { return x.ref === b.dataset.ref; })[0]; if (it) detalhe(it); };
   });
+  capasOficiais();
 }
 
-function detalhe(o) {
-  var vs = linhasVinhos(o.vinhos);
+// Magnum Fest sem foto no álbum: usa a foto oficial da edição (só quando o card aparece)
+function capasOficiais() {
+  var els = [].slice.call(document.querySelectorAll('.capa[data-capa]')).filter(function (el) { return !el.style.backgroundImage; });
+  var carrega = function (el) {
+    var a = +el.dataset.capa.slice(3); if (!a) return;
+    rpc('wlr_p_edicao_foto', { p_id: meuId, p_ano: a }).then(function (src) { if (src) { CAPAS[el.dataset.capa] = src; el.style.backgroundImage = 'url(' + src + ')'; } }).catch(function () { });
+  };
+  if (!('IntersectionObserver' in window)) return els.forEach(carrega);
+  var io = new IntersectionObserver(function (es) { es.forEach(function (x) { if (x.isIntersecting) { io.unobserve(x.target); carrega(x.target); } }); }, { rootMargin: '300px' });
+  els.forEach(function (el) { io.observe(el); });
+}
+
+function detalhe(it) {
+  var vs = linhasVinhos(it.vinhos);
+  var info = [it.data ? dataLonga(it.data) : '', it.local].filter(Boolean).join(' · ');
   var det = document.getElementById('det');
-  det.innerHTML = '<div class="det"><div class="det-top"><div><span class="det-logo">' + LOGO_EV.logo(o.tipo) + '</span><div><h2 data-notr>' + esc(o.titulo) + '</h2><div class="i">' + esc(o.info || '') +
-    (o.link ? '<a href="' + o.link + '">' + esc(tr('a página da festa')) + '</a>' : '') + '</div></div></div><button class="fechar">' + esc(tr('Fechar')) + '</button></div>' +
-    (o.texto ? '<div class="txt">' + paragrafos(o.texto) + '</div>' : '') +
-    (o.presentes && o.presentes.length ? '<div class="pres"><b>' + esc(tr('Presentes')) + '</b> <span data-notr>' + o.presentes.map(esc).join(' · ') + '</span></div>' : '') +
-    (vs.length ? '<ul class="ed-vinhos" data-notr>' + vs.map(function (v) { return '<li><span class="sg">' + esc(v.s) + '</span><span>' + esc(v.v) + '</span></li>'; }).join('') + '</ul>' : '') +
+  var FALTA = { 'falta data': 'a data', 'falta lugar': 'o lugar', 'sem fotos': 'fotos' };
+  var fs = it.falta.map(function (f) { return tr(FALTA[f]); });
+  var pede = fs.length ? tr('Ainda faltam: {f}.', { f: fs.length > 1 ? fs.slice(0, -1).join(', ') + ' ' + tr('e') + ' ' + fs[fs.length - 1] : fs[0] }) + ' ' : '';
+  det.innerHTML = '<div class="det"><div class="det-top"><div><span class="det-logo">' + LOGO_EV.logo(it.tipo) + '</span><div><h2 data-notr>' + esc(it.titulo + (it.tipo === 'magnum' ? ' ' + it.ano : '')) + '</h2>' +
+    '<div class="i">' + esc(info) + (it.link ? (info ? ' · ' : '') + '<a href="' + it.link + '">' + esc(tr(it.atual ? 'a página da festa' : 'ver a edição completa')) + '</a>' : '') + '</div></div></div>' +
+    '<button class="fechar">' + esc(tr('Fechar')) + '</button></div>' +
+    (it.texto ? '<div class="txt">' + paragrafos(it.texto) + '</div>' : '') +
+    (it.presentes.length ? '<div class="pres"><b>' + esc(tr('Presentes')) + '</b> <span data-notr>' + it.presentes.map(esc).join(' · ') + '</span></div>' : '') +
+    (vs.length ? '<ul class="ed-vinhos" data-notr>' + vs.map(function (v) { return '<li><span class="sg">' + esc(v.s) + (nomeDe(v.s) ? '<small>' + esc(nomeDe(v.s)) + '</small>' : '') + '</span><span>' + realca(v.v) + '</span></li>'; }).join('') + '</ul>' : '') +
+    (it.atual ? '' : '<div class="ajuda" id="ajuda"><h3>' + esc(tr('Ajude a completar')) + '</h3><p>' + esc(pede + tr('Sabe a data, o lugar, quem estava ou quem levou cada garrafa? Conte aqui: o conselho confere e atualiza. Fotos entram direto no álbum abaixo.')) + '</p>' +
+      '<textarea id="aj-txt" maxlength="1500" placeholder="' + esc(tr('Ex.: foi em 14/03/2019, no Ruizito. O Chave era do Bruno.')) + '"></textarea>' +
+      '<div class="lin"><button class="btn" id="aj-env">' + esc(tr('Enviar')) + '</button><span class="st" id="aj-st"></span></div></div>') +
     '<div class="alb-slot"></div></div>';
   det.querySelector('.fechar').onclick = function () { det.innerHTML = ''; };
-  albumMonta(det.querySelector('.alb-slot'), o.ref);
-  det.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  var env = det.querySelector('#aj-env');
+  if (env) env.onclick = function () {
+    var t = det.querySelector('#aj-txt').value.trim(), st = det.querySelector('#aj-st');
+    if (!t) { st.className = 'st err'; st.textContent = tr('Escreva o que você sabe sobre o encontro.'); return; }
+    env.disabled = true; st.className = 'st'; st.textContent = tr('Enviando…');
+    rpc('wlr_p_evento_sugerir', { p_id: meuId, p_ref: it.ref, p_texto: t }).then(function () {
+      st.className = 'st ok'; st.textContent = tr('Obrigado! O conselho vai conferir.'); det.querySelector('#aj-txt').value = '';
+    }).catch(function (e) { st.className = 'st err'; st.textContent = e.message; }).then(function () { env.disabled = false; });
+  };
+  albumMonta(det.querySelector('.alb-slot'), it.ref);
+  var alvo = it.falta.length && det.querySelector('#ajuda') && !vs.length ? det.querySelector('#ajuda') : det.querySelector('.det');
+  alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+var tBusca = null;
+document.getElementById('busca').oninput = function () {
+  var v = this.value; clearTimeout(tBusca);
+  tBusca = setTimeout(function () { q = v.trim(); lista(); }, 180);
+};
 
 sessao().then(function (id) {
   if (!id) return paraPorta('eventos');
   return rpc('wlr_p_eventos', { p_id: id }).then(function (d) {
-    D = d || {};
+    D = d || {}; SIGLAS = D.siglas || {};
+    monta();
     var h = location.hash.slice(1).split('-'); if (TIPOS.some(function (t) { return t[0] === h[0]; })) aba = h[0];
     if (+h[1]) ano = +h[1];
     document.body.classList.remove('carregando');
     abas(); anos(); lista();
+    // capas: a primeira foto do álbum de cada encontro
+    worker({ task: 'album-capas', p_id: id, refs: ITENS.filter(function (it) { return it.nFotos; }).map(function (it) { return it.ref; }) }).then(function (r) {
+      Object.keys(r.capas || {}).forEach(function (k) { CAPAS[k] = r.capas[k]; });
+      // põe as capas nos cards já desenhados, sem fechar um encontro aberto
+      if (!Object.keys(r.capas || {}).length) return;
+      if (!document.getElementById('det').innerHTML) return lista();
+      Object.keys(r.capas).forEach(function (k) { var c = document.querySelector('.capa[data-capa="' + k + '"]'); if (c) c.style.backgroundImage = "url('" + r.capas[k] + "')"; });
+    }).catch(function () { });
   });
 }).catch(function (e) {
   if (semAcesso(e, 'eventos')) return;
