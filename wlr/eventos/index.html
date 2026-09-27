@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../comum.css?v=20260927n">
+<link rel="stylesheet" href="../comum.css?v=20260927o">
 <style>
 section{max-width:1060px}
 .abas{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px}
@@ -68,19 +68,11 @@ section{max-width:1060px}
 .det .pres{padding:14px 28px 0;font-size:13px;line-height:1.7;color:var(--ink-lt)}
 .det .pres b{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);margin-right:6px}
 .det .ed-vinhos .sg small{display:block;font-weight:500;letter-spacing:0;font-size:10px;color:var(--ink-lt);text-transform:none}
-.ajuda{margin:0 28px 22px;background:#FBF6EE;border:1px solid #EFE2C8;padding:18px 20px;scroll-margin-top:90px}
-.ajuda h3{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--wine);font-weight:800}
-.ajuda p{font-size:13px;color:var(--ink-lt);margin:6px 0 10px;line-height:1.55}
-.ajuda textarea{width:100%;border:1px solid var(--border);padding:10px 12px;font:400 13.5px Montserrat,sans-serif;min-height:70px;resize:vertical;background:#fff}
-.ajuda .lin{display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap}
-.ajuda .btn{padding:11px 18px;font-size:10px;letter-spacing:2px}
-.ajuda .st{font-size:12px;color:var(--ink-lt)}.ajuda .st.ok{color:#2e7d32;font-weight:600}.ajuda .st.err{color:#b3261e;font-weight:600}
 @media (max-width:760px){
   .abas{grid-template-columns:repeat(2,1fr)}
   .aba[data-t="todos"]{grid-column:1/-1}
   .det-top{padding:18px 16px 12px;flex-direction:column}.det .txt,.det .pres{padding:14px 16px 0}
   .det-logo{width:80px;flex-basis:80px}
-  .ajuda{margin:0 16px 18px}
 }
 </style>
 </head>
@@ -105,8 +97,8 @@ section{max-width:1060px}
   </section>
 </main>
 
-<script src="../i18n.js?v=20260927n"></script>
-<script src="../comum.js?v=20260927n"></script>
+<script src="../i18n.js?v=20260927o"></script>
+<script src="../comum.js?v=20260927o"></script>
 <script>
 montaNav('eventos');
 montaRodape();
@@ -145,8 +137,6 @@ function monta() {
   ITENS.forEach(function (it) {
     it.falta = [];
     if (it.atual || it.semFesta) return;
-    if (!it.data) it.falta.push('falta data');
-    if (!it.local) it.falta.push('falta lugar');
     if (!it.nFotos) it.falta.push('sem fotos');
   });
 }
@@ -255,32 +245,16 @@ function detalhe(it) {
   var vs = linhasVinhos(it.vinhos);
   var info = [it.data ? dataLonga(it.data) : '', it.local].filter(Boolean).join(' · ');
   var det = document.getElementById('det');
-  var FALTA = { 'falta data': 'a data', 'falta lugar': 'o lugar', 'sem fotos': 'fotos' };
-  var fs = it.falta.map(function (f) { return tr(FALTA[f]); });
-  var pede = fs.length ? tr('Ainda faltam: {f}.', { f: fs.length > 1 ? fs.slice(0, -1).join(', ') + ' ' + tr('e') + ' ' + fs[fs.length - 1] : fs[0] }) + ' ' : '';
   det.innerHTML = '<div class="det"><div class="det-top"><div><span class="det-logo">' + LOGO_EV.logo(it.tipo) + '</span><div><h2 data-notr>' + esc(it.titulo + (it.tipo === 'magnum' ? ' ' + it.ano : '')) + '</h2>' +
     '<div class="i">' + esc(info) + (it.link ? (info ? ' · ' : '') + '<a href="' + it.link + '">' + esc(tr(it.atual ? 'a página da festa' : 'ver a edição completa')) + '</a>' : '') + '</div></div></div>' +
     '<button class="fechar">' + esc(tr('Fechar')) + '</button></div>' +
     (it.texto ? '<div class="txt">' + paragrafos(it.texto) + '</div>' : '') +
     (it.presentes.length ? '<div class="pres"><b>' + esc(tr('Presentes')) + '</b> <span data-notr>' + it.presentes.map(esc).join(' · ') + '</span></div>' : '') +
     (vs.length ? '<ul class="ed-vinhos" data-notr>' + vs.map(function (v) { return '<li><span class="sg">' + esc(v.s) + (nomeDe(v.s) ? '<small>' + esc(nomeDe(v.s)) + '</small>' : '') + '</span><span>' + realca(v.v) + '</span></li>'; }).join('') + '</ul>' : '') +
-    (it.atual ? '' : '<div class="ajuda" id="ajuda"><h3>' + esc(tr('Ajude a completar')) + '</h3><p>' + esc(pede + tr('Sabe a data, o lugar, quem estava ou quem levou cada garrafa? Conte aqui: o conselho confere e atualiza. Fotos entram direto no álbum abaixo.')) + '</p>' +
-      '<textarea id="aj-txt" maxlength="1500" placeholder="' + esc(tr('Ex.: foi em 14/03/2019, no Ruizito. O Chave era do Bruno.')) + '"></textarea>' +
-      '<div class="lin"><button class="btn" id="aj-env">' + esc(tr('Enviar')) + '</button><span class="st" id="aj-st"></span></div></div>') +
     '<div class="alb-slot"></div></div>';
   det.querySelector('.fechar').onclick = function () { det.innerHTML = ''; };
-  var env = det.querySelector('#aj-env');
-  if (env) env.onclick = function () {
-    var t = det.querySelector('#aj-txt').value.trim(), st = det.querySelector('#aj-st');
-    if (!t) { st.className = 'st err'; st.textContent = tr('Escreva o que você sabe sobre o encontro.'); return; }
-    env.disabled = true; st.className = 'st'; st.textContent = tr('Enviando…');
-    rpc('wlr_p_evento_sugerir', { p_id: meuId, p_ref: it.ref, p_texto: t }).then(function () {
-      st.className = 'st ok'; st.textContent = tr('Obrigado! O conselho vai conferir.'); det.querySelector('#aj-txt').value = '';
-    }).catch(function (e) { st.className = 'st err'; st.textContent = e.message; }).then(function () { env.disabled = false; });
-  };
   albumMonta(det.querySelector('.alb-slot'), it.ref);
-  var alvo = it.falta.length && det.querySelector('#ajuda') && !vs.length ? det.querySelector('#ajuda') : det.querySelector('.det');
-  alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  det.querySelector('.det').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 var tBusca = null;
