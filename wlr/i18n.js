@@ -515,6 +515,8 @@
     'O ano com mais garrafas': ['El año con más botellas', 'The year with most bottles'],
     'com {n} garrafas': ['con {n} botellas', 'with {n} bottles'],
     'Presentes': ['Presentes', 'Attendees'],
+    'O encontro': ['El encuentro', 'The gathering'],
+    'Foto oficial': ['Foto oficial', 'Official photo'],
     '1 confrade': ['1 cofrade', '1 member'],
     '{n} confrades': ['{n} cofrades', '{n} members'],
     'ver {a} em números': ['ver {a} en números', 'see {a} in numbers'],

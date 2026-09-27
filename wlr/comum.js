@@ -114,28 +114,62 @@ function reduz(file, lado, q) {
     img.src = url;
   });
 }
-function albumMonta(el, ref, titulo) {
-  el.innerHTML = '<div class="alb"><div class="alb-top"><div class="alb-t">' + esc(tr('Álbum dos confrades')) + ' <span class="alb-n"></span></div>' +
+// opts.galeria: foto grande + miniaturas (janela do evento); opts.extras(): Promise de fotos que vêm antes do álbum (as oficiais da edição)
+function albumMonta(el, ref, opts) {
+  opts = opts || {};
+  var gal = !!opts.galeria;
+  el.innerHTML = '<div class="alb' + (gal ? ' gal' : '') + '">' +
+    (gal ? '<div class="gal-palco"><div class="gal-vazio">' + esc(tr('Carregando…')) + '</div><img class="gal-img" alt="" hidden><button class="gal-p" aria-label="‹" hidden>‹</button><button class="gal-n" aria-label="›" hidden>›</button>' +
+      '<div class="gal-cred" data-notr></div></div><div class="gal-mini"></div>' : '') +
+    '<div class="alb-top"><div class="alb-t">' + esc(tr('Álbum dos confrades')) + ' <span class="alb-n"></span></div>' +
     '<label class="btn alb-add">📷 ' + esc(tr('Adicionar fotos')) + '<input type="file" accept="image/*" multiple hidden></label></div>' +
-    '<div class="alb-st hidden"></div><div class="alb-g"><p class="vazio">' + esc(tr('Carregando…')) + '</p></div></div>';
-  var g = el.querySelector('.alb-g'), st = el.querySelector('.alb-st'), fotos = [];
+    '<div class="alb-st hidden"></div>' + (gal ? '' : '<div class="alb-g"><p class="vazio">' + esc(tr('Carregando…')) + '</p></div>') + '</div>';
+  var g = el.querySelector('.alb-g'), st = el.querySelector('.alb-st'), fotos = [], atual = 0, extras = null;
+  var mostraGal = function (i) {
+    if (!fotos.length) return;
+    atual = (i + fotos.length) % fotos.length;
+    var f = fotos[atual], img = el.querySelector('.gal-img');
+    img.hidden = false; img.src = f.url || f.thumb; el.querySelector('.gal-vazio').hidden = true;
+    el.querySelector('.gal-p').hidden = el.querySelector('.gal-n').hidden = fotos.length < 2;
+    el.querySelector('.gal-cred').textContent = (atual + 1) + ' / ' + fotos.length + (f.oficial ? ' · ' + tr('Foto oficial') : f.autor ? ' · ' + tr('Enviada por {n}', { n: f.autor }) : '');
+    [].forEach.call(el.querySelectorAll('.gal-mini img'), function (m, k) { m.classList.toggle('on', k === atual); if (k === atual && m.scrollIntoView) m.scrollIntoView({ block: 'nearest', inline: 'center' }); });
+  };
   var lista = function () {
-    return worker({ task: 'album-listar', p_id: meuId, ref: ref }).then(function (d) {
-      fotos = d.fotos || [];
-      el.querySelector('.alb-n').textContent = fotos.length ? '· ' + fotos.length : '';
+    var ex = extras || (extras = (opts.extras ? opts.extras() : Promise.resolve([])).catch(function () { return []; }));
+    return Promise.all([ex, worker({ task: 'album-listar', p_id: meuId, ref: ref })]).then(function (r) {
+      var d = r[1], proprias = d.fotos || [];
+      fotos = (r[0] || []).concat(proprias);
+      el.querySelector('.alb-n').textContent = proprias.length ? '· ' + proprias.length : '';
+      if (gal) {
+        el.querySelector('.gal-mini').innerHTML = fotos.map(function (f, i) { return '<img src="' + esc(f.thumb || f.url) + '" alt="" loading="lazy" data-i="' + i + '">'; }).join('');
+        [].forEach.call(el.querySelectorAll('.gal-mini img'), function (m) { m.onclick = function () { mostraGal(+m.dataset.i); }; });
+        if (fotos.length) mostraGal(Math.min(atual, fotos.length - 1));
+        else { el.querySelector('.gal-vazio').textContent = tr('Ainda sem fotos. Seja o primeiro a compartilhar as suas!'); el.querySelector('.gal-vazio').hidden = false; el.querySelector('.gal-img').hidden = true; el.querySelector('.gal-cred').textContent = ''; }
+        return;
+      }
       g.innerHTML = fotos.length ? fotos.map(function (f, i) {
         return '<figure data-i="' + i + '"><img src="' + esc(f.thumb) + '" alt="" loading="lazy"><figcaption data-notr>' + esc(f.autor || '') + '</figcaption></figure>';
       }).join('') : '<p class="vazio">' + esc(tr('Ainda sem fotos. Seja o primeiro a compartilhar as suas!')) + '</p>';
       [].forEach.call(g.querySelectorAll('figure'), function (fg) { fg.onclick = function () { abreFoto(+fg.dataset.i); }; });
-    }).catch(function (e) { g.innerHTML = '<p class="vazio">' + esc(e.message) + '</p>'; });
+    }).catch(function (e) { if (g) g.innerHTML = '<p class="vazio">' + esc(e.message) + '</p>'; else el.querySelector('.gal-vazio').textContent = e.message; });
   };
+  if (gal) {
+    el.querySelector('.gal-p').onclick = function () { mostraGal(atual - 1); };
+    el.querySelector('.gal-n').onclick = function () { mostraGal(atual + 1); };
+    el.querySelector('.gal-img').onclick = function () { abreFoto(atual); };
+    // setas do teclado e deslizar o dedo
+    el._teclas = function (e) { if (document.getElementById('alb-zoom') && document.getElementById('alb-zoom').className === 'on') return; if (e.key === 'ArrowLeft') mostraGal(atual - 1); if (e.key === 'ArrowRight') mostraGal(atual + 1); };
+    var x0 = null, palco = el.querySelector('.gal-palco');
+    palco.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    palco.addEventListener('touchend', function (e) { if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 40) mostraGal(atual + (dx < 0 ? 1 : -1)); });
+  }
   var abreFoto = function (i) {
     var f = fotos[i]; if (!f) return;
     var z = document.getElementById('alb-zoom');
     if (!z) { z = document.createElement('div'); z.id = 'alb-zoom'; document.body.appendChild(z); }
     z.innerHTML = '<button class="az-x">✕</button>' + (i > 0 ? '<button class="az-p">‹</button>' : '') + (i < fotos.length - 1 ? '<button class="az-n">›</button>' : '') +
-      '<img src="' + esc(f.url) + '" alt=""><div class="az-i"><span data-notr>' + esc(tr('Enviada por {n}', { n: f.autor || '—' })) + '</span>' +
-      '<a href="' + esc(f.url) + '" target="_blank" rel="noopener">' + esc(tr('Abrir original')) + '</a>' +
+      '<img src="' + esc(f.url || f.thumb) + '" alt=""><div class="az-i"><span data-notr>' + esc(f.oficial ? tr('Foto oficial') : tr('Enviada por {n}', { n: f.autor || '—' })) + '</span>' +
+      (/^https?:/.test(f.url || '') ? '<a href="' + esc(f.url) + '" target="_blank" rel="noopener">' + esc(tr('Abrir original')) + '</a>' : '') +
       (f.minha ? '<button class="az-del">' + esc(tr('Apagar')) + '</button>' : '') + '</div>';
     z.className = 'on';
     z.querySelector('.az-x').onclick = function () { z.className = ''; };
