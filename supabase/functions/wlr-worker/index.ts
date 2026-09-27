@@ -5,6 +5,7 @@
 
 import { createClient } from "npm:@supabase/supabase-js@2";
 import Anthropic from "npm:@anthropic-ai/sdk";
+import { leRotulo, fotoPadrao } from "./rotulo.ts";
 import { avaliar, BRANCO_REGIOES_VELHO_MUNDO, type Fatos } from "./criterios.ts";
 import { carregaCtx, carregaModelos, destinatarios, enfileira, exemplo, monta, processaFila as filaEmails } from "./emails.ts";
 
@@ -22,25 +23,34 @@ async function carregaCfg(): Promise<Cfg> {
 
 // ── fotos (Vivino, garrafa inteira _pb_) ──────────────────────────────────
 async function buscaFotos() {
-  const { data: gs } = await sb.from("wlr_garrafas").select("id, vinho, safra, produtor").is("foto_url", null).limit(6);
+  const { data: gs } = await sb.from("wlr_garrafas").select("id, vinho, safra, produtor, regiao").is("foto_url", null).limit(6);
   let achadas = 0;
   for (const g of gs ?? []) {
     let url: string | null = null;
-    try {
-      const q = encodeURIComponent([g.produtor, g.vinho, g.safra].filter(Boolean).join(" "));
-      const r = await fetch(`https://www.vivino.com/search/wines?q=${q}`, {
-        headers: { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" },
-      });
-      if (r.ok) {
-        const m = (await r.text()).match(/\/\/images\.vivino\.com\/thumbs\/[A-Za-z0-9_-]+_p[bl]_[0-9a-zA-Zx]+\.(?:png|jpe?g)/);
-        if (m) url = "https:" + m[0].replace(/_pl_[0-9a-zA-Zx]+\./, "_pb_x600.");
-      }
-    } catch (_) { /* melhor esforço */ }
+    // só a foto do rótulo exato (mesmo produtor e cuvée); outra cuvée do mesmo produtor não serve
+    try { url = (await fotoPadrao({ produtor: g.produtor, vinho: g.vinho, regiao: g.regiao })).foto; } catch (_) { /* melhor esforço */ }
     await sb.from("wlr_garrafas").update({ foto_url: url ?? "" }).eq("id", g.id);
     if (url) achadas++;
     await new Promise((r) => setTimeout(r, 800));
   }
   return { tentadas: (gs ?? []).length, achadas };
+}
+
+// o confrade fotografa o rótulo: lemos o que está escrito e procuramos a foto padrão do vinho exato
+async function rotulo(body: any) {
+  if (!(await sessaoOk(body.p_id))) return json({ ok: false, erro: "Acesso restrito aos membros" }, 403);
+  const url = String(body.url ?? "");
+  const base = `${Deno.env.get("SUPABASE_URL")}/storage/v1/object/public/wlr/rotulos/`;
+  if (!url.startsWith(base)) return json({ ok: false, erro: "Foto inválida" }, 400);
+  const r = await fetch(url);
+  if (!r.ok) return json({ ok: false, erro: "Não foi possível abrir a foto" }, 400);
+  const bytes = new Uint8Array(await r.arrayBuffer());
+  if (bytes.length > 5 * 1024 * 1024) return json({ ok: false, erro: "Foto muito grande" }, 400);
+  let bin = ""; for (let i = 0; i < bytes.length; i += 32768) bin += String.fromCharCode(...bytes.subarray(i, i + 32768));
+  const leitura = await leRotulo({ base64: btoa(bin), tipo: r.headers.get("content-type")?.startsWith("image/png") ? "image/png" : "image/jpeg" });
+  if (!leitura.legivel || !leitura.vinho && !leitura.produtor) return json({ ok: true, leitura, candidato: null, foto: null });
+  const p = await fotoPadrao(leitura);
+  return json({ ok: true, leitura, candidato: p.candidato, foto: p.foto });
 }
 
 // ── análise dos critérios ─────────────────────────────────────────────────
@@ -145,6 +155,9 @@ async function analisar(garrafaId: string, cfg: Cfg, reusar = false) {
       ? await sb.from("wlr_participantes").select("nome, email, produtor_de").eq("id", g.criado_por).single()
       : { data: null };
     const fatos = reusar ? g.analise.fatos : await perguntaClaude(g, dono?.produtor_de ?? null);
+    // correção de identificação: o aviso entra no começo do resumo dos e-mails desta análise
+    const aviso = (g.analise?.aviso_reanalise ?? null) as { pt: string; es?: string; en?: string } | null;
+    const comAviso = (t: string, l: "pt" | "es" | "en") => aviso ? `${aviso[l] ?? aviso.pt} ${t}` : t;
 
     // vagas já ocupadas por espumantes e doces aprovados (sem contar esta garrafa)
     const { data: outras } = await sb.from("wlr_vinhos_publico").select("id, tipo, subtipo, situacao").eq("situacao", "aprovado").neq("id", g.id);
@@ -174,8 +187,8 @@ async function analisar(garrafaId: string, cfg: Cfg, reusar = false) {
       if (dono?.email && situacao !== "inapto") {
         await sb.rpc("wlr_email_enqueue", { p_tipo: "parecer", p_para: dono.email, p_dados: {
           nome: dono.nome, participante_id: g.criado_por, garrafa_id: g.id, vinho: g.vinho, safra: g.safra,
-          situacao, resumo: parecer.resumo, criterios: parecer.criterios,
-          resumo_i18n: { es: pEs.resumo, en: pEn.resumo }, criterios_i18n: { es: pEs.criterios, en: pEn.criterios } } });
+          situacao, resumo: comAviso(parecer.resumo, "pt"), criterios: parecer.criterios,
+          resumo_i18n: { es: comAviso(pEs.resumo, "es"), en: comAviso(pEn.resumo, "en") }, criterios_i18n: { es: pEs.criterios, en: pEn.criterios } } });
       }
       if (situacao === "em_analise" || situacao === "inapto") {
         const { data: conselho } = await sb.from("wlr_conselho").select("nome, email, token").not("email", "is", null);
@@ -185,7 +198,7 @@ async function analisar(garrafaId: string, cfg: Cfg, reusar = false) {
             nome: c.nome, confrade: dono?.nome ?? g.sigla ?? "—", criterios: parecer.criterios, idioma: "pt",
             resumo: situacao === "inapto"
               ? "Reprovada na análise automática — " + parecer.resumo + " O confrade ainda não foi avisado: a decisão é do conselho."
-              : parecer.resumo } });
+              : comAviso(parecer.resumo, "pt") } });
         }
       }
     }
@@ -385,6 +398,7 @@ Deno.serve(async (req) => {
   try {
     if (["preview", "contar", "enviar"].includes(task)) return await painel(body, cfg);
     if (String(task).startsWith("album-")) return await album(body, cfg);
+    if (task === "ler-rotulo") return await rotulo(body);
     if (!SECRET || req.headers.get("x-wlr-secret") !== SECRET) return new Response("forbidden", { status: 403 });
     let out: unknown;
     if (task === "campanha") out = await campanha(body.tipo, cfg);

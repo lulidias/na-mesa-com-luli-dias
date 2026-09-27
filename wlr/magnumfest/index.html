@@ -129,6 +129,19 @@ footer .orn .d,#vot-teaser .orn .d{background:#fff}
 .gr-card .w{font-weight:700;font-size:16px;color:var(--wine-md)}
 .gr-card .m{font-size:11px;color:var(--ink-lt);margin-top:4px;line-height:1.5}
 .gr-fmt{font-size:9px;letter-spacing:2px;text-transform:uppercase;background:var(--wine-md);color:var(--cream);padding:4px 9px;white-space:nowrap}
+.rot-box{border:1px dashed var(--wine-lt);background:var(--gold-bg);padding:16px 18px;text-align:center}
+.rot-btn{cursor:pointer;display:inline-block}
+.rot-btn.ocupado{opacity:.5;pointer-events:none}
+.rot-tx{font-size:11.5px;color:var(--ink-lt);margin-top:10px;line-height:1.55}
+.rot-st{font-size:12.5px;margin-top:12px;color:var(--ink)}.rot-st.ok{color:#2E7D4F;font-weight:600}.rot-st.err{color:#8A2A2A;font-weight:600}
+.rot-card{display:flex;gap:16px;align-items:center;text-align:left;background:#fff;border:1px solid var(--border);padding:14px 16px;margin-top:14px}
+.rot-card img{height:130px;width:46px;object-fit:contain;flex:0 0 auto}
+.rot-sem{font-size:34px;width:46px;text-align:center;flex:0 0 auto;opacity:.5}
+.rot-k{font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);font-weight:700}
+.rot-n{font-weight:800;font-size:16px;color:var(--wine);margin-top:3px;line-height:1.3}
+.rot-e{font-size:12px;color:var(--ink-lt);margin-top:3px}
+.rot-b{margin-top:12px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.rot-b .btn{padding:10px 16px;font-size:10px;letter-spacing:2px}
 .linklike{background:none;border:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);cursor:pointer;text-decoration:underline;font-family:'Montserrat',sans-serif}
 .parecer{width:100%;border-top:1px dashed var(--border);padding-top:12px;margin-top:4px;font-size:12px;line-height:1.6}
 .parecer .st{font-weight:700;font-size:12px;letter-spacing:.5px}
@@ -451,6 +464,12 @@ body.fechado .confraria-btn{display:none}
 
     <!-- 2. a Magnum -->
     <div class="bloco-t" style="margin-top:34px" id="vinho-t"><b>2</b> A sua Magnum</div>
+    <div class="rot-box" id="rot-box">
+      <label class="btn gold rot-btn" id="rot-btn">📷 Fotografar o rótulo<input type="file" accept="image/*" capture="environment" hidden onchange="lerRotulo(this)"></label>
+      <div class="rot-tx">Tire uma foto de frente do rótulo: o sistema lê o nome, o produtor e a safra, acha a foto padrão da garrafa e preenche tudo abaixo. Você só confere.</div>
+      <div id="rot-res"></div>
+    </div>
+    <div style="font-size:10.5px;color:var(--ink-lt);margin:14px 0 6px;text-align:center;letter-spacing:1px;text-transform:uppercase">ou preencha à mão</div>
     <input class="f-input" id="g-vinho" placeholder="Vinho (ex.: Château Léoville Barton)">
     <div style="font-size:10.5px;color:var(--ink-lt);margin-top:6px">Ainda não decidiu? Deixe em branco e volte depois — a presença fica confirmada.</div>
     <div class="g-row3" style="margin-top:10px">
@@ -477,9 +496,6 @@ body.fechado .confraria-btn{display:none}
     <div id="g-subtipo-row" class="hidden" style="margin-top:10px">
       <select class="f-select" id="g-subtipo"></select>
     </div>
-    <label class="f-label">Foto da garrafa (opcional)</label>
-    <input type="file" id="g-foto" accept="image/*" style="font-size:12px">
-    <div style="font-size:10px;color:var(--ink-lt);margin-top:6px">Sem foto? O sistema busca automaticamente e você só confirma.</div>
     <div style="font-size:11px;color:var(--ink-lt);margin-top:16px;line-height:1.6;background:var(--gold-bg);padding:10px 14px">Preencha produtor e safra com cuidado — é por eles que o sistema encontra as notas e o preço daquela safra. O parecer chega em poucos minutos, aqui e por e-mail.</div>
     <div style="text-align:center;margin-top:22px">
       <button class="btn gold" id="g-add" onclick="enviar()">Confirmar presença e registrar a Magnum</button>
@@ -1042,12 +1058,12 @@ function loadMinhasGarrafas() {
       if (g.foto_url && g.foto_ok === null) {
         fotoHtml = '<div style="width:100%;display:flex;gap:14px;align-items:center;border-top:1px dashed var(--border);padding-top:12px;margin-top:4px">' +
           '<img src="' + esc(g.foto_url) + '" style="max-height:72px;max-width:48px;object-fit:contain" onerror="this.remove()">' +
-          '<div style="font-size:11px">Encontramos esta foto — está certa?<br>' +
-          '<button class="linklike" onclick="avaliaFoto(\'' + g.id + '\', true)">✓ Sim, é essa</button> &nbsp; ' +
-          '<button class="linklike" onclick="avaliaFoto(\'' + g.id + '\', false)">✗ Não é essa</button></div></div>';
+          '<div style="font-size:11px">É este o seu vinho?<br>' +
+          '<button class="linklike" onclick="avaliaFoto(\'' + g.id + '\', true)">✓ Sim, é este</button> &nbsp; ' +
+          '<button class="linklike" onclick="naoEhMeu(\'' + g.id + '\')">✗ Meu vinho não é este</button></div></div>';
       } else if (g.foto_ok === false) {
-        fotoHtml = '<div style="width:100%;font-size:11px;border-top:1px dashed var(--border);padding-top:12px;margin-top:4px">Envie a foto certa da garrafa: ' +
-          '<input type="file" accept="image/*" style="font-size:11px" onchange="uploadFotoGarrafa(this, \'' + g.id + '\')"></div>';
+        fotoHtml = '<div style="width:100%;font-size:11px;border-top:1px dashed var(--border);padding-top:12px;margin-top:4px">Fotografe o rótulo para acharmos o vinho certo: ' +
+          '<button class="linklike" onclick="naoEhMeu(\'' + g.id + '\')">📷 Fotografar o rótulo</button></div>';
       }
       d.innerHTML = '<div><div class="w">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
         '<div class="m">' + (g.produtor ? esc(g.produtor) + ' · ' : '') + (g.regiao ? esc(g.regiao) + ' · ' : '') + esc(tipoRotulo(g)) + '</div></div>' +
@@ -1105,7 +1121,7 @@ function editarGarrafa(id) {
   document.getElementById('g-vinho').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 function cancelarEdicao() {
-  editandoId = null;
+  editandoId = null; ROTULO = null; document.getElementById('rot-res').innerHTML = '';
   ['g-vinho', 'g-produtor', 'g-regiao', 'g-pais', 'g-safra'].forEach(function (i) { document.getElementById(i).value = ''; });
   document.getElementById('g-tipo').value = 'Tinto'; tipoChange();
   atualizaBotao();
@@ -1139,12 +1155,11 @@ function addGarrafa() {
   if (editandoId) { args.p_garrafa = editandoId; chamada = rpc('wlr_edit_garrafa', args).then(function () { return editandoId; }); }
   else chamada = rpc('wlr_add_garrafa', args);
   return chamada.then(function (garrafaId) {
-    var f = document.getElementById('g-foto').files[0];
-    var upload = (f && garrafaId) ? enviarFotoGarrafa(f, garrafaId) : Promise.resolve();
+    // rótulo fotografado: guarda a foto (comprovante) e, se o confrade confirmou, a foto padrão da garrafa
+    var upload = (ROTULO && garrafaId) ? rpc('wlr_set_rotulo_garrafa', { p_participante: meuId, p_garrafa: garrafaId, p_rotulo_url: ROTULO.url, p_foto_url: ROTULO.foto, p_vivino: ROTULO.vivino }).catch(function () { }) : Promise.resolve();
     return upload.then(function () {
       toast(editandoId ? 'Magnum atualizada! 🍷' : 'Magnum registrada! Veja o status logo abaixo. 🍷');
       cancelarEdicao();
-      document.getElementById('g-foto').value = '';
       return Promise.all([loadMinhasGarrafas(), refreshPublic()]).then(function () { document.getElementById('status-area').scrollIntoView({ behavior: 'smooth', block: 'center' }); });
     });
   }).catch(function (e) { toast(e.message, true); })
@@ -1177,6 +1192,67 @@ function avaliaFoto(garrafaId, ok) {
       toast(ok ? 'Foto confirmada!' : 'Certo — envie a foto certa ou o organizador buscará outra.');
       return Promise.all([loadMinhasGarrafas(), refreshPublic()]);
     }).catch(function (e) { toast(e.message, true); });
+}
+// ── leitura do rótulo ──────────────────────────────────────────────────
+var ROTULO = null;   // { url, foto, vivino } da última leitura confirmada (ou só url, se não era o vinho)
+function reduzImg(file, lado, q) {
+  return new Promise(function (ok, erro) {
+    var img = new Image(), u = URL.createObjectURL(file);
+    img.onload = function () {
+      var k = Math.min(1, lado / Math.max(img.naturalWidth, img.naturalHeight)), c = document.createElement('canvas');
+      c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(u);
+      c.toBlob(function (b) { b ? ok(b) : erro(new Error('Não foi possível ler a foto')); }, 'image/jpeg', q);
+    };
+    img.onerror = function () { erro(new Error('Não foi possível abrir a foto')); }; img.src = u;
+  });
+}
+function lerRotulo(inp) {
+  var f = inp.files && inp.files[0]; if (!f) return;
+  var res = document.getElementById('rot-res'), btn = document.getElementById('rot-btn');
+  btn.classList.add('ocupado'); res.innerHTML = '<div class="rot-st">🔎 Lendo o rótulo… (uns 10 segundos)</div>';
+  var path = 'rotulos/' + (meuId || 'x') + '-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7) + '.jpg', url = SB + '/storage/v1/object/public/wlr/' + path;
+  reduzImg(f, 1600, 0.85).then(function (b) {
+    return fetch(SB + '/storage/v1/object/wlr/' + path, { method: 'POST', headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'image/jpeg' }, body: b });
+  }).then(function (r) {
+    if (!r.ok) throw new Error('Falha ao enviar a foto');
+    return fetch(SB + '/functions/v1/wlr-worker', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ task: 'ler-rotulo', p_id: meuId, url: url }) }).then(function (r) { return r.json(); });
+  }).then(function (d) {
+    if (!d || !d.ok) throw new Error((d && d.erro) || 'Não foi possível ler o rótulo');
+    var L = d.leitura || {};
+    if (!L.legivel) { res.innerHTML = '<div class="rot-st err">Não deu para ler o rótulo com segurança. Tente outra foto: de frente, com luz e sem reflexo.</div>'; return; }
+    var nome = [L.produtor, L.vinho].filter(Boolean).join(' — ');
+    var extra = [L.safra, L.regiao, L.pais, L.tipo === 'Espumante' && L.subtipo ? L.subtipo : L.tipo].filter(Boolean).join(' · ');
+    res.innerHTML = '<div class="rot-card">' + (d.foto ? '<img src="' + esc(d.foto) + '" alt="">' : '<div class="rot-sem">🍾</div>') +
+      '<div><div class="rot-k">Lemos no rótulo</div><div class="rot-n">' + esc(nome) + '</div><div class="rot-e">' + esc(extra) + '</div>' +
+      (d.foto ? '' : '<div class="rot-e" style="margin-top:6px">Não achamos a foto padrão deste rótulo; o conselho coloca depois.</div>') +
+      '<div class="rot-b"><button class="btn gold" id="rot-sim">✓ É o meu vinho</button> <button class="linklike" id="rot-nao">✗ Não é o meu vinho</button></div></div></div>';
+    document.getElementById('rot-sim').onclick = function () {
+      document.getElementById('g-vinho').value = L.vinho || '';
+      document.getElementById('g-produtor').value = L.produtor || '';
+      document.getElementById('g-safra').value = L.safra || '';
+      document.getElementById('g-regiao').value = L.regiao || '';
+      document.getElementById('g-pais').value = L.pais || '';
+      if (L.tipo) { document.getElementById('g-tipo').value = L.tipo; tipoChange(L.subtipo || undefined); }
+      ROTULO = { url: url, foto: d.foto || null, vivino: d.candidato ? d.candidato.id : null };
+      res.innerHTML = '<div class="rot-st ok">✓ Preenchido com o que está no rótulo. Confira abaixo e registre.</div>';
+      document.getElementById('g-add').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+    document.getElementById('rot-nao').onclick = function () {
+      ROTULO = { url: url, foto: null, vivino: null };
+      res.innerHTML = '<div class="rot-st">Sem problema: fotografe de novo (de frente, com luz) ou preencha à mão abaixo. O conselho confere antes de publicar.</div>';
+    };
+  }).catch(function (e) { res.innerHTML = '<div class="rot-st err">' + esc(e.message) + '</div>'; })
+    .then(function () { btn.classList.remove('ocupado'); inp.value = ''; });
+}
+// "meu vinho não é este": abre a edição da garrafa já no leitor de rótulo
+function naoEhMeu(id) {
+  rpc('wlr_avalia_foto', { p_participante: meuId, p_garrafa: id, p_ok: false }).catch(function () { }).then(function () {
+    editarGarrafa(id);
+    var box = document.getElementById('rot-box'); box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('rot-res').innerHTML = '<div class="rot-st">Fotografe o rótulo da sua garrafa: a gente corrige o nome, a safra e a foto, e a análise é refeita com o vinho certo.</div>';
+    return loadMinhasGarrafas();
+  });
 }
 var meusPedidosMap = {};
 function pedirGarrafa(id) {
