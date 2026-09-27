@@ -515,6 +515,7 @@
     'O ano com mais garrafas': ['El año con más botellas', 'The year with most bottles'],
     'com {n} garrafas': ['con {n} botellas', 'with {n} bottles'],
     'Presentes': ['Presentes', 'Attendees'],
+    'data a confirmar': ['fecha por confirmar', 'date to be confirmed'],
     'Todos os encontros da confraria, ano a ano': ['Todos los encuentros de la cofradía, año a año', 'Every gathering of the club, year by year'],
     'nenhum neste ano': ['ninguno este año', 'none this year'],
     'falta data': ['falta fecha', 'date missing'],

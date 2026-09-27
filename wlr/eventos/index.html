@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../comum.css?v=20260927p">
+<link rel="stylesheet" href="../comum.css?v=20260927q">
 <style>
 section{max-width:1060px}
 .abas{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px}
@@ -43,7 +43,9 @@ section{max-width:1060px}
 .ev .corpo{padding:16px 18px 18px;position:relative;flex:1}
 .ev .ic{position:absolute;top:14px;right:14px;width:30px;height:38px}
 .ev .ic svg{width:100%;height:100%}
-.ev .a{font-weight:800;font-size:13px;letter-spacing:1px;color:var(--ink-lt)}
+.ev .quando{font-weight:800;font-size:26px;color:var(--wine);line-height:1;letter-spacing:-.3px;padding-right:40px}
+.ev .quando.sem{font-size:12.5px;font-weight:600;font-style:italic;letter-spacing:0;color:var(--ink-lt);padding-top:6px}
+.ev .a{font-weight:700;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--wine-lt);margin-top:8px}
 .ev .n{font-size:15px;font-weight:800;color:var(--wine);margin-top:4px;padding-right:36px;line-height:1.25}
 .ev .i{font-size:12px;color:var(--ink-lt);margin-top:8px;line-height:1.5}
 .ev .falta{margin-top:10px;display:flex;gap:5px;flex-wrap:wrap}
@@ -52,7 +54,7 @@ section{max-width:1060px}
 .ev .achou div{display:flex;gap:6px}.ev .achou b{color:var(--wine-lt);font-size:10.5px;letter-spacing:.5px;min-width:34px}
 .ev mark{background:#F6E3B4;color:inherit;padding:0 1px}
 .ev.atual{background:var(--wine);border-color:var(--wine)}
-.ev.atual .a,.ev.atual .n,.ev.atual .i{color:#fff}
+.ev.atual .a,.ev.atual .n,.ev.atual .i,.ev.atual .quando{color:#fff}
 .ev.atual .ic svg{filter:brightness(0) invert(1)}
 .nres{text-align:center;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-lt);margin:-8px 0 16px}
 .det{background:#fff;border:1px solid var(--border);margin-top:18px;scroll-margin-top:90px}
@@ -97,8 +99,8 @@ section{max-width:1060px}
   </section>
 </main>
 
-<script src="../i18n.js?v=20260927p"></script>
-<script src="../comum.js?v=20260927p"></script>
+<script src="../i18n.js?v=20260927q"></script>
+<script src="../comum.js?v=20260927q"></script>
 <script>
 montaNav('eventos');
 montaRodape();
@@ -123,7 +125,8 @@ function marca() {
 // todos os encontros num formato só (Magnum Fest + os outros)
 function monta() {
   ITENS = [];
-  ITENS.push({ ref: 'mf-' + ANO_ATUAL, tipo: 'magnum', ano: ANO_ATUAL, titulo: 'Magnum Fest Licínio Dias', atual: true, link: '../magnumfest/', vinhos: '', presentes: [],
+  var at = D.atual || {}; if (at.ano) ANO_ATUAL = at.ano;
+  ITENS.push({ ref: 'mf-' + ANO_ATUAL, tipo: 'magnum', ano: ANO_ATUAL, data: at.data, local: at.local, titulo: 'Magnum Fest Licínio Dias', atual: true, link: '../magnumfest/', vinhos: '', presentes: [],
     nFotos: (D.fotos_por_ref || {})['mf-' + ANO_ATUAL] || 0 });
   (D.magnum || []).forEach(function (m) {
     ITENS.push({ ref: 'mf-' + m.ano, tipo: 'magnum', ano: m.ano, data: m.data, local: m.local, titulo: m.ano >= 2021 ? 'Magnum Fest Licínio Dias' : 'Magnum Fest',
@@ -169,7 +172,9 @@ function visiveis() {
     if (aba === 'todos' && it.semFesta) return false;
     if (q) { it.achou = achados(it); return !!it.achou; }
     it.achou = null; return true;
-  }).sort(function (a, b) { return (b.ano || 0) - (a.ano || 0) || String(b.data || '').localeCompare(String(a.data || '')) || (a.tipo === 'magnum' ? -1 : 1); });
+  }).sort(function (a, b) {
+    return (b.ano || 0) - (a.ano || 0) || (a.data ? 0 : 1) - (b.data ? 0 : 1) || String(a.data || '').localeCompare(String(b.data || '')) || (a.tipo === 'magnum' ? 1 : -1);
+  });
 }
 
 function abas() {
@@ -193,10 +198,18 @@ function anos() {
   });
 }
 
+// "27 jan": dia e mês curto, na língua da página
+function diaMes(d) {
+  try {
+    var p = new Intl.DateTimeFormat(LOC(), { day: 'numeric', month: 'short', timeZone: 'UTC' }).formatToParts(new Date(d + 'T12:00:00Z'));
+    var dia = '', mes = ''; p.forEach(function (x) { if (x.type === 'day') dia = x.value; if (x.type === 'month') mes = x.value.replace('.', ''); });
+    return dia + ' ' + mes.toLowerCase();
+  } catch (e) { return d; }
+}
 function card(it) {
-  var info = [it.data ? dataLonga(it.data) : '', it.local, it.n ? it.n + ' ' + (it.tipo === 'magnum' ? 'Magnums' : tr('garrafas')) : '',
+  var info = [it.local, it.n ? it.n + ' ' + (it.tipo === 'magnum' ? 'Magnums' : tr('garrafas')) : '',
     it.nFotos ? it.nFotos + ' ' + tr('fotos') : ''].filter(Boolean).join(' · ');
-  if (it.atual) info = tr('A próxima edição') + (it.nFotos ? ' · ' + it.nFotos + ' ' + tr('fotos') : '');
+  if (it.atual) info = [tr('A próxima edição'), it.local, it.nFotos ? it.nFotos + ' ' + tr('fotos') : ''].filter(Boolean).join(' · ');
   if (it.semFesta) info = tr('Sem festa (pandemia)');
   var capa = CAPAS[it.ref];
   var ach = it.achou && (it.achou.linhas.length || it.achou.pres.length) ? '<div class="achou" data-notr>' +
@@ -205,7 +218,9 @@ function card(it) {
     it.achou.pres.slice(0, 3).map(function (p) { return '<div><b>✓</b><span>' + realca(p) + ' ' + esc(tr('esteve presente')) + '</span></div>'; }).join('') + '</div>' : '';
   return '<button class="ev' + (it.atual ? ' atual' : '') + '" data-ref="' + it.ref + '">' +
     (capa || it.temFoto ? '<div class="capa" data-capa="' + it.ref + '"' + (capa ? ' style="background-image:url(\'' + esc(capa) + '\')"' : '') + '></div>' : '') +
-    '<div class="corpo"><span class="ic">' + LOGO_EV.icone(it.tipo, it.atual) + '</span><div class="a">' + (it.ano || '—') + ' · <span data-notr>' + esc(NOME_TIPO[it.tipo]) + '</span></div>' +
+    '<div class="corpo"><span class="ic">' + LOGO_EV.icone(it.tipo, it.atual) + '</span>' +
+    (it.data ? '<div class="quando">' + esc(diaMes(it.data)) + '</div>' : '<div class="quando sem">' + (it.semFesta ? '—' : esc(tr('data a confirmar'))) + '</div>') +
+    '<div class="a" data-notr>' + esc(NOME_TIPO[it.tipo]) + '</div>' +
     '<div class="n" data-notr>' + esc(it.titulo) + '</div><div class="i">' + esc(info) + '</div>' +
     (it.falta.length && !q ? '<div class="falta">' + it.falta.map(function (f) { return '<i>' + esc(tr(f)) + '</i>'; }).join('') + '</div>' : '') + ach + '</div></button>';
 }
