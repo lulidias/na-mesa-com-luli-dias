@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../comum.css?v=20260927k">
+<link rel="stylesheet" href="../comum.css?v=20260927l">
 <style>
 section{max-width:1060px}
 .abas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:26px}
@@ -31,6 +31,9 @@ section{max-width:1060px}
 .aba .d{font-size:11px;color:var(--ink-lt);margin-top:4px}
 .aba.on{background:var(--wine-lt);border-color:var(--wine-lt)}
 .aba.on .t,.aba.on .d{color:#fff}
+.anos{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:-10px 0 24px}
+.anos button{border:1px solid var(--border);background:#fff;color:var(--ink-lt);font:600 11px Montserrat,sans-serif;letter-spacing:1px;padding:8px 13px;cursor:pointer}
+.anos button.on{background:var(--wine-lt);border-color:var(--wine-lt);color:#fff}
 .intro{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--wine-lt);text-align:center;margin:-6px auto 24px;max-width:640px}
 .evs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .ev{display:block;text-decoration:none;background:#fff;border:1px solid var(--border);padding:20px 18px;cursor:pointer;transition:border-color .2s,transform .2s;text-align:left;font-family:inherit;width:100%}
@@ -65,14 +68,15 @@ section{max-width:1060px}
 <main>
   <section>
     <div class="abas" id="abas"></div>
+    <div class="anos" id="anos"></div>
     <div class="intro" id="intro"></div>
     <div class="evs" id="evs"></div>
     <div id="det"></div>
   </section>
 </main>
 
-<script src="../i18n.js?v=20260927k"></script>
-<script src="../comum.js?v=20260927k"></script>
+<script src="../i18n.js?v=20260927l"></script>
+<script src="../comum.js?v=20260927l"></script>
 <script>
 montaNav('eventos');
 montaRodape();
@@ -83,16 +87,29 @@ var TIPOS = [
   ['ordinario', 'Ordinário', 'Os encontros regulares'],
   ['velhinhos', 'Os Velhinhos', 'Garrafas com muitos anos de guarda']
 ];
-var D = null, aba = 'magnum', ANO_ATUAL = 2026;
+var D = null, aba = 'magnum', ano = 'todos', ANO_ATUAL = 2026;
+function anoOk(a) { return ano === 'todos' || a === ano; }
+function marca() { try { history.replaceState({}, '', '#' + aba + (ano === 'todos' ? '' : '-' + ano)); } catch (e) { } }
+function anos() {
+  var todos = {}; todos[ANO_ATUAL] = 1;
+  (D.magnum || []).forEach(function (m) { if (m.ano) todos[m.ano] = 1; });
+  (D.eventos || []).forEach(function (e) { if (e.ano) todos[e.ano] = 1; });
+  var ord = Object.keys(todos).map(Number).sort(function (a, b) { return b - a; });
+  document.getElementById('anos').innerHTML = '<button data-a="todos"' + (ano === 'todos' ? ' class="on"' : '') + '>' + esc(tr('Todos os anos')) + '</button>' +
+    ord.map(function (a) { return '<button data-a="' + a + '"' + (ano === a ? ' class="on"' : '') + '>' + a + '</button>'; }).join('');
+  [].forEach.call(document.querySelectorAll('#anos button'), function (b) {
+    b.onclick = function () { ano = b.dataset.a === 'todos' ? 'todos' : +b.dataset.a; marca(); abas(); anos(); lista(); };
+  });
+}
 
 function abas() {
-  var conta = { magnum: (D.magnum || []).length };
-  (D.eventos || []).forEach(function (e) { conta[e.tipo] = (conta[e.tipo] || 0) + 1; });
+  var conta = { magnum: (D.magnum || []).filter(function (m) { return anoOk(m.ano); }).length + (anoOk(ANO_ATUAL) ? 1 : 0) };
+  (D.eventos || []).forEach(function (e) { if (anoOk(e.ano)) conta[e.tipo] = (conta[e.tipo] || 0) + 1; });
   document.getElementById('abas').innerHTML = TIPOS.map(function (t) {
     return '<button class="aba' + (aba === t[0] ? ' on' : '') + '" data-t="' + t[0] + '"><span class="ic">' + LOGO_EV.icone(t[0]) + '</span><div class="t" data-notr>' + esc(t[1]) + '</div><div class="d">' +
       esc(conta[t[0]] ? tr(conta[t[0]] === 1 ? '1 encontro' : '{n} encontros', { n: conta[t[0]] }) : tr('em breve')) + '</div></button>';
   }).join('');
-  [].forEach.call(document.querySelectorAll('.aba'), function (b) { b.onclick = function () { aba = b.dataset.t; history.replaceState({}, '', '#' + aba); abas(); lista(); }; });
+  [].forEach.call(document.querySelectorAll('.aba'), function (b) { b.onclick = function () { aba = b.dataset.t; marca(); abas(); lista(); }; });
   document.getElementById('intro').textContent = tr(TIPOS.filter(function (t) { return t[0] === aba; })[0][2]);
 }
 
@@ -103,22 +120,23 @@ function lista() {
     var fotos = D.fotos_por_ref || {};
     var atual = '<button class="ev atual" data-mf="' + ANO_ATUAL + '"><span class="ic">' + LOGO_EV.icone('magnum') + '</span><div class="a">' + ANO_ATUAL + '</div><div class="n" data-notr>Magnum Fest Licínio Dias</div>' +
       '<div class="i">' + esc(tr('A próxima edição')) + (fotos['mf-' + ANO_ATUAL] ? ' · ' + fotos['mf-' + ANO_ATUAL] + ' ' + esc(tr('fotos')) : '') + '</div></button>';
-    box.innerHTML = atual + (D.magnum || []).map(function (m) {
+    box.innerHTML = (anoOk(ANO_ATUAL) ? atual : '') + (D.magnum || []).filter(function (m) { return anoOk(m.ano); }).map(function (m) {
       var inf = [m.n ? m.n + ' Magnums' : tr('Sem edição'), m.data ? dataLonga(m.data) : '', m.n_fotos ? m.n_fotos + ' ' + tr('fotos dos confrades') : ''].filter(Boolean).join(' · ');
       return '<a class="ev" href="../edicoes/#ed-' + m.ano + '"><span class="ic">' + LOGO_EV.icone('magnum') + '</span><div class="a">' + m.ano + '</div><div class="n" data-notr>' + (m.ano >= 2021 ? 'Magnum Fest Licínio Dias' : 'Magnum Fest') + '</div><div class="i">' + esc(inf) + '</div></a>';
     }).join('');
+    if (!box.innerHTML) box.innerHTML = '<p class="vazio" style="grid-column:1/-1">' + esc(tr('Nenhum encontro deste tipo neste ano.')) + '</p>';
     var b = box.querySelector('[data-mf]');
-    b.onclick = function () { detalhe({ tipo: 'magnum', ref: 'mf-' + ANO_ATUAL, titulo: 'Magnum Fest Licínio Dias ' + ANO_ATUAL, info: tr('As fotos do dia entram aqui. Veja a festa em') + ' ', link: '../magnumfest/' }); };
+    if (b) b.onclick = function () { detalhe({ tipo: 'magnum', ref: 'mf-' + ANO_ATUAL, titulo: 'Magnum Fest Licínio Dias ' + ANO_ATUAL, info: tr('As fotos do dia entram aqui. Veja a festa em') + ' ', link: '../magnumfest/' }); };
     return;
   }
-  var evs = (D.eventos || []).filter(function (e) { return e.tipo === aba; });
+  var evs = (D.eventos || []).filter(function (e) { return e.tipo === aba && anoOk(e.ano); });
   box.innerHTML = evs.length ? evs.map(function (e) {
     var n = linhasVinhos(e.vinhos).length;
     var inf = [e.local, n ? n + ' ' + tr('garrafas') : '', e.n_fotos ? e.n_fotos + ' ' + tr('fotos') : ''].filter(Boolean).join(' · ');
     return '<button class="ev" data-id="' + e.id + '"><span class="ic">' + LOGO_EV.icone(e.tipo) + '</span><div class="a">' + (e.ano || '—') + '</div>' +
       '<div class="n" data-notr>' + esc(e.titulo || TIPOS.filter(function (t) { return t[0] === e.tipo; })[0][1]) + '</div>' +
       '<div class="i">' + esc([e.data ? dataLonga(e.data) : '', inf].filter(Boolean).join(' · ')) + '</div></button>';
-  }).join('') : '<p class="vazio" style="grid-column:1/-1">' + esc(tr('Ainda não há encontros cadastrados aqui. As listas vão entrando aos poucos.')) + '</p>';
+  }).join('') : '<p class="vazio" style="grid-column:1/-1">' + esc(tr(ano === 'todos' ? 'Ainda não há encontros cadastrados aqui. As listas vão entrando aos poucos.' : 'Nenhum encontro deste tipo neste ano.')) + '</p>';
   [].forEach.call(box.querySelectorAll('[data-id]'), function (b) {
     b.onclick = function () {
       var e = evs.filter(function (x) { return x.id === b.dataset.id; })[0];
@@ -145,9 +163,10 @@ sessao().then(function (id) {
   if (!id) return paraPorta('eventos');
   return rpc('wlr_p_eventos', { p_id: id }).then(function (d) {
     D = d || {};
-    var h = location.hash.slice(1); if (TIPOS.some(function (t) { return t[0] === h; })) aba = h;
+    var h = location.hash.slice(1).split('-'); if (TIPOS.some(function (t) { return t[0] === h[0]; })) aba = h[0];
+    if (+h[1]) ano = +h[1];
     document.body.classList.remove('carregando');
-    abas(); lista();
+    abas(); anos(); lista();
   });
 }).catch(function (e) {
   if (semAcesso(e, 'eventos')) return;

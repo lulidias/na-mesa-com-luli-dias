@@ -515,6 +515,7 @@
     'O ano com mais garrafas': ['El año con más botellas', 'The year with most bottles'],
     'com {n} garrafas': ['con {n} botellas', 'with {n} bottles'],
     'Presentes': ['Presentes', 'Attendees'],
+    'Nenhum encontro deste tipo neste ano.': ['Ningún encuentro de este tipo en este año.', 'No gatherings of this kind in this year.'],
     'Esteve presente': ['Estuvo presente', 'Was there'],
     'Os encontros e as garrafas': ['Los encuentros y las botellas', 'Gatherings and bottles'],
     'com lista de garrafas': ['con lista de botellas', 'with a bottle list'],
