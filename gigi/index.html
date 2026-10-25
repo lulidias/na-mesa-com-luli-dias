@@ -376,13 +376,25 @@ function wake(){ try{ if(navigator.wakeLock) navigator.wakeLock.request('screen'
 wake(); document.addEventListener('visibilitychange', function(){ if(!document.hidden) wake(); });
 
 /* ---------- relógio e contagem ---------- */
-function brt(){ var d=new Date(); return new Date(d.getTime() + d.getTimezoneOffset()*60000 - 3*3600000); }
+// hora oficial: vem do servidor (cabeçalho Date), não do relógio da TV, que costuma estar errado
+var skew = 0;
+function syncTime(){
+  try{
+    var t0 = Date.now();
+    fetch('gigi.svg?t='+t0, {method:'HEAD', cache:'no-store'}).then(function(r){
+      var d = Date.parse(r.headers.get('Date')||''); if(!isNaN(d)) skew = d + (Date.now()-t0)/2 + 500 - Date.now();
+    }).catch(function(){});
+  }catch(e){}
+}
+syncTime(); setInterval(syncTime, 10*60000);
+// "relógio de Brasília": usa os campos UTC de um instante deslocado em -3h (não depende do fuso do aparelho)
+function brt(){ return new Date(Date.now() + skew - 3*3600000); }
 function two(n){ return (n<10?'0':'')+n; }
 setInterval(tick,1000); tick();
 function tick(){
-  var b = brt(); $('clock').textContent = two(b.getHours())+':'+two(b.getMinutes())+':'+two(b.getSeconds());
-  var start = new Date(b); start.setHours(17,0,0,0);
-  var left = Math.max(0, (start-b)/1000);
+  var b = brt(); $('clock').textContent = two(b.getUTCHours())+':'+two(b.getUTCMinutes())+':'+two(b.getUTCSeconds());
+  var start = Date.UTC(b.getUTCFullYear(), b.getUTCMonth(), b.getUTCDate(), 17, 0, 0);
+  var left = Math.max(0, (start-b.getTime())/1000);
   $('cd').textContent = left>0 ? two(Math.floor(left/3600))+':'+two(Math.floor(left%3600/60))+':'+two(Math.floor(left%60)) : 'a qualquer momento…';
 }
 
@@ -618,7 +630,7 @@ function confetti(){
     P.forEach(function(p){ p.y+=p.vy; p.x+=p.vx+Math.sin(p.a+=.05); ctx.fillStyle=p.c; ctx.fillRect(p.x,p.y,p.r,p.r*.6); if(p.y>cv.height && Date.now()-t0<12000) p.y=-10; });
     if(Date.now()-t0<16000) requestAnimationFrame(fr); else ctx.clearRect(0,0,cv.width,cv.height); })();
 }
-window.__gigi = {R:R, R1:R1, confetti:confetti, render:render, project:project};
+window.__gigi = {R:R, R1:R1, confetti:confetti, render:render, project:project, syncTime:syncTime};
 })();
 </script>
 </body>
