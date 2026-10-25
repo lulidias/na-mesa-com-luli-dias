@@ -54,21 +54,24 @@
       <path d="M144 191Q165 173 188 188" stroke="#1F120A" stroke-width="4" fill="none" stroke-linecap="round"/>
       <path d="M212 188Q235 173 256 191" stroke="#1F120A" stroke-width="4" fill="none" stroke-linecap="round"/>
       <path d="M145 191L138 186M255 191L262 186" stroke="#1F120A" stroke-width="3" stroke-linecap="round"/>
-      <path d="M151 196Q166 202 182 195M218 195Q234 202 249 196" stroke="#D9A585" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M144 203Q166 191 188 200L188 207L144 207Z" fill="#F9D5BB"/><path d="M214 200Q236 191 256 203L256 207L214 207Z" fill="#F9D5BB"/>
+      <path d="M148 200Q166 193 185 198M217 198Q236 193 253 200" stroke="#D49A7C" stroke-width="2" fill="none" stroke-linecap="round"/>
 
       <!-- nariz -->
       <path d="M205 196Q211 218 203 228" stroke="#DDA080" stroke-width="2.6" fill="none" stroke-linecap="round"/>
       <path d="M190 230Q197 234 205 230" stroke="#D0927A" stroke-width="2.4" fill="none" stroke-linecap="round"/>
 
       <!-- blush -->
-      <ellipse cx="152" cy="226" rx="16" ry="9" fill="#F49AA0" opacity=".35"/>
-      <ellipse cx="250" cy="226" rx="16" ry="9" fill="#F49AA0" opacity=".35"/>
+      <ellipse cx="150" cy="220" rx="18" ry="10" fill="#F49AA0" opacity=".42"/>
+      <ellipse cx="252" cy="220" rx="18" ry="10" fill="#F49AA0" opacity=".42"/>
 
-      <!-- boca: sorriso fechado -->
-      <path d="M178 249Q190 243 200 246Q210 243 223 248Q201 255 178 249Z" fill="#CF7A74"/>
-      <path d="M179 250Q201 270 222 249Q201 257 179 250Z" fill="#E09A92"/>
-      <path d="M176 249Q201 257 225 247" stroke="#A9554F" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-      <path d="M194 258Q201 260 208 258" stroke="#F2B8B0" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- boca: sorriso aberto -->
+      <path d="M178 245Q201 252 224 244Q221 263 201 267Q181 263 178 245Z" fill="#8A3434"/>
+      <path d="M181 247Q201 253 221 246L219 252Q201 257 183 253Z" fill="#FFFFFF"/>
+      <path d="M190 261Q201 257 212 261Q206 266 201 266Q195 266 190 261Z" fill="#E07A7A"/>
+      <path d="M178 245Q201 252 224 244Q221 263 201 267Q181 263 178 245Z" fill="none" stroke="#B85E58" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M174 242Q177 246 180 245M228 241Q225 245 222 244" stroke="#C88468" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <path d="M192 276Q201 279 210 276" stroke="#E6AE90" stroke-width="2" fill="none" stroke-linecap="round"/>
 
       <!-- cabelo do alto: volume (meio preso) com risca de lado -->
       <path d="M116 190C100 108 146 44 206 44C268 44 304 104 284 186C280 144 262 116 236 108C214 100 194 100 176 104C150 114 130 146 116 190Z" fill="url(#hair)"/>
