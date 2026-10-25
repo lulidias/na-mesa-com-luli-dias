@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="70%">
+      <stop offset="0" stop-color="#FFF6D6"/><stop offset="1" stop-color="#FFE07A"/>
+    </radialGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3A2418"/><stop offset=".5" stop-color="#4E3221"/><stop offset=".85" stop-color="#7A5233"/><stop offset="1" stop-color="#A47548"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FAD9C0"/><stop offset="1" stop-color="#F2C2A0"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFDC1F"/><stop offset="1" stop-color="#F5C400"/>
+    </linearGradient>
+    <clipPath id="c"><circle cx="200" cy="200" r="200"/></clipPath>
+    <clipPath id="eL"><path d="M146 191Q165 176 186 189Q166 199 146 191Z"/></clipPath>
+    <clipPath id="eR"><path d="M214 189Q235 176 254 191Q234 199 214 189Z"/></clipPath>
+  </defs>
+  <g clip-path="url(#c)">
+    <rect width="400" height="400" fill="url(#bg)"/>
+    <circle cx="200" cy="200" r="200" fill="none" stroke="#009C3B" stroke-width="10"/>
+
+    <g transform="rotate(-4 200 220)">
+      <!-- cabelo de trás: volume longo e ondulado -->
+      <path d="M200 48C128 48 98 102 102 160C90 196 108 224 92 254C76 284 98 302 82 332C68 360 90 384 76 412H324C310 384 332 360 318 332C302 302 324 284 308 254C292 224 310 196 298 160C302 102 272 48 200 48Z" fill="url(#hair)"/>
+      <path d="M96 262Q84 288 98 308M304 262Q316 288 302 308M86 346Q76 370 90 392M314 346Q324 370 310 392" stroke="#8A5E3A" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/>
+
+      <!-- pescoço -->
+      <path d="M174 250H226V312C226 324 174 324 174 312Z" fill="#EDB993"/>
+      <path d="M174 262Q200 286 226 262V276Q200 298 174 276Z" fill="#DFA47E" opacity=".7"/>
+
+      <!-- camisa da seleção -->
+      <path d="M44 420C50 350 108 316 172 308H228C292 316 350 350 356 420Z" fill="url(#shirt)"/>
+      <path d="M170 307Q200 338 230 307" stroke="#009C3B" stroke-width="13" fill="none" stroke-linecap="round"/>
+      <path d="M86 340Q104 326 128 318M314 340Q296 326 272 318" stroke="#009C3B" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M200 352l4 8 9 1-6.5 6 1.6 9-8.1-4.3-8.1 4.3 1.6-9-6.5-6 9-1z" fill="#009C3B"/>
+      <path d="M180 344l2 4 4.5.5-3.3 3 .8 4.5-4-2.2-4 2.2.8-4.5-3.3-3 4.5-.5zM220 344l2 4 4.5.5-3.3 3 .8 4.5-4-2.2-4 2.2.8-4.5-3.3-3 4.5-.5z" fill="#1E5BC6"/>
+
+      <g transform="translate(200 300) scale(1.06) translate(-200 -300)"><!-- rosto -->
+      <path d="M200 98C256 98 283 142 282 190C281 240 250 282 200 284C150 282 119 240 118 190C117 142 144 98 200 98Z" fill="url(#skin)"/>
+      <!-- orelha + brinco -->
+      <path d="M276 196C288 190 294 204 290 216C287 226 280 230 274 226Z" fill="#EDB993"/>
+      <circle cx="282" cy="224" r="4" fill="#E8B940"/>
+
+      <!-- sobrancelhas retas e grossas -->
+      <path d="M144 170Q160 160 186 164L187 171Q164 168 147 177Z" fill="#3B2519"/>
+      <path d="M214 164Q240 160 256 170L253 177Q236 168 213 171Z" fill="#3B2519"/>
+
+      <!-- olhos -->
+      <path d="M146 191Q165 176 186 189Q166 199 146 191Z" fill="#fff"/>
+      <path d="M214 189Q235 176 254 191Q234 199 214 189Z" fill="#fff"/>
+      <g clip-path="url(#eL)"><circle cx="167" cy="187" r="10" fill="#5A3622"/><circle cx="167" cy="187" r="4.6" fill="#1F120A"/><circle cx="170" cy="184" r="2.4" fill="#fff"/></g>
+      <g clip-path="url(#eR)"><circle cx="233" cy="187" r="10" fill="#5A3622"/><circle cx="233" cy="187" r="4.6" fill="#1F120A"/><circle cx="236" cy="184" r="2.4" fill="#fff"/></g>
+      <path d="M144 191Q165 173 188 188" stroke="#1F120A" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M212 188Q235 173 256 191" stroke="#1F120A" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M145 191L138 186M255 191L262 186" stroke="#1F120A" stroke-width="3" stroke-linecap="round"/>
+      <path d="M151 196Q166 202 182 195M218 195Q234 202 249 196" stroke="#D9A585" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+
+      <!-- nariz -->
+      <path d="M205 196Q211 218 203 228" stroke="#DDA080" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      <path d="M190 230Q197 234 205 230" stroke="#D0927A" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+
+      <!-- blush -->
+      <ellipse cx="152" cy="226" rx="16" ry="9" fill="#F49AA0" opacity=".35"/>
+      <ellipse cx="250" cy="226" rx="16" ry="9" fill="#F49AA0" opacity=".35"/>
+
+      <!-- boca: sorriso fechado -->
+      <path d="M178 249Q190 243 200 246Q210 243 223 248Q201 255 178 249Z" fill="#CF7A74"/>
+      <path d="M179 250Q201 270 222 249Q201 257 179 250Z" fill="#E09A92"/>
+      <path d="M176 249Q201 257 225 247" stroke="#A9554F" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <path d="M194 258Q201 260 208 258" stroke="#F2B8B0" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+      <!-- cabelo do alto: volume (meio preso) com risca de lado -->
+      <path d="M116 190C100 108 146 44 206 44C268 44 304 104 284 186C280 144 262 116 236 108C214 100 194 100 176 104C150 114 130 146 116 190Z" fill="url(#hair)"/>
+      <path d="M178 52Q174 80 176 104" stroke="#2C1A10" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <path d="M196 56Q252 62 274 132" stroke="#7E5636" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7"/>
+      <path d="M164 60Q132 80 124 132" stroke="#7E5636" stroke-width="4" fill="none" stroke-linecap="round" opacity=".6"/>
+
+      </g>
+      <!-- ondas da frente sobre os ombros -->
+      <path transform="translate(-12 18) scale(1 1)" d="M124 172C104 196 114 222 104 244C94 266 112 284 100 306C90 326 104 346 96 366C104 380 124 382 132 372C124 356 136 340 128 322C138 304 124 286 134 268C140 252 128 234 136 214C138 198 134 184 124 172Z" fill="url(#hair)"/>
+      <path transform="translate(12 18)" d="M278 172C298 196 288 222 298 244C308 266 290 284 302 306C312 326 298 346 306 366C298 380 278 384 270 372C278 356 266 340 274 322C264 304 278 286 268 268C262 252 274 234 266 214C264 198 268 184 278 172Z" fill="url(#hair)"/>
+      <path transform="translate(0 18)" d="M104 230Q98 246 106 262T102 298Q96 314 104 332M298 230Q304 246 296 262T300 298Q306 314 298 332" stroke="#B28356" stroke-width="3.6" fill="none" stroke-linecap="round" opacity=".85"/><path display="none" d="M116 230Q110 246 118 262T114 298Q108 314 116 332M286 230Q292 246 284 262T288 298Q294 314 286 332" stroke="#B28356" stroke-width="3.2" fill="none" stroke-linecap="round" opacity=".85"/>
+    </g>
+  </g>
+</svg>
