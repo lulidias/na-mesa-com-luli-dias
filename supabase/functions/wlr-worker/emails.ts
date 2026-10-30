@@ -122,7 +122,8 @@ function blocoMinhas(ctx: Ctx, l: Lang, pid: string) {
   const p = ctx.participantes.find((y) => y.id === pid);
   if (!p) return "";
   const minhas = ctx.vinhos.filter((v) => (v.membros ?? []).includes(p.nome));
-  if (!minhas.length) return `<p style="color:#8A2A2A"><strong>${x(l, "Você ainda não registrou a sua Magnum.", "Todavía no registraste tu Magnum.", "You have not registered your Magnum yet.")}</strong></p>`;
+  // sem garrafa: não aparece nada — ninguém é cobrado (pedido do Luli, 30/10)
+  if (!minhas.length) return "";
   return `<p>${x(l, "A sua Magnum:", "Tu Magnum:", "Your Magnum:")}</p><ul>${minhas.map((v) =>
     `<li><strong>${esc(v.vinho)}${v.safra ? " " + esc(v.safra) : ""}</strong> — ${esc(sit(v.situacao, l))}</li>`).join("")}</ul>`;
 }
