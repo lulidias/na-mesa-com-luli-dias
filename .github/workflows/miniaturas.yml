@@ -1,0 +1,58 @@
+name: Miniaturas das fotos
+
+# A cada push que mexa em fotos/, gera fotos-mini/<pasta>/<arquivo> (480 px, JPEG q70
+# progressivo, já em pé pela tag EXIF) e comita de volta. Quem usa: o guia novo (lulidias.com),
+# nas listas, grade, mapa e comparar. Só refaz o que mudou (fotos-mini/.manifesto.json).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'fotos/**'
+      - 'scripts/gerar-miniaturas.js'
+      - '.github/workflows/miniaturas.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# dois pushes seguidos de fotos não brigam pelo mesmo commit
+concurrency:
+  group: miniaturas
+  cancel-in-progress: false
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar sharp (só para este passo; o site não tem package.json)
+        run: npm install --no-save --no-package-lock sharp@0.34
+
+      - name: Gerar o que falta ou mudou
+        run: node scripts/gerar-miniaturas.js
+
+      - name: Commit and push
+        run: |
+          git add -A fotos-mini
+          if git diff --cached --quiet; then
+            echo "Miniaturas já em dia"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: miniaturas das fotos [skip ci]"
+          # outro workflow (build-counts) também comita em main: traz antes de empurrar
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            sleep 5
+          done
+          exit 1
