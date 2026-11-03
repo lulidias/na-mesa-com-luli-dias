@@ -10,6 +10,8 @@ on:
     paths:
       - '*-guia.html'
       - 'brasil-*.html'
+      - 'fotos/**'
+      - 'scripts/contar-fotos.js'
       - 'scripts/build-counts.js'
       - 'scripts/sync-stats-bars.js'
       - 'scripts/sync-brasil-index.js'
@@ -36,6 +38,9 @@ jobs:
       - name: Generate counts.json
         run: node scripts/build-counts.js
 
+      - name: Contar fotos por casa (aviso de 1 foto em admin/revisao.html)
+        run: node scripts/contar-fotos.js
+
       - name: Sync stats-bars dos guias
         run: node scripts/sync-stats-bars.js
 
@@ -58,6 +63,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add counts.json '*-guia.html' brasil-*.html brasil-index.html
+          git add counts.json fotos-contagem.json '*-guia.html' brasil-*.html brasil-index.html
           git commit -m "chore: atualizar contagens automaticamente [skip ci]"
           git push

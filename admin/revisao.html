@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<title>Revisão dos textos · Luli Dias</title>
+<title>Revisão e fotos · Luli Dias</title>
 <link rel="apple-touch-icon" href="../apple-touch-icon-v2.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&display=swap">
 <style>
@@ -28,19 +28,22 @@ li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top
 li a{color:var(--p);text-decoration:none;font-weight:600}
 li .q{color:var(--c3);font-size:13px;font-weight:400}
 .tag{font:700 10px var(--f);letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;white-space:nowrap;align-self:center}
+.tag.foto{border:1px solid #111;color:#111;margin-right:6px}
+.tags{display:flex;align-self:center;white-space:nowrap}
 .tag.ok{background:var(--p);color:var(--b)}.tag.no{border:1px solid var(--c2);color:var(--c3)}
 #estado{color:var(--c3)}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Revisão dos textos</h1>
-  <p class="sub">Só no v1 — o site público não mostra isto. Uma casa conta como revisada quando tem <code>rev</code> (mês/ano da revisão).</p>
+  <h1>Revisão e fotos</h1>
+  <p class="sub">Só no v1 — o site público não mostra isto. Uma casa conta como revisada quando tem <code>rev</code> (mês/ano da revisão). Casa com uma foto só fica sem foto grande nos e-mails de datas: vale subir mais.</p>
   <div id="resumo"></div>
   <div class="ctrl">
     <button class="chip on" data-f="no">Falta revisar</button>
     <button class="chip" data-f="ok">Revisados</button>
     <button class="chip" data-f="all">Todos</button>
+    <select id="fotos" aria-label="Fotos"><option value="">Fotos: todas</option><option value="1">Só 1 foto</option><option value="0">Sem foto</option><option value="01">1 foto ou nenhuma</option></select>
     <select id="pais"><option value="">Todos os países</option></select>
     <input id="busca" type="search" placeholder="Buscar casa ou cidade">
   </div>
@@ -50,7 +53,8 @@ li .q{color:var(--c3);font-size:13px;font-weight:400}
 <script>
 // As páginas do acervo (uma por país; o Brasil por região). Página nova entra aqui.
 const PAGINAS=["alemanha-guia","argentina-guia","aruba-guia","austria-guia","bonaire-guia","brasil-centroeste","brasil-nordeste","brasil-norte","brasil-sudeste","brasil-sul","chile-guia","china-guia","colombia-guia","copenhague-guia","coreia-guia","croacia-guia","curacao-guia","dubai-guia","escocia-guia","espanha-guia","eua-guia","franca-guia","grecia-guia","holanda-guia","hongkong-guia","inglaterra-guia","irlanda-guia","irlanda-norte-guia","italia-guia","japao-guia","liechtenstein-guia","luxemburgo-guia","marrocos-guia","monaco-guia","noruega-guia","panama-guia","peru-guia","portugal-guia","qatar-guia","romenia-guia","suecia-guia","tailandia-guia","taiwan-guia","turquia-guia","uruguai-guia","vietna-guia"];
-let CASAS=[],filtro="no";
+let CASAS=[],filtro="no",FOTOS={};
+const slug=n=>n.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 // recorta o literal do array CITIES respeitando aspas, e avalia só ele
@@ -64,6 +68,7 @@ function citiesDe(html){
   return [];
 }
 async function carregar(){
+  try{FOTOS=await (await fetch("../fotos-contagem.json",{cache:"no-store"})).json();}catch(e){FOTOS=null;}
   const res=await Promise.all(PAGINAS.map(async p=>{
     try{const h=await (await fetch("../"+p+".html",{cache:"no-store"})).text();
       const t=(h.match(/<title>([^<]*)<\/title>/)||[])[1]||p;
@@ -71,28 +76,31 @@ async function carregar(){
     catch(e){return {p,pais:p,cities:[],erro:true}}}));
   for(const r of res){for(const c of Array.from(r.cities)){if(!c)continue;
     for(const e of Array.from(c.entries||[])){if(!e||e.pending||e.c==="tito")continue;
-      CASAS.push({pais:r.pais,pagina:r.p,cidade:c.city,n:e.n,q:e.q||"",rev:e.rev||""});}}}
+      CASAS.push({pais:r.pais,pagina:r.p,cidade:c.city,n:e.n,q:e.q||"",rev:e.rev||"",
+        fotos:FOTOS?(FOTOS[r.p.replace(/-guia$/,"")+"/"+slug(e.n)]||0):null});}}}
   const sel=document.getElementById("pais");
   [...new Set(CASAS.map(c=>c.pais))].forEach(p=>sel.insertAdjacentHTML("beforeend","<option>"+esc(p)+"</option>"));
   const falhas=res.filter(r=>r.erro).map(r=>r.p);
-  document.getElementById("estado").textContent=falhas.length?"Não consegui ler: "+falhas.join(", "):"";
+  document.getElementById("estado").textContent=(falhas.length?"Não consegui ler: "+falhas.join(", ")+". ":"")+(FOTOS?"":"Não consegui ler a contagem de fotos.");
   desenhar();
 }
 function desenhar(){
   const tot=CASAS.length,ok=CASAS.filter(c=>c.rev).length;
-  document.getElementById("resumo").innerHTML='<div class="num">'+ok.toLocaleString("pt-BR")+" de "+tot.toLocaleString("pt-BR")+" revisadas · faltam "+(tot-ok).toLocaleString("pt-BR")+'</div><div class="barra"><i style="width:'+(tot?ok/tot*100:0).toFixed(1)+'%"></i></div>';
+  const umaFoto=CASAS.filter(c=>c.fotos===1).length,semFoto=CASAS.filter(c=>c.fotos===0).length;
+  document.getElementById("resumo").innerHTML='<div class="num">'+ok.toLocaleString("pt-BR")+" de "+tot.toLocaleString("pt-BR")+" revisadas · faltam "+(tot-ok).toLocaleString("pt-BR")+'</div><div class="barra"><i style="width:'+(tot?ok/tot*100:0).toFixed(1)+'%"></i></div>'+(FOTOS?'<div class="num" style="margin-top:8px">Fotos: '+umaFoto.toLocaleString("pt-BR")+" casas com 1 foto só · "+semFoto.toLocaleString("pt-BR")+" sem foto</div>":"");
+  const fo=document.getElementById("fotos").value;
   const pais=document.getElementById("pais").value,b=document.getElementById("busca").value.trim().toLowerCase();
-  const vis=CASAS.filter(c=>(filtro==="all"||(filtro==="ok")===!!c.rev)&&(!pais||c.pais===pais)&&(!b||(c.n+" "+c.cidade).toLowerCase().includes(b)));
+  const vis=CASAS.filter(c=>(filtro==="all"||(filtro==="ok")===!!c.rev)&&(!fo||(c.fotos!=null&&fo.includes(String(c.fotos))))&&(!pais||c.pais===pais)&&(!b||(c.n+" "+c.cidade).toLowerCase().includes(b)));
   let html="",ult="",ultC="";
   for(const c of vis){
     if(c.pais!==ult){html+=(ult?"</ul>":"")+"<h2>"+esc(c.pais)+"</h2>";ult=c.pais;ultC="";}
     if(c.cidade!==ultC){html+=(ultC?"</ul>":"")+"<h3>"+esc(c.cidade)+"</h3><ul>";ultC=c.cidade;}
-    html+='<li><a href="../'+c.pagina+'.html?city='+encodeURIComponent(c.cidade)+'" target="_blank">'+esc(c.n)+' <span class="q">· '+esc(c.q)+'</span></a>'+(c.rev?'<span class="tag ok">Revisado '+esc(c.rev)+'</span>':'<span class="tag no">Falta</span>')+"</li>";
+    html+='<li><a href="../'+c.pagina+'.html?city='+encodeURIComponent(c.cidade)+'" target="_blank">'+esc(c.n)+' <span class="q">· '+esc(c.q)+'</span></a>'+'<span class="tags">'+(c.fotos===1?'<span class="tag foto">1 foto</span>':c.fotos===0?'<span class="tag foto">Sem foto</span>':'')+(c.rev?'<span class="tag ok">Revisado '+esc(c.rev)+'</span>':'<span class="tag no">Falta</span>')+"</span></li>";
   }
   document.getElementById("lista").innerHTML=(html?html+"</ul>":'<p class="sub">Nenhuma casa neste filtro.</p>');
 }
 document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));b.classList.add("on");filtro=b.dataset.f;desenhar();});
-document.getElementById("pais").onchange=desenhar;document.getElementById("busca").oninput=desenhar;
+document.getElementById("pais").onchange=desenhar;document.getElementById("fotos").onchange=desenhar;document.getElementById("busca").oninput=desenhar;
 carregar();
 </script>
 </body>
