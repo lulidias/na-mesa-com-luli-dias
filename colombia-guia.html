@@ -202,6 +202,7 @@ footer a{color:var(--gold);text-decoration:none}.curator-badge{display:block;fon
 .search-toggle{background:none;border:none;cursor:pointer;padding:6px;opacity:.6;display:flex;align-items:center;margin-left:8px;}
 .search-toggle:hover{opacity:1;}
 
+.brev{background:#111!important;color:#fff!important;border:1px solid #111!important;letter-spacing:1px}
 </style>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "267deca0f25fd78caf5c7d0264c49431"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
@@ -340,7 +341,7 @@ function render(){
                      (r.sel?r.sel.split(' ').map(function(x){return '<span class="badge bsel">'+(SEL[x]||x)+'</span>';}).join(''):'')+
                      (r.m?`<span class="badge">${ML[r.m]}</span>`:'')+
                      ''+(r.beach?'<span class="badge">Beach Club</span>':'');
-        card.innerHTML=`<div class="card-photo-wrap"><img class="card-photo" loading="lazy" decoding="async" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\'>${em}</div>'"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc"${r.de?' data-en="'+r.de.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.df?' data-fr="'+r.df.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.des?' data-es="'+r.des.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.dit?' data-it="'+r.dit.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.dde?' data-de="'+r.dde.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}>${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}</div>`;
+        card.innerHTML=`<div class="card-photo-wrap"><img class="card-photo" loading="lazy" decoding="async" src="fotos/${f}/${slug(r.n)}.jpeg" alt="${r.n}" onerror="this.parentElement.innerHTML='<div class=\\'card-photo-placeholder\\'>${em}</div>'"></div><div class="card-body"><div class="card-top"><div class="card-name">${r.n}</div><div class="card-badges">${badges}${r.rev?'<span class="badge brev" title="Texto revisado em '+r.rev+'">Revisado</span>':''}</div></div><div class="card-meta-row"><div class="card-cuisine">${r.q||''}</div>${priceTag(r.pr)}</div><div class="card-desc"${r.de?' data-en="'+r.de.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.df?' data-fr="'+r.df.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.des?' data-es="'+r.des.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.dit?' data-it="'+r.dit.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}${r.dde?' data-de="'+r.dde.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"':''}>${r.d||''}</div>${contact}${r.note?`<div class="card-note">✦ ${r.note}</div>`:''}</div>`;
         grid.appendChild(card);
       });
     });

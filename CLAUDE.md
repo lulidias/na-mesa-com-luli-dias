@@ -37,7 +37,7 @@ const CITIES=[
 ];
 ```
 
-Campos: `n` nome · `q` cozinha · `a` morada · `p` telefone · `pr` faixa de preço · `w` website · `ig` Instagram · `note` nota curta · `sel` selo de rede de luxo (LHW, SLH, Relais & Châteaux, Preferred, Design) · `d/df/de/des/dit/dde` descrição nas seis línguas.
+Campos: `n` nome · `q` cozinha · `a` morada · `p` telefone · `pr` faixa de preço · `w` website · `ig` Instagram · `note` nota curta · `sel` selo de rede de luxo (LHW, SLH, Relais & Châteaux, Preferred, Design) · `rev` mês/ano em que o texto foi revisado pelo Luli (selo "Revisado" só no v1; o espelho não leva — lista em `admin/revisao.html`) · `d/df/de/des/dit/dde` descrição nas seis línguas.
 
 **Regra de língua: língua nova = tudo traduzido.** Sem fallback para inglês. ES, IT e DE ainda têm dívida — a UI está traduzida, várias descrições não.
 

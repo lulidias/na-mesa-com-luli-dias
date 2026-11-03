@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Revisão dos textos · Luli Dias</title>
+<link rel="apple-touch-icon" href="../apple-touch-icon-v2.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&display=swap">
+<style>
+:root{--b:#fff;--p:#111;--c1:#F4F4F4;--c2:#E3E3E3;--c3:#6B6B6B;--f:"Archivo","Helvetica Neue",Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--b);color:var(--p);font:15px/1.5 var(--f)}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px 80px}
+h1{font-weight:800;font-stretch:112%;letter-spacing:-.02em;font-size:28px;margin:0 0 4px}
+.sub{color:var(--c3);margin:0 0 20px}
+.barra{height:6px;background:var(--c2);margin:8px 0 4px}.barra i{display:block;height:100%;background:var(--p)}
+.num{font-variant-numeric:tabular-nums;color:var(--c3);font-size:13px}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0;position:sticky;top:0;background:var(--b);padding:10px 0;border-bottom:1px solid var(--c2);z-index:2}
+.chip{font:600 13px var(--f);padding:9px 14px;min-height:40px;border:1px solid var(--p);background:var(--b);color:var(--p);cursor:pointer}
+.chip.on{background:var(--p);color:var(--b)}
+select,input{font:15px var(--f);padding:8px 10px;min-height:40px;border:1px solid var(--c2);background:var(--b);color:var(--p)}
+input{flex:1;min-width:160px}
+h2{font-weight:800;font-stretch:112%;font-size:20px;margin:28px 0 4px}
+h3{font:700 12px var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--c3);margin:16px 0 4px}
+ul{list-style:none;margin:0;padding:0}
+li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--c2)}
+li a{color:var(--p);text-decoration:none;font-weight:600}
+li .q{color:var(--c3);font-size:13px;font-weight:400}
+.tag{font:700 10px var(--f);letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;white-space:nowrap;align-self:center}
+.tag.ok{background:var(--p);color:var(--b)}.tag.no{border:1px solid var(--c2);color:var(--c3)}
+#estado{color:var(--c3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Revisão dos textos</h1>
+  <p class="sub">Só no v1 — o site público não mostra isto. Uma casa conta como revisada quando tem <code>rev</code> (mês/ano da revisão).</p>
+  <div id="resumo"></div>
+  <div class="ctrl">
+    <button class="chip on" data-f="no">Falta revisar</button>
+    <button class="chip" data-f="ok">Revisados</button>
+    <button class="chip" data-f="all">Todos</button>
+    <select id="pais"><option value="">Todos os países</option></select>
+    <input id="busca" type="search" placeholder="Buscar casa ou cidade">
+  </div>
+  <div id="estado">Carregando as páginas…</div>
+  <div id="lista"></div>
+</div>
+<script>
+// As páginas do acervo (uma por país; o Brasil por região). Página nova entra aqui.
+const PAGINAS=["alemanha-guia","argentina-guia","aruba-guia","austria-guia","bonaire-guia","brasil-centroeste","brasil-nordeste","brasil-norte","brasil-sudeste","brasil-sul","chile-guia","china-guia","colombia-guia","copenhague-guia","coreia-guia","croacia-guia","curacao-guia","dubai-guia","escocia-guia","espanha-guia","eua-guia","franca-guia","grecia-guia","holanda-guia","hongkong-guia","inglaterra-guia","irlanda-guia","irlanda-norte-guia","italia-guia","japao-guia","liechtenstein-guia","luxemburgo-guia","marrocos-guia","monaco-guia","noruega-guia","panama-guia","peru-guia","portugal-guia","qatar-guia","romenia-guia","suecia-guia","tailandia-guia","taiwan-guia","turquia-guia","uruguai-guia","vietna-guia"];
+let CASAS=[],filtro="no";
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+// recorta o literal do array CITIES respeitando aspas, e avalia só ele
+function citiesDe(html){
+  const i=html.indexOf("const CITIES=");if(i<0)return [];
+  let j=html.indexOf("[",i),d=0,q=null;
+  for(let k=j;k<html.length;k++){const c=html[k];
+    if(q){if(c==="\\"){k++;continue}if(c===q)q=null;continue}
+    if(c==='"'||c==="'"||c==="`"){q=c;continue}
+    if(c==="[")d++;else if(c==="]"&&--d===0)return Function("return "+html.slice(j,k+1))();}
+  return [];
+}
+async function carregar(){
+  const res=await Promise.all(PAGINAS.map(async p=>{
+    try{const h=await (await fetch("../"+p+".html",{cache:"no-store"})).text();
+      const t=(h.match(/<title>([^<]*)<\/title>/)||[])[1]||p;
+      return {p,pais:t.split(" — ")[0].replace("&amp;","&"),cities:citiesDe(h)};}
+    catch(e){return {p,pais:p,cities:[],erro:true}}}));
+  for(const r of res){for(const c of Array.from(r.cities)){if(!c)continue;
+    for(const e of Array.from(c.entries||[])){if(!e||e.pending||e.c==="tito")continue;
+      CASAS.push({pais:r.pais,pagina:r.p,cidade:c.city,n:e.n,q:e.q||"",rev:e.rev||""});}}}
+  const sel=document.getElementById("pais");
+  [...new Set(CASAS.map(c=>c.pais))].forEach(p=>sel.insertAdjacentHTML("beforeend","<option>"+esc(p)+"</option>"));
+  const falhas=res.filter(r=>r.erro).map(r=>r.p);
+  document.getElementById("estado").textContent=falhas.length?"Não consegui ler: "+falhas.join(", "):"";
+  desenhar();
+}
+function desenhar(){
+  const tot=CASAS.length,ok=CASAS.filter(c=>c.rev).length;
+  document.getElementById("resumo").innerHTML='<div class="num">'+ok.toLocaleString("pt-BR")+" de "+tot.toLocaleString("pt-BR")+" revisadas · faltam "+(tot-ok).toLocaleString("pt-BR")+'</div><div class="barra"><i style="width:'+(tot?ok/tot*100:0).toFixed(1)+'%"></i></div>';
+  const pais=document.getElementById("pais").value,b=document.getElementById("busca").value.trim().toLowerCase();
+  const vis=CASAS.filter(c=>(filtro==="all"||(filtro==="ok")===!!c.rev)&&(!pais||c.pais===pais)&&(!b||(c.n+" "+c.cidade).toLowerCase().includes(b)));
+  let html="",ult="",ultC="";
+  for(const c of vis){
+    if(c.pais!==ult){html+=(ult?"</ul>":"")+"<h2>"+esc(c.pais)+"</h2>";ult=c.pais;ultC="";}
+    if(c.cidade!==ultC){html+=(ultC?"</ul>":"")+"<h3>"+esc(c.cidade)+"</h3><ul>";ultC=c.cidade;}
+    html+='<li><a href="../'+c.pagina+'.html?city='+encodeURIComponent(c.cidade)+'" target="_blank">'+esc(c.n)+' <span class="q">· '+esc(c.q)+'</span></a>'+(c.rev?'<span class="tag ok">Revisado '+esc(c.rev)+'</span>':'<span class="tag no">Falta</span>')+"</li>";
+  }
+  document.getElementById("lista").innerHTML=(html?html+"</ul>":'<p class="sub">Nenhuma casa neste filtro.</p>');
+}
+document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));b.classList.add("on");filtro=b.dataset.f;desenhar();});
+document.getElementById("pais").onchange=desenhar;document.getElementById("busca").oninput=desenhar;
+carregar();
+</script>
+</body>
+</html>
