@@ -763,13 +763,44 @@ function _regSave(nome, email) {
 // Bypass por URL
 if (location.search.includes('v=1')||location.hash==='#v') { _regSave('visitor','bypass@lulidias.com'); }
 
-// Mostrar modal no carregamento da página (não no clique) — muito mais fiável
-if (!_regCheck()) {
-  setTimeout(() => {
-    document.getElementById('reg-modal').classList.add('open');
-    setTimeout(() => document.getElementById('reg-nome').focus(), 120);
-  }, 600);
-}
+// 04/11/2026 (pedido do Luli): o cadastro daqui SAIU. Desde 03/11 o guia oficial é lulidias.com, e quem se
+// cadastrava aqui caía só no Mailchimp, fora da lista de espera do guia novo. Agora esta página abre com
+// uma tela que leva ao guia oficial. "Ver o arquivo antigo" fecha a tela só nesta aba (v1 continua sendo
+// a fonte do acervo, consultada pela curadoria).
+(function () {
+  try { if (sessionStorage.getItem('v1-arquivo') === '1') return; } catch (_) {}
+  const L = (navigator.language || 'pt').slice(0, 2);
+  const T = {
+    pt: ['Versão oficial', 'O guia mudou de endereço', 'Esta era a versão de teste. O Guia Luli Dias oficial está em lulidias.com: 1.351 restaurantes e hotéis, todos visitados em pessoa. É lá que se pede o convite.', 'Ir para o guia oficial', 'Ver o arquivo antigo'],
+    en: ['Official version', 'The guide has moved', 'This was the test version. The official Luli Dias Guide is at lulidias.com: 1,351 restaurants and hotels, every one visited in person. That is where you request your invitation.', 'Go to the official guide', 'See the old archive'],
+    fr: ['Version officielle', 'Le guide a changé d’adresse', 'Ceci était la version d’essai. Le Guide Luli Dias officiel est sur lulidias.com : 1 351 restaurants et hôtels, tous visités en personne. C’est là que l’on demande son invitation.', 'Aller au guide officiel', 'Voir l’ancienne archive'],
+    es: ['Versión oficial', 'La guía cambió de dirección', 'Esta era la versión de prueba. La Guía Luli Dias oficial está en lulidias.com: 1.351 restaurantes y hoteles, todos visitados en persona. Allí se pide la invitación.', 'Ir a la guía oficial', 'Ver el archivo antiguo'],
+    it: ['Versione ufficiale', 'La guida ha cambiato indirizzo', 'Questa era la versione di prova. La Guida Luli Dias ufficiale è su lulidias.com: 1.351 ristoranti e hotel, tutti visitati di persona. È lì che si chiede l’invito.', 'Vai alla guida ufficiale', 'Vedi il vecchio archivio'],
+    de: ['Offizielle Version', 'Der Guide ist umgezogen', 'Das war die Testversion. Der offizielle Guide Luli Dias ist auf lulidias.com: 1.351 Restaurants und Hotels, alle persönlich besucht. Dort fragt man die Einladung an.', 'Zum offiziellen Guide', 'Altes Archiv ansehen'],
+  }[L] || null;
+  const t = T || ['Versão oficial', 'O guia mudou de endereço', 'Esta era a versão de teste. O Guia Luli Dias oficial está em lulidias.com: 1.351 restaurantes e hotéis, todos visitados em pessoa. É lá que se pede o convite.', 'Ir para o guia oficial', 'Ver o arquivo antigo'];
+  const css = document.createElement('style');
+  css.textContent = `@import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&display=swap');
+#v1-mudou{position:fixed;inset:0;z-index:100001;background:#fff;color:#111;display:flex;align-items:center;justify-content:center;padding:24px;font-family:'Archivo','Helvetica Neue',Arial,sans-serif;overflow:auto}
+#v1-mudou .caixa{max-width:460px;width:100%}
+#v1-mudou .selo{width:84px;aspect-ratio:1/1.3;background:#111;color:#fff;position:relative;margin-bottom:40px;box-sizing:border-box;padding:9px;display:flex;flex-direction:column;justify-content:space-between}
+#v1-mudou .selo i{font:700 6px/1 Archivo,Arial,sans-serif;letter-spacing:.2em;font-style:normal}
+#v1-mudou .selo b{font-weight:800;font-stretch:112%;font-size:17px;line-height:.92;text-transform:uppercase}
+#v1-mudou .selo::after{content:"";position:absolute;right:10%;top:7.7%;width:20%;aspect-ratio:1;border-radius:50%;background:#fff}
+#v1-mudou .olho{font:700 12px/1 'Archivo',Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#6B6B6B;margin-bottom:14px}
+#v1-mudou h1{font-weight:800;font-stretch:112%;letter-spacing:-.02em;font-size:36px;line-height:1.05;margin:0 0 18px}
+#v1-mudou p{font-size:17px;line-height:1.6;margin:0 0 30px}
+#v1-mudou a.ir{display:block;background:#111;color:#fff;text-align:center;padding:18px 20px;font:700 16px/1 'Archivo',Arial,sans-serif;text-decoration:none}
+#v1-mudou button{display:block;margin:20px auto 0;background:none;border:0;color:#6B6B6B;font:400 14px 'Archivo',Arial,sans-serif;text-decoration:underline;cursor:pointer}`;
+  document.head.appendChild(css);
+  const d = document.createElement('div');
+  d.id = 'v1-mudou'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true');
+  d.innerHTML = `<div class="caixa"><div class="selo" aria-hidden="true"><i>GUIA</i><b>Luli<br>Dias</b></div><div class="olho">${t[0]}</div><h1>${t[1]}</h1><p>${t[2]}</p>
+    <a class="ir" href="https://lulidias.com/">${t[3]} →</a><button type="button">${t[4]}</button></div>`;
+  d.querySelector('button').onclick = () => { try { sessionStorage.setItem('v1-arquivo', '1'); } catch (_) {} d.remove(); document.body.style.overflow = ''; };
+  const pinta = () => { document.body.appendChild(d); document.body.style.overflow = 'hidden'; };
+  document.body ? pinta() : document.addEventListener('DOMContentLoaded', pinta);
+})();
 
 function _mcSubscribe(nome, email, newsletter) {
   return new Promise(resolve => {
