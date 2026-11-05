@@ -1,13 +1,13 @@
 {
   "totals": {
-    "restaurants": 1107,
+    "restaurants": 1106,
     "hotels": 189,
     "markets": 28,
     "cities": 220,
     "lojaVinho": 2,
     "wineBar": 12,
     "mercado": 28,
-    "m1": 40,
+    "m1": 39,
     "m2": 11,
     "m3": 4,
     "bib": 38,
@@ -17,10 +17,10 @@
     "keys2": 13,
     "keys3": 6,
     "countries": 42,
-    "totalStars": 74,
+    "totalStars": 73,
     "totalKeys": 71,
-    "total": 1338,
-    "michelin": 94,
+    "total": 1337,
+    "michelin": 93,
     "keysEntries": 46
   },
   "countries": {
@@ -927,14 +927,14 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 537,
+      "restaurants": 536,
       "hotels": 72,
       "markets": 4,
       "cities": 59,
       "lojaVinho": 0,
       "wineBar": 6,
       "mercado": 4,
-      "m1": 13,
+      "m1": 12,
       "m2": 1,
       "m3": 2,
       "bib": 20,
@@ -943,9 +943,9 @@
       "keys1": 9,
       "keys2": 2,
       "keys3": 2,
-      "totalStars": 21,
+      "totalStars": 20,
       "totalKeys": 19,
-      "michelin": 36,
+      "michelin": 35,
       "keysEntries": 13
     },
     "brasil-centroeste": {
@@ -993,14 +993,14 @@
       "keysEntries": 3
     },
     "brasil-sudeste": {
-      "restaurants": 327,
+      "restaurants": 326,
       "hotels": 39,
       "markets": 0,
       "cities": 25,
       "lojaVinho": 0,
       "wineBar": 5,
       "mercado": 0,
-      "m1": 13,
+      "m1": 12,
       "m2": 1,
       "m3": 2,
       "bib": 20,
@@ -1009,9 +1009,9 @@
       "keys1": 6,
       "keys2": 2,
       "keys3": 1,
-      "totalStars": 21,
+      "totalStars": 20,
       "totalKeys": 13,
-      "michelin": 36,
+      "michelin": 35,
       "keysEntries": 9
     },
     "brasil-sul": {
@@ -1099,7 +1099,7 @@
       "cities": 4
     },
     "São Paulo": {
-      "restaurants": 526,
+      "restaurants": 524,
       "hotels": 46,
       "cities": 38
     },
