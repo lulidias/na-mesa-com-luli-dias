@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1117,
+    "restaurants": 1107,
     "hotels": 190,
     "markets": 28,
     "cities": 220,
@@ -10,17 +10,17 @@
     "m1": 46,
     "m2": 11,
     "m3": 4,
-    "bib": 33,
+    "bib": 32,
     "green": 1,
-    "rec": 64,
+    "rec": 63,
     "keys1": 24,
     "keys2": 10,
     "keys3": 6,
     "countries": 42,
     "totalStars": 80,
     "totalKeys": 62,
-    "total": 1349,
-    "michelin": 95,
+    "total": 1339,
+    "michelin": 94,
     "keysEntries": 40
   },
   "countries": {
@@ -289,7 +289,7 @@
       "keysEntries": 0
     },
     "dubai": {
-      "restaurants": 4,
+      "restaurants": 3,
       "hotels": 1,
       "markets": 0,
       "cities": 1,
@@ -597,7 +597,7 @@
       "keysEntries": 0
     },
     "luxemburgo": {
-      "restaurants": 5,
+      "restaurants": 3,
       "hotels": 0,
       "markets": 0,
       "cities": 1,
@@ -607,15 +607,15 @@
       "m1": 0,
       "m2": 0,
       "m3": 0,
-      "bib": 1,
+      "bib": 0,
       "green": 0,
-      "rec": 1,
+      "rec": 0,
       "keys1": 0,
       "keys2": 0,
       "keys3": 0,
       "totalStars": 0,
       "totalKeys": 0,
-      "michelin": 1,
+      "michelin": 0,
       "keysEntries": 0
     },
     "marrocos": {
@@ -927,7 +927,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 544,
+      "restaurants": 537,
       "hotels": 73,
       "markets": 4,
       "cities": 59,
@@ -971,7 +971,7 @@
       "keysEntries": 1
     },
     "brasil-nordeste": {
-      "restaurants": 98,
+      "restaurants": 97,
       "hotels": 16,
       "markets": 0,
       "cities": 18,
@@ -993,7 +993,7 @@
       "keysEntries": 2
     },
     "brasil-sudeste": {
-      "restaurants": 332,
+      "restaurants": 327,
       "hotels": 40,
       "markets": 0,
       "cities": 25,
@@ -1015,7 +1015,7 @@
       "keysEntries": 7
     },
     "brasil-sul": {
-      "restaurants": 75,
+      "restaurants": 74,
       "hotels": 11,
       "markets": 4,
       "cities": 12,
@@ -1084,7 +1084,7 @@
       "cities": 6
     },
     "Pernambuco": {
-      "restaurants": 84,
+      "restaurants": 82,
       "hotels": 10,
       "cities": 12
     },
@@ -1099,17 +1099,17 @@
       "cities": 4
     },
     "São Paulo": {
-      "restaurants": 530,
+      "restaurants": 526,
       "hotels": 48,
       "cities": 38
     },
     "Rio de Janeiro": {
-      "restaurants": 94,
+      "restaurants": 90,
       "hotels": 26,
       "cities": 6
     },
     "Espírito Santo": {
-      "restaurants": 20,
+      "restaurants": 18,
       "hotels": 2,
       "cities": 2
     },
@@ -1124,7 +1124,7 @@
       "cities": 8
     },
     "Rio Grande do Sul": {
-      "restaurants": 48,
+      "restaurants": 46,
       "hotels": 8,
       "cities": 8
     }
