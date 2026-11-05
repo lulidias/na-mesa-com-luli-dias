@@ -1,7 +1,7 @@
 {
   "totals": {
     "restaurants": 1107,
-    "hotels": 190,
+    "hotels": 189,
     "markets": 28,
     "cities": 220,
     "lojaVinho": 2,
@@ -12,16 +12,16 @@
     "m3": 4,
     "bib": 38,
     "green": 1,
-    "rec": 98,
-    "keys1": 25,
+    "rec": 124,
+    "keys1": 27,
     "keys2": 13,
     "keys3": 6,
     "countries": 42,
     "totalStars": 74,
-    "totalKeys": 69,
-    "total": 1339,
+    "totalKeys": 71,
+    "total": 1338,
     "michelin": 94,
-    "keysEntries": 44
+    "keysEntries": 46
   },
   "countries": {
     "alemanha": {
@@ -928,7 +928,7 @@
     },
     "brasil": {
       "restaurants": 537,
-      "hotels": 73,
+      "hotels": 72,
       "markets": 4,
       "cities": 59,
       "lojaVinho": 0,
@@ -939,14 +939,14 @@
       "m3": 2,
       "bib": 20,
       "green": 0,
-      "rec": 19,
-      "keys1": 7,
+      "rec": 45,
+      "keys1": 9,
       "keys2": 2,
       "keys3": 2,
       "totalStars": 21,
-      "totalKeys": 17,
+      "totalKeys": 19,
       "michelin": 36,
-      "keysEntries": 11
+      "keysEntries": 13
     },
     "brasil-centroeste": {
       "restaurants": 39,
@@ -962,13 +962,13 @@
       "bib": 0,
       "green": 0,
       "rec": 0,
-      "keys1": 1,
+      "keys1": 0,
       "keys2": 0,
       "keys3": 0,
       "totalStars": 0,
-      "totalKeys": 1,
+      "totalKeys": 0,
       "michelin": 0,
-      "keysEntries": 1
+      "keysEntries": 0
     },
     "brasil-nordeste": {
       "restaurants": 97,
@@ -984,17 +984,17 @@
       "bib": 0,
       "green": 0,
       "rec": 0,
-      "keys1": 2,
+      "keys1": 3,
       "keys2": 0,
       "keys3": 0,
       "totalStars": 0,
-      "totalKeys": 2,
+      "totalKeys": 3,
       "michelin": 0,
-      "keysEntries": 2
+      "keysEntries": 3
     },
     "brasil-sudeste": {
       "restaurants": 327,
-      "hotels": 40,
+      "hotels": 39,
       "markets": 0,
       "cities": 25,
       "lojaVinho": 0,
@@ -1005,14 +1005,14 @@
       "m3": 2,
       "bib": 20,
       "green": 0,
-      "rec": 18,
-      "keys1": 4,
+      "rec": 45,
+      "keys1": 6,
       "keys2": 2,
       "keys3": 1,
       "totalStars": 21,
-      "totalKeys": 11,
+      "totalKeys": 13,
       "michelin": 36,
-      "keysEntries": 7
+      "keysEntries": 9
     },
     "brasil-sul": {
       "restaurants": 74,
@@ -1027,7 +1027,7 @@
       "m3": 0,
       "bib": 0,
       "green": 0,
-      "rec": 1,
+      "rec": 0,
       "keys1": 0,
       "keys2": 0,
       "keys3": 1,
@@ -1100,7 +1100,7 @@
     },
     "São Paulo": {
       "restaurants": 526,
-      "hotels": 48,
+      "hotels": 46,
       "cities": 38
     },
     "Rio de Janeiro": {
