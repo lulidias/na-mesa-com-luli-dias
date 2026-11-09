@@ -1,9 +1,9 @@
 {
   "totals": {
-    "restaurants": 1106,
-    "hotels": 189,
+    "restaurants": 1109,
+    "hotels": 191,
     "markets": 28,
-    "cities": 220,
+    "cities": 221,
     "lojaVinho": 2,
     "wineBar": 12,
     "mercado": 28,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 73,
     "totalKeys": 71,
-    "total": 1337,
+    "total": 1342,
     "michelin": 93,
     "keysEntries": 46
   },
@@ -927,10 +927,10 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 536,
-      "hotels": 72,
+      "restaurants": 539,
+      "hotels": 74,
       "markets": 4,
-      "cities": 59,
+      "cities": 60,
       "lojaVinho": 0,
       "wineBar": 6,
       "mercado": 4,
@@ -971,10 +971,10 @@
       "keysEntries": 0
     },
     "brasil-nordeste": {
-      "restaurants": 97,
-      "hotels": 16,
+      "restaurants": 100,
+      "hotels": 18,
       "markets": 0,
-      "cities": 18,
+      "cities": 19,
       "lojaVinho": 0,
       "wineBar": 1,
       "mercado": 0,
@@ -1074,9 +1074,9 @@
       "cities": 2
     },
     "Alagoas": {
-      "restaurants": 16,
-      "hotels": 0,
-      "cities": 2
+      "restaurants": 22,
+      "hotels": 4,
+      "cities": 4
     },
     "Rio Grande do Norte": {
       "restaurants": 6,
