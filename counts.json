@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1110,
+    "restaurants": 1109,
     "hotels": 192,
     "markets": 28,
     "cities": 221,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 73,
     "totalKeys": 71,
-    "total": 1344,
+    "total": 1343,
     "michelin": 93,
     "keysEntries": 46
   },
@@ -927,7 +927,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 540,
+      "restaurants": 539,
       "hotels": 75,
       "markets": 4,
       "cities": 60,
@@ -971,7 +971,7 @@
       "keysEntries": 0
     },
     "brasil-nordeste": {
-      "restaurants": 101,
+      "restaurants": 100,
       "hotels": 19,
       "markets": 0,
       "cities": 19,
@@ -1069,7 +1069,7 @@
       "cities": 2
     },
     "Paraíba": {
-      "restaurants": 6,
+      "restaurants": 4,
       "hotels": 4,
       "cities": 2
     },
