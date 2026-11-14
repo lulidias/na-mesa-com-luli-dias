@@ -71,6 +71,42 @@
         ],
         "createdAt": "2026-11-14T15:58:35.823Z",
         "reason": "kicker é o padrão da identidade Confras (presente no hero do site e em todos os gates/telões aprovados pelo Luli)"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "confras/telao-carta.html"
+        ],
+        "createdAt": "2026-11-14T20:54:37.009Z",
+        "reason": "holofote dourado proposital na garrafa em cena de telão (cenografia do evento), como na revelação"
+      },
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          "confras/telao-2027.html"
+        ],
+        "createdAt": "2026-11-14T20:54:37.024Z",
+        "reason": "tracking largo só em rótulos uppercase e títulos display — identidade Confras dos telões"
+      },
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          "confras/2027/index.html"
+        ],
+        "createdAt": "2026-11-14T20:54:37.039Z",
+        "reason": "mesmo hero da identidade Confras do site principal em produção, aprovado pelo Luli"
+      },
+      {
+        "rule": "kicker-above-heading",
+        "value": "*",
+        "files": [
+          "confras/2027/index.html"
+        ],
+        "createdAt": "2026-11-14T20:54:37.052Z",
+        "reason": "kicker é o padrão do hero Confras (site principal em produção desde agosto)"
       }
     ]
   }
