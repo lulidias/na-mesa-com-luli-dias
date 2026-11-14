@@ -26,10 +26,8 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 @keyframes pts{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
 .taca{margin-bottom:14px;animation:pulsa 2.6s ease-in-out infinite;display:flex;justify-content:center}
 /* concorrentes do suspense */
-.concs{display:flex;gap:16px;justify-content:center;margin-top:44px;flex-wrap:wrap}
-.cc{background:#fff;border:1px solid var(--gold-lt);height:128px;width:92px;display:flex;align-items:center;justify-content:center;padding:8px}
-.cc img{max-height:112px;max-width:74px}
-.conc-n{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(23px,2.4vw,32px);color:rgba(247,243,238,.9);margin-top:28px}
+.conc-big{font-family:Didot,'Playfair Display',serif;font-size:clamp(90px,11vw,180px);color:var(--gold-lt);line-height:1;margin-top:34px}
+.conc-n{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(26px,2.8vw,38px);color:rgba(247,243,238,.9);margin-top:14px}
 /* revelação */
 .rev{display:flex;align-items:center;justify-content:center;gap:clamp(40px,6vw,110px);padding:0 60px}
 .tela.on .foto{animation:entraFoto 1s cubic-bezier(.2,.7,.3,1) both .15s}
@@ -112,15 +110,12 @@ function telaCapa() {
 function telaSuspense(cat) {
   var tipo = TIPO_CAT[cat];
   var conc = vinhosAll.filter(function (g) { return !tipo || g.tipo === tipo; });
-  var fotos = conc.filter(function (g) { return g.foto_url; }).slice(0, 7);
   var legenda = tipo
-    ? conc.length + (conc.length === 1 ? ' garrafa concorre' : ' garrafas concorrem') + ' a esta placa'
-    : 'As ' + conc.length + ' garrafas da mesa concorrem ao grande prêmio';
+    ? (conc.length === 1 ? 'garrafa concorre a esta placa' : 'garrafas concorrem a esta placa')
+    : 'garrafas concorrem ao grande prêmio';
   return '<div class="taca">' + TROFEU + '</div><div class="k">A Premiação · Confra das Confras 2026</div>' +
     '<div class="marca" style="font-size:clamp(38px,5vw,76px)">' + esc(cat.toUpperCase()) + '</div>' +
-    (fotos.length ? '<div class="concs">' + fotos.map(function (g) {
-      return '<span class="cc"><img src="' + esc(g.foto_url) + '"></span>';
-    }).join('') + '</div>' : '') +
+    '<div class="conc-big">' + conc.length + '</div>' +
     '<div class="conc-n">' + legenda + '</div>';
 }
 function telaReveal(cat, g) {
