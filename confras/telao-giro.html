@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telão — Confra das Confras 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/confras/favicon.png?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#101F38}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:none;opacity:0;transition:opacity 1.2s ease;pointer-events:none}
+iframe.on{opacity:1;pointer-events:auto}
+.gate{max-width:380px;margin:20vh auto;text-align:center;background:rgba(0,0,0,.25);border:1px solid rgba(212,174,92,.4);padding:48px 40px;color:#F7F3EE;font-family:'Montserrat',sans-serif}
+.gate h1{font-family:'Playfair Display',serif;font-weight:400;font-size:22px;margin-top:10px}
+.gate .k{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:#D4AE5C}
+.gate input{width:100%;padding:13px;border:1px solid rgba(212,174,92,.5);background:rgba(255,255,255,.06);color:#F7F3EE;font-family:'Montserrat',sans-serif;text-align:center;margin:18px 0;outline:none}
+.gate button{padding:13px 34px;background:#B8922A;border:none;color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="k">Telão giratório · As três cenas</div>
+  <h1>Confra das Confras</h1>
+  <input type="password" id="tok" placeholder="Token de acesso">
+  <button onclick="entrar()">Iniciar o show</button>
+</div>
+
+<script>
+'use strict';
+// cenas e duração em segundos — ajustável por URL: ?apuracao=30&votantes=20&carta=45
+var P = new URLSearchParams(location.search);
+var CENAS = [
+  { src: 'telao.html',       dur: Number(P.get('apuracao')) || 30 },
+  { src: 'telao-carta.html', dur: Number(P.get('carta'))    || 45 },
+  { src: 'telao2/',          dur: Number(P.get('votantes')) || 20 },
+  { src: 'telao-carta.html', dur: Number(P.get('carta'))    || 45 },
+  { src: 'telao-2027.html',  dur: Number(P.get('anoquevem')) || 15 }
+];
+var atual = -1;
+
+function entrar() {
+  var t = document.getElementById('tok').value.trim();
+  if (!t) return;
+  localStorage.setItem('confras_admin_token', t);
+  comeca();
+}
+
+function comeca() {
+  document.getElementById('gate').classList.add('hidden');
+  // dois iframes bastam: telao-carta aparece duas vezes mas é o mesmo documento vivo
+  var vistos = {};
+  CENAS.forEach(function (c) {
+    if (vistos[c.src]) return;
+    vistos[c.src] = true;
+    var f = document.createElement('iframe');
+    f.src = c.src; f.dataset.src = c.src;
+    document.body.appendChild(f);
+  });
+  proxima();
+}
+
+function proxima() {
+  atual = (atual + 1) % CENAS.length;
+  var alvo = CENAS[atual].src;
+  document.querySelectorAll('iframe').forEach(function (f) {
+    f.classList.toggle('on', f.dataset.src === alvo);
+  });
+  setTimeout(proxima, CENAS[atual].dur * 1000);
+}
+
+if (localStorage.getItem('confras_admin_token')) comeca();
+document.addEventListener('keydown', function (e) { if (e.key === 'Enter') { var g = document.getElementById('gate'); if (!g.classList.contains('hidden')) entrar(); } });
+</script>
+</body>
+</html>

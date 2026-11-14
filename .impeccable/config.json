@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "confras/telao-giro.html"
+        ],
+        "createdAt": "2026-11-14T15:44:43.021Z",
+        "reason": "padrão visual do Confras (dourado/branco sobre azul), idêntico aos telões em produção desde agosto, aprovado pelo Luli"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "confras/2027/index.html"
+        ],
+        "createdAt": "2026-11-14T15:44:43.049Z",
+        "reason": "padrão visual do Confras (kickers dourados), idêntico ao hero do site em produção aprovado pelo Luli"
+      }
+    ]
+  }
+}
