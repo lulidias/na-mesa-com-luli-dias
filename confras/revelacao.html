@@ -25,6 +25,11 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .pontos::after{content:'';animation:pts 1.8s steps(4,end) infinite}
 @keyframes pts{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
 .taca{font-size:clamp(50px,6vw,90px);margin-bottom:10px;animation:pulsa 2.2s ease-in-out infinite}
+/* concorrentes do suspense */
+.concs{display:flex;gap:16px;justify-content:center;margin-top:44px;flex-wrap:wrap}
+.cc{background:#fff;border:1px solid var(--gold-lt);height:128px;width:92px;display:flex;align-items:center;justify-content:center;padding:8px}
+.cc img{max-height:112px;max-width:74px}
+.conc-n{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(19px,2vw,26px);color:rgba(247,243,238,.9);margin-top:26px}
 /* revelação */
 .rev{display:flex;align-items:center;justify-content:center;gap:clamp(40px,6vw,110px);padding:0 60px}
 .tela.on .foto{animation:entraFoto 1s cubic-bezier(.2,.7,.3,1) both .15s}
@@ -70,6 +75,8 @@ var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
 var TOKEN = localStorage.getItem('confras_admin_token') || '';
 var ORDEM = ['Melhor Espumante', 'Melhor Branco', 'Melhor Tinto', 'Melhor Vinho da Festa'];
+var TIPO_CAT = { 'Melhor Espumante': 'Espumante', 'Melhor Branco': 'Branco', 'Melhor Tinto': 'Tinto', 'Melhor Vinho da Festa': null };
+var vinhosAll = [];
 var FLAGS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷' };
 var telas = [], passo = -1;
 var DEMO = !!new URLSearchParams(location.search).get('demo');
@@ -93,9 +100,18 @@ function telaCapa() {
     '<div class="cat-sub">Os melhores vinhos da festa, eleitos pelos confrades.</div>';
 }
 function telaSuspense(cat) {
+  var tipo = TIPO_CAT[cat];
+  var conc = vinhosAll.filter(function (g) { return !tipo || g.tipo === tipo; });
+  var fotos = conc.filter(function (g) { return g.foto_url; }).slice(0, 7);
+  var legenda = tipo
+    ? conc.length + (conc.length === 1 ? ' garrafa concorre' : ' garrafas concorrem') + ' a esta placa'
+    : 'As ' + conc.length + ' garrafas da mesa concorrem ao grande prêmio';
   return '<div class="taca">🏆</div><div class="k">A Premiação · Confra das Confras 2026</div>' +
     '<div class="marca" style="font-size:clamp(30px,4vw,56px)">' + esc(cat.toUpperCase()) + '</div>' +
-    '<div class="cat-sub">E o vencedor é<span class="pontos"></span></div>';
+    (fotos.length ? '<div class="concs">' + fotos.map(function (g) {
+      return '<span class="cc"><img src="' + esc(g.foto_url) + '"></span>';
+    }).join('') + '</div>' : '') +
+    '<div class="conc-n">' + legenda + '</div>';
 }
 function telaReveal(cat, g) {
   return '<div class="rev">' +
@@ -161,6 +177,7 @@ function entrar() {
 
 function carregar(rows) {
   view('confras_vinhos_publico').then(function (vinhos) {
+    vinhosAll = vinhos || [];
     var fotos = {};
     (vinhos || []).forEach(function (v) { fotos[v.id] = v; });
     var vencedores = {}, vistos = {};
@@ -180,7 +197,8 @@ function carregar(rows) {
 if (DEMO) {
   document.getElementById('gate').classList.add('hidden');
   document.getElementById('dica').classList.remove('hidden');
-  montar({
+  view('confras_vinhos_publico').then(function (v) { vinhosAll = v || []; montar(DEMO_VENCEDORES); });
+  var DEMO_VENCEDORES = ({
     'Melhor Espumante': { vinho: 'Cave Geisse', safra: '2013', formato: 'Magnum', membros: ['Marcelo Sandes'], votos: 14, pais: 'Brasil', foto_url: '' },
     'Melhor Branco': { vinho: 'Guru', safra: '2010', formato: 'Magnum', membros: ['Milton Rocha'], votos: 17, pais: 'Portugal', foto_url: 'https://images.vivino.com/thumbs/byKy3nNwRlmQOdDyLD2Mwg_pb_x600.png' },
     'Melhor Tinto': { vinho: 'Fontalloro', safra: '1995', formato: 'Magnum', membros: ['Felipe Valenca de Sousa'], votos: 21, pais: 'Itália', foto_url: 'https://images.vivino.com/thumbs/Qs6gkLUMQ7-V4KgmqdJ_5A_pb_x600.png' },
