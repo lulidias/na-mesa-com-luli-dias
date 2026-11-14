@@ -53,6 +53,15 @@
         "value": "montserrat",
         "createdAt": "2026-11-14T15:52:29.225Z",
         "reason": "Montserrat é a fonte sans da identidade Confra das Confras em produção desde agosto (site, admin, telões, e-mails)"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "confras/controle.html"
+        ],
+        "createdAt": "2026-11-14T15:55:58.565Z",
+        "reason": "padrão visual do Confras (dourado sobre azul) aprovado pelo Luli em todas as telas do evento"
       }
     ]
   }
