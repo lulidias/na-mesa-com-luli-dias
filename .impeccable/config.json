@@ -62,6 +62,15 @@
         ],
         "createdAt": "2026-11-14T15:55:58.565Z",
         "reason": "padrão visual do Confras (dourado sobre azul) aprovado pelo Luli em todas as telas do evento"
+      },
+      {
+        "rule": "kicker-above-heading",
+        "value": "*",
+        "files": [
+          "confras/controle.html"
+        ],
+        "createdAt": "2026-11-14T15:58:35.823Z",
+        "reason": "kicker é o padrão da identidade Confras (presente no hero do site e em todos os gates/telões aprovados pelo Luli)"
       }
     ]
   }
