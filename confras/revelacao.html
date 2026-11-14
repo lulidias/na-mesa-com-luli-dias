@@ -15,21 +15,21 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 #poeira{position:fixed;inset:0;pointer-events:none;z-index:5}
 .tela{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0;pointer-events:none;transition:opacity .8s ease}
 .tela.on{opacity:1}
-.k{font-size:clamp(12px,1.3vw,16px);letter-spacing:7px;text-transform:uppercase;color:var(--gold-lt)}
-.marca{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;letter-spacing:9px;text-transform:uppercase;font-size:clamp(34px,4.6vw,66px);line-height:1.15;margin-top:16px}
+.k{font-size:clamp(15px,1.6vw,22px);letter-spacing:7px;text-transform:uppercase;color:var(--gold-lt)}
+.marca{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;letter-spacing:10px;text-transform:uppercase;font-size:clamp(44px,6vw,98px);line-height:1.15;margin-top:16px}
 .emblema{width:120px;height:120px;margin-bottom:22px;animation:pulsa 5s ease-in-out infinite}
 @keyframes pulsa{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 .dica{position:fixed;bottom:22px;right:30px;font-size:11px;letter-spacing:2px;color:rgba(247,243,238,.4);z-index:9}
 /* suspense */
-.cat-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,2.4vw,32px);color:rgba(247,243,238,.9);margin-top:36px}
+.cat-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(24px,2.8vw,40px);color:rgba(247,243,238,.9);margin-top:36px}
 .pontos::after{content:'';animation:pts 1.8s steps(4,end) infinite}
 @keyframes pts{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
-.taca{font-size:clamp(50px,6vw,90px);margin-bottom:10px;animation:pulsa 2.2s ease-in-out infinite}
+.taca{margin-bottom:14px;animation:pulsa 2.6s ease-in-out infinite;display:flex;justify-content:center}
 /* concorrentes do suspense */
 .concs{display:flex;gap:16px;justify-content:center;margin-top:44px;flex-wrap:wrap}
 .cc{background:#fff;border:1px solid var(--gold-lt);height:128px;width:92px;display:flex;align-items:center;justify-content:center;padding:8px}
 .cc img{max-height:112px;max-width:74px}
-.conc-n{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(19px,2vw,26px);color:rgba(247,243,238,.9);margin-top:26px}
+.conc-n{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(23px,2.4vw,32px);color:rgba(247,243,238,.9);margin-top:28px}
 /* revelação */
 .rev{display:flex;align-items:center;justify-content:center;gap:clamp(40px,6vw,110px);padding:0 60px}
 .tela.on .foto{animation:entraFoto 1s cubic-bezier(.2,.7,.3,1) both .15s}
@@ -44,11 +44,11 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .foto{background:#fff;padding:34px 44px;border:2px solid var(--gold-lt);display:flex;align-items:center;justify-content:center;height:min(60vh,540px);box-shadow:0 0 110px rgba(212,174,92,.3)}
 .foto img{max-height:100%;max-width:300px;display:block}
 .info{max-width:46vw;text-align:left}
-.info .venceu{font-size:14px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt)}
-.info .nome{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:600;font-size:clamp(40px,4.6vw,72px);line-height:1.12;margin-top:12px}
+.info .venceu{font-size:clamp(17px,1.8vw,24px);letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt);display:flex;align-items:center;gap:12px}
+.info .nome{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:600;font-size:clamp(46px,5.4vw,88px);line-height:1.12;margin-top:12px}
 .info .safra{font-family:Didot,'Playfair Display',serif;font-size:clamp(26px,3vw,44px);color:var(--gold-lt);margin-top:4px}
-.info .fmt{display:inline-block;border:2px solid rgba(212,174,92,.85);color:var(--gold-lt);font-size:14px;letter-spacing:3px;text-transform:uppercase;padding:10px 22px;margin-top:20px}
-.info .quem{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(19px,2vw,28px);color:rgba(247,243,238,.95);margin-top:24px}
+.info .fmt{display:inline-block;border:2px solid rgba(212,174,92,.85);color:var(--gold-lt);font-size:clamp(16px,1.6vw,21px);letter-spacing:3px;text-transform:uppercase;padding:12px 26px;margin-top:22px}
+.info .quem{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(22px,2.3vw,32px);color:rgba(247,243,238,.95);margin-top:26px}
 /* gate */
 .gate{max-width:380px;margin:20vh auto;text-align:center;background:rgba(0,0,0,.25);border:1px solid rgba(212,174,92,.4);padding:48px 40px;position:relative;z-index:20;cursor:default}
 .gate input{width:100%;padding:13px;border:1px solid rgba(212,174,92,.5);background:rgba(255,255,255,.06);color:var(--cream);font-family:'Montserrat',sans-serif;text-align:center;margin:18px 0;outline:none}
@@ -88,6 +88,15 @@ function rpc(fn, args) {
 }
 function view(n) { return fetch(SB + '/rest/v1/' + n + '?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }); }
 
+var TROFEU = '<svg width="110" height="110" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+  '<path d="M23 12h26v13a13 13 0 0 1-26 0z" stroke="#D4AE5C" stroke-width="2.2"/>' +
+  '<path d="M23 16h-9a11 11 0 0 0 11 13" stroke="#D4AE5C" stroke-width="2.2"/>' +
+  '<path d="M49 16h9a11 11 0 0 1-11 13" stroke="#D4AE5C" stroke-width="2.2"/>' +
+  '<path d="M36 38v8" stroke="#D4AE5C" stroke-width="2.2"/>' +
+  '<path d="M27 52c0-4 4-6 9-6s9 2 9 6" stroke="#D4AE5C" stroke-width="2.2"/>' +
+  '<path d="M24 56h24" stroke="#B8922A" stroke-width="2.4"/>' +
+  '<path d="M36 20l3.4 3.4-3.4 3.4-3.4-3.4z" fill="#D4AE5C"/></svg>';
+var TROFEU_MINI = TROFEU.replace('width="110" height="110"', 'width="30" height="30"');
 var EMBLEMA = '<svg class="emblema" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
   '<circle cx="60" cy="60" r="56" stroke="#B8922A" stroke-width="1" opacity=".6"/>' +
   '<g stroke="#D4AE5C" stroke-width="1.6" fill="rgba(212,174,92,.08)">' +
@@ -96,7 +105,8 @@ var EMBLEMA = '<svg class="emblema" viewBox="0 0 120 120" fill="none" xmlns="htt
   '<path d="M60 55l5 5-5 5-5-5z" fill="#D4AE5C"/></svg>';
 
 function telaCapa() {
-  return EMBLEMA + '<div class="k">Confra das Confras · 2026</div><div class="marca">A Premiação</div>' +
+  return EMBLEMA + '<div class="k">A Premiação · 2026</div>' +
+    '<div class="marca">Confra<br>das Confras</div>' +
     '<div class="cat-sub">Os melhores vinhos da festa, eleitos pelos confrades.</div>';
 }
 function telaSuspense(cat) {
@@ -106,8 +116,8 @@ function telaSuspense(cat) {
   var legenda = tipo
     ? conc.length + (conc.length === 1 ? ' garrafa concorre' : ' garrafas concorrem') + ' a esta placa'
     : 'As ' + conc.length + ' garrafas da mesa concorrem ao grande prêmio';
-  return '<div class="taca">🏆</div><div class="k">A Premiação · Confra das Confras 2026</div>' +
-    '<div class="marca" style="font-size:clamp(30px,4vw,56px)">' + esc(cat.toUpperCase()) + '</div>' +
+  return '<div class="taca">' + TROFEU + '</div><div class="k">A Premiação · Confra das Confras 2026</div>' +
+    '<div class="marca" style="font-size:clamp(38px,5vw,76px)">' + esc(cat.toUpperCase()) + '</div>' +
     (fotos.length ? '<div class="concs">' + fotos.map(function (g) {
       return '<span class="cc"><img src="' + esc(g.foto_url) + '"></span>';
     }).join('') + '</div>' : '') +
@@ -117,7 +127,7 @@ function telaReveal(cat, g) {
   return '<div class="rev">' +
     (g.foto_url ? '<div class="foto"><img src="' + esc(g.foto_url) + '"></div>' : '') +
     '<div class="info">' +
-      '<div class="venceu">🏆 ' + esc(cat.toUpperCase()) + ' · ' + (FLAGS[g.pais] || '') + ' ' + esc(g.pais || '') + '</div>' +
+      '<div class="venceu">' + TROFEU_MINI + '<span>' + esc(cat.toUpperCase()) + ' · ' + (FLAGS[g.pais] || '') + ' ' + esc(g.pais || '') + '</span></div>' +
       '<div class="nome">' + esc(g.vinho) + '</div>' +
       (g.safra ? '<div class="safra">' + esc(g.safra) + '</div>' : '') +
       '<div class="fmt">' + esc(g.formato) + (g.votos ? ' · ' + g.votos + ' voto' + (g.votos > 1 ? 's' : '') : '') + '</div>' +
@@ -125,7 +135,7 @@ function telaReveal(cat, g) {
     '</div></div>';
 }
 function telaFim() {
-  return EMBLEMA + '<div class="k">Obrigado, confrades 🥂 · já tem data</div>' +
+  return EMBLEMA + '<div class="k">Obrigado, confrades · já tem data</div>' +
     '<div class="marca">17 de Novembro</div>' +
     '<div style="font-family:Didot,\'Playfair Display\',serif;font-size:clamp(28px,3.4vw,52px);letter-spacing:18px;color:var(--gold-lt);margin-top:14px">2027</div>' +
     '<div class="cat-sub">Quarta-feira — a mesma mesa, ainda mais garrafas.</div>';

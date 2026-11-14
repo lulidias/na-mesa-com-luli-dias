@@ -14,21 +14,21 @@ html,body{height:100%;overflow:hidden}
 body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wine-md) 45%,var(--wine) 100%);color:var(--cream);font-family:'Montserrat',sans-serif;padding:34px 44px}
 .top{text-align:center;margin-bottom:24px}
 .top .k{font-size:12px;letter-spacing:6px;text-transform:uppercase;color:var(--gold-lt)}
-.top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(28px,4vw,50px);letter-spacing:5px;text-transform:uppercase;margin-top:8px}
-.top .sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(18px,2vw,24px);color:rgba(247,243,238,.85);margin-top:6px}
+.top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(40px,5.2vw,72px);letter-spacing:5px;text-transform:uppercase;margin-top:8px}
+.top .sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(22px,2.4vw,30px);color:rgba(247,243,238,.85);margin-top:6px}
 .placar{display:flex;justify-content:center;gap:clamp(30px,6vw,90px);margin:18px 0 30px}
 .pl{text-align:center}
-.pl .n{font-family:Didot,'Playfair Display',serif;font-size:clamp(40px,5vw,64px)}
+.pl .n{font-family:Didot,'Playfair Display',serif;font-size:clamp(58px,6.8vw,100px)}
 .pl.sim .n{color:var(--gold-lt)}
 .pl.nao .n{color:rgba(247,243,238,.45)}
-.pl .l{font-size:14px;letter-spacing:3px;text-transform:uppercase;color:rgba(247,243,238,.65);margin-top:4px}
+.pl .l{font-size:18px;letter-spacing:3px;text-transform:uppercase;color:rgba(247,243,238,.65);margin-top:4px}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1500px;margin:0 auto}
 .col{border:1px solid rgba(212,174,92,.4);background:rgba(0,0,0,.18);padding:24px 28px}
-.col h2{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(20px,2.2vw,28px);margin-bottom:16px;text-align:center}
+.col h2{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(26px,2.8vw,38px);margin-bottom:16px;text-align:center}
 .col.sim h2{color:var(--gold-lt)}
 .col.nao h2{color:rgba(247,243,238,.6)}
 .nomes{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.nome{font-family:'Cormorant Garamond',serif;font-size:clamp(17px,1.7vw,24px);padding:8px 16px;border:1px solid rgba(212,174,92,.35)}
+.nome{font-family:'Cormorant Garamond',serif;font-size:clamp(21px,2.1vw,30px);padding:10px 18px;border:1px solid rgba(212,174,92,.35)}
 .col.sim .nome{color:var(--cream);border-color:rgba(212,174,92,.6);background:rgba(212,174,92,.1)}
 .col.nao .nome{color:rgba(247,243,238,.55);font-style:italic}
 .gate{max-width:380px;margin:20vh auto;text-align:center;background:rgba(0,0,0,.25);border:1px solid rgba(212,174,92,.4);padding:48px 40px}
@@ -36,7 +36,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .gate button{padding:13px 34px;background:var(--gold);border:none;color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
 .hidden{display:none!important}
 .clock{position:fixed;top:18px;right:26px;font-size:14px;letter-spacing:2px;color:rgba(247,243,238,.5)}
-.revela{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(17px,1.8vw,22px);color:var(--gold-lt);margin-top:26px}
+.revela{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(21px,2.2vw,28px);color:var(--gold-lt);margin-top:26px}
 #qr-votar{background:#fff;padding:12px 12px 7px;text-align:center;border:2px solid #D4AE5C;align-self:center}
 </style>
 </head>
@@ -61,7 +61,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
     <div class="pl sim"><div class="n" id="n-sim">–</div><div class="l">já votaram</div></div>
     <div id="qr-votar" class="hidden">
       <canvas id="qr-canvas" width="150" height="150"></canvas>
-      <div style="font-size:9px;letter-spacing:2px;color:#101F38;font-weight:600;margin-top:5px">APONTE A CÂMERA<br>E VOTE 🗳️</div>
+      <div style="font-size:9px;letter-spacing:2px;color:#101F38;font-weight:600;margin-top:5px">APONTE A CÂMERA<br>E VOTE</div>
     </div>
     <div class="pl nao"><div class="n" id="n-nao">–</div><div class="l">ainda faltam</div></div>
   </div>
@@ -69,7 +69,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
     <div class="col sim"><h2>✓ Já votaram</h2><div class="nomes" id="l-sim"></div></div>
     <div class="col nao"><h2>Ainda não votaram</h2><div class="nomes" id="l-nao"></div></div>
   </div>
-  <p class="revela">O ranking dos vencedores será revelado às 17h. 🏆</p>
+  <p class="revela">O ranking dos vencedores será revelado às 17h.</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
@@ -123,7 +123,7 @@ function tick() {
     document.getElementById('n-sim').textContent = votaram.length;
     document.getElementById('n-nao').textContent = faltam.length;
     document.getElementById('l-sim').innerHTML = votaram.map(function (n) { return '<span class="nome">' + esc(n) + '</span>'; }).join('') || '<span class="nome" style="opacity:.5">— seja o primeiro! —</span>';
-    document.getElementById('l-nao').innerHTML = faltam.map(function (n) { return '<span class="nome">' + esc(n) + '</span>'; }).join('') || '<span class="nome">todos votaram! 🎉</span>';
+    document.getElementById('l-nao').innerHTML = faltam.map(function (n) { return '<span class="nome">' + esc(n) + '</span>'; }).join('') || '<span class="nome">todos votaram!</span>';
     ajustaEscala();
   }).catch(function () { });
 }
