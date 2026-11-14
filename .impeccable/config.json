@@ -38,6 +38,21 @@
         ],
         "createdAt": "2026-11-14T15:49:14.255Z",
         "reason": "halo dourado proposital: holofote cênico da garrafa vencedora em telão de premiação"
+      },
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          "confras/revelacao.html"
+        ],
+        "createdAt": "2026-11-14T15:52:29.211Z",
+        "reason": "tracking largo só em rótulos curtos uppercase e títulos display — padrão da identidade Confras em todos os telões"
+      },
+      {
+        "rule": "overused-font",
+        "value": "montserrat",
+        "createdAt": "2026-11-14T15:52:29.225Z",
+        "reason": "Montserrat é a fonte sans da identidade Confra das Confras em produção desde agosto (site, admin, telões, e-mails)"
       }
     ]
   }
