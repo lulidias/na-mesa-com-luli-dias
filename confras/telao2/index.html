@@ -22,15 +22,12 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .pl.sim .n{color:var(--gold-lt)}
 .pl.nao .n{color:rgba(247,243,238,.45)}
 .pl .l{font-size:18px;letter-spacing:3px;text-transform:uppercase;color:rgba(247,243,238,.65);margin-top:4px}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1500px;margin:0 auto}
-.col{border:1px solid rgba(212,174,92,.4);background:rgba(0,0,0,.18);padding:24px 28px}
-.col h2{font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(26px,2.8vw,38px);margin-bottom:16px;text-align:center}
-.col.sim h2{color:var(--gold-lt)}
-.col.nao h2{color:rgba(247,243,238,.6)}
-.nomes{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.nome{font-family:'Cormorant Garamond',serif;font-size:clamp(21px,2.1vw,30px);padding:10px 18px;border:1px solid rgba(212,174,92,.35)}
-.col.sim .nome{color:var(--cream);border-color:rgba(212,174,92,.6);background:rgba(212,174,92,.1)}
-.col.nao .nome{color:rgba(247,243,238,.55);font-style:italic}
+.todos{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:1860px;margin:0 auto;padding:0 10px}
+.nome{font-family:'Cormorant Garamond',serif;font-size:clamp(23px,2.3vw,34px);padding:12px 22px;border:1px solid rgba(212,174,92,.3)}
+.nome.sim{color:#101F38;background:var(--gold-lt);border-color:var(--gold-lt);font-weight:600}
+.nome.nao{color:rgba(247,243,238,.5);font-style:italic}
+.legenda{display:flex;justify-content:center;gap:34px;margin:0 0 22px;font-size:16px;letter-spacing:2px;text-transform:uppercase;color:rgba(247,243,238,.7)}
+.legenda .dot{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:8px;vertical-align:-2px}
 .gate{max-width:380px;margin:20vh auto;text-align:center;background:rgba(0,0,0,.25);border:1px solid rgba(212,174,92,.4);padding:48px 40px}
 .gate input{width:100%;padding:13px;border:1px solid rgba(212,174,92,.5);background:rgba(255,255,255,.06);color:var(--cream);font-family:'Montserrat',sans-serif;text-align:center;margin:18px 0;outline:none}
 .gate button{padding:13px 34px;background:var(--gold);border:none;color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
@@ -65,10 +62,11 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
     </div>
     <div class="pl nao"><div class="n" id="n-nao">–</div><div class="l">ainda faltam</div></div>
   </div>
-  <div class="cols">
-    <div class="col sim"><h2>✓ Já votaram</h2><div class="nomes" id="l-sim"></div></div>
-    <div class="col nao"><h2>Ainda não votaram</h2><div class="nomes" id="l-nao"></div></div>
+  <div class="legenda">
+    <span><span class="dot" style="background:var(--gold-lt)"></span>Já votou</span>
+    <span><span class="dot" style="border:1px solid rgba(247,243,238,.5)"></span>Ainda falta</span>
   </div>
+  <div class="todos" id="l-todos"></div>
   <p class="revela">O ranking dos vencedores será revelado às 17h.</p>
 </div>
 
@@ -107,6 +105,13 @@ function entrar() {
   }).catch(function () { alert('Token inválido'); });
 }
 
+function todosNomes(res) { return (res[1] || []).map(function (p) { return p.nome; }); }
+function pessoasOrdenadas(votaram, nomes) {
+  var vSet = {};
+  votaram.forEach(function (n) { vSet[n] = true; });
+  return nomes.sort(function (a, b) { return a.localeCompare(b, 'pt'); })
+    .map(function (n) { return { nome: n, votou: !!vSet[n] }; });
+}
 function tick() {
   Promise.all([
     rpc('confras_admin_quem_votou', { p_token: TOKEN }),
@@ -122,8 +127,10 @@ function tick() {
     var faltam = todos.filter(function (n) { return !vSet[n]; }).sort(function (a, b) { return a.localeCompare(b, 'pt'); });
     document.getElementById('n-sim').textContent = votaram.length;
     document.getElementById('n-nao').textContent = faltam.length;
-    document.getElementById('l-sim').innerHTML = votaram.map(function (n) { return '<span class="nome">' + esc(n) + '</span>'; }).join('') || '<span class="nome" style="opacity:.5">— seja o primeiro! —</span>';
-    document.getElementById('l-nao').innerHTML = faltam.map(function (n) { return '<span class="nome">' + esc(n) + '</span>'; }).join('') || '<span class="nome">todos votaram!</span>';
+    var todos = pessoasOrdenadas(votaram, todosNomes(res));
+    document.getElementById('l-todos').innerHTML = todos.map(function (p) {
+      return '<span class="nome ' + (p.votou ? 'sim' : 'nao') + '">' + esc(p.nome) + '</span>';
+    }).join('');
     ajustaEscala();
   }).catch(function () { });
 }
