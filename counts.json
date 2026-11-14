@@ -1,7 +1,7 @@
 {
   "totals": {
-    "restaurants": 1109,
-    "hotels": 192,
+    "restaurants": 1112,
+    "hotels": 193,
     "markets": 28,
     "cities": 221,
     "lojaVinho": 2,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 73,
     "totalKeys": 71,
-    "total": 1343,
+    "total": 1347,
     "michelin": 93,
     "keysEntries": 46
   },
@@ -927,8 +927,8 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 539,
-      "hotels": 75,
+      "restaurants": 542,
+      "hotels": 76,
       "markets": 4,
       "cities": 60,
       "lojaVinho": 0,
@@ -971,8 +971,8 @@
       "keysEntries": 0
     },
     "brasil-nordeste": {
-      "restaurants": 100,
-      "hotels": 19,
+      "restaurants": 103,
+      "hotels": 20,
       "markets": 0,
       "cities": 19,
       "lojaVinho": 0,
@@ -1064,8 +1064,8 @@
       "cities": 2
     },
     "Ceará": {
-      "restaurants": 34,
-      "hotels": 2,
+      "restaurants": 36,
+      "hotels": 4,
       "cities": 2
     },
     "Paraíba": {
@@ -1079,7 +1079,7 @@
       "cities": 4
     },
     "Rio Grande do Norte": {
-      "restaurants": 6,
+      "restaurants": 10,
       "hotels": 6,
       "cities": 6
     },
