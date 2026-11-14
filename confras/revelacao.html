@@ -154,11 +154,11 @@ function avanca(dir) {
   var novo = Math.max(0, Math.min(telas.length - 1, passo + dir));
   if (novo === passo) return;
   mostra(novo, dir > 0);
-  if (TOKEN && !DEMO) rpc('confras_revelacao_set', { p_token: TOKEN, p_passo: passo }).catch(function () { });
+  if (TOKEN) rpc('confras_revelacao_set', { p_token: TOKEN, p_passo: passo }).catch(function () { });
 }
 // sincronização com o controle remoto (celular)
 function sincroniza() {
-  if (!TOKEN || DEMO || !telas.length) return;
+  if (!TOKEN || !telas.length) return;
   rpc('confras_revelacao_get', { p_token: TOKEN }).then(function (r) {
     var alvo = Math.max(0, Math.min(telas.length - 1, Number(r) || 0));
     if (alvo === passo) return;
