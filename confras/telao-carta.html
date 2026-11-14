@@ -38,6 +38,9 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .info .safra{font-family:Didot,'Playfair Display',serif;font-size:clamp(28px,3vw,46px);color:var(--gold-lt);margin-top:4px}
 .info .fmt{display:inline-block;border:2px solid rgba(212,174,92,.85);color:var(--gold-lt);font-size:16px;letter-spacing:3px;text-transform:uppercase;padding:10px 22px;margin-top:22px}
 .info .quem{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,2.1vw,28px);color:rgba(247,243,238,.92);margin-top:26px}
+.confs-mini{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.cm{background:#fff;border:1px solid rgba(212,174,92,.6);height:54px;width:88px;display:flex;align-items:center;justify-content:center;padding:6px}
+.cm img{max-height:42px;max-width:72px}
 .rodape{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:21px;color:rgba(247,243,238,.75)}
 .sem-foto{font-family:'Playfair Display',serif;font-size:30px;color:var(--wine);text-align:center;padding:40px}
 </style>
@@ -60,6 +63,8 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
 var FLAGS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Uruguai': '🇺🇾', 'Estados Unidos': '🇺🇸', 'Alemanha': '🇩🇪' };
+var LOGOS = { 'commanderie': 'logos/commanderie.png', 'porquinho': 'logos/porquinho.png', 'wine-lovers': 'logos/wine-lovers-recife.png', 'confra-wine': 'logos/confra-wine-recife.png', 'over20': 'logos/over20.svg' };
+var confsPessoa = {};
 var DUR = Number(new URLSearchParams(location.search).get('t')) || 8;   // segundos por garrafa
 var vinhos = [], idx = 0, ativa = 0;
 
@@ -77,8 +82,17 @@ function montaCena(el, g) {
       '<div class="tipo">' + esc(g.tipo) + ' · ' + (FLAGS[g.pais] || '') + ' ' + esc(g.pais || '') + '</div>' +
       '<div class="nome">' + esc(g.vinho) + '</div>' +
       (g.safra ? '<div class="safra">' + esc(g.safra) + '</div>' : '') +
-      '<div class="fmt">' + esc(g.formato) + ' · ' + esc(String(g.litros).replace('.', ',')) + ' L</div>' +
-      '<div class="quem">Trazido por ' + esc((g.membros || []).join(', ')) + '</div>' +
+      '<div class="fmt">' + esc(g.formato) + (/litro/i.test(g.formato) ? '' : ' · ' + esc(String(g.litros).replace('.', ',')) + ' L') + '</div>' +
+      '<div class="quem">' + esc((g.membros || []).join(' · ')) + '</div>' +
+      (function () {
+        var slugs = {}, ordem = [];
+        (g.membros || []).forEach(function (n) {
+          (confsPessoa[n] || []).forEach(function (sl) { if (!slugs[sl]) { slugs[sl] = true; ordem.push(sl); } });
+        });
+        return ordem.length ? '<div class="confs-mini">' + ordem.map(function (sl) {
+          return LOGOS[sl] ? '<span class="cm"><img src="' + LOGOS[sl] + '"></span>' : '';
+        }).join('') + '</div>' : '';
+      })() +
     '</div>';
 }
 
@@ -103,9 +117,13 @@ function troca() {
   if (idx === 0) embaralha(vinhos);
 }
 
-fetch(SB + '/rest/v1/confras_vinhos_publico?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } })
-  .then(function (r) { return r.json(); })
-  .then(function (rows) {
+Promise.all([
+  fetch(SB + '/rest/v1/confras_vinhos_publico?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }),
+  fetch(SB + '/rest/v1/confras_confirmados?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); })
+])
+  .then(function (res) {
+    var rows = res[0];
+    (res[1] || []).forEach(function (p) { confsPessoa[p.nome] = p.confrarias || []; });
     vinhos = embaralha(rows || []);
     var litros = 0, paises = {};
     vinhos.forEach(function (g) { litros += Number(g.litros) * (Math.min((g.membros || []).length, g.vagas || 1) / Math.max(1, g.vagas || 1)); if (g.pais) paises[g.pais] = true; });
