@@ -20,6 +20,24 @@
         ],
         "createdAt": "2026-11-14T15:44:43.049Z",
         "reason": "padrão visual do Confras (kickers dourados), idêntico ao hero do site em produção aprovado pelo Luli"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "confras/revelacao.html"
+        ],
+        "createdAt": "2026-11-14T15:49:14.219Z",
+        "reason": "padrão visual do Confras (dourado sobre azul) aprovado pelo Luli em todos os telões"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "confras/revelacao.html"
+        ],
+        "createdAt": "2026-11-14T15:49:14.255Z",
+        "reason": "halo dourado proposital: holofote cênico da garrafa vencedora em telão de premiação"
       }
     ]
   }
