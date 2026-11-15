@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1112,
+    "restaurants": 1111,
     "hotels": 193,
     "markets": 28,
     "cities": 221,
@@ -10,7 +10,7 @@
     "m1": 39,
     "m2": 11,
     "m3": 4,
-    "bib": 38,
+    "bib": 37,
     "green": 1,
     "rec": 124,
     "keys1": 27,
@@ -19,8 +19,8 @@
     "countries": 42,
     "totalStars": 73,
     "totalKeys": 71,
-    "total": 1347,
-    "michelin": 93,
+    "total": 1346,
+    "michelin": 92,
     "keysEntries": 46
   },
   "countries": {
@@ -927,7 +927,7 @@
       "keysEntries": 1
     },
     "brasil": {
-      "restaurants": 542,
+      "restaurants": 541,
       "hotels": 76,
       "markets": 4,
       "cities": 60,
@@ -937,7 +937,7 @@
       "m1": 12,
       "m2": 1,
       "m3": 2,
-      "bib": 20,
+      "bib": 19,
       "green": 0,
       "rec": 45,
       "keys1": 9,
@@ -945,7 +945,7 @@
       "keys3": 2,
       "totalStars": 20,
       "totalKeys": 19,
-      "michelin": 35,
+      "michelin": 34,
       "keysEntries": 13
     },
     "brasil-centroeste": {
@@ -993,7 +993,7 @@
       "keysEntries": 3
     },
     "brasil-sudeste": {
-      "restaurants": 326,
+      "restaurants": 325,
       "hotels": 39,
       "markets": 0,
       "cities": 25,
@@ -1003,7 +1003,7 @@
       "m1": 12,
       "m2": 1,
       "m3": 2,
-      "bib": 20,
+      "bib": 19,
       "green": 0,
       "rec": 45,
       "keys1": 6,
@@ -1011,7 +1011,7 @@
       "keys3": 1,
       "totalStars": 20,
       "totalKeys": 13,
-      "michelin": 35,
+      "michelin": 34,
       "keysEntries": 9
     },
     "brasil-sul": {
@@ -1099,7 +1099,7 @@
       "cities": 4
     },
     "São Paulo": {
-      "restaurants": 524,
+      "restaurants": 522,
       "hotels": 46,
       "cities": 38
     },
