@@ -58,6 +58,24 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
             📸 <strong>Seu cartão &ldquo;Eu vou!&rdquo; já está pronto.</strong><br>
             <a href="${SITE}cartao.html?id=${pid}" style="color:#B8922A;font-weight:bold">Baixe aqui</a> e poste no grupo da sua confraria — chame os amigos para a mesa. 🥂</p>`, pid),
       };
+    case "cobra-garrafa":
+      return {
+        subject: "\ud83c\udf7e Quarta \u00e9 dia de Confra \u2014 falta registrar a sua garrafa",
+        html: shell(`${nome}, a mesa espera a sua garrafa`, `
+          <p>A <strong>Confra das Confras \u00e9 quarta-feira</strong>, 18 de novembro, 13h, na Paris Saint-Germain Academy \u2014 e a carta j\u00e1 tem <strong>33 garrafas</strong>. Falta a sua!</p>
+          <p>A regra de ouro: no m\u00ednimo <strong>1,5 litro</strong> \u2014 uma Magnum. Pode trazer formatos maiores, dividir com outros confrades e registrar quantas quiser.</p>
+          <p>Leva dois minutos no seu painel. Se a garrafa j\u00e1 est\u00e1 separada e s\u00f3 falta registrar, melhor ainda \u2014 a mesa toda quer saber o que vem por a\u00ed. \ud83c\udf77</p>`, pid),
+      };
+    case "cobra-rateio": {
+      const valorR = Number(cfg.valor_rateio ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+      return {
+        subject: `\ud83d\udcb0 \u00daltimo passo para quarta: o rateio de ${valorR}`,
+        html: shell(`${nome}, s\u00f3 falta o rateio`, `
+          <p>A <strong>Confra das Confras \u00e9 quarta-feira</strong>, 18 de novembro, 13h. Para fechar a conta do churrasco, falta o seu rateio de <strong>${valorR}</strong>.</p>
+          <p>Pague por Pix para <strong>${esc(cfg.chave_pix)}</strong>${cfg.nome_pix ? ` (${esc(cfg.nome_pix)})` : ""} \u2014 no seu painel voc\u00ea encontra o QR code, o copia-e-cola e o envio do comprovante em tr\u00eas passos.</p>
+          <p>Pagou agora? Suba o comprovante no painel que a confirma\u00e7\u00e3o \u00e9 autom\u00e1tica. \ud83e\udd42</p>`, pid),
+      };
+    }
     case "garrafa-registrada": {
       const v = `${esc(dados.vinho)}${dados.safra ? " " + esc(dados.safra) : ""}`;
       return {
