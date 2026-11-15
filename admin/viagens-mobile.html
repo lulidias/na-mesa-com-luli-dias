@@ -8,9 +8,9 @@
 <!-- app na tela de início -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Viagens">
-<meta name="theme-color" content="#14120f">
+<meta name="theme-color" content="#F7F3EE">
 <link rel="apple-touch-icon" href="viagens-icon-180.png">
 <link rel="icon" href="viagens-icon-512.png">
 <link rel="manifest" href="viagens.webmanifest">
@@ -19,15 +19,15 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#14120f;--bg2:#1c1915;--card:#201c17;--line:#332d25;--line2:#43392d;
-  --gold:#D4AE5C;--gold2:#B8922A;--gold-dim:#8f7a4e;
-  --txt:#F0E8DA;--txt2:#B8AE9C;--txt3:#8a8072;
+  --bg:#F7F3EE;--bg2:#FFFFFF;--card:#FFFFFF;--line:#E8E0D5;--line2:#DCD3C4;
+  --gold:#B8922A;--gold2:#D4AE5C;--gold-dim:#9A7E2E;
+  --txt:#1A1A1A;--txt2:#5A5045;--txt3:#9A9183;
 }
 html{-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--txt);font-family:'Montserrat',sans-serif;font-size:14px;
   padding-bottom:calc(40px + env(safe-area-inset-bottom));-webkit-font-smoothing:antialiased}
 /* topo fixo */
-.top{position:sticky;top:0;z-index:40;background:rgba(20,18,15,.86);backdrop-filter:saturate(1.4) blur(12px);
+.top{position:sticky;top:0;z-index:40;background:rgba(247,243,238,.9);backdrop-filter:saturate(1.4) blur(12px);
   border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top)) 16px 0}
 .top .bar{display:flex;align-items:center;gap:10px;padding-bottom:10px}
 .top .mk{width:26px;height:26px;flex:none}
@@ -75,7 +75,7 @@ h1{font-family:'Playfair Display',serif;font-weight:400;font-size:24px;text-alig
 .brow img{width:30px;height:18px;object-fit:contain;flex:none}
 .brow .nm{flex:none;width:96px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt)}
 .brow.wide .nm{width:120px}
-.brow .bwrap{flex:1;height:8px;background:rgba(255,255,255,.05);border-radius:5px;overflow:hidden}
+.brow .bwrap{flex:1;height:8px;background:rgba(0,0,0,.05);border-radius:5px;overflow:hidden}
 .brow .bar{height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:5px}
 .brow .val{flex:none;color:var(--txt2);font-size:10px;width:62px;text-align:right}
 /* recordes */
@@ -198,7 +198,7 @@ details.sect[open]>summary .arw{transform:rotate(180deg)}
 
 <script>
 const WORKER='https://luli-admin.lulidias.workers.dev';
-const OURO='#D4AE5C', OURO2='#B8922A', TINTA='#C9BBA2';
+const OURO='#B8922A', OURO2='#D4AE5C', TINTA='#7a6a45';
 const COORD={PIK:[55.51,-4.59],CGH:[-23.63,-46.66],GRU:[-23.43,-46.47],SAO:[-23.5,-46.6],VCP:[-23.01,-47.13],REC:[-8.13,-34.92],EZE:[-34.82,-58.54],LIS:[38.77,-9.13],PTY:[9.07,-79.38],GYN:[-16.63,-49.22],FLN:[-27.67,-48.55],CWB:[-25.53,-49.18],BSB:[-15.87,-47.92],SDU:[-22.91,-43.16],RIO:[-22.9,-43.2],GIG:[-22.81,-43.25],SSA:[-12.91,-38.33],POA:[-29.99,-51.17],AJU:[-10.98,-37.07],MDZ:[-32.83,-68.79],SCL:[-33.39,-70.79],BOG:[4.7,-74.15],JFK:[40.64,-73.78],FOR:[-3.78,-38.53],CNF:[-19.62,-43.97],IGU:[-25.6,-54.49],CGB:[-15.65,-56.12],ORY:[48.72,2.38],PAR:[48.85,2.35],LYS:[45.73,5.08],OPO:[41.25,-8.68],MAD:[40.47,-3.57],MLA:[35.86,14.48],SVO:[55.97,37.41],FCO:[41.80,12.24],MXP:[45.63,8.72],MIL:[45.63,8.72],DOH:[25.27,51.61],OTP:[44.57,26.09],FRA:[50.03,8.57],CDG:[49.01,2.55],NCE:[43.66,7.22],MVD:[-34.84,-56.03],LIM:[-12.02,-77.11],CUZ:[-13.54,-71.94],AQP:[-16.34,-71.57],CPH:[55.62,12.65],BOD:[44.83,-0.72],AMS:[52.31,4.76],ZRH:[47.46,8.55],DUB:[53.43,-6.24],DUS:[51.29,6.77],NAT:[-5.9,-35.25],MCZ:[-9.51,-35.79],SLZ:[-2.59,-44.23],LDB:[-23.33,-51.13],NVT:[-26.88,-48.65],PVG:[31.14,121.81],SHA:[31.14,121.81],HKG:[22.31,113.91],MGF:[-23.48,-52.01],UDI:[-18.88,-48.23],MIA:[25.79,-80.29],BCN:[41.3,2.08],EDI:[55.95,-3.36],MPL:[43.58,3.96],BEL:[-1.38,-48.48],LHR:[51.47,-0.45],IST:[41.26,28.74],KIX:[34.43,135.24],ICN:[37.46,126.44],PEK:[40.08,116.58],HND:[35.55,139.78],BKK:[13.68,100.75],HAN:[21.22,105.81],POR:[41.25,-8.68],BOR:[44.83,-0.72],COP:[55.62,12.65],GOI:[-16.63,-49.22],LON:[51.47,-0.45],MUC:[48.35,11.79],TPE:[25.08,121.23],DXB:[25.25,55.36],SIN:[1.36,103.99],NRT:[35.77,140.39],CMN:[33.37,-7.59],ATH:[37.94,23.94],AEP:[-34.56,-58.42],BPS:[-16.44,-39.08],BVA:[49.45,2.11],BVB:[2.85,-60.69],CUN:[21.04,-86.87],FEN:[-3.85,-32.42],IOS:[-14.82,-39.03],MAO:[-3.04,-60.05],MEX:[19.44,-99.07],MRS:[43.44,5.22],PLU:[-19.85,-43.95],PMW:[-10.29,-48.36],PVH:[-8.71,-63.9],RAO:[-21.14,-47.77],SJP:[-20.82,-49.4],THE:[-5.06,-42.82],TXL:[52.56,13.29],VIX:[-20.26,-40.29],XAP:[-27.13,-52.66],BHZ:[-19.62,-43.97],FLO:[-27.67,-48.55],SAL:[-12.91,-38.33],SAN:[-33.39,-70.79],CUR:[-25.53,-49.18],VIT:[-20.26,-40.29],CAM:[-23.01,-47.13],BRA:[-15.87,-47.92],PAL:[-10.29,-48.36],TER:[-5.06,-42.82]};
 const AERO={'AEP':['🇦🇷','Buenos Aires'],'AJU':['🇧🇷','Aracaju'],'AMS':['🇳🇱','Amesterdão'],'AQP':['🇵🇪','Arequipa'],'BCN':['🇪🇸','Barcelona'],'BEL':['🇧🇷','Belém'],'BKK':['🇹🇭','Banguecoque'],'BOD':['🇫🇷','Bordéus'],'BOG':['🇨🇴','Bogotá'],'BPS':['🇧🇷','Porto Seguro'],'BSB':['🇧🇷','Brasília'],'BVA':['🇫🇷','Paris-Beauvais'],'BVB':['🇧🇷','Boa Vista'],'CDG':['🇫🇷','Paris'],'CGB':['🇧🇷','Cuiabá'],'CGH':['🇧🇷','São Paulo'],'CMN':['🇲🇦','Casablanca'],'CNF':['🇧🇷','Belo Horizonte'],'CPH':['🇩🇰','Copenhaga'],'CUN':['🇲🇽','Cancún'],'CUZ':['🇵🇪','Cusco'],'CWB':['🇧🇷','Curitiba'],'DOH':['🇶🇦','Doha'],'DUB':['🇮🇪','Dublin'],'DUS':['🇩🇪','Düsseldorf'],'DXB':['🇦🇪','Dubai'],'EDI':['🏴󠁧󠁢󠁳󠁣󠁴󠁿','Edimburgo'],'EZE':['🇦🇷','Buenos Aires'],'FEN':['🇧🇷','Fernando de Noronha'],'FLN':['🇧🇷','Florianópolis'],'FOR':['🇧🇷','Fortaleza'],'FRA':['🇩🇪','Frankfurt'],'GIG':['🇧🇷','Rio de Janeiro'],'GRU':['🇧🇷','São Paulo'],'GYN':['🇧🇷','Goiânia'],'HAN':['🇻🇳','Hanói'],'HKG':['🇭🇰','Hong Kong'],'HND':['🇯🇵','Tóquio'],'ICN':['🇰🇷','Seul'],'IGU':['🇧🇷','Foz do Iguaçu'],'IOS':['🇧🇷','Ilhéus'],'IST':['🇹🇷','Istambul'],'JFK':['🇺🇸','Nova Iorque'],'KIX':['🇯🇵','Osaka'],'LDB':['🇧🇷','Londrina'],'LHR':['🇬🇧','Londres'],'LIM':['🇵🇪','Lima'],'LIS':['🇵🇹','Lisboa'],'LYS':['🇫🇷','Lyon'],'MAD':['🇪🇸','Madrid'],'MAO':['🇧🇷','Manaus'],'MCZ':['🇧🇷','Maceió'],'MDZ':['🇦🇷','Mendoza'],'MEX':['🇲🇽','Cidade do México'],'MGF':['🇧🇷','Maringá'],'MIA':['🇺🇸','Miami'],'MLA':['🇲🇹','Malta'],'SVO':['🇷🇺','Moscou'],'FCO':['🇮🇹','Roma'],'MPL':['🇫🇷','Montpellier'],'MRS':['🇫🇷','Marselha'],'MVD':['🇺🇾','Montevideu'],'MXP':['🇮🇹','Milão'],'NAT':['🇧🇷','Natal'],'NCE':['🇫🇷','Nice'],'NRT':['🇯🇵','Tóquio-Narita'],'NVT':['🇧🇷','Navegantes'],'OPO':['🇵🇹','Porto'],'ORY':['🇫🇷','Paris-Orly'],'OTP':['🇷🇴','Bucareste'],'PEK':['🇨🇳','Pequim'],'PIK':['🏴󠁧󠁢󠁳󠁣󠁴󠁿','Glasgow-Prestwick'],'PLU':['🇧🇷','BH-Pampulha'],'PMW':['🇧🇷','Palmas'],'POA':['🇧🇷','Porto Alegre'],'PTY':['🇵🇦','Panamá'],'PVG':['🇨🇳','Xangai'],'PVH':['🇧🇷','Porto Velho'],'RAO':['🇧🇷','Ribeirão Preto'],'REC':['🇧🇷','Recife'],'SAO':['🇧🇷','São Paulo'],'SCL':['🇨🇱','Santiago'],'SDU':['🇧🇷','Rio-Santos Dumont'],'SIN':['🇸🇬','Singapura'],'SJP':['🇧🇷','S. J. do Rio Preto'],'SLZ':['🇧🇷','São Luís'],'SSA':['🇧🇷','Salvador'],'THE':['🇧🇷','Teresina'],'TPE':['🇹🇼','Taipé'],'TXL':['🇩🇪','Berlim'],'UDI':['🇧🇷','Uberlândia'],'VCP':['🇧🇷','Campinas'],'VIX':['🇧🇷','Vitória'],'XAP':['🇧🇷','Chapecó'],'ZRH':['🇨🇭','Zurique'],'ATH':['🇬🇷','Atenas']};
 function aeroTxt(c){const a=AERO[c];return a?a[1]:c;}
@@ -288,7 +288,7 @@ function graficos(){
   chart('cNoites',{type:'bar',data:{labels:anos,datasets:[
     {label:'fora de casa',data:met.map(m=>m.noites_fora||0),backgroundColor:OURO,borderRadius:3},
     {label:'hotel',data:met.map(m=>m.noites||0),backgroundColor:OURO2,borderRadius:3},
-    {label:'dias fora BR',data:met.map(m=>m.dias_fora||0),backgroundColor:'#5a4e38',borderRadius:3}]},
+    {label:'dias fora BR',data:met.map(m=>m.dias_fora||0),backgroundColor:'#D8C9A8',borderRadius:3}]},
     options:{maintainAspectRatio:false,scales:{x:{ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:9}}},plugins:{legend:{position:'bottom',labels:{font:{size:9},boxWidth:10,padding:8}}}}});
   const sg=sgF(); const meses=Array(12).fill(0); sg.forEach(s=>meses[+s.date.slice(5,7)-1]++);
   document.getElementById('mesAno').textContent=ANO==='todos'?'todos':ANO;
@@ -305,6 +305,22 @@ function graficos(){
 
 const CIA_IATA={'LATAM':'LA','TAM':'LA','GOL':'G3','Azul':'AD','TAP':'TP','Air France':'AF','KLM':'KL','Iberia':'IB','British Airways':'BA','Lufthansa':'LH','Swiss':'LX','Turkish':'TK','Qatar':'QR','Emirates':'EK','Cathay Pacific':'CX','Korean Air':'KE','SAS':'SK','Aegean':'A3','ITA':'AZ','Alitalia':'AZ','United':'UA','American':'AA','Delta':'DL','Avianca':'AV','Avianca Brasil':'O6','Copa':'CM','Sky':'H2','Aerolíneas':'AR','Webjet':'WH','Oceanair':'O6','easyJet':'U2','Ryanair':'FR','Vueling':'VY','Aer Lingus':'EI','Aeroméxico':'AM','Air Berlin':'AB','Passaredo':'2Z','Vietnam Airlines':'VN','ANA':'NH','Singapore Airlines':'SQ','EVA Air':'BR','Thai Airways':'TG','Royal Air Maroc':'AT'};
 function logoCia(nome){const c=CIA_IATA[nome];return c?`<img src="https://pics.avs.io/120/40/${c}@2x.png" alt="" onerror="this.outerHTML='<span style=&quot;width:30px;text-align:center;flex:none&quot;>✈︎</span>'">`:'<span style="width:30px;text-align:center;flex:none">✈︎</span>';}
+// código IATA da cia que OPERA o voo (op > prefixo do nº do voo > nome da cia > código no nome tipo "BA/Iberia")
+function ciaCode(f){
+  var c=(f.op||'').toUpperCase(); if(/^[A-Z0-9]{2}$/.test(c))return c;
+  var a=f.airline||'';
+  if(/^[A-Z]{2}\//.test(a))return a.slice(0,2);            // "BA/Iberia" -> BA
+  if(CIA_IATA[a])return CIA_IATA[a];                       // nome exato
+  var al=a.toLowerCase();
+  for(var k in CIA_IATA){ if(al.includes(k.toLowerCase()))return CIA_IATA[k]; } // nome contém cia conhecida
+  var m=(f.flight||'').replace(/[^A-Za-z0-9]/g,'').toUpperCase();
+  if(/^[A-Z][A-Z0-9][0-9]/.test(m)){var p=m.slice(0,2); if(p!=='EJ')return p;}  // prefixo tipo LA3170, BA7052
+  return '';
+}
+function logoVoo(f){
+  var c=ciaCode(f);
+  return c?`<img src="https://pics.avs.io/120/40/${c}@2x.png" alt="" onerror="this.outerHTML='<span style=&quot;width:30px;text-align:center;flex:none&quot;>✈︎</span>'">`:'<span style="width:30px;text-align:center;flex:none">✈︎</span>';
+}
 function barras(id, pares, fmtV, logoFn, wide){
   const max=pares.length?pares[0][1]:1;
   document.getElementById(id).innerHTML=pares.map(([n,v])=>
@@ -441,7 +457,7 @@ function proximas(){
     html+=`<div class="trip"><div class="trip-h"><b>${fdata(t.ini)} → ${fdata(t.fim)}</b><span>${dd<=0?'em curso':'em '+dd+' dias'}</span></div>`;
     for(const e of t.itens){
       if(e.tipo==='voo'){const f=e.item;
-        html+=`<div class="trow"><span class="ic">${f.op||f.airline?logoCia(f.airline||''):'✈︎'}</span><div class="mid"><div class="r1">${flag(f.from)}${f.from} → ${flag(f.to)}${f.to}</div><div class="r2">${fdata(f.date)}${f.dep?' · '+f.dep:''}${f.airline?' · '+f.airline:''} ${f.flight||''}</div></div>${f.pnr?`<span class="pnr">${f.pnr}</span>`:''}</div>`;
+        html+=`<div class="trow"><span class="ic">${logoVoo(f)}</span><div class="mid"><div class="r1">${flag(f.from)}${f.from} → ${flag(f.to)}${f.to}</div><div class="r2">${fdata(f.date)}${f.dep?' · '+f.dep:''}${f.airline?' · '+f.airline:''} ${f.flight||''}</div></div>${f.pnr?`<span class="pnr">${f.pnr}</span>`:''}</div>`;
       }else{const h=e.item;
         html+=`<div class="trow"><span class="ic">${logoHotel(redeDe(h.hotel))}</span><div class="mid"><div class="r1">${h.hotel}</div><div class="r2">${fdata(h.checkin)} → ${fdata(h.checkout)}${h.room?' · '+h.room:''}</div></div>${h.conf?`<span class="pnr">${h.conf}</span>`:''}</div>`;
       }
@@ -454,8 +470,8 @@ function proximas(){
 
 Chart.defaults.font.family='Montserrat';
 Chart.defaults.font.size=9;
-Chart.defaults.color='#8a8072';
-Chart.defaults.borderColor='rgba(255,255,255,.06)';
+Chart.defaults.color='#5A5045';
+Chart.defaults.borderColor='rgba(0,0,0,.07)';
 </script>
 </body>
 </html>
