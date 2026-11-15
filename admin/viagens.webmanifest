@@ -1,0 +1,15 @@
+{
+  "name": "Minhas Viagens · Luli Dias",
+  "short_name": "Viagens",
+  "description": "BI de viagens do Luli — voos, estadias, países, recordes.",
+  "start_url": "viagens-mobile.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#14120f",
+  "theme_color": "#14120f",
+  "icons": [
+    { "src": "viagens-icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "viagens-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

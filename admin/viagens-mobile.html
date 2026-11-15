@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex,nofollow">
+<title>Viagens · Luli Dias</title>
+<!-- app na tela de início -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Viagens">
+<meta name="theme-color" content="#14120f">
+<link rel="apple-touch-icon" href="viagens-icon-180.png">
+<link rel="icon" href="viagens-icon-512.png">
+<link rel="manifest" href="viagens.webmanifest">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#14120f;--bg2:#1c1915;--card:#201c17;--line:#332d25;--line2:#43392d;
+  --gold:#D4AE5C;--gold2:#B8922A;--gold-dim:#8f7a4e;
+  --txt:#F0E8DA;--txt2:#B8AE9C;--txt3:#8a8072;
+}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--txt);font-family:'Montserrat',sans-serif;font-size:14px;
+  padding-bottom:calc(40px + env(safe-area-inset-bottom));-webkit-font-smoothing:antialiased}
+/* topo fixo */
+.top{position:sticky;top:0;z-index:40;background:rgba(20,18,15,.86);backdrop-filter:saturate(1.4) blur(12px);
+  border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top)) 16px 0}
+.top .bar{display:flex;align-items:center;gap:10px;padding-bottom:10px}
+.top .mk{width:26px;height:26px;flex:none}
+.top .tt{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;letter-spacing:.3px}
+.top .tt em{color:var(--gold);font-style:italic}
+.top .upd{margin-left:auto;font-size:9px;color:var(--txt3);letter-spacing:1px;text-align:right;line-height:1.3}
+/* anos: chips roláveis */
+.anos{display:flex;gap:7px;overflow-x:auto;padding:0 0 11px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.anos::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line2);background:transparent;color:var(--txt2);
+  padding:7px 14px;border-radius:30px;font:600 12px/1 Montserrat;letter-spacing:.5px}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#1a140a}
+.wrap{padding:16px 14px 0;max-width:620px;margin:0 auto}
+h1{font-family:'Playfair Display',serif;font-weight:400;font-size:24px;text-align:center;margin:6px 0 2px}
+.sub{text-align:center;font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--txt3);margin-bottom:20px}
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:22px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 10px;text-align:center}
+.kpi b{font-family:'Playfair Display',serif;font-size:30px;font-weight:600;color:var(--gold);display:block;line-height:1;white-space:nowrap}
+.kpi span{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--txt2);margin-top:6px;display:block}
+.kpi i{display:block;font-style:normal;font-size:8.5px;color:var(--txt3);margin-top:4px}
+.kpi i b{display:inline;font-size:8.5px;font-family:Montserrat;color:var(--gold-dim)}
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 14px;margin-bottom:14px}
+.card>h3{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:600;display:flex;gap:6px;align-items:center}
+.card>h3 .yr{color:var(--txt3);font-size:8.5px;letter-spacing:1px;margin-left:auto}
+.card canvas{max-height:230px}
+/* próximas */
+.prox{border-left:3px solid var(--gold)}
+.trip{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.trip:last-child{margin-bottom:0}
+.trip-h{background:rgba(212,174,92,.09);padding:9px 12px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.trip-h b{font-family:'Playfair Display',serif;font-size:14px;font-weight:600}
+.trip-h span{font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:600;white-space:nowrap}
+.trow{display:flex;gap:9px;padding:8px 12px;border-top:1px solid var(--line);font-size:12px;align-items:center}
+.trow .ic{width:40px;text-align:center;flex:none}
+.trow .ic img{max-width:40px;max-height:20px;object-fit:contain;vertical-align:middle;border-radius:2px}
+.trow .mid{flex:1;min-width:0}
+.trow .mid .r1{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trow .mid .r2{font-size:10px;color:var(--txt3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.pnr{font-family:ui-monospace,Menlo,monospace;font-size:10px;background:rgba(212,174,92,.12);border:1px solid var(--line2);color:var(--gold);padding:2px 7px;border-radius:5px;letter-spacing:.5px;flex:none}
+/* listas de barras (cias/hotéis/aviões) */
+.blist{display:flex;flex-direction:column;gap:9px}
+.brow{display:flex;align-items:center;gap:9px;font-size:11px}
+.brow img{width:30px;height:18px;object-fit:contain;flex:none}
+.brow .nm{flex:none;width:96px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt)}
+.brow.wide .nm{width:120px}
+.brow .bwrap{flex:1;height:8px;background:rgba(255,255,255,.05);border-radius:5px;overflow:hidden}
+.brow .bar{height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:5px}
+.brow .val{flex:none;color:var(--txt2);font-size:10px;width:62px;text-align:right}
+/* recordes */
+.rec{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.rec:last-child{border-bottom:none}
+.rec b{flex:none;width:40%;font-size:11px;color:var(--txt2);font-weight:500}
+.rec span{flex:1;font-size:11px;color:var(--txt)}
+.rec span em{color:var(--gold);font-style:normal}
+/* tabelas recolhíveis */
+details.sect{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden}
+details.sect>summary{list-style:none;padding:15px 14px;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer}
+details.sect>summary::-webkit-details-marker{display:none}
+details.sect>summary .ct{color:var(--txt3);letter-spacing:1px}
+details.sect>summary .arw{margin-left:auto;color:var(--txt3);transition:transform .2s}
+details.sect[open]>summary .arw{transform:rotate(180deg)}
+.sbody{padding:0 14px 14px}
+.busca{width:100%;background:var(--bg2);border:1px solid var(--line2);color:var(--txt);border-radius:9px;
+  padding:10px 12px;font:400 13px Montserrat;margin-bottom:9px}
+.busca::placeholder{color:var(--txt3)}
+.selrow{display:flex;gap:7px;margin-bottom:9px;flex-wrap:wrap}
+.selrow select{flex:1;min-width:46%;background:var(--bg2);border:1px solid var(--line2);color:var(--txt);border-radius:9px;padding:9px;font:400 12px Montserrat}
+.lst{max-height:60vh;overflow:auto;-webkit-overflow-scrolling:touch}
+.item{padding:10px 2px;border-bottom:1px solid var(--line);font-size:12px}
+.item:last-child{border-bottom:none}
+.item .l1{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.item .l1 b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .l1 .n{flex:none;color:var(--gold);font-size:11px}
+.item .l2{color:var(--txt3);font-size:10.5px;margin-top:2px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.item .l2 img{height:16px;width:auto;object-fit:contain;vertical-align:middle}
+/* login */
+#login{max-width:340px;margin:16vh auto 0;padding:32px 24px;text-align:center}
+#login .lk{width:62px;height:62px;margin:0 auto 18px;display:block}
+#login .lt{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:4px}
+#login .lm{font-size:11px;color:var(--txt3);margin-bottom:20px;line-height:1.5}
+#login input{width:100%;background:var(--bg2);border:1px solid var(--line2);color:var(--txt);border-radius:10px;padding:13px;font:400 15px Montserrat;text-align:center;letter-spacing:1px}
+#login button{width:100%;margin-top:14px;background:var(--gold);border:none;color:#1a140a;border-radius:10px;padding:14px;font:600 12px Montserrat;letter-spacing:2px;text-transform:uppercase}
+#login .err{color:#e08a7a;font-size:11px;margin-top:12px;min-height:14px}
+#login .hint{color:var(--txt3);font-size:10px;margin-top:16px;line-height:1.5}
+.ld{text-align:center;color:var(--txt3);font-size:11px;padding:40px}
+@media(min-width:560px){.kpis{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <img class="lk" src="viagens-icon-512.png" alt="">
+  <div class="lt">Minhas <span style="color:var(--gold);font-style:italic">Viagens</span></div>
+  <div class="lm">Cole a chave uma única vez.<br>Ela fica salva neste aparelho para sempre.</div>
+  <input type="password" id="chave" placeholder="chave do admin" autocomplete="off" autocapitalize="off" spellcheck="false"
+    onkeydown="if(event.key==='Enter')entrar()">
+  <button onclick="entrar()">Entrar</button>
+  <div class="err" id="loginerr"></div>
+  <div class="hint">Depois disto: toque no ícone na tela de início e abre direto, sem senha.</div>
+</div>
+
+<div id="shell" style="display:none">
+  <div class="top">
+    <div class="bar">
+      <img class="mk" src="viagens-icon-180.png" alt="">
+      <span class="tt">Minhas <em>Viagens</em></span>
+      <span class="upd" id="upd"></span>
+    </div>
+    <div class="anos" id="anos"></div>
+  </div>
+  <div class="wrap">
+    <h1>O histórico completo</h1>
+    <div class="sub" id="periodo"></div>
+
+    <div id="proxWrap" style="display:none">
+      <div class="card prox">
+        <h3>✈︎ Próximas viagens</h3>
+        <div id="proxBody"></div>
+      </div>
+    </div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="card"><h3>km voados por ano · voltas ao mundo</h3><canvas id="cKm"></canvas></div>
+    <div class="card"><h3>Noites fora · noites de hotel · dias fora do Brasil</h3><canvas id="cNoites"></canvas></div>
+    <div class="card"><h3>Decolagens por mês <span class="yr" id="mesAno"></span></h3><canvas id="cMes"></canvas></div>
+    <div class="card"><h3>Países por noites · top 12</h3><canvas id="cPaises"></canvas></div>
+    <div class="card"><h3>Cidades onde mais dormi · top 12</h3><canvas id="cCidades"></canvas></div>
+    <div class="card"><h3>Hotéis onde mais voltei · top 12</h3><canvas id="cHoteis"></canvas></div>
+
+    <div class="card" id="cardCias" style="display:none"><h3>✈︎ Companhias por voos <span class="yr" id="ciaAno"></span></h3><div class="blist" id="cCias"></div></div>
+    <div class="card" id="cardCiasKm" style="display:none"><h3>Companhias por km</h3><div class="blist" id="cCiasKm"></div></div>
+    <div class="card"><h3>🏨 Bandeiras de hotéis por estadias <span class="yr" id="marcaAno"></span></h3><div class="blist" id="cMarcas"></div></div>
+    <div class="card"><h3>Bandeiras de hotéis por noites</h3><div class="blist" id="cMarcasN"></div></div>
+    <div class="card" id="cardModelos" style="display:none"><h3>🛩 Modelos de avião por voos <span class="yr" id="modAno"></span></h3><div class="blist" id="cModelos"></div></div>
+    <div class="card" id="cardModelosKm" style="display:none"><h3>Modelos de avião por km</h3><div class="blist" id="cModelosKm"></div></div>
+
+    <div class="card"><h3>🏆 Recordes</h3><div id="recordes"></div></div>
+    <div class="card"><h3>Rotas mais voadas</h3><div class="blist" id="rotas"></div></div>
+
+    <details class="sect" id="secEst">
+      <summary>Todas as estadias <span class="ct" id="nEst"></span><span class="arw">▾</span></summary>
+      <div class="sbody">
+        <div class="selrow">
+          <select id="fEstPais" onchange="renderEstadias()"><option value="">País — todos</option></select>
+          <select id="fEstCidade" onchange="renderEstadias()"><option value="">Cidade — todas</option></select>
+        </div>
+        <input class="busca" id="bEst" placeholder="Buscar hotel, cidade ou país…" oninput="renderEstadias()">
+        <div class="lst" id="lEst"></div>
+      </div>
+    </details>
+
+    <details class="sect" id="secVoo">
+      <summary>Todos os voos <span class="ct" id="nVoo"></span><span class="arw">▾</span></summary>
+      <div class="sbody">
+        <div class="selrow">
+          <select id="fVooCia" onchange="renderVoos()"><option value="">Companhia — todas</option></select>
+          <select id="fVooAero" onchange="renderVoos()"><option value="">Aeroporto — todos</option></select>
+        </div>
+        <input class="busca" id="bVoo" placeholder="Buscar aeroporto, cidade ou data…" oninput="renderVoos()">
+        <div class="lst" id="lVoo"></div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<script>
+const WORKER='https://luli-admin.lulidias.workers.dev';
+const OURO='#D4AE5C', OURO2='#B8922A', TINTA='#C9BBA2';
+const COORD={PIK:[55.51,-4.59],CGH:[-23.63,-46.66],GRU:[-23.43,-46.47],SAO:[-23.5,-46.6],VCP:[-23.01,-47.13],REC:[-8.13,-34.92],EZE:[-34.82,-58.54],LIS:[38.77,-9.13],PTY:[9.07,-79.38],GYN:[-16.63,-49.22],FLN:[-27.67,-48.55],CWB:[-25.53,-49.18],BSB:[-15.87,-47.92],SDU:[-22.91,-43.16],RIO:[-22.9,-43.2],GIG:[-22.81,-43.25],SSA:[-12.91,-38.33],POA:[-29.99,-51.17],AJU:[-10.98,-37.07],MDZ:[-32.83,-68.79],SCL:[-33.39,-70.79],BOG:[4.7,-74.15],JFK:[40.64,-73.78],FOR:[-3.78,-38.53],CNF:[-19.62,-43.97],IGU:[-25.6,-54.49],CGB:[-15.65,-56.12],ORY:[48.72,2.38],PAR:[48.85,2.35],LYS:[45.73,5.08],OPO:[41.25,-8.68],MAD:[40.47,-3.57],MLA:[35.86,14.48],SVO:[55.97,37.41],FCO:[41.80,12.24],MXP:[45.63,8.72],MIL:[45.63,8.72],DOH:[25.27,51.61],OTP:[44.57,26.09],FRA:[50.03,8.57],CDG:[49.01,2.55],NCE:[43.66,7.22],MVD:[-34.84,-56.03],LIM:[-12.02,-77.11],CUZ:[-13.54,-71.94],AQP:[-16.34,-71.57],CPH:[55.62,12.65],BOD:[44.83,-0.72],AMS:[52.31,4.76],ZRH:[47.46,8.55],DUB:[53.43,-6.24],DUS:[51.29,6.77],NAT:[-5.9,-35.25],MCZ:[-9.51,-35.79],SLZ:[-2.59,-44.23],LDB:[-23.33,-51.13],NVT:[-26.88,-48.65],PVG:[31.14,121.81],SHA:[31.14,121.81],HKG:[22.31,113.91],MGF:[-23.48,-52.01],UDI:[-18.88,-48.23],MIA:[25.79,-80.29],BCN:[41.3,2.08],EDI:[55.95,-3.36],MPL:[43.58,3.96],BEL:[-1.38,-48.48],LHR:[51.47,-0.45],IST:[41.26,28.74],KIX:[34.43,135.24],ICN:[37.46,126.44],PEK:[40.08,116.58],HND:[35.55,139.78],BKK:[13.68,100.75],HAN:[21.22,105.81],POR:[41.25,-8.68],BOR:[44.83,-0.72],COP:[55.62,12.65],GOI:[-16.63,-49.22],LON:[51.47,-0.45],MUC:[48.35,11.79],TPE:[25.08,121.23],DXB:[25.25,55.36],SIN:[1.36,103.99],NRT:[35.77,140.39],CMN:[33.37,-7.59],ATH:[37.94,23.94],AEP:[-34.56,-58.42],BPS:[-16.44,-39.08],BVA:[49.45,2.11],BVB:[2.85,-60.69],CUN:[21.04,-86.87],FEN:[-3.85,-32.42],IOS:[-14.82,-39.03],MAO:[-3.04,-60.05],MEX:[19.44,-99.07],MRS:[43.44,5.22],PLU:[-19.85,-43.95],PMW:[-10.29,-48.36],PVH:[-8.71,-63.9],RAO:[-21.14,-47.77],SJP:[-20.82,-49.4],THE:[-5.06,-42.82],TXL:[52.56,13.29],VIX:[-20.26,-40.29],XAP:[-27.13,-52.66],BHZ:[-19.62,-43.97],FLO:[-27.67,-48.55],SAL:[-12.91,-38.33],SAN:[-33.39,-70.79],CUR:[-25.53,-49.18],VIT:[-20.26,-40.29],CAM:[-23.01,-47.13],BRA:[-15.87,-47.92],PAL:[-10.29,-48.36],TER:[-5.06,-42.82]};
+const AERO={'AEP':['🇦🇷','Buenos Aires'],'AJU':['🇧🇷','Aracaju'],'AMS':['🇳🇱','Amesterdão'],'AQP':['🇵🇪','Arequipa'],'BCN':['🇪🇸','Barcelona'],'BEL':['🇧🇷','Belém'],'BKK':['🇹🇭','Banguecoque'],'BOD':['🇫🇷','Bordéus'],'BOG':['🇨🇴','Bogotá'],'BPS':['🇧🇷','Porto Seguro'],'BSB':['🇧🇷','Brasília'],'BVA':['🇫🇷','Paris-Beauvais'],'BVB':['🇧🇷','Boa Vista'],'CDG':['🇫🇷','Paris'],'CGB':['🇧🇷','Cuiabá'],'CGH':['🇧🇷','São Paulo'],'CMN':['🇲🇦','Casablanca'],'CNF':['🇧🇷','Belo Horizonte'],'CPH':['🇩🇰','Copenhaga'],'CUN':['🇲🇽','Cancún'],'CUZ':['🇵🇪','Cusco'],'CWB':['🇧🇷','Curitiba'],'DOH':['🇶🇦','Doha'],'DUB':['🇮🇪','Dublin'],'DUS':['🇩🇪','Düsseldorf'],'DXB':['🇦🇪','Dubai'],'EDI':['🏴󠁧󠁢󠁳󠁣󠁴󠁿','Edimburgo'],'EZE':['🇦🇷','Buenos Aires'],'FEN':['🇧🇷','Fernando de Noronha'],'FLN':['🇧🇷','Florianópolis'],'FOR':['🇧🇷','Fortaleza'],'FRA':['🇩🇪','Frankfurt'],'GIG':['🇧🇷','Rio de Janeiro'],'GRU':['🇧🇷','São Paulo'],'GYN':['🇧🇷','Goiânia'],'HAN':['🇻🇳','Hanói'],'HKG':['🇭🇰','Hong Kong'],'HND':['🇯🇵','Tóquio'],'ICN':['🇰🇷','Seul'],'IGU':['🇧🇷','Foz do Iguaçu'],'IOS':['🇧🇷','Ilhéus'],'IST':['🇹🇷','Istambul'],'JFK':['🇺🇸','Nova Iorque'],'KIX':['🇯🇵','Osaka'],'LDB':['🇧🇷','Londrina'],'LHR':['🇬🇧','Londres'],'LIM':['🇵🇪','Lima'],'LIS':['🇵🇹','Lisboa'],'LYS':['🇫🇷','Lyon'],'MAD':['🇪🇸','Madrid'],'MAO':['🇧🇷','Manaus'],'MCZ':['🇧🇷','Maceió'],'MDZ':['🇦🇷','Mendoza'],'MEX':['🇲🇽','Cidade do México'],'MGF':['🇧🇷','Maringá'],'MIA':['🇺🇸','Miami'],'MLA':['🇲🇹','Malta'],'SVO':['🇷🇺','Moscou'],'FCO':['🇮🇹','Roma'],'MPL':['🇫🇷','Montpellier'],'MRS':['🇫🇷','Marselha'],'MVD':['🇺🇾','Montevideu'],'MXP':['🇮🇹','Milão'],'NAT':['🇧🇷','Natal'],'NCE':['🇫🇷','Nice'],'NRT':['🇯🇵','Tóquio-Narita'],'NVT':['🇧🇷','Navegantes'],'OPO':['🇵🇹','Porto'],'ORY':['🇫🇷','Paris-Orly'],'OTP':['🇷🇴','Bucareste'],'PEK':['🇨🇳','Pequim'],'PIK':['🏴󠁧󠁢󠁳󠁣󠁴󠁿','Glasgow-Prestwick'],'PLU':['🇧🇷','BH-Pampulha'],'PMW':['🇧🇷','Palmas'],'POA':['🇧🇷','Porto Alegre'],'PTY':['🇵🇦','Panamá'],'PVG':['🇨🇳','Xangai'],'PVH':['🇧🇷','Porto Velho'],'RAO':['🇧🇷','Ribeirão Preto'],'REC':['🇧🇷','Recife'],'SAO':['🇧🇷','São Paulo'],'SCL':['🇨🇱','Santiago'],'SDU':['🇧🇷','Rio-Santos Dumont'],'SIN':['🇸🇬','Singapura'],'SJP':['🇧🇷','S. J. do Rio Preto'],'SLZ':['🇧🇷','São Luís'],'SSA':['🇧🇷','Salvador'],'THE':['🇧🇷','Teresina'],'TPE':['🇹🇼','Taipé'],'TXL':['🇩🇪','Berlim'],'UDI':['🇧🇷','Uberlândia'],'VCP':['🇧🇷','Campinas'],'VIX':['🇧🇷','Vitória'],'XAP':['🇧🇷','Chapecó'],'ZRH':['🇨🇭','Zurique'],'ATH':['🇬🇷','Atenas']};
+function aeroTxt(c){const a=AERO[c];return a?a[1]:c;}
+function aeroL(c){const a=AERO[c];return a?a[0]+' '+a[1]:c;}
+function flag(c){const a=AERO[c];return a?a[0]+' ':'';}
+function kmSeg(a,b){a=COORD[a];b=COORD[b];if(!a||!b)return 0;const p=Math.PI/180,[la1,lo1]=a,[la2,lo2]=b;const x=.5-Math.cos((la2-la1)*p)/2+Math.cos(la1*p)*Math.cos(la2*p)*(1-Math.cos((lo2-lo1)*p))/2;return 12742*Math.asin(Math.sqrt(x));}
+const fmt=n=>Math.round(n).toLocaleString('pt-BR');
+const normC=c=>{const t=(c||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');const m={'lisbon':'lisboa','milan':'milao','seville':'sevilha','tokyo':'toquio'};return m[t]||t;};
+const cap=s=>s.replace(/\b\w/g,c=>c.toUpperCase());
+let D=null, ANO='todos', charts={};
+
+let adminKey=localStorage.getItem('worker_key')||'';
+async function entrar(){
+  const k=(document.getElementById('chave').value.trim())||adminKey;
+  if(!k){document.getElementById('loginerr').textContent='Cole a chave.';return;}
+  document.getElementById('loginerr').textContent='Entrando…';
+  let r;
+  try{ r=await fetch(WORKER+'/viagens',{headers:{'X-Admin-Key':k}}); }
+  catch(e){ document.getElementById('loginerr').textContent='Sem ligação.'; return; }
+  if(!r.ok){document.getElementById('loginerr').textContent='Chave inválida ('+r.status+')';return;}
+  localStorage.setItem('worker_key',k); adminKey=k;
+  D=await r.json();
+  document.getElementById('login').style.display='none';
+  document.getElementById('shell').style.display='';
+  document.getElementById('upd').innerHTML='dados de<br>'+dataBR(D.atualizado);
+  montar();
+}
+if(adminKey){document.getElementById('login').style.display='none';
+  document.body.insertAdjacentHTML('afterbegin','<div class="ld" id="ld">A carregar as viagens…</div>');
+  entrar().then(()=>{const l=document.getElementById('ld');if(l)l.remove();})
+          .catch(()=>{const l=document.getElementById('ld');if(l)l.remove();document.getElementById('login').style.display='';});
+}
+
+function anosDisp(){return Object.keys(D.metricas).sort();}
+function stF(){return D.stays.filter(s=>ANO==='todos'||s.checkin.startsWith(ANO));}
+function stH(){return stF().filter(s=>s.tipo!=='casa');}
+function sgF(){return D.segments.filter(s=>ANO==='todos'||s.date.startsWith(ANO));}
+
+function montar(){
+  const div=document.getElementById('anos'); div.innerHTML='';
+  ['todos',...anosDisp()].forEach(a=>{
+    const b=document.createElement('button');b.className='chip'+(a===ANO?' on':'');b.textContent=a==='todos'?'Todos':a;
+    b.onclick=()=>{ANO=a;montar();document.querySelector('.wrap').scrollIntoView({behavior:'smooth',block:'start'});};div.appendChild(b);
+    if(a===ANO)setTimeout(()=>b.scrollIntoView({inline:'center',block:'nearest'}),0);
+  });
+  const anos=anosDisp();
+  document.getElementById('periodo').textContent=anos[0]+' — '+anos[anos.length-1]+' · auditado de e-mails e fotografias';
+  kpis(); graficos(); recordes(); rotas(); popularFiltros(); renderEstadias(); renderVoos(); proximas();
+}
+
+function kpis(){
+  const st=stH(), sg=sgF();
+  const km=ANO==='todos'?Object.values(D.metricas).reduce((a,m)=>a+(m.km||0),0):(D.metricas[ANO]?.km||0);
+  const noites=st.reduce((a,s)=>a+s.nights,0);
+  const paises=new Set(stF().map(s=>s.country)); paises.add('Brazil');
+  const hoteis=new Set(st.map(s=>normC(s.hotel)));
+  const diasFora=ANO==='todos'?Object.values(D.metricas).reduce((a,m)=>a+(m.dias_fora||0),0):(D.metricas[ANO]?.dias_fora||0);
+  const ref=ANO==='todos'?Object.values(D.metricas).reduce((a,m)=>a+(m.ref||0),0):(D.metricas[ANO]?.ref||0);
+  const noitesFora=ANO==='todos'?Object.values(D.metricas).reduce((a,m)=>a+(m.noites_fora||0),0):(D.metricas[ANO]?.noites_fora||0);
+  const K=[['Decolagens',fmt(sg.length)],['km voados',fmt(km)],['Voltas ao mundo',(km/40075).toFixed(1)],['Noites fora de casa',fmt(noitesFora)],['Noites de hotel',fmt(noites)],['Estadias',fmt(st.length)],['Hotéis distintos',fmt(hoteis.size)],['Países',fmt(paises.size)],['Dias fora do Brasil',fmt(diasFora)],['Refeições fora','~'+fmt(ref)]];
+  const prev={};
+  const anoAtual=String(new Date().getFullYear());
+  if(ANO===anoAtual&&D.upcoming){
+    const hoje=new Date().toISOString().slice(0,10);
+    const fv=(D.upcoming.flights||[]).filter(f=>f.date>=hoje&&f.date.startsWith(anoAtual));
+    const fh=(D.upcoming.hotels||[]).filter(h=>(h.checkin||'')>=hoje&&(h.checkin||'').startsWith(anoAtual));
+    if(fv.length){const kmP=fv.reduce((a,f)=>a+kmSeg(f.from,f.to),0);
+      prev['Decolagens']=fmt(sg.length+fv.length);prev['km voados']=fmt(km+kmP);prev['Voltas ao mundo']=((km+kmP)/40075).toFixed(1);}
+    if(fh.length){prev['Estadias']=fmt(st.length+fh.length);prev['Noites de hotel']=fmt(noites+fh.reduce((a,h)=>a+(h.nights||0),0));}
+  }
+  document.getElementById('kpis').innerHTML=K.map(([l,v])=>`<div class="kpi"><b>${v}</b><span>${l}</span>${prev[l]!==undefined?`<i>c/ marcadas <b>${prev[l]}</b></i>`:''}</div>`).join('');
+}
+
+const PAISPT={Brazil:'Brasil',France:'França',Portugal:'Portugal',Italy:'Itália',Spain:'Espanha',Japan:'Japão','South Korea':'Coreia do Sul',China:'China','Hong Kong':'Hong Kong',Turkey:'Turquia',Peru:'Peru',Argentina:'Argentina',Uruguay:'Uruguai',Germany:'Alemanha',Denmark:'Dinamarca',Ireland:'Irlanda','United Kingdom':'Reino Unido',Thailand:'Tailândia',Vietnam:'Vietname','Vietnã':'Vietname',Qatar:'Catar',Romania:'Roménia',Morocco:'Marrocos',Austria:'Áustria',Netherlands:'Países Baixos',Chile:'Chile',Colombia:'Colômbia',Panama:'Panamá',Greece:'Grécia'};
+const FLAG={'Brasil':'🇧🇷','Brazil':'🇧🇷','França':'🇫🇷','France':'🇫🇷','Portugal':'🇵🇹','Itália':'🇮🇹','Italy':'🇮🇹','Espanha':'🇪🇸','Spain':'🇪🇸','Japão':'🇯🇵','Japan':'🇯🇵','Coreia do Sul':'🇰🇷','South Korea':'🇰🇷','China':'🇨🇳','Hong Kong':'🇭🇰','Turquia':'🇹🇷','Turkey':'🇹🇷','Peru':'🇵🇪','Argentina':'🇦🇷','Uruguai':'🇺🇾','Uruguay':'🇺🇾','Alemanha':'🇩🇪','Germany':'🇩🇪','Dinamarca':'🇩🇰','Denmark':'🇩🇰','Irlanda':'🇮🇪','Ireland':'🇮🇪','Reino Unido':'🇬🇧','United Kingdom':'🇬🇧','Escócia':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Scotland':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Tailândia':'🇹🇭','Thailand':'🇹🇭','Vietname':'🇻🇳','Vietnã':'🇻🇳','Vietnam':'🇻🇳','Catar':'🇶🇦','Qatar':'🇶🇦','Roménia':'🇷🇴','Romania':'🇷🇴','Marrocos':'🇲🇦','Morocco':'🇲🇦','Áustria':'🇦🇹','Austria':'🇦🇹','Países Baixos':'🇳🇱','Netherlands':'🇳🇱','Holanda':'🇳🇱','Chile':'🇨🇱','Colômbia':'🇨🇴','Colombia':'🇨🇴','Panamá':'🇵🇦','Panama':'🇵🇦','Grécia':'🇬🇷','Greece':'🇬🇷','Taiwan':'🇹🇼','Emirados Árabes Unidos':'🇦🇪','United Arab Emirates':'🇦🇪','Suíça':'🇨🇭','Switzerland':'🇨🇭','EUA':'🇺🇸','United States':'🇺🇸','USA':'🇺🇸','México':'🇲🇽','Mexico':'🇲🇽','Mónaco':'🇲🇨','Monaco':'🇲🇨','Singapura':'🇸🇬','Singapore':'🇸🇬','Malta':'🇲🇹','Rússia':'🇷🇺','Russia':'🇷🇺'};
+function flagP(c){const pt=PAISPT[c]||c;return (FLAG[c]||FLAG[pt]||'🏳️')+' '+pt;}
+function chart(id,cfg){if(charts[id])charts[id].destroy();charts[id]=new Chart(document.getElementById(id),cfg);}
+function topN(lista,keyF,valF,n){const c={};lista.forEach(s=>{const k=keyF(s);c[k]=(c[k]||0)+valF(s);});return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,n);}
+
+function graficos(){
+  const anos=anosDisp(), met=anos.map(a=>D.metricas[a]);
+  const kmMax=Math.max(...met.map(m=>m.km));
+  chart('cKm',{type:'bar',data:{labels:anos,datasets:[
+    {label:'km',data:met.map(m=>Math.round(m.km)),backgroundColor:OURO,yAxisID:'y',borderRadius:3},
+    {label:'voltas',data:met.map(m=>+(m.km/40075).toFixed(1)),type:'line',yAxisID:'y2',borderColor:TINTA,pointBackgroundColor:TINTA,pointRadius:2,tension:.3}]},
+    options:{maintainAspectRatio:false,scales:{x:{ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:9}},y:{beginAtZero:true,max:Math.ceil(kmMax/50000)*50000},y2:{position:'right',grid:{display:false},beginAtZero:true,max:Math.ceil(kmMax/50000)*50000/40075,ticks:{callback:v=>v.toFixed(0)}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.datasetIndex?c.parsed.y+' voltas':c.parsed.y.toLocaleString('pt-BR')+' km'}}}}});
+  chart('cNoites',{type:'bar',data:{labels:anos,datasets:[
+    {label:'fora de casa',data:met.map(m=>m.noites_fora||0),backgroundColor:OURO,borderRadius:3},
+    {label:'hotel',data:met.map(m=>m.noites||0),backgroundColor:OURO2,borderRadius:3},
+    {label:'dias fora BR',data:met.map(m=>m.dias_fora||0),backgroundColor:'#5a4e38',borderRadius:3}]},
+    options:{maintainAspectRatio:false,scales:{x:{ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:9}}},plugins:{legend:{position:'bottom',labels:{font:{size:9},boxWidth:10,padding:8}}}}});
+  const sg=sgF(); const meses=Array(12).fill(0); sg.forEach(s=>meses[+s.date.slice(5,7)-1]++);
+  document.getElementById('mesAno').textContent=ANO==='todos'?'todos':ANO;
+  chart('cMes',{type:'bar',data:{labels:['J','F','M','A','M','J','J','A','S','O','N','D'],datasets:[{data:meses,backgroundColor:OURO2,borderRadius:3}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}}}});
+  const st=stF(), stSemCasa=stH();
+  const tp=topN(st,s=>PAISPT[s.country]||s.country,s=>s.nights,12);
+  chart('cPaises',{type:'bar',data:{labels:tp.map(x=>x[0]),datasets:[{data:tp.map(x=>x[1]),backgroundColor:OURO,borderRadius:3}]},options:{maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}}}});
+  const tc=topN(st,s=>cap(normC(s.city)),s=>1,12);
+  chart('cCidades',{type:'bar',data:{labels:tc.map(x=>x[0]),datasets:[{data:tc.map(x=>x[1]),backgroundColor:OURO2,borderRadius:3}]},options:{maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}}}});
+  const th=topN(stSemCasa,s=>s.hotel.split('—')[0].split('(')[0].trim(),s=>1,12);
+  chart('cHoteis',{type:'bar',data:{labels:th.map(x=>x[0].slice(0,24)),datasets:[{data:th.map(x=>x[1]),backgroundColor:OURO,borderRadius:3}]},options:{maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}}}});
+  companhias(); marcas(); modelos();
+}
+
+const CIA_IATA={'LATAM':'LA','TAM':'LA','GOL':'G3','Azul':'AD','TAP':'TP','Air France':'AF','KLM':'KL','Iberia':'IB','British Airways':'BA','Lufthansa':'LH','Swiss':'LX','Turkish':'TK','Qatar':'QR','Emirates':'EK','Cathay Pacific':'CX','Korean Air':'KE','SAS':'SK','Aegean':'A3','ITA':'AZ','Alitalia':'AZ','United':'UA','American':'AA','Delta':'DL','Avianca':'AV','Avianca Brasil':'O6','Copa':'CM','Sky':'H2','Aerolíneas':'AR','Webjet':'WH','Oceanair':'O6','easyJet':'U2','Ryanair':'FR','Vueling':'VY','Aer Lingus':'EI','Aeroméxico':'AM','Air Berlin':'AB','Passaredo':'2Z','Vietnam Airlines':'VN','ANA':'NH','Singapore Airlines':'SQ','EVA Air':'BR','Thai Airways':'TG','Royal Air Maroc':'AT'};
+function logoCia(nome){const c=CIA_IATA[nome];return c?`<img src="https://pics.avs.io/120/40/${c}@2x.png" alt="" onerror="this.outerHTML='<span style=&quot;width:30px;text-align:center;flex:none&quot;>✈︎</span>'">`:'<span style="width:30px;text-align:center;flex:none">✈︎</span>';}
+function barras(id, pares, fmtV, logoFn, wide){
+  const max=pares.length?pares[0][1]:1;
+  document.getElementById(id).innerHTML=pares.map(([n,v])=>
+    `<div class="brow${wide?' wide':''}">${logoFn?logoFn(n):''}<span class="nm" title="${n}">${n}</span><div class="bwrap"><div class="bar" style="width:${Math.max(3,Math.round(v/max*100))}%"></div></div><span class="val">${fmtV(v)}</span></div>`).join('')||'<div style="color:var(--txt3);font-size:11px">sem dados neste ano</div>';
+}
+function companhias(){
+  const sg=sgF().filter(s=>s.cia&&s.cia!=='?');
+  const show=sg.length;
+  document.getElementById('cardCias').style.display=show?'':'none';
+  document.getElementById('cardCiasKm').style.display=show?'':'none';
+  if(!show)return;
+  document.getElementById('ciaAno').textContent=ANO==='todos'?'todos':ANO;
+  const v={}, km={};
+  sg.forEach(s=>{v[s.cia]=(v[s.cia]||0)+1;km[s.cia]=(km[s.cia]||0)+kmSeg(s.from,s.to);});
+  barras('cCias', Object.entries(v).sort((a,b)=>b[1]-a[1]).slice(0,10), x=>x+'×', logoCia, true);
+  barras('cCiasKm', Object.entries(km).sort((a,b)=>b[1]-a[1]).slice(0,10), x=>fmt(x)+' km', logoCia, true);
+}
+const REDES=[['four seasons','Four Seasons'],['novotel','Novotel'],['sofitel','Sofitel'],['mercure','Mercure'],['ibis','ibis'],['pullman','Pullman'],['fasano','Fasano'],['sheraton','Sheraton'],['radisson','Radisson'],['hilton','Hilton'],['hyatt','Hyatt'],['jw marriott','JW Marriott'],['marriott','Marriott'],['renaissance','Renaissance'],['le meridien','Le Méridien'],['westin','Westin'],['w hotel','W Hotels'],['st regis','St. Regis'],['ritz','Ritz-Carlton'],['autograph','Autograph Collection'],['ac hotel','AC Hotels'],['intercontinental','InterContinental'],['holiday inn','Holiday Inn'],['crowne plaza','Crowne Plaza'],['kimpton','Kimpton'],['gran melia','Meliá'],['melia','Meliá'],['tryp','TRYP'],['nh ','NH'],['nh collection','NH'],['best western','Best Western'],['bw premier','Best Western'],['kempinski','Kempinski'],['jumeirah','Jumeirah'],['mandarin oriental','Mandarin Oriental'],['lotte','Lotte'],['fairmont','Fairmont'],['belmond','Belmond'],['rocco forte','Rocco Forte'],['oetker','Oetker Collection'],['tivoli','Tivoli'],['portobay','PortoBay'],['pestana','Pestana'],['iberostar','Iberostar'],['eurostars','Eurostars'],['golden tulip','Golden Tulip'],['royal tulip','Royal Tulip'],['transamerica','Transamerica'],['deville','Deville'],['wish ','Wish'],['windsor','Windsor'],['bourbon','Bourbon'],['intercity','Intercity'],['bugan','Bugan'],['atlantica','Bugan'],['corinthia','Corinthia'],['h10 ','H10'],['sana','SANA'],['laghetto','Laghetto'],['blue tree','Blue Tree']];
+function redeDe(hotel){const n=(hotel||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');if(!n.trim())return null;for(const [pat,nome] of REDES) if(n.includes(pat)) return nome;return hotel.split('(')[0].split(' — ')[0].split(' - ')[0].trim().replace(/\s+/g,' ');}
+const REDE_DOMINIO={'Four Seasons':'fourseasons.com','Novotel':'novotel.com','Sofitel':'sofitel.com','Mercure':'mercure.com','ibis':'ibis.com','Pullman':'pullmanhotels.com','Fasano':'fasano.com.br','Sheraton':'sheraton.com','Radisson':'radissonhotels.com','Hilton':'hilton.com','Hyatt':'hyatt.com','JW Marriott':'marriott.com','Marriott':'marriott.com','Renaissance':'marriott.com','Le Méridien':'marriott.com','Westin':'westin.com','W Hotels':'marriott.com','St. Regis':'marriott.com','Ritz-Carlton':'ritzcarlton.com','Autograph Collection':'marriott.com','AC Hotels':'marriott.com','InterContinental':'ihg.com','Holiday Inn':'ihg.com','Crowne Plaza':'ihg.com','Meliá':'melia.com','TRYP':'melia.com','NH':'nh-hotels.com','Best Western':'bestwestern.com','Kempinski':'kempinski.com','Jumeirah':'jumeirah.com','Mandarin Oriental':'mandarinoriental.com','Lotte':'lottehotel.com','Fairmont':'fairmont.com','Belmond':'belmond.com','Rocco Forte':'roccofortehotels.com','Oetker Collection':'oetkercollection.com','Tivoli':'tivolihotels.com','PortoBay':'portobay.com','Pestana':'pestana.com','Iberostar':'iberostar.com','Eurostars':'eurostarshotels.com','Golden Tulip':'goldentulip.com','Transamerica':'transamericagroup.com.br','Deville':'deville.com.br','Windsor':'windsorhoteis.com','Bourbon':'bourbon.com.br','Intercity':'intercityhoteis.com.br','Bugan':'buganhotel.com.br','Corinthia':'corinthia.com','SANA':'sanahotels.com','Laghetto':'hoteislaghetto.com.br','Blue Tree':'bluetree.com.br','Herdade dos Grous':'herdadedosgrous.com','Viña Tarapacá':'tarapaca.cl','Fontainebleau Miami Beach':'fontainebleau.com'};
+function logoHotel(nome){const base=(nome||'').split('(')[0].trim();let d=REDE_DOMINIO[nome]||REDE_DOMINIO[base];if(!d){let best='';for(const k in REDE_DOMINIO){if((base===k||base.startsWith(k+' '))&&k.length>best.length)best=k;}if(best)d=REDE_DOMINIO[best];}return d?`<img src="https://www.google.com/s2/favicons?domain=${d}&sz=64" alt="" style="width:18px;height:18px" onerror="this.outerHTML='<span style=&quot;width:30px;text-align:center;flex:none&quot;>🏨</span>'">`:'<span style="width:30px;text-align:center;flex:none">🏨</span>';}
+function marcas(){
+  const st=stH();
+  document.getElementById('marcaAno').textContent=ANO==='todos'?'todos':ANO;
+  const e={}, nn={}, disp={};
+  st.forEach(s=>{const r=redeDe(s.hotel);if(!r)return;const k=r.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');if(!disp[k]||/[À-ü]/.test(r))disp[k]=r;e[k]=(e[k]||0)+1;nn[k]=(nn[k]||0)+(s.nights||0);});
+  const ren=o=>Object.fromEntries(Object.entries(o).map(([k,v])=>[disp[k],v]));
+  barras('cMarcas', Object.entries(ren(e)).sort((a,b)=>b[1]-a[1]).slice(0,12), x=>x+'×', logoHotel);
+  barras('cMarcasN', Object.entries(ren(nn)).sort((a,b)=>b[1]-a[1]).slice(0,12), x=>x+' noites', logoHotel);
+}
+function familiaAviao(m){if(!m)return m;var s=String(m).toUpperCase().replace(/AIRBUS|BOEING|EMBRAER|MCDONNELL|DOUGLAS|[\s\-\.]/g,'');if(/^78/.test(s))return'787';if(/^77/.test(s))return'777';if(/^76/.test(s))return'767';if(/^75/.test(s))return'757';if(/^74/.test(s))return'747';if(/^73/.test(s))return'737';if(/A?32[1Q]/.test(s))return'A321';if(/A?319|A?31[0-9]/.test(s))return'A319';if(/A?32[0-9NASX]/.test(s))return'A320';if(/A?33[0-9]/.test(s))return'A330';if(/A?34[0-9]/.test(s))return'A340';if(/A?35[0-9K]/.test(s))return'A350';if(/A?38[0-9]/.test(s))return'A380';if(/A?220|^22[0-9]|CS[13]/.test(s))return'A220';if(/E?19[05]|^19[05]|^E9[05]/.test(s))return/195|E95|^195/.test(s)?'E195':'E190';if(/E?17[05]|^E7[05]/.test(s))return'E175';if(/ATR/.test(s))return'ATR';if(/CRJ|^CR[0-9]/.test(s))return'CRJ';return m;}
+function fabDom(f){if(f==='ATR')return'atr-aircraft.com';if(f==='CRJ')return'bombardier.com';if(/^A/.test(f))return'airbus.com';if(/^7/.test(f))return'boeing.com';if(/^E/.test(f))return'embraer.com';return null;}
+function logoAviao(f){var d=fabDom(f);return d?`<img src="https://www.google.com/s2/favicons?domain=${d}&sz=64" alt="" style="width:18px;height:18px" onerror="this.outerHTML='<span style=&quot;width:30px;text-align:center;flex:none&quot;>🛩</span>'">`:'<span style="width:30px;text-align:center;flex:none">🛩</span>';}
+function modelos(){
+  const sg=sgF().filter(s=>s.aviao||s.aircraft);
+  const show=sg.length;
+  document.getElementById('cardModelos').style.display=show?'':'none';
+  document.getElementById('cardModelosKm').style.display=show?'':'none';
+  if(!show)return;
+  document.getElementById('modAno').textContent=ANO==='todos'?'todos':ANO;
+  const v={}, km={};
+  sg.forEach(s=>{const m=familiaAviao(s.aviao||s.aircraft);v[m]=(v[m]||0)+1;km[m]=(km[m]||0)+kmSeg(s.from,s.to);});
+  barras('cModelos', Object.entries(v).sort((a,b)=>b[1]-a[1]).slice(0,12), x=>x+'×', logoAviao);
+  barras('cModelosKm', Object.entries(km).sort((a,b)=>b[1]-a[1]).slice(0,12), x=>fmt(x)+' km', logoAviao);
+}
+
+function recordes(){
+  const st=stH(), sg=sgF();
+  const voosKm=sg.map(s=>({...s,km:kmSeg(s.from,s.to)})).sort((a,b)=>b.km-a.km);
+  const estLonga=[...st].sort((a,b)=>b.nights-a.nights)[0];
+  const mesC={}; sg.forEach(s=>{const k=s.date.slice(0,7);mesC[k]=(mesC[k]||0)+1;}); const mesTop=Object.entries(mesC).sort((a,b)=>b[1]-a[1])[0];
+  const aero={}; sg.forEach(s=>{aero[s.from]=(aero[s.from]||0)+1;aero[s.to]=(aero[s.to]||0)+1;}); const aeroTop=Object.entries(aero).sort((a,b)=>b[1]-a[1])[0];
+  const hc={}; st.forEach(s=>{const k=s.hotel.split('(')[0].trim();hc[k]=(hc[k]||0)+1;}); const hTop=Object.entries(hc).sort((a,b)=>b[1]-a[1])[0];
+  const voosCurto=voosKm.filter(v=>v.km>0); const curto=voosCurto[voosCurto.length-1];
+  const diaC={}; sg.forEach(s=>{diaC[s.date]=(diaC[s.date]||0)+1;}); const diaTop=Object.entries(diaC).sort((a,b)=>b[1]-a[1])[0];
+  const anoKm=Object.entries(D.metricas).sort((a,b)=>(b[1].km||0)-(a[1].km||0))[0];
+  const ciaC={}; sg.forEach(s=>{if(s.cia&&s.cia!=='?')ciaC[s.cia]=(ciaC[s.cia]||0)+1;}); const ciaTop=Object.entries(ciaC).sort((a,b)=>b[1]-a[1])[0];
+  const paisN={}; stF().forEach(s=>{const pt=PAISPT[s.country]||s.country;if(pt!=='Brasil')paisN[pt]=(paisN[pt]||0)+s.nights;}); const paisTop=Object.entries(paisN).sort((a,b)=>b[1]-a[1])[0];
+  const hN={}; st.forEach(s=>{const k=s.hotel.split('(')[0].trim();hN[k]=(hN[k]||0)+s.nights;}); const hNTop=Object.entries(hN).sort((a,b)=>b[1]-a[1])[0];
+  const R=[
+    ['Voo mais longo', voosKm[0]?`${aeroTxt(voosKm[0].from)} → ${aeroTxt(voosKm[0].to)} · <em>${fmt(voosKm[0].km)} km</em>`:'—'],
+    ['Voo mais curto', curto?`${aeroTxt(curto.from)} → ${aeroTxt(curto.to)} · <em>${fmt(curto.km)} km</em>`:'—'],
+    ['Dia com mais voos', diaTop?`${dataBR(diaTop[0])} · <em>${diaTop[1]}</em>`:'—'],
+    ['Mês mais intenso', mesTop?`${mesTop[0]} · <em>${mesTop[1]}</em>`:'—'],
+    ['Ano recorde', anoKm?`${anoKm[0]} · <em>${fmt(anoKm[1].km)} km</em>`:'—'],
+    ['Companhia favorita', ciaTop?`${ciaTop[0]} · <em>${ciaTop[1]}</em>`:'—'],
+    ['Aeroporto favorito', aeroTop?`${aeroTxt(aeroTop[0])} · <em>${aeroTop[1]}</em>`:'—'],
+    ['Estadia mais longa', estLonga?`${estLonga.hotel.slice(0,30)} · <em>${estLonga.nights} n</em>`:'—'],
+    ['Hotel mais repetido', hTop?`${hTop[0].slice(0,30)} · <em>${hTop[1]}×</em>`:'—'],
+    ['Mais noites num hotel', hNTop?`${hNTop[0].slice(0,26)} · <em>${hNTop[1]} n</em>`:'—'],
+    ['País favorito (fora o Brasil)', paisTop?`${paisTop[0]} · <em>${paisTop[1]} n</em>`:'—'],
+  ];
+  document.getElementById('recordes').innerHTML=R.map(([l,v])=>`<div class="rec"><b>${l}</b><span>${v}</span></div>`).join('');
+}
+function rotas(){
+  const sg=sgF(); const r={};
+  sg.forEach(s=>{const par=[s.from,s.to].sort().join(' ↔ ');r[par]=(r[par]||0)+1;});
+  const top=Object.entries(r).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const max=top.length?top[0][1]:1;
+  document.getElementById('rotas').innerHTML=top.map(([k,v])=>{const [a,b]=k.split(' ↔ ');
+    return `<div class="brow"><span class="nm" style="width:auto;flex:1">${flag(a)}${a} ↔ ${flag(b)}${b}</span><div class="bwrap" style="flex:none;width:70px"><div class="bar" style="width:${Math.round(v/max*100)}%"></div></div><span class="val" style="width:34px">${v}×</span></div>`;}).join('');
+}
+
+function dataBR(d){if(!d)return d||'';var x=String(d).split('-');return x.length>=3?x[2]+'/'+x[1]+'/'+x[0]:d;}
+const MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+function fdata(d){const x=new Date(d+'T12:00');return x.getDate()+' '+MESES[x.getMonth()]+(x.getFullYear()!==new Date().getFullYear()?" '"+String(x.getFullYear()).slice(2):'');}
+
+function popularSel(id,vals,rot){const sel=document.getElementById(id);const at=sel.value;sel.innerHTML='<option value="">'+rot+'</option>'+vals.map(v=>`<option${v===at?' selected':''}>${v}</option>`).join('');}
+function popularFiltros(){
+  const st=stF(), sg=sgF();
+  popularSel('fEstPais',[...new Set(st.map(s=>PAISPT[s.country]||s.country))].sort(),'País — todos');
+  popularSel('fEstCidade',[...new Set(st.map(s=>cap(normC(s.city))))].sort(),'Cidade — todas');
+  popularSel('fVooCia',[...new Set(sg.map(s=>s.cia).filter(c=>c&&c!=='?'))].sort(),'Companhia — todas');
+  popularSel('fVooAero',[...new Set(sg.flatMap(s=>[s.from,s.to]))].sort(),'Aeroporto — todos');
+}
+function renderEstadias(){
+  const q=(document.getElementById('bEst').value||'').toLowerCase();
+  const fp=document.getElementById('fEstPais').value, fc=document.getElementById('fEstCidade').value;
+  const st=stF().filter(s=>{
+    if(q&&!(s.hotel+' '+s.city+' '+s.country).toLowerCase().includes(q))return false;
+    if(fp&&(PAISPT[s.country]||s.country)!==fp)return false;
+    if(fc&&cap(normC(s.city))!==fc)return false;return true;
+  }).sort((a,b)=>a.checkin<b.checkin?1:-1);
+  document.getElementById('nEst').textContent=`· ${st.length} · ${st.reduce((a,s)=>a+s.nights,0)} noites`;
+  document.getElementById('lEst').innerHTML=st.map(s=>`<div class="item"><div class="l1"><b>${s.tipo==='casa'?'🏠 ':''}${s.hotel}</b><span class="n">${s.nights} n</span></div><div class="l2">${dataBR(s.checkin)} · ${s.city} · ${flagP(s.country)}</div></div>`).join('')||'<div style="color:var(--txt3);padding:12px 0">nada encontrado</div>';
+}
+function renderVoos(){
+  const q=(document.getElementById('bVoo').value||'').toLowerCase();
+  const fca=document.getElementById('fVooCia').value, fae=document.getElementById('fVooAero').value;
+  const sg=sgF().filter(s=>{
+    if(q&&!(s.date+' '+s.from+' '+s.to+' '+(AERO[s.from]?.[1]||'')+' '+(AERO[s.to]?.[1]||'')).toLowerCase().includes(q))return false;
+    if(fca&&s.cia!==fca)return false;
+    if(fae&&s.from!==fae&&s.to!==fae)return false;return true;
+  }).sort((a,b)=>a.date<b.date?1:-1);
+  document.getElementById('nVoo').textContent=`· ${sg.length}`;
+  document.getElementById('lVoo').innerHTML=sg.map(s=>`<div class="item"><div class="l1"><b>${flag(s.from)}${aeroTxt(s.from)} → ${flag(s.to)}${aeroTxt(s.to)}</b><span class="n">${fmt(kmSeg(s.from,s.to))} km</span></div><div class="l2">${dataBR(s.date)}${s.cia&&s.cia!=='?'?' · '+s.cia:''}${s.aviao?' · '+s.aviao:''}</div></div>`).join('')||'<div style="color:var(--txt3);padding:12px 0">nada encontrado</div>';
+}
+
+function proximas(){
+  const up=D.upcoming||{}; const hoje=new Date().toISOString().slice(0,10);
+  const voos=(up.flights||[]).filter(f=>f.date>=hoje).map(f=>({tipo:'voo',data:f.date,item:f}));
+  const hoteis=(up.hotels||[]).filter(h=>(h.checkout||'')>=hoje).map(h=>({tipo:'hotel',data:h.checkin,item:h}));
+  const tudo=[...voos,...hoteis].sort((a,b)=>a.data.localeCompare(b.data));
+  if(!tudo.length){document.getElementById('proxWrap').style.display='none';return;}
+  const trips=[]; let atual=null;
+  for(const e of tudo){
+    if(atual&&(new Date(e.data)-new Date(atual.fim))/864e5<=5){atual.itens.push(e);if(e.data>atual.fim)atual.fim=e.data;}
+    else{atual={ini:e.data,fim:e.data,itens:[e]};trips.push(atual);}
+  }
+  const dias=d=>Math.ceil((new Date(d+'T12:00')-new Date())/864e5);
+  let html='';
+  for(const t of trips){
+    const dd=dias(t.ini);
+    html+=`<div class="trip"><div class="trip-h"><b>${fdata(t.ini)} → ${fdata(t.fim)}</b><span>${dd<=0?'em curso':'em '+dd+' dias'}</span></div>`;
+    for(const e of t.itens){
+      if(e.tipo==='voo'){const f=e.item;
+        html+=`<div class="trow"><span class="ic">${f.op||f.airline?logoCia(f.airline||''):'✈︎'}</span><div class="mid"><div class="r1">${flag(f.from)}${f.from} → ${flag(f.to)}${f.to}</div><div class="r2">${fdata(f.date)}${f.dep?' · '+f.dep:''}${f.airline?' · '+f.airline:''} ${f.flight||''}</div></div>${f.pnr?`<span class="pnr">${f.pnr}</span>`:''}</div>`;
+      }else{const h=e.item;
+        html+=`<div class="trow"><span class="ic">${logoHotel(redeDe(h.hotel))}</span><div class="mid"><div class="r1">${h.hotel}</div><div class="r2">${fdata(h.checkin)} → ${fdata(h.checkout)}${h.room?' · '+h.room:''}</div></div>${h.conf?`<span class="pnr">${h.conf}</span>`:''}</div>`;
+      }
+    }
+    html+='</div>';
+  }
+  document.getElementById('proxBody').innerHTML=html;
+  document.getElementById('proxWrap').style.display='';
+}
+
+Chart.defaults.font.family='Montserrat';
+Chart.defaults.font.size=9;
+Chart.defaults.color='#8a8072';
+Chart.defaults.borderColor='rgba(255,255,255,.06)';
+</script>
+</body>
+</html>
