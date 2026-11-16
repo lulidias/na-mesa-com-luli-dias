@@ -1,9 +1,9 @@
 {
   "totals": {
-    "restaurants": 1108,
+    "restaurants": 1107,
     "hotels": 193,
     "markets": 28,
-    "cities": 221,
+    "cities": 220,
     "lojaVinho": 2,
     "wineBar": 12,
     "mercado": 28,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 73,
     "totalKeys": 71,
-    "total": 1343,
+    "total": 1342,
     "michelin": 92,
     "keysEntries": 46
   },
@@ -729,10 +729,10 @@
       "keysEntries": 2
     },
     "portugal": {
-      "restaurants": 106,
+      "restaurants": 105,
       "hotels": 33,
       "markets": 1,
-      "cities": 33,
+      "cities": 32,
       "lojaVinho": 0,
       "wineBar": 1,
       "mercado": 1,
