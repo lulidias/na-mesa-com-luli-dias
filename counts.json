@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1107,
+    "restaurants": 1106,
     "hotels": 193,
     "markets": 28,
     "cities": 222,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 73,
     "totalKeys": 71,
-    "total": 1342,
+    "total": 1341,
     "michelin": 92,
     "keysEntries": 46
   },
@@ -377,7 +377,7 @@
       "keysEntries": 0
     },
     "franca": {
-      "restaurants": 128,
+      "restaurants": 127,
       "hotels": 18,
       "markets": 2,
       "cities": 40,
