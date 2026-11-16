@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1106,
+    "restaurants": 1105,
     "hotels": 193,
     "markets": 28,
     "cities": 222,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 73,
     "totalKeys": 71,
-    "total": 1341,
+    "total": 1340,
     "michelin": 92,
     "keysEntries": 46
   },
@@ -531,7 +531,7 @@
       "keysEntries": 0
     },
     "italia": {
-      "restaurants": 30,
+      "restaurants": 29,
       "hotels": 4,
       "markets": 0,
       "cities": 10,
