@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+ <channel>
+  <title>Guia Luli Dias · Paris</title>
+  <link>https://lulidias.com</link>
+  <description>Restaurantes e hotéis em Paris visitados em pessoa por Luli Dias.</description>
+  <language>pt-br</language>
+  <item>
+   <title>Benoît · Paris</title>
+   <link>https://lulidias.com/?utm_source=pinterest&amp;utm_campaign=paris</link>
+   <guid isPermaLink="false">paris-benoit</guid>
+   <pubDate>Mon, 16 Nov 2026 09:00:00 -0300</pubDate>
+   <description>Bistrô parisiense aberto em 1912 na rue Saint-Martin, no 4º arrondissement, e desde 2005 nas mãos de Alain Ducasse. A carta segue os clássicos do bistrô parisiense. Está no Guia Luli Dias: restaurantes e hotéis visitados em pessoa. Fila de espera em lulidias.com</description>
+   <enclosure url="https://v1.lulidias.com/pinterest/img/paris-benoit.jpg" type="image/jpeg" length="251152"/>
+  </item>
+  <item>
+   <title>Atelier de Joël Robuchon · Paris</title>
+   <link>https://lulidias.com/?utm_source=pinterest&amp;utm_campaign=paris</link>
+   <guid isPermaLink="false">paris-atelier-de-joel-robuchon</guid>
+   <pubDate>Mon, 16 Nov 2026 09:00:00 -0300</pubDate>
+   <description>O L&#x27;Atelier de Joël Robuchon de Saint-Germain, na rue de Montalembert, no 7º arrondissement, funciona num balcão com cozinha aberta. O chef é Axel Manes. Está no Guia Luli Dias: restaurantes e hotéis visitados em pessoa. Fila de espera em lulidias.com</description>
+   <enclosure url="https://v1.lulidias.com/pinterest/img/paris-atelier-de-joel-robuchon.jpg" type="image/jpeg" length="124724"/>
+  </item>
+  <item>
+   <title>Le Pavyllon · Paris</title>
+   <link>https://lulidias.com/?utm_source=pinterest&amp;utm_campaign=paris</link>
+   <guid isPermaLink="false">paris-le-pavyllon</guid>
+   <pubDate>Mon, 16 Nov 2026 09:00:00 -0300</pubDate>
+   <description>Restaurante de Yannick Alléno no Pavillon Ledoyen, nos jardins dos Champs-Élysées, no 8º arrondissement, com 1 estrela Michelin. Tem um balcão em volta da cozinha aberta. Está no Guia Luli Dias: restaurantes e hotéis visitados em pessoa. Fila de espera em lulidias.com</description>
+   <enclosure url="https://v1.lulidias.com/pinterest/img/paris-le-pavyllon.jpg" type="image/jpeg" length="285810"/>
+  </item>
+ </channel>
+</rss>

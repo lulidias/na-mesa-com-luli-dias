@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+ <channel>
+  <title>Guia Luli Dias · Bordeaux</title>
+  <link>https://lulidias.com</link>
+  <description>Restaurantes e hotéis em Bordeaux visitados em pessoa por Luli Dias.</description>
+  <language>pt-br</language>
+  <item>
+   <title>Le Pressoir d&#x27;Argent · Bordeaux</title>
+   <link>https://lulidias.com/?utm_source=pinterest&amp;utm_campaign=bordeaux</link>
+   <guid isPermaLink="false">bordeaux-le-pressoir-d-argent</guid>
+   <pubDate>Mon, 16 Nov 2026 09:00:00 -0300</pubDate>
+   <description>Duas Estrelas Michelin no Grand Hôtel de Bordeaux. O chef Gordon Ramsay assina uma cozinha francesa sofisticada com os melhores produtos de Bordeaux e Aquitânia — foie gras, trufas e caviar. A prensa de lagosta em prata é a peça central da sala. Está no Guia Luli Dias: restaurantes e hotéis visitados em pessoa. Fila de espera em lulidias.com</description>
+   <enclosure url="https://v1.lulidias.com/pinterest/img/bordeaux-le-pressoir-d-argent.jpg" type="image/jpeg" length="144482"/>
+  </item>
+  <item>
+   <title>Ressources · Bordeaux</title>
+   <link>https://lulidias.com/?utm_source=pinterest&amp;utm_campaign=bordeaux</link>
+   <guid isPermaLink="false">bordeaux-ressources</guid>
+   <pubDate>Mon, 16 Nov 2026 09:00:00 -0300</pubDate>
+   <description>Uma Estrela Michelin em Bordeaux com cozinha francesa contemporânea e criativa, focada nos produtos sazonais da Aquitânia. Está no Guia Luli Dias: restaurantes e hotéis visitados em pessoa. Fila de espera em lulidias.com</description>
+   <enclosure url="https://v1.lulidias.com/pinterest/img/bordeaux-ressources.jpg" type="image/jpeg" length="192444"/>
+  </item>
+ </channel>
+</rss>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+ <channel>
+  <title>Guia Luli Dias · Nice</title>
+  <link>https://lulidias.com</link>
+  <description>Restaurantes e hotéis em Nice visitados em pessoa por Luli Dias.</description>
+  <language>pt-br</language>
+  <item>
+   <title>Blue Beach · Nice</title>
+   <link>https://lulidias.com/?utm_source=pinterest&amp;utm_campaign=nice</link>
+   <guid isPermaLink="false">nice-blue-beach</guid>
+   <pubDate>Mon, 16 Nov 2026 09:00:00 -0300</pubDate>
+   <description>O beach club mais elegante da Promenade des Anglais, com restaurante de cozinha mediterrânea e pés na areia. Peixes e mariscos grelhados com vista para o Mediterrâneo. Está no Guia Luli Dias: restaurantes e hotéis visitados em pessoa. Fila de espera em lulidias.com</description>
+   <enclosure url="https://v1.lulidias.com/pinterest/img/nice-blue-beach.jpg" type="image/jpeg" length="241774"/>
+  </item>
+  <item>
+   <title>Bela Baieta · Nice</title>
+   <link>https://lulidias.com/?utm_source=pinterest&amp;utm_campaign=nice</link>
+   <guid isPermaLink="false">nice-bela-baieta</guid>
+   <pubDate>Mon, 16 Nov 2026 09:00:00 -0300</pubDate>
+   <description>Beach club com cozinha niçoise e mediterrânea junto ao mar em Nice. Ambiente descontraído e produto fresco do dia. Está no Guia Luli Dias: restaurantes e hotéis visitados em pessoa. Fila de espera em lulidias.com</description>
+   <enclosure url="https://v1.lulidias.com/pinterest/img/nice-bela-baieta.jpg" type="image/jpeg" length="236007"/>
+  </item>
+  <item>
+   <title>La Rotonde · Nice</title>
+   <link>https://lulidias.com/?utm_source=pinterest&amp;utm_campaign=nice</link>
+   <guid isPermaLink="false">nice-la-rotonde</guid>
+   <pubDate>Mon, 16 Nov 2026 09:00:00 -0300</pubDate>
+   <description>A brasserie do lendário Hotel Le Negresco, na Promenade des Anglais. A chef Virginie Basselot — Meilleur Ouvrier de France — assina uma cozinha mediterrânea enraizada nas tradições niçoises, servida num espaço luminoso e teatral. A opção descontraída do palácio que também abriga o gastronómico Le Chantecler. Está no Guia Luli Dias: restaurantes e hotéis visitados em pessoa. Fila de espera em lulidias.com</description>
+   <enclosure url="https://v1.lulidias.com/pinterest/img/nice-la-rotonde.jpg" type="image/jpeg" length="258565"/>
+  </item>
+ </channel>
+</rss>

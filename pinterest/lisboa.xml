@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+ <channel>
+  <title>Guia Luli Dias · Lisboa</title>
+  <link>https://lulidias.com</link>
+  <description>Restaurantes e hotéis em Lisboa visitados em pessoa por Luli Dias.</description>
+  <language>pt-br</language>
+  <item>
+   <title>A Casa do Bacalhau · Lisboa</title>
+   <link>https://lulidias.com/?utm_source=pinterest&amp;utm_campaign=lisboa</link>
+   <guid isPermaLink="false">lisboa-a-casa-do-bacalhau</guid>
+   <pubDate>Mon, 16 Nov 2026 09:00:00 -0300</pubDate>
+   <description>Restaurante instalado nas antigas cavalariças do Palácio do Duque de Lafões (séc. XVIII), em Marvila — o novo polo criativo de Lisboa. Mais de cem receitas do &quot;fiel amigo&quot;: bacalhau à Brás, à lagareiro, à Zé do Pipo, à minhota, com natas. Ambiente histórico e cozinha portuguesa de tradição. Ideal para grupos e eventos. Está no Guia Luli Dias: restaurantes e hotéis visitados em pessoa. Fila de espera em lulidias.com</description>
+   <enclosure url="https://v1.lulidias.com/pinterest/img/lisboa-a-casa-do-bacalhau.jpg" type="image/jpeg" length="194387"/>
+  </item>
+  <item>
+   <title>A Gina · Lisboa</title>
+   <link>https://lulidias.com/?utm_source=pinterest&amp;utm_campaign=lisboa</link>
+   <guid isPermaLink="false">lisboa-a-gina</guid>
+   <pubDate>Mon, 16 Nov 2026 09:00:00 -0300</pubDate>
+   <description>Restaurante tradicional desde 1974 no Parque Mayer (junto à Av. da Liberdade). Cozinha caseira portuguesa: bacalhau assado, dobrada, carne assada, petiscos do dia. Esplanada agradável, clientela fiel de décadas. Aberto todos os dias. Está no Guia Luli Dias: restaurantes e hotéis visitados em pessoa. Fila de espera em lulidias.com</description>
+   <enclosure url="https://v1.lulidias.com/pinterest/img/lisboa-a-gina.jpg" type="image/jpeg" length="244280"/>
+  </item>
+  <item>
+   <title>Belmiro · Lisboa</title>
+   <link>https://lulidias.com/?utm_source=pinterest&amp;utm_campaign=lisboa</link>
+   <guid isPermaLink="false">lisboa-belmiro</guid>
+   <pubDate>Mon, 16 Nov 2026 09:00:00 -0300</pubDate>
+   <description>Restaurante tradicional português do **chef Belmiro de Jesus** junto ao Campo dos Mártires da Pátria, com pequena esplanada. Especialidade em empadas (de caça, vitela, bacalhau) e clássicos como bacalhau com feijão, cabidela, bochechas de vitela estufadas e arroz de lebre. Encerra aos domingos. Está no Guia Luli Dias: restaurantes e hotéis visitados em pessoa. Fila de espera em lulidias.com</description>
+   <enclosure url="https://v1.lulidias.com/pinterest/img/lisboa-belmiro.jpg" type="image/jpeg" length="155009"/>
+  </item>
+ </channel>
+</rss>
