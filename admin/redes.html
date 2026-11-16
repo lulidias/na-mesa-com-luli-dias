@@ -72,8 +72,8 @@ a{color:inherit}
 .cal .d{font-weight:800;font-size:13px;display:block;margin-bottom:3px}
 .ev{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:3px solid var(--p);padding-left:4px;margin:2px 0;line-height:1.35}
 /* cor fixa por rede: legenda, filtros, calendário e lista */
-.r-Instagram{--rc:#B5121B}.r-Facebook{--rc:#1D3FCB}.r-LinkedIn{--rc:#7A8B12}.r-YouTube{--rc:#D08A12}.r-TikTok{--rc:#111111}.r-Threads{--rc:#8A8A8A}
-@media (prefers-color-scheme:dark){.r-Instagram{--rc:#E0424A}.r-Facebook{--rc:#6B84FF}.r-LinkedIn{--rc:#B2C43A}.r-YouTube{--rc:#E8AA3A}.r-TikTok{--rc:#F4F4F4}.r-Threads{--rc:#9A9A9A}}
+.r-Instagram{--rc:#B5121B}.r-Facebook{--rc:#1D3FCB}.r-LinkedIn{--rc:#7A8B12}.r-YouTube{--rc:#D08A12}.r-TikTok{--rc:#111111}.r-Threads{--rc:#8A8A8A}.r-Pinterest{--rc:#7A3B8F}
+@media (prefers-color-scheme:dark){.r-Instagram{--rc:#E0424A}.r-Facebook{--rc:#6B84FF}.r-LinkedIn{--rc:#B2C43A}.r-YouTube{--rc:#E8AA3A}.r-TikTok{--rc:#F4F4F4}.r-Threads{--rc:#9A9A9A}.r-Pinterest{--rc:#B98AD0}}
 .ev{border-left-color:var(--rc,var(--p))}
 .leg-redes span{display:inline-flex;align-items:center;gap:6px;margin-right:14px;font-size:13px}
 .leg-redes span::before{content:"";width:12px;height:12px;background:var(--rc);display:inline-block}
@@ -138,7 +138,7 @@ function grafAds(dias){
   return s+`<p class="meta" style="margin-top:6px">Barras: gasto do dia em R$ (o número em cima). Linha: visitas ao perfil pelos anúncios (máx. ${fmt(mv)}/dia). Passe o mouse para ver o dia.</p>`;
 }
 const barras=(lista,fmtv)=>{const mx=Math.max(...lista.map(x=>x[1]))||1;return lista.map(([r,v])=>`<div class="barra"><span class="r">${esc(r)}</span><i style="width:${Math.max(2,v/mx*45)}%"></i><em>${fmtv?fmtv(v):fmt(v)}</em></div>`).join('')};
-const NOMES={instagram:'Instagram',threads:'Threads',facebook:'Página do Facebook',facebook_perfil:'Perfil do Facebook',youtube:'YouTube',tiktok:'TikTok',linkedin:'LinkedIn'};
+const NOMES={instagram:'Instagram',threads:'Threads',facebook:'Página do Facebook',facebook_perfil:'Perfil do Facebook',youtube:'YouTube',tiktok:'TikTok',linkedin:'LinkedIn',pinterest:'Pinterest'};
 const PAISES={BR:'Brasil',PT:'Portugal',ES:'Espanha',US:'Estados Unidos',FR:'França',IT:'Itália',AR:'Argentina',GB:'Reino Unido',DE:'Alemanha',CL:'Chile',UY:'Uruguai',MX:'México',CH:'Suíça',AE:'Emirados'};
 const IDADE={'13-17':'13–17','18-24':'18–24','25-34':'25–34','35-44':'35–44','45-54':'45–54','55-64':'55–64','65+':'65+'};
 let AG=[],VISTA='lista',FILTRO='todas',MES=null;
@@ -169,7 +169,7 @@ function render(R){
   const totv7=base7.length?base7.reduce((a,[k,v])=>a+R.redes[k].seguidores-v,0):null,totBase7=base7.reduce((a,[k,v])=>a+v,0);
   const desde=igs.length&&ig.seguidores?ig.seguidores-igd[igs[0]].seguidores:null,desdePct=desde!=null?pctTxt(desde/igd[igs[0]].seguidores*100):'—';
   let html=`<div class="top"><div class="wm">Luli Dias<i></i></div><div class="meta">Atualizado em ${new Date(R.gerado).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})} · <a href="index.html">voltar ao admin</a></div></div>
-  <h1>Redes sociais</h1><p class="meta">Só lulidias.com · Instagram, Threads, Facebook, YouTube, TikTok e LinkedIn numa visão única.</p>
+  <h1>Redes sociais</h1><p class="meta">Só lulidias.com · Instagram, Threads, Facebook, YouTube, TikTok, LinkedIn e Pinterest numa visão única.</p>
   <nav class="secoes"><a href="#visao">Visão geral</a><a href="#redes">Rede por rede</a><a href="#crescimento">Crescimento</a><a href="#anuncios">Anúncios</a><a href="#audiencia">Audiência</a><a href="#conversa">Conversa</a><a href="#posts">Melhores posts</a><a href="#agenda">Agenda</a><a href="#estoque">Estoque</a></nav>
   <div id="visao" class="kpis">
    <div class="kpi"><span class="lbl">Seguidores · total</span><b>${fmt(total)}</b>${pct(totv7,totBase7,'em 7 dias')}<small>soma das 7 redes</small></div>
@@ -194,6 +194,7 @@ function render(R){
     if(k==='instagram')dest=`${fmt(ig.posts)} posts no perfil · segue ${fmt(ig.seguindo)}`;
     else if(k==='threads'&&v.d28)dest=`${fmt(v.d28.views)} visualizações do perfil · ${fmt(v.d28.likes)} curtidas (28 d)`;
     else if(k==='facebook_perfil'&&v.amigos)dest=`${fmt(v.amigos)} amigos`;
+    else if(k==='pinterest')dest=`${fmt(v.pins)} pins no perfil · ${fmt(v.no_feed)} no feed automático · ${fmt(v.aguardando_ok)} aguardando seu ok`;
     else if(k==='tiktok'&&v.curtidas_total!=null)dest=`${fmt(v.curtidas_total)} curtidas no total`;
     else if(s==null)dest='<span class="vazio">aguardando a 1ª leitura</span>';
     const lido=v&&v.lido_em?new Date(v.lido_em).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}):'hoje';
@@ -250,7 +251,7 @@ function render(R){
    <div class="kpi"><span class="lbl">Instagram, posts 7 d</span><b>${fmt(cad.instagram_7d)}</b><small>30 d: ${fmt(cad.instagram_30d)}</small></div>
    <div class="kpi"><span class="lbl">LinkedIn agendados</span><b>${fmt(cad.linkedin_agendados)}</b><small>${fmt(cad.linkedin_aguardando_ok)} aguardando seu ok</small></div>
    <div class="kpi"><span class="lbl">Publicações agendadas</span><b>${fmt(AG.length)}</b><small>todas as redes</small></div></div>`;
-  html+=`<p class="meta" style="margin-top:40px">Fontes: APIs do Instagram, Threads, Facebook e Meta Ads; página pública do YouTube; TikTok, LinkedIn e perfil do Facebook pelas rotinas do Chrome (data da leitura na tabela); arquivos dos robôs de resposta e das agendas. Os dados são criptografados; só abrem com a senha do painel. Guia Luli Dias.</p>`;
+  html+=`<p class="meta" style="margin-top:40px">Fontes: APIs do Instagram, Threads, Facebook e Meta Ads; páginas públicas do YouTube e do Pinterest; TikTok, LinkedIn e perfil do Facebook pelas rotinas do Chrome (data da leitura na tabela); arquivos dos robôs de resposta e das agendas. Os dados são criptografados; só abrem com a senha do painel. Guia Luli Dias.</p>`;
   $('#app').innerHTML=html;$('#app').style.display='block';
   try{VISTA=localStorage.getItem('painel_vista')||'lista'}catch(e){}
   document.querySelectorAll('.vista').forEach(b=>b.onclick=()=>{VISTA=b.dataset.v;try{localStorage.setItem('painel_vista',VISTA)}catch(e){};agenda()});
