@@ -27,6 +27,8 @@ nav.secoes a:hover{background:var(--p);color:var(--b)}
 .kpi{border-right:1px solid var(--c2);border-bottom:1px solid var(--c2);padding:16px}
 .kpi b{display:block;font-weight:800;font-stretch:105%;font-size:clamp(20px,2.6vw,28px);letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .kpi small{color:var(--c3);font-size:12px;display:block}
+.kpi .lbl{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.08em}
+.kpi .pct{display:inline-block;font:700 12px var(--f);margin:4px 0 2px;padding:2px 6px;border:1px solid currentColor}
 .down{color:var(--lacre)}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--p);font-size:13px}
@@ -150,22 +152,35 @@ function render(R){
   const conv=R.conversa||{},resp30=Object.values(conv).reduce((a,c)=>a+c.respondidos_30d,0),sem=Object.values(conv).reduce((a,c)=>a+c.sem_resposta_30d,0);
   const eng=d28.reach?(d28.total_interactions/d28.reach*100):null;
   const cad=R.cadencia||{};
+  const soma=(arr)=>arr.reduce((a,b)=>a+b,0);
+  const pctTxt=v=>(v>0?'+':'')+v.toFixed(1).replace('.',',')+'%';
+  const pct=(dif,base,rot)=>dif==null||!base?'':`<span class="pct ${dif<0?'down':''}">${pctTxt(dif/base*100)} ${rot}</span>`;
+  const varp=(a,b,rot,inv,neutro)=>!b||a==null?'':`<span class="pct ${neutro?'':(inv?a>b:a<b)?'down':''}">${pctTxt((a-b)/b*100)} ${rot}</span>`;
+  const gastoAnt7=soma(ads.slice(-14,-7).map(d=>d.gasto)),vis7a=soma(ads.slice(-7).map(d=>d.visitas)),visA=soma(ads.slice(-14,-7).map(d=>d.visitas));
+  const cpv7=vis7a?gasto7/vis7a:null,cpvAnt7=visA?gastoAnt7/visA:null;
+  const ser=k=>igs.map(d=>igd[d][k]).filter(v=>v!=null);
+  const r=ser('ontem_reach'),pv=ser('ontem_profile_views');
+  const alc7=r.length>=14?soma(r.slice(-7)):null,alcAnt7=r.length>=14?soma(r.slice(-14,-7)):null;
+  const vis7=pv.length>=14?soma(pv.slice(-7)):null,visAnt7=pv.length>=14?soma(pv.slice(-14,-7)):null;
+  const a7=ant(7),base7=a7&&a7!==dias.at(-1)?Object.entries(h[a7]||{}).filter(([k,v])=>v!=null&&R.redes[k]&&R.redes[k].seguidores!=null):[];
+  const totv7=base7.length?base7.reduce((a,[k,v])=>a+R.redes[k].seguidores-v,0):null,totBase7=base7.reduce((a,[k,v])=>a+v,0);
+  const desde=igs.length&&ig.seguidores?ig.seguidores-igd[igs[0]].seguidores:null,desdePct=desde!=null?pctTxt(desde/igd[igs[0]].seguidores*100):'—';
   let html=`<div class="top"><div class="wm">Luli Dias<i></i></div><div class="meta">Atualizado em ${new Date(R.gerado).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})} · <a href="index.html">voltar ao admin</a></div></div>
   <h1>Redes sociais</h1><p class="meta">Só lulidias.com · Instagram, Threads, Facebook, YouTube, TikTok e LinkedIn numa visão única.</p>
   <nav class="secoes"><a href="#visao">Visão geral</a><a href="#redes">Rede por rede</a><a href="#crescimento">Crescimento</a><a href="#anuncios">Anúncios</a><a href="#audiencia">Audiência</a><a href="#conversa">Conversa</a><a href="#posts">Melhores posts</a><a href="#agenda">Agenda</a><a href="#estoque">Estoque</a></nav>
   <div id="visao" class="kpis">
-   <div class="kpi"><span class="lbl">Seguidores, todas as redes</span><b>${fmt(total)}</b><small>soma das 7 redes</small></div>
-   <div class="kpi"><span class="lbl">Instagram, 7 dias</span><b class="${igv(7)<0?'down':''}">${sinal(igv(7))}</b><small>30 dias: ${sinal(igv(30))}</small></div>
-   <div class="kpi"><span class="lbl">Novos seguidores, 28 d</span><b>${fmt(novos28)}</b><small>${fmt(saiu28)} vieram de não seguidores</small></div>
-   <div class="kpi"><span class="lbl">Investimento, 30 dias</span><b>${brl(gasto30)}</b><small>7 dias: ${brl(gasto7)}</small></div>
-   <div class="kpi"><span class="lbl">Custo por seguidor</span><b>${novos28?brl(gasto30/novos28):'—'}</b><small>gasto ÷ novos seguidores (28 d)</small></div>
-   <div class="kpi"><span class="lbl">Custo por visita ao perfil</span><b>${vis30?brl(gasto30/vis30):'—'}</b><small>${fmt(vis30)} visitas pelos anúncios</small></div>
-   <div class="kpi"><span class="lbl">Alcance Instagram, 28 d</span><b>${fmt(d28.reach)}</b><small>7 d: ${fmt(d7.reach)} · ${fmt(d28.views)} visualizações</small></div>
-   <div class="kpi"><span class="lbl">Interações, 28 d</span><b>${fmt(d28.total_interactions)}</b><small>engajamento ${eng?eng.toFixed(1).replace('.',',')+'%':'—'} do alcance</small></div>
-   <div class="kpi"><span class="lbl">Visitas ao perfil, 28 d</span><b>${fmt(d28.profile_views)}</b><small>${fmt(d28.website_clicks)} cliques no link (lulidias.com)</small></div>
-   <div class="kpi"><span class="lbl">Salvos e compartilh., 28 d</span><b>${fmt((d28.saves||0)+(d28.shares||0))}</b><small>${fmt(d28.saves)} salvos · ${fmt(d28.shares)} compart.</small></div>
-   <div class="kpi"><span class="lbl">Comentários respondidos, 30 d</span><b>${fmt(resp30)}</b><small>pelos robôs, todas as redes</small></div>
-   <div class="kpi"><span class="lbl">Sem resposta, 30 d</span><b class="${sem?'down':''}">${fmt(sem)}</b><small>spam, ofensa ou casos para você</small></div>
+   <div class="kpi"><span class="lbl">Seguidores · total</span><b>${fmt(total)}</b>${pct(totv7,totBase7,'em 7 dias')}<small>soma das 7 redes</small></div>
+   <div class="kpi"><span class="lbl">Instagram · 7 dias</span><b class="${igv(7)<0?'down':''}">${sinal(igv(7))}</b>${pct(igv(7),ig.seguidores-(igv(7)||0),'de crescimento')}<small>desde 04/11: ${sinal(desde)} (${desdePct})</small></div>
+   <div class="kpi"><span class="lbl">Novos · 28 d</span><b>${fmt(novos28)}</b>${pct(novos28,(ig.seguidores||0)-(novos28||0),'da base')}<small>seguidores novos · ${fmt(saiu28)} vieram de não seguidores</small></div>
+   <div class="kpi"><span class="lbl">Investimento · 30 d</span><b>${brl(gasto30)}</b>${varp(gasto7,gastoAnt7,'vs. 7 dias antes',false,true)}<small>últimos 7 dias: ${brl(gasto7)}</small></div>
+   <div class="kpi"><span class="lbl">Custo/seguidor</span><b>${novos28?brl(gasto30/novos28):'—'}</b><small>gasto ÷ novos seguidores (28 d)</small></div>
+   <div class="kpi"><span class="lbl">Custo/visita</span><b>${vis30?brl(gasto30/vis30):'—'}</b>${varp(cpv7,cpvAnt7,'vs. 7 dias antes',true)}<small>${fmt(vis30)} visitas pelos anúncios</small></div>
+   <div class="kpi"><span class="lbl">Alcance · 28 d</span><b>${fmt(d28.reach)}</b>${varp(alc7,alcAnt7,'alcance da semana')}<small>${fmt(d28.views)} visualizações</small></div>
+   <div class="kpi"><span class="lbl">Interações · 28 d</span><b>${fmt(d28.total_interactions)}</b><small>engajamento de ${eng?eng.toFixed(1).replace('.',',')+'%':'—'} do alcance</small></div>
+   <div class="kpi"><span class="lbl">Visitas ao perfil · 28 d</span><b>${fmt(d28.profile_views)}</b>${varp(vis7,visAnt7,'visitas da semana')}<small>${fmt(d28.website_clicks)} cliques no link</small></div>
+   <div class="kpi"><span class="lbl">Salvos e compart.</span><b>${fmt((d28.saves||0)+(d28.shares||0))}</b><small>${fmt(d28.saves)} salvos · ${fmt(d28.shares)} compart. (28 d)</small></div>
+   <div class="kpi"><span class="lbl">Respondidos · 30 d</span><b>${fmt(resp30)}</b><small>comentários, pelos robôs</small></div>
+   <div class="kpi"><span class="lbl">Sem resposta · 30 d</span><b class="${sem?'down':''}">${fmt(sem)}</b><small>spam, ofensa ou casos para você</small></div>
   </div>`;
   if((R.alertas||[]).length)html+=`<h2>Alertas</h2>`+R.alertas.map(a=>`<div class="alerta">${esc(a)}</div>`).join('');
   html+=`<h2 id="redes">Rede por rede</h2><div class="wrap"><table><thead><tr><th>Rede</th><th class="n">Seguidores</th><th class="n">7 dias</th><th class="n">30 dias</th><th class="n">Posts, 30 d</th><th>Destaques</th><th class="n">Lido em</th></tr></thead><tbody>`;
