@@ -1,11 +1,11 @@
 {
   "totals": {
-    "restaurants": 1104,
+    "restaurants": 1102,
     "hotels": 193,
     "markets": 28,
     "cities": 222,
     "lojaVinho": 2,
-    "wineBar": 12,
+    "wineBar": 13,
     "mercado": 28,
     "m1": 39,
     "m2": 11,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 73,
     "totalKeys": 71,
-    "total": 1339,
+    "total": 1338,
     "michelin": 92,
     "keysEntries": 46
   },
@@ -333,12 +333,12 @@
       "keysEntries": 0
     },
     "espanha": {
-      "restaurants": 45,
+      "restaurants": 43,
       "hotels": 5,
       "markets": 4,
       "cities": 12,
       "lojaVinho": 0,
-      "wineBar": 0,
+      "wineBar": 1,
       "mercado": 4,
       "m1": 2,
       "m2": 1,
