@@ -38,6 +38,14 @@ td.n,th.n{text-align:right;white-space:nowrap}
 @media (max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
 .chart{border:1px solid var(--c2);padding:14px}
 .chart svg{width:100%;height:200px;display:block}
+.barras{display:flex;align-items:flex-end;gap:3px;height:220px;position:relative;padding-top:4px}
+.barras .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;min-width:0}
+.barras .col i{display:block;width:100%}
+.barras .col em{font-style:normal;font-size:10px;font-variant-numeric:tabular-nums;color:var(--p);margin-bottom:2px;white-space:nowrap}
+.barras .col span{font-size:10px;color:var(--c3);margin-top:4px}
+.barras.ads .col em{font-size:9px}
+.barras svg.linha{position:absolute;left:0;right:0;top:0;width:100%;height:calc(100% - 18px);pointer-events:none}
+@media (max-width:700px){.barras .col em{font-size:8px;writing-mode:vertical-rl;transform:rotate(180deg)}}
 .barra{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:13px}
 .barra span.r{width:42%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .barra i{display:block;height:10px;background:var(--p)}
@@ -106,18 +114,17 @@ function grafLinha(serie,rot){
   <text x="${P}" y="14" font-size="11" fill="currentColor">${fmt(mx)}</text><text x="${P}" y="${H-6}" font-size="11" fill="currentColor">${fmt(mn)} · ${serie[0][0].slice(8)}/${serie[0][0].slice(5,7)}</text>
   <text x="${W-P}" y="${H-6}" font-size="11" text-anchor="end" fill="currentColor">${serie.at(-1)[0].slice(8)}/${serie.at(-1)[0].slice(5,7)}</text></svg>`;
 }
-function grafBarras(dados,cor){ // [[rotulo,valor]]
+function grafBarras(dados,cor,fv){ // [[rotulo,valor]] em HTML: números nítidos em qualquer largura
   if(!dados.length)return '<p class="vazio">Sem dados.</p>';
-  const W=600,H=200,P=24,mx=Math.max(...dados.map(d=>d[1]))||1,bw=(W-2*P)/dados.length;
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${dados.map((d,i)=>{const h=d[1]/mx*(H-2*P);return `<rect x="${P+i*bw+1}" y="${H-P-h}" width="${bw-2}" height="${h}" fill="${cor||'currentColor'}"/><text x="${P+i*bw+bw/2}" y="${H-8}" font-size="9" text-anchor="middle" fill="currentColor">${d[0]}</text>`}).join('')}</svg>`;
+  const mx=Math.max(...dados.map(d=>d[1]))||1,f=fv||fmt;
+  return `<div class="barras">${dados.map(d=>`<div class="col" title="${esc(d[0])}: ${f(d[1])}"><em>${f(d[1])}</em><i style="height:${Math.max(1,d[1]/mx*100)}%;background:${cor||'var(--p)'}"></i><span>${esc(d[0])}</span></div>`).join('')}</div>`;
 }
 function grafAds(dias){
   if(!dias.length)return '<p class="vazio">Sem dados de anúncios.</p>';
-  const W=600,H=200,P=28,mg=Math.max(...dias.map(d=>d.gasto))||1,mv=Math.max(...dias.map(d=>d.visitas))||1,bw=(W-2*P)/dias.length;
-  let s=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">`;
-  dias.forEach((d,i)=>{const h=(d.gasto/mg)*(H-2*P);s+=`<rect x="${P+i*bw+1}" y="${H-P-h}" width="${bw-2}" height="${h}" fill="var(--c2)"/>`});
-  s+=`<polyline fill="none" stroke="var(--lacre)" stroke-width="2.4" points="${dias.map((d,i)=>[P+i*bw+bw/2,H-P-(d.visitas/mv)*(H-2*P)].join(',')).join(' ')}"/>`;
-  return s+`<text x="${P}" y="14" font-size="11" fill="currentColor">máx. ${brl(mg)}/dia · ${fmt(mv)} visitas</text></svg>`;
+  const W=600,H=200,P=10,mg=Math.max(...dias.map(d=>d.gasto))||1,mv=Math.max(...dias.map(d=>d.visitas))||1,bw=(W-2*P)/dias.length;
+  let s=`<div class="barras ads">${dias.map(d=>`<div class="col" title="${d.dia.slice(8)}/${d.dia.slice(5,7)}: ${brl(d.gasto)} · ${fmt(d.visitas)} visitas"><em>${Math.round(d.gasto)}</em><i style="height:${Math.max(1,d.gasto/mg*100)}%;background:var(--c2)"></i><span>${d.dia.slice(8)}</span></div>`).join('')}
+   <svg class="linha" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><polyline fill="none" stroke="var(--lacre)" stroke-width="2.4" vector-effect="non-scaling-stroke" points="${dias.map((d,i)=>[P+i*bw+bw/2,H-(d.visitas/mv)*(H-30)-12].join(',')).join(' ')}"/></svg></div>`;
+  return s+`<p class="meta" style="margin-top:6px">Barras: gasto do dia em R$ (o número em cima). Linha: visitas ao perfil pelos anúncios (máx. ${fmt(mv)}/dia). Passe o mouse para ver o dia.</p>`;
 }
 const barras=(lista,fmtv)=>{const mx=Math.max(...lista.map(x=>x[1]))||1;return lista.map(([r,v])=>`<div class="barra"><span class="r">${esc(r)}</span><i style="width:${Math.max(2,v/mx*45)}%"></i><em>${fmtv?fmtv(v):fmt(v)}</em></div>`).join('')};
 const NOMES={instagram:'Instagram',threads:'Threads',facebook:'Página do Facebook',facebook_perfil:'Perfil do Facebook',youtube:'YouTube',tiktok:'TikTok',linkedin:'LinkedIn'};
@@ -181,7 +188,7 @@ function render(R){
    <div><span class="lbl">Visitas ao perfil por dia</span><div class="chart">${grafBarras(vis,'var(--c3)')}</div></div></div>`;
   // anúncios
   const conj=A.conjuntos||[];
-  html+=`<h2 id="anuncios">Investimento × resultado</h2><div class="chart">${grafAds(ads)}<div class="leg"><span style="background:var(--c2);height:8px"></span>gasto por dia<span style="background:var(--lacre)"></span>visitas ao perfil pelos anúncios</div></div>
+  html+=`<h2 id="anuncios">Investimento × resultado</h2><div class="chart">${grafAds(ads)}</div>
    ${conj.length?`<p class="meta" style="margin-top:14px">Anúncio por anúncio (últimos 3 dias, leitura do robô em ${esc(A.conjuntos_data||'')}). O robô redistribui a verba sozinho, sem mudar o total.</p><div class="wrap"><table><thead><tr><th>Anúncio</th><th class="n">Orçamento/dia</th><th class="n">Gasto 3 d</th><th class="n">Visitas 3 d</th><th class="n">Custo/visita</th><th class="n">Frequência</th></tr></thead><tbody>${conj.sort((a,b)=>(a.custo_resultado||9)-(b.custo_resultado||9)).map(c=>`<tr><td>${esc(c.nome.replace(' - Claude 1',''))}</td><td class="n">${brl(c.orcamento_dia)}</td><td class="n">${brl(c.gasto_3d)}</td><td class="n">${fmt(c.resultados_3d)}</td><td class="n">${brl(c.custo_resultado)}</td><td class="n">${c.freq?c.freq.toFixed(2).replace('.',','):'—'}</td></tr>`).join('')}</tbody></table></div>`:''}`;
   // audiência
   const au=R.audiencia||{};
