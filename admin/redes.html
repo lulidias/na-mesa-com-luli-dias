@@ -12,28 +12,36 @@
 @media (prefers-color-scheme:dark){:root{--b:#111;--p:#F4F4F4;--c1:#1C1C1C;--c2:#2E2E2E;--c3:#9A9A9A;--lacre:#E0424A;--azul:#6B84FF}}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--b);color:var(--p);font:15px/1.5 var(--f)}
-main{max-width:1180px;margin:0 auto;padding:28px 16px 80px}
+main{max-width:1200px;margin:0 auto;padding:28px 16px 80px}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--c2);padding-bottom:16px}
 .wm{font-weight:800;font-stretch:112%;letter-spacing:-.02em;text-transform:uppercase;font-size:15px}
 .wm i{display:inline-block;width:.32em;height:.32em;border-radius:50%;border:.08em solid currentColor;margin-left:.15em}
 .lbl{font:700 11px var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--c3)}
 h1{font-weight:800;font-stretch:112%;letter-spacing:-.02em;font-size:clamp(28px,5vw,40px);margin:22px 0 4px}
-h2{font-weight:800;font-stretch:112%;letter-spacing:-.01em;font-size:20px;margin:36px 0 12px}
+h2{font-weight:800;font-stretch:112%;letter-spacing:-.01em;font-size:20px;margin:40px 0 12px;padding-top:4px}
 .meta{color:var(--c3);font-size:13px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));border-top:1px solid var(--c2);border-left:1px solid var(--c2);margin-top:20px}
+nav.secoes{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 0;position:sticky;top:0;background:var(--b);padding:10px 0;z-index:5;border-bottom:1px solid var(--c2)}
+nav.secoes a{font:600 12px var(--f);padding:6px 10px;border:1px solid var(--p);text-decoration:none}
+nav.secoes a:hover{background:var(--p);color:var(--b)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));border-top:1px solid var(--c2);border-left:1px solid var(--c2);margin-top:20px}
 .kpi{border-right:1px solid var(--c2);border-bottom:1px solid var(--c2);padding:16px}
-.kpi b{display:block;font-weight:800;font-stretch:112%;font-size:28px;letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums}
-.kpi small{color:var(--c3);font-size:12px}
-.up{color:var(--p)} .down{color:var(--lacre)}
+.kpi b{display:block;font-weight:800;font-stretch:105%;font-size:clamp(20px,2.6vw,28px);letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi small{color:var(--c3);font-size:12px;display:block}
+.down{color:var(--lacre)}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--p)}
-td{padding:10px;border-bottom:1px solid var(--c2);vertical-align:top}
-td.n{text-align:right;white-space:nowrap} th.n{text-align:right}
+th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--p);font-size:13px}
+td{padding:9px 10px;border-bottom:1px solid var(--c2);vertical-align:top;font-size:14px}
+td.n,th.n{text-align:right;white-space:nowrap}
 .wrap{overflow-x:auto}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-@media (max-width:820px){.grid2{grid-template-columns:1fr}}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+@media (max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
 .chart{border:1px solid var(--c2);padding:14px}
 .chart svg{width:100%;height:200px;display:block}
+.barra{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:13px}
+.barra span.r{width:42%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra i{display:block;height:10px;background:var(--p)}
+.barra em{font-style:normal;color:var(--c3);font-variant-numeric:tabular-nums}
 .ponto{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--p);margin-right:6px;vertical-align:middle}
 .ponto.off{background:none;border:1px solid var(--p)}
 .alerta{border-left:3px solid var(--lacre);padding:8px 12px;margin:6px 0;background:var(--c1);font-size:14px}
@@ -41,10 +49,24 @@ a{color:inherit}
 .vazio{color:var(--c3);font-size:14px}
 #gate{max-width:380px;margin:18vh auto;padding:0 16px}
 #gate input{width:100%;font:16px var(--f);padding:12px;border:1px solid var(--p);background:var(--b);color:var(--p);margin:14px 0}
-#gate button,.btn{font:700 14px var(--f);padding:12px 18px;background:var(--p);color:var(--b);border:0;cursor:pointer}
-.chip{display:inline-block;font:600 11px var(--f);padding:3px 8px;border:1px solid var(--p);margin:2px 4px 2px 0}
+.btn,#gate button{font:700 14px var(--f);padding:11px 16px;background:var(--p);color:var(--b);border:1px solid var(--p);cursor:pointer;min-height:42px}
+.chip{font:600 12px var(--f);padding:6px 10px;border:1px solid var(--p);background:var(--b);color:var(--p);cursor:pointer;margin:0 4px 6px 0;min-height:34px}
+.chip.on{background:var(--p);color:var(--b)}
 .leg{font-size:12px;color:var(--c3);margin-top:6px}
 .leg span{display:inline-block;width:10px;height:3px;margin:0 4px 2px 10px;vertical-align:middle}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid var(--c2);border-left:1px solid var(--c2)}
+.cal div{border-right:1px solid var(--c2);border-bottom:1px solid var(--c2);min-height:96px;padding:6px;font-size:11px;overflow:hidden}
+.cal .dow{min-height:auto;font:700 10px var(--f);letter-spacing:.12em;text-transform:uppercase;color:var(--c3)}
+.cal .fora{background:var(--c1)}
+.cal .hoje{outline:2px solid var(--p);outline-offset:-2px}
+.cal .d{font-weight:800;font-size:13px;display:block;margin-bottom:3px}
+.ev{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:3px solid var(--p);padding-left:4px;margin:2px 0;line-height:1.35}
+.r-Instagram{border-color:#111}.r-TikTok{border-color:#B5121B}.r-YouTube{border-color:#D08A12}.r-Facebook{border-color:#1D3FCB}.r-Threads{border-color:#6B6B6B}.r-LinkedIn{border-color:#7A8B12}
+@media (prefers-color-scheme:dark){.r-Instagram{border-color:#F4F4F4}}
+.leg-redes span{display:inline-block;border-left:3px solid;padding-left:5px;margin-right:12px;font-size:12px}
+.mesnav{display:flex;align-items:center;gap:12px;margin:8px 0 12px}
+.mesnav b{font-weight:800;font-stretch:112%;font-size:18px;min-width:180px;text-align:center}
+.hidden{display:none}
 </style>
 </head>
 <body>
@@ -59,14 +81,15 @@ a{color:inherit}
 <script>
 const $=s=>document.querySelector(s);
 const fmt=n=>n==null||isNaN(n)?'—':Number(n).toLocaleString('pt-BR');
-const brl=n=>n==null?'—':'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const brl=n=>n==null||isNaN(n)?'—':'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const sinal=n=>n==null?'—':(n>0?'+':'')+fmt(n);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 async function abrir(senha){
   const p=await (await fetch('redes/dados.enc?'+Date.now())).json();
   const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(senha),'PBKDF2',false,['deriveKey']);
   const k=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(p.sal),iterations:200000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
-  const t=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(p.iv)},k,b64(p.dados));
-  return JSON.parse(new TextDecoder().decode(t));
+  return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(p.iv)},k,b64(p.dados))));
 }
 async function entrar(senha){
   try{const R=await abrir(senha);try{localStorage.setItem('painel_redes',senha)}catch(e){};$('#gate').style.display='none';render(R)}
@@ -75,75 +98,156 @@ async function entrar(senha){
 $('#f').onsubmit=e=>{e.preventDefault();entrar($('#senha').value)};
 try{const s=localStorage.getItem('painel_redes');if(s)entrar(s)}catch(e){}
 
-function linha(pontos,cor){ // pontos: [[x,y]] normalizados
-  return `<polyline fill="none" stroke="${cor}" stroke-width="2.4" points="${pontos.map(p=>p.join(',')).join(' ')}"/>`;
-}
-function grafLinha(serie,cor,rot){
+function grafLinha(serie,rot){
   if(serie.length<2)return '<p class="vazio">O gráfico aparece a partir do 2º dia de coleta.</p>';
-  const W=600,H=200,P=28,vs=serie.map(s=>s[1]),mn=Math.min(...vs),mx=Math.max(...vs),r=(mx-mn)||1;
+  const W=600,H=200,P=30,vs=serie.map(s=>s[1]),mn=Math.min(...vs),mx=Math.max(...vs),r=(mx-mn)||1;
   const pts=serie.map((s,i)=>[P+i*(W-2*P)/(serie.length-1),H-P-(s[1]-mn)*(H-2*P)/r]);
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${linha(pts,cor)}
-  <text x="${P}" y="14" font-size="11" fill="currentColor">${fmt(mx)}</text><text x="${P}" y="${H-6}" font-size="11" fill="currentColor">${fmt(mn)}</text>
-  <text x="${W-P}" y="${H-6}" font-size="11" text-anchor="end" fill="currentColor">${serie[serie.length-1][0].slice(5)}</text>
-  <text x="${P+60}" y="${H-6}" font-size="11" fill="currentColor">${serie[0][0].slice(5)}</text></svg>`;
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${rot||''}"><polyline fill="none" stroke="currentColor" stroke-width="2.4" points="${pts.map(p=>p.join(',')).join(' ')}"/>
+  <text x="${P}" y="14" font-size="11" fill="currentColor">${fmt(mx)}</text><text x="${P}" y="${H-6}" font-size="11" fill="currentColor">${fmt(mn)} · ${serie[0][0].slice(8)}/${serie[0][0].slice(5,7)}</text>
+  <text x="${W-P}" y="${H-6}" font-size="11" text-anchor="end" fill="currentColor">${serie.at(-1)[0].slice(8)}/${serie.at(-1)[0].slice(5,7)}</text></svg>`;
+}
+function grafBarras(dados,cor){ // [[rotulo,valor]]
+  if(!dados.length)return '<p class="vazio">Sem dados.</p>';
+  const W=600,H=200,P=24,mx=Math.max(...dados.map(d=>d[1]))||1,bw=(W-2*P)/dados.length;
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${dados.map((d,i)=>{const h=d[1]/mx*(H-2*P);return `<rect x="${P+i*bw+1}" y="${H-P-h}" width="${bw-2}" height="${h}" fill="${cor||'currentColor'}"/><text x="${P+i*bw+bw/2}" y="${H-8}" font-size="9" text-anchor="middle" fill="currentColor">${d[0]}</text>`}).join('')}</svg>`;
 }
 function grafAds(dias){
   if(!dias.length)return '<p class="vazio">Sem dados de anúncios.</p>';
   const W=600,H=200,P=28,mg=Math.max(...dias.map(d=>d.gasto))||1,mv=Math.max(...dias.map(d=>d.visitas))||1,bw=(W-2*P)/dias.length;
   let s=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">`;
   dias.forEach((d,i)=>{const h=(d.gasto/mg)*(H-2*P);s+=`<rect x="${P+i*bw+1}" y="${H-P-h}" width="${bw-2}" height="${h}" fill="var(--c2)"/>`});
-  s+=linha(dias.map((d,i)=>[P+i*bw+bw/2,H-P-(d.visitas/mv)*(H-2*P)]),'var(--lacre)');
-  return s+`<text x="${P}" y="14" font-size="11" fill="currentColor">${brl(mg)}/dia · ${fmt(mv)} visitas</text></svg>`;
+  s+=`<polyline fill="none" stroke="var(--lacre)" stroke-width="2.4" points="${dias.map((d,i)=>[P+i*bw+bw/2,H-P-(d.visitas/mv)*(H-2*P)].join(',')).join(' ')}"/>`;
+  return s+`<text x="${P}" y="14" font-size="11" fill="currentColor">máx. ${brl(mg)}/dia · ${fmt(mv)} visitas</text></svg>`;
 }
+const barras=(lista,fmtv)=>{const mx=Math.max(...lista.map(x=>x[1]))||1;return lista.map(([r,v])=>`<div class="barra"><span class="r">${esc(r)}</span><i style="width:${Math.max(2,v/mx*45)}%"></i><em>${fmtv?fmtv(v):fmt(v)}</em></div>`).join('')};
 const NOMES={instagram:'Instagram',threads:'Threads',facebook:'Página do Facebook',facebook_perfil:'Perfil do Facebook',youtube:'YouTube',tiktok:'TikTok',linkedin:'LinkedIn'};
+const PAISES={BR:'Brasil',PT:'Portugal',ES:'Espanha',US:'Estados Unidos',FR:'França',IT:'Itália',AR:'Argentina',GB:'Reino Unido',DE:'Alemanha',CL:'Chile',UY:'Uruguai',MX:'México',CH:'Suíça',AE:'Emirados'};
+const IDADE={'13-17':'13–17','18-24':'18–24','25-34':'25–34','35-44':'35–44','45-54':'45–54','55-64':'55–64','65+':'65+'};
+let AG=[],VISTA='lista',FILTRO='todas',MES=null;
+
 function render(R){
   const h=R.historico||{},dias=Object.keys(h).sort();
-  const ant=d=>{const alvo=new Date(Date.now()-d*864e5).toISOString().slice(0,10);return dias.filter(x=>x<=alvo).pop()};
+  const ant=d=>{const alvo=new Date(Date.now()-d*864e5).toLocaleDateString('sv-SE');return dias.filter(x=>x<=alvo).pop()};
   const total=Object.values(R.redes).reduce((a,v)=>a+((v&&v.seguidores)||0),0);
-  const ig=R.redes.instagram||{},d28=ig.d28||{};
+  const ig=R.redes.instagram||{},d28=ig.d28||{},d7=ig.d7||{};
   const igd=R.ig_diario||{},igs=Object.keys(igd).sort();
-  const igv=n=>{const a=igs.filter(x=>x<=new Date(Date.now()-n*864e5).toISOString().slice(0,10)).pop();return a&&ig.seguidores?ig.seguidores-igd[a].seguidores:null};
-  const ads=(R.anuncios&&R.anuncios.dias)||[],gasto30=ads.reduce((a,d)=>a+d.gasto,0),vis30=ads.reduce((a,d)=>a+d.visitas,0);
-  const novos28=(d28.follows_and_unfollows_det||{}).FOLLOWER;
+  const igv=n=>{const a=igs.filter(x=>x<=new Date(Date.now()-n*864e5).toLocaleDateString('sv-SE')).pop();return a&&ig.seguidores?ig.seguidores-igd[a].seguidores:null};
+  const A=R.anuncios||{},ads=A.dias||[],gasto30=ads.reduce((a,d)=>a+d.gasto,0),vis30=ads.reduce((a,d)=>a+d.visitas,0),gasto7=ads.slice(-7).reduce((a,d)=>a+d.gasto,0);
+  const novos28=(d28.follows_and_unfollows_det||{}).FOLLOWER,saiu28=(d28.follows_and_unfollows_det||{}).NON_FOLLOWER;
   const conv=R.conversa||{},resp30=Object.values(conv).reduce((a,c)=>a+c.respondidos_30d,0),sem=Object.values(conv).reduce((a,c)=>a+c.sem_resposta_30d,0);
+  const eng=d28.reach?(d28.total_interactions/d28.reach*100):null;
+  const cad=R.cadencia||{};
   let html=`<div class="top"><div class="wm">Luli Dias<i></i></div><div class="meta">Atualizado em ${new Date(R.gerado).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})} · <a href="index.html">voltar ao admin</a></div></div>
   <h1>Redes sociais</h1><p class="meta">Só lulidias.com · Instagram, Threads, Facebook, YouTube, TikTok e LinkedIn numa visão única.</p>
-  <div class="kpis">
-   <div class="kpi"><span class="lbl">Seguidores, todas as redes</span><b>${fmt(total)}</b><small>soma das redes lidas hoje</small></div>
-   <div class="kpi"><span class="lbl">Instagram, 7 dias</span><b class="${igv(7)<0?'down':'up'}">${igv(7)==null?'—':(igv(7)>0?'+':'')+fmt(igv(7))}</b><small>30 dias: ${igv(30)==null?'—':(igv(30)>0?'+':'')+fmt(igv(30))}</small></div>
-   <div class="kpi"><span class="lbl">Investimento, 30 dias</span><b>${brl(gasto30)}</b><small>${fmt(vis30)} visitas ao perfil pelos anúncios</small></div>
-   <div class="kpi"><span class="lbl">Custo por seguidor</span><b>${novos28?brl(gasto30/novos28):'—'}</b><small>gasto ÷ ${fmt(novos28)} novos seguidores (28 d)</small></div>
-   <div class="kpi"><span class="lbl">Alcance Instagram, 28 d</span><b>${fmt(d28.reach)}</b><small>${fmt(d28.views)} visualizações</small></div>
-   <div class="kpi"><span class="lbl">Interações, 28 d</span><b>${fmt(d28.total_interactions)}</b><small>${fmt(d28.likes)} curtidas · ${fmt(d28.comments)} coment. · ${fmt(d28.saves)} salvos</small></div>
-   <div class="kpi"><span class="lbl">Comentários respondidos, 30 d</span><b>${fmt(resp30)}</b><small>pelos robôs de todas as redes</small></div>
-   <div class="kpi"><span class="lbl">Sem resposta, 30 d</span><b class="${sem?'down':''}">${fmt(sem)}</b><small>spam, ofensa ou casos para você ver</small></div>
+  <nav class="secoes"><a href="#visao">Visão geral</a><a href="#redes">Rede por rede</a><a href="#crescimento">Crescimento</a><a href="#anuncios">Anúncios</a><a href="#audiencia">Audiência</a><a href="#conversa">Conversa</a><a href="#posts">Melhores posts</a><a href="#agenda">Agenda</a><a href="#estoque">Estoque</a></nav>
+  <div id="visao" class="kpis">
+   <div class="kpi"><span class="lbl">Seguidores, todas as redes</span><b>${fmt(total)}</b><small>soma das 7 redes</small></div>
+   <div class="kpi"><span class="lbl">Instagram, 7 dias</span><b class="${igv(7)<0?'down':''}">${sinal(igv(7))}</b><small>30 dias: ${sinal(igv(30))}</small></div>
+   <div class="kpi"><span class="lbl">Novos seguidores, 28 d</span><b>${fmt(novos28)}</b><small>${fmt(saiu28)} vieram de não seguidores</small></div>
+   <div class="kpi"><span class="lbl">Investimento, 30 dias</span><b>${brl(gasto30)}</b><small>7 dias: ${brl(gasto7)}</small></div>
+   <div class="kpi"><span class="lbl">Custo por seguidor</span><b>${novos28?brl(gasto30/novos28):'—'}</b><small>gasto ÷ novos seguidores (28 d)</small></div>
+   <div class="kpi"><span class="lbl">Custo por visita ao perfil</span><b>${vis30?brl(gasto30/vis30):'—'}</b><small>${fmt(vis30)} visitas pelos anúncios</small></div>
+   <div class="kpi"><span class="lbl">Alcance Instagram, 28 d</span><b>${fmt(d28.reach)}</b><small>7 d: ${fmt(d7.reach)} · ${fmt(d28.views)} visualizações</small></div>
+   <div class="kpi"><span class="lbl">Interações, 28 d</span><b>${fmt(d28.total_interactions)}</b><small>engajamento ${eng?eng.toFixed(1).replace('.',',')+'%':'—'} do alcance</small></div>
+   <div class="kpi"><span class="lbl">Visitas ao perfil, 28 d</span><b>${fmt(d28.profile_views)}</b><small>${fmt(d28.website_clicks)} cliques no link (lulidias.com)</small></div>
+   <div class="kpi"><span class="lbl">Salvos e compartilh., 28 d</span><b>${fmt((d28.saves||0)+(d28.shares||0))}</b><small>${fmt(d28.saves)} salvos · ${fmt(d28.shares)} compart.</small></div>
+   <div class="kpi"><span class="lbl">Comentários respondidos, 30 d</span><b>${fmt(resp30)}</b><small>pelos robôs, todas as redes</small></div>
+   <div class="kpi"><span class="lbl">Sem resposta, 30 d</span><b class="${sem?'down':''}">${fmt(sem)}</b><small>spam, ofensa ou casos para você</small></div>
   </div>`;
-  if((R.alertas||[]).length)html+=`<h2>Alertas</h2>`+R.alertas.map(a=>`<div class="alerta">${a}</div>`).join('');
-  html+=`<h2>Rede por rede</h2><div class="wrap"><table><thead><tr><th>Rede</th><th class="n">Seguidores</th><th class="n">7 dias</th><th class="n">30 dias</th><th>Destaques</th></tr></thead><tbody>`;
+  if((R.alertas||[]).length)html+=`<h2>Alertas</h2>`+R.alertas.map(a=>`<div class="alerta">${esc(a)}</div>`).join('');
+  html+=`<h2 id="redes">Rede por rede</h2><div class="wrap"><table><thead><tr><th>Rede</th><th class="n">Seguidores</th><th class="n">7 dias</th><th class="n">30 dias</th><th class="n">Posts, 30 d</th><th>Destaques</th><th class="n">Lido em</th></tr></thead><tbody>`;
+  const postsRede={instagram:cad.instagram_30d,threads:cad.threads_30d,facebook:cad.facebook_30d};
   for(const [k,v] of Object.entries(R.redes)){
-    const s=v&&v.seguidores; const a7=ant(7),a30=ant(30);
-    const dv=(a)=>a&&h[a]&&h[a][k]!=null&&s!=null?s-h[a][k]:null;
+    const s=v&&v.seguidores; const dv=a=>a&&h[a]&&h[a][k]!=null&&s!=null?s-h[a][k]:null;
     let dest='';
-    if(k==='instagram')dest=`${fmt(d28.profile_views)} visitas ao perfil · ${fmt(d28.website_clicks)} cliques no link (28 d)`;
+    if(k==='instagram')dest=`${fmt(ig.posts)} posts no perfil · segue ${fmt(ig.seguindo)}`;
     else if(k==='threads'&&v.d28)dest=`${fmt(v.d28.views)} visualizações do perfil · ${fmt(v.d28.likes)} curtidas (28 d)`;
-    else if(s==null)dest='<span class="vazio">aguardando a 1ª leitura pela rotina do Chrome</span>';
-    const f=(x)=>x==null?'—':(x>0?'+':'')+fmt(x);
-    html+=`<tr><td><b>${NOMES[k]||k}</b></td><td class="n">${fmt(s)}</td><td class="n">${k==='instagram'?f(igv(7)):f(dv(a7))}</td><td class="n">${k==='instagram'?f(igv(30)):f(dv(a30))}</td><td>${dest}</td></tr>`;
+    else if(k==='facebook_perfil'&&v.amigos)dest=`${fmt(v.amigos)} amigos`;
+    else if(k==='tiktok'&&v.curtidas_total!=null)dest=`${fmt(v.curtidas_total)} curtidas no total`;
+    else if(s==null)dest='<span class="vazio">aguardando a 1ª leitura</span>';
+    const lido=v&&v.lido_em?new Date(v.lido_em).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}):'hoje';
+    html+=`<tr><td><b>${NOMES[k]||k}</b></td><td class="n">${fmt(s)}</td><td class="n">${k==='instagram'?sinal(igv(7)):sinal(dv(ant(7)))}</td><td class="n">${k==='instagram'?sinal(igv(30)):sinal(dv(ant(30)))}</td><td class="n">${fmt(postsRede[k])}</td><td>${dest}</td><td class="n meta">${lido}</td></tr>`;
   }
   html+=`</tbody></table></div>`;
+  // crescimento
   const serie=igs.map(d=>[d,igd[d].seguidores]);
-  html+=`<div class="grid2"><div><h2>Seguidores no Instagram</h2><div class="chart">${grafLinha(serie,'var(--p)')}</div></div>
-  <div><h2>Investimento × resultado</h2><div class="chart">${grafAds(ads)}<div class="leg"><span style="background:var(--c2);height:8px"></span>gasto por dia<span style="background:var(--lacre)"></span>visitas ao perfil</div></div></div></div>`;
-  html+=`<h2>Conversa</h2><div class="wrap"><table><thead><tr><th>Rede</th><th class="n">Respondidos 7 d</th><th class="n">Respondidos 30 d</th><th class="n">Sem resposta 30 d</th></tr></thead><tbody>`;
-  for(const k of ['instagram','threads','facebook','tiktok','youtube','linkedin']){const c=conv[k];html+=`<tr><td>${NOMES[k]}</td><td class="n">${c?fmt(c.respondidos_7d):'—'}</td><td class="n">${c?fmt(c.respondidos_30d):'—'}</td><td class="n">${c?fmt(c.sem_resposta_30d):'—'}</td></tr>`}
+  const ganho=igs.map(d=>[d.slice(8),igd[d].variacao||0]).slice(-21);
+  const alc=igs.filter(d=>igd[d].ontem_reach).map(d=>[d.slice(8),igd[d].ontem_reach]).slice(-21);
+  const vis=igs.filter(d=>igd[d].ontem_profile_views).map(d=>[d.slice(8),igd[d].ontem_profile_views]).slice(-21);
+  html+=`<h2 id="crescimento">Crescimento</h2><div class="grid2">
+   <div><span class="lbl">Seguidores no Instagram</span><div class="chart">${grafLinha(serie,'Seguidores no Instagram')}</div></div>
+   <div><span class="lbl">Novos seguidores por dia</span><div class="chart">${grafBarras(ganho)}</div></div>
+   <div><span class="lbl">Alcance por dia</span><div class="chart">${grafBarras(alc,'var(--c3)')}</div></div>
+   <div><span class="lbl">Visitas ao perfil por dia</span><div class="chart">${grafBarras(vis,'var(--c3)')}</div></div></div>`;
+  // anúncios
+  const conj=A.conjuntos||[];
+  html+=`<h2 id="anuncios">Investimento × resultado</h2><div class="chart">${grafAds(ads)}<div class="leg"><span style="background:var(--c2);height:8px"></span>gasto por dia<span style="background:var(--lacre)"></span>visitas ao perfil pelos anúncios</div></div>
+   ${conj.length?`<p class="meta" style="margin-top:14px">Anúncio por anúncio (últimos 3 dias, leitura do robô em ${esc(A.conjuntos_data||'')}). O robô redistribui a verba sozinho, sem mudar o total.</p><div class="wrap"><table><thead><tr><th>Anúncio</th><th class="n">Orçamento/dia</th><th class="n">Gasto 3 d</th><th class="n">Visitas 3 d</th><th class="n">Custo/visita</th><th class="n">Frequência</th></tr></thead><tbody>${conj.sort((a,b)=>(a.custo_resultado||9)-(b.custo_resultado||9)).map(c=>`<tr><td>${esc(c.nome.replace(' - Claude 1',''))}</td><td class="n">${brl(c.orcamento_dia)}</td><td class="n">${brl(c.gasto_3d)}</td><td class="n">${fmt(c.resultados_3d)}</td><td class="n">${brl(c.custo_resultado)}</td><td class="n">${c.freq?c.freq.toFixed(2).replace('.',','):'—'}</td></tr>`).join('')}</tbody></table></div>`:''}`;
+  // audiência
+  const au=R.audiencia||{};
+  const hor=Object.entries(R.horarios||{}).map(([k,v])=>[+k,v]).sort((a,b)=>a[0]-b[0]);
+  const melhor=hor.length?hor.reduce((a,b)=>b[1]>a[1]?b:a):null;
+  html+=`<h2 id="audiencia">Audiência do Instagram</h2><div class="grid3">
+   <div><span class="lbl">Cidades</span>${barras((au.city||[]).map(([c,v])=>[c.replace(/, .*$/,''),v]))}</div>
+   <div><span class="lbl">Países</span>${barras((au.country||[]).map(([c,v])=>[PAISES[c]||c,v]))}</div>
+   <div><span class="lbl">Idade</span>${barras((au.age||[]).map(([c,v])=>[IDADE[c]||c,v]).sort((a,b)=>a[0].localeCompare(b[0])))}<span class="lbl" style="display:block;margin-top:14px">Gênero</span>${barras((au.gender||[]).map(([c,v])=>[{F:'Mulheres',M:'Homens',U:'Não informado'}[c]||c,v]))}</div></div>
+   <div style="margin-top:20px"><span class="lbl">Seguidores online por hora (horário de Brasília)</span>${melhor?`<p class="meta">Pico às ${melhor[0]}h. Os vídeos falados saem às 12h30 e os carrosséis às 18h.</p>`:''}<div class="chart">${grafBarras(hor.map(([k,v])=>[k+'h',v]))}</div></div>`;
+  // conversa
+  html+=`<h2 id="conversa">Conversa</h2><div class="wrap"><table><thead><tr><th>Rede</th><th class="n">Respondidos 7 d</th><th class="n">Respondidos 30 d</th><th class="n">Sem resposta 30 d</th><th>Como responde</th></tr></thead><tbody>`;
+  const COMO={instagram:'robô do GitHub, a cada 2 h',threads:'robô do GitHub, a cada 2 h',facebook:'robô do GitHub (Página)',tiktok:'rotina no Chrome, 4× ao dia',youtube:'rotina no Chrome, 3× ao dia',linkedin:'rotina no Chrome, 3× ao dia'};
+  for(const k of ['instagram','threads','facebook','tiktok','youtube','linkedin']){const c=conv[k];html+=`<tr><td>${NOMES[k]}</td><td class="n">${c?fmt(c.respondidos_7d):'—'}</td><td class="n">${c?fmt(c.respondidos_30d):'—'}</td><td class="n">${c?fmt(c.sem_resposta_30d):'—'}</td><td class="meta">${COMO[k]}</td></tr>`}
   html+=`</tbody></table></div>`;
-  const pend=Object.entries(conv).flatMap(([k,c])=>(c.ultimas||[]).map(x=>({...x,rede:NOMES[k]}))).slice(0,20);
-  html+=`<h2>Comentários que os robôs não responderam</h2>`+(pend.length?`<div class="wrap"><table><tbody>${pend.map(x=>`<tr><td class="meta">${(x.quando||'').slice(0,10)}</td><td>${x.rede}</td><td><b>${x.quem||''}</b> ${x.texto||''}</td><td class="meta">${x.tipo||x.motivo||''}</td><td>${x.post?`<a href="${x.post}" target="_blank">abrir</a>`:''}</td></tr>`).join('')}</tbody></table></div>`:'<p class="vazio">Nenhum. Todos os comentários dos últimos 30 dias foram respondidos.</p>');
-  const top=(R.top&&R.top.instagram)||[];
-  html+=`<h2>Melhores posts do Instagram, 30 dias</h2><div class="wrap"><table><thead><tr><th>Data</th><th>Post</th><th class="n">Alcance</th><th class="n">Interações</th><th class="n">Salvos</th><th class="n">Compart.</th></tr></thead><tbody>${top.map(t=>`<tr><td class="meta">${t.data.slice(8)}/${t.data.slice(5,7)}</td><td><a href="${t.link}" target="_blank">${t.texto||t.tipo}</a></td><td class="n">${fmt(t.alcance)}</td><td class="n">${fmt(t.interacoes)}</td><td class="n">${fmt(t.salvos)}</td><td class="n">${fmt(t.compart)}</td></tr>`).join('')}</tbody></table></div>`;
-  html+=`<h2>Agenda, próximos 10 dias</h2><div class="wrap"><table><thead><tr><th>Quando</th><th>Rede</th><th>O quê</th><th>Situação</th></tr></thead><tbody>${(R.agenda||[]).map(a=>`<tr><td class="meta" style="white-space:nowrap">${a.quando.slice(8,10)}/${a.quando.slice(5,7)} ${a.quando.slice(11,16)}</td><td>${a.rede}</td><td>${a.o_que}</td><td><span class="ponto ${a.aprovado?'':'off'}"></span>${a.status}</td></tr>`).join('')}</tbody></table></div>`;
-  html+=`<p class="meta" style="margin-top:40px">Fontes: APIs do Instagram, Threads, Facebook e Meta Ads; página pública do YouTube; TikTok, LinkedIn e perfil do Facebook pelas rotinas do Chrome; arquivos dos robôs de resposta. Guia Luli Dias.</p>`;
+  const pend=Object.entries(conv).flatMap(([k,c])=>(c.ultimas||[]).map(x=>({...x,rede:NOMES[k]}))).slice(0,30);
+  html+=`<p class="lbl" style="margin-top:18px">Comentários que os robôs não responderam</p>`+(pend.length?`<div class="wrap"><table><tbody>${pend.map(x=>`<tr><td class="meta">${esc((x.quando||'').slice(0,10))}</td><td>${x.rede}</td><td><b>${esc(x.quem)}</b> ${esc(x.texto)}</td><td class="meta">${esc(x.tipo||x.motivo)}</td><td>${x.post?`<a href="${esc(x.post)}" target="_blank" rel="noopener">abrir</a>`:''}</td></tr>`).join('')}</tbody></table></div>`:'<p class="vazio">Nenhum. Todos os comentários dos últimos 30 dias foram respondidos.</p>');
+  // posts
+  const T=R.top||{};
+  const tab=(lista,cols)=>lista.length?`<div class="wrap"><table><thead><tr><th>Data</th><th>Post</th>${cols.map(c=>`<th class="n">${c[0]}</th>`).join('')}</tr></thead><tbody>${lista.map(t=>`<tr><td class="meta">${t.data.slice(8)}/${t.data.slice(5,7)}</td><td><a href="${esc(t.link)}" target="_blank" rel="noopener">${esc(t.texto||t.tipo||'post')}</a></td>${cols.map(c=>`<td class="n">${fmt(t[c[1]])}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`:'<p class="vazio">Sem posts no período.</p>';
+  html+=`<h2 id="posts">Melhores posts</h2><span class="lbl">Instagram, 30 dias</span>${tab(T.instagram||[],[['Alcance','alcance'],['Interações','interacoes'],['Salvos','salvos'],['Compart.','compart'],['Coment.','comentarios']])}
+   <div class="grid2" style="margin-top:22px"><div><span class="lbl">Threads</span>${tab(T.threads||[],[['Visualiz.','views'],['Curtidas','likes'],['Respostas','replies']])}</div>
+   <div><span class="lbl">Página do Facebook</span>${tab(T.facebook||[],[['Reações','reacoes'],['Coment.','comentarios'],['Compart.','compart']])}</div></div>`;
+  // agenda
+  AG=(R.agenda||[]).slice().sort((a,b)=>a.quando.localeCompare(b.quando));
+  const redes=['todas',...new Set(AG.map(a=>a.rede))];
+  html+=`<h2 id="agenda">Agenda: tudo o que está agendado</h2><p class="meta">${AG.length} publicações até ${AG.length?new Date(AG.at(-1).quando).toLocaleDateString('pt-BR'):'—'}. <span class="ponto"></span>aprovado <span class="ponto off" style="margin-left:10px"></span>aguarda seu ok</p>
+   <div style="margin:12px 0"><span class="lbl" style="margin-right:8px">Ver</span>${['lista','calendario','rede'].map(v=>`<button class="chip vista" data-v="${v}">${{lista:'Lista',calendario:'Calendário',rede:'Por rede'}[v]}</button>`).join('')}</div>
+   <div><span class="lbl" style="margin-right:8px">Rede</span>${redes.map(r=>`<button class="chip filtro" data-r="${esc(r)}">${r==='todas'?'Todas':esc(r)}</button>`).join('')}</div>
+   <div class="leg-redes" style="margin:8px 0">${redes.filter(r=>r!=='todas').map(r=>`<span class="r-${r}">${r}</span>`).join('')}</div>
+   <div id="agview"></div>`;
+  // estoque
+  html+=`<h2 id="estoque">Estoque e cadência</h2><div class="kpis">
+   <div class="kpi"><span class="lbl">Vídeos falados aprovados</span><b>${fmt(cad.videos_falados_prontos)}</b><small>agenda até ${cad.videos_falados_ate?new Date(cad.videos_falados_ate+'T12:00').toLocaleDateString('pt-BR'):'—'}</small></div>
+   <div class="kpi"><span class="lbl">Instagram, posts 7 d</span><b>${fmt(cad.instagram_7d)}</b><small>30 d: ${fmt(cad.instagram_30d)}</small></div>
+   <div class="kpi"><span class="lbl">LinkedIn agendados</span><b>${fmt(cad.linkedin_agendados)}</b><small>${fmt(cad.linkedin_aguardando_ok)} aguardando seu ok</small></div>
+   <div class="kpi"><span class="lbl">Publicações agendadas</span><b>${fmt(AG.length)}</b><small>todas as redes</small></div></div>`;
+  html+=`<p class="meta" style="margin-top:40px">Fontes: APIs do Instagram, Threads, Facebook e Meta Ads; página pública do YouTube; TikTok, LinkedIn e perfil do Facebook pelas rotinas do Chrome (data da leitura na tabela); arquivos dos robôs de resposta e das agendas. Os dados são criptografados; só abrem com a senha do painel. Guia Luli Dias.</p>`;
   $('#app').innerHTML=html;$('#app').style.display='block';
+  try{VISTA=localStorage.getItem('painel_vista')||'lista'}catch(e){}
+  document.querySelectorAll('.vista').forEach(b=>b.onclick=()=>{VISTA=b.dataset.v;try{localStorage.setItem('painel_vista',VISTA)}catch(e){};agenda()});
+  document.querySelectorAll('.filtro').forEach(b=>b.onclick=()=>{FILTRO=b.dataset.r;agenda()});
+  agenda();
+}
+function agenda(){
+  document.querySelectorAll('.vista').forEach(b=>b.classList.toggle('on',b.dataset.v===VISTA));
+  document.querySelectorAll('.filtro').forEach(b=>b.classList.toggle('on',b.dataset.r===FILTRO));
+  const L=AG.filter(a=>FILTRO==='todas'||a.rede===FILTRO), el=$('#agview');
+  const dia=q=>new Date(q.slice(0,10)+'T12:00').toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'});
+  if(!L.length){el.innerHTML='<p class="vazio">Nada agendado.</p>';return}
+  if(VISTA==='lista'){
+    el.innerHTML=`<div class="wrap"><table><thead><tr><th>Dia</th><th>Hora</th><th>Rede</th><th>O quê</th><th>Situação</th></tr></thead><tbody>${L.map(a=>`<tr><td style="white-space:nowrap">${dia(a.quando)}</td><td class="meta">${a.quando.slice(11,16)}</td><td><span class="ev r-${esc(a.rede)}" style="display:inline-block">${esc(a.rede)}</span></td><td>${esc(a.o_que)}${a.tipo?` <span class="meta">· ${esc(a.tipo)}</span>`:''}</td><td><span class="ponto ${a.aprovado?'':'off'}"></span>${esc(a.status)}</td></tr>`).join('')}</tbody></table></div>`;
+  }else if(VISTA==='rede'){
+    const g={};L.forEach(a=>(g[a.rede]=g[a.rede]||[]).push(a));
+    el.innerHTML=`<div class="grid3">${Object.entries(g).map(([r,xs])=>`<div><span class="lbl">${esc(r)} · ${xs.length}</span><table><tbody>${xs.map(a=>`<tr><td class="meta" style="white-space:nowrap">${dia(a.quando)} ${a.quando.slice(11,16)}</td><td><span class="ponto ${a.aprovado?'':'off'}"></span>${esc(a.o_que)}</td></tr>`).join('')}</tbody></table></div>`).join('')}</div>`;
+  }else{
+    if(!MES){const d=new Date();MES=[d.getFullYear(),d.getMonth()]}
+    const [y,m]=MES,ini=new Date(y,m,1),off=(ini.getDay()+6)%7,nd=new Date(y,m+1,0).getDate(),hj=new Date().toLocaleDateString('sv-SE');
+    const nomeMes=ini.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+    let c=`<div class="mesnav"><button class="chip" id="mPrev" aria-label="Mês anterior">←</button><b>${nomeMes}</b><button class="chip" id="mNext" aria-label="Próximo mês">→</button></div><div class="cal">${['seg','ter','qua','qui','sex','sáb','dom'].map(d=>`<div class="dow">${d}</div>`).join('')}`;
+    for(let i=0;i<off;i++)c+='<div class="fora"></div>';
+    for(let d=1;d<=nd;d++){const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const ev=L.filter(a=>a.quando.slice(0,10)===ds);
+      c+=`<div class="${ds===hj?'hoje':''}"><span class="d">${d}</span>${ev.map(a=>`<span class="ev r-${esc(a.rede)}" title="${esc(a.rede+' · '+a.quando.slice(11,16)+' · '+a.o_que+' · '+a.status)}">${a.quando.slice(11,16)} ${esc(a.o_que)}</span>`).join('')}</div>`}
+    el.innerHTML=c+'</div>';
+    $('#mPrev').onclick=()=>{MES=m?[y,m-1]:[y-1,11];agenda()};$('#mNext').onclick=()=>{MES=m<11?[y,m+1]:[y+1,0];agenda()};
+  }
 }
 </script>
 </body>
