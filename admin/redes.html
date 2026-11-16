@@ -83,6 +83,7 @@ a{color:inherit}
 .mesnav{display:flex;align-items:center;gap:12px;margin:8px 0 12px}
 .mesnav b{font-weight:800;font-stretch:112%;font-size:18px;min-width:180px;text-align:center}
 .hidden{display:none}
+.embed .top .meta a,.embed .top .wm{display:none}.embed main{padding-top:8px}.embed nav.secoes{top:0}
 </style>
 </head>
 <body>
@@ -96,6 +97,8 @@ a{color:inherit}
 <main id="app" style="display:none"></main>
 <script>
 const $=s=>document.querySelector(s);
+const EMBED=new URLSearchParams(location.search).has('embed'); // dentro do admin 2.0 (iframe)
+if(EMBED)document.documentElement.classList.add('embed');
 const fmt=n=>n==null||isNaN(n)?'—':Number(n).toLocaleString('pt-BR');
 const brl=n=>n==null||isNaN(n)?'—':'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const sinal=n=>n==null?'—':(n>0?'+':'')+fmt(n);
