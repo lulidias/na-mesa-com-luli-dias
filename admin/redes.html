@@ -62,16 +62,22 @@ a{color:inherit}
 .chip.on{background:var(--p);color:var(--b)}
 .leg{font-size:12px;color:var(--c3);margin-top:6px}
 .leg span{display:inline-block;width:10px;height:3px;margin:0 4px 2px 10px;vertical-align:middle}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid var(--c2);border-left:1px solid var(--c2)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--c2);border-left:1px solid var(--c2)}
 .cal div{border-right:1px solid var(--c2);border-bottom:1px solid var(--c2);min-height:96px;padding:6px;font-size:12px;overflow:hidden}
 .cal .dow{min-height:auto;font:700 11px var(--f);letter-spacing:.12em;text-transform:uppercase;color:var(--c3)}
 .cal .fora{background:var(--c1)}
 .cal .hoje{outline:2px solid var(--p);outline-offset:-2px}
 .cal .d{font-weight:800;font-size:13px;display:block;margin-bottom:3px}
 .ev{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:3px solid var(--p);padding-left:4px;margin:2px 0;line-height:1.35}
-.r-Instagram{border-color:#111}.r-TikTok{border-color:#B5121B}.r-YouTube{border-color:#D08A12}.r-Facebook{border-color:#1D3FCB}.r-Threads{border-color:#6B6B6B}.r-LinkedIn{border-color:#7A8B12}
-@media (prefers-color-scheme:dark){.r-Instagram{border-color:#F4F4F4}}
-.leg-redes span{display:inline-block;border-left:3px solid;padding-left:5px;margin-right:12px;font-size:12px}
+/* cor fixa por rede: legenda, filtros, calendário e lista */
+.r-Instagram{--rc:#B5121B}.r-Facebook{--rc:#1D3FCB}.r-LinkedIn{--rc:#7A8B12}.r-YouTube{--rc:#D08A12}.r-TikTok{--rc:#111111}.r-Threads{--rc:#8A8A8A}
+@media (prefers-color-scheme:dark){.r-Instagram{--rc:#E0424A}.r-Facebook{--rc:#6B84FF}.r-LinkedIn{--rc:#B2C43A}.r-YouTube{--rc:#E8AA3A}.r-TikTok{--rc:#F4F4F4}.r-Threads{--rc:#9A9A9A}}
+.ev{border-left-color:var(--rc,var(--p))}
+.leg-redes span{display:inline-flex;align-items:center;gap:6px;margin-right:14px;font-size:13px}
+.leg-redes span::before{content:"";width:12px;height:12px;background:var(--rc);display:inline-block}
+.chip.filtro[class*="r-"]::before{content:"";display:inline-block;width:9px;height:9px;background:var(--rc);margin-right:6px;vertical-align:middle}
+.chip.filtro.on[class*="r-"]{background:var(--rc);border-color:var(--rc);color:#fff}
+.chip.filtro.on.r-TikTok{color:var(--b)}
 .mesnav{display:flex;align-items:center;gap:12px;margin:8px 0 12px}
 .mesnav b{font-weight:800;font-stretch:112%;font-size:18px;min-width:180px;text-align:center}
 .hidden{display:none}
@@ -217,7 +223,7 @@ function render(R){
   const redes=['todas',...new Set(AG.map(a=>a.rede))];
   html+=`<h2 id="agenda">Agenda: tudo o que está agendado</h2><p class="meta">${AG.length} publicações até ${AG.length?new Date(AG.at(-1).quando).toLocaleDateString('pt-BR'):'—'}. <span class="ponto"></span>aprovado <span class="ponto off" style="margin-left:10px"></span>aguarda seu ok</p>
    <div style="margin:12px 0"><span class="lbl" style="margin-right:8px">Ver</span>${['lista','calendario','rede'].map(v=>`<button class="chip vista" data-v="${v}">${{lista:'Lista',calendario:'Calendário',rede:'Por rede'}[v]}</button>`).join('')}</div>
-   <div><span class="lbl" style="margin-right:8px">Rede</span>${redes.map(r=>`<button class="chip filtro" data-r="${esc(r)}">${r==='todas'?'Todas':esc(r)}</button>`).join('')}</div>
+   <div><span class="lbl" style="margin-right:8px">Rede</span>${redes.map(r=>`<button class="chip filtro ${r==='todas'?'':'r-'+esc(r)}" data-r="${esc(r)}">${r==='todas'?'Todas':esc(r)}</button>`).join('')}</div>
    <div class="leg-redes" style="margin:8px 0">${redes.filter(r=>r!=='todas').map(r=>`<span class="r-${r}">${r}</span>`).join('')}</div>
    <div id="agview"></div>`;
   // estoque
