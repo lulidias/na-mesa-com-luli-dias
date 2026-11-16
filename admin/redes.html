@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Redes · Luli Dias</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&display=swap">
+<style>
+:root{--b:#fff;--p:#111;--c1:#F4F4F4;--c2:#E3E3E3;--c3:#6B6B6B;--lacre:#B5121B;--azul:#1D3FCB;--f:"Archivo","Helvetica Neue",Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root{--b:#111;--p:#F4F4F4;--c1:#1C1C1C;--c2:#2E2E2E;--c3:#9A9A9A;--lacre:#E0424A;--azul:#6B84FF}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--b);color:var(--p);font:15px/1.5 var(--f)}
+main{max-width:1180px;margin:0 auto;padding:28px 16px 80px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--c2);padding-bottom:16px}
+.wm{font-weight:800;font-stretch:112%;letter-spacing:-.02em;text-transform:uppercase;font-size:15px}
+.wm i{display:inline-block;width:.32em;height:.32em;border-radius:50%;border:.08em solid currentColor;margin-left:.15em}
+.lbl{font:700 11px var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--c3)}
+h1{font-weight:800;font-stretch:112%;letter-spacing:-.02em;font-size:clamp(28px,5vw,40px);margin:22px 0 4px}
+h2{font-weight:800;font-stretch:112%;letter-spacing:-.01em;font-size:20px;margin:36px 0 12px}
+.meta{color:var(--c3);font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));border-top:1px solid var(--c2);border-left:1px solid var(--c2);margin-top:20px}
+.kpi{border-right:1px solid var(--c2);border-bottom:1px solid var(--c2);padding:16px}
+.kpi b{display:block;font-weight:800;font-stretch:112%;font-size:28px;letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi small{color:var(--c3);font-size:12px}
+.up{color:var(--p)} .down{color:var(--lacre)}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--p)}
+td{padding:10px;border-bottom:1px solid var(--c2);vertical-align:top}
+td.n{text-align:right;white-space:nowrap} th.n{text-align:right}
+.wrap{overflow-x:auto}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+@media (max-width:820px){.grid2{grid-template-columns:1fr}}
+.chart{border:1px solid var(--c2);padding:14px}
+.chart svg{width:100%;height:200px;display:block}
+.ponto{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--p);margin-right:6px;vertical-align:middle}
+.ponto.off{background:none;border:1px solid var(--p)}
+.alerta{border-left:3px solid var(--lacre);padding:8px 12px;margin:6px 0;background:var(--c1);font-size:14px}
+a{color:inherit}
+.vazio{color:var(--c3);font-size:14px}
+#gate{max-width:380px;margin:18vh auto;padding:0 16px}
+#gate input{width:100%;font:16px var(--f);padding:12px;border:1px solid var(--p);background:var(--b);color:var(--p);margin:14px 0}
+#gate button,.btn{font:700 14px var(--f);padding:12px 18px;background:var(--p);color:var(--b);border:0;cursor:pointer}
+.chip{display:inline-block;font:600 11px var(--f);padding:3px 8px;border:1px solid var(--p);margin:2px 4px 2px 0}
+.leg{font-size:12px;color:var(--c3);margin-top:6px}
+.leg span{display:inline-block;width:10px;height:3px;margin:0 4px 2px 10px;vertical-align:middle}
+</style>
+</head>
+<body>
+<div id="gate">
+  <div class="wm">Luli Dias<i></i></div>
+  <h1 style="font-size:28px">Redes sociais</h1>
+  <p class="meta">Painel privado. Digite a senha do painel (fica guardada neste navegador).</p>
+  <form id="f"><input id="senha" type="password" autocomplete="current-password" placeholder="Senha do painel"><button>Abrir</button></form>
+  <p id="msg" class="meta"></p>
+</div>
+<main id="app" style="display:none"></main>
+<script>
+const $=s=>document.querySelector(s);
+const fmt=n=>n==null||isNaN(n)?'—':Number(n).toLocaleString('pt-BR');
+const brl=n=>n==null?'—':'R$ '+Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function abrir(senha){
+  const p=await (await fetch('redes/dados.enc?'+Date.now())).json();
+  const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(senha),'PBKDF2',false,['deriveKey']);
+  const k=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(p.sal),iterations:200000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+  const t=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(p.iv)},k,b64(p.dados));
+  return JSON.parse(new TextDecoder().decode(t));
+}
+async function entrar(senha){
+  try{const R=await abrir(senha);try{localStorage.setItem('painel_redes',senha)}catch(e){};$('#gate').style.display='none';render(R)}
+  catch(e){$('#msg').textContent='Senha errada ou dados indisponíveis.'}
+}
+$('#f').onsubmit=e=>{e.preventDefault();entrar($('#senha').value)};
+try{const s=localStorage.getItem('painel_redes');if(s)entrar(s)}catch(e){}
+
+function linha(pontos,cor){ // pontos: [[x,y]] normalizados
+  return `<polyline fill="none" stroke="${cor}" stroke-width="2.4" points="${pontos.map(p=>p.join(',')).join(' ')}"/>`;
+}
+function grafLinha(serie,cor,rot){
+  if(serie.length<2)return '<p class="vazio">O gráfico aparece a partir do 2º dia de coleta.</p>';
+  const W=600,H=200,P=28,vs=serie.map(s=>s[1]),mn=Math.min(...vs),mx=Math.max(...vs),r=(mx-mn)||1;
+  const pts=serie.map((s,i)=>[P+i*(W-2*P)/(serie.length-1),H-P-(s[1]-mn)*(H-2*P)/r]);
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${linha(pts,cor)}
+  <text x="${P}" y="14" font-size="11" fill="currentColor">${fmt(mx)}</text><text x="${P}" y="${H-6}" font-size="11" fill="currentColor">${fmt(mn)}</text>
+  <text x="${W-P}" y="${H-6}" font-size="11" text-anchor="end" fill="currentColor">${serie[serie.length-1][0].slice(5)}</text>
+  <text x="${P+60}" y="${H-6}" font-size="11" fill="currentColor">${serie[0][0].slice(5)}</text></svg>`;
+}
+function grafAds(dias){
+  if(!dias.length)return '<p class="vazio">Sem dados de anúncios.</p>';
+  const W=600,H=200,P=28,mg=Math.max(...dias.map(d=>d.gasto))||1,mv=Math.max(...dias.map(d=>d.visitas))||1,bw=(W-2*P)/dias.length;
+  let s=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">`;
+  dias.forEach((d,i)=>{const h=(d.gasto/mg)*(H-2*P);s+=`<rect x="${P+i*bw+1}" y="${H-P-h}" width="${bw-2}" height="${h}" fill="var(--c2)"/>`});
+  s+=linha(dias.map((d,i)=>[P+i*bw+bw/2,H-P-(d.visitas/mv)*(H-2*P)]),'var(--lacre)');
+  return s+`<text x="${P}" y="14" font-size="11" fill="currentColor">${brl(mg)}/dia · ${fmt(mv)} visitas</text></svg>`;
+}
+const NOMES={instagram:'Instagram',threads:'Threads',facebook:'Página do Facebook',facebook_perfil:'Perfil do Facebook',youtube:'YouTube',tiktok:'TikTok',linkedin:'LinkedIn'};
+function render(R){
+  const h=R.historico||{},dias=Object.keys(h).sort();
+  const ant=d=>{const alvo=new Date(Date.now()-d*864e5).toISOString().slice(0,10);return dias.filter(x=>x<=alvo).pop()};
+  const total=Object.values(R.redes).reduce((a,v)=>a+((v&&v.seguidores)||0),0);
+  const ig=R.redes.instagram||{},d28=ig.d28||{};
+  const igd=R.ig_diario||{},igs=Object.keys(igd).sort();
+  const igv=n=>{const a=igs.filter(x=>x<=new Date(Date.now()-n*864e5).toISOString().slice(0,10)).pop();return a&&ig.seguidores?ig.seguidores-igd[a].seguidores:null};
+  const ads=(R.anuncios&&R.anuncios.dias)||[],gasto30=ads.reduce((a,d)=>a+d.gasto,0),vis30=ads.reduce((a,d)=>a+d.visitas,0);
+  const novos28=(d28.follows_and_unfollows_det||{}).FOLLOWER;
+  const conv=R.conversa||{},resp30=Object.values(conv).reduce((a,c)=>a+c.respondidos_30d,0),sem=Object.values(conv).reduce((a,c)=>a+c.sem_resposta_30d,0);
+  let html=`<div class="top"><div class="wm">Luli Dias<i></i></div><div class="meta">Atualizado em ${new Date(R.gerado).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})} · <a href="index.html">voltar ao admin</a></div></div>
+  <h1>Redes sociais</h1><p class="meta">Só lulidias.com · Instagram, Threads, Facebook, YouTube, TikTok e LinkedIn numa visão única.</p>
+  <div class="kpis">
+   <div class="kpi"><span class="lbl">Seguidores, todas as redes</span><b>${fmt(total)}</b><small>soma das redes lidas hoje</small></div>
+   <div class="kpi"><span class="lbl">Instagram, 7 dias</span><b class="${igv(7)<0?'down':'up'}">${igv(7)==null?'—':(igv(7)>0?'+':'')+fmt(igv(7))}</b><small>30 dias: ${igv(30)==null?'—':(igv(30)>0?'+':'')+fmt(igv(30))}</small></div>
+   <div class="kpi"><span class="lbl">Investimento, 30 dias</span><b>${brl(gasto30)}</b><small>${fmt(vis30)} visitas ao perfil pelos anúncios</small></div>
+   <div class="kpi"><span class="lbl">Custo por seguidor</span><b>${novos28?brl(gasto30/novos28):'—'}</b><small>gasto ÷ ${fmt(novos28)} novos seguidores (28 d)</small></div>
+   <div class="kpi"><span class="lbl">Alcance Instagram, 28 d</span><b>${fmt(d28.reach)}</b><small>${fmt(d28.views)} visualizações</small></div>
+   <div class="kpi"><span class="lbl">Interações, 28 d</span><b>${fmt(d28.total_interactions)}</b><small>${fmt(d28.likes)} curtidas · ${fmt(d28.comments)} coment. · ${fmt(d28.saves)} salvos</small></div>
+   <div class="kpi"><span class="lbl">Comentários respondidos, 30 d</span><b>${fmt(resp30)}</b><small>pelos robôs de todas as redes</small></div>
+   <div class="kpi"><span class="lbl">Sem resposta, 30 d</span><b class="${sem?'down':''}">${fmt(sem)}</b><small>spam, ofensa ou casos para você ver</small></div>
+  </div>`;
+  if((R.alertas||[]).length)html+=`<h2>Alertas</h2>`+R.alertas.map(a=>`<div class="alerta">${a}</div>`).join('');
+  html+=`<h2>Rede por rede</h2><div class="wrap"><table><thead><tr><th>Rede</th><th class="n">Seguidores</th><th class="n">7 dias</th><th class="n">30 dias</th><th>Destaques</th></tr></thead><tbody>`;
+  for(const [k,v] of Object.entries(R.redes)){
+    const s=v&&v.seguidores; const a7=ant(7),a30=ant(30);
+    const dv=(a)=>a&&h[a]&&h[a][k]!=null&&s!=null?s-h[a][k]:null;
+    let dest='';
+    if(k==='instagram')dest=`${fmt(d28.profile_views)} visitas ao perfil · ${fmt(d28.website_clicks)} cliques no link (28 d)`;
+    else if(k==='threads'&&v.d28)dest=`${fmt(v.d28.views)} visualizações do perfil · ${fmt(v.d28.likes)} curtidas (28 d)`;
+    else if(s==null)dest='<span class="vazio">aguardando a 1ª leitura pela rotina do Chrome</span>';
+    const f=(x)=>x==null?'—':(x>0?'+':'')+fmt(x);
+    html+=`<tr><td><b>${NOMES[k]||k}</b></td><td class="n">${fmt(s)}</td><td class="n">${k==='instagram'?f(igv(7)):f(dv(a7))}</td><td class="n">${k==='instagram'?f(igv(30)):f(dv(a30))}</td><td>${dest}</td></tr>`;
+  }
+  html+=`</tbody></table></div>`;
+  const serie=igs.map(d=>[d,igd[d].seguidores]);
+  html+=`<div class="grid2"><div><h2>Seguidores no Instagram</h2><div class="chart">${grafLinha(serie,'var(--p)')}</div></div>
+  <div><h2>Investimento × resultado</h2><div class="chart">${grafAds(ads)}<div class="leg"><span style="background:var(--c2);height:8px"></span>gasto por dia<span style="background:var(--lacre)"></span>visitas ao perfil</div></div></div></div>`;
+  html+=`<h2>Conversa</h2><div class="wrap"><table><thead><tr><th>Rede</th><th class="n">Respondidos 7 d</th><th class="n">Respondidos 30 d</th><th class="n">Sem resposta 30 d</th></tr></thead><tbody>`;
+  for(const k of ['instagram','threads','facebook','tiktok','youtube','linkedin']){const c=conv[k];html+=`<tr><td>${NOMES[k]}</td><td class="n">${c?fmt(c.respondidos_7d):'—'}</td><td class="n">${c?fmt(c.respondidos_30d):'—'}</td><td class="n">${c?fmt(c.sem_resposta_30d):'—'}</td></tr>`}
+  html+=`</tbody></table></div>`;
+  const pend=Object.entries(conv).flatMap(([k,c])=>(c.ultimas||[]).map(x=>({...x,rede:NOMES[k]}))).slice(0,20);
+  html+=`<h2>Comentários que os robôs não responderam</h2>`+(pend.length?`<div class="wrap"><table><tbody>${pend.map(x=>`<tr><td class="meta">${(x.quando||'').slice(0,10)}</td><td>${x.rede}</td><td><b>${x.quem||''}</b> ${x.texto||''}</td><td class="meta">${x.tipo||x.motivo||''}</td><td>${x.post?`<a href="${x.post}" target="_blank">abrir</a>`:''}</td></tr>`).join('')}</tbody></table></div>`:'<p class="vazio">Nenhum. Todos os comentários dos últimos 30 dias foram respondidos.</p>');
+  const top=(R.top&&R.top.instagram)||[];
+  html+=`<h2>Melhores posts do Instagram, 30 dias</h2><div class="wrap"><table><thead><tr><th>Data</th><th>Post</th><th class="n">Alcance</th><th class="n">Interações</th><th class="n">Salvos</th><th class="n">Compart.</th></tr></thead><tbody>${top.map(t=>`<tr><td class="meta">${t.data.slice(8)}/${t.data.slice(5,7)}</td><td><a href="${t.link}" target="_blank">${t.texto||t.tipo}</a></td><td class="n">${fmt(t.alcance)}</td><td class="n">${fmt(t.interacoes)}</td><td class="n">${fmt(t.salvos)}</td><td class="n">${fmt(t.compart)}</td></tr>`).join('')}</tbody></table></div>`;
+  html+=`<h2>Agenda, próximos 10 dias</h2><div class="wrap"><table><thead><tr><th>Quando</th><th>Rede</th><th>O quê</th><th>Situação</th></tr></thead><tbody>${(R.agenda||[]).map(a=>`<tr><td class="meta" style="white-space:nowrap">${a.quando.slice(8,10)}/${a.quando.slice(5,7)} ${a.quando.slice(11,16)}</td><td>${a.rede}</td><td>${a.o_que}</td><td><span class="ponto ${a.aprovado?'':'off'}"></span>${a.status}</td></tr>`).join('')}</tbody></table></div>`;
+  html+=`<p class="meta" style="margin-top:40px">Fontes: APIs do Instagram, Threads, Facebook e Meta Ads; página pública do YouTube; TikTok, LinkedIn e perfil do Facebook pelas rotinas do Chrome; arquivos dos robôs de resposta. Guia Luli Dias.</p>`;
+  $('#app').innerHTML=html;$('#app').style.display='block';
+}
+</script>
+</body>
+</html>
