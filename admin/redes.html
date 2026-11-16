@@ -91,7 +91,7 @@ a{color:inherit}
   <div class="wm">Luli Dias<i></i></div>
   <h1 style="font-size:28px">Redes sociais</h1>
   <p class="meta">Painel privado. Digite a senha do painel (fica guardada neste navegador).</p>
-  <form id="f"><input id="senha" type="password" autocomplete="current-password" placeholder="Senha do painel"><button>Abrir</button></form>
+  <form id="f"><input id="senha" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Senha do painel"><button>Abrir</button></form>
   <p id="msg" class="meta"></p>
 </div>
 <main id="app" style="display:none"></main>
@@ -110,8 +110,13 @@ async function abrir(senha){
   const k=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(p.sal),iterations:200000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
   return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(p.iv)},k,b64(p.dados))));
 }
+async function abrirTolerante(senha){ // celular: maiúscula automática, espaço no fim, "c" no lugar de "ç"
+  const n=(senha||'').normalize('NFC').trim(), m=n.toLowerCase();
+  const cands=[...new Set([senha,n,m,m.replace(/taca/g,'taça'),m.replace(/[‐-―]/g,'-')])];
+  let erro; for(const c of cands){try{const R=await abrir(c);return [R,c]}catch(e){erro=e}} throw erro;
+}
 async function entrar(senha){
-  try{const R=await abrir(senha);try{localStorage.setItem('painel_redes',senha)}catch(e){};$('#gate').style.display='none';render(R)}
+  try{const [R,ok]=await abrirTolerante(senha);senha=ok;try{localStorage.setItem('painel_redes',senha)}catch(e){};$('#gate').style.display='none';render(R)}
   catch(e){$('#msg').textContent='Senha errada ou dados indisponíveis.'}
 }
 $('#f').onsubmit=e=>{e.preventDefault();entrar($('#senha').value)};
