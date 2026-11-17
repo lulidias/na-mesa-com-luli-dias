@@ -472,6 +472,15 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   </div>
 </section>
 
+<!-- ═══ MEMÓRIA: GALERIA + VÍDEO ═══ -->
+<section class="sec hidden" id="galeria" style="max-width:1240px">
+  <div class="sec-kicker">Memória</div>
+  <h2 class="sec-title">A festa em fotos</h2>
+  <p class="sec-sub">18 de novembro de 2026 · Paris Saint-Germain Academy.</p>
+  <div id="video-wrap" class="hidden" style="max-width:860px;margin:0 auto 26px;aspect-ratio:16/9;border:1px solid var(--border)"></div>
+  <div id="galeria-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px"></div>
+</section>
+
 <!-- ═══ NÚMEROS DA MESA ═══ -->
 <section class="sec" id="numeros" style="max-width:1240px">
   <div class="sec-kicker">A disputa das nações</div>
@@ -1088,10 +1097,54 @@ function uploadComprovante(input) {
   }).catch(function (e) { st.textContent = ''; toast(e.message, true); });
 }
 
+// ── memória: carta de edição passada, galeria e vídeo ───────────────────
+function aplicaEdicao(vinhos) {
+  var ed = cfg && cfg.edicao_atual ? Number(cfg.edicao_atual) : 2026;
+  var sim = new URLSearchParams(location.search).get('ed');
+  if (sim) ed = Number(sim);
+  if (ed <= 2026) return vinhos;
+  var sec = document.getElementById('vinhos');
+  sec.querySelector('.sec-kicker').textContent = 'Memória · 1ª edição';
+  sec.querySelector('.sec-title').textContent = 'A carta de 2026';
+  sec.querySelector('.sec-sub').textContent = 'As garrafas que fizeram a primeira Confra das Confras, em 18 de novembro de 2026. O registro para 2027 já está aberto no seu painel.';
+  return vinhos.filter(function (g) { return !g.edicao || Number(g.edicao) < ed; });
+}
+var galeriaFeita = false;
+function carregaGaleria() {
+  if (galeriaFeita) return;
+  var sec = document.getElementById('galeria');
+  var temVideo = cfg && cfg.video_url;
+  fetch(SB + '/storage/v1/object/list/confras', {
+    method: 'POST',
+    headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prefix: 'galeria/', limit: 300, sortBy: { column: 'name', order: 'asc' } })
+  }).then(function (r) { return r.json(); }).then(function (itens) {
+    itens = (itens || []).filter(function (o) { return o.name && /\.(jpe?g|png|webp)$/i.test(o.name); });
+    if (!itens.length && !temVideo) return;
+    galeriaFeita = true;
+    if (temVideo) {
+      var vid = String(cfg.video_url);
+      var m = vid.match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/);
+      var src = m ? 'https://www.youtube.com/embed/' + m[1] : vid;
+      var vw = document.getElementById('video-wrap');
+      vw.innerHTML = '<iframe src="' + esc(src) + '" style="width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe>';
+      vw.classList.remove('hidden');
+    }
+    var grid = document.getElementById('galeria-grid');
+    grid.innerHTML = itens.map(function (o) {
+      var u = SB + '/storage/v1/object/public/confras/galeria/' + encodeURIComponent(o.name);
+      return '<a href="' + u + '" target="_blank" rel="noopener"><img src="' + u + '" loading="lazy" style="width:100%;height:230px;object-fit:cover;display:block;border:1px solid var(--border)"></a>';
+    }).join('');
+    if (itens.length || temVideo) sec.classList.remove('hidden');
+  }).catch(function () { });
+}
+
 // ── público: vinhos + confirmados ────────────────────────────────────────
 function refreshPublic() {
   return Promise.all([view('confras_vinhos_publico'), view('confras_confirmados')]).then(function (res) {
     var vinhos = res[0] || [], pessoas = res[1] || [];
+    vinhos = aplicaEdicao(vinhos);
+    carregaGaleria();
     pessoas.sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt'); });
     // stats — litros comprometidos: cada garrafa conta proporcional às vagas ocupadas
     var litros = 0;
@@ -1443,7 +1496,7 @@ function renderResultados() {
       var r = c.itens[0];  // um único vencedor por categoria
       var d = document.createElement('div'); d.className = 'podium';
       d.innerHTML = '<div class="cn">' + esc(c.nome) + '</div>' +
-        '<div class="row"><div><span class="med">🏆</span><span class="w">' + esc(r.vinho) +
+        '<div class="row"><div><span class="med"><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align:-4px"><path d="M8.5 2h3.2l.8 5.4-2.6 1.1z" fill="#1A2F4E" stroke="#B8922A" stroke-width=".7"/><path d="M15.5 2h-3.2l-.8 5.4 2.6 1.1z" fill="#2A4468" stroke="#B8922A" stroke-width=".7"/><circle cx="12" cy="14.5" r="6.8" fill="rgba(212,174,92,.12)" stroke="#B8922A" stroke-width="1.5"/><circle cx="12" cy="14.5" r="4" fill="none" stroke="#D4AE5C" stroke-width="1"/><path d="M12 12.2l.9 1.8 2 .3-1.45 1.4.35 2-1.8-.95-1.8.95.35-2-1.45-1.4 2-.3z" fill="#D4AE5C"/></svg></span><span class="w">' + esc(r.vinho) +
         (r.safra ? ' <span style="color:var(--gold)">' + esc(r.safra) + '</span>' : '') + '</span></div>' +
         '<span class="v">' + r.votos + ' voto' + (r.votos > 1 ? 's' : '') + '</span>' +
         '<div class="mm">' + esc(r.formato) + ' — trazido por ' + esc((r.membros || []).join(', ')) + '</div></div>';
