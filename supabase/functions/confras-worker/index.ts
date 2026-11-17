@@ -76,6 +76,33 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
           <p>Pagou agora? Suba o comprovante no painel que a confirma\u00e7\u00e3o \u00e9 autom\u00e1tica. \ud83e\udd42</p>`, pid),
       };
     }
+    case "cobra-gentil": {
+      const faltaGarrafa = dados.falta_garrafa === true;
+      const faltaRateio = dados.falta_rateio === true;
+      const valorG = Number(cfg.valor_rateio ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+      const chave = String(cfg.chave_pix ?? "");
+      const chaveFmt = /^\d{11}$/.test(chave)
+        ? chave.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")
+        : chave;
+      const blocoGarrafa = `
+          <p style="background:#FAF5EB;border:1px dashed #B8922A;padding:14px 16px">
+            🍾 <strong>A sua garrafa ainda não foi registrada.</strong> É o cadastro que coloca o seu vinho na carta e na votação de quarta — sem ele, a garrafa fica de fora da disputa pelas placas. Leva dois minutos no painel.</p>`;
+      const blocoRateio = `
+          <p style="background:#FAF5EB;border:1px dashed #B8922A;padding:14px 16px">
+            💳 <strong>O rateio de ${valorG} ainda não apareceu por aqui.</strong> O Pix é para a chave <strong>${esc(chaveFmt)}</strong>${cfg.nome_pix ? ` (${esc(cfg.nome_pix)})` : ""}. Anexando o comprovante no painel, a confirmação é automática.</p>`;
+      const duas = faltaGarrafa && faltaRateio;
+      return {
+        subject: "🍷 Quarta é a Confra das Confras — falta só um detalhe seu",
+        html: shell(`${nome}, falta só um detalhe para quarta`, `
+          <p>Quarta-feira, <strong>18 de novembro, às 13h</strong>, a gente se encontra na <strong>Paris Saint-Germain Academy</strong>. A carta já passa de <strong>36 garrafas, de 6 países</strong> — e a Grande Votação vai escolher, no telão, as melhores da festa.</p>
+          <p>Conferindo os cadastros, encontramos ${duas ? "duas pendências" : "uma pendência"} no seu:</p>
+          ${faltaGarrafa ? blocoGarrafa : ""}
+          ${faltaRateio ? blocoRateio : ""}
+          <p>E se a gente estiver enganado — você já pagou ou já escolheu o seu vinho — nos desculpe e <strong>responda este e-mail</strong> com o comprovante ou o nome da garrafa, que acertamos tudo por aqui na hora.</p>
+          <p>Até quarta, de taça cheia. 🥂</p>
+          <p style="text-align:center;font-size:12px;color:#9A9A9A;font-family:Helvetica,Arial,sans-serif;margin-top:20px">Commanderie de Bordeaux · Confraria do Porquinho · Wine Lovers Recife · Confra Wine Recife · Over 20</p>`, pid),
+      };
+    }
     case "garrafa-registrada": {
       const v = `${esc(dados.vinho)}${dados.safra ? " " + esc(dados.safra) : ""}`;
       return {
