@@ -45,6 +45,10 @@ a{color:inherit}
 .orn .r{height:1px;width:56px;background:linear-gradient(90deg,var(--gold-lt),transparent)}
 .orn .d{width:5px;height:5px;background:var(--gold-lt);transform:rotate(45deg)}
 .hero-when{margin-top:4px}
+.sd27{display:block;max-width:440px;margin:34px auto 0;padding:20px 26px;border:1px solid rgba(212,174,92,.8);text-decoration:none;color:var(--cream);background:rgba(212,174,92,.07)}
+.sd27 .k{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt);font-family:'Montserrat',sans-serif}
+.sd27 .d{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:clamp(20px,3.4vw,27px);letter-spacing:2px;margin-top:8px}
+.sd27 .m{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:rgba(247,243,238,.85);margin-top:6px}
 .fh-t{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:clamp(26px,5vw,42px);letter-spacing:6px;text-transform:uppercase;margin-top:26px}
 .fh-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,2.6vw,20px);color:rgba(247,243,238,.9);margin-top:12px}
 .fh-prog{max-width:440px;margin:26px auto 4px;text-align:left}
@@ -633,6 +637,11 @@ function modoFesta() {
   var cta = document.getElementById('cta-btn');
   if (!fase) { fh.classList.add('hidden'); cd.classList.remove('hidden'); cta.classList.remove('hidden'); return; }
   cd.classList.add('hidden'); cta.classList.add('hidden'); fh.classList.remove('hidden');
+  var sd27 = (Date.now() >= EVENTO || new URLSearchParams(location.search).has('simular'))
+    ? '<a class="sd27" href="2027/"><span class="k">Já tem data · guarde na agenda</span>' +
+      '<span class="d">Quarta, 17 de novembro de 2027</span>' +
+      '<span class="m">A 2ª Confra das Confras — a mesma mesa, ainda mais garrafas.</span></a>'
+    : '';
   var html = '';
   if (fase === 'hoje') {
     html = '<div class="fh-t">É hoje! 🥂</div>' +
@@ -657,10 +666,11 @@ function modoFesta() {
   } else if (fase === 'memoria') {
     html = '<div class="fh-t">Foi histórico. 🥂</div>' +
       '<div class="fh-sub">Em 18 de novembro de 2026, as cinco confrarias do Recife sentaram-se à mesma mesa pela primeira vez.' +
-      (cfg && cfg.resultados_publicos ? '' : ' Até 2027!') + '</div>' +
+      (cfg && cfg.resultados_publicos ? '' : '') + '</div>' +
       (cfg && cfg.resultados_publicos ? '<a class="cta" href="#resultados">Ver os vencedores</a>' : '');
   }
-  if (fh.dataset.fase !== fase) { fh.innerHTML = html; fh.dataset.fase = fase; }
+  var chave = fase + (sd27 ? '+2027' : '');
+  if (fh.dataset.fase !== chave) { fh.innerHTML = html + sd27; fh.dataset.fase = chave; }
 }
 setInterval(modoFesta, 30000);
 setInterval(function () {
