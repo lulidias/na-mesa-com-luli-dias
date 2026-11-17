@@ -29,7 +29,7 @@ function shell(titulo: string, corpo: string, participanteId?: string, botao?: {
       <img src="https://saotncritqxuchsvvnzi.supabase.co/storage/v1/object/public/confras/fotos-vinhos/emblema-email.png" width="88" height="88" alt="" style="display:block;margin:0 auto 14px">
       <div style="font-size:10px;letter-spacing:5px;color:#D4AE5C;font-family:Helvetica,Arial,sans-serif">RECIFE · 18 DE NOVEMBRO DE 2026 · 13H</div>
       <div style="font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:normal;font-size:32px;letter-spacing:7px;margin-top:12px">CONFRA<br>DAS CONFRAS</div>
-      <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-style:italic;color:#D4AE5C;margin-top:10px">O maior encontro de vinhos da história de Pernambuco</div>
+      <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-style:italic;color:#D4AE5C;margin-top:10px">As cinco confrarias do Recife, uma única mesa</div>
     </div>
     <div style="background:#fff;border:1px solid #E8E0D5;border-top:none;padding:32px 28px;color:#1A1A1A;font-size:15px;line-height:1.7">
       <h1 style="font-family:'Playfair Display',Didot,Georgia,serif;font-size:21px;font-weight:normal;margin:0 0 16px">${titulo}</h1>
