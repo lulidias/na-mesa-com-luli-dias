@@ -45,10 +45,12 @@ a{color:inherit}
 .orn .r{height:1px;width:56px;background:linear-gradient(90deg,var(--gold-lt),transparent)}
 .orn .d{width:5px;height:5px;background:var(--gold-lt);transform:rotate(45deg)}
 .hero-when{margin-top:4px}
-.sd27{display:block;max-width:440px;margin:34px auto 0;padding:20px 26px;border:1px solid rgba(212,174,92,.8);text-decoration:none;color:var(--cream);background:rgba(212,174,92,.07)}
-.sd27 .k{display:block;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt);font-family:'Montserrat',sans-serif}
-.sd27 .d{display:block;font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:clamp(20px,3.4vw,27px);letter-spacing:2px;margin-top:8px}
-.sd27 .m{display:block;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:rgba(247,243,238,.85);margin-top:6px}
+.sd27{display:block;max-width:680px;margin:52px auto 0;padding:44px 30px 40px;border:1px solid rgba(212,174,92,.85);text-decoration:none;color:var(--cream);background:rgba(212,174,92,.06)}
+.sd27 .k{display:block;font-size:12px;letter-spacing:7px;text-transform:uppercase;color:var(--gold-lt);font-family:'Montserrat',sans-serif}
+.sd27 .dow{display:block;font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--gold-lt);margin-top:26px;font-family:'Montserrat',sans-serif}
+.sd27 .d{display:block;font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:clamp(34px,6.4vw,58px);letter-spacing:3px;line-height:1.15;margin-top:10px}
+.sd27 .ano{display:block;font-family:Didot,'Playfair Display',serif;font-size:clamp(20px,3vw,30px);letter-spacing:16px;color:var(--gold-lt);margin-top:10px;padding-left:16px}
+.sd27 .m{display:block;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,2.2vw,19px);color:rgba(247,243,238,.88);margin-top:22px}
 .fh-t{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:clamp(26px,5vw,42px);letter-spacing:6px;text-transform:uppercase;margin-top:26px}
 .fh-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,2.6vw,20px);color:rgba(247,243,238,.9);margin-top:12px}
 .fh-prog{max-width:440px;margin:26px auto 4px;text-align:left}
@@ -638,9 +640,11 @@ function modoFesta() {
   if (!fase) { fh.classList.add('hidden'); cd.classList.remove('hidden'); cta.classList.remove('hidden'); return; }
   cd.classList.add('hidden'); cta.classList.add('hidden'); fh.classList.remove('hidden');
   var sd27 = (Date.now() >= EVENTO || new URLSearchParams(location.search).has('simular'))
-    ? '<a class="sd27" href="2027/"><span class="k">Já tem data · guarde na agenda</span>' +
-      '<span class="d">Quarta, 17 de novembro de 2027</span>' +
-      '<span class="m">A 2ª Confra das Confras — a mesma mesa, ainda mais garrafas.</span></a>'
+    ? '<a class="sd27" href="2027/"><span class="k">Já tem data · a 2ª edição</span>' +
+      '<span class="dow">Quarta-feira</span>' +
+      '<span class="d">17 de Novembro</span>' +
+      '<span class="ano">2027</span>' +
+      '<span class="m">A mesma mesa, ainda mais garrafas. Guarde na agenda.</span></a>'
     : '';
   var html = '';
   if (fase === 'hoje') {
