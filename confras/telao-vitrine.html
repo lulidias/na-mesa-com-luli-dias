@@ -11,12 +11,9 @@
 :root{--wine:#101F38;--wine-md:#1A2F4E;--wine-lt:#2A4468;--cream:#F7F3EE;--gold:#B8922A;--gold-lt:#D4AE5C}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
-body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wine-md) 45%,var(--wine) 100%);color:var(--cream);font-family:'Montserrat',sans-serif}
-.top{text-align:center;padding-top:12px}
-.top .k{font-size:clamp(14px,1.1vw,20px);letter-spacing:7px;text-transform:uppercase;color:var(--gold-lt)}
-.top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(24px,2.6vw,36px);letter-spacing:5px;text-transform:uppercase;margin-top:2px}
-.palco{position:absolute;inset:104px 22px 20px;background:#fff;border:2px solid var(--gold-lt);padding:12px 14px}
-.pagina{position:absolute;inset:12px 14px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:1fr 1fr;gap:4px 10px;visibility:hidden}
+body{background:#fff;font-family:'Montserrat',sans-serif}
+.palco{position:absolute;inset:0;background:#fff;padding:14px 16px}
+.pagina{position:absolute;inset:14px 16px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:1fr 1fr;gap:4px 10px;visibility:hidden}
 .pagina.on{visibility:visible}
 .pagina.on{opacity:1}
 .pagina.on .card{opacity:0;animation:pop .65s cubic-bezier(.2,.7,.3,1) both}
@@ -43,16 +40,12 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .nm{font-family:'Playfair Display',Georgia,serif;font-size:clamp(11px,.85vw,15px);color:var(--wine);text-align:center;line-height:1.15;margin-top:4px;height:2.3em;overflow:hidden}
 .nm .sf{font-family:Didot,'Playfair Display',serif;color:var(--gold);white-space:nowrap}
 .semfoto{margin:0 auto;opacity:.8}
-#poeira{position:fixed;inset:0;pointer-events:none}
 </style>
 </head>
 <body>
-<div class="top">
-  <div class="k">Confra das Confras · 2026</div>
   <h1>A Vitrine</h1>
 </div>
 <div class="palco" id="palco"></div>
-<canvas id="poeira"></canvas>
 
 <script>
 'use strict';
@@ -93,19 +86,6 @@ fetch(SB+'/rest/v1/confras_vinhos_publico?select=vinho,safra,formato,foto_url&or
   },TROCA*1000);
 });
 
-(function(){
-  var c=document.getElementById('poeira'),x=c.getContext('2d'),pts=[];
-  function dim(){c.width=innerWidth;c.height=innerHeight;}
-  dim();addEventListener('resize',dim);
-  for(var i=0;i<36;i++)pts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:.8+Math.random()*2.2,v:.12+Math.random()*.35,d:(Math.random()-.5)*.18,f:Math.random()*Math.PI*2});
-  (function anima(){
-    x.clearRect(0,0,c.width,c.height);
-    pts.forEach(function(p){p.y-=p.v;p.x+=p.d;p.f+=.015;
-      if(p.y<-6){p.y=c.height+6;p.x=Math.random()*c.width;}
-      x.beginPath();x.arc(p.x,p.y,p.r,0,7);
-      x.fillStyle='rgba(212,174,92,'+(.1+.2*Math.abs(Math.sin(p.f)))+')';x.fill();});
-    requestAnimationFrame(anima);
-  })();
 })();
 </script>
 </body>
