@@ -131,9 +131,9 @@ function telaReveal(cat, g) {
 }
 function telaFim() {
   return EMBLEMA + '<div class="k">Obrigado, confrades · já tem data</div>' +
-    '<div class="marca">17 de Novembro</div>' +
+    '<div class="marca">26 de Novembro</div>' +
     '<div style="font-family:Didot,\'Playfair Display\',serif;font-size:clamp(28px,3.4vw,52px);letter-spacing:18px;color:var(--gold-lt);margin-top:14px">2027</div>' +
-    '<div class="cat-sub">Quarta-feira — a mesma mesa, ainda mais garrafas.</div>';
+    '<div class="cat-sub">Sexta-feira — e, daqui em diante, sempre na última sexta de novembro.</div>';
 }
 
 function montar(vencedores) {
@@ -202,12 +202,22 @@ function carregar(rows) {
 if (DEMO) {
   document.getElementById('gate').classList.add('hidden');
   document.getElementById('dica').classList.remove('hidden');
-  view('confras_vinhos_publico').then(function (v) { vinhosAll = v || []; montar(DEMO_VENCEDORES); });
-  var DEMO_VENCEDORES = ({
-    'Melhor Espumante': { vinho: 'Cave Geisse', safra: '2013', formato: 'Magnum', membros: ['Marcelo Sandes'], votos: 14, pais: 'Brasil', foto_url: '' },
-    'Melhor Branco': { vinho: 'Guru', safra: '2010', formato: 'Magnum', membros: ['Milton Rocha'], votos: 17, pais: 'Portugal', foto_url: 'https://images.vivino.com/thumbs/byKy3nNwRlmQOdDyLD2Mwg_pb_x600.png' },
-    'Melhor Tinto': { vinho: 'Fontalloro', safra: '1995', formato: 'Magnum', membros: ['Felipe Valenca de Sousa'], votos: 21, pais: 'Itália', foto_url: 'https://images.vivino.com/thumbs/Qs6gkLUMQ7-V4KgmqdJ_5A_pb_x600.png' },
-    'Melhor Vinho da Festa': { vinho: 'Malleolus', safra: '2019', formato: 'Salmanazar', membros: ['Agostinho Gomes', 'Alberto Porpino', 'Halim Nagem Neto', 'Jorge Petribu', 'Jorge Pinho', 'Rafael Petribu'], votos: 24, pais: 'Espanha', foto_url: 'https://images.vivino.com/thumbs/acyKDNYCQ4CsXVyQBWafaA_pb_x600.png' }
+  view('confras_vinhos_publico').then(function (v) {
+    vinhosAll = v || [];
+    // demo com vinhos REAIS da carta de agora: um sorteado por tipo
+    function sorteia(tipo) {
+      var cands = vinhosAll.filter(function (g) { return !tipo || g.tipo === tipo; });
+      if (!cands.length) return null;
+      var g = cands[Math.floor(Math.random() * cands.length)];
+      return { vinho: g.vinho, safra: g.safra, formato: g.formato, membros: g.membros || [], votos: 10 + Math.floor(Math.random() * 15), pais: g.pais, foto_url: g.foto_url || '' };
+    }
+    var demo = {
+      'Melhor Espumante': sorteia('Espumante'),
+      'Melhor Branco': sorteia('Branco'),
+      'Melhor Tinto': sorteia('Tinto'),
+      'Melhor Vinho da Festa': sorteia(null)
+    };
+    montar(demo);
   });
 } else if (TOKEN) {
   rpc('confras_admin_resultados', { p_token: TOKEN }).then(carregar).catch(function () { });
