@@ -32,7 +32,6 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .gate input{width:100%;padding:13px;border:1px solid rgba(212,174,92,.5);background:rgba(255,255,255,.06);color:var(--cream);font-family:'Montserrat',sans-serif;text-align:center;margin:18px 0;outline:none}
 .gate button{padding:13px 34px;background:var(--gold);border:none;color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
 .hidden{display:none!important}
-.clock{position:fixed;top:18px;right:26px;font-size:14px;letter-spacing:2px;color:rgba(247,243,238,.5)}
 .revela{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(21px,2.2vw,28px);color:var(--gold-lt);margin-top:18px}
 #qr-votar{background:#fff;padding:12px 12px 7px;text-align:center;border:2px solid #D4AE5C;align-self:center}
 </style>
@@ -48,7 +47,6 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 </div>
 
 <div id="app" class="hidden">
-  <div class="clock" id="clock"></div>
   <div class="top">
     <div class="k">Confra das Confras · 2026</div>
     <h1>Quem já votou?</h1>
@@ -159,7 +157,6 @@ window.addEventListener('resize', ajustaEscala);
 
 setInterval(function () {
   var d = new Date();
-  document.getElementById('clock').textContent = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
 }, 1000);
 setInterval(function () { if (TOKEN && !document.getElementById('app').classList.contains('hidden')) tick(); }, 15000);
 
