@@ -22,8 +22,8 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .pl.sim .n{color:var(--gold-lt)}
 .pl.nao .n{color:rgba(247,243,238,.45)}
 .pl .l{font-size:20px;letter-spacing:3px;text-transform:uppercase;color:rgba(247,243,238,.65);margin-top:4px}
-.todos{display:flex;flex-wrap:wrap;gap:20px 24px;justify-content:center;margin:0 auto;width:100%}
-.nome{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,3.3vw,52px);padding:16px 36px;border:1px solid rgba(212,174,92,.3);flex-grow:1;text-align:center;white-space:nowrap}
+.todos{display:flex;flex-wrap:wrap;gap:.45em .5em;justify-content:center;margin:0 auto;width:100%;font-size:var(--fn,48px)}
+.nome{font-family:'Cormorant Garamond',serif;font-size:var(--fn,48px);padding:.35em .75em;border:1px solid rgba(212,174,92,.3);flex-grow:1;text-align:center;white-space:nowrap}
 .nome.sim{color:#101F38;background:var(--gold-lt);border-color:var(--gold-lt);font-weight:600}
 .nome.nao{color:rgba(247,243,238,.5);font-style:italic}
 .legenda{display:flex;justify-content:center;gap:34px;margin:0 0 10px;font-size:16px;letter-spacing:2px;text-transform:uppercase;color:rgba(247,243,238,.7)}
@@ -138,9 +138,22 @@ function tick() {
 function ajustaEscala() {
   var app = document.getElementById('app');
   app.style.transform = 'none';
-  var s = Math.min(1, (window.innerHeight - 40) / app.scrollHeight);
-  app.style.transformOrigin = 'top center';
-  app.style.transform = 'scale(' + s + ')';
+  var alvo = window.innerHeight - 30;
+  // maximiza o tamanho dos nomes: maior fonte em que tudo ainda cabe na tela
+  var lo = 20, hi = 110, melhor = 20;
+  while (lo <= hi) {
+    var meio = Math.floor((lo + hi) / 2);
+    document.documentElement.style.setProperty('--fn', meio + 'px');
+    if (app.scrollHeight <= alvo) { melhor = meio; lo = meio + 1; }
+    else { hi = meio - 1; }
+  }
+  document.documentElement.style.setProperty('--fn', melhor + 'px');
+  // se mesmo no mínimo não couber, encolhe o resto por transform
+  if (app.scrollHeight > alvo) {
+    var sc = alvo / app.scrollHeight;
+    app.style.transformOrigin = 'top center';
+    app.style.transform = 'scale(' + sc + ')';
+  }
 }
 window.addEventListener('resize', ajustaEscala);
 
