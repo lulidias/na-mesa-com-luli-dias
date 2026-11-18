@@ -139,22 +139,25 @@ function tick() {
   }).catch(function () { });
 }
 
+function alturaConteudo() {
+  var fim = document.querySelector('.revela');
+  return fim ? fim.getBoundingClientRect().bottom : document.getElementById('app').scrollHeight;
+}
 function ajustaEscala() {
   var app = document.getElementById('app');
   app.style.transform = 'none';
-  var alvo = window.innerHeight - 30;
+  var alvo = window.innerHeight - 24;
   // maximiza o tamanho dos nomes: maior fonte em que tudo ainda cabe na tela
-  var lo = 20, hi = 110, melhor = 20;
+  var lo = 20, hi = 96, melhor = 20;
   while (lo <= hi) {
     var meio = Math.floor((lo + hi) / 2);
     document.documentElement.style.setProperty('--fn', meio + 'px');
-    if (app.scrollHeight <= alvo) { melhor = meio; lo = meio + 1; }
+    if (alturaConteudo() <= alvo) { melhor = meio; lo = meio + 1; }
     else { hi = meio - 1; }
   }
   document.documentElement.style.setProperty('--fn', melhor + 'px');
-  // se mesmo no mínimo não couber, encolhe o resto por transform
-  if (app.scrollHeight > alvo) {
-    var sc = alvo / app.scrollHeight;
+  if (alturaConteudo() > alvo) {
+    var sc = alvo / alturaConteudo();
     app.style.transformOrigin = 'top center';
     app.style.transform = 'scale(' + sc + ')';
   }
