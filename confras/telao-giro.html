@@ -65,7 +65,9 @@ function comeca() {
   proxima();
 }
 
+var modoRevel = false;
 function proxima() {
+  if (modoRevel) { setTimeout(proxima, 2000); return; }
   var velho = atual >= 0 ? CENAS[atual].src : null;
   atual = (atual + 1) % CENAS.length;
   var alvo = CENAS[atual].src;
@@ -78,6 +80,36 @@ function proxima() {
   });
   setTimeout(proxima, CENAS[atual].dur * 1000);
 }
+
+// ── revelação comandada pelo celular: quando o MC avança, as TVs trocam sozinhas
+function vigiaRevelacao() {
+  var t = localStorage.getItem('confras_admin_token');
+  if (!t) return;
+  fetch('https://saotncritqxuchsvvnzi.supabase.co/rest/v1/rpc/confras_revelacao_get', {
+    method: 'POST',
+    headers: { 'apikey': 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5', 'Authorization': 'Bearer sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ p_token: t })
+  }).then(function (r) { return r.json(); }).then(function (passo) {
+    var ativa = Number(passo) >= 1;
+    if (ativa && !modoRevel) {
+      modoRevel = true;
+      var f = document.querySelector('iframe[data-src="revelacao.html"]');
+      if (!f) {
+        f = document.createElement('iframe');
+        f.src = 'revelacao.html'; f.dataset.src = 'revelacao.html';
+        document.body.appendChild(f);
+      }
+      document.querySelectorAll('iframe').forEach(function (x) { x.classList.toggle('on', x.dataset.src === 'revelacao.html'); });
+    } else if (!ativa && modoRevel) {
+      modoRevel = false;
+      var fr = document.querySelector('iframe[data-src="revelacao.html"]');
+      if (fr) fr.classList.remove('on');
+      atual = -1;
+      // a rotação retoma no próximo tique do proxima()
+    }
+  }).catch(function () {});
+}
+setInterval(vigiaRevelacao, 2500);
 
 if (localStorage.getItem('confras_admin_token')) comeca();
 document.addEventListener('keydown', function (e) { if (e.key === 'Enter') { var g = document.getElementById('gate'); if (!g.classList.contains('hidden')) entrar(); } });
