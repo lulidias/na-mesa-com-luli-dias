@@ -12,11 +12,11 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
 body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wine-md) 45%,var(--wine) 100%);color:var(--cream);font-family:'Montserrat',sans-serif}
-.top{text-align:center;padding-top:26px}
-.top .k{font-size:clamp(20px,1.6vw,30px);letter-spacing:9px;text-transform:uppercase;color:var(--gold-lt)}
-.top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(34px,4.2vw,56px);letter-spacing:6px;text-transform:uppercase;margin-top:6px}
-.palco{position:absolute;inset:160px 46px 40px;background:#fff;border:2px solid var(--gold-lt);padding:18px 20px}
-.pagina{position:absolute;inset:18px 20px;display:flex;flex-wrap:wrap;justify-content:center;align-content:space-between;gap:10px 14px;visibility:hidden}
+.top{text-align:center;padding-top:12px}
+.top .k{font-size:clamp(14px,1.1vw,20px);letter-spacing:7px;text-transform:uppercase;color:var(--gold-lt)}
+.top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(24px,2.6vw,36px);letter-spacing:5px;text-transform:uppercase;margin-top:2px}
+.palco{position:absolute;inset:104px 22px 20px;background:#fff;border:2px solid var(--gold-lt);padding:12px 14px}
+.pagina{position:absolute;inset:12px 14px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:1fr 1fr;gap:4px 10px;visibility:hidden}
 .pagina.on{visibility:visible}
 .pagina.on{opacity:1}
 .pagina.on .card{opacity:0;animation:pop .65s cubic-bezier(.2,.7,.3,1) both}
@@ -37,10 +37,10 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .pagina.on .card:nth-child(15){animation-delay:0.75s}
 .pagina.on .card:nth-child(16){animation-delay:0.80s}
 @keyframes pop{from{opacity:0;transform:translateY(26px) scale(.96)}to{opacity:1;transform:none}}
-.card{display:flex;flex-direction:column;min-height:0;flex:0 0 calc(12.5% - 13px);height:calc(50% - 6px)}
+.card{display:flex;flex-direction:column;min-height:0}
 .fig{flex:1;display:flex;align-items:flex-end;justify-content:center;min-height:0}
 .fig img{max-height:100%;max-width:100%;object-fit:contain}
-.nm{font-family:'Playfair Display',Georgia,serif;font-size:clamp(13px,1.05vw,19px);color:var(--wine);text-align:center;line-height:1.15;margin-top:6px;height:2.4em;overflow:hidden}
+.nm{font-family:'Playfair Display',Georgia,serif;font-size:clamp(11px,.85vw,15px);color:var(--wine);text-align:center;line-height:1.15;margin-top:4px;height:2.3em;overflow:hidden}
 .nm .sf{font-family:Didot,'Playfair Display',serif;color:var(--gold);white-space:nowrap}
 .semfoto{margin:0 auto;opacity:.8}
 #poeira{position:fixed;inset:0;pointer-events:none}
@@ -69,9 +69,10 @@ fetch(SB+'/rest/v1/confras_vinhos_publico?select=vinho,safra,formato,foto_url&or
   vinhos=vinhos||[];
   var palco=document.getElementById('palco');
   var paginas=[];
-  var nPags=Math.max(1, Math.ceil(vinhos.length/POR_PAGINA));
-  var porPag=Math.ceil(vinhos.length/nPags);
-  for(var i=0;i<vinhos.length;i+=porPag) paginas.push(vinhos.slice(i,i+porPag));
+  for(var i=0;i<vinhos.length;i+=POR_PAGINA) paginas.push(vinhos.slice(i,i+POR_PAGINA));
+  var ultima=paginas[paginas.length-1];
+  var k=0;
+  while(ultima && ultima.length<POR_PAGINA && vinhos.length) ultima.push(vinhos[k++ % vinhos.length]);
   paginas.forEach(function(pg,ix){
     var el=document.createElement('div'); el.className='pagina'; el.id='pg'+ix;
     el.innerHTML=pg.map(function(g){
