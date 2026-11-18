@@ -35,6 +35,7 @@ iframe.on{opacity:1;pointer-events:auto}
 var P = new URLSearchParams(location.search);
 var CENAS = [
   { src: 'telao.html',       dur: Number(P.get('apuracao')) || 22 },
+  { src: 'telao-qr.html',    dur: Number(P.get('qr')) || 18 },
   { src: 'telao-carta.html', dur: Number(P.get('carta'))    || 22 },
   { src: 'telao2/',          dur: Number(P.get('votantes')) || 30 },
   { src: 'telao-vitrine.html', dur: Number(P.get('vitrine')) || 22 },
@@ -65,10 +66,15 @@ function comeca() {
 }
 
 function proxima() {
+  var velho = atual >= 0 ? CENAS[atual].src : null;
   atual = (atual + 1) % CENAS.length;
   var alvo = CENAS[atual].src;
   document.querySelectorAll('iframe').forEach(function (f) {
     f.classList.toggle('on', f.dataset.src === alvo);
+    // recarrega a cena que acabou de sair: na próxima volta ela entra sempre fresca
+    if (velho && f.dataset.src === velho && velho !== alvo) {
+      try { f.contentWindow.location.reload(); } catch (e) { f.src = f.dataset.src; }
+    }
   });
   setTimeout(proxima, CENAS[atual].dur * 1000);
 }
