@@ -521,7 +521,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   <div style="max-width:1000px;margin:0 auto;text-align:center">
     <div class="sec-kicker" style="color:var(--gold-lt)">No dia da festa</div>
     <h2 class="sec-title" style="color:var(--cream)">A grande votação</h2>
-    <p class="sec-sub" style="color:rgba(247,243,238,.85)">Durante o almoço, cada confrade vota pelo celular nos melhores vinhos da mesa — um voto por categoria. A urna fecha às 17h e o resultado sai no telão.</p>
+    <p class="sec-sub" style="color:rgba(247,243,238,.85)">Durante o almoço, cada confrade vota pelo celular nos melhores vinhos da mesa — um voto por categoria. A urna fecha às 16h30 e o resultado sai no telão.</p>
     <div id="teaser-cats" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:8px"></div>
     <div class="orn" style="margin-top:34px"><span class="l"></span><span class="d"></span><span class="r"></span></div>
     <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--gold-lt);margin-top:6px">Um vencedor por categoria — cada um leva a sua placa. 🏆</p>
@@ -542,7 +542,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   <div class="sec-kicker">A urna</div>
   <h2 class="sec-title">Vote nos melhores vinhos</h2>
   <p class="sec-sub">Um voto por categoria. Você pode mudar o seu voto enquanto a urna estiver aberta.</p>
-  <p style="text-align:center;margin:-24px 0 34px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--wine-lt)">A urna fecha às 17h · <strong id="urna-count" style="color:var(--gold)"></strong></p>
+  <p style="text-align:center;margin:-24px 0 34px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--wine-lt)">A urna fecha às 16h30 · <strong id="urna-count" style="color:var(--gold)"></strong></p>
   <div class="panel" id="vote-panel"></div>
 </section>
 
@@ -662,11 +662,11 @@ function modoFesta() {
       '<div class="fh-prog">' +
       '<div class="fh-item"><span class="h">13H</span><span>Almoço — todas as garrafas abertas na grande mesa central, churrasco volante o dia inteiro</span></div>' +
       '<div class="fh-item"><span class="h">🗳️ TARDE</span><span>Votação pelo celular — aponte a câmera para o QR das mesas e vote nos melhores vinhos</span></div>' +
-      '<div class="fh-item"><span class="h">17H</span><span>A urna fecha — revelação dos vencedores e entrega das placas 🏆</span></div>' +
+      '<div class="fh-item"><span class="h">16H30</span><span>A urna fecha — revelação dos vencedores e entrega das placas 🏆</span></div>' +
       '</div><a class="cta" href="#rsvp">Abrir meu painel</a>';
   } else if (fase === 'urna') {
     html = '<div class="fh-t">🗳️ A urna está aberta</div>' +
-      '<div class="fh-sub">Um voto por categoria — você pode mudar até as 17h.</div>' +
+      '<div class="fh-sub">Um voto por categoria — você pode mudar até as 16h30.</div>' +
       '<a class="cta" href="votar/" style="font-size:14px;padding:18px 46px">Votar agora</a>' +
       '<div class="fh-sub" style="font-size:14px;margin-top:14px">A apuração corre ao vivo no telão. <span id="fh-urna"></span></div>';
   } else if (fase === 'apuracao') {
@@ -695,7 +695,7 @@ setInterval(function () {
 
 // ── countdown ────────────────────────────────────────────────────────────
 var EVENTO = new Date('2026-11-18T13:00:00-03:00').getTime();
-var URNA_FECHA = new Date('2026-11-18T17:00:00-03:00').getTime();
+var URNA_FECHA = new Date('2026-11-18T16:30:00-03:00').getTime();
 setInterval(function () {
   var el = document.getElementById('urna-count');
   if (!el || document.getElementById('votacao').classList.contains('hidden')) return;
