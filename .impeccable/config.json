@@ -116,6 +116,15 @@
         ],
         "createdAt": "2026-11-18T04:01:19.672160Z",
         "reason": "manual da marca CDC: amostras dourado/creme sobre azul são a própria identidade documentada"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "confras/marca/index.html"
+        ],
+        "createdAt": "2026-11-18T04:01:59.078144Z",
+        "reason": "creme #F7F3EE é cor oficial da paleta CDC (documentada no próprio manual da marca), em produção desde agosto"
       }
     ]
   }
