@@ -16,7 +16,8 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .top .k{font-size:clamp(20px,1.6vw,30px);letter-spacing:9px;text-transform:uppercase;color:var(--gold-lt)}
 .top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(34px,4.2vw,56px);letter-spacing:6px;text-transform:uppercase;margin-top:6px}
 .palco{position:absolute;inset:160px 46px 52px;background:#fff;border:2px solid var(--gold-lt);padding:18px 20px}
-.pagina{position:absolute;inset:18px 20px;display:flex;flex-wrap:wrap;justify-content:center;align-content:space-between;gap:10px 14px}
+.pagina{position:absolute;inset:18px 20px;display:flex;flex-wrap:wrap;justify-content:center;align-content:space-between;gap:10px 14px;visibility:hidden}
+.pagina.on{visibility:visible}
 .pagina.on{opacity:1}
 .pagina.on .card{opacity:0;animation:pop .65s cubic-bezier(.2,.7,.3,1) both}
 .pagina.on .card:nth-child(1){animation-delay:0.05s}
