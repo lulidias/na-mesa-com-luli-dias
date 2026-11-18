@@ -44,6 +44,11 @@ input{width:100%;padding:15px;border:1px solid rgba(212,174,92,.6);background:rg
       <div class="ct" style="margin-top:4px">Digite o WhatsApp que você usou na confirmação</div>
       <input id="zap" placeholder="(81) 9 0000-0000" inputmode="tel" onkeydown="if(event.key==='Enter')entrar()">
       <button class="btn" id="btn-entrar" onclick="entrar()">Entrar na urna</button>
+      <div style="margin-top:16px"><a href="#" onclick="mostraConvidado();return false" style="color:var(--gold);font-size:14px">Sou convidado — entrar pelo nome</a></div>
+      <div id="conv" class="hidden" style="margin-top:12px">
+        <select id="conv-nome" style="width:100%;padding:13px;font-size:16px;font-family:inherit;border:1px solid var(--gold);background:#fff;color:#1A1A1A"><option value="">Escolha o seu nome…</option></select>
+        <button class="btn" id="btn-conv" onclick="entrarConvidado()">Entrar como convidado</button>
+      </div>
     </div>
   </div>
   <div id="urna" class="hidden"></div>
@@ -88,6 +93,28 @@ function entrar() {
     .then(function () { b.disabled = false; b.textContent = 'Entrar na urna'; });
 }
 
+function mostraConvidado() {
+  document.getElementById('conv').classList.remove('hidden');
+  var sel = document.getElementById('conv-nome');
+  if (sel.options.length > 1) return;
+  rpc('confras_lista_convidados', {}).then(function (rows) {
+    (rows || []).forEach(function (r) {
+      var o = document.createElement('option');
+      o.value = r.nome || r; o.textContent = r.nome || r;
+      sel.appendChild(o);
+    });
+  }).catch(function (e) { toast(e.message, true); });
+}
+function entrarConvidado() {
+  var n = document.getElementById('conv-nome').value;
+  if (!n) { toast('Escolha o seu nome na lista', true); return; }
+  var b = document.getElementById('btn-conv');
+  b.disabled = true; b.textContent = 'Entrando…';
+  rpc('confras_entrar_convidado', { p_nome: n })
+    .then(function (id) { meuId = id; localStorage.setItem('confras_id', id); carrega(); })
+    .catch(function (e) { toast(e.message, true); })
+    .then(function () { b.disabled = false; b.textContent = 'Entrar como convidado'; });
+}
 function carrega() {
   Promise.all([
     view('confras_config_publica'), view('confras_categorias_publicas'), view('confras_vinhos_publico'),
