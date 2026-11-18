@@ -15,26 +15,33 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .top{text-align:center;padding-top:26px}
 .top .k{font-size:clamp(20px,1.6vw,30px);letter-spacing:9px;text-transform:uppercase;color:var(--gold-lt)}
 .top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(34px,4.2vw,56px);letter-spacing:6px;text-transform:uppercase;margin-top:6px}
-.palco{position:absolute;inset:170px 40px 56px}
-.pagina{position:absolute;inset:0;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:1fr 1fr;gap:22px;opacity:0;transition:opacity .9s ease}
+.palco{position:absolute;inset:160px 46px 52px;background:#fff;border:2px solid var(--gold-lt);padding:18px 20px}
+.pagina{position:absolute;inset:18px 20px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:1fr 1fr;gap:6px 14px;opacity:0;transition:opacity .9s ease}
 .pagina.on{opacity:1}
 .pagina.on .card{opacity:0;animation:pop .65s cubic-bezier(.2,.7,.3,1) both}
-.pagina.on .card:nth-child(1){animation-delay:0.06s}
-.pagina.on .card:nth-child(2){animation-delay:0.12s}
-.pagina.on .card:nth-child(3){animation-delay:0.18s}
-.pagina.on .card:nth-child(4){animation-delay:0.24s}
-.pagina.on .card:nth-child(5){animation-delay:0.30s}
-.pagina.on .card:nth-child(6){animation-delay:0.36s}
-.pagina.on .card:nth-child(7){animation-delay:0.42s}
-.pagina.on .card:nth-child(8){animation-delay:0.48s}
-.pagina.on .card:nth-child(9){animation-delay:0.54s}
-.pagina.on .card:nth-child(10){animation-delay:0.60s}
+.pagina.on .card:nth-child(1){animation-delay:0.05s}
+.pagina.on .card:nth-child(2){animation-delay:0.10s}
+.pagina.on .card:nth-child(3){animation-delay:0.15s}
+.pagina.on .card:nth-child(4){animation-delay:0.20s}
+.pagina.on .card:nth-child(5){animation-delay:0.25s}
+.pagina.on .card:nth-child(6){animation-delay:0.30s}
+.pagina.on .card:nth-child(7){animation-delay:0.35s}
+.pagina.on .card:nth-child(8){animation-delay:0.40s}
+.pagina.on .card:nth-child(9){animation-delay:0.45s}
+.pagina.on .card:nth-child(10){animation-delay:0.50s}
+.pagina.on .card:nth-child(11){animation-delay:0.55s}
+.pagina.on .card:nth-child(12){animation-delay:0.60s}
+.pagina.on .card:nth-child(13){animation-delay:0.65s}
+.pagina.on .card:nth-child(14){animation-delay:0.70s}
+.pagina.on .card:nth-child(15){animation-delay:0.75s}
+.pagina.on .card:nth-child(16){animation-delay:0.80s}
 @keyframes pop{from{opacity:0;transform:translateY(26px) scale(.96)}to{opacity:1;transform:none}}
-.card{background:#fff;border:1.5px solid var(--gold-lt);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:12px 8px 10px;overflow:hidden}
-.card img{max-height:72%;max-width:86%;object-fit:contain;margin:auto}
-.card .nm{font-family:'Playfair Display',Georgia,serif;font-size:clamp(14px,1.15vw,21px);color:var(--wine);text-align:center;line-height:1.2}
-.card .sf{font-family:Didot,'Playfair Display',serif;font-size:clamp(13px,1vw,18px);color:var(--gold);margin-top:2px}
-.card .semfoto{margin:auto;opacity:.8}
+.card{display:flex;flex-direction:column;min-height:0}
+.fig{flex:1;display:flex;align-items:flex-end;justify-content:center;min-height:0}
+.fig img{max-height:100%;max-width:100%;object-fit:contain}
+.nm{font-family:'Playfair Display',Georgia,serif;font-size:clamp(13px,1.05vw,19px);color:var(--wine);text-align:center;line-height:1.15;margin-top:6px;height:2.4em;overflow:hidden}
+.nm .sf{font-family:Didot,'Playfair Display',serif;color:var(--gold);white-space:nowrap}
+.semfoto{margin:0 auto;opacity:.8}
 .rodape{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(17px,1.5vw,23px);color:rgba(247,243,238,.8)}
 #poeira{position:fixed;inset:0;pointer-events:none}
 </style>
@@ -52,7 +59,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 'use strict';
 var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
-var POR_PAGINA = 10;
+var POR_PAGINA = 16;
 var TROCA = Number(new URLSearchParams(location.search).get('t')) || 7; // segundos por página
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 var GARRAFA_SVG='<svg class="semfoto" viewBox="0 0 60 200" width="54" height="180"><path d="M24 8h12v38c0 10 10 16 10 30v108a8 8 0 0 1-8 8H22a8 8 0 0 1-8-8V76c0-14 10-20 10-30z" fill="none" stroke="#B8922A" stroke-width="2.5"/><rect x="17" y="104" width="26" height="44" fill="none" stroke="#D4AE5C" stroke-width="1.5"/></svg>';
@@ -67,10 +74,9 @@ fetch(SB+'/rest/v1/confras_vinhos_publico?select=vinho,safra,formato,foto_url&or
   paginas.forEach(function(pg,ix){
     var el=document.createElement('div'); el.className='pagina'; el.id='pg'+ix;
     el.innerHTML=pg.map(function(g){
-      return '<div class="card">'+
+      return '<div class="card"><div class="fig">'+
         (g.foto_url?'<img src="'+esc(g.foto_url)+'">':GARRAFA_SVG)+
-        '<div class="nm">'+esc(g.vinho)+'</div>'+
-        (g.safra?'<div class="sf">'+esc(g.safra)+'</div>':'')+
+        '</div><div class="nm">'+esc(g.vinho)+(g.safra?' <span class="sf">'+esc(g.safra)+'</span>':'')+'</div>'+
       '</div>';
     }).join('');
     palco.appendChild(el);
