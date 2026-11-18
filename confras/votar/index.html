@@ -35,7 +35,7 @@ input{width:100%;padding:15px;border:1px solid rgba(212,174,92,.6);background:rg
   <div class="k">Confra das Confras · 2026</div>
   <h1>A URNA</h1>
   <div id="ola" class="hidden" style="font-family:'Playfair Display',Georgia,serif;font-size:clamp(32px,8vw,44px);color:var(--gold-lt);margin:10px 0 2px">Olá!</div>
-  <div class="sub" id="sub">Um voto por categoria — você pode mudar até a urna fechar às 16h30.</div>
+
 </div>
 
 <div class="box">
@@ -139,7 +139,6 @@ function carrega() {
     var ola = document.getElementById('ola');
     ola.textContent = 'Olá, ' + meuNome.split(' ')[0] + '!';
     ola.classList.remove('hidden');
-    document.getElementById('sub').textContent = 'Um voto por categoria — pode mudar até as 16h30.';
     document.getElementById('ident').classList.add('hidden');
     rpc('confras_meus_votos', { p_participante: meuId }).then(function (votos) {
       var meus = {};
