@@ -34,12 +34,12 @@ iframe.on{opacity:1;pointer-events:auto}
 // cenas e duração em segundos — ajustável por URL: ?apuracao=30&votantes=20&carta=45
 var P = new URLSearchParams(location.search);
 var CENAS = [
-  { src: 'telao.html',       dur: Number(P.get('apuracao')) || 20 },
-  { src: 'telao-carta.html', dur: Number(P.get('carta'))    || 20 },
+  { src: 'telao.html',       dur: Number(P.get('apuracao')) || 22 },
+  { src: 'telao-carta.html', dur: Number(P.get('carta'))    || 22 },
   { src: 'telao2/',          dur: Number(P.get('votantes')) || 30 },
-  { src: 'telao-vitrine.html', dur: Number(P.get('vitrine')) || 28 },
-  { src: 'telao-numeros.html', dur: Number(P.get('numeros')) || 15 },
-  { src: 'telao-2027.html',  dur: Number(P.get('anoquevem')) || 20 }
+  { src: 'telao-vitrine.html', dur: Number(P.get('vitrine')) || 22 },
+  { src: 'telao-numeros.html', dur: Number(P.get('numeros')) || 22 },
+  { src: 'telao-2027.html',  dur: Number(P.get('anoquevem')) || 22 }
 ];
 var atual = -1;
 
