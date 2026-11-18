@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Placar — Confra das Confras 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/confras/favicon.png?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital@1&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#101F38;--wine-md:#1A2F4E;--wine-lt:#2A4468;--cream:#F7F3EE;--gold:#B8922A;--gold-lt:#D4AE5C}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wine-md) 45%,var(--wine) 100%);color:var(--cream);font-family:'Montserrat',sans-serif}
+#app{height:100%;display:flex;flex-direction:column;padding:3.2vh 3vw 2.6vh}
+.topo{text-align:center}
+.cdc-nome{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(24px,2.4vw,46px);letter-spacing:.45em;text-transform:uppercase}
+.cdc-filete{width:110px;height:1.5px;background:var(--gold-lt);margin:1.2vh auto 1vh}
+.cdc-cena{font-size:clamp(13px,1.05vw,20px);letter-spacing:.5em;text-transform:uppercase;color:var(--gold-lt)}
+.cdc-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(15px,1.25vw,24px);color:rgba(247,243,238,.8);margin-top:.6vh}
+.exemplo{display:inline-block;margin-top:1vh;padding:4px 14px;border:1px solid var(--gold-lt);color:var(--gold-lt);font-size:12px;letter-spacing:.3em;text-transform:uppercase}
+.grade{flex:1;display:grid;align-content:center;gap:2.2vh 2.4vw;margin-top:3vh;min-height:0}
+.cat{border-top:1.5px solid var(--gold-lt);padding-top:1.6vh;min-height:0;display:flex;flex-direction:column}
+.cat h2{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(18px,1.55vw,30px);letter-spacing:.18em;text-transform:uppercase;color:var(--gold-lt)}
+.cat .tot{font-size:clamp(11px,.8vw,15px);letter-spacing:.25em;text-transform:uppercase;color:rgba(247,243,238,.78);margin-top:.5vh}
+.lin{display:grid;grid-template-columns:2.2em 1fr auto;align-items:center;column-gap:.8em;margin-top:1.5vh;font-size:clamp(15px,1.3vw,26px)}
+.pos{font-family:'Playfair Display',serif;color:rgba(247,243,238,.75);font-size:1.15em;text-align:right}
+.lin.p1 .pos{color:var(--gold-lt)}
+.vin{min-width:0}
+.vin b{display:block;font-weight:500;line-height:1.2}
+.lin.p1 .vin b{font-weight:600;color:#fff}
+.vin small{display:block;font-size:.72em;color:rgba(247,243,238,.78);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:.15em}
+.barra{height:6px;background:rgba(247,243,238,.1);margin-top:.45em}
+.barra i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-lt));transition:width 1s ease}
+.lin:not(.p1) .barra i{opacity:.55}
+.n{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-size:1.7em;color:var(--gold-lt);line-height:1;text-align:right;font-variant-numeric:tabular-nums;min-width:1.6em}
+.n small{display:block;font-family:'Montserrat',sans-serif;font-size:.32em;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,243,238,.75);margin-top:.3em}
+.gate{max-width:380px;margin:20vh auto;text-align:center;background:rgba(0,0,0,.25);border:1px solid rgba(212,174,92,.4);padding:48px 40px}
+.gate input{width:100%;padding:13px;border:1px solid rgba(212,174,92,.5);background:rgba(255,255,255,.06);color:var(--cream);text-align:center;margin:18px 0;outline:none}
+.gate button{padding:13px 34px;background:var(--gold);border:none;color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="gate hidden" id="gate">
+  <div class="cdc-cena">O Placar</div>
+  <input type="password" id="tok" placeholder="Token de acesso">
+  <button onclick="entrar()">Abrir</button>
+</div>
+<div id="app" class="hidden">
+  <div class="topo">
+    <div class="cdc-nome">Confra das Confras</div>
+    <div class="cdc-filete"></div>
+    <div class="cdc-cena">O Placar · os votos de cada vinho</div>
+    <div class="cdc-sub" id="sub">Os cinco mais votados de cada categoria</div>
+    <div class="exemplo hidden" id="exemplo">Exemplo · números fictícios</div>
+  </div>
+  <div class="grade" id="grade"></div>
+</div>
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var P = new URLSearchParams(location.search);
+var TOP = Number(P.get('top')) || 5;
+var EXEMPLO = P.has('exemplo');
+var TOKEN = localStorage.getItem('confras_admin_token') || '';
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+function desenha(rows) {
+  var cats = [], porCat = {};
+  rows.forEach(function (r) {
+    if (!porCat[r.categoria]) { porCat[r.categoria] = []; cats.push(r.categoria); }
+    porCat[r.categoria].push(r);
+  });
+  var g = document.getElementById('grade');
+  var cols = cats.length <= 4 ? cats.length : Math.ceil(cats.length / 2);
+  g.style.gridTemplateColumns = 'repeat(' + Math.max(1, cols) + ',minmax(0,1fr))';
+  g.innerHTML = cats.map(function (c) {
+    var l = porCat[c].slice().sort(function (a, b) { return Number(b.votos) - Number(a.votos); });
+    var total = l.reduce(function (s, r) { return s + Number(r.votos); }, 0);
+    var max = Number(l[0].votos) || 1;
+    var pos = 0, ant = null;
+    return '<div class="cat"><h2>' + esc(c) + '</h2><div class="tot">' + total + ' voto' + (total === 1 ? '' : 's') + '</div>' +
+      l.slice(0, TOP).map(function (r, i) {
+        var v = Number(r.votos);
+        if (v !== ant) { pos = i + 1; ant = v; }       // empate divide a posição
+        var quem = (r.membros || []).join(', ');
+        var det = [r.safra, r.formato].filter(Boolean).join(' · ') + (quem ? ' — ' + quem : '');
+        return '<div class="lin' + (pos === 1 ? ' p1' : '') + '"><div class="pos">' + pos + 'º</div>' +
+          '<div class="vin"><b>' + esc(r.vinho) + '</b><small>' + esc(det) + '</small>' +
+          '<div class="barra"><i style="width:' + Math.round(v / max * 100) + '%"></i></div></div>' +
+          '<div class="n">' + v + '<small>' + (v === 1 ? 'voto' : 'votos') + '</small></div></div>';
+      }).join('') + '</div>';
+  }).join('');
+}
+
+var assinatura = '';
+function carrega() {
+  if (EXEMPLO) return desenha(DADOS_EXEMPLO);
+  fetch(SB + '/rest/v1/rpc/confras_admin_resultados', {
+    method: 'POST',
+    headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ p_token: TOKEN })
+  }).then(function (r) { if (!r.ok) throw r; return r.json(); })
+    .then(function (rows) { var a = JSON.stringify(rows); if (a !== assinatura) { assinatura = a; desenha(rows || []); } })
+    .catch(function () {});
+}
+function abre() { document.getElementById('gate').classList.add('hidden'); document.getElementById('app').classList.remove('hidden'); carrega(); setInterval(carrega, 5000); }
+function entrar() { var t = document.getElementById('tok').value.trim(); if (!t) return; TOKEN = t; localStorage.setItem('confras_admin_token', t); abre(); }
+
+var DADOS_EXEMPLO = (function () {
+  var d = [
+    ['Melhor Vinho da Festa', [['Malleolus','2019','Salmanazar',11,['Fulano de Tal']],['Clos Apalta','2008','Double Magnum',8,['Beltrano']],['Vik','2018','Double Magnum',6,['Ciclano']],['Imperial Reserva','2015','Double Magnum',4,['Fulano']],['Tempo','2023','Double Magnum',2,['Beltrano']]]],
+    ['Melhor Tinto', [['Vik','2018','Double Magnum',9,['Ciclano']],['Malleolus','2019','Salmanazar',9,['Fulano de Tal']],['Imperial Reserva','2015','Double Magnum',5,['Fulano']],['Montchenot Gran Reserva 10 Anos','2015','Double Magnum',3,['Beltrano']],['Tempo','2023','Double Magnum',1,['Beltrano']]]],
+    ['Melhor Branco', [['Esporão Alicante Bouschet','2021','Magnum',7,['Fulano']],['Menade Verdejo','2023','Magnum',6,['Ciclano']],['Grande Vadio','2021','Magnum',4,['Beltrano']],['Guru','2022','Magnum',2,['Fulano']]]],
+    ['Melhor Espumante', [['Champagne Louis Roederer Collection','244','Magnum',12,['Beltrano']],['Domaines Ott Clos Mireille','2023','Magnum',5,['Ciclano']],['Iconic','2021','Magnum',3,['Fulano']]]]
+  ], out = [];
+  d.forEach(function (c) { c[1].forEach(function (v) { out.push({ categoria: c[0], vinho: v[0], safra: v[1], formato: v[2], votos: v[3], membros: v[4] }); }); });
+  return out;
+})();
+
+if (EXEMPLO) { document.getElementById('exemplo').classList.remove('hidden'); abre(); }
+else if (TOKEN) abre();
+else document.getElementById('gate').classList.remove('hidden');
+document.addEventListener('click', function () { var e = document.documentElement; if (!document.fullscreenElement && e.requestFullscreen) e.requestFullscreen().catch(function () {}); });
+</script>
+</body>
+</html>
