@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<script>/* TEMPORÁRIO 18/11: pedido do Luli — o telão para na tela só do QR */if(window.top!==window){try{window.top.location.replace("/confras/telao-qr.html")}catch(e){}}</script>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,6 +62,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
   <div class="cdc-filete"></div>
   <div class="cdc-cena">Quem já votou?</div>
   <div class="cdc-sub">Um voto por categoria — a urna fecha às 16h30</div>
+  <div id="contagem" style="font-family:'Playfair Display',serif;color:#D4AE5C;font-size:clamp(34px,4.2vw,72px);letter-spacing:4px;margin-top:6px;font-variant-numeric:tabular-nums">--:--:--</div>
 </div>
   <div class="placar">
     <div class="pl sim"><div class="n" id="n-sim">–</div><div class="l">já votaram</div></div>
@@ -93,11 +93,11 @@ function view(n) { return fetch(SB + '/rest/v1/' + n + '?select=*', { headers: {
 
 function mostraQR(aberta) {
   var box = document.getElementById('qr-votar');
-  aberta = false;   // substituído pelo QR fixo (qr-fixo.js), sempre no canto superior direito
+  aberta = true;   // 18/11: QR sempre visível nesta tela (pedido do Luli)
   if (!aberta) { box.classList.add('hidden'); return; }
   box.classList.remove('hidden');
   if (!qrFeito && window.QRious) {
-    new QRious({ element: document.getElementById('qr-canvas'), value: 'https://v1.lulidias.com/confras/votar/', size: 150, background: '#FFFFFF', foreground: '#101F38', level: 'M' });
+    new QRious({ element: document.getElementById('qr-canvas'), value: 'https://v1.lulidias.com/confras/votar/', size: 230, background: '#FFFFFF', foreground: '#101F38', level: 'M' });
     qrFeito = true;
   }
 }
@@ -170,7 +170,7 @@ window.addEventListener('resize', ajustaEscala);
 setInterval(function () {
   var d = new Date();
 }, 1000);
-setInterval(function () { if (TOKEN && !document.getElementById('app').classList.contains('hidden')) tick(); }, 15000);
+setInterval(function () { if (TOKEN && !document.getElementById('app').classList.contains('hidden')) tick(); }, 2000);
 
 if (TOKEN) {
   document.getElementById('tok').value = TOKEN;
@@ -179,8 +179,15 @@ if (TOKEN) {
 document.getElementById('tok').addEventListener('keydown', function (e) { if (e.key === 'Enter') entrar(); });
 </script>
 <div id="qr-votar" class="hidden">
-      <canvas id="qr-canvas" width="150" height="150"></canvas>
+      <canvas id="qr-canvas" width="230" height="230"></canvas>
       <div style="font-size:9px;letter-spacing:2px;color:#101F38;font-weight:600;margin-top:5px">APONTE A CÂMERA<br>E VOTE</div>
-<script src="/confras/qr-fixo.js?v=3"></script>
+<script src="/confras/qr-fixo.js?v=3" data-sem-qr></script>
+<script>
+(function(){function z(n){return(n<10?'0':'')+n}
+function c(){var a=new Date(),f=new Date(a);f.setHours(16,30,0,0);var d=Math.max(0,Math.floor((f-a)/1000)),el=document.getElementById('contagem');if(!el)return;
+el.textContent=d?('A urna fecha em '+z(Math.floor(d/3600))+':'+z(Math.floor(d%3600/60))+':'+z(d%60)):'Urna fechada'}
+c();setInterval(c,1000)})();
+document.addEventListener('click',function(){var e=document.documentElement;if(!document.fullscreenElement&&e.requestFullscreen)e.requestFullscreen().catch(function(){})});
+</script>
 </body>
 </html>
