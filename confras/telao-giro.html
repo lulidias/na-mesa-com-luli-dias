@@ -72,7 +72,8 @@ function proxima() {
   var velho = atual >= 0 ? CENAS[atual].src : null;
   atual = (atual + 1) % CENAS.length;
   var alvo = CENAS[atual].src;
-  if (window.qrFixo) qrFixo(alvo !== 'telao-qr.html');
+  // sem QR fixo: na cena do QR grande e nas telas brancas só de garrafas (A Mesa, A Vitrine)
+  if (window.qrFixo) qrFixo(['telao-qr.html', 'telao-carta.html', 'telao-vitrine.html'].indexOf(alvo) < 0);
   document.querySelectorAll('iframe').forEach(function (f) {
     f.classList.toggle('on', f.dataset.src === alvo);
     // recarrega a cena que acabou de sair: na próxima volta ela entra sempre fresca
