@@ -15,7 +15,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .top{text-align:center;padding-top:26px}
 .top .k{font-size:clamp(20px,1.6vw,30px);letter-spacing:9px;text-transform:uppercase;color:var(--gold-lt)}
 .top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(34px,4.2vw,56px);letter-spacing:6px;text-transform:uppercase;margin-top:6px}
-.palco{position:absolute;inset:160px 46px 52px;background:#fff;border:2px solid var(--gold-lt);padding:18px 20px}
+.palco{position:absolute;inset:160px 46px 40px;background:#fff;border:2px solid var(--gold-lt);padding:18px 20px}
 .pagina{position:absolute;inset:18px 20px;display:flex;flex-wrap:wrap;justify-content:center;align-content:space-between;gap:10px 14px;visibility:hidden}
 .pagina.on{visibility:visible}
 .pagina.on{opacity:1}
@@ -43,7 +43,6 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .nm{font-family:'Playfair Display',Georgia,serif;font-size:clamp(13px,1.05vw,19px);color:var(--wine);text-align:center;line-height:1.15;margin-top:6px;height:2.4em;overflow:hidden}
 .nm .sf{font-family:Didot,'Playfair Display',serif;color:var(--gold);white-space:nowrap}
 .semfoto{margin:0 auto;opacity:.8}
-.rodape{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(17px,1.5vw,23px);color:rgba(247,243,238,.8)}
 #poeira{position:fixed;inset:0;pointer-events:none}
 </style>
 </head>
@@ -53,7 +52,6 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
   <h1>A Vitrine</h1>
 </div>
 <div class="palco" id="palco"></div>
-<div class="rodape" id="rodape"></div>
 <canvas id="poeira"></canvas>
 
 <script>
@@ -84,7 +82,6 @@ fetch(SB+'/rest/v1/confras_vinhos_publico?select=vinho,safra,formato,foto_url&or
     }).join('');
     palco.appendChild(el);
   });
-  document.getElementById('rodape').textContent=vinhos.length+' garrafas na mesa — todas com no mínimo 1,5 litro';
   var atual=0;
   document.getElementById('pg0').classList.add('on');
   if(paginas.length>1) setInterval(function(){

@@ -33,7 +33,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.07)}}
 #poeira{position:fixed;inset:0;pointer-events:none}
 #progresso{display:none}
-.info{max-width:46vw;text-align:left}
+.info{max-width:46vw;text-align:left;height:min(62vh,560px);display:flex;flex-direction:column;justify-content:center}
 .info .tipo{font-size:17px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt)}
 .info .nome{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:600;font-size:clamp(40px,4.6vw,74px);line-height:1.12;margin-top:14px}
 .info .safra{font-family:Didot,'Playfair Display',serif;font-size:clamp(28px,3vw,46px);color:var(--gold-lt);margin-top:4px}
@@ -42,7 +42,6 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .confs-mini{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 .cm{background:#fff;border:1px solid rgba(212,174,92,.6);height:54px;width:88px;display:flex;align-items:center;justify-content:center;padding:6px}
 .cm img{max-height:42px;max-width:72px}
-.rodape{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:21px;color:rgba(247,243,238,.75)}
 .sem-foto-svg{display:block;margin:0 auto;opacity:.75}
 </style>
 </head>
@@ -63,7 +62,6 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
   <div class="cena" id="c1"></div>
 </div>
 <canvas id="poeira"></canvas>
-<div class="rodape" id="rodape">Grandes vinhos, grandes garrafas, grandes amigos.</div>
 <div id="progresso"></div>
 
 <script>
@@ -135,10 +133,6 @@ Promise.all([
     vinhos = embaralha(rows || []);
     var litros = 0, paises = {};
     vinhos.forEach(function (g) { litros += Number(g.litros) * (Math.min((g.membros || []).length, g.vagas || 1) / Math.max(1, g.vagas || 1)); if (g.pais) paises[g.pais] = true; });
-    document.getElementById('rodape').textContent =
-      vinhos.length + ' garrafas · ' + (Math.round(litros * 10) / 10).toLocaleString('pt-BR') + ' litros · ' +
-      Object.keys(paises).length + ' países — todas com no mínimo 1,5 litro';
-    troca();
     setInterval(troca, DUR * 1000);
   });
 
