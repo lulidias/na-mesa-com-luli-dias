@@ -45,7 +45,7 @@ input{width:100%;padding:15px;border:1px solid rgba(212,174,92,.6);background:rg
       <div class="ct" style="margin-top:4px">Digite o WhatsApp que você usou na confirmação</div>
       <input id="zap" placeholder="(81) 9 0000-0000" inputmode="tel" onkeydown="if(event.key==='Enter')entrar()">
       <button class="btn" id="btn-entrar" onclick="entrar()">Entrar na urna</button>
-      <div style="margin-top:16px"><a href="#" onclick="mostraConvidado();return false" style="color:var(--gold);font-size:14px">Não usa WhatsApp no cadastro? Entrar pelo nome</a></div>
+      <button class="btn" style="background:transparent;border:1.5px solid var(--gold);color:var(--gold);margin-top:14px" onclick="mostraConvidado()">Não tenho WhatsApp cadastrado — entrar pelo nome</button>
       <div id="conv" class="hidden" style="margin-top:12px">
         <select id="conv-nome" style="width:100%;padding:13px;font-size:16px;font-family:inherit;border:1px solid var(--gold);background:#fff;color:#1A1A1A"><option value="">Escolha o seu nome…</option></select>
         <button class="btn" id="btn-conv" onclick="entrarConvidado()">Entrar na urna</button>
