@@ -45,6 +45,14 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .sc{background:#fff;border:1px solid rgba(212,174,92,.55);height:76px;width:128px;display:flex;align-items:center;justify-content:center;padding:10px}
 .sc img{max-height:56px;max-width:104px}
 #poeira{position:fixed;inset:0;pointer-events:none}
+
+/* ── assinatura padrão CDC (manual da marca: /confras/marca/) ── */
+.cdc{text-align:center;padding-top:18px}
+.cdc-emblema{width:76px;height:76px;margin:0 auto 10px;display:block}
+.cdc-nome{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(30px,3vw,46px);letter-spacing:9px;text-transform:uppercase;color:var(--cream)}
+.cdc-filete{width:120px;height:1.5px;background:var(--gold-lt);margin:14px auto 12px}
+.cdc-cena{font-family:'Montserrat',sans-serif;font-size:clamp(15px,1.3vw,22px);letter-spacing:7px;text-transform:uppercase;color:var(--gold-lt)}
+.cdc-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(17px,1.5vw,24px);color:rgba(247,243,238,.85);margin-top:8px}
 </style>
 </head>
 <body>
@@ -59,19 +67,13 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 </div>
 
 <div id="app" class="hidden">
-  <div class="top">
-    <div class="k">Confra das Confras · 2026</div>
-    <svg class="emblema" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="60" cy="60" r="56" stroke="#B8922A" stroke-width="1" opacity=".6"/>
-      <g stroke="#D4AE5C" stroke-width="1.6" fill="rgba(212,174,92,.08)">
-        <circle cx="60" cy="38" r="16"/><circle cx="81" cy="53" r="16"/><circle cx="73" cy="78" r="16"/>
-        <circle cx="47" cy="78" r="16"/><circle cx="39" cy="53" r="16"/>
-      </g>
-      <path d="M60 55l5 5-5 5-5-5z" fill="#D4AE5C"/>
-    </svg>
-    <h1>Apuração ao vivo</h1>
-    <div class="sub">Os melhores vinhos da festa, eleitos pelos confrades</div>
-  </div>
+<div class="cdc">
+  <svg class="cdc-emblema" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" r="56" stroke="#B8922A" stroke-width="1" opacity=".6"/><g stroke="#D4AE5C" stroke-width="1.6" fill="rgba(212,174,92,.08)"><circle cx="60" cy="38" r="16"/><circle cx="81" cy="53" r="16"/><circle cx="73" cy="78" r="16"/><circle cx="47" cy="78" r="16"/><circle cx="39" cy="53" r="16"/></g><path d="M60 55l5 5-5 5-5-5z" fill="#D4AE5C"/></svg>
+  <div class="cdc-nome">Confra das Confras</div>
+  <div class="cdc-filete"></div>
+  <div class="cdc-cena">Apuração ao vivo</div>
+  <div class="cdc-sub">Os melhores vinhos da festa, eleitos pelos confrades</div>
+</div>
   <div id="qr-votar" class="hidden" style="position:fixed;right:26px;top:70px;background:#fff;padding:14px 14px 8px;text-align:center;border:2px solid #D4AE5C;z-index:50">
     <canvas id="qr-canvas" width="190" height="190"></canvas>
     <div style="font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;color:#101F38;font-weight:600;margin-top:6px">APONTE A CÂMERA<br>E VOTE</div>

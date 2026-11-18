@@ -107,6 +107,15 @@
         ],
         "createdAt": "2026-11-14T20:54:37.052Z",
         "reason": "kicker é o padrão do hero Confras (site principal em produção desde agosto)"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "confras/marca/index.html"
+        ],
+        "createdAt": "2026-11-18T04:01:19.672160Z",
+        "reason": "manual da marca CDC: amostras dourado/creme sobre azul são a própria identidade documentada"
       }
     ]
   }
