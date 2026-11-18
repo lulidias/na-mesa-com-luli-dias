@@ -59,6 +59,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
 var POR_PAGINA = 16;
+var COM_NOMES = new URLSearchParams(location.search).has('nomes');
 var TROCA = Number(new URLSearchParams(location.search).get('t')) || 7; // segundos por página
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 var GARRAFA_SVG='<svg class="semfoto" viewBox="0 0 60 200" width="54" height="180"><path d="M24 8h12v38c0 10 10 16 10 30v108a8 8 0 0 1-8 8H22a8 8 0 0 1-8-8V76c0-14 10-20 10-30z" fill="none" stroke="#B8922A" stroke-width="2.5"/><rect x="17" y="104" width="26" height="44" fill="none" stroke="#D4AE5C" stroke-width="1.5"/></svg>';
@@ -78,7 +79,7 @@ fetch(SB+'/rest/v1/confras_vinhos_publico?select=vinho,safra,formato,foto_url&or
     el.innerHTML=pg.map(function(g){
       return '<div class="card"><div class="fig">'+
         (g.foto_url?'<img src="'+esc(g.foto_url)+'">':GARRAFA_SVG)+
-        '</div><div class="nm">'+esc(g.vinho)+(g.safra?' <span class="sf">'+esc(g.safra)+'</span>':'')+'</div>'+
+        '</div>'+(COM_NOMES?'<div class="nm">'+esc(g.vinho)+(g.safra?' <span class="sf">'+esc(g.safra)+'</span>':'')+'</div>':'')+
       '</div>';
     }).join('');
     palco.appendChild(el);
