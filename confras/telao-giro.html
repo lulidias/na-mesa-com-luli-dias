@@ -72,6 +72,7 @@ function proxima() {
   var velho = atual >= 0 ? CENAS[atual].src : null;
   atual = (atual + 1) % CENAS.length;
   var alvo = CENAS[atual].src;
+  if (window.qrFixo) qrFixo(alvo !== 'telao-qr.html');
   document.querySelectorAll('iframe').forEach(function (f) {
     f.classList.toggle('on', f.dataset.src === alvo);
     // recarrega a cena que acabou de sair: na próxima volta ela entra sempre fresca
@@ -94,6 +95,7 @@ function vigiaRevelacao() {
     var ativa = Number(passo) >= 1;
     if (ativa && !modoRevel) {
       modoRevel = true;
+      if (window.qrFixo) qrFixo(false);
       var f = document.querySelector('iframe[data-src="revelacao.html"]');
       if (!f) {
         f = document.createElement('iframe');
@@ -103,6 +105,7 @@ function vigiaRevelacao() {
       document.querySelectorAll('iframe').forEach(function (x) { x.classList.toggle('on', x.dataset.src === 'revelacao.html'); });
     } else if (!ativa && modoRevel) {
       modoRevel = false;
+      if (window.qrFixo) qrFixo(true);
       var fr = document.querySelector('iframe[data-src="revelacao.html"]');
       if (fr) fr.classList.remove('on');
       atual = -1;
@@ -121,5 +124,6 @@ document.addEventListener('click', function () {
 if (localStorage.getItem('confras_admin_token')) comeca();
 document.addEventListener('keydown', function (e) { if (e.key === 'Enter') { var g = document.getElementById('gate'); if (!g.classList.contains('hidden')) entrar(); } });
 </script>
+<script src="/confras/qr-fixo.js?v=1"></script>
 </body>
 </html>
