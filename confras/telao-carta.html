@@ -123,18 +123,26 @@ function troca() {
   if (idx === 0) embaralha(vinhos);
 }
 
-Promise.all([
-  fetch(SB + '/rest/v1/confras_vinhos_publico?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }),
-  fetch(SB + '/rest/v1/confras_confirmados?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); })
-])
-  .then(function (res) {
-    var rows = res[0];
+var assinatura = '';
+var primeira = true;
+function carregaDados() {
+  Promise.all([
+    fetch(SB + '/rest/v1/confras_vinhos_publico?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }),
+    fetch(SB + '/rest/v1/confras_confirmados?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); })
+  ]).then(function (res) {
     (res[1] || []).forEach(function (p) { confsPessoa[p.nome] = p.confrarias || []; });
-    vinhos = embaralha(rows || []);
-    var litros = 0, paises = {};
-    vinhos.forEach(function (g) { litros += Number(g.litros) * (Math.min((g.membros || []).length, g.vagas || 1) / Math.max(1, g.vagas || 1)); if (g.pais) paises[g.pais] = true; });
-    setInterval(troca, DUR * 1000);
+    var rows = res[0] || [];
+    var a = JSON.stringify(rows);
+    if (a !== assinatura) {
+      assinatura = a;
+      vinhos = embaralha(rows);
+      if (idx >= vinhos.length) idx = 0;
+    }
+    if (primeira) { primeira = false; troca(); setInterval(troca, DUR * 1000); }
   });
+}
+carregaDados();
+setInterval(carregaDados, 120000);
 
 // poeira dourada — bolhas subindo devagar
 (function () {
