@@ -13,7 +13,7 @@
 html,body{height:100%;overflow:hidden}
 body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wine-md) 45%,var(--wine) 100%);color:var(--cream);font-family:'Montserrat',sans-serif}
 .top{text-align:center;padding-top:34px}
-.top .k{font-size:14px;letter-spacing:6px;text-transform:uppercase;color:var(--gold-lt)}
+.top .k{font-size:clamp(20px,1.6vw,30px);letter-spacing:9px;text-transform:uppercase;color:var(--gold-lt)}
 .top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(28px,3.6vw,46px);letter-spacing:6px;text-transform:uppercase;margin-top:8px}
 .palco{position:absolute;inset:150px 0 70px;display:flex;align-items:center;justify-content:center;gap:clamp(40px,6vw,110px);padding:0 60px}
 .cena{display:flex;align-items:center;justify-content:center;gap:clamp(40px,6vw,110px);opacity:0;transition:opacity .9s ease;position:absolute;inset:0}
@@ -31,7 +31,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .foto img{max-height:100%;max-width:300px;display:block;animation:kenburns 10s linear both}
 @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.07)}}
 #poeira{position:fixed;inset:0;pointer-events:none}
-#progresso{position:fixed;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-lt));width:0}
+#progresso{display:none}
 .info{max-width:46vw;text-align:left}
 .info .tipo{font-size:17px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt)}
 .info .nome{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:600;font-size:clamp(40px,4.6vw,74px);line-height:1.12;margin-top:14px}
