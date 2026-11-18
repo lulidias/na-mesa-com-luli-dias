@@ -2,7 +2,25 @@
    Só desenha na janela de cima: dentro do telão giratório (iframes) quem mostra é o giro, uma vez só.
    window.qrFixo(false) esconde (giro usa na cena do QR grande e na revelação). */
 (function () {
-  if (window.top !== window) return;
+  var eu = document.currentScript;
+  var semQr = !!(eu && eu.hasAttribute('data-sem-qr'));   // telas de garrafa, QR grande, revelação
+  // DENTRO do telão giratório: cada cena se recarrega a cada volta, o giro não. Então é a cena que
+  // garante que o giro tem o QR (injeta o script lá, se faltar) e diz se ele aparece quando ELA está no ar.
+  // Assim as TVs pegam mudança sem ninguém recarregar nada.
+  if (window.top !== window) {
+    try {
+      var topo = window.top, d = topo.document;
+      if (!d.querySelector('script[src*="qr-fixo.js"]')) {
+        var sc = d.createElement('script'); sc.src = '/confras/qr-fixo.js?v=3'; d.body.appendChild(sc);
+      }
+      setInterval(function () {
+        var f = window.frameElement;
+        if (f && f.classList.contains('on') && topo.qrFixo) topo.qrFixo(!semQr);
+      }, 400);
+    } catch (e) {}
+    return;
+  }
+  if (semQr) return;
   var URL_VOTO = 'https://v1.lulidias.com/confras/votar/';
   var css = '#qr-fixo{position:fixed;top:24px;right:24px;z-index:2147483000;background:#fff;padding:14px 14px 10px;' +
     'text-align:center;border:3px solid #D4AE5C;box-shadow:0 6px 30px rgba(0,0,0,.35);transition:opacity .6s}' +
