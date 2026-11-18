@@ -42,13 +42,13 @@ h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:40
   <div class="ano">2027</div>
   <div class="linha"></div>
   <div class="dow">Sexta-feira</div>
-  <div class="data">19 de novembro de 2027</div>
+  <div class="data">26 de novembro de 2027</div>
   <div class="faltam" id="faltam"></div>
 </div>
 <canvas id="poeira"></canvas>
 <script>
 'use strict';
-var d = Math.ceil((new Date('2027-11-19T13:00:00-03:00') - Date.now()) / 864e5);
+var d = Math.ceil((new Date('2027-11-26T13:00:00-03:00') - Date.now()) / 864e5);
 document.getElementById('faltam').textContent = 'Faltam ' + d + ' dias';
 (function () {
   var c = document.getElementById('poeira'), x = c.getContext('2d'), pts = [];
