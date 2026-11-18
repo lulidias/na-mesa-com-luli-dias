@@ -111,6 +111,12 @@ function vigiaRevelacao() {
 }
 setInterval(vigiaRevelacao, 2500);
 
+// tela cheia com um clique/OK do controle da TV
+document.addEventListener('click', function () {
+  var el = document.documentElement;
+  if (!document.fullscreenElement && el.requestFullscreen) el.requestFullscreen().catch(function () {});
+});
+
 if (localStorage.getItem('confras_admin_token')) comeca();
 document.addEventListener('keydown', function (e) { if (e.key === 'Enter') { var g = document.getElementById('gate'); if (!g.classList.contains('hidden')) entrar(); } });
 </script>
