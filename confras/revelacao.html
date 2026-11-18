@@ -43,10 +43,10 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .foto img{max-height:100%;max-width:300px;display:block}
 .info{max-width:46vw;text-align:left}
 .info .venceu{font-size:clamp(17px,1.8vw,24px);letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt);display:flex;align-items:center;gap:12px}
-.info .nome{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:600;font-size:clamp(46px,5.4vw,88px);line-height:1.12;margin-top:12px}
+.info .nome{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:600;font-size:clamp(54px,6.6vw,106px);line-height:1.1;margin-top:12px}
 .info .safra{font-family:Didot,'Playfair Display',serif;font-size:clamp(26px,3vw,44px);color:var(--gold-lt);margin-top:4px}
 .info .fmt{display:inline-block;border:2px solid rgba(212,174,92,.85);color:var(--gold-lt);font-size:clamp(16px,1.6vw,21px);letter-spacing:3px;text-transform:uppercase;padding:12px 26px;margin-top:22px}
-.info .quem{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(22px,2.3vw,32px);color:rgba(247,243,238,.95);margin-top:26px}
+.info .quem{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(30px,3.2vw,46px);color:var(--gold-lt);margin-top:28px}
 /* gate */
 .gate{max-width:380px;margin:20vh auto;text-align:center;background:rgba(0,0,0,.25);border:1px solid rgba(212,174,92,.4);padding:48px 40px;position:relative;z-index:20;cursor:default}
 .gate input{width:100%;padding:13px;border:1px solid rgba(212,174,92,.5);background:rgba(255,255,255,.06);color:var(--cream);font-family:'Montserrat',sans-serif;text-align:center;margin:18px 0;outline:none}
@@ -126,7 +126,7 @@ function telaReveal(cat, g) {
       '<div class="nome">' + esc(g.vinho) + '</div>' +
       (g.safra ? '<div class="safra">' + esc(g.safra) + '</div>' : '') +
       '<div class="fmt">' + esc(g.formato) + (g.votos ? ' · ' + g.votos + ' voto' + (g.votos > 1 ? 's' : '') : '') + '</div>' +
-      '<div class="quem">Trazido por ' + esc((g.membros || []).join(', ')) + '</div>' +
+      '<div class="quem">' + esc((g.membros || []).join(' · ')) + '</div>' +
     '</div></div>';
 }
 function telaFim() {
