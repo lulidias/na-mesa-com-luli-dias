@@ -11,15 +11,15 @@
 :root{--wine:#101F38;--wine-md:#1A2F4E;--wine-lt:#2A4468;--cream:#F7F3EE;--gold:#B8922A;--gold-lt:#D4AE5C}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
-body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wine-md) 45%,var(--wine) 100%);color:var(--cream);font-family:'Montserrat',sans-serif}
+body{background:#fff;color:var(--wine);font-family:'Montserrat',sans-serif}
 .top{text-align:center;padding-top:22px}
 .emblema{width:76px;height:76px;margin:0 auto 10px;display:block}
 .top .k{font-size:clamp(20px,1.6vw,30px);letter-spacing:9px;text-transform:uppercase;color:var(--gold-lt)}
-.top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(30px,3vw,46px);letter-spacing:9px;text-transform:uppercase;margin-top:0}
+.top h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(30px,3vw,46px);letter-spacing:9px;text-transform:uppercase;margin-top:0;color:var(--wine)}
 .palco{position:absolute;inset:180px 0 70px;display:flex;align-items:center;justify-content:center;gap:clamp(40px,6vw,110px);padding:0 60px}
 .cena{display:flex;align-items:center;justify-content:center;gap:clamp(40px,6vw,110px);opacity:0;transition:opacity .9s ease;position:absolute;inset:0}
 .cena.on{opacity:1}
-.cena.on .foto{animation:entraFoto 1.1s cubic-bezier(.2,.7,.3,1) both}
+.cena.on .foto{display:flex;align-items:center;justify-content:center;height:min(64vh,580px)}
 .cena.on .info>*{opacity:0;animation:entraItem .9s cubic-bezier(.2,.7,.3,1) both}
 .cena.on .info>*:nth-child(1){animation-delay:.35s}
 .cena.on .info>*:nth-child(2){animation-delay:.6s}
@@ -29,18 +29,17 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 @keyframes entraFoto{from{opacity:0;transform:translateX(-50px)}to{opacity:1;transform:none}}
 @keyframes entraItem{from{opacity:0;transform:translateX(44px)}to{opacity:1;transform:none}}
 .foto{background:#fff;padding:34px 44px;border:2px solid var(--gold-lt);display:flex;align-items:center;justify-content:center;height:min(62vh,560px);overflow:hidden;box-shadow:0 0 90px rgba(212,174,92,.18)}
-.foto img{max-height:100%;max-width:300px;display:block;animation:kenburns 10s linear both}
+.foto img{max-height:100%;max-width:340px;display:block;animation:kenburns 10s linear both}
 @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.07)}}
-#poeira{position:fixed;inset:0;pointer-events:none}
 #progresso{display:none}
 .info{max-width:46vw;text-align:left;height:min(62vh,560px);display:flex;flex-direction:column;justify-content:center}
-.info .tipo{font-size:17px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt)}
-.info .nome{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:600;font-size:clamp(40px,4.6vw,74px);line-height:1.12;margin-top:14px}
-.info .safra{font-family:Didot,'Playfair Display',serif;font-size:clamp(28px,3vw,46px);color:var(--gold-lt);margin-top:4px}
-.info .fmt{display:inline-block;border:2px solid rgba(212,174,92,.85);color:var(--gold-lt);font-size:16px;letter-spacing:3px;text-transform:uppercase;padding:10px 22px;margin-top:22px}
-.info .quem{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,2.1vw,28px);color:rgba(247,243,238,.92);margin-top:26px}
+.info .tipo{font-size:17px;letter-spacing:5px;text-transform:uppercase;color:var(--gold)}
+.info .nome{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:600;font-size:clamp(40px,4.6vw,74px);line-height:1.12;margin-top:14px;color:var(--wine)}
+.info .safra{font-family:Didot,'Playfair Display',serif;font-size:clamp(28px,3vw,46px);color:var(--gold);margin-top:4px}
+.info .fmt{display:inline-block;border:2px solid var(--gold);color:var(--wine);font-size:16px;letter-spacing:3px;text-transform:uppercase;padding:10px 22px;margin-top:22px;background:#FBF6EC}
+.info .quem{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,2.1vw,28px);color:#444;margin-top:26px}
 .confs-mini{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
-.cm{background:#fff;border:1px solid rgba(212,174,92,.6);height:54px;width:88px;display:flex;align-items:center;justify-content:center;padding:6px}
+.cm{background:#fff;border:1px solid rgba(184,146,42,.6);height:54px;width:88px;display:flex;align-items:center;justify-content:center;padding:6px}
 .cm img{max-height:42px;max-width:72px}
 .sem-foto-svg{display:block;margin:0 auto;opacity:.75}
 </style>
@@ -61,7 +60,6 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
   <div class="cena" id="c0"></div>
   <div class="cena" id="c1"></div>
 </div>
-<canvas id="poeira"></canvas>
 <div id="progresso"></div>
 
 <script>
@@ -144,27 +142,6 @@ function carregaDados() {
 carregaDados();
 setInterval(carregaDados, 120000);
 
-// poeira dourada — bolhas subindo devagar
-(function () {
-  var c = document.getElementById('poeira'), x = c.getContext('2d'), pts = [];
-  function dim() { c.width = innerWidth; c.height = innerHeight; }
-  dim(); addEventListener('resize', dim);
-  for (var i = 0; i < 42; i++) pts.push({
-    x: Math.random() * innerWidth, y: Math.random() * innerHeight,
-    r: .8 + Math.random() * 2.4, v: .12 + Math.random() * .4,
-    d: (Math.random() - .5) * .18, f: Math.random() * Math.PI * 2
-  });
-  (function anima() {
-    x.clearRect(0, 0, c.width, c.height);
-    pts.forEach(function (p) {
-      p.y -= p.v; p.x += p.d; p.f += .015;
-      if (p.y < -6) { p.y = c.height + 6; p.x = Math.random() * c.width; }
-      x.beginPath(); x.arc(p.x, p.y, p.r, 0, 7);
-      x.fillStyle = 'rgba(212,174,92,' + (.12 + .22 * Math.abs(Math.sin(p.f))) + ')';
-      x.fill();
-    });
-    requestAnimationFrame(anima);
-  })();
 })();
 </script>
 </body>
