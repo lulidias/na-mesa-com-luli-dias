@@ -306,7 +306,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 
 <!-- ═══ CONFRARIAS ═══ -->
 <div class="strip">
-  <div class="strip-title">As cinco confrarias</div>
+  <div class="strip-title">As confrarias da mesa</div>
   <div class="strip-row" id="strip-row"></div>
 </div>
 
@@ -588,9 +588,10 @@ var CONFRARIAS = [
   { slug: 'porquinho',   nome: 'Confraria do Porquinho',  curto: 'Porquinho',   logo: 'logos/porquinho.png',        cor: '#C97B84' },
   { slug: 'wine-lovers', nome: 'Wine Lovers Recife',      curto: 'Wine Lovers', logo: 'logos/wine-lovers-recife.png', cor: '#6B2158' },
   { slug: 'confra-wine', nome: 'Confra Wine Recife',      curto: 'Confra Wine', logo: 'logos/confra-wine-recife.png', cor: '#4A1420' },
-  { slug: 'over20',      nome: 'Over 20',                 curto: 'Over 20',     logo: 'logos/over20.svg',           cor: '#B8922A' }
+  { slug: 'over20',      nome: 'Over 20',                 curto: 'Over 20',     logo: 'logos/over20.svg',           cor: '#B8922A' },
+  { slug: 'wtt',         nome: 'WTT — Wine on Third Tuesdays', curto: 'WTT',    logo: 'logos/wtt.jpg',              cor: '#1F3A5F' }
 ];
-var LOGO_OK = { 'commanderie': true, 'wine-lovers': true, 'confra-wine': true, 'porquinho': true, 'over20': true };
+var LOGO_OK = { 'commanderie': true, 'wine-lovers': true, 'confra-wine': true, 'porquinho': true, 'over20': true, 'wtt': true };
 
 // link pessoal (?id=... vindo do e-mail) restaura a sessão do confrade
 var _urlId = new URLSearchParams(location.search).get('id');
