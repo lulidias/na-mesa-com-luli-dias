@@ -7,7 +7,7 @@
 <meta name="description" content="A 2ª edição — agora com seis confrarias à volta da mesma mesa. Sexta-feira, 26 de novembro de 2027, 13h, no Recife.">
 <meta property="og:title" content="Confra das Confras 2027">
 <meta property="og:description" content="As confrarias do Recife em uma única mesa — agora são seis. Grandes vinhos, grandes garrafas, grandes amigos.">
-<meta property="og:image" content="https://lulidias.com/confras/og.jpg">
+<meta property="og:image" content="https://v1.lulidias.com/confras/og-2027.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://lulidias.com/confras/">
@@ -312,7 +312,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 <!-- ═══ BOAS-VINDAS · NOVIDADE WTT ═══ -->
 <section style="background:linear-gradient(135deg,var(--wine-lt) 0%,var(--wine-md) 50%,var(--wine) 100%);color:var(--cream);padding:58px 22px">
   <div style="max-width:980px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:40px">
-    <img src="logos/wtt.jpg?v=2" alt="WTT — Wine on Third Tuesdays" style="width:170px;border:1px solid rgba(212,174,92,.5);flex-shrink:0">
+    <img src="logos/wtt.jpg?v=3" alt="WTT — Wine on Third Tuesdays" style="width:170px;border:1px solid rgba(212,174,92,.5);flex-shrink:0">
     <div style="flex:1;min-width:280px;max-width:620px">
       <div class="sec-kicker" style="color:var(--gold-lt);text-align:left;margin-bottom:10px">Bem-vindos à 2ª edição</div>
       <h2 class="sec-title" style="color:var(--cream);text-align:left;margin-bottom:12px">Agora somos seis: entrou a WTT</h2>
@@ -325,11 +325,10 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 <!-- ═══ A REGRA ═══ -->
 <section class="sec">
   <div class="sec-kicker">Como participar</div>
-  <h2 class="sec-title">Três passos para estar na mesa</h2>
+  <h2 class="sec-title">Dois passos para estar na mesa</h2>
   <div class="rule-grid passos-grid" style="max-width:900px;margin:34px auto">
     <div class="rule-card"><div class="lt" style="margin-top:0">1</div><div class="fmt">Confirme a presença</div><div class="pp" style="margin-top:10px;text-transform:none;letter-spacing:.5px;line-height:1.7">Um minuto no formulário abaixo, marcando suas confrarias.</div></div>
     <div class="rule-card"><div class="lt" style="margin-top:0">2</div><div class="fmt">Registre sua garrafa</div><div class="pp" style="margin-top:10px;text-transform:none;letter-spacing:.5px;line-height:1.7">Mínimo de 1,5 L (uma Magnum) por confrade. Formatos maiores: sozinho ou dividindo — e quantas garrafas quiser.</div></div>
-    <div class="rule-card"><div class="lt" style="margin-top:0">3</div><div class="fmt">Pague o rateio</div><div class="pp" style="margin-top:10px;text-transform:none;letter-spacing:.5px;line-height:1.7"><span id="passo-rateio">O churrasco é rateado igualmente</span> — Pix com QR code no seu painel, comprovante ali mesmo.</div></div>
   </div>
   <p class="sec-sub" style="margin-bottom:20px">Os formatos da casa — grandes vinhos pedem grandes garrafas:</p>
   <div class="rule-grid">
@@ -438,7 +437,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
     </div>
 
     <!-- pagamento -->
-    <div id="pay-sec" style="margin-top:44px">
+    <div id="pay-sec" class="hidden" style="margin-top:44px">
       <label class="f-label">Rateio do churrasco</label>
       <div class="pix-box" id="pix-box">
         <div id="pix-pending" class="hidden" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--ink-lt)">O valor do rateio será anunciado assim que fecharmos o número de confrades. Você será avisado.</div>
@@ -600,7 +599,7 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
   <h2 class="sec-title">A mesa cresce: bem-vinda, WTT</h2>
   <p class="sec-sub">A partir da 2ª edição, a Confra das Confras reúne seis confrarias.</p>
   <div style="display:flex;align-items:center;gap:30px;justify-content:center;flex-wrap:wrap;margin-top:6px">
-    <img src="logos/wtt.jpg?v=2" alt="WTT — Wine on Third Tuesdays" style="width:175px;border:1px solid var(--border)">
+    <img src="logos/wtt.jpg?v=3" alt="WTT — Wine on Third Tuesdays" style="width:175px;border:1px solid var(--border)">
     <p style="max-width:470px;text-align:left;line-height:1.75;margin:0">A <strong>WTT — Wine on Third Tuesdays</strong> reúne há 13 anos ex-alunos do Colégio Marista São Luís: 22 membros, encontros mensais, viagens e confraternizações. Em 26 de novembro de 2027, a WTT entra para a mesa da Confra das Confras.</p>
   </div>
 </section>
@@ -625,7 +624,7 @@ var CONFRARIAS = [
   { slug: 'wine-lovers', nome: 'Wine Lovers Recife',      curto: 'Wine Lovers', logo: 'logos/wine-lovers-recife.png', cor: '#6B2158' },
   { slug: 'confra-wine', nome: 'Confra Wine Recife',      curto: 'Confra Wine', logo: 'logos/confra-wine-recife.png', cor: '#4A1420' },
   { slug: 'over20',      nome: 'Over 20',                 curto: 'Over 20',     logo: 'logos/over20.svg',           cor: '#B8922A' },
-  { slug: 'wtt',         nome: 'WTT — Wine on Third Tuesdays', curto: 'WTT',    logo: 'logos/wtt.jpg?v=2',          cor: '#1F3A5F' }
+  { slug: 'wtt',         nome: 'WTT — Wine on Third Tuesdays', curto: 'WTT',    logo: 'logos/wtt.jpg?v=3',          cor: '#1F3A5F' }
 ];
 var LOGO_OK = { 'commanderie': true, 'wine-lovers': true, 'confra-wine': true, 'porquinho': true, 'over20': true, 'wtt': true };
 
@@ -838,7 +837,8 @@ var minhasCount = 0;
 function renderChips() {
   var box = document.getElementById('me-chips');
   if (!box || !meu) return;
-  var pago = meu.pago
+  var pago = '';
+  if (false) pago = meu.pago
     ? '<span class="chip ok">💰 Rateio pago ✓</span>'
     : (meu.comprovante_url
       ? '<span class="chip">💰 Comprovante em análise</span>'
@@ -863,7 +863,7 @@ function loadMe() {
     document.getElementById('form-panel').classList.add('hidden');
     document.getElementById('me-panel').classList.remove('hidden');
     document.getElementById('rsvp-title').textContent = 'Seu painel de confrade';
-    document.getElementById('rsvp-sub').textContent = 'Registre suas garrafas e acompanhe o rateio.';
+    document.getElementById('rsvp-sub').textContent = 'Registre suas garrafas da 2ª edição.';
     document.getElementById('cta-btn').textContent = 'Meu painel';
     document.getElementById('me-nome').textContent = meu.nome.split(' ')[0];
     document.getElementById('btn-cartao').href = 'cartao.html?id=' + meuId;
@@ -1368,7 +1368,7 @@ function renderConfirmados() {
       var vs = vinhos.filter(function (g) { return (g.membros || []).indexOf(p.nome) >= 0; })
         .map(function (g) { return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : ''); }).join(' · ');
       var r = document.createElement('div'); r.className = 'vrow';
-      r.innerHTML = '<span class="vn cl-n">' + esc(p.nome) + (p.pago ? ' <span class="paid" style="font-size:9px">✓</span>' : '') + '</span>' +
+      r.innerHTML = '<span class="vn cl-n">' + esc(p.nome) + '</span>' +
         '<span class="cl-c" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)">' + confs + '</span>' +
         (vs ? '<span class="vq cl-q">' + vs + '</span>' : '<span class="vq cl-q" style="color:var(--warn)">sem garrafa ainda</span>');
       lw.appendChild(r);
@@ -1387,7 +1387,7 @@ function renderConfirmados() {
       });
     var d = document.createElement('div'); d.className = 'person';
     var premios = vencedoresPorNome[p.nome] || [];
-    d.innerHTML = '<div class="pn"><span>' + esc(p.nome) + '</span>' + (p.pago ? '<span class="paid">✓ pago</span>' : '') + '</div>' +
+    d.innerHTML = '<div class="pn"><span>' + esc(p.nome) + '</span></div>' +
       '<div class="pc">' + confs + '</div>' +
       (meusVinhos.length ? '<div class="pw">🍷 ' + meusVinhos.join(' · ') + '</div>' : '') +
       (premios.length ? '<div class="pwin">' + premios.map(function (c) { return '<span class="mp" title="' + esc(c.categoria) + '">' + placaSVG(c.categoria, c.tf) + '</span>'; }).join('') + '</div>' : '');

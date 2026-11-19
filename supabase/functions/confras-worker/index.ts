@@ -251,11 +251,21 @@ async function enviar(para: string, subject: string, html: string) {
 async function processaFila() {
   const { data: cfgRow } = await sb.from("confras_config").select("*").eq("id", 1).single();
   const cfg = cfgRow ?? {};
+  // devolve à fila linhas presas em "enviando" há mais de 15 min (execução que caiu)
+  await sb.from("confras_emails")
+    .update({ status: "pendente" })
+    .eq("status", "enviando")
+    .lt("reservado_em", new Date(Date.now() - 15 * 60 * 1000).toISOString());
   const { data: fila } = await sb.from("confras_emails")
     .select("*").eq("status", "pendente").lt("tentativas", 5)
     .order("criado_em").limit(25);
   let ok = 0, err = 0;
   for (const row of fila ?? []) {
+    // reserva a linha ANTES de enviar: se outra execução já reservou, pula.
+    // (fecha a janela que permitia reenvio do mesmo e-mail)
+    const { data: claim } = await sb.from("confras_emails")
+      .update({ status: "enviando", reservado_em: new Date().toISOString() }).eq("id", row.id).eq("status", "pendente").select("id");
+    if (!claim || !claim.length) continue;
     try {
       const { subject, html } = await render(row.tipo, row.dados ?? {}, cfg);
       await enviar(row.para, subject, html);
