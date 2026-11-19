@@ -1376,7 +1376,7 @@ function renderConfirmados() {
       var vs = vinhos.filter(function (g) { return (g.membros || []).indexOf(p.nome) >= 0; })
         .map(function (g) { return esc(g.vinho) + (g.safra ? ' ' + esc(g.safra) : ''); }).join(' · ');
       var r = document.createElement('div'); r.className = 'vrow';
-      r.innerHTML = '<span class="vn cl-n">' + esc(p.nome) + '</span>' +
+      r.innerHTML = '<span class="vn cl-n">' + esc(p.nome) + (Number(p.trofeus||0) ? ' ' + '🏆'.repeat(Number(p.trofeus)) : '') + '</span>' +
         '<span class="cl-c" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)">' + confs + '</span>' +
         (vs ? '<span class="vq cl-q">' + vs + '</span>' : '<span class="vq cl-q" style="color:var(--warn)">sem garrafa ainda</span>');
       lw.appendChild(r);
@@ -1395,7 +1395,8 @@ function renderConfirmados() {
       });
     var d = document.createElement('div'); d.className = 'person';
     var premios = vencedoresPorNome[p.nome] || [];
-    d.innerHTML = '<div class="pn"><span>' + esc(p.nome) + '</span></div>' +
+    var tros = Number(p.trofeus||0) ? ' <span title="Campeão da Confra das Confras">' + '🏆'.repeat(Number(p.trofeus)) + '</span>' : '';
+    d.innerHTML = '<div class="pn"><span>' + esc(p.nome) + tros + '</span></div>' +
       '<div class="pc">' + confs + '</div>' +
       (meusVinhos.length ? '<div class="pw">🍷 ' + meusVinhos.join(' · ') + '</div>' : '') +
       (premios.length ? '<div class="pwin">' + premios.map(function (c) { return '<span class="mp" title="' + esc(c.categoria) + '">' + placaSVG(c.categoria, c.tf) + '</span>'; }).join('') + '</div>' : '');
