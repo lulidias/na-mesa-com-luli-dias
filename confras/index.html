@@ -144,9 +144,9 @@ a{color:inherit}
 .wine-card:hover{box-shadow:0 10px 30px rgba(0,0,0,.07)}
 .wine-card .nm{font-family:'Playfair Display',serif;font-size:18px;line-height:1.3;padding-right:70px}
 .wine-card .pr{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--ink-lt);margin-top:3px}
-.wine-card .fmt{display:block;width:fit-content;margin:0 0 14px auto;background:#FBF6EC;border:1.5px solid var(--gold);color:var(--wine);font-family:'Playfair Display',Georgia,serif;font-size:15px;letter-spacing:1.5px;text-transform:uppercase;padding:8px 16px;font-weight:600}
+.wine-card .fmt{display:block;width:fit-content;margin:0 auto 14px 0;background:#FBF6EC;border:1.5px solid var(--gold);color:var(--wine);font-family:'Playfair Display',Georgia,serif;font-size:15px;letter-spacing:1.5px;text-transform:uppercase;padding:8px 16px;font-weight:600}
 .wine-card .fmt b{color:var(--gold);font-weight:600}
-.wine-card .who{font-size:11px;color:var(--ink-lt);margin-top:12px;line-height:1.6}
+.wine-card .who{font-size:15px;color:var(--ink);margin-top:12px;line-height:1.6;font-family:'Cormorant Garamond',serif}
 .wine-card .join{margin-top:12px}
 .vac{color:var(--gold);font-weight:600}
 .wine-stats{display:flex;justify-content:center;gap:clamp(20px,6vw,64px);margin-bottom:38px;flex-wrap:wrap}
@@ -375,7 +375,10 @@ footer .org a{color:var(--gold-lt);text-decoration:none}
 
   <!-- painel do confrade -->
   <div class="panel hidden" id="me-panel">
-    <div class="me-hello">Presença confirmada, <span id="me-nome"></span> 🥂</div>
+    <div class="me-hello" id="me-hello">Presença confirmada, <span id="me-nome"></span> 🥂</div>
+      <div id="reconf-box" class="hidden" style="text-align:center;margin:10px 0 6px">
+        <button class="btn gold" onclick="reconfirmar()">Confirmar presença na 2ª edição 🥂</button>
+      </div>
     <div class="me-badges" id="me-badges"></div>
     <div id="me-chips" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 4px"></div>
     <div style="text-align:center;margin:16px 0 4px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
@@ -824,6 +827,7 @@ function entrarPainel() {
     .then(function () { btn.disabled = false; btn.textContent = 'Entrar'; });
 }
 var minhasCount = 0;
+var reconfPendente = false;
 function renderChips() {
   var box = document.getElementById('me-chips');
   if (!box || !meu) return;
@@ -833,9 +837,17 @@ function renderChips() {
     : (meu.comprovante_url
       ? '<span class="chip">💰 Comprovante em análise</span>'
       : '<span class="chip warn">💰 Rateio pendente</span>');
-  box.innerHTML = '<span class="chip ok">✓ Presença confirmada</span>' +
+  box.innerHTML = (reconfPendente
+      ? '<span class="chip warn">📅 Falta confirmar para 2027</span>'
+      : '<span class="chip ok">✓ Presença confirmada</span>') +
     (minhasCount > 0 ? '<span class="chip ok">🍾 Garrafa registrada ✓</span>' : '<span class="chip warn">🍾 Falta a sua garrafa</span>') +
     pago;
+}
+function reconfirmar() {
+  if (!meu) return;
+  rpc('confras_rsvp', { p_nome: meu.nome, p_whatsapp: meu.whatsapp, p_email: meu.email || '', p_confrarias: meu.confrarias || [], p_obs: null })
+    .then(function () { toast('Presença confirmada para 2027! 🥂'); return loadMe().then(refreshPublic); })
+    .catch(function (e) { toast(e.message, true); });
 }
 function logoutMe() {
   localStorage.removeItem('confras_id'); meuId = null; meu = null;
@@ -856,6 +868,12 @@ function loadMe() {
     document.getElementById('rsvp-sub').textContent = 'Registre suas garrafas da 2ª edição.';
     document.getElementById('cta-btn').textContent = 'Meu painel';
     document.getElementById('me-nome').textContent = meu.nome.split(' ')[0];
+    var edAtual = cfg && cfg.edicao_atual ? Number(cfg.edicao_atual) : 2026;
+    reconfPendente = Number(meu.edicao_confirmada || 2026) < edAtual;
+    document.getElementById('me-hello').innerHTML = reconfPendente
+      ? 'Bem-vindo de volta, ' + esc(meu.nome.split(' ')[0]) + '! Confirme sua presença na 2ª edição. 👇'
+      : 'Presença confirmada, ' + esc(meu.nome.split(' ')[0]) + ' 🥂';
+    document.getElementById('reconf-box').classList.toggle('hidden', !reconfPendente);
     document.getElementById('btn-cartao').href = 'cartao.html?id=' + meuId;
     meuNomeCache = meu.nome;
     atualizaPremioBtn();
@@ -1246,10 +1264,10 @@ function refreshPublic() {
             }
             var subt = [g.produtor, g.regiao].filter(Boolean).map(esc).join(' · ');
             d.innerHTML = '<div class="fmt">' + esc(g.formato) + ' <b>· ' + fmtLitros(g.litros) + ' L</b></div>' +
-              (g.foto_url ? '<img src="' + esc(g.foto_url) + '" alt="" style="float:right;height:96px;max-width:70px;object-fit:contain;margin:14px 0 6px 10px" onerror="this.remove()">' : '') +
+              (g.foto_url ? '<img src="' + esc(g.foto_url) + '" alt="" style="float:right;height:150px;max-width:100px;object-fit:contain;margin:6px 0 6px 12px" onerror="this.remove()">' : '') +
               '<div class="nm">' + esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') + '</div>' +
               (subt ? '<div class="pr">' + subt + '</div>' : '') +
-              '<div class="who">🍷 ' + esc(g.membros.join(', ')) + '</div>' + vagasHtml;
+              '<div class="who">' + esc(g.membros.join(', ')) + '</div>' + vagasHtml;
             grid.appendChild(d);
           });
           groups.appendChild(grid);

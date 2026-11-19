@@ -291,7 +291,8 @@ async function buscaFotos() {
   for (const g of garrafas ?? []) {
     let url: string | null = null;
     try {
-      const q = encodeURIComponent([g.vinho, g.safra].filter(Boolean).join(" "));
+      // produtor entra na busca: "Blanc de blancs 2015" sozinho já devolveu o vinho errado
+      const q = encodeURIComponent([g.produtor, g.vinho, g.safra].filter(Boolean).join(" "));
       const r = await fetch(`https://www.vivino.com/search/wines?q=${q}`, {
         headers: { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" },
       });
