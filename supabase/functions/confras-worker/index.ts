@@ -104,6 +104,21 @@ async function render(tipo: string, dados: Record<string, unknown>, cfg: Record<
           <p style="text-align:center;font-size:12px;color:#9A9A9A;font-family:Helvetica,Arial,sans-serif;margin-top:20px">Commanderie de Bordeaux · Confraria do Porquinho · Wine Lovers Recife · Confra Wine Recife · Over 20</p>`, pid),
       };
     }
+    case "obrigado-2026":
+      // agradecimento pós-festa (aprovado pelo Luli em 19/11) — sem emojis
+      return {
+        subject: "Obrigado — e as fotos da 1ª Confra das Confras",
+        html: shell("Obrigado!", `
+          <p>Olá, <strong>${nome}</strong>,</p>
+          <p>Que dia. A primeira Confra das Confras foi emocionante do começo ao fim: <strong>39 confrades, 41 garrafas, 78 litros e 6 países</strong> — uma mesa que entrou pra história.</p>
+          <p>Obrigado ao <strong>Cris</strong>, pela grande organização, e a você, que esteve lá. Sem vocês não tinha festa.</p>
+          <p>As fotos oficiais já estão no ar, com os campeões e a carta completa:</p>
+          <p style="text-align:center;margin:22px 0"><a href="${SITE}2026/" style="display:inline-block;background:#B8922A;color:#ffffff;font-size:12px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;padding:15px 34px">Ver as fotos da festa</a></p>
+          <p>E já tem data pra 2027: <strong>sexta-feira, 26 de novembro</strong> — agora com seis confrarias, com a chegada da WTT. Eu já estou ansioso.</p>
+          <p>Tanto que já publiquei os meus vinhos. Os seus já podem entrar na plataforma:</p>
+          <p style="text-align:center;margin:22px 0"><a href="${SITE}" style="display:inline-block;background:#1A2F4E;color:#F7F3EE;font-size:12px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;padding:15px 34px">Publicar meus vinhos de 2027</a></p>
+          <p style="font-style:italic;text-align:center;color:#6b6257">Grandes vinhos, grandes garrafas, grandes amigos.</p>`, pid),
+      };
     case "garrafa-registrada": {
       const v = `${esc(dados.vinho)}${dados.safra ? " " + esc(dados.safra) : ""}`;
       return {
