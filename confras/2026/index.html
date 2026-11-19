@@ -129,7 +129,7 @@ a{color:inherit}
 <section class="sec" id="carta">
   <div class="sec-kicker">A mesa</div>
   <h2 class="sec-title">A carta completa</h2>
-  <p class="sec-sub">As 41 garrafas que fizeram a primeira Confra das Confras — todas abertas na grande mesa central. <span class="star">★ 🏆</span> marcam os campeões.</p>
+  <p class="sec-sub">As 41 garrafas que fizeram a primeira Confra das Confras — todas abertas na grande mesa central. 🏆 marca os campeões.</p>
   <div class="carta-grid" id="carta-grid"></div>
 </section>
 
@@ -154,7 +154,7 @@ var PREMIOS = {};   // vinho → [categorias]
 CAMPEOES.forEach(function (c) { c.vinhos.forEach(function (v) { (PREMIOS[v] = PREMIOS[v] || []).push(c.cat); }); });
 
 function nomesComEstrela(membros, venceu) {
-  return (membros || []).map(function (n) { return esc(n) + (venceu ? ' <span class="star">★</span> 🏆' : ''); }).join(' · ');
+  return (membros || []).map(function (n) { return esc(n) + (venceu ? ' 🏆' : ''); }).join(' · ');
 }
 
 function montaCampeoes(vinhos) {
@@ -166,7 +166,6 @@ function montaCampeoes(vinhos) {
       var g = porNome[nome] || { vinho: nome, membros: [] };
       return '<div class="camp' + (c.empate ? ' empate' : '') + '">' +
         '<div class="cat">' + esc(c.cat) + '</div>' +
-        '<div class="tro">🏆</div>' +
         (g.foto_url ? '<div class="foto"><img src="' + esc(g.foto_url) + '" alt="' + esc(g.vinho) + '"></div>' : '') +
         '<div class="vinho">' + esc(g.vinho) + '</div>' +
         (g.safra ? '<div class="safra">' + esc(g.safra) + '</div>' : '') +
@@ -187,7 +186,7 @@ function montaCarta(vinhos) {
   document.getElementById('carta-grid').innerHTML = vinhos.map(function (g) {
     var premios = PREMIOS[g.vinho];
     return '<div class="gcard' + (premios ? ' venceu' : '') + '">' +
-      (premios ? '<div class="selo-camp">🏆 Campeão · ' + esc(premios.join(' e ')) + '</div>' : '') +
+      (premios ? '<div class="selo-camp">Campeão · ' + esc(premios.join(' e ')) + '</div>' : '') +
       (g.foto_url ? '<div class="foto"><img src="' + esc(g.foto_url) + '" alt="' + esc(g.vinho) + '" loading="lazy"></div>' : '') +
       '<div class="nome">' + esc(g.vinho) + '</div>' +
       (g.safra ? '<div class="safra">' + esc(g.safra) + '</div>' : '') +
