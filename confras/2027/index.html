@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Confra das Confras 2027 — 26 de novembro</title>
-<meta name="description" content="A segunda edição da Confra das Confras. Sexta-feira, 26 de novembro de 2027, Recife.">
+<meta name="description" content="O maior encontro em linha reta do mundo. A segunda edição da Confra das Confras. Sexta-feira, 26 de novembro de 2027, Recife.">
 <link rel="icon" href="/confras/favicon.png?v=2"><link rel="apple-touch-icon" href="/confras/favicon.png?v=2">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital@1&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -34,6 +34,16 @@ h1{font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;font-weight:40
 .btn{display:inline-block;margin-top:26px;padding:15px 36px;border:1px solid var(--gold);color:var(--gold);font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none}
 .btn:hover{background:var(--gold);color:#fff}
 footer{text-align:center;padding:36px 20px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--ink-lt)}
+.slogan{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold-lt);margin-top:22px}
+.reta{position:relative;height:2px;background:linear-gradient(90deg,transparent,var(--gold) 6%,var(--gold) 94%,transparent);margin:40px auto 14px;max-width:640px}
+.reta span{position:absolute;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:var(--cream);border:1.5px solid var(--gold)}
+.reta-leg{display:flex;justify-content:space-between;max-width:640px;margin:0 auto;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-lt)}
+.linha-reta{background:var(--wine);color:var(--cream);max-width:none}
+.linha-reta h2{color:var(--cream);font-family:Didot,'Bodoni 72','Playfair Display',Georgia,serif;letter-spacing:.06em}
+.linha-reta p{color:rgba(247,243,238,.85)}
+.linha-reta .sec-kicker{color:var(--gold-lt)}
+.linha-reta .reta span{background:var(--wine)}
+.linha-reta .reta-leg{color:rgba(247,243,238,.7)}
 </style>
 </head>
 <body>
@@ -50,6 +60,7 @@ footer{text-align:center;padding:36px 20px;font-family:'Cormorant Garamond',seri
   </svg>
   <h1>Confra<br>das Confras</h1>
   <div class="ano">2027</div>
+  <div class="slogan">O maior encontro em linha reta do mundo</div>
   <p class="tag">A segunda edição. As cinco confrarias do Recife voltam à mesma mesa — como manda a tradição que nasceu em 2026.</p>
   <div class="orn"><i></i><b>◆</b><i></i></div>
   <div class="dow">Sexta-feira</div>
@@ -67,6 +78,14 @@ footer{text-align:center;padding:36px 20px;font-family:'Cormorant Garamond',seri
   <p>Mesma regra de ouro: cada confrade leva ao menos uma garrafa de no mínimo 1,5 litro — uma Magnum. De agora em diante, sempre na última sexta-feira de novembro.</p>
 </section>
 
+<section class="sec linha-reta" id="linha-reta">
+  <div class="sec-kicker">O nosso slogan · uma homenagem ao Recife</div>
+  <h2>O maior encontro em linha reta do mundo</h2>
+  <p>Todo pernambucano conhece a resenha: a Avenida Caxangá é a maior avenida em linha reta do mundo. Se o Recife tem a maior reta, a Confra das Confras tem o maior encontro em linha reta: seis confrarias, uma mesa só e nenhuma curva entre a taça e a próxima garrafa.</p>
+  <div class="reta" aria-hidden="true"><span style="left:8%"></span><span style="left:25%"></span><span style="left:42%"></span><span style="left:58%"></span><span style="left:75%"></span><span style="left:92%"></span></div>
+  <div class="reta-leg" aria-hidden="true"><span>Caxangá</span><span>seis confrarias · uma mesa</span><span>26·11·2027</span></div>
+</section>
+
 <section class="sec">
   <div class="sec-kicker">Novidade</div>
   <h2>Agora somos seis</h2>
@@ -81,7 +100,7 @@ footer{text-align:center;padding:36px 20px;font-family:'Cormorant Garamond',seri
   <a class="btn" href="/confras/">Ver a edição 2026</a>
 </section>
 
-<footer>Grandes vinhos, grandes garrafas, grandes amigos.</footer>
+<footer>O maior encontro em linha reta do mundo.<br>Grandes vinhos, grandes garrafas, grandes amigos.</footer>
 
 <script>
 'use strict';
