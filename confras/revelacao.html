@@ -118,11 +118,11 @@ function telaSuspense(cat) {
     '<div class="conc-big">' + conc.length + '</div>' +
     '<div class="conc-n">' + legenda + '</div>';
 }
-function telaReveal(cat, g) {
+function telaReveal(cat, g, empate) {
   return '<div class="rev">' +
     (g.foto_url ? '<div class="foto"><img src="' + esc(g.foto_url) + '"></div>' : '') +
     '<div class="info">' +
-      '<div class="venceu">' + TROFEU_MINI + '<span>' + esc(cat.toUpperCase()) + ' · ' + (FLAGS[g.pais] || '') + ' ' + esc(g.pais || '') + '</span></div>' +
+      '<div class="venceu">' + TROFEU_MINI + '<span>' + esc(cat.toUpperCase()) + (empate ? ' · EMPATE — DOIS CAMPEÕES' : '') + ' · ' + (FLAGS[g.pais] || '') + ' ' + esc(g.pais || '') + '</span></div>' +
       '<div class="nome">' + esc(g.vinho) + '</div>' +
       (g.safra ? '<div class="safra">' + esc(g.safra) + '</div>' : '') +
       '<div class="fmt">' + esc(g.formato) + (g.votos ? ' · ' + g.votos + ' voto' + (g.votos > 1 ? 's' : '') : '') + '</div>' +
@@ -140,10 +140,11 @@ function montar(vencedores) {
   var palco = document.getElementById('palco');
   telas = [{ html: telaCapa() }];
   ORDEM.forEach(function (cat) {
-    var g = vencedores[cat];
-    if (!g) return;
+    var gs = vencedores[cat];
+    if (!gs) return;
+    if (!Array.isArray(gs)) gs = [gs];
     telas.push({ html: telaSuspense(cat) });
-    telas.push({ html: telaReveal(cat, g), burst: true });
+    gs.forEach(function (g) { telas.push({ html: telaReveal(cat, g, gs.length > 1), burst: true }); });
   });
   telas.push({ html: telaFim() });
   palco.innerHTML = telas.map(function (t, i) { return '<div class="tela" id="t' + i + '">' + t.html + '</div>'; }).join('');
@@ -185,12 +186,13 @@ function carregar(rows) {
     vinhosAll = vinhos || [];
     var fotos = {};
     (vinhos || []).forEach(function (v) { fotos[v.id] = v; });
-    var vencedores = {}, vistos = {};
+    var vencedores = {}, topo = {};
     (rows || []).forEach(function (r) {
-      if (vistos[r.categoria_id]) return;
-      vistos[r.categoria_id] = true;
+      var v = Number(r.votos);
+      if (topo[r.categoria_id] == null) topo[r.categoria_id] = v;   // 1ª linha = máximo (ordem votos desc)
+      if (v < topo[r.categoria_id]) return;                          // empate: TODOS os do topo são campeões
       var extra = fotos[r.garrafa_id] || {};
-      vencedores[r.categoria] = { vinho: r.vinho, safra: r.safra, formato: r.formato, membros: r.membros, votos: Number(r.votos), foto_url: extra.foto_url, pais: extra.pais };
+      (vencedores[r.categoria] = vencedores[r.categoria] || []).push({ vinho: r.vinho, safra: r.safra, formato: r.formato, membros: r.membros, votos: v, foto_url: extra.foto_url, pais: extra.pais });
     });
     document.getElementById('gate').classList.add('hidden');
     document.getElementById('dica').classList.remove('hidden');
