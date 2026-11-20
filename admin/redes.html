@@ -143,7 +143,7 @@ function grafAds(dias){
   return s+`<p class="meta" style="margin-top:6px">Barras: gasto do dia em R$ (o número em cima). Linha: visitas ao perfil pelos anúncios (máx. ${fmt(mv)}/dia). Passe o mouse para ver o dia.</p>`;
 }
 const barras=(lista,fmtv)=>{const mx=Math.max(...lista.map(x=>x[1]))||1;return lista.map(([r,v])=>`<div class="barra"><span class="r">${esc(r)}</span><i style="width:${Math.max(2,v/mx*45)}%"></i><em>${fmtv?fmtv(v):fmt(v)}</em></div>`).join('')};
-const NOMES={instagram:'Instagram @guialuli',instagram_pessoal:'Instagram pessoal @lulidias',threads:'Threads',facebook:'Página do Facebook',facebook_perfil:'Perfil do Facebook',youtube:'YouTube',tiktok:'TikTok',linkedin:'LinkedIn',pinterest:'Pinterest'};
+const NOMES={instagram:'Instagram @guialuli',instagram_pessoal:'Instagram pessoal @lulidias',threads:'Threads @guialuli',threads_pessoal:'Threads pessoal @lulidias',facebook:'Página do Facebook',facebook_perfil:'Perfil do Facebook',youtube:'YouTube',tiktok:'TikTok',linkedin:'LinkedIn',pinterest:'Pinterest'};
 const PAISES={BR:'Brasil',PT:'Portugal',ES:'Espanha',US:'Estados Unidos',FR:'França',IT:'Itália',AR:'Argentina',GB:'Reino Unido',DE:'Alemanha',CL:'Chile',UY:'Uruguai',MX:'México',CH:'Suíça',AE:'Emirados'};
 const IDADE={'13-17':'13–17','18-24':'18–24','25-34':'25–34','35-44':'35–44','45-54':'45–54','55-64':'55–64','65+':'65+'};
 let AG=[],VISTA='lista',FILTRO='todas',MES=null;
