@@ -1,6 +1,6 @@
 {
   "totals": {
-    "restaurants": 1105,
+    "restaurants": 1104,
     "hotels": 193,
     "markets": 28,
     "cities": 222,
@@ -19,7 +19,7 @@
     "countries": 42,
     "totalStars": 73,
     "totalKeys": 71,
-    "total": 1341,
+    "total": 1340,
     "michelin": 92,
     "keysEntries": 46
   },
@@ -883,7 +883,7 @@
       "keysEntries": 1
     },
     "uruguai": {
-      "restaurants": 10,
+      "restaurants": 9,
       "hotels": 2,
       "markets": 0,
       "cities": 2,
