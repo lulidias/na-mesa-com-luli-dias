@@ -52,6 +52,10 @@ input{width:100%;padding:15px;border:1px solid rgba(212,174,92,.6);background:rg
       </div>
     </div>
   </div>
+  <div id="recibo" class="hidden" style="background:#fff;border:1.5px solid var(--gold);padding:16px 18px;margin:0 0 20px;text-align:left">
+    <div style="font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:10px">Seus votos — pode mudar até a urna fechar</div>
+    <div id="recibo-linhas"></div>
+  </div>
   <div id="urna" class="hidden"></div>
   <div id="fechada" class="fechada hidden">A urna está fechada. 🗳️<br>Os resultados saem no telão!</div>
 </div>
@@ -143,6 +147,8 @@ function carrega() {
     rpc('confras_meus_votos', { p_participante: meuId }).then(function (votos) {
       var meus = {};
       (votos || []).forEach(function (v) { meus[v.categoria_id] = v.garrafa_id; });
+      catsG = cats; vinhosG = vinhos; meusG = meus;
+      renderRecibo();
       var urna = document.getElementById('urna');
       urna.classList.remove('hidden');
       urna.innerHTML = cats.map(function (c) {
@@ -165,9 +171,29 @@ function votar(sel) {
   rpc('confras_votar', { p_participante: meuId, p_categoria: sel.dataset.cat, p_garrafa: sel.value })
     .then(function () {
       document.getElementById('v-' + sel.dataset.cat).textContent = '✓ Voto registrado';
+      meusG[sel.dataset.cat] = sel.value;
+      renderRecibo();
       toast('Voto registrado! 🗳️');
     })
     .catch(function (e) { toast(e.message, true); });
+}
+
+// recibo: resumo bonito dos votos do confrade (privado — segredo preservado)
+var catsG = [], vinhosG = [], meusG = {};
+function renderRecibo() {
+  var box = document.getElementById('recibo'), linhas = document.getElementById('recibo-linhas');
+  var tem = catsG.some(function (c) { return meusG[c.id]; });
+  if (!tem) { box.classList.add('hidden'); return; }
+  linhas.innerHTML = catsG.map(function (c) {
+    var g = null;
+    vinhosG.forEach(function (v) { if (v.id === meusG[c.id]) g = v; });
+    return '<div style="display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #F0EAE0">' +
+      '<span style="font-family:\'Montserrat\',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-lt,#6b6257);white-space:nowrap">' + esc(c.nome) + '</span>' +
+      '<span style="font-family:\'Playfair Display\',Georgia,serif;font-size:15px;text-align:right;color:#1A1A1A">' +
+      (g ? esc(g.vinho) + (g.safra ? ' <span style="color:var(--gold)">' + esc(g.safra) + '</span>' : '') : '<span style="color:#A89F92;font-style:italic">ainda sem voto</span>') +
+      '</span></div>';
+  }).join('');
+  box.classList.remove('hidden');
 }
 
 carrega();

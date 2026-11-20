@@ -85,6 +85,12 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
   <div class="stats">
     <div class="st"><div class="n" id="s-votantes">–</div><div class="l" id="s-votantes-l">confrades já votaram</div></div>
   </div>
+  <div id="part" style="width:min(640px,64vw);margin:18px auto 0;display:none">
+    <div style="height:16px;background:rgba(247,243,238,.14);border:1px solid rgba(212,174,92,.55)">
+      <div id="part-fill" style="height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-lt));transition:width 1.2s cubic-bezier(.2,.7,.3,1)"></div>
+    </div>
+    <div id="part-k" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(18px,1.7vw,26px);color:rgba(247,243,238,.9);margin-top:10px"></div>
+  </div>
   <div class="grid" id="grid"></div>
   <p class="empty hidden" id="empty">Urna em segredo — os vencedores só no telão, às 16h30.</p>
   <div class="premios" id="premios"></div>
@@ -137,9 +143,18 @@ function tick() {
   Promise.all([
     rpc('confras_admin_resultados', { p_token: TOKEN }),
     view('confras_config_publica'),
-    rpc('confras_admin_votantes', { p_token: TOKEN })
+    rpc('confras_admin_votantes', { p_token: TOKEN }),
+    view('confras_confirmados')
   ]).then(function (res) {
     var rows = res[0] || [], cfg = (res[1] || [])[0] || {}, votantes = res[2] || 0;
+    var presentes = (res[3] || []).length;
+    var part = document.getElementById('part');
+    if (presentes > 0) {
+      part.style.display = 'block';
+      var pct = Math.min(100, Math.round(Number(votantes) / presentes * 100));
+      document.getElementById('part-fill').style.width = pct + '%';
+      document.getElementById('part-k').textContent = votantes + ' de ' + presentes + ' confrades já votaram';
+    } else { part.style.display = 'none'; }
     mostraQR(cfg.votacao_aberta === true);
     document.getElementById('s-votantes').textContent = votantes;
     document.getElementById('s-votantes-l').textContent = Number(votantes) === 1 ? 'confrade já votou' : 'confrades já votaram';

@@ -36,14 +36,17 @@ var P = new URLSearchParams(location.search);
 var CENAS = [
   { src: 'telao.html',       dur: Number(P.get('apuracao')) || 22 },
   { src: 'telao-qr.html',    dur: Number(P.get('qr')) || 18 },
+  { src: 'telao-urna-fecha.html', dur: Number(P.get('urnafecha')) || 18 },
   { src: 'telao-carta.html', dur: Number(P.get('carta'))    || 22 },
   { src: 'telao2/',          dur: Number(P.get('votantes')) || 30 },
   { src: 'telao-vitrine.html', dur: Number(P.get('vitrine')) || 22 },
+  { src: 'telao-fotos.html', dur: Number(P.get('fotoslive')) || 24 },
   { src: 'telao-numeros.html', dur: Number(P.get('numeros')) || 22 },
   { src: 'telao-graficos.html', dur: Number(P.get('graficos')) || 28 },
   { src: 'telao-2027.html',  dur: Number(P.get('anoquevem')) || 22 }
 ];
 var atual = -1;
+var timerGiro = null;
 
 function entrar() {
   var t = document.getElementById('tok').value.trim();
@@ -82,7 +85,7 @@ function proxima() {
       try { f.contentWindow.location.reload(); } catch (e) { f.src = f.dataset.src; }
     }
   });
-  setTimeout(proxima, CENAS[atual].dur * 1000);
+  timerGiro = setTimeout(proxima, CENAS[atual].dur * 1000);
 }
 
 // ── revelação comandada pelo celular: quando o MC avança, as TVs trocam sozinhas
@@ -121,7 +124,7 @@ setInterval(vigiaRevelacao, 2500);
 var modoRanking = false;
 function vigiaResultados() {
   if (modoRevel) return;   // a revelação manda mais
-  fetch('https://saotncritqxuchsvvnzi.supabase.co/rest/v1/confras_config?select=resultados_publicos&id=eq.1',
+  fetch('https://saotncritqxuchsvvnzi.supabase.co/rest/v1/confras_config_publica?select=resultados_publicos',
     { headers: { 'apikey': 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5', 'Authorization': 'Bearer sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5' } })
   .then(function (r) { return r.json(); })
   .then(function (rows) {
@@ -146,6 +149,13 @@ function vigiaResultados() {
   }).catch(function () {});
 }
 setInterval(vigiaResultados, 15000); vigiaResultados();
+
+// cenas condicionais (contagem regressiva, fotos ao vivo) pedem para pular quando não têm o que mostrar
+window.addEventListener('message', function (e) {
+  if (e.data !== 'cdc-pular' || modoRevel || modoRanking) return;
+  clearTimeout(timerGiro);
+  proxima();
+});
 
 // tela cheia com um clique/OK do controle da TV
 document.addEventListener('click', function () {

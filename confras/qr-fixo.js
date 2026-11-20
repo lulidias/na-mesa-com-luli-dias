@@ -29,7 +29,7 @@
     if (b) b.classList.toggle('oculto', !(cenaQuer && urnaAberta));
   }
   function vigiaUrna() {
-    fetch('https://saotncritqxuchsvvnzi.supabase.co/rest/v1/confras_config?select=votacao_aberta&id=eq.1',
+    fetch('https://saotncritqxuchsvvnzi.supabase.co/rest/v1/confras_config_publica?select=votacao_aberta',
       { headers: { 'apikey': 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5', 'Authorization': 'Bearer sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5' } })
       .then(function (r) { return r.json(); })
       .then(function (rows) { urnaAberta = !!(rows && rows[0] && rows[0].votacao_aberta); aplica(); })
