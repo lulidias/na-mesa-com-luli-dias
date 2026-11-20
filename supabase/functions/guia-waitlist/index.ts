@@ -109,7 +109,7 @@ const EMAIL_HTML_EN = `<!DOCTYPE html>
                   </table>
                   <div style="font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#3A3A3A;margin-top:14px;">lulidias@me.com</div>
                   <div style="font-family:Arial,Helvetica,sans-serif;font-size:10px;margin-top:6px;">
-                    <a href="https://www.instagram.com/lulidias" style="color:#B8922A;text-decoration:none;">@lulidias</a>
+                    <a href="https://www.instagram.com/guialuli" style="color:#B8922A;text-decoration:none;">@guialuli</a>
                     <span style="color:#B8922A;padding:0 6px;">·</span>
                     <a href="https://lulidias.com" style="color:#B8922A;text-decoration:none;">lulidias.com</a>
                   </div>
@@ -223,7 +223,7 @@ const EMAIL_HTML = `<!DOCTYPE html>
                   </table>
                   <div style="font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#3A3A3A;margin-top:14px;">lulidias@me.com</div>
                   <div style="font-family:Arial,Helvetica,sans-serif;font-size:10px;margin-top:6px;">
-                    <a href="https://www.instagram.com/lulidias" style="color:#B8922A;text-decoration:none;">@lulidias</a>
+                    <a href="https://www.instagram.com/guialuli" style="color:#B8922A;text-decoration:none;">@guialuli</a>
                     <span style="color:#B8922A;padding:0 6px;">·</span>
                     <a href="https://lulidias.com" style="color:#B8922A;text-decoration:none;">lulidias.com</a>
                   </div>

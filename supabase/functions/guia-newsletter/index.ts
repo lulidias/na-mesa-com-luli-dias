@@ -94,7 +94,7 @@ function buildEmail(subject: string, bodyHtml: string, email: string, token: str
                   </tr>
                 </table>
                 <div style="margin-top:12px;">
-                  <a href="https://www.instagram.com/lulidias" style="color:#B8922A;text-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:10px;">@lulidias</a>
+                  <a href="https://www.instagram.com/guialuli" style="color:#B8922A;text-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:10px;">@guialuli</a>
                   <span style="color:#B8922A;padding:0 6px;">·</span>
                   <a href="${SITE_URL}" style="color:#B8922A;text-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:10px;">lulidias.com</a>
                 </div>
