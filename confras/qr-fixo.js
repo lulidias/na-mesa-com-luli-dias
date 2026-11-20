@@ -11,7 +11,7 @@
     try {
       var topo = window.top, d = topo.document;
       if (!d.querySelector('script[src*="qr-fixo.js"]')) {
-        var sc = d.createElement('script'); sc.src = '/confras/qr-fixo.js?v=3'; d.body.appendChild(sc);
+        var sc = d.createElement('script'); sc.src = '/confras/qr-fixo.js?v=4'; d.body.appendChild(sc);
       }
       setInterval(function () {
         var f = window.frameElement;
@@ -22,6 +22,20 @@
   }
   if (semQr) return;
   var URL_VOTO = 'https://v1.lulidias.com/confras/votar/';
+  // 2027: o QR só aparece com a urna ABERTA (lição da 1ª edição) — vigia a config sozinho
+  var cenaQuer = true, urnaAberta = false;
+  function aplica() {
+    var b = document.getElementById('qr-fixo');
+    if (b) b.classList.toggle('oculto', !(cenaQuer && urnaAberta));
+  }
+  function vigiaUrna() {
+    fetch('https://saotncritqxuchsvvnzi.supabase.co/rest/v1/confras_config?select=votacao_aberta&id=eq.1',
+      { headers: { 'apikey': 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5', 'Authorization': 'Bearer sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5' } })
+      .then(function (r) { return r.json(); })
+      .then(function (rows) { urnaAberta = !!(rows && rows[0] && rows[0].votacao_aberta); aplica(); })
+      .catch(function () {});
+  }
+  vigiaUrna(); setInterval(vigiaUrna, 45000);
   var css = '#qr-fixo{position:fixed;top:24px;right:24px;z-index:2147483000;background:#fff;padding:14px 14px 10px;' +
     'text-align:center;border:3px solid #D4AE5C;box-shadow:0 6px 30px rgba(0,0,0,.35);transition:opacity .6s}' +
     '#qr-fixo.oculto{opacity:0;pointer-events:none}' +
@@ -32,6 +46,7 @@
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
     var box = document.createElement('div'); box.id = 'qr-fixo';
     box.innerHTML = '<canvas width="480" height="480"></canvas><div>APONTE A CÂMERA<br>E VOTE</div>';
+    box.classList.add('oculto');   // nasce escondido; o vigia da urna decide
     document.body.appendChild(box);
     function desenha() {
       if (!window.QRious) return setTimeout(desenha, 300);
@@ -45,8 +60,8 @@
     desenha();
   }
   window.qrFixo = function (mostrar) {
-    var b = document.getElementById('qr-fixo');
-    if (b) b.classList.toggle('oculto', mostrar === false);
+    cenaQuer = (mostrar !== false);
+    aplica();
   };
   if (document.body) montar(); else document.addEventListener('DOMContentLoaded', montar);
 })();

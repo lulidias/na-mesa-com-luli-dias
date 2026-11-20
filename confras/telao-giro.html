@@ -68,6 +68,7 @@ function comeca() {
 
 var modoRevel = false;
 function proxima() {
+  if (modoRanking) { setTimeout(proxima, 5000); return; }
   if (modoRevel) { setTimeout(proxima, 2000); return; }
   var velho = atual >= 0 ? CENAS[atual].src : null;
   atual = (atual + 1) % CENAS.length;
@@ -116,6 +117,36 @@ function vigiaRevelacao() {
 }
 setInterval(vigiaRevelacao, 2500);
 
+// ── pós-votação (2027): resultados públicos = a TV fica FIXA no Veredicto da Mesa
+var modoRanking = false;
+function vigiaResultados() {
+  if (modoRevel) return;   // a revelação manda mais
+  fetch('https://saotncritqxuchsvvnzi.supabase.co/rest/v1/confras_config?select=resultados_publicos&id=eq.1',
+    { headers: { 'apikey': 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5', 'Authorization': 'Bearer sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5' } })
+  .then(function (r) { return r.json(); })
+  .then(function (rows) {
+    var pub = !!(rows && rows[0] && rows[0].resultados_publicos);
+    if (pub && !modoRanking) {
+      modoRanking = true;
+      if (window.qrFixo) qrFixo(false);
+      var f = document.querySelector('iframe[data-src="telao-ranking.html"]');
+      if (!f) {
+        f = document.createElement('iframe');
+        f.src = 'telao-ranking.html'; f.dataset.src = 'telao-ranking.html';
+        document.body.appendChild(f);
+      }
+      document.querySelectorAll('iframe').forEach(function (x) { x.classList.toggle('on', x.dataset.src === 'telao-ranking.html'); });
+    } else if (!pub && modoRanking) {
+      modoRanking = false;
+      if (window.qrFixo) qrFixo(true);
+      var fr = document.querySelector('iframe[data-src="telao-ranking.html"]');
+      if (fr) fr.classList.remove('on');
+      atual = -1;
+    }
+  }).catch(function () {});
+}
+setInterval(vigiaResultados, 15000); vigiaResultados();
+
 // tela cheia com um clique/OK do controle da TV
 document.addEventListener('click', function () {
   var el = document.documentElement;
@@ -125,7 +156,7 @@ document.addEventListener('click', function () {
 if (localStorage.getItem('confras_admin_token')) comeca();
 document.addEventListener('keydown', function (e) { if (e.key === 'Enter') { var g = document.getElementById('gate'); if (!g.classList.contains('hidden')) entrar(); } });
 </script>
-<script src="/confras/qr-fixo.js?v=3"></script>
+<script src="/confras/qr-fixo.js?v=4"></script>
 <script src="/confras/tv-remoto.js"></script>
 </body>
 </html>
