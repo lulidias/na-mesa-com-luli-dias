@@ -574,7 +574,7 @@ render();
 applyDensity();
 
 let mapInstance=null;
-const COORDS={"aruba/passions-on-the-beach":[12.5584,-70.0535]};
+const COORDS={"aruba/passions-on-the-beach":[12.5584,-70.0535],"aruba/passions-on-the-beach-2":{"name":"Passions on the Beach","address":"J.E. Irausquin Boulevard 252 — Amsterdam Manor Beach Resort, Eagle Beach, Aruba","country":"aruba","lat":12.5535912,"lng":-70.0551712}};
 var densityMode=(function(){try{return localStorage.getItem('ld_density')||'cards'}catch(e){return 'cards'}})();
 function setDensity(m){densityMode=m;try{localStorage.setItem('ld_density',m)}catch(e){}applyDensity();}
 function applyDensity(){var main=document.getElementById('main');if(main)main.classList.toggle('view-list',densityMode==='list');var c=document.getElementById('densCards'),l=document.getElementById('densList');if(c)c.classList.toggle('active',densityMode!=='list');if(l)l.classList.toggle('active',densityMode==='list');}
