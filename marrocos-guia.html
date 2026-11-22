@@ -483,7 +483,7 @@ render();
 applyDensity();
 
 let mapInstance=null;
-const COORDS={};
+const COORDS={"marrocos/restaurant-des-fleurs":{"name":"Restaurant des Fleurs","address":"42 Avenue de l'Armée Royale, 20000 Casablanca","country":"marrocos","lat":33.59667,"lng":-7.6145033}};
 var densityMode=(function(){try{return localStorage.getItem('ld_density')||'cards'}catch(e){return 'cards'}})();
 function setDensity(m){densityMode=m;try{localStorage.setItem('ld_density',m)}catch(e){}applyDensity();}
 function applyDensity(){var main=document.getElementById('main');if(main)main.classList.toggle('view-list',densityMode==='list');var c=document.getElementById('densCards'),l=document.getElementById('densList');if(c)c.classList.toggle('active',densityMode!=='list');if(l)l.classList.toggle('active',densityMode==='list');}
