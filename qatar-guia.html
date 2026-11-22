@@ -469,7 +469,7 @@ render();
 applyDensity();
 
 let mapInstance=null;
-const COORDS={"qatar/ambar":{"name":"Ambar","address":"Barahat Msheireb, Msheireb Downtown Doha, Qatar","country":"qatar","lat":25.2865901,"lng":51.5262238}};
+const COORDS={"qatar/ambar":{"name":"Ambar","address":"Barahat Msheireb, Msheireb Downtown Doha, Qatar","country":"qatar","lat":25.2865901,"lng":51.5262238},"qatar/em-sherif":{"name":"Em Sherif","address":"Al Maha Island, Doha, Qatar","country":"qatar","lat":25.399972,"lng":51.52762}};
 var densityMode=(function(){try{return localStorage.getItem('ld_density')||'cards'}catch(e){return 'cards'}})();
 function setDensity(m){densityMode=m;try{localStorage.setItem('ld_density',m)}catch(e){}applyDensity();}
 function applyDensity(){var main=document.getElementById('main');if(main)main.classList.toggle('view-list',densityMode==='list');var c=document.getElementById('densCards'),l=document.getElementById('densList');if(c)c.classList.toggle('active',densityMode!=='list');if(l)l.classList.toggle('active',densityMode==='list');}

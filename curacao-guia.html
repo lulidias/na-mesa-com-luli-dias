@@ -468,7 +468,7 @@ render();
 applyDensity();
 
 let mapInstance=null;
-const COORDS={};
+const COORDS={"curacao/papagayo-beach-club":{"name":"Papagayo Beach Club","address":"Jan Thiel z/n — Papagayo Beach Plaza, Willemstad, Curaçao","country":"curacao","lat":12.0740952,"lng":-68.8782719}};
 var densityMode=(function(){try{return localStorage.getItem('ld_density')||'cards'}catch(e){return 'cards'}})();
 function setDensity(m){densityMode=m;try{localStorage.setItem('ld_density',m)}catch(e){}applyDensity();}
 function applyDensity(){var main=document.getElementById('main');if(main)main.classList.toggle('view-list',densityMode==='list');var c=document.getElementById('densCards'),l=document.getElementById('densList');if(c)c.classList.toggle('active',densityMode!=='list');if(l)l.classList.toggle('active',densityMode==='list');}
