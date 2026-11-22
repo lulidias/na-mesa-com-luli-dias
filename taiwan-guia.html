@@ -495,7 +495,7 @@ render();
 applyDensity();
 
 let mapInstance=null;
-const COORDS={"taiwan/mandarin-oriental-taipei":{"name": "Mandarin Oriental Taipei", "address": "158 Dunhua N Road, Songshan, Taipei 105", "country": "taiwan", "lat": 25.0584, "lng": 121.5466},"taiwan/ningxia-night-market":{"name":"Ningxia Night Market","address":"Ningxia Road, Datong District, Taipei","country":"taiwan","lat":25.0561876,"lng":121.515222}};
+const COORDS={"taiwan/mandarin-oriental-taipei":{"name":"Mandarin Oriental Taipei","address":"158 Dunhua N Road, Songshan, Taipei 105","country":"taiwan","lat":25.0584,"lng":121.5466},"taiwan/ningxia-night-market":{"name":"Ningxia Night Market","address":"Ningxia Road, Datong District, Taipei","country":"taiwan","lat":25.0561876,"lng":121.515222},"taiwan/hutong-yakiniku":{"name":"Hutong Yakiniku","address":"No. 17, Lane 161, Sec. 1, Dunhua South Rd, Da'an District, Taipei","country":"taiwan","lat":25.0436848,"lng":121.5501858}};
 var densityMode=(function(){try{return localStorage.getItem('ld_density')||'cards'}catch(e){return 'cards'}})();
 function setDensity(m){densityMode=m;try{localStorage.setItem('ld_density',m)}catch(e){}applyDensity();}
 function applyDensity(){var main=document.getElementById('main');if(main)main.classList.toggle('view-list',densityMode==='list');var c=document.getElementById('densCards'),l=document.getElementById('densList');if(c)c.classList.toggle('active',densityMode!=='list');if(l)l.classList.toggle('active',densityMode==='list');}
