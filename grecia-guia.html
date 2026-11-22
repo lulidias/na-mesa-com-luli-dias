@@ -472,7 +472,7 @@ render();
 applyDensity();
 
 let mapInstance=null;
-const COORDS={};
+const COORDS={"grecia/gio":{"name":"GIO","address":"Litous 11, 16671 Vouliagmeni","country":"grecia","lat":37.8137773,"lng":23.7738154},"grecia/astir-beach":{"name":"Astir Beach","address":"Apollonos 40, 16671 Vouliagmeni","country":"grecia","lat":37.810512,"lng":23.7734003},"grecia/beefbar":{"name":"Beefbar","address":"Apollonos 40, 16671 Vouliagmeni","country":"grecia","lat":37.810512,"lng":23.7734003},"grecia/the-margi":{"name":"The Margi","address":"Litous 11, 16671 Vouliagmeni","country":"grecia","lat":37.8137773,"lng":23.7738154}};
 var densityMode=(function(){try{return localStorage.getItem('ld_density')||'cards'}catch(e){return 'cards'}})();
 function setDensity(m){densityMode=m;try{localStorage.setItem('ld_density',m)}catch(e){}applyDensity();}
 function applyDensity(){var main=document.getElementById('main');if(main)main.classList.toggle('view-list',densityMode==='list');var c=document.getElementById('densCards'),l=document.getElementById('densList');if(c)c.classList.toggle('active',densityMode!=='list');if(l)l.classList.toggle('active',densityMode==='list');}
