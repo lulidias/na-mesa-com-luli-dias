@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>/* o site da festa mora em wineloversrecife.com — quem chegar pelo endereço antigo é levado para lá, com o mesmo caminho */
+if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wineloversrecife.com' + location.pathname.replace(/^\/wlr/, '') + location.search + location.hash);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Premiação — Magnum Fest Licínio Dias 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@1&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#411A39;--wine-md:#4F1D45;--wine-lt:#6C214C;--cream:#FFFFFF;--gold:#6C214C;--gold-lt:#FFFFFF}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wine-md) 45%,var(--wine) 100%);color:var(--cream);font-family:'Montserrat',sans-serif;cursor:pointer}
+#poeira{position:fixed;inset:0;pointer-events:none;z-index:5}
+.tela{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0;pointer-events:none;transition:opacity .8s ease}
+.tela.on{opacity:1}
+.k{font-size:clamp(15px,1.6vw,22px);letter-spacing:7px;text-transform:uppercase;color:var(--gold-lt)}
+.marca{font-family:'Montserrat',sans-serif;font-weight:800;letter-spacing:8px;text-transform:uppercase;font-size:clamp(44px,6vw,98px);line-height:1.15;margin-top:16px}
+.emblema{width:min(520px,42vw);height:auto;margin-bottom:26px;animation:pulsa 5s ease-in-out infinite}
+@keyframes pulsa{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.dica{position:fixed;bottom:22px;right:30px;font-size:11px;letter-spacing:2px;color:rgba(247,243,238,.4);z-index:9}
+/* suspense */
+.cat-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(24px,2.8vw,40px);color:rgba(247,243,238,.9);margin-top:36px}
+.pontos::after{content:'';animation:pts 1.8s steps(4,end) infinite}
+@keyframes pts{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
+.taca{margin-bottom:14px;animation:pulsa 2.6s ease-in-out infinite;display:flex;justify-content:center}
+/* concorrentes do suspense */
+.conc-big{font-family:'Montserrat',sans-serif;font-weight:300;font-size:clamp(90px,11vw,180px);color:var(--gold-lt);line-height:1;margin-top:34px}
+.conc-n{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(26px,2.8vw,38px);color:rgba(247,243,238,.9);margin-top:14px}
+/* revelação */
+.rev{display:flex;align-items:center;justify-content:center;gap:clamp(40px,6vw,110px);padding:0 60px}
+.tela.on .foto{animation:entraFoto 1s cubic-bezier(.2,.7,.3,1) both .15s}
+.tela.on .info>*{opacity:0;animation:entraItem .8s cubic-bezier(.2,.7,.3,1) both}
+.tela.on .info>*:nth-child(1){animation-delay:.5s}
+.tela.on .info>*:nth-child(2){animation-delay:.75s}
+.tela.on .info>*:nth-child(3){animation-delay:1s}
+.tela.on .info>*:nth-child(4){animation-delay:1.25s}
+.tela.on .info>*:nth-child(5){animation-delay:1.5s}
+@keyframes entraFoto{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+@keyframes entraItem{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.foto{background:#fff;padding:34px 44px;border:2px solid var(--gold-lt);display:flex;align-items:center;justify-content:center;height:min(60vh,540px);box-shadow:0 0 110px rgba(255,255,255,.25)}
+.foto img{max-height:100%;max-width:300px;display:block}
+.info{max-width:46vw;text-align:left}
+.info .venceu{font-size:clamp(17px,1.8vw,24px);letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt);display:flex;align-items:center;gap:12px}
+.info .nome{font-family:'Montserrat',sans-serif;font-weight:800;font-size:clamp(54px,6.6vw,106px);line-height:1.1;margin-top:12px}
+.info .safra{font-family:'Montserrat',sans-serif;font-weight:300;font-size:clamp(26px,3vw,44px);color:var(--gold-lt);margin-top:4px}
+.info .fmt{display:inline-block;border:2px solid rgba(255,255,255,.85);color:var(--gold-lt);font-size:clamp(16px,1.6vw,21px);letter-spacing:3px;text-transform:uppercase;padding:12px 26px;margin-top:22px}
+.info .quem{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(30px,3.2vw,46px);color:var(--gold-lt);margin-top:28px}
+/* gate */
+.gate{max-width:380px;margin:20vh auto;text-align:center;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.4);padding:48px 40px;position:relative;z-index:20;cursor:default}
+.gate input{width:100%;padding:13px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.06);color:var(--cream);font-family:'Montserrat',sans-serif;text-align:center;margin:18px 0;outline:none}
+.gate button{padding:13px 34px;background:var(--gold);border:none;color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="k" style="font-size:10px;letter-spacing:5px">A Premiação · telão</div>
+  <h1 style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:22px;margin-top:10px;letter-spacing:3px;text-transform:uppercase">Magnum Fest 2026</h1>
+  <input type="password" id="tok" placeholder="Token de acesso">
+  <button onclick="entrar()">Preparar a revelação</button>
+</div>
+
+<div id="palco"></div>
+<canvas id="poeira"></canvas>
+<div class="dica hidden" id="dica">clique ou → para avançar · ← volta</div>
+
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var TOKEN = new URLSearchParams(location.search).get('t') || localStorage.getItem('wlr_admin_token') || '';
+var ORDEM = ['Melhor Espumante', 'Melhor Branco', 'Melhor Tinto', 'Melhor Vinho'];
+var TIPO_CAT = { 'Melhor Espumante': 'Espumante', 'Melhor Branco': 'Branco', 'Melhor Tinto': 'Tinto', 'Melhor Vinho': null };
+var vinhosAll = [];
+var FLAGS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Estados Unidos': '🇺🇸', 'EUA': '🇺🇸' };
+var telas = [], passo = -1;
+var DEMO = !!new URLSearchParams(location.search).get('demo');
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, { method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(args || {}) })
+    .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error((d && d.message) || 'erro'); return d; }); });
+}
+function view(n) { return fetch(SB + '/rest/v1/' + n + '?select=*', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } }).then(function (r) { return r.json(); }); }
+
+var TROFEU = '<svg width="110" height="110" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+  '<path d="M23 12h26v13a13 13 0 0 1-26 0z" stroke="#FFFFFF" stroke-width="2.2"/>' +
+  '<path d="M23 16h-9a11 11 0 0 0 11 13" stroke="#FFFFFF" stroke-width="2.2"/>' +
+  '<path d="M49 16h9a11 11 0 0 1-11 13" stroke="#FFFFFF" stroke-width="2.2"/>' +
+  '<path d="M36 38v8" stroke="#FFFFFF" stroke-width="2.2"/>' +
+  '<path d="M27 52c0-4 4-6 9-6s9 2 9 6" stroke="#FFFFFF" stroke-width="2.2"/>' +
+  '<path d="M24 56h24" stroke="#E9C9DA" stroke-width="2.4"/>' +
+  '<path d="M36 20l3.4 3.4-3.4 3.4-3.4-3.4z" fill="#FFFFFF"/></svg>';
+var TROFEU_MINI = TROFEU.replace('width="110" height="110"', 'width="30" height="30"');
+var EMBLEMA = '<img class="emblema" src="img/magnumfest-logo-branca.png" alt="Magnum Fest Licínio Dias">';
+
+function telaCapa() {
+  return EMBLEMA + '<div class="k">A Premiação · 2026</div>' +
+    '<div class="cat-sub">Os melhores vinhos da festa, eleitos pelos confrades.</div>';
+}
+function telaSuspense(cat) {
+  var tipo = TIPO_CAT[cat];
+  var conc = vinhosAll.filter(function (g) { return !tipo || g.tipo === tipo; });
+  var legenda = tipo
+    ? (conc.length === 1 ? 'garrafa concorre a esta placa' : 'garrafas concorrem a esta placa')
+    : 'garrafas concorrem ao grande prêmio';
+  return '<div class="taca">' + TROFEU + '</div><div class="k">A Premiação · Magnum Fest 2026</div>' +
+    '<div class="marca" style="font-size:clamp(38px,5vw,76px)">' + esc(cat.toUpperCase()) + '</div>' +
+    '<div class="conc-big">' + conc.length + '</div>' +
+    '<div class="conc-n">' + legenda + '</div>';
+}
+function telaReveal(cat, g, empate) {
+  return '<div class="rev">' +
+    (g.foto_url ? '<div class="foto"><img src="' + esc(g.foto_url) + '"></div>' : '') +
+    '<div class="info">' +
+      '<div class="venceu">' + TROFEU_MINI + '<span>' + esc(cat.toUpperCase()) + (empate ? ' · EMPATE — DOIS CAMPEÕES' : '') + ' · ' + (FLAGS[g.pais] || '') + ' ' + esc(g.pais || '') + '</span></div>' +
+      '<div class="nome">' + esc(g.vinho) + '</div>' +
+      (g.safra ? '<div class="safra">' + esc(g.safra) + '</div>' : '') +
+      '<div class="fmt">' + esc(g.formato) + (g.votos ? ' · ' + g.votos + ' voto' + (g.votos > 1 ? 's' : '') : '') + '</div>' +
+      '<div class="quem">' + esc((g.membros || []).join(' · ')) + '</div>' +
+    '</div></div>';
+}
+function telaFim() {
+  return EMBLEMA + '<div class="k">Obrigado, confrades</div>' +
+    '<div class="marca">Até 2027</div>' +
+    '<div class="cat-sub">Bordeaux, Borgonha, Barolo… e muitas magnums pela frente.</div>';
+}
+
+function montar(vencedores) {
+  var palco = document.getElementById('palco');
+  telas = [{ html: telaCapa() }];
+  ORDEM.forEach(function (cat) {
+    var gs = vencedores[cat];
+    if (!gs) return;
+    if (!Array.isArray(gs)) gs = [gs];
+    telas.push({ html: telaSuspense(cat) });
+    gs.forEach(function (g) { telas.push({ html: telaReveal(cat, g, gs.length > 1), burst: true }); });
+  });
+  telas.push({ html: telaFim() });
+  palco.innerHTML = telas.map(function (t, i) { return '<div class="tela" id="t' + i + '">' + t.html + '</div>'; }).join('');
+  passo = -1; avanca(1);
+}
+
+function mostra(novo, comBurst) {
+  passo = novo;
+  for (var i = 0; i < telas.length; i++) document.getElementById('t' + i).classList.toggle('on', i === passo);
+  if (comBurst && telas[passo].burst) burst();
+}
+function avanca(dir) {
+  var novo = Math.max(0, Math.min(telas.length - 1, passo + dir));
+  if (novo === passo) return;
+  mostra(novo, dir > 0);
+  if (TOKEN) rpc('wlr_revelacao_set', { p_token: TOKEN, p_passo: passo }).catch(function () { });
+}
+// sincronização com o controle remoto (celular)
+function sincroniza() {
+  if (!TOKEN || !telas.length) return;
+  rpc('wlr_revelacao_get', { p_token: TOKEN }).then(function (r) {
+    var alvo = Math.max(0, Math.min(telas.length - 1, Number(r) || 0));
+    if (alvo === passo) return;
+    mostra(alvo, alvo > passo);
+  }).catch(function () { });
+}
+setInterval(sincroniza, 1200);
+
+function entrar() {
+  var t = document.getElementById('tok').value.trim();
+  rpc('wlr_admin_resultados', { p_token: t }).then(function (rows) {
+    TOKEN = t; localStorage.setItem('wlr_admin_token', t);
+    if (DEMO) demo(); else carregar(rows);
+  }).catch(function () { alert('Token inválido'); });
+}
+
+function carregar(rows) {
+  rpc('wlr_revelacao_vinhos', { p_token: TOKEN }).then(function (vinhos) {
+    vinhosAll = vinhos || [];
+    var fotos = {};
+    (vinhos || []).forEach(function (v) { fotos[v.id] = v; });
+    var vencedores = {}, topo = {};
+    (rows || []).forEach(function (r) {
+      var v = Number(r.votos);
+      if (topo[r.categoria_id] == null) topo[r.categoria_id] = v;   // 1ª linha = máximo (ordem votos desc)
+      if (v < topo[r.categoria_id]) return;                          // empate: TODOS os do topo são campeões
+      var extra = fotos[r.garrafa_id] || {};
+      (vencedores[r.categoria] = vencedores[r.categoria] || []).push({ vinho: r.vinho, safra: r.safra, formato: r.formato, membros: r.membros, votos: v, foto_url: extra.foto_url, pais: extra.pais });
+    });
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('dica').classList.remove('hidden');
+    montar(vencedores);
+  });
+}
+
+// demonstração sem urna: ?demo=1
+function demo() {
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('dica').classList.remove('hidden');
+  rpc('wlr_revelacao_vinhos', { p_token: TOKEN }).then(function (v) {
+    vinhosAll = v || [];
+    // demo com vinhos REAIS da carta de agora: um sorteado por tipo
+    function sorteia(tipo) {
+      var cands = vinhosAll.filter(function (g) { return !tipo || g.tipo === tipo; });
+      if (!cands.length) return null;
+      var g = cands[Math.floor(Math.random() * cands.length)];
+      return { vinho: g.vinho, safra: g.safra, formato: g.formato, membros: g.membros || [], votos: 10 + Math.floor(Math.random() * 15), pais: g.pais, foto_url: g.foto_url || '' };
+    }
+    var demo = {
+      'Melhor Espumante': sorteia('Espumante'),
+      'Melhor Branco': sorteia('Branco'),
+      'Melhor Tinto': sorteia('Tinto'),
+      'Melhor Vinho': sorteia(null)
+    };
+    montar(demo);
+  });
+}
+if (DEMO && TOKEN) demo();
+else if (TOKEN) {
+  rpc('wlr_admin_resultados', { p_token: TOKEN }).then(carregar).catch(function () { });
+}
+
+document.addEventListener('keydown', function (e) {
+  var gateAberto = !document.getElementById('gate').classList.contains('hidden');
+  if (gateAberto) { if (e.key === 'Enter') entrar(); return; }
+  if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ' || e.key === 'PageDown') avanca(1);
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') avanca(-1);
+});
+document.addEventListener('click', function (e) {
+  if (!document.getElementById('gate').classList.contains('hidden')) return;
+  avanca(1);
+});
+
+// poeira + explosão dourada
+var burstPts = [];
+function burst() {
+  var cx = innerWidth / 2, cy = innerHeight / 2;
+  for (var i = 0; i < 110; i++) {
+    var a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 11;
+    burstPts.push({ x: cx, y: cy, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 2, r: 1.5 + Math.random() * 3, vida: 1 });
+  }
+}
+(function () {
+  var c = document.getElementById('poeira'), x = c.getContext('2d'), pts = [];
+  function dim() { c.width = innerWidth; c.height = innerHeight; }
+  dim(); addEventListener('resize', dim);
+  for (var i = 0; i < 42; i++) pts.push({
+    x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+    r: .8 + Math.random() * 2.4, v: .12 + Math.random() * .4,
+    d: (Math.random() - .5) * .18, f: Math.random() * Math.PI * 2
+  });
+  (function anima() {
+    x.clearRect(0, 0, c.width, c.height);
+    pts.forEach(function (p) {
+      p.y -= p.v; p.x += p.d; p.f += .015;
+      if (p.y < -6) { p.y = c.height + 6; p.x = Math.random() * c.width; }
+      x.beginPath(); x.arc(p.x, p.y, p.r, 0, 7);
+      x.fillStyle = 'rgba(255,255,255,' + (.12 + .22 * Math.abs(Math.sin(p.f))) + ')';
+      x.fill();
+    });
+    burstPts = burstPts.filter(function (p) { return p.vida > 0; });
+    burstPts.forEach(function (p) {
+      p.x += p.vx; p.y += p.vy; p.vx *= .965; p.vy = p.vy * .965 + .12; p.vida -= .011;
+      x.beginPath(); x.arc(p.x, p.y, p.r * p.vida, 0, 7);
+      x.fillStyle = 'rgba(255,255,255,' + (.85 * p.vida) + ')';
+      x.fill();
+    });
+    requestAnimationFrame(anima);
+  })();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>/* o site da festa mora em wineloversrecife.com — quem chegar pelo endereço antigo é levado para lá, com o mesmo caminho */
+if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wineloversrecife.com' + location.pathname.replace(/^\/wlr/, '') + location.search + location.hash);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Controle — Premiação Magnum Fest 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#411A39;--wine-md:#6C214C;--cream:#FFFFFF;--gold:#FFFFFF;--gold-lt:#FFFFFF;--ok:#2E7D4F}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:linear-gradient(180deg,#6C214C 0%,#411A39 100%);min-height:100vh;color:var(--cream);font-family:'Montserrat',sans-serif;padding:24px 18px 40px;max-width:480px;margin:0 auto}
+.top{text-align:center;margin-bottom:20px}
+.top .k{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-lt)}
+.top h1{font-family:'Montserrat',sans-serif;font-weight:800;font-size:22px;letter-spacing:3px;text-transform:uppercase;margin-top:6px}
+.agora{background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.45);padding:16px;text-align:center;margin-bottom:18px}
+.agora .l{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(247,243,238,.6)}
+.agora .v{font-family:'Montserrat',sans-serif;font-weight:700;font-size:18px;margin-top:6px;min-height:26px}
+.btn-av{width:100%;padding:34px 20px;background:#fff;border:none;color:#411A39;font-family:'Montserrat',sans-serif;font-size:17px;letter-spacing:4px;text-transform:uppercase;font-weight:700;cursor:pointer;margin-bottom:12px}
+.btn-av:active{background:#E9C9DA}
+.btn-vol{width:100%;padding:16px;background:none;border:1px solid rgba(255,255,255,.5);color:var(--gold-lt);font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;margin-bottom:22px}
+.etapas{display:flex;flex-direction:column;gap:6px}
+.et{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid rgba(255,255,255,.25);font-size:13px;color:rgba(247,243,238,.6)}
+.et .n{font-size:11px;color:var(--gold-lt);width:18px}
+.et.on{border-color:var(--gold-lt);background:rgba(255,255,255,.14);color:var(--cream);font-weight:600}
+.et.feita{opacity:.45}
+.gate{text-align:center;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.4);padding:40px 28px;margin-top:10vh}
+.gate input{width:100%;padding:13px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.06);color:var(--cream);font-family:'Montserrat',sans-serif;text-align:center;margin:18px 0;outline:none;font-size:16px}
+.gate button{padding:13px 34px;background:#fff;border:none;color:#411A39;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
+.status{text-align:center;font-size:11px;letter-spacing:2px;color:rgba(247,243,238,.45);margin-top:16px;text-transform:uppercase}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="top"><div class="k">Controle remoto · A Premiação</div>
+  <img src="img/magnumfest-logo-branca.png" alt="Magnum Fest Licínio Dias" style="width:220px;display:block;margin:14px auto 0"></div>
+  <input type="password" id="tok" placeholder="Token de acesso" onkeydown="if(event.key==='Enter')entrar()">
+  <button onclick="entrar()">Assumir o controle</button>
+</div>
+
+<div id="app" class="hidden">
+  <div class="top">
+    <div class="k">Você está no comando 🎙️</div>
+    <h1>A Premiação</h1>
+  </div>
+  <div class="agora">
+    <div class="l">Na tela da TV agora</div>
+    <div class="v" id="agora">—</div>
+  </div>
+  <button class="btn-av" onclick="mover(1)">Avançar ▶</button>
+  <button class="btn-vol" onclick="mover(-1)">◀ Voltar</button>
+  <div class="etapas" id="etapas"></div>
+  <div class="status" id="status">conectando…</div>
+</div>
+
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var TOKEN = new URLSearchParams(location.search).get('t') || localStorage.getItem('wlr_admin_token') || '';
+var ETAPAS = [
+  'Abertura — A Premiação',
+  'Espumante · suspense',
+  'Espumante · 🏆 VENCEDOR NA TELA',
+  'Branco · suspense',
+  'Branco · 🏆 VENCEDOR NA TELA',
+  'Tinto · suspense',
+  'Tinto · 🏆 VENCEDOR NA TELA',
+  'Melhor Vinho · suspense',
+  'Melhor Vinho · 🏆 VENCEDOR NA TELA',
+  'Encerramento — Até 2027'
+];
+var passo = 0, ocupado = false;
+
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, { method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(args || {}) })
+    .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error((d && d.message) || 'erro'); return d; }); });
+}
+
+function pinta() {
+  document.getElementById('agora').textContent = ETAPAS[passo] || ('Etapa ' + passo);
+  document.getElementById('etapas').innerHTML = ETAPAS.map(function (e, i) {
+    return '<div class="et' + (i === passo ? ' on' : (i < passo ? ' feita' : '')) + '"><span class="n">' + (i + 1) + '</span><span>' + e + '</span></div>';
+  }).join('');
+}
+
+function mover(dir) {
+  if (ocupado) return;
+  var novo = Math.max(0, Math.min(ETAPAS.length - 1, passo + dir));
+  if (novo === passo) return;
+  ocupado = true;
+  passo = novo; pinta();
+  if (navigator.vibrate) navigator.vibrate(30);
+  rpc('wlr_revelacao_set', { p_token: TOKEN, p_passo: passo })
+    .then(function () { document.getElementById('status').textContent = 'tv sincronizada'; })
+    .catch(function () { document.getElementById('status').textContent = 'sem conexão — tente de novo'; })
+    .then(function () { ocupado = false; });
+}
+
+function puxa() {
+  if (!TOKEN) return;
+  rpc('wlr_revelacao_get', { p_token: TOKEN }).then(function (r) {
+    var alvo = Math.max(0, Math.min(ETAPAS.length - 1, Number(r) || 0));
+    if (alvo !== passo) { passo = alvo; pinta(); }
+    document.getElementById('status').textContent = 'conectado · etapa ' + (passo + 1) + ' de ' + ETAPAS.length;
+  }).catch(function () { document.getElementById('status').textContent = 'reconectando…'; });
+}
+
+function entrar() {
+  var t = document.getElementById('tok').value.trim();
+  rpc('wlr_revelacao_get', { p_token: t }).then(function (r) {
+    TOKEN = t; localStorage.setItem('wlr_admin_token', t);
+    passo = Math.max(0, Math.min(ETAPAS.length - 1, Number(r) || 0));
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    pinta();
+  }).catch(function () { alert('Token inválido'); });
+}
+
+if (TOKEN) {
+  document.getElementById('tok').value = TOKEN;
+  entrar();
+}
+setInterval(puxa, 2000);
+</script>
+</body>
+</html>
