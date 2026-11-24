@@ -58,7 +58,7 @@ var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
 var P = new URLSearchParams(location.search);
 var TOKEN = P.get('t') || localStorage.getItem('wlr_admin_token') || '';
-var FLAGS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Uruguai': '🇺🇾', 'Estados Unidos': '🇺🇸', 'EUA': '🇺🇸', 'Alemanha': '🇩🇪', 'África do Sul': '🇿🇦', 'Austrália': '🇦🇺', 'Hungria': '🇭🇺' };
+var FLAGS = {};   // sem bandeiras/emojis (Luli, 24/11/2026)
 var TROCA = Number(P.get('dur')) || 7;
 var MAX_LINHAS = 7;   // barras que cabem na tela; o resto vira "Outros"
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}

@@ -85,7 +85,7 @@ function monta(rows){
     return '<div class="cat"><h2>'+esc(cat)+(empate?' · Empate':'')+'</h2>'+
       campeoes.map(function(c){
         var v=Number(c.votos);
-        return '<div class="camp"><span class="vn">🏆 '+esc(c.vinho)+(c.safra?' <small>'+esc(c.safra)+'</small>':'')+'</span>'+
+        return '<div class="camp"><span class="vn">'+esc(c.vinho)+(c.safra?' <small>'+esc(c.safra)+'</small>':'')+'</span>'+
           '<span class="vt">'+v+' voto'+(v===1?'':'s')+'</span>'+
           '<span class="quem">'+esc((c.membros||[]).join(' · '))+'</span></div>';
       }).join('')+

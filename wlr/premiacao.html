@@ -86,7 +86,7 @@ var TOKEN = new URLSearchParams(location.search).get('t') || localStorage.getIte
 var ORDEM = ['Melhor Espumante', 'Melhor Branco', 'Melhor Tinto', 'Melhor Vinho'];
 var TIPO_CAT = { 'Melhor Espumante': 'Espumante', 'Melhor Branco': 'Branco', 'Melhor Tinto': 'Tinto', 'Melhor Vinho': null };
 var vinhosAll = [];
-var FLAGS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Estados Unidos': '🇺🇸', 'EUA': '🇺🇸' };
+var FLAGS = {};   // sem bandeiras/emojis (Luli, 24/11/2026)
 var telas = [], passo = -1;
 var DEMO = !!new URLSearchParams(location.search).get('demo');
 

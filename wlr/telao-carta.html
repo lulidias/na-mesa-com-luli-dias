@@ -60,7 +60,7 @@ var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
 var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
 var P = new URLSearchParams(location.search);
 var TOKEN = P.get('t') || localStorage.getItem('wlr_admin_token') || '';
-var FLAGS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Uruguai': '🇺🇾', 'Estados Unidos': '🇺🇸', 'EUA': '🇺🇸', 'Alemanha': '🇩🇪', 'África do Sul': '🇿🇦', 'Austrália': '🇦🇺', 'Nova Zelândia': '🇳🇿', 'Hungria': '🇭🇺', 'Líbano': '🇱🇧' };
+var FLAGS = {};   // sem bandeiras/emojis (Luli, 24/11/2026)
 var DUR = Number(P.get('dur')) || 8;   // segundos por garrafa
 var vinhos = [], idx = 0, ativa = 0;
 
