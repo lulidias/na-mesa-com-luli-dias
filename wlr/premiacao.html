@@ -49,6 +49,15 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .info .safra{font-family:'Montserrat',sans-serif;font-weight:300;font-size:clamp(26px,3vw,44px);color:var(--gold-lt);margin-top:4px}
 .info .fmt{display:inline-block;border:2px solid rgba(255,255,255,.85);color:var(--gold-lt);font-size:clamp(16px,1.6vw,21px);letter-spacing:3px;text-transform:uppercase;padding:12px 26px;margin-top:22px}
 .info .quem{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(30px,3.2vw,46px);color:var(--gold-lt);margin-top:28px}
+/* ranking final com os votos */
+.rk{width:min(1500px,92vw);display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:22px;margin-top:26px;text-align:left}
+.rk .c{border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.18);padding:18px 22px}
+.rk h3{font-weight:700;font-size:clamp(16px,1.5vw,21px);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;text-align:center}
+.rk .l{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:clamp(14px,1.3vw,18px)}
+.rk .l:last-child{border-bottom:none}
+.rk .l b{font-weight:700}
+.rk .l .q{font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(255,255,255,.7);font-size:.95em}
+.rk .l .v{white-space:nowrap;font-weight:600;color:#E9C9DA}
 /* gate */
 .gate{max-width:380px;margin:20vh auto;text-align:center;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.4);padding:48px 40px;position:relative;z-index:20;cursor:default}
 .gate input{width:100%;padding:13px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.06);color:var(--cream);font-family:'Montserrat',sans-serif;text-align:center;margin:18px 0;outline:none}
@@ -125,13 +134,25 @@ function telaReveal(cat, g, empate) {
       '<div class="quem">' + esc((g.membros || []).join(' · ')) + '</div>' +
     '</div></div>';
 }
+function telaRanking(rk) {
+  var cats = ORDEM.filter(function (c) { return rk[c] && rk[c].length; }).reverse();
+  if (!cats.length) return '';
+  return '<div class="k">A Premiação · Magnum Fest 2026</div>' +
+    '<div class="marca" style="font-size:clamp(34px,4.4vw,66px)">O RANKING</div>' +
+    '<div class="rk">' + cats.map(function (c) {
+      return '<div class="c"><h3>' + esc(c) + '</h3>' + rk[c].slice(0, 6).map(function (g, i) {
+        return '<div class="l"><span>' + (i + 1) + 'º <b>' + esc(g.vinho) + '</b> ' + esc(g.safra || '') +
+          '<br><span class="q">' + esc((g.membros || []).join(' · ')) + '</span></span><span class="v">' + g.votos + ' voto' + (g.votos == 1 ? '' : 's') + '</span></div>';
+      }).join('') + '</div>';
+    }).join('') + '</div>';
+}
 function telaFim() {
   return EMBLEMA + '<div class="k">Obrigado, confrades</div>' +
     '<div class="marca">Até 2027</div>' +
     '<div class="cat-sub">Bordeaux, Borgonha, Barolo… e muitas magnums pela frente.</div>';
 }
 
-function montar(vencedores) {
+function montar(vencedores, ranking) {
   var palco = document.getElementById('palco');
   telas = [{ html: telaCapa() }];
   ORDEM.forEach(function (cat) {
@@ -141,6 +162,8 @@ function montar(vencedores) {
     telas.push({ html: telaSuspense(cat) });
     gs.forEach(function (g) { telas.push({ html: telaReveal(cat, g, gs.length > 1), burst: true }); });
   });
+  var htmlRk = ranking ? telaRanking(ranking) : '';
+  if (htmlRk) telas.push({ html: htmlRk });
   telas.push({ html: telaFim() });
   palco.innerHTML = telas.map(function (t, i) { return '<div class="tela" id="t' + i + '">' + t.html + '</div>'; }).join('');
   passo = -1; avanca(1);
@@ -181,7 +204,8 @@ function carregar(rows) {
     vinhosAll = vinhos || [];
     var fotos = {};
     (vinhos || []).forEach(function (v) { fotos[v.id] = v; });
-    var vencedores = {}, topo = {};
+    var vencedores = {}, topo = {}, ranking = {};
+    (rows || []).forEach(function (r) { (ranking[r.categoria] = ranking[r.categoria] || []).push({ vinho: r.vinho, safra: r.safra, membros: r.membros, votos: Number(r.votos) }); });
     (rows || []).forEach(function (r) {
       var v = Number(r.votos);
       if (topo[r.categoria_id] == null) topo[r.categoria_id] = v;   // 1ª linha = máximo (ordem votos desc)
@@ -191,7 +215,7 @@ function carregar(rows) {
     });
     document.getElementById('gate').classList.add('hidden');
     document.getElementById('dica').classList.remove('hidden');
-    montar(vencedores);
+    montar(vencedores, ranking);
   });
 }
 
@@ -214,7 +238,13 @@ function demo() {
       'Melhor Tinto': sorteia('Tinto'),
       'Melhor Vinho': sorteia(null)
     };
-    montar(demo);
+    var rkDemo = {};
+    ORDEM.forEach(function (c) {
+      var t = TIPO_CAT[c];
+      rkDemo[c] = vinhosAll.filter(function (g) { return !t || g.tipo === t; }).map(function (g) { return { vinho: g.vinho, safra: g.safra, membros: g.membros || [], votos: Math.floor(Math.random() * 12) }; })
+        .sort(function (a, b) { return b.votos - a.votos; });
+    });
+    montar(demo, rkDemo);
   });
 }
 if (DEMO && TOKEN) demo();

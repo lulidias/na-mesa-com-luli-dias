@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>/* o site da festa mora em wineloversrecife.com — quem chegar pelo endereço antigo é levado para lá, com o mesmo caminho */
+if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wineloversrecife.com' + location.pathname.replace(/^\/wlr/, '') + location.search + location.hash);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Mesa — Magnum Fest Licínio Dias 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@1&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#411A39;--wine-lt:#6C214C;--rosa:#E9C9DA}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{background:#fff;color:var(--wine);font-family:'Montserrat',sans-serif}
+.top{text-align:center;padding-top:22px}
+.top img{height:clamp(84px,11vh,118px);width:auto;display:block;margin:0 auto}
+.top .k{font-weight:600;font-size:clamp(13px,1.05vw,18px);letter-spacing:7px;text-transform:uppercase;color:var(--wine-lt);margin-top:8px}
+.palco{position:absolute;inset:180px 0 70px;display:flex;align-items:center;justify-content:center;padding:0 60px}
+.cena{display:flex;align-items:center;justify-content:center;gap:clamp(40px,6vw,110px);opacity:0;transition:opacity .9s ease;position:absolute;inset:0}
+.cena.on{opacity:1}
+.cena.on .info>*{opacity:0;animation:entraItem .9s cubic-bezier(.2,.7,.3,1) both}
+.cena.on .info>*:nth-child(1){animation-delay:.35s}
+.cena.on .info>*:nth-child(2){animation-delay:.6s}
+.cena.on .info>*:nth-child(3){animation-delay:.85s}
+.cena.on .info>*:nth-child(4){animation-delay:1.1s}
+.cena.on .info>*:nth-child(5){animation-delay:1.35s}
+.cena.on .info>*:nth-child(6){animation-delay:1.6s}
+@keyframes entraItem{from{opacity:0;transform:translateX(44px)}to{opacity:1;transform:none}}
+.foto{display:flex;align-items:center;justify-content:center;height:min(64vh,580px)}
+.foto img{max-height:100%;max-width:340px;display:block;animation:kenburns 10s linear both}
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.07)}}
+.info{max-width:46vw;text-align:left;height:min(62vh,560px);display:flex;flex-direction:column;justify-content:center}
+.info .tipo{font-weight:600;font-size:17px;letter-spacing:5px;text-transform:uppercase;color:var(--wine-lt)}
+.info .nome{font-weight:800;font-size:clamp(40px,4.4vw,72px);line-height:1.08;margin-top:14px;color:var(--wine)}
+.info .prod{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(22px,2vw,32px);color:var(--wine-lt);margin-top:6px}
+.info .safra{font-weight:300;font-size:clamp(28px,3vw,46px);color:var(--wine-lt);margin-top:4px}
+.info .fmt{align-self:flex-start;border:2px solid var(--wine-lt);color:var(--wine);font-weight:600;font-size:16px;letter-spacing:3px;text-transform:uppercase;padding:10px 22px;margin-top:22px;background:#FBF3F7}
+.info .quem{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(38px,4vw,58px);color:var(--wine);margin-top:26px;line-height:1.15}
+.sem-foto-svg{display:block;margin:0 auto;opacity:.75}
+.aviso{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:30px;color:var(--wine-lt);text-align:center;padding:0 10vw}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="top">
+  <img src="img/magnumfest-logo.png" alt="Magnum Fest Licínio Dias">
+  <div class="k">A carta da festa</div>
+</div>
+<div class="palco">
+  <div class="cena" id="c0"></div>
+  <div class="cena" id="c1"></div>
+</div>
+<div class="aviso hidden" id="aviso">Abra pelo telão giratório (telao-giro.html) com o token do organizador.</div>
+
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var P = new URLSearchParams(location.search);
+var TOKEN = P.get('t') || localStorage.getItem('wlr_admin_token') || '';
+var FLAGS = { 'França': '🇫🇷', 'Itália': '🇮🇹', 'Espanha': '🇪🇸', 'Portugal': '🇵🇹', 'Chile': '🇨🇱', 'Argentina': '🇦🇷', 'Brasil': '🇧🇷', 'Uruguai': '🇺🇾', 'Estados Unidos': '🇺🇸', 'EUA': '🇺🇸', 'Alemanha': '🇩🇪', 'África do Sul': '🇿🇦', 'Austrália': '🇦🇺', 'Nova Zelândia': '🇳🇿', 'Hungria': '🇭🇺', 'Líbano': '🇱🇧' };
+var DUR = Number(P.get('dur')) || 8;   // segundos por garrafa
+var vinhos = [], idx = 0, ativa = 0;
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function embaralha(a) {
+  for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+  return a;
+}
+function litros(n) { return String(Number(n)).replace('.', ','); }
+var GARRAFA_SVG = '<svg class="sem-foto-svg" viewBox="0 0 60 200" width="90" height="300"><path d="M24 8h12v38c0 10 10 16 10 30v108a8 8 0 0 1-8 8H22a8 8 0 0 1-8-8V76c0-14 10-20 10-30z" fill="none" stroke="#6C214C" stroke-width="2.5"/><rect x="17" y="104" width="26" height="44" fill="none" stroke="#411A39" stroke-width="1.5"/></svg>';
+
+function montaCena(el, g) {
+  var origem = [g.tipo, (FLAGS[g.pais] ? FLAGS[g.pais] + ' ' : '') + (g.pais || '')].filter(function (s) { return String(s || '').trim(); }).join(' · ');
+  var prod = [g.produtor, g.regiao].filter(Boolean).join(' · ');
+  el.innerHTML =
+    '<div class="foto">' + (g.foto_url ? '<img src="' + esc(g.foto_url) + '">' : GARRAFA_SVG) + '</div>' +
+    '<div class="info">' +
+      '<div class="tipo">' + esc(origem) + '</div>' +
+      '<div class="nome">' + esc(g.vinho) + '</div>' +
+      (prod ? '<div class="prod">' + esc(prod) + '</div>' : '') +
+      (g.safra ? '<div class="safra">' + esc(g.safra) + '</div>' : '') +
+      '<div class="fmt">' + esc(g.formato) + (g.litros && !/litro/i.test(g.formato || '') ? ' · ' + litros(g.litros) + ' L' : '') + '</div>' +
+      ((g.membros || []).length ? '<div class="quem">' + esc(g.membros.join(' · ')) + '</div>' : '') +
+    '</div>';
+}
+
+function troca() {
+  if (!vinhos.length) return;
+  var atual = document.getElementById('c' + ativa);
+  var prox = document.getElementById('c' + (1 - ativa));
+  montaCena(prox, vinhos[idx]);
+  atual.classList.remove('on');
+  setTimeout(function () { prox.classList.add('on'); }, 350);   // o crossfade respira
+  ativa = 1 - ativa;
+  idx = (idx + 1) % vinhos.length;
+  if (idx === 0) embaralha(vinhos);
+}
+
+var assinatura = '', primeira = true;
+function carregaDados() {
+  fetch(SB + '/rest/v1/rpc/wlr_telao_vinhos', { method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ p_token: TOKEN }) })
+  .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+  .then(function (rows) {
+    rows = rows || [];
+    var a = JSON.stringify(rows);
+    if (a !== assinatura) {
+      assinatura = a;
+      vinhos = embaralha(rows.slice());
+      if (idx >= vinhos.length) idx = 0;
+    }
+    if (primeira && vinhos.length) { primeira = false; troca(); setInterval(troca, DUR * 1000); }
+  }).catch(function () { if (primeira) document.getElementById('aviso').classList.remove('hidden'); });
+}
+if (TOKEN) { carregaDados(); setInterval(carregaDados, 120000); }
+else document.getElementById('aviso').classList.remove('hidden');
+</script>
+<script src="qr-fixo.js" data-sem-qr></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>/* o site da festa mora em wineloversrecife.com — quem chegar pelo endereço antigo é levado para lá, com o mesmo caminho */
+if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wineloversrecife.com' + location.pathname.replace(/^\/wlr/, '') + location.search + location.hash);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Os Números — Magnum Fest Licínio Dias 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@1&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#411A39;--wine-md:#4F1D45;--wine-lt:#6C214C;--cream:#FFFFFF;--rosa:#E9C9DA}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wine-md) 45%,var(--wine) 100%);color:var(--cream);font-family:'Montserrat',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.mf{text-align:center}
+.mf-logo{height:clamp(84px,11vh,120px);width:auto;display:block;margin:0 auto}
+.mf-filete{width:120px;height:1.5px;background:var(--rosa);margin:14px auto 12px}
+.mf-cena{font-weight:600;font-size:clamp(15px,1.3vw,22px);letter-spacing:7px;text-transform:uppercase;color:var(--cream)}
+.grade{display:flex;gap:clamp(28px,4.5vw,84px);margin-top:clamp(40px,7vh,90px);align-items:flex-start}
+.stat{text-align:center;min-width:180px}
+.stat .n{font-weight:300;font-size:clamp(64px,7vw,140px);color:var(--cream);line-height:1;font-variant-numeric:tabular-nums}
+.stat .n small{font-size:.42em;font-weight:400;color:var(--rosa)}
+.stat .l{font-weight:600;font-size:clamp(15px,1.3vw,22px);letter-spacing:5px;text-transform:uppercase;color:var(--rosa);margin-top:16px}
+.aviso{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:30px;color:var(--rosa);margin-top:60px;text-align:center}
+.hidden{display:none!important}
+#poeira{position:fixed;inset:0;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="mf">
+  <img class="mf-logo" src="img/magnumfest-logo-branca.png" alt="Magnum Fest Licínio Dias">
+  <div class="mf-filete"></div>
+  <div class="mf-cena">Os números da festa</div>
+</div>
+<div class="grade" id="grade"></div>
+<div class="aviso hidden" id="aviso">Abra pelo telão giratório (telao-giro.html) com o token do organizador.</div>
+<canvas id="poeira"></canvas>
+
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var TOKEN = new URLSearchParams(location.search).get('t') || localStorage.getItem('wlr_admin_token') || '';
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, { method: 'POST', headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(args || {}) })
+    .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error((d && d.message) || 'erro'); return d; }); });
+}
+var STATS=[];
+function fmt(val, dec){ return dec ? val.toFixed(1).replace('.',',').replace(/,0$/,'') : String(Math.round(val)); }
+function conta(el, alvo, sufixo, dec){
+  var ini=null, dur=1800;
+  function passo(t){
+    if(!ini) ini=t;
+    var p=Math.min(1,(t-ini)/dur); p=1-Math.pow(1-p,3);
+    var txt=fmt(alvo*p, dec && p<1 ? true : dec);
+    el.innerHTML=txt+(sufixo?'<small> '+sufixo+'</small>':'');
+    if(p<1) requestAnimationFrame(passo);
+  }
+  requestAnimationFrame(passo);
+}
+function render(){
+  var g=document.getElementById('grade');
+  g.innerHTML=STATS.map(function(s,i){
+    return '<div class="stat"><div class="n" id="n'+i+'">0</div><div class="l">'+s.l+'</div></div>';
+  }).join('');
+  STATS.forEach(function(s,i){
+    setTimeout(function(){conta(document.getElementById('n'+i), s.v, s.suf, s.dec);}, 250*i);
+  });
+}
+function carrega(){
+  Promise.all([
+    rpc('wlr_telao_vinhos', { p_token: TOKEN }),
+    rpc('wlr_admin_lista', { p_token: TOKEN })
+  ]).then(function(res){
+    var vinhos=res[0]||[], pessoas=(res[1]||[]).filter(function(p){return p.confirmado;});
+    var litros=0, paises={}, maior=0, antiga=null;
+    vinhos.forEach(function(gf){
+      var l=Number(gf.litros)||0;
+      litros+=l;
+      if(gf.pais) paises[gf.pais]=true;
+      if(l>maior) maior=l;
+      var sf=Number(gf.safra);
+      if(sf>1800 && (antiga===null || sf<antiga)) antiga=sf;
+    });
+    // tudo Magnum (1,5 L) não é notícia: aí a quinta casa vira a safra mais antiga da mesa
+    var quinto = (maior>1.5 || antiga===null) ? {v:maior, l:'Maior garrafa', suf:'L', dec:true} : {v:antiga, l:'Safra mais antiga'};
+    STATS=[
+      {v:pessoas.length, l:'Confrades'},
+      {v:vinhos.length,  l:'Garrafas'},
+      {v:Math.round(litros*10)/10, l:'Litros', suf:'L', dec:true},
+      {v:Object.keys(paises).length, l:'Países'},
+      quinto
+    ];
+    render();
+  }).catch(function(){ document.getElementById('aviso').classList.remove('hidden'); });
+}
+if (TOKEN) { carrega(); setInterval(carrega, 45000); }   // dados frescos e contagem de novo a cada passagem
+else document.getElementById('aviso').classList.remove('hidden');
+(function(){
+  var c=document.getElementById('poeira'),x=c.getContext('2d'),pts=[];
+  function dim(){c.width=innerWidth;c.height=innerHeight;}
+  dim();addEventListener('resize',dim);
+  for(var i=0;i<42;i++)pts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:.8+Math.random()*2.4,v:.12+Math.random()*.4,d:(Math.random()-.5)*.18,f:Math.random()*Math.PI*2});
+  (function anima(){
+    x.clearRect(0,0,c.width,c.height);
+    pts.forEach(function(p){p.y-=p.v;p.x+=p.d;p.f+=.015;
+      if(p.y<-6){p.y=c.height+6;p.x=Math.random()*c.width;}
+      x.beginPath();x.arc(p.x,p.y,p.r,0,7);
+      x.fillStyle='rgba(255,255,255,'+(.12+.22*Math.abs(Math.sin(p.f)))+')';x.fill();});
+    requestAnimationFrame(anima);
+  })();
+})();
+</script>
+<script src="qr-fixo.js"></script>
+</body>
+</html>

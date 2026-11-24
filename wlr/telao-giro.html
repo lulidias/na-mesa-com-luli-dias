@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>/* o site da festa mora em wineloversrecife.com — quem chegar pelo endereço antigo é levado para lá, com o mesmo caminho */
+if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wineloversrecife.com' + location.pathname.replace(/^\/wlr/, '') + location.search + location.hash);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telão giratório — Magnum Fest Licínio Dias 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@1&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#411A39}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:none;opacity:0;transition:opacity 1.2s ease;pointer-events:none}
+iframe.on{opacity:1;pointer-events:auto}
+.gate{max-width:380px;margin:20vh auto;text-align:center;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.4);padding:48px 40px;color:#FFFFFF;font-family:'Montserrat',sans-serif}
+.gate .k{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:#E9C9DA}
+.gate img{width:250px;height:auto;display:block;margin:14px auto 6px}
+.gate input{width:100%;padding:13px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.06);color:#FFFFFF;font-family:'Montserrat',sans-serif;text-align:center;margin:18px 0;outline:none}
+.gate button{padding:13px 34px;background:#6C214C;border:none;color:#fff;font-family:'Montserrat',sans-serif;font-weight:600;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
+.gate .erro{font-size:12px;color:#E9C9DA;margin-top:14px;min-height:1em}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="k">Telão giratório</div>
+  <img src="img/magnumfest-logo-branca.png" alt="Magnum Fest Licínio Dias">
+  <input type="password" id="tok" placeholder="Token de acesso">
+  <button onclick="entrar()">Iniciar o show</button>
+  <div class="erro" id="erro"></div>
+</div>
+
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+var HDR = { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json' };
+// cenas e duração em segundos — ajustável por URL: ?apuracao=30&votantes=20&carta=45
+var P = new URLSearchParams(location.search);
+if (P.get('t')) localStorage.setItem('wlr_admin_token', P.get('t'));   // as cenas leem o token daqui
+var CENAS = [
+  { src: 'telao.html',            dur: Number(P.get('apuracao'))  || 22 },
+  { src: 'telao-qr.html',         dur: Number(P.get('qr'))        || 18 },
+  { src: 'telao-urna-fecha.html', dur: Number(P.get('urnafecha')) || 18 },
+  { src: 'telao-carta.html',      dur: Number(P.get('carta'))     || 24 },
+  { src: 'telao2/',               dur: Number(P.get('votantes'))  || 30 },
+  { src: 'telao-vitrine.html',    dur: Number(P.get('vitrine'))   || 22 },
+  { src: 'telao-numeros.html',    dur: Number(P.get('numeros'))   || 22 },
+  { src: 'telao-graficos.html',   dur: Number(P.get('graficos'))  || 35 },
+  { src: 'telao-marca.html',      dur: Number(P.get('marca'))     || 12 }
+];
+// sem QR fixo: na cena do QR grande, nas telas brancas só de garrafas (A Mesa, A Vitrine) e no Quem já votou
+var SEM_QR = ['telao-qr.html', 'telao-carta.html', 'telao-vitrine.html', 'telao2/'];   // telao2 já tem o QR dele, no layout
+var atual = -1;
+var timerGiro = null;
+var rodando = false;
+
+function token() { return localStorage.getItem('wlr_admin_token') || ''; }
+function rpc(fn, args) {
+  return fetch(SB + '/rest/v1/rpc/' + fn, { method: 'POST', headers: HDR, body: JSON.stringify(args || {}) })
+    .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error((d && d.message) || 'erro'); return d; }); });
+}
+
+function entrar() {
+  var t = document.getElementById('tok').value.trim();
+  if (!t) return;
+  document.getElementById('erro').textContent = 'Conferindo…';
+  rpc('wlr_revelacao_get', { p_token: t }).then(function () {
+    localStorage.setItem('wlr_admin_token', t);
+    comeca();
+  }).catch(function () { document.getElementById('erro').textContent = 'Token inválido.'; });
+}
+
+function comeca() {
+  if (rodando) return;
+  rodando = true;
+  document.getElementById('gate').classList.add('hidden');
+  var vistos = {};
+  CENAS.forEach(function (c) {
+    if (vistos[c.src]) return;
+    vistos[c.src] = true;
+    var f = document.createElement('iframe');
+    f.src = c.src; f.dataset.src = c.src;
+    document.body.appendChild(f);
+  });
+  proxima();
+  vigiaRevelacao(); vigiaResultados();
+}
+
+var modoRevel = false;
+function proxima() {
+  clearTimeout(timerGiro);
+  if (modoRanking) { timerGiro = setTimeout(proxima, 5000); return; }
+  if (modoRevel) { timerGiro = setTimeout(proxima, 2000); return; }
+  var velho = atual >= 0 ? CENAS[atual].src : null;
+  atual = (atual + 1) % CENAS.length;
+  var alvo = CENAS[atual].src;
+  if (window.qrFixo) qrFixo(SEM_QR.indexOf(alvo) < 0);
+  mostra(alvo, velho);
+  timerGiro = setTimeout(proxima, CENAS[atual].dur * 1000);
+}
+function mostra(alvo, velho) {
+  document.querySelectorAll('iframe').forEach(function (f) {
+    f.classList.toggle('on', f.dataset.src === alvo);
+    // recarrega a cena que acabou de sair: na próxima volta ela entra sempre fresca
+    if (velho && f.dataset.src === velho && velho !== alvo) {
+      try { f.contentWindow.location.reload(); } catch (e) { f.src = f.dataset.src; }
+    }
+  });
+}
+function iframeFixo(src) {
+  var f = document.querySelector('iframe[data-src="' + src + '"]');
+  if (!f) {
+    f = document.createElement('iframe');
+    f.src = src; f.dataset.src = src;
+    document.body.appendChild(f);
+  }
+  return f;
+}
+
+// ── premiação comandada pelo celular (controle.html): quando o MC avança, as TVs trocam sozinhas
+function vigiaRevelacao() {
+  var t = token();
+  if (!t || !rodando) return;
+  rpc('wlr_revelacao_get', { p_token: t }).then(function (passo) {
+    var ativa = Number(passo) >= 1;
+    if (ativa && !modoRevel) {
+      modoRevel = true;
+      if (window.qrFixo) qrFixo(false);
+      iframeFixo('premiacao.html');
+      mostra('premiacao.html', null);
+    } else if (!ativa && modoRevel) {
+      modoRevel = false;
+      var fr = document.querySelector('iframe[data-src="premiacao.html"]');
+      if (fr) { fr.classList.remove('on'); try { fr.contentWindow.location.reload(); } catch (e) {} }
+      atual = -1;
+      if (modoRanking) mostraRanking(); else proxima();
+    }
+  }).catch(function () {});
+}
+setInterval(vigiaRevelacao, 2500);
+
+// ── pós-votação: resultados públicos = a TV fica FIXA no ranking
+var modoRanking = false;
+function mostraRanking() {
+  if (window.qrFixo) qrFixo(false);
+  iframeFixo('telao-ranking.html');
+  mostra('telao-ranking.html', null);
+}
+function vigiaResultados() {
+  if (!rodando || modoRevel) return;   // a premiação manda mais
+  fetch(SB + '/rest/v1/wlr_config_publica?select=resultados_publicos', { headers: HDR })
+  .then(function (r) { return r.json(); })
+  .then(function (rows) {
+    var pub = !!(rows && rows[0] && rows[0].resultados_publicos);
+    if (pub && !modoRanking) {
+      modoRanking = true;
+      mostraRanking();
+    } else if (!pub && modoRanking) {
+      modoRanking = false;
+      var fr = document.querySelector('iframe[data-src="telao-ranking.html"]');
+      if (fr) fr.classList.remove('on');
+      atual = -1;
+      proxima();
+    }
+  }).catch(function () {});
+}
+setInterval(vigiaResultados, 15000);
+
+// cenas condicionais (contagem regressiva) pedem para pular quando não têm o que mostrar
+window.addEventListener('message', function (e) {
+  if (e.data !== 'wlr-pular' || modoRevel || modoRanking) return;
+  proxima();
+});
+
+// tela cheia com um clique/OK do controle da TV
+document.addEventListener('click', function () {
+  var el = document.documentElement;
+  if (!document.fullscreenElement && el.requestFullscreen) el.requestFullscreen().catch(function () {});
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter' && !document.getElementById('gate').classList.contains('hidden')) entrar();
+});
+
+if (token()) {
+  // confere o token guardado antes de abrir; se venceu, volta o gate
+  rpc('wlr_revelacao_get', { p_token: token() }).then(comeca).catch(function () {
+    document.getElementById('erro').textContent = 'O token guardado não vale mais. Digite o atual.';
+  });
+}
+</script>
+<script src="qr-fixo.js"></script>
+</body>
+</html>

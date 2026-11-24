@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script>/* o site da festa mora em wineloversrecife.com — quem chegar pelo endereço antigo é levado para lá, com o mesmo caminho */
+if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wineloversrecife.com' + location.pathname.replace(/^\/wlr/, '') + location.search + location.hash);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magnum Fest Licínio Dias 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@1&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#411A39;--wine-md:#4F1D45;--wine-lt:#6C214C;--cream:#FFFFFF;--rosa:#E9C9DA}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;cursor:none}
+body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wine-md) 45%,var(--wine) 100%);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Montserrat',sans-serif}
+.logo{width:min(56vw,92vh);height:auto;display:block;animation:respira 6s ease-in-out infinite}
+@keyframes respira{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+.filete{width:min(22vw,320px);height:2px;background:var(--rosa);margin:4vh auto 3vh}
+.info{font-weight:600;font-size:min(2vw,3.2vh);letter-spacing:.5em;padding-left:.5em;text-transform:uppercase;color:var(--cream)}
+.local{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:min(2.6vw,4vh);color:var(--rosa);margin-top:1.6vh}
+#poeira{position:fixed;inset:0;pointer-events:none}
+</style>
+</head>
+<body>
+<img class="logo" src="img/magnumfest-logo-branca.png" alt="Magnum Fest Licínio Dias">
+<div class="filete"></div>
+<div class="info">11 · 12 · 2026</div>
+<div class="local" id="local">Restaurante Ruizito · Recife</div>
+<canvas id="poeira"></canvas>
+<script>
+'use strict';
+var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
+var KEY = 'sb_publishable_EwpsjtLlSrPhSJfrJG6Qvw_qUtE0aL5';
+// data e local vêm da config (aberta); o texto fixo acima é só o reserva
+fetch(SB + '/rest/v1/wlr_config_publica?select=evento_em,local_nome', { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } })
+  .then(function (r) { return r.json(); })
+  .then(function (rows) {
+    var c = (rows || [])[0] || {};
+    if (c.local_nome) document.getElementById('local').textContent = c.local_nome + ' · Recife';
+    if (c.evento_em) {
+      var p = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'America/Recife' }).format(new Date(c.evento_em)).split('/');
+      document.querySelector('.info').textContent = p.join(' · ');
+    }
+  }).catch(function () {});
+(function(){
+  var c=document.getElementById('poeira'),x=c.getContext('2d'),pts=[];
+  function dim(){c.width=innerWidth;c.height=innerHeight;}
+  dim();addEventListener('resize',dim);
+  for(var i=0;i<40;i++)pts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:.8+Math.random()*2.2,v:.12+Math.random()*.35,d:(Math.random()-.5)*.18,f:Math.random()*Math.PI*2});
+  (function anima(){
+    x.clearRect(0,0,c.width,c.height);
+    pts.forEach(function(p){p.y-=p.v;p.x+=p.d;p.f+=.015;
+      if(p.y<-6){p.y=c.height+6;p.x=Math.random()*c.width;}
+      x.beginPath();x.arc(p.x,p.y,p.r,0,7);
+      x.fillStyle='rgba(255,255,255,'+(.1+.2*Math.abs(Math.sin(p.f)))+')';x.fill();});
+    requestAnimationFrame(anima);
+  })();
+})();
+</script>
+<script src="qr-fixo.js"></script>
+<script>document.addEventListener('click',function(){var e=document.documentElement;if(!document.fullscreenElement&&e.requestFullscreen)e.requestFullscreen().catch(function(){})});</script>
+</body>
+</html>

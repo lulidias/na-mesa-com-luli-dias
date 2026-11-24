@@ -81,6 +81,7 @@ var SB = 'https://saotncritqxuchsvvnzi.supabase.co';
 var qrFeito = false;
 function mostraQR(aberta) {
   var box = document.getElementById('qr-votar');
+  aberta = false;   // substituído pelo QR fixo (qr-fixo.js), sempre no canto superior direito
   if (!aberta) { box.classList.add('hidden'); return; }
   box.classList.remove('hidden');
   if (!qrFeito && window.QRious) {
@@ -159,5 +160,6 @@ setInterval(function () { if (TOKEN && !document.getElementById('app').classList
 if (TOKEN) { document.getElementById('tok').value = TOKEN; entrar(); }
 document.getElementById('tok').addEventListener('keydown', function (e) { if (e.key === 'Enter') entrar(); });
 </script>
+<script src="qr-fixo.js"></script>
 </body>
 </html>
