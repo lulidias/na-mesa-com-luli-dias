@@ -42,14 +42,14 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 .gate input{width:100%;padding:13px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.06);color:var(--cream);font-family:'Montserrat',sans-serif;text-align:center;margin:18px 0;outline:none}
 .gate button{padding:13px 34px;background:var(--gold);border:none;color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}
 .hidden{display:none!important}
-.clock{position:fixed;top:18px;right:26px;font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.5)}
+.clock{position:fixed;top:18px;left:26px;font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.5)}
 </style>
 </head>
 <body>
 
 <div class="gate" id="gate">
   <div style="font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-lt)">Telão da festa</div>
-  <img src="img/magnumfest-logo-branca.png" alt="Magnum Fest Licínio Dias" style="width:250px;height:auto;display:block;margin:14px auto 6px">
+  <img src="img/magnumfest-logo-branca.png" alt="Magnum Fest Licínio Dias" style="width:400px;height:auto;display:block;margin:14px auto 6px">
   <input type="password" id="tok" placeholder="Token de acesso">
   <button onclick="entrar()">Abrir telão</button>
   <p style="margin-top:26px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.7">Esta é a tela da festa (organização).<br>Veio <strong>votar</strong>? É aqui:<br><a href="votar/" style="color:#FFFFFF;font-size:14px">votar</a></p>
@@ -58,7 +58,7 @@ body{background:radial-gradient(130% 130% at 50% -20%,var(--wine-lt) 0%,var(--wi
 <div id="app" class="hidden">
   <div class="clock" id="clock"></div>
   <div class="top">
-    <div class="k">Magnum Fest Licínio Dias · 2026</div>
+    <img src="img/magnumfest-logo-branca.png" alt="Magnum Fest Licínio Dias" style="height:clamp(110px,15vh,170px);width:auto;display:block;margin:0 auto 10px">
     <h1>Apuração ao vivo</h1>
     <div class="sub">Os melhores vinhos da festa, eleitos pelos confrades</div>
   </div>

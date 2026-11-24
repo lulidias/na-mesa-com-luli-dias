@@ -15,7 +15,7 @@ if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wi
 html,body{height:100%;overflow:hidden}
 body{background:#fff;color:var(--wine);font-family:'Montserrat',sans-serif}
 .top{text-align:center;padding-top:22px}
-.top img{height:clamp(84px,11vh,118px);width:auto;display:block;margin:0 auto}
+.top img{height:clamp(135px,18vh,200px);width:auto;display:block;margin:0 auto}
 .top .k{font-weight:600;font-size:clamp(13px,1.05vw,18px);letter-spacing:7px;text-transform:uppercase;color:var(--wine-lt);margin-top:8px}
 .palco{position:absolute;inset:180px 0 70px;display:flex;align-items:center;justify-content:center;padding:0 60px}
 .cena{display:flex;align-items:center;justify-content:center;gap:clamp(40px,6vw,110px);opacity:0;transition:opacity .9s ease;position:absolute;inset:0}
@@ -117,6 +117,6 @@ function carregaDados() {
 if (TOKEN) { carregaDados(); setInterval(carregaDados, 120000); }
 else document.getElementById('aviso').classList.remove('hidden');
 </script>
-<script src="qr-fixo.js" data-sem-qr></script>
+<script src="qr-fixo.js"></script>
 </body>
 </html>

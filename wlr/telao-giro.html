@@ -53,7 +53,7 @@ var CENAS = [
   { src: 'telao-marca.html',      dur: Number(P.get('marca'))     || 12 }
 ];
 // sem QR fixo: na cena do QR grande, nas telas brancas só de garrafas (A Mesa, A Vitrine) e no Quem já votou
-var SEM_QR = ['telao-qr.html', 'telao-carta.html', 'telao-vitrine.html', 'telao2/'];   // telao2 já tem o QR dele, no layout
+var SEM_QR = ['telao-qr.html'];   // QR fixo em TODAS as cenas, menos na do QR grande (Luli, 24/11/2026)
 var atual = -1;
 var timerGiro = null;
 var rodando = false;
@@ -129,7 +129,7 @@ function vigiaRevelacao() {
     var ativa = Number(passo) >= 1;
     if (ativa && !modoRevel) {
       modoRevel = true;
-      if (window.qrFixo) qrFixo(false);
+      if (window.qrFixo) qrFixo(true);
       iframeFixo('premiacao.html');
       mostra('premiacao.html', null);
     } else if (!ativa && modoRevel) {
@@ -146,7 +146,7 @@ setInterval(vigiaRevelacao, 2500);
 // ── pós-votação: resultados públicos = a TV fica FIXA no ranking
 var modoRanking = false;
 function mostraRanking() {
-  if (window.qrFixo) qrFixo(false);
+  if (window.qrFixo) qrFixo(true);
   iframeFixo('telao-ranking.html');
   mostra('telao-ranking.html', null);
 }

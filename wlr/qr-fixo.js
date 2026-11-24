@@ -28,7 +28,7 @@
   var cenaQuer = true, urnaAberta = false;
   function aplica() {
     var b = document.getElementById('qr-fixo');
-    if (b) b.classList.toggle('oculto', !(cenaQuer && (urnaAberta || window.qrFixoForcar)));
+    if (b) b.classList.toggle('oculto', !cenaQuer);
   }
   function vigiaUrna() {
     fetch(SB + '/rest/v1/wlr_config_publica?select=votacao_aberta',
