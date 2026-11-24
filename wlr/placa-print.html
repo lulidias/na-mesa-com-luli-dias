@@ -5,70 +5,63 @@
 if (/(^|\.)lulidias\.com$/.test(location.hostname)) location.replace('https://wineloversrecife.com' + location.pathname.replace(/^\/wlr/, '') + location.search + location.hash);</script>
 <meta charset="UTF-8">
 <title>Placa — Magnum Fest Licínio Dias 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@0;1&family=Montserrat:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@0;1&family=Montserrat:wght@200;300;400;500;600;800&display=swap" rel="stylesheet">
 <style>
+/* Placa 15×20 cm — pronta antes da festa: só marca, categoria, colocação e ano (Luli, 24/11/2026).
+   ?cat=vinho|tinto|branco|espumante  &pos=1|2|3 */
 @page{size:150mm 200mm;margin:0}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:150mm;height:200mm}
-body{background:#411A39;color:#FFFFFF;font-family:'Montserrat',Helvetica,sans-serif;position:relative;overflow:hidden}
+body{background:#411A39;color:#FFFFFF;font-family:'Montserrat',Helvetica,sans-serif;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .frame{position:absolute;inset:5mm;border:0.6mm solid #FFFFFF}
-.frame2{position:absolute;inset:8mm;border:0.2mm solid rgba(255,255,255,.65)}
-.inner{position:absolute;inset:0;text-align:center;padding-top:13mm}
-.emblema{width:30mm;height:30mm;display:block;margin:0 auto 4mm}
-.marca{font-family:'Montserrat',Helvetica,sans-serif;font-weight:800;font-size:9mm;letter-spacing:1.4mm;padding-left:1.4mm;color:#FFFFFF}
-.sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:6mm;color:rgba(255,255,255,.78);margin-top:1mm}
-.rule{width:52mm;height:0.25mm;background:#FFFFFF;opacity:.75;margin:5mm auto}
-.melhor{font-size:4.2mm;letter-spacing:2.4mm;padding-left:2.4mm;color:#FFFFFF;font-weight:500}
-.categoria{font-family:'Montserrat',Helvetica,sans-serif;font-weight:800;font-size:13mm;letter-spacing:1.6mm;line-height:1.12;margin-top:4mm;color:#FFFFFF}
-.categoria.longa{font-size:11mm}
-.icone{margin:3.5mm auto 0;height:7mm}
-.gravacao{margin-top:5mm}
-.grav-label{font-size:2.8mm;letter-spacing:1.6mm;color:rgba(255,255,255,.9)}
-.grav-linha{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:6mm;color:rgba(255,255,255,.45);border-bottom:0.2mm solid rgba(255,255,255,.55);width:92mm;margin:1mm auto 4mm;padding-bottom:1mm}
-.rodape{position:absolute;bottom:10mm;left:0;right:0;text-align:center}
-.rodape .data{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:4.4mm;color:rgba(255,255,255,.85)}
-.rodape .ano{font-family:'Montserrat',sans-serif;font-weight:300;font-size:6.5mm;letter-spacing:3mm;padding-left:3mm;color:#FFFFFF;margin-top:2mm}
-.diamond{width:2.2mm;height:2.2mm;background:#FFFFFF;transform:rotate(45deg);margin:3mm auto 0}
+.frame2{position:absolute;inset:8mm;border:0.2mm solid rgba(255,255,255,.6)}
+.inner{position:absolute;inset:8mm;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;padding:12mm 0 10mm}
+.logo{width:70mm;height:auto;display:block}
+.meio{display:flex;flex-direction:column;align-items:center}
+.melhor{font-size:5mm;letter-spacing:3mm;padding-left:3mm;font-weight:500}
+.categoria{font-weight:800;font-size:14mm;letter-spacing:1.8mm;padding-left:1.8mm;line-height:1.05;margin-top:2.5mm}
+.categoria.longa{font-size:11mm;letter-spacing:1.2mm;padding-left:1.2mm}
+.rule{width:40mm;height:0.25mm;background:#FFFFFF;opacity:.7;margin:7mm auto 6mm}
+.pos{display:flex;align-items:flex-start;justify-content:center;line-height:.85}
+.pos .n{font-weight:500;font-size:30mm}
+.pos .o{font-weight:500;font-size:10mm;margin-top:1.5mm;text-decoration:underline;text-underline-offset:1.6mm;text-decoration-thickness:.5mm}
+.lugar{font-size:5mm;letter-spacing:3.4mm;padding-left:3.4mm;font-weight:500;margin-top:4mm}
+.rodape{display:flex;flex-direction:column;align-items:center}
+.ano{font-weight:300;font-size:8mm;letter-spacing:4mm;padding-left:4mm}
+.diamond{width:2.4mm;height:2.4mm;background:#FFFFFF;transform:rotate(45deg);margin-top:4mm}
 </style>
 </head>
 <body>
 <div class="frame"></div>
 <div class="frame2"></div>
 <div class="inner">
-  <img src="img/magnumfest-logo-branca.png" alt="Magnum Fest Licínio Dias" style="width:64mm;height:auto;display:block;margin:0 auto 4mm">
-  <div class="rule"></div>
-  <div class="melhor">MELHOR</div>
-  <div class="categoria" id="categoria">TINTO</div>
-  <svg class="icone" id="icone" viewBox="0 0 40 16" xmlns="http://www.w3.org/2000/svg"></svg>
-  <div class="gravacao">
-    <div class="grav-label">VINHO VENCEDOR</div>
-    <div class="grav-linha" id="l-vinho">&nbsp;</div>
-    <div class="grav-label">CONFRADE</div>
-    <div class="grav-linha" id="l-confrade">&nbsp;</div>
+  <img class="logo" src="img/magnumfest-logo-branca.png" alt="Magnum Fest Licínio Dias">
+  <div class="meio">
+    <div class="melhor">MELHOR</div>
+    <div class="categoria" id="categoria">VINHO</div>
+    <div class="rule"></div>
+    <div class="pos"><span class="n" id="n">1</span><span class="o">o</span></div>
+    <div class="lugar">LUGAR</div>
   </div>
-</div>
-<div class="rodape">
-  <div class="data">Recife · 11 de dezembro de 2026 · Restaurante Ruizito</div>
-  <div class="ano">2026</div>
-  <div class="diamond"></div>
+  <div class="rodape">
+    <div class="ano">2026</div>
+    <div class="diamond"></div>
+  </div>
 </div>
 <script>
 var CATS = {
-  'festa':     { txt: 'VINHO',  icone: '<path d="M20 1 L22.4 6.6 L28 6.6 L23.6 10.2 L25.2 15.8 L20 12.2 L14.8 15.8 L16.4 10.2 L12 6.6 L17.6 6.6 Z" fill="#FFFFFF"/>' },
-  'tinto':     { txt: 'TINTO' },
-  'branco':    { txt: 'BRANCO' },
-  'rose':      { txt: 'ROSÉ' },
-  'doce':      { txt: 'PORTO &amp;<br>DOCES', longa: true },
-  'espumante': { txt: 'ESPUMANTE', longa: true }
+  vinho: { txt: 'VINHO' }, festa: { txt: 'VINHO' },
+  tinto: { txt: 'TINTO' }, branco: { txt: 'BRANCO' },
+  espumante: { txt: 'ESPUMANTE', longa: true }
 };
 var p = new URLSearchParams(location.search);
-var c = CATS[p.get('cat')] || CATS['tinto'];
-document.getElementById('categoria').innerHTML = c.txt;
-document.getElementById('categoria').className = 'categoria' + (c.longa ? ' longa' : '');
-if (c.icone) { document.getElementById('icone').innerHTML = c.icone; }
-else { document.getElementById('icone').style.display = 'none'; }
-if (p.get('vinho')) { document.getElementById('l-vinho').textContent = p.get('vinho'); document.getElementById('l-vinho').style.color = '#FFFFFF'; }
-if (p.get('confrade')) { document.getElementById('l-confrade').textContent = p.get('confrade'); document.getElementById('l-confrade').style.color = '#FFFFFF'; }
+var c = CATS[p.get('cat')] || CATS.vinho;
+var el = document.getElementById('categoria');
+el.textContent = c.txt; if (c.longa) el.classList.add('longa');
+var pos = String(p.get('pos') || '1').replace(/\D/g, '') || '1';
+document.getElementById('n').textContent = pos;
+document.title = 'Placa ' + pos + 'º lugar · Melhor ' + c.txt.charAt(0) + c.txt.slice(1).toLowerCase() + ' — Magnum Fest 2026';
 </script>
 </body>
 </html>
