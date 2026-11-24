@@ -1,7 +1,7 @@
 {
   "totals": {
-    "restaurants": 1108,
-    "hotels": 193,
+    "restaurants": 1107,
+    "hotels": 194,
     "markets": 28,
     "cities": 223,
     "lojaVinho": 2,
@@ -201,7 +201,7 @@
       "keysEntries": 0
     },
     "copenhague": {
-      "restaurants": 10,
+      "restaurants": 9,
       "hotels": 2,
       "markets": 1,
       "cities": 1,
@@ -333,7 +333,7 @@
       "keysEntries": 0
     },
     "espanha": {
-      "restaurants": 43,
+      "restaurants": 42,
       "hotels": 5,
       "markets": 4,
       "cities": 12,
@@ -377,8 +377,8 @@
       "keysEntries": 0
     },
     "franca": {
-      "restaurants": 126,
-      "hotels": 18,
+      "restaurants": 127,
+      "hotels": 19,
       "markets": 2,
       "cities": 40,
       "lojaVinho": 2,
